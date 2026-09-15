@@ -1,0 +1,121 @@
+NAME
+    gcloud compute copy-files - copy files to and from Google Compute Engine
+        virtual machines via scp
+
+SYNOPSIS
+    gcloud compute copy-files [[USER@]INSTANCE:]SRC [[[USER@]INSTANCE:]SRC ...]
+        [[USER@]INSTANCE:]DEST [--dry-run] [--force-key-file-overwrite]
+        [--plain] [--ssh-key-file=SSH_KEY_FILE]
+        [--strict-host-key-checking=STRICT_HOST_KEY_CHECKING] [--zone=ZONE]
+        [--ssh-key-expiration=SSH_KEY_EXPIRATION
+          | --ssh-key-expire-after=SSH_KEY_EXPIRE_AFTER] [GCLOUD_WIDE_FLAG ...]
+
+DESCRIPTION
+    gcloud compute copy-files copies files between a virtual machine instance
+    and your local machine using the scp command. This command does not work
+    for Windows VMs.
+
+    To denote a remote file, prefix the file name with the virtual machine
+    instance name (e.g., example-instance:~/FILE). To denote a local file, do
+    not add a prefix to the file name (e.g., ~/FILE).
+
+    If a file contains a colon (``:''), you must specify it by either using an
+    absolute path or a path that begins with ``./''.
+
+    Under the covers, scp(1) or pscp (on Windows) is used to facilitate the
+    transfer.
+
+    When the destination is local, all sources must be the same virtual machine
+    instance. When the destination is remote, all sources must be local.
+
+EXAMPLES
+    To copy a remote directory '~/REMOTE-DIR' on the instance of
+    'example-instance' to '~/LOCAL-DIR' on the local host, run:
+
+        $ gcloud compute copy-files example-instance:~/REMOTE-DIR \
+            ~/LOCAL-DIR --zone=us-central1-a
+
+    To copy files from your local host to a virtual machine, run:
+
+        $ gcloud compute copy-files ~/LOCAL-FILE-1 ~/LOCAL-FILE-2 \
+            example-instance:~/REMOTE-DIR --zone=us-central1-a
+
+POSITIONAL ARGUMENTS
+     [[USER@]INSTANCE:]SRC [[[USER@]INSTANCE:]SRC ...]
+        Specifies the files to copy.
+
+     [[USER@]INSTANCE:]DEST
+        Specifies a destination for the source files.
+
+FLAGS
+     --dry-run
+        Print the equivalent scp/ssh command that would be run to stdout,
+        instead of executing it.
+
+     --force-key-file-overwrite
+        If enabled, the gcloud command-line tool will regenerate and overwrite
+        the files associated with a broken SSH key without asking for
+        confirmation in both interactive and non-interactive environments.
+
+        If disabled, the files associated with a broken SSH key will not be
+        regenerated and will fail in both interactive and non-interactive
+        environments.
+
+     --plain
+        Suppress the automatic addition of ssh(1)/scp(1) flags. This flag is
+        useful if you want to take care of authentication yourself or use
+        specific ssh/scp features.
+
+     --ssh-key-file=SSH_KEY_FILE
+        The path to the SSH key file. By default, this is
+        ~\.ssh\google_compute_engine.
+
+     --strict-host-key-checking=STRICT_HOST_KEY_CHECKING
+        Override the default behavior of StrictHostKeyChecking for the
+        connection. By default, StrictHostKeyChecking is set to 'no' the first
+        time you connect to an instance, and will be set to 'yes' for all
+        subsequent connections. STRICT_HOST_KEY_CHECKING must be one of: yes,
+        no, ask.
+
+     --zone=ZONE
+        The zone of the instance to copy files to/from.
+
+        If not specified and the compute/zone property isn't set, you might be
+        prompted to select a zone (interactive mode only).
+
+        To avoid prompting when this flag is omitted, you can set the
+        compute/zone property:
+
+            $ gcloud config set compute/zone ZONE
+
+        A list of zones can be fetched by running:
+
+            $ gcloud compute zones list
+
+        To unset the property, run:
+
+            $ gcloud config unset compute/zone
+
+        Alternatively, the zone can be stored in the environment variable
+        CLOUDSDK_COMPUTE_ZONE.
+
+     At most one of these can be specified:
+
+       --ssh-key-expiration=SSH_KEY_EXPIRATION
+          The time when the ssh key will be valid until, such as
+          "2017-08-29T18:52:51.142Z." This is only valid if the instance is not
+          using OS Login. See $ gcloud topic datetimes for information on time
+          formats.
+
+       --ssh-key-expire-after=SSH_KEY_EXPIRE_AFTER
+          The maximum length of time an SSH key is valid for once created and
+          installed, e.g. 2m for 2 minutes. See $ gcloud topic datetimes for
+          information on duration formats.
+
+GCLOUD WIDE FLAGS
+    These flags are available to all commands: --access-token-file, --account,
+    --billing-project, --configuration, --flags-file, --flatten, --format,
+    --help, --impersonate-service-account, --log-http, --project, --quiet,
+    --trace-token, --user-output-enabled, --verbosity.
+
+    Run $ gcloud help for details.

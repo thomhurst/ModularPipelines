@@ -1312,9 +1312,7 @@ public static class UsageSynopsisParser
 
         var content = TrimWrapper(normalizedToken).Trim();
         var nestedTokens = Tokenize(content);
-        if (normalizedToken.StartsWith('[')
-            && nestedTokens.Contains(":")
-            && ContainsOnlyInlineOptions(nestedTokens))
+        if (normalizedToken.StartsWith('[') && nestedTokens.Count > 1 && ContainsOnlyInlineOptions(nestedTokens))
         {
             // Optional option choices can share selector flags without declaring operands.
             return true;
@@ -1339,7 +1337,7 @@ public static class UsageSynopsisParser
         }
 
         if ((!content.Contains('[') && !nestedTokens.Any(nestedToken => GetOptionSwitches(nestedToken).Count > 0))
-            || content.Contains('|'))
+            || SplitTopLevelAlternatives(content).Count > 1)
         {
             return false;
         }

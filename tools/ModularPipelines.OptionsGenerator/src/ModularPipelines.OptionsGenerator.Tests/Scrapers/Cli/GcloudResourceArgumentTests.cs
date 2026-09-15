@@ -9,6 +9,106 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers.Cli;
 public class GcloudResourceArgumentTests
 {
     [Test]
+    [Arguments("gcloud-ai-custom-jobs-local-run.txt")]
+    [Arguments("gcloud-ai-platform-local-train.txt")]
+    [Arguments("gcloud-app-instances-scp.txt")]
+    [Arguments("gcloud-artifacts-image-streaming-cache-create.txt")]
+    [Arguments("gcloud-artifacts-image-streaming-cache-delete.txt")]
+    [Arguments("gcloud-artifacts-image-streaming-cache-describe.txt")]
+    [Arguments("gcloud-audit-manager-enrollments-add.txt")]
+    [Arguments("gcloud-cloud-shell-scp.txt")]
+    [Arguments("gcloud-components-install.txt")]
+    [Arguments("gcloud-compute-connect-to-serial-port.txt")]
+    [Arguments("gcloud-compute-copy-files.txt")]
+    [Arguments("gcloud-compute-network-endpoint-groups-update.txt")]
+    [Arguments("gcloud-compute-scp.txt")]
+    [Arguments("gcloud-compute-ssh.txt")]
+    [Arguments("gcloud-compute-tpus-queued-resources-scp.txt")]
+    [Arguments("gcloud-compute-tpus-queued-resources-ssh.txt")]
+    [Arguments("gcloud-compute-tpus-tpu-vm-scp.txt")]
+    [Arguments("gcloud-compute-tpus-tpu-vm-ssh.txt")]
+    [Arguments("gcloud-config-get.txt")]
+    [Arguments("gcloud-config-list.txt")]
+    [Arguments("gcloud-config-unset.txt")]
+    [Arguments("gcloud-container-fleet-policycontroller-enable.txt")]
+    [Arguments("gcloud-container-fleet-policycontroller-update.txt")]
+    [Arguments("gcloud-container-hub-policycontroller-enable.txt")]
+    [Arguments("gcloud-container-hub-policycontroller-update.txt")]
+    [Arguments("gcloud-dataproc-batches-submit-spark.txt")]
+    [Arguments("gcloud-dataproc-jobs-submit-flink.txt")]
+    [Arguments("gcloud-dataproc-jobs-submit-hadoop.txt")]
+    [Arguments("gcloud-dataproc-jobs-submit-spark.txt")]
+    [Arguments("gcloud-dataproc-workflow-templates-add-job-hadoop.txt")]
+    [Arguments("gcloud-dataproc-workflow-templates-add-job-spark.txt")]
+    [Arguments("gcloud-dns-dns-keys-describe.txt")]
+    [Arguments("gcloud-docker.txt")]
+    [Arguments("gcloud-iam-service-accounts-keys-create.txt")]
+    [Arguments("gcloud-iam-service-accounts-keys-delete.txt")]
+    [Arguments("gcloud-iam-service-accounts-sign-blob.txt")]
+    [Arguments("gcloud-iam-service-accounts-sign-jwt.txt")]
+    [Arguments("gcloud-model-armor-floorsettings-update.txt")]
+    [Arguments("gcloud-preview-compute-connect-to-serial-port.txt")]
+    [Arguments("gcloud-preview-compute-copy-files.txt")]
+    [Arguments("gcloud-preview-compute-network-endpoint-groups-update.txt")]
+    [Arguments("gcloud-preview-compute-scp.txt")]
+    [Arguments("gcloud-preview-compute-ssh.txt")]
+    [Arguments("gcloud-preview-config-get.txt")]
+    [Arguments("gcloud-preview-config-list.txt")]
+    [Arguments("gcloud-preview-config-unset.txt")]
+    [Arguments("gcloud-resource-manager-tags-keys-create.txt")]
+    [Arguments("gcloud-resource-manager-tags-values-create.txt")]
+    [Arguments("gcloud-services-api-keys-undelete.txt")]
+    [Arguments("gcloud-spanner-operations-cancel.txt")]
+    [Arguments("gcloud-spanner-operations-describe.txt")]
+    [Arguments("gcloud-storage-buckets-relocate.txt")]
+    [Arguments("gcloud-transfer-jobs-create.txt")]
+    [Arguments("gcloud-transfer-jobs-update.txt")]
+    public async Task Captured_585_Commands_Retain_Coverage(string fixture)
+    {
+        var help = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "Fixtures", "Gcloud", "585.0.0", fixture));
+        var nameLine = help.Split('\n')[1].Trim();
+        var commandPath = nameLine[..nameLine.IndexOf(" - ", StringComparison.Ordinal)].Replace("gcloud ", "");
+        await new TestScraper().Parse(["gcloud", .. commandPath.Split(' ')], help);
+        var command = (await ScrapeFixture(commandPath, help)).Single();
+        await Assert.That(command.FullCommand).IsEqualTo("gcloud " + commandPath);
+    }
+
+    [Test]
+    [Arguments("gcloud-transfer-jobs-create.txt", "transfer jobs create")]
+    [Arguments("gcloud-transfer-jobs-update.txt", "transfer jobs update")]
+    public async Task Group_Condition_Prose_Does_Not_Turn_Glob_Into_A_Collection(string fixture, string commandPath)
+    {
+        var help = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "Fixtures", "Gcloud", "585.0.0", fixture));
+        var command = (await ScrapeFixture(commandPath, help)).Single();
+        var glob = command.Options.Single(option => option.SwitchName == "--match-glob");
+        await Assert.That(glob.CSharpType).IsEqualTo("string?");
+        await Assert.That(glob.AcceptsMultipleValues).IsFalse();
+        await Assert.That(command.Options.Single(option => option.SwitchName == "--include-prefixes").AcceptsMultipleValues).IsTrue();
+    }
+
+    [Test]
+    public async Task Multiword_Option_Value_Does_Not_Consume_A_Real_Operand()
+    {
+        const string help = """
+            NAME
+                gcloud example create - create a resource
+            SYNOPSIS
+                gcloud example create --buckets=BUCKET
+                    URI,[BUCKET URI,...] RESOURCE
+            POSITIONAL ARGUMENTS
+                 RESOURCE
+                    The resource name.
+            FLAGS
+                 --buckets=BUCKET URI,[BUCKET URI,...]
+                    The bucket list.
+            """;
+        var command = (await ScrapeFixture("example create", help)).Single();
+        await Assert.That(command.PositionalArguments.Single().PropertyName).IsEqualTo("Resource");
+        await Assert.That(command.PositionalArguments.Single().IsRequired).IsTrue();
+        await Assert.That(command.Options.Single().AcceptsMultipleValues).IsTrue();
+    }
+
+    [Test]
     [Arguments("compute-ssh", "compute ssh", "UserInstance,SshArgs")]
     [Arguments("compute-scp", "compute scp", "UserInstanceSrc,UserInstanceDest")]
     [Arguments("iam-service-accounts-keys-create", "iam service-accounts keys create", "OutputFile")]

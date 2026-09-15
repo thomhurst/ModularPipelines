@@ -1041,7 +1041,7 @@ public abstract partial class CliScraperBase : ICliScraper
     /// <summary>
     /// Parses positional operands through the shared usage/synopsis model.
     /// </summary>
-    protected UsageSynopsisParseResult ParseUsageSynopsis(
+    protected virtual UsageSynopsisParseResult ParseUsageSynopsis(
         string[] commandPath,
         string helpText) =>
         UsageSynopsisParser.Parse(
@@ -2274,7 +2274,7 @@ public abstract partial class CliScraperBase : ICliScraper
     {
         foreach (var option in command.Options)
         {
-            var description = option.Description ?? string.Empty;
+            var description = option.ValueShapeDescription ?? option.Description ?? string.Empty;
             var isBoolean = option.CSharpType is "bool" or "bool?";
             if (HelpDeclaresExplicitBooleanValue(description)
                 && option.IsFlag

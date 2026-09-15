@@ -1,0 +1,77 @@
+NAME
+    gcloud services api-keys undelete - undelete an API key
+
+SYNOPSIS
+    gcloud services api-keys undelete
+        ([KEY : --location=LOCATION] --key-string=KEY_STRING) [--async]
+        [GCLOUD_WIDE_FLAG ...]
+
+DESCRIPTION
+    API Keys that are deleted will be retained in the system for 30 days. If a
+    key is still within this retention window, it can be undeleted with this
+    command.
+
+EXAMPLES
+    UnDelete an API Key (Key or key-string should be specified):
+
+    To undelete with key 1234, run:
+
+        $ gcloud services api-keys undelete 1234
+
+    To undelete with 1234 in project myproject using the fully qualified API
+    key name, run:
+
+        $ gcloud services api-keys undelete \
+          projects/myproject/locations/global/keys/1234
+
+    To undelete using a Key-string, run:
+
+        $ gcloud services api-keys undelete --key-string='my-key-string'
+
+POSITIONAL ARGUMENTS
+     Exactly one of these must be specified:
+
+         Key resource - The name of the key to undelete. The arguments in this
+         group can be used to specify the attributes of this resource. (NOTE)
+         Some attributes are not given arguments in this group but can be set
+         in other ways.
+
+         To set the project attribute:
+         + provide the argument key on the command line with a fully
+           specified name;
+         + provide the argument --project on the command line;
+         + set the property core/project.
+
+         KEY
+            ID of the key or fully qualified identifier for the key.
+
+            To set the key attribute:
+         + provide the argument key on the command line.
+
+       This positional argument must be specified if any of the other arguments
+       in this group are specified.
+
+         --location=LOCATION
+            Location of the key.
+
+            To set the location attribute:
+         + provide the argument key on the command line with a fully
+           specified name;
+         + provide the argument --location on the command line;
+         + location will default to global.
+
+       --key-string=KEY_STRING
+          Key String of the key.
+
+FLAGS
+     --async
+        Return immediately, without waiting for the operation in progress to
+        complete.
+
+GCLOUD WIDE FLAGS
+    These flags are available to all commands: --access-token-file, --account,
+    --billing-project, --configuration, --flags-file, --flatten, --format,
+    --help, --impersonate-service-account, --log-http, --project, --quiet,
+    --trace-token, --user-output-enabled, --verbosity.
+
+    Run $ gcloud help for details.
