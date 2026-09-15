@@ -15,14 +15,28 @@ namespace ModularPipelines.Terraform.Options;
 /// <summary>
 /// Terraform uses the term "tainted" to describe a resource instance
 /// </summary>
-/// <param name="Name">The name operand.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("untaint")]
-public record TerraformUntaintOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Name
-) : TerraformOptions
+public record TerraformUntaintOptions : TerraformOptions
 {
+    /// <summary>
+    /// Terraform uses the term "tainted" to describe a resource instance
+    /// </summary>
+    /// <param name="Name">The name operand.</param>
+    public TerraformUntaintOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// If specified, the command will succeed (exit code 0) even if the resource is missing.
     /// </summary>
@@ -46,5 +60,11 @@ public record TerraformUntaintOptions(
     /// </summary>
     [CliFlag("-ignore-remote-version")]
     public bool? IgnoreRemoteVersion { get; set; }
+
+    /// <summary>
+    /// The name operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Name { get; private init; }
 
 }

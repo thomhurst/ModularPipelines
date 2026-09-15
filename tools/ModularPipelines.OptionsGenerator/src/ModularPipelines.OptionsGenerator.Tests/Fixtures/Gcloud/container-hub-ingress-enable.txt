@@ -1,0 +1,55 @@
+NAME
+    gcloud container hub ingress enable - enable Multi-cluster Ingress Feature
+
+SYNOPSIS
+    gcloud container hub ingress enable
+        [--config-membership=CONFIG_MEMBERSHIP : --location=LOCATION]
+        [GCLOUD_WIDE_FLAG ...]
+
+DESCRIPTION
+    This command enables Multi-cluster Ingress Feature in a fleet.
+
+EXAMPLES
+    To enable the Ingress Feature, run:
+
+        $ gcloud container hub ingress enable \
+            --config-membership=CONFIG_MEMBERSHIP
+
+FLAGS
+     Membership resource - The group of arguments defining a membership. The
+     arguments in this group can be used to specify the attributes of this
+     resource. (NOTE) Some attributes are not given arguments in this group but
+     can be set in other ways.
+
+     To set the project attribute:
+      * provide the argument --config-membership on the command line with a
+        fully specified name;
+      * provide the argument --project on the command line;
+      * set the property core/project.
+
+       --config-membership=CONFIG_MEMBERSHIP
+          ID of the membership or fully qualified identifier for the
+          membership.
+
+          To set the membership attribute:
+          + provide the argument --config-membership on the command line.
+
+          This flag argument must be specified if any of the other arguments in
+          this group are specified.
+
+       --location=LOCATION
+          Location for the membership.
+
+          To set the location attribute:
+          + provide the argument --config-membership on the command line with
+            a fully specified name;
+          + provide the argument --location on the command line;
+          + set the property gkehub/location.
+
+GCLOUD WIDE FLAGS
+    These flags are available to all commands: --access-token-file, --account,
+    --billing-project, --configuration, --flags-file, --flatten, --format,
+    --help, --impersonate-service-account, --log-http, --project, --quiet,
+    --trace-token, --user-output-enabled, --verbosity.
+
+    Run $ gcloud help for details.
