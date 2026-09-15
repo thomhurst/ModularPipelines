@@ -244,7 +244,7 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
         // Leaf commands have OPTIONS section with actual options, not just global options
         // Service-level commands have AVAILABLE COMMANDS but minimal OPTIONS
         return OptionsSectionPattern().IsMatch(helpText) &&
-               !MyRegex().IsMatch(helpText);
+               !AvailableCommandsHeaderPattern().IsMatch(helpText);
     }
 
     /// <summary>
@@ -273,7 +273,7 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
         var sectionStart = sectionMatch.Index + sectionMatch.Length;
 
         // Find where section ends (next uppercase section header)
-        var nextMatch = Regex.Match(helpText[sectionStart..], @"^[A-Z][A-Z\s]+$", RegexOptions.Multiline);
+        var nextMatch = MyRegex().Match(helpText[sectionStart..]);
         var sectionEnd = nextMatch.Success ? sectionStart + nextMatch.Index : helpText.Length;
 
         var section = helpText[sectionStart..sectionEnd];
@@ -349,7 +349,7 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
         var sectionStart = optionsMatch.Index + optionsMatch.Length;
 
         // Find end of OPTIONS section
-        var nextSectionMatch = Regex.Match(helpText[sectionStart..], @"^[A-Z][A-Z\s]+$", RegexOptions.Multiline);
+        var nextSectionMatch = MyRegex().Match(helpText[sectionStart..]);
         var sectionEnd = nextSectionMatch.Success ? sectionStart + nextSectionMatch.Index : helpText.Length;
 
         var optionsSection = helpText[sectionStart..sectionEnd];
@@ -844,6 +844,8 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
         RegexOptions.IgnoreCase)]
     private static partial Regex AwsRequiredBooleanAlternativePattern();
     [GeneratedRegex(@"^AVAILABLE COMMANDS\s*$", RegexOptions.Multiline)]
+    private static partial Regex AvailableCommandsHeaderPattern();
+    [GeneratedRegex(@"^[A-Z][A-Z\s]+$", RegexOptions.Multiline)]
     private static partial Regex MyRegex();
 
     #endregion
