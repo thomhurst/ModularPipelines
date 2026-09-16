@@ -1435,16 +1435,15 @@ public class ModuleOutputBufferTests
             releaseRendering.Task.GetAwaiter().GetResult();
         };
 
-        var incrementalFlush = Task.Run(() => buffer.FlushToAsync(
+        var incrementalFlush = RunBlockingWorker(() => buffer.FlushToAsync(
             writer,
             new GitHubActionsFormatter(),
             loggerControl,
             loggerControl,
             OutputFlushKind.Incremental));
-        await renderingStarted.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
-
         try
         {
+            await renderingStarted.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
             await Assert.That(buffer.HasOutput).IsFalse();
             await Assert.That(buffer.NeedsCompletionFlush).IsTrue();
             buffer.MarkComplete();
@@ -1476,7 +1475,7 @@ public class ModuleOutputBufferTests
         using var gateAttemptCompleted = new ManualResetEventSlim();
         loggerControl.AfterLog = () =>
         {
-            outsideLog = Task.Run(() =>
+            outsideLog = RunBlockingWorker(() =>
             {
                 if (!loggerControl.TryWrite("outside log", TimeSpan.FromMilliseconds(100)))
                 {
@@ -1642,7 +1641,7 @@ public class ModuleOutputBufferTests
         var buffer = CreateBufferWithStructuredLog();
         var lockAcquired = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var releaseLock = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        var lockHolder = Task.Run(() =>
+        var lockHolder = RunBlockingWorker(() =>
         {
             lock (loggerControl.SynchronizationLock)
             {
@@ -1651,10 +1650,10 @@ public class ModuleOutputBufferTests
             }
         });
 
-        await lockAcquired.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
         using var cancellationTokenSource = new CancellationTokenSource();
         try
         {
+            await lockAcquired.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
             var flush = buffer.FlushToAsync(
                 writer,
                 new GitHubActionsFormatter(),
@@ -1691,7 +1690,7 @@ public class ModuleOutputBufferTests
         var buffer = CreateBufferWithStructuredLog();
         var lockAcquired = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var releaseLock = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        var lockHolder = Task.Run(() =>
+        var lockHolder = RunBlockingWorker(() =>
         {
             lock (loggerControl.SynchronizationLock)
             {
@@ -1700,10 +1699,10 @@ public class ModuleOutputBufferTests
             }
         });
 
-        await lockAcquired.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
         using var cancellationTokenSource = new CancellationTokenSource();
         try
         {
+            await lockAcquired.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
             var flush = buffer.FlushToAsync(
                 writer,
                 new GitHubActionsFormatter(),
@@ -1752,7 +1751,7 @@ public class ModuleOutputBufferTests
         buffer.WriteLine("direct output");
         var lockAcquired = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var releaseLock = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        var lockHolder = Task.Run(() =>
+        var lockHolder = RunBlockingWorker(() =>
         {
             lock (loggerControl.SynchronizationLock)
             {
@@ -1761,10 +1760,10 @@ public class ModuleOutputBufferTests
             }
         });
 
-        await lockAcquired.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
         try
         {
-            var flush = Task.Run(() => buffer.FlushToAsync(
+            await lockAcquired.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
+            var flush = RunBlockingWorker(() => buffer.FlushToAsync(
                 writer,
                 new GitHubActionsFormatter(),
                 loggerControl,
@@ -1956,7 +1955,7 @@ public class ModuleOutputBufferTests
         buffer.WriteLine("direct output");
         var lockAcquired = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var releaseLock = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        var lockHolder = Task.Run(() =>
+        var lockHolder = RunBlockingWorker(() =>
         {
             lock (loggerControl.SynchronizationLock)
             {
@@ -1965,9 +1964,9 @@ public class ModuleOutputBufferTests
             }
         });
 
-        await lockAcquired.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
         try
         {
+            await lockAcquired.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
             await buffer.FlushToAsync(
                 writer,
                 new GitHubActionsFormatter(),
@@ -2006,7 +2005,7 @@ public class ModuleOutputBufferTests
             "retry structured log");
         var lockAcquired = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var releaseLock = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        var lockHolder = Task.Run(() =>
+        var lockHolder = RunBlockingWorker(() =>
         {
             lock (loggerControl.SynchronizationLock)
             {
@@ -2015,9 +2014,9 @@ public class ModuleOutputBufferTests
             }
         });
 
-        await lockAcquired.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
         try
         {
+            await lockAcquired.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
             await buffer.FlushToAsync(
                 writer,
                 new GitHubActionsFormatter(),
@@ -2403,6 +2402,14 @@ public class ModuleOutputBufferTests
             }
         }
     }
+
+    // These workers deliberately hold synchronous render gates. Dedicated threads
+    // leave the thread pool available for test continuations and scheduler signals.
+    private static Task RunBlockingWorker(Action action) => Task.Factory.StartNew(
+        action, CancellationToken.None, TaskCreationOptions.LongRunning, TaskScheduler.Default);
+
+    private static Task RunBlockingWorker(Func<Task> action) => Task.Factory.StartNew(
+        action, CancellationToken.None, TaskCreationOptions.LongRunning, TaskScheduler.Default).Unwrap();
 
     private sealed class MarkupLikeBuildSystemFormatter : IBuildSystemFormatter
     {
