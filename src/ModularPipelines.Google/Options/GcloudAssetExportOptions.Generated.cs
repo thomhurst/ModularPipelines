@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,112 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("asset", "export")]
-public record GcloudAssetExportOptions : GcloudOptions
+public record GcloudAssetExportOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: The ID of the folder which is the root asset.
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: The ID of the organization which is the root asset.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: The project which is the root asset. The Google Cloud project ID to use for this invocation. If omitted, then the current project is assumed; the current project can be listed using gcloud config list --format='text(core.project)' and can be set using gcloud config set project PROJECTID. --project and its fallback core/project property play two roles in the invocation: they specify both the project of the resource to operate on, and the project for API enablement checks, quota, and billing. To specify a different project for quota and billing, use the --billing-project flag or the billing/quota_project property.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
+    /// <summary>
+    /// The destination path for exporting assets. Exactly one of these must be specified: Google Cloud Storage URI where the results will go. URI must start with "gs://". For example, "gs://bucket_name/object_name"
+    /// </summary>
+    [CliOption("--output-path", Format = OptionFormat.EqualsSeparated)]
+    public string? OutputPath { get; set; }
+
+    /// <summary>
+    /// The destination path for exporting assets. Exactly one of these must be specified: Google Cloud Storage URI where the results will go. URI must start with "gs://". For example, "gs://bucket_name/object_name_prefix", in which case each exported object uri is in format: "gs://bucket_name/object_name_prefix/&lt;asset type&gt;/&lt;shard number&gt;" and it only contains assets for that type.
+    /// </summary>
+    [CliOption("--output-path-prefix", Format = OptionFormat.EqualsSeparated)]
+    public string? OutputPathPrefix { get; set; }
+
+    /// <summary>
+    /// The destination path for exporting assets. Exactly one of these must be specified: Or at least one of these can be specified: The BigQuery destination for exporting assets. If the destination table already exists and this flag is specified, the table will be overwritten by the contents of assets snapshot. If the flag is not specified and the destination table already exists, the export call returns an error.
+    /// </summary>
+    [CliFlag("--output-bigquery-force")]
+    public bool? OutputBigqueryForce { get; set; }
+
+    /// <summary>
+    /// The destination path for exporting assets. Exactly one of these must be specified: Or at least one of these can be specified: The BigQuery destination for exporting assets. If specified. the snapshot results will be written to partitioned table(s) with two additional timestamp columns, readTime and requestTime, one of which will be the partition key. PARTITION_KEY must be one of: read-time, request-time.
+    /// </summary>
+    [CliOption("--partition-key", Format = OptionFormat.EqualsSeparated)]
+    public GcloudPartitionKey? PartitionKey { get; set; }
+
+    /// <summary>
+    /// The destination path for exporting assets. Exactly one of these must be specified: Or at least one of these can be specified: The BigQuery destination for exporting assets. If the flag is specified, the snapshot results will be written to one or more tables, each of which contains results of one asset type.
+    /// </summary>
+    [CliFlag("--per-asset-type")]
+    public bool? PerAssetType { get; set; }
+
+    /// <summary>
+    /// The destination path for exporting assets. Exactly one of these must be specified: Or at least one of these can be specified: The BigQuery destination for exporting assets. Table resource - The bigquery-table export to. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▫ provide the argument --bigquery-table on the command line with a fully specified name; ▫ provide the argument --project on the command line; ▫ set the property core/project. This must be specified. ID of the table or fully qualified identifier for the table. To set the table attribute: ◇ provide the argument --bigquery-table on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--bigquery-table", Format = OptionFormat.EqualsSeparated)]
+    public string? BigqueryTable { get; set; }
+
+    /// <summary>
+    /// The destination path for exporting assets. Exactly one of these must be specified: Or at least one of these can be specified: The BigQuery destination for exporting assets. Table resource - The bigquery-table export to. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▫ provide the argument --bigquery-table on the command line with a fully specified name; ▫ provide the argument --project on the command line; ▫ set the property core/project. This must be specified. The id of the BigQuery dataset. To set the bigquery-dataset attribute: ◇ provide the argument --bigquery-table on the command line with a fully specified name; ◇ provide the argument --bigquery-dataset on the command line.
+    /// </summary>
+    [CliOption("--bigquery-dataset", Format = OptionFormat.EqualsSeparated)]
+    public string? BigqueryDataSet { get; set; }
+
+    /// <summary>
+    /// A list of asset types (i.e., "compute.googleapis.com/Disk") to take a snapshot. If specified and non-empty, only assets matching the specified types will be returned. See http://cloud.google.com/asset-inventory/docs/supported-asset-types for supported asset types. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--asset-types", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AssetTypes { get; set; }
+
+    /// <summary>
+    /// Asset content type. If specified, only content matching the specified type will be returned. Otherwise, no content but the asset name will be returned. Specifying resource will export resource metadata, specifying iam-policy will export the IAM policy for each child asset, specifying org-policy will export the Org Policy set on child assets, specifying access-policy will export the Access Policy set on child assets, specifying os-inventory will export the OS inventory of VM instances, and specifying relationship will export relationships of the assets. CONTENT_TYPE must be one of: resource, iam-policy, org-policy, access-policy, os-inventory, relationship.
+    /// </summary>
+    [CliOption("--content-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudContentType? ContentType { get; set; }
+
+    /// <summary>
+    /// A list of relationship types (i.e., "INSTANCE_TO_INSTANCEGROUP") to take a snapshot. This argument will only be honoured if content_type=RELATIONSHIP. If specified and non-empty, only relationships matching the specified types will be returned. See http://cloud.google.com/asset-inventory/docs/supported-asset-types for supported relationship types. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--relationship-types", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RelationshipTypes { get; set; }
+
+    /// <summary>
+    /// Timestamp to take a snapshot on assets. This can only be a current or past time. If not specified, the current time will be used. Due to delays in resource data collection and indexing, there is a volatile window during which running the same query at different times may return different results. See $ gcloud topic datetimes for information on time formats.
+    /// </summary>
+    [CliOption("--snapshot-time", Format = OptionFormat.EqualsSeparated)]
+    public string? SnapshotTime { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Folder) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Project) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Folder, Organization, or Project must be specified.", [nameof(Folder), nameof(Organization), nameof(Project)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(OutputPath) ? 1 : 0) + (!string.IsNullOrWhiteSpace(OutputPathPrefix) ? 1 : 0) + ((OutputBigqueryForce == true || (object?)PartitionKey is not null || PerAssetType == true || !string.IsNullOrWhiteSpace(BigqueryTable) || !string.IsNullOrWhiteSpace(BigqueryDataSet)) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of OutputPath, OutputPathPrefix, or (OutputBigqueryForce, PartitionKey, PerAssetType, BigqueryTable, or BigqueryDataSet) must be specified.", [nameof(OutputPath), nameof(OutputPathPrefix), nameof(OutputBigqueryForce), nameof(PartitionKey), nameof(PerAssetType), nameof(BigqueryTable), nameof(BigqueryDataSet)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(OutputPath) || !string.IsNullOrWhiteSpace(OutputPathPrefix) || OutputBigqueryForce == true || (object?)PartitionKey is not null || PerAssetType == true || !string.IsNullOrWhiteSpace(BigqueryTable) || !string.IsNullOrWhiteSpace(BigqueryDataSet)) && (OutputBigqueryForce == true || (object?)PartitionKey is not null || PerAssetType == true || !string.IsNullOrWhiteSpace(BigqueryTable) || !string.IsNullOrWhiteSpace(BigqueryDataSet)) && (OutputBigqueryForce == true || (object?)PartitionKey is not null || PerAssetType == true || !string.IsNullOrWhiteSpace(BigqueryTable) || !string.IsNullOrWhiteSpace(BigqueryDataSet)) && (!(!string.IsNullOrWhiteSpace(BigqueryTable) || !string.IsNullOrWhiteSpace(BigqueryDataSet))))
+        {
+            yield return new ValidationResult("At least one of BigqueryTable or BigqueryDataSet must be specified.", [nameof(BigqueryTable), nameof(BigqueryDataSet)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(OutputPath) || !string.IsNullOrWhiteSpace(OutputPathPrefix) || OutputBigqueryForce == true || (object?)PartitionKey is not null || PerAssetType == true || !string.IsNullOrWhiteSpace(BigqueryTable) || !string.IsNullOrWhiteSpace(BigqueryDataSet)) && (OutputBigqueryForce == true || (object?)PartitionKey is not null || PerAssetType == true || !string.IsNullOrWhiteSpace(BigqueryTable) || !string.IsNullOrWhiteSpace(BigqueryDataSet)) && (OutputBigqueryForce == true || (object?)PartitionKey is not null || PerAssetType == true || !string.IsNullOrWhiteSpace(BigqueryTable) || !string.IsNullOrWhiteSpace(BigqueryDataSet)) && (!string.IsNullOrWhiteSpace(BigqueryTable) || !string.IsNullOrWhiteSpace(BigqueryDataSet)) && (!(!string.IsNullOrWhiteSpace(BigqueryTable))))
+        {
+            yield return new ValidationResult("BigqueryTable must be specified when other arguments in this group are specified.", [nameof(BigqueryTable)]);
+        }
+        yield break;
+    }
+
 }

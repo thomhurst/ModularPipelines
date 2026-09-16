@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "config", "get")]
-public record GcloudPreviewConfigGetOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Section
-) : GcloudOptions
+public record GcloudPreviewConfigGetOptions : GcloudOptions
 {
+    /// <summary>
+    /// print the value of a Google Cloud CLI property
+    /// </summary>
+    /// <param name="SectionOrProperty">The property to be fetched. Note that SECTION/ is optional while referring to properties in the core section.</param>
+    public GcloudPreviewConfigGetOptions(
+        string SectionOrProperty
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SectionOrProperty);
+        this.SectionOrProperty = SectionOrProperty;
+    }
+
+    public void Deconstruct(out string SectionOrProperty)
+    {
+        SectionOrProperty = this.SectionOrProperty;
+    }
+
+    /// <summary>
+    /// The property to be fetched. Note that SECTION/ is optional while referring to properties in the core section.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SectionOrProperty { get; private init; }
+
 }

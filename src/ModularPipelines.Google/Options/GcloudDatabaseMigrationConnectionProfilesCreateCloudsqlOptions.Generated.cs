@@ -6,10 +6,14 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +23,252 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("database-migration", "connection-profiles", "create", "cloudsql")]
-public record GcloudDatabaseMigrationConnectionProfilesCreateCloudsqlOptions : GcloudOptions
+public record GcloudDatabaseMigrationConnectionProfilesCreateCloudsqlOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a     Database Migration Service connection profile for Cloud SQL
+    /// </summary>
+    /// <param name="SourceId">Connection profile resource - Database Migration Service source connection profile ID. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --source-id on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument --source-id on the command line with a fully specified name; ◆ provide the argument --region on the command line. This must be specified. ID of the connection_profile or fully qualified identifier for the connection_profile. To set the connection_profile attribute: ▸ provide the argument --source-id on the command line.</param>
+    /// <param name="Tier">Tier (or machine type) for this instance, for example: db-n1-standard-1 (MySQL instances) or db-custom-1-3840 (PostgreSQL instances). For more information, see Cloud SQL Instance Settings (https://cloud.google.com/sql/docs/mysql/instance-settings).</param>
+    /// <param name="ConnectionProfile">Connection profile resource - The connection profile to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument connection_profile on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the connection_profile or fully qualified identifier for the connection_profile. To set the connection_profile attribute: ▸ provide the argument connection_profile on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDatabaseMigrationConnectionProfilesCreateCloudsqlOptions(
+        string SourceId,
+        string Tier,
+        string ConnectionProfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceId);
+        this.SourceId = SourceId;
+        global::System.ArgumentNullException.ThrowIfNull(Tier);
+        this.Tier = Tier;
+        global::System.ArgumentNullException.ThrowIfNull(ConnectionProfile);
+        this.ConnectionProfile = ConnectionProfile;
+    }
+
+    public void Deconstruct(out string SourceId, out string Tier, out string ConnectionProfile)
+    {
+        SourceId = this.SourceId;
+        Tier = this.Tier;
+        ConnectionProfile = this.ConnectionProfile;
+    }
+
+    /// <summary>
+    /// Connection profile resource - Database Migration Service source connection profile ID. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --source-id on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument --source-id on the command line with a fully specified name; ◆ provide the argument --region on the command line. This must be specified. ID of the connection_profile or fully qualified identifier for the connection_profile. To set the connection_profile attribute: ▸ provide the argument --source-id on the command line.
+    /// </summary>
+    [CliOption("--source-id", Format = OptionFormat.EqualsSeparated)]
+    public string SourceId { get; private init; }
+
+    /// <summary>
+    /// Tier (or machine type) for this instance, for example: db-n1-standard-1 (MySQL instances) or db-custom-1-3840 (PostgreSQL instances). For more information, see Cloud SQL Instance Settings (https://cloud.google.com/sql/docs/mysql/instance-settings).
+    /// </summary>
+    [CliOption("--tier", Format = OptionFormat.EqualsSeparated)]
+    public string Tier { get; private init; }
+
+    /// <summary>
+    /// Connection profile resource - The connection profile to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument connection_profile on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud region for the connection_profile. To set the region attribute: ▸ provide the argument connection_profile on the command line with a fully specified name; ▸ provide the argument --region on the command line.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Database engine type and version. DATABASE_VERSION must be one of: MYSQL_5_7, MYSQL_5_6, MYSQL_8_0, MYSQL_8_0_18, MYSQL_8_0_26, MYSQL_8_0_27, MYSQL_8_0_28, MYSQL_8_0_30, MYSQL_8_0_31, MYSQL_8_0_32, MYSQL_8_0_33, MYSQL_8_0_34, MYSQL_8_0_35, MYSQL_8_0_36, MYSQL_8_0_37, MYSQL_8_4, POSTGRES_9_6, POSTGRES_10, POSTGRES_11, POSTGRES_12, POSTGRES_13, POSTGRES_14, POSTGRES_15, POSTGRES_16.
+    /// </summary>
+    [CliOption("--database-version", Format = OptionFormat.EqualsSeparated)]
+    public string? DatabaseVersion { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Database version name (e.g. POSTGRES_15)
+    /// </summary>
+    [CliOption("--database-version-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DatabaseVersionName { get; set; }
+
+    /// <summary>
+    /// Activation policy specifies when the instance is activated; it is applicable only when the instance state is 'RUNNABLE'. Valid values: ALWAYS: The instance is on, and remains so even in the absence of connection requests. NEVER: The instance is off; it is not activated, even if a connection request arrives. ACTIVATION_POLICY must be one of: ALWAYS, NEVER.
+    /// </summary>
+    [CliOption("--activation-policy", Format = OptionFormat.EqualsSeparated)]
+    public GcloudActivationPolicy? ActivationPolicy { get; set; }
+
+    /// <summary>
+    /// The name of the allocated IP range for the private IP Cloud SQL instance. This name refers to an already allocated IP range. If set, the instance IP will be created in the allocated range.
+    /// </summary>
+    [CliOption("--allocated-ip-range", Format = OptionFormat.EqualsSeparated)]
+    public string? AllocatedIpRange { get; set; }
+
+    /// <summary>
+    /// Waits for the operation in progress to complete before returning.
+    /// </summary>
+    [CliFlag("--no-async")]
+    public bool? NoAsync { get; set; }
+
+    /// <summary>
+    /// List of external networks that are allowed to connect to the instance. Specify values in CIDR notation, also known as 'slash' notation (e.g.192.168.100.0/24). Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--authorized-networks", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AuthorizedNetworks { get; set; }
+
+    /// <summary>
+    /// If you enable this setting, Cloud SQL checks your available storage every 30 seconds. If the available storage falls below a threshold size, Cloud SQL automatically adds additional storage capacity. If the available storage repeatedly falls below the threshold size, Cloud SQL continues to add storage until it reaches the maximum of 64 TB. Default: ON. Enabled by default, use --no-auto-storage-increase to disable.
+    /// </summary>
+    [CliFlag("--auto-storage-increase")]
+    public bool? AutoStorageIncrease { get; set; }
+
+    /// <summary>
+    /// Negates --auto-storage-increase. If you enable this setting, Cloud SQL checks your available storage every 30 seconds. If the available storage falls below a threshold size, Cloud SQL automatically adds additional storage capacity. If the available storage repeatedly falls below the threshold size, Cloud SQL continues to add storage until it reaches the maximum of 64 TB. Default: ON. Enabled by default, use --no-auto-storage-increase to disable.
+    /// </summary>
+    [CliFlag("--no-auto-storage-increase")]
+    public bool? NoAutoStorageIncrease { get; set; }
+
+    /// <summary>
+    /// Cloud SQL availability type. AVAILABILITY_TYPE must be one of: REGIONAL, ZONAL.
+    /// </summary>
+    [CliOption("--availability-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudAvailabilityType? AvailabilityType { get; set; }
+
+    /// <summary>
+    /// Storage capacity available to the database, in GB. The minimum (and default) size is 10GB.
+    /// </summary>
+    [CliOption("--data-disk-size", Format = OptionFormat.EqualsSeparated)]
+    public int? DataDiskSize { get; set; }
+
+    /// <summary>
+    /// Type of storage. DATA_DISK_TYPE must be one of: PD_SSD, PD_HDD.
+    /// </summary>
+    [CliOption("--data-disk-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudDataDiskType? DataDiskType { get; set; }
+
+    /// <summary>
+    /// Comma-separated list of database flags to set on the instance. Use an equals sign to separate the flag name and value. Flags without values, like skip_grant_tables, can be written out without a value, e.g., skip_grant_tables=. Use on/off values for booleans. View the Instance Resource API for allowed flags. (e.g., --database-flags max_allowed_packet=55555 skip_grant_tables=,log_output=1). Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--database-flags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? DatabaseFlags { get; set; }
+
+    /// <summary>
+    /// A user-friendly name for the connection profile. The display name can include letters, numbers, spaces, and hyphens, and must start with a letter.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// Specifies edition. EDITION must be one of: enterprise Enterprise is the standard option for smaller instances. enterprise-plus Enterprise plus option recommended for cpu-intensive workloads. Offers access to premium features and capabilities.
+    /// </summary>
+    [CliOption("--edition", Format = OptionFormat.EqualsSeparated)]
+    public string? Edition { get; set; }
+
+    /// <summary>
+    /// Whether the instance should be assigned an IPv4 address or not. Enabled by default, use --no-enable-ip-v4 to disable.
+    /// </summary>
+    [CliFlag("--enable-ip-v4")]
+    public bool? EnableIpV4 { get; set; }
+
+    /// <summary>
+    /// Negates --enable-ip-v4. Whether the instance should be assigned an IPv4 address or not. Enabled by default, use --no-enable-ip-v4 to disable.
+    /// </summary>
+    [CliFlag("--no-enable-ip-v4")]
+    public bool? NoEnableIpV4 { get; set; }
+
+    /// <summary>
+    /// Specifies endpoint mode for a given command. Regional endpoints provide enhanced data residency and reliability by ensuring your request is handled entirely within the specified Google Cloud region. This differs from global endpoints, which may process parts of the request outside the target region. Overrides the default regional/endpoint_mode property value for this command invocation. ENDPOINT_MODE must be one of: global (Default) Use global rather than regional endpoints. regional Only use regional endpoints. An error will be raised if a regional endpoint is not available for a given command. regional-preferred Use regional endpoints when available, otherwise use global endpoints. Recommended for most users.
+    /// </summary>
+    [CliOption("--endpoint-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? EndpointMode { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Resource link for the VPC network from which the Cloud SQL instance is accessible for private IP. For example, /projects/myProject/global/networks/default. This setting can be updated, but it cannot be removed after it is set.
+    /// </summary>
+    [CliOption("--private-network", Format = OptionFormat.EqualsSeparated)]
+    public string? PrivateNetwork { get; set; }
+
+    /// <summary>
+    /// Database provider, for managed databases. PROVIDER must be one of: RDS, CLOUDSQL.
+    /// </summary>
+    [CliOption("--provider", Format = OptionFormat.EqualsSeparated)]
+    public GcloudProvider? Provider { get; set; }
+
+    /// <summary>
+    /// Whether SSL connections over IP should be enforced or not.
+    /// </summary>
+    [CliFlag("--require-ssl")]
+    public bool? RequireSsl { get; set; }
+
+    /// <summary>
+    /// The role of the connection profile. ROLE must be one of: SOURCE, DESTINATION.
+    /// </summary>
+    [CliOption("--role", Format = OptionFormat.EqualsSeparated)]
+    public GcloudRole? Role { get; set; }
+
+    /// <summary>
+    /// Root Cloud SQL user's password.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--root-password", Format = OptionFormat.EqualsSeparated)]
+    public string? RootPassword { get; set; }
+
+    /// <summary>
+    /// Google Cloud Platform zone where the failover Cloud SQL database instance is located. Used when the Cloud SQL database availability type is REGIONAL (i.e. multiple zones / highly available).
+    /// </summary>
+    [CliOption("--secondary-zone", Format = OptionFormat.EqualsSeparated)]
+    public string? SecondaryZone { get; set; }
+
+    /// <summary>
+    /// Maximum size to which storage capacity can be automatically increased. The default value is 0, which specifies that there is no limit.
+    /// </summary>
+    [CliOption("--storage-auto-resize-limit", Format = OptionFormat.EqualsSeparated)]
+    public string? StorageAutoResizeLimit { get; set; }
+
+    /// <summary>
+    /// The resource labels for a Cloud SQL instance to use to annotate any related underlying resources such as Compute Engine VMs. An object containing a list of "key": "value" pairs. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--user-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? UserLabels { get; set; }
+
+    /// <summary>
+    /// Google Cloud Platform zone where your Cloud SQL database instance is located.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <summary>
+    /// Cmek key resource - Name of the CMEK (customer-managed encryption key) used for the connection profile. For example, projects/myProject/locations/us-central1/keyRings/myKeyRing/cryptoKeys/myKey. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the region attribute: ◆ provide the argument --cmek-key on the command line with a fully specified name. ID of the cmek-key or fully qualified identifier for the cmek-key. To set the cmek-key attribute: ◆ provide the argument --cmek-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--cmek-key", Format = OptionFormat.EqualsSeparated)]
+    public string? CmekKey { get; set; }
+
+    /// <summary>
+    /// Cmek key resource - Name of the CMEK (customer-managed encryption key) used for the connection profile. For example, projects/myProject/locations/us-central1/keyRings/myKeyRing/cryptoKeys/myKey. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the region attribute: ◆ provide the argument --cmek-key on the command line with a fully specified name. The CMEK keyring id of the cmek-key. To set the cmek-keyring attribute: ◆ provide the argument --cmek-key on the command line with a fully specified name; ◆ provide the argument --cmek-keyring on the command line.
+    /// </summary>
+    [CliOption("--cmek-keyring", Format = OptionFormat.EqualsSeparated)]
+    public string? CmekKeyring { get; set; }
+
+    /// <summary>
+    /// Cmek key resource - Name of the CMEK (customer-managed encryption key) used for the connection profile. For example, projects/myProject/locations/us-central1/keyRings/myKeyRing/cryptoKeys/myKey. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the region attribute: ◆ provide the argument --cmek-key on the command line with a fully specified name. The Cloud project id for the cmek-key. To set the cmek-project attribute: ◆ provide the argument --cmek-key on the command line with a fully specified name; ◆ provide the argument --cmek-project on the command line.
+    /// </summary>
+    [CliOption("--cmek-project", Format = OptionFormat.EqualsSeparated)]
+    public string? CmekProject { get; set; }
+
+    /// <summary>
+    /// Connection profile resource - The connection profile to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument connection_profile on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the connection_profile or fully qualified identifier for the connection_profile. To set the connection_profile attribute: ▸ provide the argument connection_profile on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ConnectionProfile { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(DatabaseVersion) ? 1 : 0) + (!string.IsNullOrWhiteSpace(DatabaseVersionName) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of DatabaseVersion or DatabaseVersionName must be specified.", [nameof(DatabaseVersion), nameof(DatabaseVersionName)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(CmekKey) || !string.IsNullOrWhiteSpace(CmekKeyring) || !string.IsNullOrWhiteSpace(CmekProject)) && (!(!string.IsNullOrWhiteSpace(CmekKey))))
+        {
+            yield return new ValidationResult("CmekKey must be specified when other arguments in this group are specified.", [nameof(CmekKey)]);
+        }
+        yield break;
+    }
+
 }

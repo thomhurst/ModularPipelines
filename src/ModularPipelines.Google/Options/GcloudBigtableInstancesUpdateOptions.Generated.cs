@@ -23,6 +23,23 @@ namespace ModularPipelines.Google.Options;
 public record GcloudBigtableInstancesUpdateOptions : GcloudOptions
 {
     /// <summary>
+    /// modify an existing Bigtable instance
+    /// </summary>
+    /// <param name="Instance">Instance resource - The instance to update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line.</param>
+    public GcloudBigtableInstancesUpdateOptions(
+        string Instance
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+    }
+
+    public void Deconstruct(out string Instance)
+    {
+        Instance = this.Instance;
+    }
+
+    /// <summary>
     /// Friendly name of the instance.
     /// </summary>
     [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
@@ -33,5 +50,11 @@ public record GcloudBigtableInstancesUpdateOptions : GcloudOptions
     /// </summary>
     [CliOption("--edition", Format = OptionFormat.EqualsSeparated)]
     public GcloudEdition? Edition { get; set; }
+
+    /// <summary>
+    /// Instance resource - The instance to update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Instance { get; private init; }
 
 }

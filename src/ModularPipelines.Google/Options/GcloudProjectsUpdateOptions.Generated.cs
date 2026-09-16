@@ -19,8 +19,40 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("projects", "update")]
-public record GcloudProjectsUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ProjectId
-) : GcloudOptions
+public record GcloudProjectsUpdateOptions : GcloudOptions
 {
+    /// <summary>
+    /// update the name of a project
+    /// </summary>
+    /// <param name="Name">New name for the project.</param>
+    /// <param name="ProjectId">ID for the project you want to update.</param>
+    public GcloudProjectsUpdateOptions(
+        string Name,
+        string ProjectId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ProjectId);
+        this.ProjectId = ProjectId;
+    }
+
+    public void Deconstruct(out string Name, out string ProjectId)
+    {
+        Name = this.Name;
+        ProjectId = this.ProjectId;
+    }
+
+    /// <summary>
+    /// New name for the project.
+    /// </summary>
+    [CliOption("--name", Format = OptionFormat.EqualsSeparated)]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// ID for the project you want to update.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ProjectId { get; private init; }
+
 }

@@ -21,4 +21,38 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("kms", "key-handles", "list")]
 public record GcloudKmsKeyHandlesListOptions : GcloudOptions
 {
+    /// <summary>
+    /// list KeyHandle resources within a project and     location
+    /// </summary>
+    /// <param name="Location">Location resource - The KMS location resource. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property core/project. This must be specified. ID of the location or fully qualified identifier for the location. To set the location attribute: ▸ provide the argument --location on the command line.</param>
+    /// <param name="ResourceType">The resource type selector for KeyHandle resources of the form {SERVICE}.{UNIVERSE_DOMAIN}/{TYPE}.</param>
+    public GcloudKmsKeyHandlesListOptions(
+        string Location,
+        string ResourceType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
+        this.ResourceType = ResourceType;
+    }
+
+    public void Deconstruct(out string Location, out string ResourceType)
+    {
+        Location = this.Location;
+        ResourceType = this.ResourceType;
+    }
+
+    /// <summary>
+    /// Location resource - The KMS location resource. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property core/project. This must be specified. ID of the location or fully qualified identifier for the location. To set the location attribute: ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// The resource type selector for KeyHandle resources of the form {SERVICE}.{UNIVERSE_DOMAIN}/{TYPE}.
+    /// </summary>
+    [CliOption("--resource-type", Format = OptionFormat.EqualsSeparated)]
+    public string ResourceType { get; private init; }
+
 }

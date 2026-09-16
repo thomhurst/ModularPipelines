@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("monitoring", "uptime", "describe")]
 public record GcloudMonitoringUptimeDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe an uptime check or synthetic     monitor
+    /// </summary>
+    /// <param name="CheckId">Uptime check or synthetic monitor resource - The uptime check or synthetic monitor to describe. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument check_id on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the uptime check or synthetic monitor or fully qualified identifier for the uptime check or synthetic monitor. To set the check_id attribute: ▸ provide the argument check_id on the command line.</param>
+    public GcloudMonitoringUptimeDescribeOptions(
+        string CheckId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CheckId);
+        this.CheckId = CheckId;
+    }
+
+    public void Deconstruct(out string CheckId)
+    {
+        CheckId = this.CheckId;
+    }
+
+    /// <summary>
+    /// Uptime check or synthetic monitor resource - The uptime check or synthetic monitor to describe. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument check_id on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the uptime check or synthetic monitor or fully qualified identifier for the uptime check or synthetic monitor. To set the check_id attribute: ▸ provide the argument check_id on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string CheckId { get; private init; }
+
 }

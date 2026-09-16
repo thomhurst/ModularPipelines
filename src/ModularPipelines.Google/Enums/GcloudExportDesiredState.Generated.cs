@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
-/// Allowed values for --admissionpolicy.
+/// Allowed values for --exportdesiredstate.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public enum GcloudAdmissionPolicy
+public enum GcloudExportDesiredState
 {
-    [EnumValue("ADMIT_ON_FIRST_MISS")]
-    AdmitOnFirstMiss,
+    [EnumValue("active")]
+    Active,
 
-    [EnumValue("ADMIT_ON_SECOND_MISS")]
-    AdmitOnSecondMiss
+    [EnumValue("paused")]
+    Paused
 }

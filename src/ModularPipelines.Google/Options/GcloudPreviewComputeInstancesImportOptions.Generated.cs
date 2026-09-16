@@ -10,6 +10,9 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +22,304 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "instances", "import")]
-public record GcloudPreviewComputeInstancesImportOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string InstanceName
-) : GcloudOptions
+public record GcloudPreviewComputeInstancesImportOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create Compute Engine virtual     machine instances from virtual appliance in OVA/OVF format
+    /// </summary>
+    /// <param name="SourceUri">Cloud Storage path to one of: OVF descriptor OVA file Directory with OVF package. For more information about Cloud Storage URIs, see https://cloud.google.com/storage/docs/request-endpoints#json-api.</param>
+    /// <param name="InstanceName">Name of the instance to import. For details on valid instance names, refer to the criteria documented under the field 'name' at: https://cloud.google.com/compute/docs/reference/rest/v1/instances</param>
+    public GcloudPreviewComputeInstancesImportOptions(
+        string SourceUri,
+        string InstanceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceUri);
+        this.SourceUri = SourceUri;
+        global::System.ArgumentNullException.ThrowIfNull(InstanceName);
+        this.InstanceName = InstanceName;
+    }
+
+    public void Deconstruct(out string SourceUri, out string InstanceName)
+    {
+        SourceUri = this.SourceUri;
+        InstanceName = this.InstanceName;
+    }
+
+    /// <summary>
+    /// Cloud Storage path to one of: OVF descriptor OVA file Directory with OVF package. For more information about Cloud Storage URIs, see https://cloud.google.com/storage/docs/request-endpoints#json-api.
+    /// </summary>
+    [CliOption("--source-uri", Format = OptionFormat.EqualsSeparated)]
+    public string SourceUri { get; private init; }
+
+    /// <summary>
+    /// If provided, the instances are not assigned external IP addresses. To pull container images, you must configure private Google access if using Container Registry or configure Cloud NAT for instances to access container images directly. For more information, see: ◆ https://cloud.google.com/vpc/docs/configure-private-google-access ◆ https://cloud.google.com/nat/docs/using-nat
+    /// </summary>
+    [CliFlag("--no-address")]
+    public bool? NoAddress { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Specifies that you want to import an image with an existing license. Importing an image with an existing license is known as bring your own license (BYOL). --byol can be specified in any of the following ways: + `--byol --os=rhel-8`: imports a RHEL 8 image with an existing license. + `--os=rhel-8-byol`: imports a RHEL 8 image with an existing license. + `--byol`: detects the OS contained on the disk, and imports the image with an existing license. For more information about BYOL, see: https://cloud.google.com/compute/docs/nodes/bringing-your-own-licenses
+    /// </summary>
+    [CliFlag("--byol")]
+    public bool? Byol { get; set; }
+
+    /// <summary>
+    /// If provided, allows the instances to send and receive packets with non-matching destination or source IP addresses.
+    /// </summary>
+    [CliFlag("--can-ip-forward")]
+    public bool? CanIpForward { get; set; }
+
+    /// <summary>
+    /// Image import and export tools use Cloud Build to import and export images to and from your project. Cloud Build uses a specific service account to execute builds on your behalf. The Cloud Build service account generates an access token for other service accounts and it is also used for authentication when building the artifacts for the image import tool. Use this flag to to specify a user-managed service account for image import and export. If you don't specify this flag, Cloud Build runs using your project's default Cloud Build service account. To set this option, specify the email address of the desired user-managed service account. Note: You must specify the --logs-location flag when you set a user-managed service account. At minimum, the specified user-managed service account needs to have the following roles assigned: ◆ roles/compute.admin ◆ roles/iam.serviceAccountTokenCreator ◆ roles/iam.serviceAccountUser
+    /// </summary>
+    [CliOption("--cloudbuild-service-account", Format = OptionFormat.EqualsSeparated)]
+    public string? CloudbuildServiceAccount { get; set; }
+
+    /// <summary>
+    /// A temporary virtual machine instance is created in your project during instance import. Instance import tooling on this temporary instance must be authenticated. A Compute Engine service account is an identity attached to an instance. Its access tokens can be accessed through the instance metadata server and can be used to authenticate instance import tooling on the instance. To set this option, specify the email address corresponding to the required Compute Engine service account. If not provided, the instance import on the temporary instance uses the project's default Compute Engine service account. At a minimum, you need to grant the following roles to the specified Cloud Build service account: ◆ roles/compute.storageAdmin ◆ roles/storage.objectViewer
+    /// </summary>
+    [CliOption("--compute-service-account", Format = OptionFormat.EqualsSeparated)]
+    public string? ComputeServiceAccount { get; set; }
+
+    /// <summary>
+    /// Enables deletion protection for the instance.
+    /// </summary>
+    [CliFlag("--deletion-protection")]
+    public bool? DeletionProtection { get; set; }
+
+    /// <summary>
+    /// Specifies a textual description of the VM instances.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// The guest environment will be installed on the instance. Enabled by default, use --no-guest-environment to disable.
+    /// </summary>
+    [CliFlag("--guest-environment")]
+    public bool? GuestEnvironment { get; set; }
+
+    /// <summary>
+    /// Negates --guest-environment. The guest environment will be installed on the instance. Enabled by default, use --no-guest-environment to disable.
+    /// </summary>
+    [CliFlag("--no-guest-environment")]
+    public bool? NoGuestEnvironment { get; set; }
+
+    /// <summary>
+    /// Enables one or more features for VM instances that use the image for their boot disks. See the descriptions of supported features at: https://cloud.google.com/compute/docs/images/create-delete-deprecate-private-images#guest-os-features. GUEST_OS_FEATURE must be (only one value is supported): UEFI_COMPATIBLE. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--guest-os-features", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? GuestOsFeatures { get; set; }
+
+    /// <summary>
+    /// Specify the hostname of the VM instance to be imported. The specified hostname must be RFC1035 compliant. If hostname is not specified, the default hostname is [INSTANCE_NAME].c.[PROJECT_ID].internal when using the global DNS, and [INSTANCE_NAME].[ZONE].c.[PROJECT_ID].internal when using zonal DNS.
+    /// </summary>
+    [CliOption("--hostname", Format = OptionFormat.EqualsSeparated)]
+    public string? Hostname { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Directory in Cloud Storage to hold build logs. If not set, gs://&lt;project num&gt;.cloudbuild-logs.googleusercontent.com/ is created and used.
+    /// </summary>
+    [CliOption("--log-location", Format = OptionFormat.EqualsSeparated)]
+    public string? LogLocation { get; set; }
+
+    /// <summary>
+    /// Specifies the machine type used for the instances. To get a list of available machine types, run 'gcloud compute machine-types list'. If unspecified, the default type is n1-standard-1.
+    /// </summary>
+    [CliOption("--machine-type", Format = OptionFormat.EqualsSeparated)]
+    public string? MachineType { get; set; }
+
+    /// <summary>
+    /// Specifies the network that the VM instances are a part of. If --subnet is also specified, subnet must be a subnetwork of the network specified by this --network flag. If neither is specified, the default network is used.
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string? Network { get; set; }
+
+    /// <summary>
+    /// Specifies the network tier that will be used to configure the instance. NETWORK_TIER must be one of: PREMIUM, STANDARD. The default value is PREMIUM.
+    /// </summary>
+    [CliOption("--network-tier", Format = OptionFormat.EqualsSeparated)]
+    public GcloudNetworkTier? NetworkTier { get; set; }
+
+    /// <summary>
+    /// Specifies the OS of the image being imported. OS must be one of: centos-7, centos-stream-8, centos-stream-9, debian-10, debian-11, debian-8, debian-9, opensuse-15, rhel-6, rhel-6-byol, rhel-7, rhel-7-byol, rhel-8, rhel-8-byol, rhel-9, rhel-9-byol, rocky-8, rocky-9, sles-12, sles-12-byol, sles-15, sles-15-byol, sles-sap-12, sles-sap-12-byol, sles-sap-15, sles-sap-15-byol, ubuntu-1404, ubuntu-1604, ubuntu-1804, ubuntu-2004, ubuntu-2204, windows-10-x64-byol, windows-10-x86-byol, windows-11-x64-byol, windows-2008r2, windows-2008r2-byol, windows-2012, windows-2012-byol, windows-2012r2, windows-2012r2-byol, windows-2016, windows-2016-byol, windows-2019, windows-2019-byol, windows-2022, windows-2022-byol, windows-7-x64-byol, windows-7-x86-byol, windows-8-x64-byol, windows-8-x86-byol.
+    /// </summary>
+    [CliOption("--os", Format = OptionFormat.EqualsSeparated)]
+    public string? Os { get; set; }
+
+    /// <summary>
+    /// Specifies the RFC1918 IP to assign to the instance. The IP should be in the subnet or legacy network IP range.
+    /// </summary>
+    [CliOption("--private-network-ip", Format = OptionFormat.EqualsSeparated)]
+    public string? PrivateNetworkIp { get; set; }
+
+    /// <summary>
+    /// The instances will be restarted if they are terminated by Compute Engine. This does not affect terminations performed by the user. Enabled by default, use --no-restart-on-failure to disable.
+    /// </summary>
+    [CliFlag("--restart-on-failure")]
+    public bool? RestartOnFailure { get; set; }
+
+    /// <summary>
+    /// Negates --restart-on-failure. The instances will be restarted if they are terminated by Compute Engine. This does not affect terminations performed by the user. Enabled by default, use --no-restart-on-failure to disable.
+    /// </summary>
+    [CliFlag("--no-restart-on-failure")]
+    public bool? NoRestartOnFailure { get; set; }
+
+    /// <summary>
+    /// Specifies the subnet that the VM instances are a part of. If --network is also specified, subnet must be a subnetwork of the network specified by the --network flag.
+    /// </summary>
+    [CliOption("--subnet", Format = OptionFormat.EqualsSeparated)]
+    public string? Subnet { get; set; }
+
+    /// <summary>
+    /// Specifies a list of tags to apply to the instance. These tags allow network firewall rules and routes to be applied to specified VM instances. See gcloud compute firewall-rules create(1) for more details. To read more about configuring network tags, read this guide: https://cloud.google.com/vpc/docs/add-remove-network-tags To list instances with their respective status and tags, run: $ gcloud compute instances list \ --format='table(name,status,tags.list())' To list instances tagged with a specific tag, tag1, run: $ gcloud compute instances list --filter='tags:tag1' Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// Maximum time an import can last before it fails as "TIMEOUT". For example, if you specify 2h, the process fails after 2 hours. See $ gcloud topic datetimes for information about duration formats. This timeout option has a maximum value of 24 hours.
+    /// </summary>
+    [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]
+    public string? Timeout { get; set; }
+
+    /// <summary>
+    /// Zone of the instance to import. If not specified and the compute/zone property isn't set, you might be prompted to select a zone (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <summary>
+    /// Custom machine type extensions. A whole number value specifying the number of cores that are needed in the custom machine type. For some machine types, shared-core values can also be used. For example, for E2 machine types, you can specify micro, small, or medium. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--custom-cpu", Format = OptionFormat.EqualsSeparated)]
+    public string? CustomCpu { get; set; }
+
+    /// <summary>
+    /// Custom machine type extensions. A whole number value indicating how much memory is desired in the custom machine type. A size unit should be provided (eg. 3072MB or 9GB) - if no units are specified, GB is assumed. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--custom-memory", Format = OptionFormat.EqualsSeparated)]
+    public string? CustomMemory { get; set; }
+
+    /// <summary>
+    /// Custom machine type extensions. Use the extended custom machine type.
+    /// </summary>
+    [CliFlag("--custom-extensions")]
+    public bool? CustomExtensions { get; set; }
+
+    /// <summary>
+    /// Custom machine type extensions. Specifies a custom machine type. The default is n1. For more information about custom machine types, see: https://cloud.google.com/compute/docs/general-purpose-machines#custom_machine_types
+    /// </summary>
+    [CliOption("--custom-vm-type", Format = OptionFormat.EqualsSeparated)]
+    public string? CustomVmType { get; set; }
+
+    /// <summary>
+    /// Custom machine type extensions. Sole Tenancy. At most one of these can be specified: The name of the node to schedule this instance on.
+    /// </summary>
+    [CliOption("--node", Format = OptionFormat.EqualsSeparated)]
+    public string? Node { get; set; }
+
+    /// <summary>
+    /// Custom machine type extensions. Sole Tenancy. At most one of these can be specified: The JSON/YAML file containing the configuration of desired nodes onto which this instance could be scheduled. These rules filter the nodes according to their node affinity labels. A node's affinity labels come from the node template of the group the node is in. The file should contain a list of a JSON/YAML objects. For an example, see https://cloud.google.com/compute/docs/nodes/provisioning-sole-tenant-vms#configure_node_affinity_labels. The following list describes the fields: key Corresponds to the node affinity label keys of the Node resource. operator Specifies the node selection type. Must be one of: IN: Requires Compute Engine to seek for matched nodes. NOT_IN: Requires Compute Engine to avoid certain nodes. values Optional. A list of values which correspond to the node affinity label values of the Node resource. Use a full or relative path to a local file containing the value of node_affinity_file.
+    /// </summary>
+    [CliOption("--node-affinity-file", Format = OptionFormat.EqualsSeparated)]
+    public string? NodeAffinityFile { get; set; }
+
+    /// <summary>
+    /// Custom machine type extensions. Sole Tenancy. At most one of these can be specified: The name of the node group to schedule this instance on.
+    /// </summary>
+    [CliOption("--node-group", Format = OptionFormat.EqualsSeparated)]
+    public string? NodeGroup { get; set; }
+
+    /// <summary>
+    /// Custom machine type extensions. At most one of these can be specified: If not provided, the instance will be assigned the default scopes, described below. However, if neither --scopes nor --no-scopes are specified and the project has no default service account, then the VM instance is imported with no scopes. Note that the level of access that a service account has is determined by a combination of access scopes and IAM roles so you must configure both access scopes and IAM roles for the service account to work properly. SCOPE can be either the full URI of the scope or an alias. Default scopes are assigned to all instances. Available aliases are: Alias URI bigquery https://www.googleapis.com/auth/bigquery cloud-platform https://www.googleapis.com/auth/cloud-platform cloud-source-repos https://www.googleapis.com/auth/source.full_control cloud-source-repos-ro https://www.googleapis.com/auth/source.read_only compute-ro https://www.googleapis.com/auth/compute.readonly compute-rw https://www.googleapis.com/auth/compute datastore https://www.googleapis.com/auth/datastore default https://www.googleapis.com/auth/devstorage.read_only https://www.googleapis.com/auth/logging.write https://www.googleapis.com/auth/monitoring.write https://www.googleapis.com/auth/pubsub https://www.googleapis.com/auth/service.management.readonly https://www.googleapis.com/auth/servicecontrol https://www.googleapis.com/auth/trace.append gke-default https://www.googleapis.com/auth/devstorage.read_only https://www.googleapis.com/auth/logging.write https://www.googleapis.com/auth/monitoring https://www.googleapis.com/auth/service.management.readonly https://www.googleapis.com/auth/servicecontrol https://www.googleapis.com/auth/trace.append logging-write https://www.googleapis.com/auth/logging.write monitoring https://www.googleapis.com/auth/monitoring monitoring-read https://www.googleapis.com/auth/monitoring.read monitoring-write https://www.googleapis.com/auth/monitoring.write pubsub https://www.googleapis.com/auth/pubsub service-control https://www.googleapis.com/auth/servicecontrol service-management https://www.googleapis.com/auth/service.management.readonly sql (deprecated) https://www.googleapis.com/auth/sqlservice sql-admin https://www.googleapis.com/auth/sqlservice.admin storage-full https://www.googleapis.com/auth/devstorage.full_control storage-ro https://www.googleapis.com/auth/devstorage.read_only storage-rw https://www.googleapis.com/auth/devstorage.read_write taskqueue https://www.googleapis.com/auth/taskqueue trace https://www.googleapis.com/auth/trace.append userinfo-email https://www.googleapis.com/auth/userinfo.email DEPRECATION WARNING: https://www.googleapis.com/auth/sqlservice account scope and sql alias do not provide SQL instance management capabilities and have been deprecated. Please, use https://www.googleapis.com/auth/sqlservice.admin or sql-admin to manage your Google SQL Service instances. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--scopes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Scopes
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __ScopesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __ScopesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Custom machine type extensions. At most one of these can be specified: Import instance without scopes
+    /// </summary>
+    [CliFlag("--no-scopes")]
+    public bool? NoScopes { get; set; }
+
+    /// <summary>
+    /// Custom machine type extensions. At most one of these can be specified: A service account is an identity attached to the instance. Its access tokens can be accessed through the instance metadata server and are used to authenticate applications on the instance. The account can be set using an email address corresponding to the required service account. If not provided, the instance will use the project's default service account.
+    /// </summary>
+    [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
+    public string? ServiceAccount { get; set; }
+
+    /// <summary>
+    /// Custom machine type extensions. At most one of these can be specified: Import instance without service account
+    /// </summary>
+    [CliFlag("--no-service-account")]
+    public bool? NoServiceAccount { get; set; }
+
+    /// <summary>
+    /// Name of the instance to import. For details on valid instance names, refer to the criteria documented under the field 'name' at: https://cloud.google.com/compute/docs/reference/rest/v1/instances
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string InstanceName { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(CustomCpu) || !string.IsNullOrWhiteSpace(CustomMemory) || CustomExtensions == true || !string.IsNullOrWhiteSpace(CustomVmType) || !string.IsNullOrWhiteSpace(Node) || !string.IsNullOrWhiteSpace(NodeAffinityFile) || !string.IsNullOrWhiteSpace(NodeGroup) || ((object?)Scopes is global::System.Collections.Generic.IEnumerable<char> ? (object?)Scopes is not string || !string.IsNullOrWhiteSpace(Scopes?.ToString()) : ((object?)Scopes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Scopes, static item => item is not null) : (Scopes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Scopes), static item => item is not null)))) || NoScopes == true || !string.IsNullOrWhiteSpace(ServiceAccount) || NoServiceAccount == true) && (!(!string.IsNullOrWhiteSpace(CustomCpu))))
+        {
+            yield return new ValidationResult("CustomCpu must be specified when other arguments in this group are specified.", [nameof(CustomCpu)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(CustomCpu) || !string.IsNullOrWhiteSpace(CustomMemory) || CustomExtensions == true || !string.IsNullOrWhiteSpace(CustomVmType) || !string.IsNullOrWhiteSpace(Node) || !string.IsNullOrWhiteSpace(NodeAffinityFile) || !string.IsNullOrWhiteSpace(NodeGroup) || ((object?)Scopes is global::System.Collections.Generic.IEnumerable<char> ? (object?)Scopes is not string || !string.IsNullOrWhiteSpace(Scopes?.ToString()) : ((object?)Scopes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Scopes, static item => item is not null) : (Scopes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Scopes), static item => item is not null)))) || NoScopes == true || !string.IsNullOrWhiteSpace(ServiceAccount) || NoServiceAccount == true) && (!(!string.IsNullOrWhiteSpace(CustomMemory))))
+        {
+            yield return new ValidationResult("CustomMemory must be specified when other arguments in this group are specified.", [nameof(CustomMemory)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(CustomCpu) || !string.IsNullOrWhiteSpace(CustomMemory) || CustomExtensions == true || !string.IsNullOrWhiteSpace(CustomVmType) || !string.IsNullOrWhiteSpace(Node) || !string.IsNullOrWhiteSpace(NodeAffinityFile) || !string.IsNullOrWhiteSpace(NodeGroup) || ((object?)Scopes is global::System.Collections.Generic.IEnumerable<char> ? (object?)Scopes is not string || !string.IsNullOrWhiteSpace(Scopes?.ToString()) : ((object?)Scopes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Scopes, static item => item is not null) : (Scopes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Scopes), static item => item is not null)))) || NoScopes == true || !string.IsNullOrWhiteSpace(ServiceAccount) || NoServiceAccount == true) && ((!string.IsNullOrWhiteSpace(Node) ? 1 : 0) + (!string.IsNullOrWhiteSpace(NodeAffinityFile) ? 1 : 0) + (!string.IsNullOrWhiteSpace(NodeGroup) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of Node, NodeAffinityFile, or NodeGroup may be specified.", [nameof(Node), nameof(NodeAffinityFile), nameof(NodeGroup)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(CustomCpu) || !string.IsNullOrWhiteSpace(CustomMemory) || CustomExtensions == true || !string.IsNullOrWhiteSpace(CustomVmType) || !string.IsNullOrWhiteSpace(Node) || !string.IsNullOrWhiteSpace(NodeAffinityFile) || !string.IsNullOrWhiteSpace(NodeGroup) || ((object?)Scopes is global::System.Collections.Generic.IEnumerable<char> ? (object?)Scopes is not string || !string.IsNullOrWhiteSpace(Scopes?.ToString()) : ((object?)Scopes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Scopes, static item => item is not null) : (Scopes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Scopes), static item => item is not null)))) || NoScopes == true || !string.IsNullOrWhiteSpace(ServiceAccount) || NoServiceAccount == true) && ((((object?)Scopes is global::System.Collections.Generic.IEnumerable<char> ? (object?)Scopes is not string || !string.IsNullOrWhiteSpace(Scopes?.ToString()) : ((object?)Scopes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Scopes, static item => item is not null) : (Scopes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Scopes), static item => item is not null)))) ? 1 : 0) + (NoScopes == true ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of Scopes or NoScopes may be specified.", [nameof(Scopes), nameof(NoScopes)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(CustomCpu) || !string.IsNullOrWhiteSpace(CustomMemory) || CustomExtensions == true || !string.IsNullOrWhiteSpace(CustomVmType) || !string.IsNullOrWhiteSpace(Node) || !string.IsNullOrWhiteSpace(NodeAffinityFile) || !string.IsNullOrWhiteSpace(NodeGroup) || ((object?)Scopes is global::System.Collections.Generic.IEnumerable<char> ? (object?)Scopes is not string || !string.IsNullOrWhiteSpace(Scopes?.ToString()) : ((object?)Scopes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Scopes, static item => item is not null) : (Scopes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Scopes), static item => item is not null)))) || NoScopes == true || !string.IsNullOrWhiteSpace(ServiceAccount) || NoServiceAccount == true) && ((!string.IsNullOrWhiteSpace(ServiceAccount) ? 1 : 0) + (NoServiceAccount == true ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ServiceAccount or NoServiceAccount may be specified.", [nameof(ServiceAccount), nameof(NoServiceAccount)]);
+        }
+        yield break;
+    }
+
 }

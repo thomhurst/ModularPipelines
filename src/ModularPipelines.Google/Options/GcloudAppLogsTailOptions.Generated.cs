@@ -29,9 +29,9 @@ public record GcloudAppLogsTailOptions : GcloudOptions
     public GcloudLevel? Level { get; set; }
 
     /// <summary>
-    /// Filter entries from a particular set of logs. Must be a comma-separated list of log names (request_log, stdout, stderr, etc).
+    /// Filter entries from a particular set of logs. Must be a comma-separated list of log names (request_log, stdout, stderr, etc). Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--logs", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--logs", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Logs { get; set; }
 
     /// <summary>

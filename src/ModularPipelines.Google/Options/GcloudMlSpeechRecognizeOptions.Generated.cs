@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +21,114 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ml", "speech", "recognize")]
-public record GcloudMlSpeechRecognizeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Audio
-) : GcloudOptions
+public record GcloudMlSpeechRecognizeOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// get transcripts of short     (less than 60 seconds) audio from an audio file
+    /// </summary>
+    /// <param name="LanguageCode">The language of the supplied audio as a BCP-47 (https://www.rfc-editor.org/rfc/bcp/bcp47.txt) language tag. Example: "en-US". See https://cloud.google.com/speech/docs/languages for a list of the currently supported language codes.</param>
+    /// <param name="Audio">The location of the audio file to transcribe. Must be a local path or a Google Cloud Storage URL (in the format gs://bucket/object).</param>
+    public GcloudMlSpeechRecognizeOptions(
+        string LanguageCode,
+        string Audio
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LanguageCode);
+        this.LanguageCode = LanguageCode;
+        global::System.ArgumentNullException.ThrowIfNull(Audio);
+        this.Audio = Audio;
+    }
+
+    public void Deconstruct(out string LanguageCode, out string Audio)
+    {
+        LanguageCode = this.LanguageCode;
+        Audio = this.Audio;
+    }
+
+    /// <summary>
+    /// The language of the supplied audio as a BCP-47 (https://www.rfc-editor.org/rfc/bcp/bcp47.txt) language tag. Example: "en-US". See https://cloud.google.com/speech/docs/languages for a list of the currently supported language codes.
+    /// </summary>
+    [CliOption("--language-code", Format = OptionFormat.EqualsSeparated)]
+    public string LanguageCode { get; private init; }
+
+    /// <summary>
+    /// Adds punctuation to recognition result hypotheses.
+    /// </summary>
+    [CliFlag("--enable-automatic-punctuation")]
+    public bool? EnableAutomaticPunctuation { get; set; }
+
+    /// <summary>
+    /// The type of encoding of the file. Required if the file format is not WAV or FLAC. ENCODING must be one of: alaw, amr, amr-wb, encoding-unspecified, flac, linear16, mp3, mulaw, ogg-opus, speex-with-header-byte, webm-opus.
+    /// </summary>
+    [CliOption("--encoding", Format = OptionFormat.EqualsSeparated)]
+    public GcloudEncoding? Encoding { get; set; }
+
+    /// <summary>
+    /// If True, the server will attempt to filter out profanities, replacing all but the initial character in each filtered word with asterisks, e.g. f***.
+    /// </summary>
+    [CliFlag("--filter-profanity")]
+    public bool? FilterProfanity { get; set; }
+
+    /// <summary>
+    /// A list of strings containing word and phrase "hints" so that the speech recognition is more likely to recognize them. This can be used to improve the accuracy for specific words and phrases, for example, if specific commands are typically spoken by the user. This can also be used to add additional words to the vocabulary of the recognizer. See https://cloud.google.com/speech/limits#content. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--hints", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Hints { get; set; }
+
+    /// <summary>
+    /// If True, the top result includes a list of words with the start and end time offsets (timestamps) for those words. If False, no word-level time offset information is returned.
+    /// </summary>
+    [CliFlag("--include-word-time-offsets")]
+    public bool? IncludeWordTimeOffsets { get; set; }
+
+    /// <summary>
+    /// Maximum number of recognition hypotheses to be returned. The server may return fewer than max_alternatives. Valid values are 0-30. A value of 0 or 1 will return a maximum of one.
+    /// </summary>
+    [CliOption("--max-alternatives", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxAlternatives { get; set; }
+
+    /// <summary>
+    /// Select the model best suited to your domain to get best results. If you do not explicitly specify a model, Speech-to-Text will auto-select a model based on your other specified parameters. Some models are premium and cost more than standard models (although you can reduce the price by opting into https://cloud.google.com/speech-to-text/docs/data-logging). MODEL must be one of: command_and_search short queries such as voice commands or voice search. default audio that is not one of the specific audio models. For example, long-form audio. Ideally the audio is high-fidelity, recorded at a 16khz or greater sampling rate. latest_long Use this model for any kind of long form content such as media or spontaneous speech and conversations. Consider using this model in place of the video model, especially if the video model is not available in your target language. You can also use this in place of the default model. latest_short Use this model for short utterances that are a few seconds in length. It is useful for trying to capture commands or other single shot directed speech use cases. Consider using this model instead of the command and search model. medical_conversation Best for audio that originated from a conversation between a medical provider and patient. medical_dictation Best for audio that originated from dictation notes by a medical provider. phone_call audio that originated from a phone call (typically recorded at an 8khz sampling rate). phone_call_enhanced audio that originated from a phone call (typically recorded at an 8khz sampling rate). This is a premium model and can produce better results but costs more than the standard rate. telephony Improved version of the "phone_call" model, best for audio that originated from a phone call, typically recorded at an 8kHz sampling rate. telephony_short Dedicated version of the modern "telephony" model for short or even single-word utterances for audio that originated from a phone call, typically recorded at an 8kHz sampling rate. video_enhanced audio that originated from video or includes multiple speakers. Ideally the audio is recorded at a 16khz or greater sampling rate. This is a premium model that costs more than the standard rate.
+    /// </summary>
+    [CliOption("--model", Format = OptionFormat.EqualsSeparated)]
+    public string? Model { get; set; }
+
+    /// <summary>
+    /// The sample rate in Hertz. For best results, set the sampling rate of the audio source to 16000 Hz. If that's not possible, use the native sample rate of the audio source (instead of re-sampling).
+    /// </summary>
+    [CliOption("--sample-rate", Format = OptionFormat.EqualsSeparated)]
+    public string? SampleRate { get; set; }
+
+    /// <summary>
+    /// Audio channel settings. The number of channels in the input audio data. Set this for separate-channel-recognition. Valid values are: 1)LINEAR16 and FLAC are 1-8 2)OGG_OPUS are 1-254 3) MULAW, AMR, AMR_WB and SPEEX_WITH_HEADER_BYTE is only 1. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--audio-channel-count", Format = OptionFormat.EqualsSeparated)]
+    public int? AudioChannelCount { get; set; }
+
+    /// <summary>
+    /// Audio channel settings. Recognition result will contain a channel_tag field to state which channel that result belongs to. If this is not true, only the first channel will be recognized. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliFlag("--separate-channel-recognition")]
+    public bool? SeparateChannelRecognition { get; set; }
+
+    /// <summary>
+    /// The location of the audio file to transcribe. Must be a local path or a Google Cloud Storage URL (in the format gs://bucket/object).
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Audio { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (((object?)AudioChannelCount is not null || SeparateChannelRecognition == true) && (!((object?)AudioChannelCount is not null)))
+        {
+            yield return new ValidationResult("AudioChannelCount must be specified when other arguments in this group are specified.", [nameof(AudioChannelCount)]);
+        }
+        if (((object?)AudioChannelCount is not null || SeparateChannelRecognition == true) && (!(SeparateChannelRecognition == true)))
+        {
+            yield return new ValidationResult("SeparateChannelRecognition must be specified when other arguments in this group are specified.", [nameof(SeparateChannelRecognition)]);
+        }
+        yield break;
+    }
+
 }

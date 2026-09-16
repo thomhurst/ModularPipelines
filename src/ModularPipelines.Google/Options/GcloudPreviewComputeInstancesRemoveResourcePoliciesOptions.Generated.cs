@@ -19,8 +19,57 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "instances", "remove-resource-policies")]
-public record GcloudPreviewComputeInstancesRemoveResourcePoliciesOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string InstanceName
-) : GcloudOptions
+public record GcloudPreviewComputeInstancesRemoveResourcePoliciesOptions : GcloudOptions
 {
+    /// <summary>
+    /// remove resource     policies from Compute Engine VM instances
+    /// </summary>
+    /// <param name="ResourcePolicies">A list of resource policy names to be removed from the instance. The policies must exist in the same region as the instance. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="InstanceName">Name of the instance to remove resource policies from. For details on valid instance names, refer to the criteria documented under the field 'name' at: https://cloud.google.com/compute/docs/reference/rest/v1/instances</param>
+    public GcloudPreviewComputeInstancesRemoveResourcePoliciesOptions(
+        IEnumerable<string> ResourcePolicies,
+        string InstanceName
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ResourcePolicies);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ResourcePolicies));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ResourcePolicies));
+            }
+
+            ResourcePolicies = materialized;
+        }
+        this.ResourcePolicies = ResourcePolicies;
+        global::System.ArgumentNullException.ThrowIfNull(InstanceName);
+        this.InstanceName = InstanceName;
+    }
+
+    public void Deconstruct(out IEnumerable<string> ResourcePolicies, out string InstanceName)
+    {
+        ResourcePolicies = this.ResourcePolicies;
+        InstanceName = this.InstanceName;
+    }
+
+    /// <summary>
+    /// A list of resource policy names to be removed from the instance. The policies must exist in the same region as the instance. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--resource-policies", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> ResourcePolicies { get; private init; }
+
+    /// <summary>
+    /// Zone of the instance to remove resource policies from. If not specified, you might be prompted to select a zone (interactive mode only). gcloud attempts to identify the appropriate zone by searching for resources in your currently active project. If the zone cannot be determined, gcloud prompts you for a selection with all available Google Cloud Platform zones. To avoid prompting when this flag is omitted, the user can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <summary>
+    /// Name of the instance to remove resource policies from. For details on valid instance names, refer to the criteria documented under the field 'name' at: https://cloud.google.com/compute/docs/reference/rest/v1/instances
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string InstanceName { get; private init; }
+
 }

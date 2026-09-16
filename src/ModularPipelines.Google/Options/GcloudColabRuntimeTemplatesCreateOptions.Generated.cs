@@ -10,6 +10,9 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +22,191 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("colab", "runtime-templates", "create")]
-public record GcloudColabRuntimeTemplatesCreateOptions : GcloudOptions
+public record GcloudColabRuntimeTemplatesCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a runtime template
+    /// </summary>
+    /// <param name="DisplayName">The display name of the runtime template.</param>
+    public GcloudColabRuntimeTemplatesCreateOptions(
+        string DisplayName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DisplayName);
+        this.DisplayName = DisplayName;
+    }
+
+    public void Deconstruct(out string DisplayName)
+    {
+        DisplayName = this.DisplayName;
+    }
+
+    /// <summary>
+    /// The display name of the runtime template.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string DisplayName { get; private init; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Region resource - Cloud region to create runtime template. Please see https://cloud.google.com/colab/docs/locations for a list of supported regions. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property colab/region with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Configuration of the runtime template The machine configuration of the runtime. The configuration for the data disk of the runtime. ID of the region or fully qualified identifier for the region. To set the region attribute: ◆ provide the argument --region on the command line; ◆ set the property colab/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Region resource - Cloud region to create runtime template. Please see https://cloud.google.com/colab/docs/locations for a list of supported regions. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property colab/region with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Configuration of the runtime template The machine configuration of the runtime. The configuration for the data disk of the runtime. The id of the runtime template. If not specified, a random id will be generated.
+    /// </summary>
+    [CliOption("--runtime-template-id", Format = OptionFormat.EqualsSeparated)]
+    public string? RuntimeTemplateId { get; set; }
+
+    /// <summary>
+    /// Region resource - Cloud region to create runtime template. Please see https://cloud.google.com/colab/docs/locations for a list of supported regions. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property colab/region with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Configuration of the runtime template The machine configuration of the runtime. The configuration for the data disk of the runtime. The description of the runtime template.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Region resource - Cloud region to create runtime template. Please see https://cloud.google.com/colab/docs/locations for a list of supported regions. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property colab/region with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Configuration of the runtime template The machine configuration of the runtime. The configuration for the data disk of the runtime. Enable end user credential access for the runtime. Enabled by default, use --no-enable-euc to disable.
+    /// </summary>
+    [CliFlag("--enable-euc")]
+    public bool? EnableEuc { get; set; }
+
+    /// <summary>
+    /// Negates --enable-euc. Region resource - Cloud region to create runtime template. Please see https://cloud.google.com/colab/docs/locations for a list of supported regions. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property colab/region with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Configuration of the runtime template The machine configuration of the runtime. The configuration for the data disk of the runtime. Enable end user credential access for the runtime. Enabled by default, use --no-enable-euc to disable.
+    /// </summary>
+    [CliFlag("--no-enable-euc")]
+    public bool? NoEnableEuc { get; set; }
+
+    /// <summary>
+    /// Region resource - Cloud region to create runtime template. Please see https://cloud.google.com/colab/docs/locations for a list of supported regions. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property colab/region with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Configuration of the runtime template The machine configuration of the runtime. The configuration for the data disk of the runtime. Enables secure boot for the runtime. Disabled by default.
+    /// </summary>
+    [CliFlag("--enable-secure-boot")]
+    public bool? EnableSecureBoot { get; set; }
+
+    /// <summary>
+    /// Region resource - Cloud region to create runtime template. Please see https://cloud.google.com/colab/docs/locations for a list of supported regions. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property colab/region with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Configuration of the runtime template The machine configuration of the runtime. The configuration for the data disk of the runtime. The duration after which the runtime is automatically shut down. An input of 0s disables the idle shutdown feature, and a valid range is [10m, 24h]. See '$ gcloud topic datetimes' for details on formatting the input duration.
+    /// </summary>
+    [CliOption("--idle-shutdown-timeout", Format = OptionFormat.EqualsSeparated)]
+    public string? IdleShutdownTimeout { get; set; }
+
+    /// <summary>
+    /// Region resource - Cloud region to create runtime template. Please see https://cloud.google.com/colab/docs/locations for a list of supported regions. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property colab/region with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Configuration of the runtime template The machine configuration of the runtime. The configuration for the data disk of the runtime. Add labels to identify and group the runtime template. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Region resource - Cloud region to create runtime template. Please see https://cloud.google.com/colab/docs/locations for a list of supported regions. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property colab/region with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Configuration of the runtime template The machine configuration of the runtime. The configuration for the data disk of the runtime. Applies the given Compute Engine tags to the runtime. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--network-tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? NetworkTags { get; set; }
+
+    /// <summary>
+    /// Region resource - Cloud region to create runtime template. Please see https://cloud.google.com/colab/docs/locations for a list of supported regions. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property colab/region with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Configuration of the runtime template The machine configuration of the runtime. The configuration for the data disk of the runtime. The number of accelerators used by the runtime.
+    /// </summary>
+    [CliOption("--accelerator-count", Format = OptionFormat.EqualsSeparated)]
+    public int? AcceleratorCount { get; set; }
+
+    /// <summary>
+    /// Region resource - Cloud region to create runtime template. Please see https://cloud.google.com/colab/docs/locations for a list of supported regions. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property colab/region with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Configuration of the runtime template The machine configuration of the runtime. The configuration for the data disk of the runtime. The type of hardware accelerator used by the runtime. If specified, --accelerator-count must also be specified. ACCELERATOR_TYPE must be one of: NVIDIA_TESLA_V100, NVIDIA_TESLA_T4, NVIDIA_TESLA_A100, NVIDIA_A100_80GB, NVIDIA_L4.
+    /// </summary>
+    [CliOption("--accelerator-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudAcceleratorType? AcceleratorType { get; set; }
+
+    /// <summary>
+    /// Region resource - Cloud region to create runtime template. Please see https://cloud.google.com/colab/docs/locations for a list of supported regions. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property colab/region with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Configuration of the runtime template The machine configuration of the runtime. The configuration for the data disk of the runtime. The Compute Engine machine type selected for the runtime.
+    /// </summary>
+    [CliOption("--machine-type", Format = OptionFormat.EqualsSeparated)]
+    public string? MachineType { get; set; }
+
+    /// <summary>
+    /// Region resource - Cloud region to create runtime template. Please see https://cloud.google.com/colab/docs/locations for a list of supported regions. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property colab/region with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Configuration of the runtime template The machine configuration of the runtime. The configuration for the data disk of the runtime. The disk size of the runtime in GB. If specified, the --disk-type must also be specified. The minimum size is 10GB and the maximum is 65536GB.
+    /// </summary>
+    [CliOption("--disk-size-gb", Format = OptionFormat.EqualsSeparated)]
+    public int? DiskSizeGb { get; set; }
+
+    /// <summary>
+    /// Region resource - Cloud region to create runtime template. Please see https://cloud.google.com/colab/docs/locations for a list of supported regions. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property colab/region with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Configuration of the runtime template The machine configuration of the runtime. The configuration for the data disk of the runtime. The type of the disk. DISK_TYPE must be one of: PD_STANDARD, PD_SSD, PD_BALANCED, PD_EXTREME, HYPERDISK_BALANCED.
+    /// </summary>
+    [CliOption("--disk-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudDiskType? DiskType { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS encryption key (customer-managed encryption key) used to protect the runtime. The key must be in the same region as the runtime. If not specified, Google-managed encryption keys will be used. The arguments in this group can be used to specify the attributes of this resource. The network configuration for the runtime. ID of the key or fully qualified identifier for the key. To set the kms-key attribute: ◆ provide the argument --kms-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKey { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS encryption key (customer-managed encryption key) used to protect the runtime. The key must be in the same region as the runtime. If not specified, Google-managed encryption keys will be used. The arguments in this group can be used to specify the attributes of this resource. The network configuration for the runtime. KMS keyring id of the key. To set the kms-keyring attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-keyring on the command line.
+    /// </summary>
+    [CliOption("--kms-keyring", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKeyring { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS encryption key (customer-managed encryption key) used to protect the runtime. The key must be in the same region as the runtime. If not specified, Google-managed encryption keys will be used. The arguments in this group can be used to specify the attributes of this resource. The network configuration for the runtime. Cloud location for the key. To set the kms-location attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-location on the command line.
+    /// </summary>
+    [CliOption("--kms-location", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsLocation { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS encryption key (customer-managed encryption key) used to protect the runtime. The key must be in the same region as the runtime. If not specified, Google-managed encryption keys will be used. The arguments in this group can be used to specify the attributes of this resource. The network configuration for the runtime. Cloud project id for the key. To set the kms-project attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-project on the command line.
+    /// </summary>
+    [CliOption("--kms-project", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsProject { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS encryption key (customer-managed encryption key) used to protect the runtime. The key must be in the same region as the runtime. If not specified, Google-managed encryption keys will be used. The arguments in this group can be used to specify the attributes of this resource. The network configuration for the runtime. Enable public internet access for the runtime. Enabled by default, use --no-enable-internet-access to disable.
+    /// </summary>
+    [CliFlag("--enable-internet-access")]
+    public bool? EnableInternetAccess { get; set; }
+
+    /// <summary>
+    /// Negates --enable-internet-access. Key resource - The Cloud KMS encryption key (customer-managed encryption key) used to protect the runtime. The key must be in the same region as the runtime. If not specified, Google-managed encryption keys will be used. The arguments in this group can be used to specify the attributes of this resource. The network configuration for the runtime. Enable public internet access for the runtime. Enabled by default, use --no-enable-internet-access to disable.
+    /// </summary>
+    [CliFlag("--no-enable-internet-access")]
+    public bool? NoEnableInternetAccess { get; set; }
+
+    /// <summary>
+    /// Network resource - The name of the VPC that this runtime is in. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --network on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the network or fully qualified identifier for the network. To set the network attribute: ◆ provide the argument --network on the command line.
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string? Network { get; set; }
+
+    /// <summary>
+    /// Subnetwork resource - The name of the subnetwork that this runtime is in. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --subnetwork on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the subnetwork or fully qualified identifier for the subnetwork. To set the subnetwork attribute: ◆ provide the argument --subnetwork on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--subnetwork", Format = OptionFormat.EqualsSeparated)]
+    public string? Subnetwork { get; set; }
+
+    /// <summary>
+    /// Subnetwork resource - The name of the subnetwork that this runtime is in. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --subnetwork on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Google Cloud region of this subnetwork https://cloud.google.com/compute/docs/regions-zones/#locations. To set the subnetwork-region attribute: ◆ provide the argument --subnetwork on the command line with a fully specified name; ◆ provide the argument --subnetwork-region on the command line.
+    /// </summary>
+    [CliOption("--subnetwork-region", Format = OptionFormat.EqualsSeparated)]
+    public string? SubnetworkRegion { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(KmsKey) || !string.IsNullOrWhiteSpace(KmsKeyring) || !string.IsNullOrWhiteSpace(KmsLocation) || !string.IsNullOrWhiteSpace(KmsProject) || EnableInternetAccess == true || NoEnableInternetAccess == true) && (!(!string.IsNullOrWhiteSpace(KmsKey))))
+        {
+            yield return new ValidationResult("KmsKey must be specified when other arguments in this group are specified.", [nameof(KmsKey)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(KmsKey) || !string.IsNullOrWhiteSpace(KmsKeyring) || !string.IsNullOrWhiteSpace(KmsLocation) || !string.IsNullOrWhiteSpace(KmsProject) || EnableInternetAccess == true || NoEnableInternetAccess == true) && ((EnableInternetAccess == true ? 1 : 0) + (NoEnableInternetAccess == true ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of EnableInternetAccess or NoEnableInternetAccess may be specified.", [nameof(EnableInternetAccess), nameof(NoEnableInternetAccess)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Subnetwork) || !string.IsNullOrWhiteSpace(SubnetworkRegion)) && (!(!string.IsNullOrWhiteSpace(Subnetwork))))
+        {
+            yield return new ValidationResult("Subnetwork must be specified when other arguments in this group are specified.", [nameof(Subnetwork)]);
+        }
+        yield break;
+    }
+
 }

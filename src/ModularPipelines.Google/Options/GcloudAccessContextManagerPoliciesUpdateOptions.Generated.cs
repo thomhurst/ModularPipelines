@@ -27,4 +27,10 @@ public record GcloudAccessContextManagerPoliciesUpdateOptions : GcloudOptions
     [CliOption("--title", Format = OptionFormat.EqualsSeparated)]
     public string? Title { get; set; }
 
+    /// <summary>
+    /// Policy resource - The access policy to update. This represents a Cloud resource. ID of the policy or fully qualified identifier for the policy. To set the policy attribute: ◆ provide the argument policy on the command line; ◆ set the property access_context_manager/policy.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Policy { get; set; }
+
 }

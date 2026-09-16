@@ -10,6 +10,9 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +22,128 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ai", "hp-tuning-jobs", "create")]
-public record GcloudAiHpTuningJobsCreateOptions : GcloudOptions
+public record GcloudAiHpTuningJobsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a hyperparameter tuning job
+    /// </summary>
+    /// <param name="Config">Path to the job configuration file. This file should be a YAML document containing a HyperparameterTuningSpec. If an option is specified both in the configuration file **and** via command line arguments, the command line arguments override the configuration file. Example(YAML): displayName: TestHpTuningJob maxTrialCount: 1 parallelTrialCount: 1 studySpec: metrics: - metricId: x goal: MINIMIZE parameters: - parameterId: z integerValueSpec: minValue: 1 maxValue: 100 algorithm: RANDOM_SEARCH trialJobSpec: workerPoolSpecs: - machineSpec: machineType: n1-standard-4 replicaCount: 1 containerSpec: imageUri: gcr.io/ucaip-test/ucaip-training-test</param>
+    /// <param name="DisplayName">Display name of the hyperparameter tuning job to create.</param>
+    public GcloudAiHpTuningJobsCreateOptions(
+        string Config,
+        string DisplayName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Config);
+        this.Config = Config;
+        global::System.ArgumentNullException.ThrowIfNull(DisplayName);
+        this.DisplayName = DisplayName;
+    }
+
+    public void Deconstruct(out string Config, out string DisplayName)
+    {
+        Config = this.Config;
+        DisplayName = this.DisplayName;
+    }
+
+    /// <summary>
+    /// Path to the job configuration file. This file should be a YAML document containing a HyperparameterTuningSpec. If an option is specified both in the configuration file **and** via command line arguments, the command line arguments override the configuration file. Example(YAML): displayName: TestHpTuningJob maxTrialCount: 1 parallelTrialCount: 1 studySpec: metrics: - metricId: x goal: MINIMIZE parameters: - parameterId: z integerValueSpec: minValue: 1 maxValue: 100 algorithm: RANDOM_SEARCH trialJobSpec: workerPoolSpecs: - machineSpec: machineType: n1-standard-4 replicaCount: 1 containerSpec: imageUri: gcr.io/ucaip-test/ucaip-training-test
+    /// </summary>
+    [CliOption("--config", Format = OptionFormat.EqualsSeparated)]
+    public string Config { get; private init; }
+
+    /// <summary>
+    /// Display name of the hyperparameter tuning job to create.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string DisplayName { get; private init; }
+
+    /// <summary>
+    /// Search algorithm specified for the given study. ALGORITHM must be one of: algorithm-unspecified, grid-search, random-search.
+    /// </summary>
+    [CliOption("--algorithm", Format = OptionFormat.EqualsSeparated)]
+    public GcloudAlgorithm? Algorithm { get; set; }
+
+    /// <summary>
+    /// Whether you want Vertex AI to enable dashboard built on the training containers. If set to true, you can access the dashboard at the URIs given by CustomJob.web_access_uris or Trial.web_access_uris (within HyperparameterTuningJob.trials).
+    /// </summary>
+    [CliFlag("--enable-dashboard-access")]
+    public bool? EnableDashboardAccess { get; set; }
+
+    /// <summary>
+    /// Whether you want Vertex AI to enable interactive shell access (https://cloud.google.com/vertex-ai/docs/training/monitor-debug-interactive-shell) to training containers. If set to true, you can access interactive shells at the URIs given by CustomJob.web_access_uris or Trial.web_access_uris (within HyperparameterTuningJob.trials).
+    /// </summary>
+    [CliFlag("--enable-web-access")]
+    public bool? EnableWebAccess { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Desired total number of trials. The default value is 1.
+    /// </summary>
+    [CliOption("--max-trial-count", Format = OptionFormat.EqualsSeparated)]
+    public int? MaxTrialCount { get; set; }
+
+    /// <summary>
+    /// Full name of the Google Compute Engine network to which the Job is peered with. Private services access must already have been configured. If unspecified, the Job is not peered with any network.
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string? Network { get; set; }
+
+    /// <summary>
+    /// Desired number of Trials to run in parallel. The default value is 1.
+    /// </summary>
+    [CliOption("--parallel-trial-count", Format = OptionFormat.EqualsSeparated)]
+    public int? ParallelTrialCount { get; set; }
+
+    /// <summary>
+    /// Region resource - Cloud region to create a hyperparameter tuning job. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property ai/region with a fully specified name; ◆ choose one from the prompted list of available regions with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the region or fully qualified identifier for the region. To set the region attribute: ◆ provide the argument --region on the command line; ◆ set the property ai/region; ◆ choose one from the prompted list of available regions.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Region resource - Cloud region to create a hyperparameter tuning job. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property ai/region with a fully specified name; ◆ choose one from the prompted list of available regions with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. The email address of a service account to use when running the training appplication. You must have the iam.serviceAccounts.actAs permission for the specified service account.
+    /// </summary>
+    [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
+    public string? ServiceAccount { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the hyperparameter tuning job. The 'Vertex AI Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. ID of the key or fully qualified identifier for the key. To set the kms-key attribute: ◆ provide the argument --kms-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKey { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the hyperparameter tuning job. The 'Vertex AI Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The KMS keyring of the key. To set the kms-keyring attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-keyring on the command line.
+    /// </summary>
+    [CliOption("--kms-keyring", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKeyring { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the hyperparameter tuning job. The 'Vertex AI Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud location for the key. To set the kms-location attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-location on the command line.
+    /// </summary>
+    [CliOption("--kms-location", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsLocation { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the hyperparameter tuning job. The 'Vertex AI Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud project for the key. To set the kms-project attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-project on the command line; ◆ set the property core/project.
+    /// </summary>
+    [CliOption("--kms-project", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsProject { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(KmsKey) || !string.IsNullOrWhiteSpace(KmsKeyring) || !string.IsNullOrWhiteSpace(KmsLocation) || !string.IsNullOrWhiteSpace(KmsProject)) && (!(!string.IsNullOrWhiteSpace(KmsKey))))
+        {
+            yield return new ValidationResult("KmsKey must be specified when other arguments in this group are specified.", [nameof(KmsKey)]);
+        }
+        yield break;
+    }
+
 }

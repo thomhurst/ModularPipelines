@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "instance-groups", "unmanaged", "create")]
-public record GcloudPreviewComputeInstanceGroupsUnmanagedCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputeInstanceGroupsUnmanagedCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a Compute     Engine unmanaged instance group
+    /// </summary>
+    /// <param name="Name">Name of the instance group to create.</param>
+    public GcloudPreviewComputeInstanceGroupsUnmanagedCreateOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// Specifies a textual description for the unmanaged instance group.
     /// </summary>
@@ -34,5 +49,11 @@ public record GcloudPreviewComputeInstanceGroupsUnmanagedCreateOptions(
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }
+
+    /// <summary>
+    /// Name of the instance group to create.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
 
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,68 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "org-security-policies", "create")]
-public record GcloudComputeOrgSecurityPoliciesCreateOptions : GcloudOptions
+public record GcloudComputeOrgSecurityPoliciesCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: Folder in which the organization security policy is to be created.
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Organization in which the organization security policy is to be created.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// An optional, textual description for the organization security policy.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// A textual name of the security policy.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// The format of the file to create the organization security policy config from. Specify either yaml or json. Defaults to yaml if not specified. Will be ignored if --file-name is not specified. FILE_FORMAT must be one of: json, yaml.
+    /// </summary>
+    [CliOption("--file-format", Format = OptionFormat.EqualsSeparated)]
+    public GcloudFileFormat? FileFormat { get; set; }
+
+    /// <summary>
+    /// A textual name of the security policy.
+    /// </summary>
+    [CliOption("--short-name", Format = OptionFormat.EqualsSeparated)]
+    public string? ShortName { get; set; }
+
+    /// <summary>
+    /// Creation options. At most one of these can be specified: The name of the JSON or YAML file to create a organization security policy config from.
+    /// </summary>
+    [CliOption("--file-name", Format = OptionFormat.EqualsSeparated)]
+    public string? FileName { get; set; }
+
+    /// <summary>
+    /// Creation options. At most one of these can be specified: The type indicates the intended use of the organization security policy. SECURITY_POLICY_TYPE must be one of: CLOUD_ARMOR, FIREWALL.
+    /// </summary>
+    [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudType? Type { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Folder) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Folder or Organization must be specified.", [nameof(Folder), nameof(Organization)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(FileName) ? 1 : 0) + ((object?)Type is not null ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of FileName or Type may be specified.", [nameof(FileName), nameof(Type)]);
+        }
+        yield break;
+    }
+
 }

@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -21,10 +22,36 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "disks", "create")]
-public record GcloudPreviewComputeDisksCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> DiskName
-) : GcloudOptions
+public record GcloudPreviewComputeDisksCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create Compute Engine persistent     disks
+    /// </summary>
+    /// <param name="DiskName">Names of the disks to create. For details on the naming convention for this resource, refer to: https://cloud.google.com/compute/docs/naming-resources</param>
+    public GcloudPreviewComputeDisksCreateOptions(
+        IEnumerable<string> DiskName
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(DiskName);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(DiskName));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(DiskName));
+            }
+
+            DiskName = materialized;
+        }
+        this.DiskName = DiskName;
+    }
+
+    public void Deconstruct(out IEnumerable<string> DiskName)
+    {
+        DiskName = this.DiskName;
+    }
+
     /// <summary>
     /// Specifies how VMs attached to the disk can access the data on the disk. To grant read-only access to multiple VMs attached to the disk, set access-mode to READ_ONLY_MANY. To grant read-write access to only one VM attached to the disk, use READ_WRITE_SINGLE. READ_WRITE_SINGLE is used if omitted. ACCESS_MODE must be one of: READ_ONLY_MANY, READ_WRITE_MANY, READ_WRITE_SINGLE.
     /// </summary>
@@ -58,19 +85,19 @@ public record GcloudPreviewComputeDisksCreateOptions(
     /// <summary>
     /// Enables one or more features for VM instances that use the image for their boot disks. See the descriptions of supported features at: https://cloud.google.com/compute/docs/images/create-delete-deprecate-private-images#guest-os-features. GUEST_OS_FEATURE must be one of: BARE_METAL_LINUX_COMPATIBLE, GVNIC, IDPF, MULTI_IP_SUBNET, SEV_CAPABLE, SEV_LIVE_MIGRATABLE, SEV_LIVE_MIGRATABLE_V2, SEV_SNP_CAPABLE, SNP_SVSM_CAPABLE, TDX_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS.
     /// </summary>
-    [CliOption("--guest-os-features", Format = OptionFormat.EqualsSeparated)]
-    public GcloudGuestOsFeatures? GuestOsFeatures { get; set; }
+    [CliOption("--guest-os-features", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<GcloudGuestOsFeatures>? GuestOsFeatures { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
-    /// A list of URIs to license resources. The provided licenses will be added onto the created disks to indicate the licensing and billing policies.
+    /// A list of URIs to license resources. The provided licenses will be added onto the created disks to indicate the licensing and billing policies. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--licenses", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--licenses", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Licenses { get; set; }
 
     /// <summary>
@@ -92,10 +119,10 @@ public record GcloudPreviewComputeDisksCreateOptions(
     public string? ProvisionedThroughput { get; set; }
 
     /// <summary>
-    /// A comma-separated list of exactly 2 zones that a regional disk will be replicated to. Required when creating regional disk. The zones must be in the same region as specified in the --region flag. See available zones with gcloud compute zones list.
+    /// A comma-separated list of exactly 2 zones that a regional disk will be replicated to. Required when creating regional disk. The zones must be in the same region as specified in the --region flag. See available zones with gcloud compute zones list. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--replica-zones", Format = OptionFormat.EqualsSeparated)]
-    public string? ReplicaZones { get; set; }
+    [CliOption("--replica-zones", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ReplicaZones { get; set; }
 
     /// <summary>
     /// (DEPRECATED) Refuse to create resources not protected by a user managed key in the key file when --csek-key-file is given. This behavior is enabled by default to prevent incorrect gcloud invocations from accidentally creating resources with no user managed key. Disabling the check allows creation of some resources without a matching Customer-Supplied Encryption Key in the supplied --csek-key-file. See https://cloud.google.com/compute/docs/disks/customer-supplied-encryption for more details. The --require-csek-key-create flag is deprecated. Enabled by default, use --no-require-csek-key-create to disable.
@@ -110,15 +137,15 @@ public record GcloudPreviewComputeDisksCreateOptions(
     public bool? NoRequireCsekKeyCreate { get; set; }
 
     /// <summary>
-    /// A comma-separated list of Resource Manager tags to apply to the disk.
+    /// A comma-separated list of Resource Manager tags to apply to the disk. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ResourceManagerTags { get; set; }
 
     /// <summary>
-    /// A list of resource policy names to be added to the disk. The policies must exist in the same region as the disk.
+    /// A list of resource policy names to be added to the disk. The policies must exist in the same region as the disk. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--resource-policies", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--resource-policies", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ResourcePolicies { get; set; }
 
     /// <summary>
@@ -246,5 +273,37 @@ public record GcloudPreviewComputeDisksCreateOptions(
     /// </summary>
     [CliOption("--source-disk-zone", Format = OptionFormat.EqualsSeparated)]
     public string? SourceDiskZone { get; set; }
+
+    /// <summary>
+    /// Names of the disks to create. For details on the naming convention for this resource, refer to: https://cloud.google.com/compute/docs/naming-resources
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> DiskName { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Image) ? 1 : 0) + (!string.IsNullOrWhiteSpace(ImageFamily) ? 1 : 0) + (!string.IsNullOrWhiteSpace(PrimaryDisk) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SourceDisk) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SourceInstantSnapshot) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SourceSnapshot) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Image, ImageFamily, PrimaryDisk, SourceDisk, SourceInstantSnapshot, or SourceSnapshot may be specified.", [nameof(Image), nameof(ImageFamily), nameof(PrimaryDisk), nameof(SourceDisk), nameof(SourceInstantSnapshot), nameof(SourceSnapshot)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(KmsKey) || !string.IsNullOrWhiteSpace(KmsKeyring) || !string.IsNullOrWhiteSpace(KmsLocation) || !string.IsNullOrWhiteSpace(KmsProject) || !string.IsNullOrWhiteSpace(PrimaryDiskRegion) || !string.IsNullOrWhiteSpace(PrimaryDiskZone) || !string.IsNullOrWhiteSpace(Region) || !string.IsNullOrWhiteSpace(Zone) || !string.IsNullOrWhiteSpace(SourceDiskRegion) || !string.IsNullOrWhiteSpace(SourceDiskZone)) && (!(!string.IsNullOrWhiteSpace(KmsKey))))
+        {
+            yield return new ValidationResult("KmsKey must be specified when other arguments in this group are specified.", [nameof(KmsKey)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(KmsKey) || !string.IsNullOrWhiteSpace(KmsKeyring) || !string.IsNullOrWhiteSpace(KmsLocation) || !string.IsNullOrWhiteSpace(KmsProject) || !string.IsNullOrWhiteSpace(PrimaryDiskRegion) || !string.IsNullOrWhiteSpace(PrimaryDiskZone) || !string.IsNullOrWhiteSpace(Region) || !string.IsNullOrWhiteSpace(Zone) || !string.IsNullOrWhiteSpace(SourceDiskRegion) || !string.IsNullOrWhiteSpace(SourceDiskZone)) && ((!string.IsNullOrWhiteSpace(PrimaryDiskRegion) ? 1 : 0) + (!string.IsNullOrWhiteSpace(PrimaryDiskZone) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of PrimaryDiskRegion or PrimaryDiskZone may be specified.", [nameof(PrimaryDiskRegion), nameof(PrimaryDiskZone)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(KmsKey) || !string.IsNullOrWhiteSpace(KmsKeyring) || !string.IsNullOrWhiteSpace(KmsLocation) || !string.IsNullOrWhiteSpace(KmsProject) || !string.IsNullOrWhiteSpace(PrimaryDiskRegion) || !string.IsNullOrWhiteSpace(PrimaryDiskZone) || !string.IsNullOrWhiteSpace(Region) || !string.IsNullOrWhiteSpace(Zone) || !string.IsNullOrWhiteSpace(SourceDiskRegion) || !string.IsNullOrWhiteSpace(SourceDiskZone)) && ((!string.IsNullOrWhiteSpace(Region) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Zone) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of Region or Zone may be specified.", [nameof(Region), nameof(Zone)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(KmsKey) || !string.IsNullOrWhiteSpace(KmsKeyring) || !string.IsNullOrWhiteSpace(KmsLocation) || !string.IsNullOrWhiteSpace(KmsProject) || !string.IsNullOrWhiteSpace(PrimaryDiskRegion) || !string.IsNullOrWhiteSpace(PrimaryDiskZone) || !string.IsNullOrWhiteSpace(Region) || !string.IsNullOrWhiteSpace(Zone) || !string.IsNullOrWhiteSpace(SourceDiskRegion) || !string.IsNullOrWhiteSpace(SourceDiskZone)) && ((!string.IsNullOrWhiteSpace(SourceDiskRegion) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SourceDiskZone) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of SourceDiskRegion or SourceDiskZone may be specified.", [nameof(SourceDiskRegion), nameof(SourceDiskZone)]);
+        }
+        yield break;
+    }
 
 }

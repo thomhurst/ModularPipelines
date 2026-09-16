@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,37 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "principal-access-boundary-policies", "update")]
-public record GcloudIamPrincipalAccessBoundaryPoliciesUpdateOptions : GcloudOptions
+public record GcloudIamPrincipalAccessBoundaryPoliciesUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update     PrincipalAccessBoundaryPolicy instance
+    /// </summary>
+    /// <param name="PrincipalAccessBoundaryPolicy">PrincipalAccessBoundaryPolicy resource - Identifier. The resource name of the principal access boundary policy. The following format is supported: organizations/{organization_id}/locations/{location}/principalAccessBoundaryPolicies/{policy_id} The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the principalAccessBoundaryPolicy or fully qualified identifier for the principalAccessBoundaryPolicy. To set the principal_access_boundary_policy attribute: ▸ provide the argument principal_access_boundary_policy on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudIamPrincipalAccessBoundaryPoliciesUpdateOptions(
+        string PrincipalAccessBoundaryPolicy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PrincipalAccessBoundaryPolicy);
+        this.PrincipalAccessBoundaryPolicy = PrincipalAccessBoundaryPolicy;
+    }
+
+    public void Deconstruct(out string PrincipalAccessBoundaryPolicy)
+    {
+        PrincipalAccessBoundaryPolicy = this.PrincipalAccessBoundaryPolicy;
+    }
+
+    /// <summary>
+    /// PrincipalAccessBoundaryPolicy resource - Identifier. The resource name of the principal access boundary policy. The following format is supported: organizations/{organization_id}/locations/{location}/principalAccessBoundaryPolicies/{policy_id} The arguments in this group can be used to specify the attributes of this resource. This must be specified. The location id of the principalAccessBoundaryPolicy resource. To set the location attribute: ▸ provide the argument principal_access_boundary_policy on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// PrincipalAccessBoundaryPolicy resource - Identifier. The resource name of the principal access boundary policy. The following format is supported: organizations/{organization_id}/locations/{location}/principalAccessBoundaryPolicies/{policy_id} The arguments in this group can be used to specify the attributes of this resource. This must be specified. The organization id of the principalAccessBoundaryPolicy resource. To set the organization attribute: ▸ provide the argument principal_access_boundary_policy on the command line with a fully specified name; ▸ provide the argument --organization on the command line.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -43,13 +73,93 @@ public record GcloudIamPrincipalAccessBoundaryPoliciesUpdateOptions : GcloudOpti
     /// Update annotations. At most one of these can be specified: Set annotations to new value. User defined annotations. See https://google.aip.dev/148#annotations for more details such as format and size limitations. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --annotations=string=string JSON Example: --annotations='{"string": "string"}' File Example: --annotations=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--annotations", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? Annotations { get; set; }
+    public IEnumerable<string>? Annotations
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __AnnotationsSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AnnotationsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AnnotationsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __AnnotationsSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Update annotations. At most one of these can be specified: Or at least one of these can be specified: Update annotations value or add key value pair. User defined annotations. See https://google.aip.dev/148#annotations for more details such as format and size limitations. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --update-annotations=string=string JSON Example: --update-annotations='{"string": "string"}' File Example: --update-annotations=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--update-annotations", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? UpdateAnnotations { get; set; }
+    public IEnumerable<string>? UpdateAnnotations
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __UpdateAnnotationsSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __UpdateAnnotationsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __UpdateAnnotationsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __UpdateAnnotationsSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Update annotations. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear annotations value and set to empty map.
@@ -79,13 +189,93 @@ public record GcloudIamPrincipalAccessBoundaryPoliciesUpdateOptions : GcloudOpti
     /// Principal access boundary policy details Update details_rules. At most one of these can be specified: Set details_rules to new value. A list of principal access boundary policy rules. The number of rules in a policy is limited to 500. description The description of the principal access boundary policy rule. Must be less than or equal to 256 characters. effect The access relationship of principals to the resources in this rule. resources A list of Resource Manager resources. If a resource is listed in the rule, then the rule applies for that resource and its descendants. The number of resources in a policy is limited to 500 across all rules in the policy. The following resource types are supported: ▫ Organizations, such as //cloudresourcemanager.googleapis.com/organizations/123. ▫ Folders, such as //cloudresourcemanager.googleapis.com/folders/123. ▫ Projects, such as //cloudresourcemanager.googleapis.com/projects/123 or //cloudresourcemanager.googleapis.com/projects/my-project-id. Shorthand Example: --details-rules=description=string,effect=string,resources=[string] --details-rules=description=string,effect=string,resources=[string] JSON Example: --details-rules='[{"description": "string", "effect": "string", "resources": ["string"]}]' File Example: --details-rules=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--details-rules", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? DetailsRules { get; set; }
+    public IEnumerable<string>? DetailsRules
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __DetailsRulesSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __DetailsRulesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __DetailsRulesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __DetailsRulesSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Principal access boundary policy details Update details_rules. At most one of these can be specified: Or at least one of these can be specified: Add new value to details_rules list. A list of principal access boundary policy rules. The number of rules in a policy is limited to 500. description The description of the principal access boundary policy rule. Must be less than or equal to 256 characters. effect The access relationship of principals to the resources in this rule. resources A list of Resource Manager resources. If a resource is listed in the rule, then the rule applies for that resource and its descendants. The number of resources in a policy is limited to 500 across all rules in the policy. The following resource types are supported: ◇ Organizations, such as //cloudresourcemanager.googleapis.com/organizations/123. ◇ Folders, such as //cloudresourcemanager.googleapis.com/folders/123. ◇ Projects, such as //cloudresourcemanager.googleapis.com/projects/123 or //cloudresourcemanager.googleapis.com/projects/my-project-id. Shorthand Example: --add-details-rules=description=string,effect=string,resources=[string] --add-details-rules=description=string,effect=string,resources=[string] JSON Example: --add-details-rules='[{"description": "string", "effect": "string", "resources": ["string"]}]' File Example: --add-details-rules=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--add-details-rules", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AddDetailsRules { get; set; }
+    public IEnumerable<string>? AddDetailsRules
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __AddDetailsRulesSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddDetailsRulesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AddDetailsRulesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __AddDetailsRulesSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Principal access boundary policy details Update details_rules. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear details_rules value and set to empty list.
@@ -97,6 +287,74 @@ public record GcloudIamPrincipalAccessBoundaryPoliciesUpdateOptions : GcloudOpti
     /// Principal access boundary policy details Update details_rules. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from details_rules list. A list of principal access boundary policy rules. The number of rules in a policy is limited to 500. description The description of the principal access boundary policy rule. Must be less than or equal to 256 characters. effect The access relationship of principals to the resources in this rule. resources A list of Resource Manager resources. If a resource is listed in the rule, then the rule applies for that resource and its descendants. The number of resources in a policy is limited to 500 across all rules in the policy. The following resource types are supported: ▹ Organizations, such as //cloudresourcemanager.googleapis.com/organizations/123. ▹ Folders, such as //cloudresourcemanager.googleapis.com/folders/123. ▹ Projects, such as //cloudresourcemanager.googleapis.com/projects/123 or //cloudresourcemanager.googleapis.com/projects/my-project-id. Shorthand Example: --remove-details-rules=description=string,effect=string,resources=[string] --remove-details-rules=description=string,effect=string,resources=[string] JSON Example: --remove-details-rules='[{"description": "string", "effect": "string", "resources": ["string"]}]' File Example: --remove-details-rules=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-details-rules", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveDetailsRules { get; set; }
+    public IEnumerable<string>? RemoveDetailsRules
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __RemoveDetailsRulesSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveDetailsRulesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveDetailsRulesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __RemoveDetailsRulesSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// PrincipalAccessBoundaryPolicy resource - Identifier. The resource name of the principal access boundary policy. The following format is supported: organizations/{organization_id}/locations/{location}/principalAccessBoundaryPolicies/{policy_id} The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the principalAccessBoundaryPolicy or fully qualified identifier for the principalAccessBoundaryPolicy. To set the principal_access_boundary_policy attribute: ▸ provide the argument principal_access_boundary_policy on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PrincipalAccessBoundaryPolicy { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((((object?)Annotations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)Annotations, static item => item is not null) : ((object?)Annotations is global::System.Collections.Generic.IEnumerable<char> ? (object?)Annotations is not string || !string.IsNullOrWhiteSpace(Annotations?.ToString()) : ((object?)Annotations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Annotations, static item => item is not null) : (Annotations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Annotations), static item => item is not null))))) ? 1 : 0) + ((((object?)UpdateAnnotations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)UpdateAnnotations, static item => item is not null) : ((object?)UpdateAnnotations is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateAnnotations is not string || !string.IsNullOrWhiteSpace(UpdateAnnotations?.ToString()) : ((object?)UpdateAnnotations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateAnnotations, static item => item is not null) : (UpdateAnnotations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateAnnotations), static item => item is not null))))) || ClearAnnotations == true || !string.IsNullOrWhiteSpace(RemoveAnnotations)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Annotations or (UpdateAnnotations, ClearAnnotations, or RemoveAnnotations) may be specified.", [nameof(Annotations), nameof(UpdateAnnotations), nameof(ClearAnnotations), nameof(RemoveAnnotations)]);
+        }
+        if ((((object?)Annotations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)Annotations, static item => item is not null) : ((object?)Annotations is global::System.Collections.Generic.IEnumerable<char> ? (object?)Annotations is not string || !string.IsNullOrWhiteSpace(Annotations?.ToString()) : ((object?)Annotations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Annotations, static item => item is not null) : (Annotations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Annotations), static item => item is not null))))) || ((object?)UpdateAnnotations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)UpdateAnnotations, static item => item is not null) : ((object?)UpdateAnnotations is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateAnnotations is not string || !string.IsNullOrWhiteSpace(UpdateAnnotations?.ToString()) : ((object?)UpdateAnnotations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateAnnotations, static item => item is not null) : (UpdateAnnotations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateAnnotations), static item => item is not null))))) || ClearAnnotations == true || !string.IsNullOrWhiteSpace(RemoveAnnotations)) && (((object?)UpdateAnnotations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)UpdateAnnotations, static item => item is not null) : ((object?)UpdateAnnotations is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateAnnotations is not string || !string.IsNullOrWhiteSpace(UpdateAnnotations?.ToString()) : ((object?)UpdateAnnotations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateAnnotations, static item => item is not null) : (UpdateAnnotations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateAnnotations), static item => item is not null))))) || ClearAnnotations == true || !string.IsNullOrWhiteSpace(RemoveAnnotations)) && ((ClearAnnotations == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(RemoveAnnotations) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearAnnotations or RemoveAnnotations may be specified.", [nameof(ClearAnnotations), nameof(RemoveAnnotations)]);
+        }
+        if ((((object?)DetailsRules is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)DetailsRules, static item => item is not null) : ((object?)DetailsRules is global::System.Collections.Generic.IEnumerable<char> ? (object?)DetailsRules is not string || !string.IsNullOrWhiteSpace(DetailsRules?.ToString()) : ((object?)DetailsRules is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)DetailsRules, static item => item is not null) : (DetailsRules is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)DetailsRules), static item => item is not null))))) ? 1 : 0) + ((((object?)AddDetailsRules is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddDetailsRules, static item => item is not null) : ((object?)AddDetailsRules is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddDetailsRules is not string || !string.IsNullOrWhiteSpace(AddDetailsRules?.ToString()) : ((object?)AddDetailsRules is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddDetailsRules, static item => item is not null) : (AddDetailsRules is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddDetailsRules), static item => item is not null))))) || ClearDetailsRules == true || ((object?)RemoveDetailsRules is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveDetailsRules, static item => item is not null) : ((object?)RemoveDetailsRules is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveDetailsRules is not string || !string.IsNullOrWhiteSpace(RemoveDetailsRules?.ToString()) : ((object?)RemoveDetailsRules is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveDetailsRules, static item => item is not null) : (RemoveDetailsRules is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveDetailsRules), static item => item is not null)))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of DetailsRules or (AddDetailsRules, ClearDetailsRules, or RemoveDetailsRules) may be specified.", [nameof(DetailsRules), nameof(AddDetailsRules), nameof(ClearDetailsRules), nameof(RemoveDetailsRules)]);
+        }
+        if ((((object?)DetailsRules is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)DetailsRules, static item => item is not null) : ((object?)DetailsRules is global::System.Collections.Generic.IEnumerable<char> ? (object?)DetailsRules is not string || !string.IsNullOrWhiteSpace(DetailsRules?.ToString()) : ((object?)DetailsRules is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)DetailsRules, static item => item is not null) : (DetailsRules is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)DetailsRules), static item => item is not null))))) || ((object?)AddDetailsRules is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddDetailsRules, static item => item is not null) : ((object?)AddDetailsRules is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddDetailsRules is not string || !string.IsNullOrWhiteSpace(AddDetailsRules?.ToString()) : ((object?)AddDetailsRules is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddDetailsRules, static item => item is not null) : (AddDetailsRules is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddDetailsRules), static item => item is not null))))) || ClearDetailsRules == true || ((object?)RemoveDetailsRules is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveDetailsRules, static item => item is not null) : ((object?)RemoveDetailsRules is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveDetailsRules is not string || !string.IsNullOrWhiteSpace(RemoveDetailsRules?.ToString()) : ((object?)RemoveDetailsRules is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveDetailsRules, static item => item is not null) : (RemoveDetailsRules is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveDetailsRules), static item => item is not null)))))) && (((object?)AddDetailsRules is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddDetailsRules, static item => item is not null) : ((object?)AddDetailsRules is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddDetailsRules is not string || !string.IsNullOrWhiteSpace(AddDetailsRules?.ToString()) : ((object?)AddDetailsRules is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddDetailsRules, static item => item is not null) : (AddDetailsRules is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddDetailsRules), static item => item is not null))))) || ClearDetailsRules == true || ((object?)RemoveDetailsRules is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveDetailsRules, static item => item is not null) : ((object?)RemoveDetailsRules is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveDetailsRules is not string || !string.IsNullOrWhiteSpace(RemoveDetailsRules?.ToString()) : ((object?)RemoveDetailsRules is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveDetailsRules, static item => item is not null) : (RemoveDetailsRules is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveDetailsRules), static item => item is not null)))))) && ((ClearDetailsRules == true ? 1 : 0) + (((object?)RemoveDetailsRules is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveDetailsRules, static item => item is not null) : ((object?)RemoveDetailsRules is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveDetailsRules is not string || !string.IsNullOrWhiteSpace(RemoveDetailsRules?.ToString()) : ((object?)RemoveDetailsRules is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveDetailsRules, static item => item is not null) : (RemoveDetailsRules is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveDetailsRules), static item => item is not null))))) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearDetailsRules or RemoveDetailsRules may be specified.", [nameof(ClearDetailsRules), nameof(RemoveDetailsRules)]);
+        }
+        yield break;
+    }
 
 }

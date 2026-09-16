@@ -22,9 +22,32 @@ namespace ModularPipelines.Google.Options;
 public record GcloudRecaptchaKeysMigrateOptions : GcloudOptions
 {
     /// <summary>
+    /// migrate a key to reCAPTCHA Enterprise
+    /// </summary>
+    /// <param name="Key">Key resource - The reCAPTCHA key to migrate. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument key on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the key or fully qualified identifier for the key. To set the key attribute: ▸ provide the argument key on the command line.</param>
+    public GcloudRecaptchaKeysMigrateOptions(
+        string Key
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Key);
+        this.Key = Key;
+    }
+
+    public void Deconstruct(out string Key)
+    {
+        Key = this.Key;
+    }
+
+    /// <summary>
     /// If true, skips the billing check. If your usage of reCAPTCHA is under the free quota, you can safely skip the billing check.
     /// </summary>
     [CliFlag("--skip-billing-check")]
     public bool? SkipBillingCheck { get; set; }
+
+    /// <summary>
+    /// Key resource - The reCAPTCHA key to migrate. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument key on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the key or fully qualified identifier for the key. To set the key attribute: ▸ provide the argument key on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Key { get; private init; }
 
 }

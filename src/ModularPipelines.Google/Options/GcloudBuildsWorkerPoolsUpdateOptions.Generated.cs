@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,79 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("builds", "worker-pools", "update")]
-public record GcloudBuildsWorkerPoolsUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string WorkerPool
-) : GcloudOptions
+public record GcloudBuildsWorkerPoolsUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a worker pool used by Cloud     Build
+    /// </summary>
+    /// <param name="WorkerPool">Unique identifier for the worker pool to update. This value should be 1-63 characters, and valid characters are [a-z][0-9]-</param>
+    public GcloudBuildsWorkerPoolsUpdateOptions(
+        string WorkerPool
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkerPool);
+        this.WorkerPool = WorkerPool;
+    }
+
+    public void Deconstruct(out string WorkerPool)
+    {
+        WorkerPool = this.WorkerPool;
+    }
+
+    /// <summary>
+    /// Exactly one of these must be specified: File that contains updates to the configuration for the worker pool. See https://cloud.google.com/build/docs/private-pools/worker-pool-config-file-schema for options.
+    /// </summary>
+    [CliOption("--config-from-file", Format = OptionFormat.EqualsSeparated)]
+    public string? ConfigFromFile { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Command-line flags to configure the private pool: If set to true, workers in the worker pool are created with an external IP address. If set to false, workers in the worker pool are created without an external IP address. If the worker pool is within a VPC Service Control perimeter, use this flag. Use --public-egress to enable and --no-public-egress to disable.
+    /// </summary>
+    [CliFlag("--public-egress")]
+    public bool? PublicEgress { get; set; }
+
+    /// <summary>
+    /// Negates --public-egress. Exactly one of these must be specified: Or at least one of these can be specified: Command-line flags to configure the private pool: If set to true, workers in the worker pool are created with an external IP address. If set to false, workers in the worker pool are created without an external IP address. If the worker pool is within a VPC Service Control perimeter, use this flag. Use --public-egress to enable and --no-public-egress to disable.
+    /// </summary>
+    [CliFlag("--no-public-egress")]
+    public bool? NoPublicEgress { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Configuration to be used for creating workers in the worker pool: Size of the disk attached to the worker. If unspecified, Cloud Build uses a standard disk size.
+    /// </summary>
+    [CliOption("--worker-disk-size", Format = OptionFormat.EqualsSeparated)]
+    public int? WorkerDiskSize { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Configuration to be used for creating workers in the worker pool: Compute Engine machine type for a worker pool. If unspecified, Cloud Build uses a standard machine type.
+    /// </summary>
+    [CliOption("--worker-machine-type", Format = OptionFormat.EqualsSeparated)]
+    public string? WorkerMachineType { get; set; }
+
+    /// <summary>
+    /// Cloud region where the worker pool is updated. See https://cloud.google.com/build/docs/locations for available locations.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Unique identifier for the worker pool to update. This value should be 1-63 characters, and valid characters are [a-z][0-9]-
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string WorkerPool { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(ConfigFromFile) ? 1 : 0) + ((PublicEgress == true || NoPublicEgress == true || (object?)WorkerDiskSize is not null || !string.IsNullOrWhiteSpace(WorkerMachineType)) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of ConfigFromFile or (PublicEgress, NoPublicEgress, WorkerDiskSize, or WorkerMachineType) must be specified.", [nameof(ConfigFromFile), nameof(PublicEgress), nameof(NoPublicEgress), nameof(WorkerDiskSize), nameof(WorkerMachineType)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(ConfigFromFile) || PublicEgress == true || NoPublicEgress == true || (object?)WorkerDiskSize is not null || !string.IsNullOrWhiteSpace(WorkerMachineType)) && (PublicEgress == true || NoPublicEgress == true || (object?)WorkerDiskSize is not null || !string.IsNullOrWhiteSpace(WorkerMachineType)) && (PublicEgress == true || NoPublicEgress == true) && ((PublicEgress == true ? 1 : 0) + (NoPublicEgress == true ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of PublicEgress or NoPublicEgress may be specified.", [nameof(PublicEgress), nameof(NoPublicEgress)]);
+        }
+        yield break;
+    }
+
 }

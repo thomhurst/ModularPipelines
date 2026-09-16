@@ -21,21 +21,36 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "buckets", "notifications", "create")]
-public record GcloudStorageBucketsNotificationsCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Url
-) : GcloudOptions
+public record GcloudStorageBucketsNotificationsCreateOptions : GcloudOptions
 {
     /// <summary>
-    /// Specifies key:value attributes that are appended to the set of attributes sent to Cloud Pub/Sub for all events associated with this notification configuration.
+    /// create a notification     configuration on a bucket
     /// </summary>
-    [CliOption("--custom-attributes", Format = OptionFormat.EqualsSeparated)]
+    /// <param name="Url">URL of the bucket to create the notification configuration on.</param>
+    public GcloudStorageBucketsNotificationsCreateOptions(
+        string Url
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Url);
+        this.Url = Url;
+    }
+
+    public void Deconstruct(out string Url)
+    {
+        Url = this.Url;
+    }
+
+    /// <summary>
+    /// Specifies key:value attributes that are appended to the set of attributes sent to Cloud Pub/Sub for all events associated with this notification configuration. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--custom-attributes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? CustomAttributes { get; set; }
 
     /// <summary>
     /// Specify event type filters for this notification configuration. Cloud Storage will send notifications of only these types. By default, Cloud Storage sends notifications for all event types. * OBJECT_FINALIZE: An object has been created. * OBJECT_METADATA_UPDATE: The metadata of an object has changed. * OBJECT_DELETE: An object has been permanently deleted. * OBJECT_ARCHIVE: A live version of an object has become a noncurrent version. NOTIFICATION_EVENT_TYPE must be one of: OBJECT_ARCHIVE, OBJECT_DELETE, OBJECT_FINALIZE, OBJECT_METADATA_UPDATE.
     /// </summary>
-    [CliOption("--event-types", Format = OptionFormat.EqualsSeparated)]
-    public GcloudEventTypes? EventTypes { get; set; }
+    [CliOption("--event-types", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<GcloudEventTypes>? EventTypes { get; set; }
 
     /// <summary>
     /// Specifies a prefix path for this notification configuration. Cloud Storage will send notifications for only objects in the bucket whose names begin with the prefix.
@@ -60,5 +75,11 @@ public record GcloudStorageBucketsNotificationsCreateOptions(
     /// </summary>
     [CliOption("--topic", Format = OptionFormat.EqualsSeparated)]
     public string? Topic { get; set; }
+
+    /// <summary>
+    /// URL of the bucket to create the notification configuration on.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Url { get; private init; }
 
 }

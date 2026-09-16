@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -20,8 +21,41 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "tpus", "tpu-vm", "scp")]
-public record GcloudComputeTpusTpuVmScpOptions : GcloudOptions
+public record GcloudComputeTpusTpuVmScpOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// copy files to and from a Cloud TPU VM via     SCP
+    /// </summary>
+    /// <param name="UserInstanceSrc">Specifies the files to copy.</param>
+    /// <param name="UserInstanceDest">Specifies a destination for the source files.</param>
+    public GcloudComputeTpusTpuVmScpOptions(
+        IEnumerable<string> UserInstanceSrc,
+        string UserInstanceDest
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(UserInstanceSrc);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(UserInstanceSrc));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(UserInstanceSrc));
+            }
+
+            UserInstanceSrc = materialized;
+        }
+        this.UserInstanceSrc = UserInstanceSrc;
+        global::System.ArgumentNullException.ThrowIfNull(UserInstanceDest);
+        this.UserInstanceDest = UserInstanceDest;
+    }
+
+    public void Deconstruct(out IEnumerable<string> UserInstanceSrc, out string UserInstanceDest)
+    {
+        UserInstanceSrc = this.UserInstanceSrc;
+        UserInstanceDest = this.UserInstanceDest;
+    }
+
     /// <summary>
     /// Enable compression.
     /// </summary>
@@ -99,5 +133,27 @@ public record GcloudComputeTpusTpuVmScpOptions : GcloudOptions
     /// </summary>
     [CliOption("--ssh-key-expire-after", Format = OptionFormat.EqualsSeparated)]
     public string? SshKeyExpireAfter { get; set; }
+
+    /// <summary>
+    /// Specifies the files to copy.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> UserInstanceSrc { get; private init; }
+
+    /// <summary>
+    /// Specifies a destination for the source files.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string UserInstanceDest { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(SshKeyExpiration) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SshKeyExpireAfter) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of SshKeyExpiration or SshKeyExpireAfter may be specified.", [nameof(SshKeyExpiration), nameof(SshKeyExpireAfter)]);
+        }
+        yield break;
+    }
 
 }

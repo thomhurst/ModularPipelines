@@ -19,8 +19,74 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "commitments", "create-license")]
-public record GcloudComputeCommitmentsCreateLicenseOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Commitment
-) : GcloudOptions
+public record GcloudComputeCommitmentsCreateLicenseOptions : GcloudOptions
 {
+    /// <summary>
+    /// create Compute Engine     license-based commitments
+    /// </summary>
+    /// <param name="Amount">Number of licenses purchased.</param>
+    /// <param name="License">Applicable license URI. For example: https://www.googleapis.com/compute/v1/projects/suse-sap-cloud/global/licenses/sles-sap-12</param>
+    /// <param name="Plan">Duration of the commitment. PLAN must be one of: 12-month, 36-month.</param>
+    /// <param name="Commitment">Name of the commitment to create.</param>
+    public GcloudComputeCommitmentsCreateLicenseOptions(
+        string Amount,
+        string License,
+        string Plan,
+        string Commitment
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Amount);
+        this.Amount = Amount;
+        global::System.ArgumentNullException.ThrowIfNull(License);
+        this.License = License;
+        global::System.ArgumentNullException.ThrowIfNull(Plan);
+        this.Plan = Plan;
+        global::System.ArgumentNullException.ThrowIfNull(Commitment);
+        this.Commitment = Commitment;
+    }
+
+    public void Deconstruct(out string Amount, out string License, out string Plan, out string Commitment)
+    {
+        Amount = this.Amount;
+        License = this.License;
+        Plan = this.Plan;
+        Commitment = this.Commitment;
+    }
+
+    /// <summary>
+    /// Number of licenses purchased.
+    /// </summary>
+    [CliOption("--amount", Format = OptionFormat.EqualsSeparated)]
+    public string Amount { get; private init; }
+
+    /// <summary>
+    /// Applicable license URI. For example: https://www.googleapis.com/compute/v1/projects/suse-sap-cloud/global/licenses/sles-sap-12
+    /// </summary>
+    [CliOption("--license", Format = OptionFormat.EqualsSeparated)]
+    public string License { get; private init; }
+
+    /// <summary>
+    /// Duration of the commitment. PLAN must be one of: 12-month, 36-month.
+    /// </summary>
+    [CliOption("--plan", Format = OptionFormat.EqualsSeparated)]
+    public string Plan { get; private init; }
+
+    /// <summary>
+    /// Core range of the instance. Must be one of: 1-2, 3-4, 5+. Required for SAP licenses.
+    /// </summary>
+    [CliOption("--cores-per-license", Format = OptionFormat.EqualsSeparated)]
+    public string? CoresPerLicense { get; set; }
+
+    /// <summary>
+    /// Region of the commitment to create. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Name of the commitment to create.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Commitment { get; private init; }
+
 }

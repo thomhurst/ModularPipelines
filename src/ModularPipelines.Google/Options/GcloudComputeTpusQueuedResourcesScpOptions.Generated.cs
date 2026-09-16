@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -20,8 +21,41 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "tpus", "queued-resources", "scp")]
-public record GcloudComputeTpusQueuedResourcesScpOptions : GcloudOptions
+public record GcloudComputeTpusQueuedResourcesScpOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// copy files to and from a Cloud     TPU Queued Resource via SCP
+    /// </summary>
+    /// <param name="UserInstanceSrc">Specifies the files to copy.</param>
+    /// <param name="UserInstanceDest">Specifies a destination for the source files.</param>
+    public GcloudComputeTpusQueuedResourcesScpOptions(
+        IEnumerable<string> UserInstanceSrc,
+        string UserInstanceDest
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(UserInstanceSrc);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(UserInstanceSrc));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(UserInstanceSrc));
+            }
+
+            UserInstanceSrc = materialized;
+        }
+        this.UserInstanceSrc = UserInstanceSrc;
+        global::System.ArgumentNullException.ThrowIfNull(UserInstanceDest);
+        this.UserInstanceDest = UserInstanceDest;
+    }
+
+    public void Deconstruct(out IEnumerable<string> UserInstanceSrc, out string UserInstanceDest)
+    {
+        UserInstanceSrc = this.UserInstanceSrc;
+        UserInstanceDest = this.UserInstanceDest;
+    }
+
     /// <summary>
     /// Batch size for simultaneous command execution on the client's side. When using a comma-separated list (e.g. '1,4,6') or a range (e.g. '1-3') or ``all`` keyword in --worker flag, it executes the command concurrently in groups of the batch size. This flag takes a value greater than 0 to specify the batch size to control the concurrent connections that can be established with the TPU workers, or the special keyword ``all`` to allow the concurrent command executions on all the specified workers in --worker flag. Maximum value of this flag should not be more than the number of specified workers, otherwise the value will be treated as ``--batch-size=all``.
     /// </summary>
@@ -117,5 +151,31 @@ public record GcloudComputeTpusQueuedResourcesScpOptions : GcloudOptions
     /// </summary>
     [CliOption("--ssh-key-expire-after", Format = OptionFormat.EqualsSeparated)]
     public string? SshKeyExpireAfter { get; set; }
+
+    /// <summary>
+    /// Specifies the files to copy.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> UserInstanceSrc { get; private init; }
+
+    /// <summary>
+    /// Specifies a destination for the source files.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string UserInstanceDest { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((InternalIp == true ? 1 : 0) + (TunnelThroughIap == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of InternalIp or TunnelThroughIap may be specified.", [nameof(InternalIp), nameof(TunnelThroughIap)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(SshKeyExpiration) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SshKeyExpireAfter) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of SshKeyExpiration or SshKeyExpireAfter may be specified.", [nameof(SshKeyExpiration), nameof(SshKeyExpireAfter)]);
+        }
+        yield break;
+    }
 
 }

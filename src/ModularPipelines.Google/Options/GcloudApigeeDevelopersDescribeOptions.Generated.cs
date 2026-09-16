@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("apigee", "developers", "describe")]
 public record GcloudApigeeDevelopersDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe an Apigee developer
+    /// </summary>
+    /// <param name="Developer">Developer resource - Email address of the developer to be described. To get a list of available developers, run gcloud apigee developers list. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the developer or fully qualified identifier for the developer. To set the developer attribute: ▸ provide the argument DEVELOPER on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudApigeeDevelopersDescribeOptions(
+        string Developer
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Developer);
+        this.Developer = Developer;
+    }
+
+    public void Deconstruct(out string Developer)
+    {
+        Developer = this.Developer;
+    }
+
+    /// <summary>
+    /// Developer resource - Email address of the developer to be described. To get a list of available developers, run gcloud apigee developers list. The arguments in this group can be used to specify the attributes of this resource. This must be specified. Apigee organization containing the developer. If unspecified, the Cloud Platform project's associated organization will be used. To set the organization attribute: ▸ provide the argument DEVELOPER on the command line with a fully specified name; ▸ provide the argument --organization on the command line; ▸ set the property [project] or provide the argument [--project] on the command line, using a Cloud Platform project with an associated Apigee organization.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Developer resource - Email address of the developer to be described. To get a list of available developers, run gcloud apigee developers list. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the developer or fully qualified identifier for the developer. To set the developer attribute: ▸ provide the argument DEVELOPER on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Developer { get; private init; }
+
 }

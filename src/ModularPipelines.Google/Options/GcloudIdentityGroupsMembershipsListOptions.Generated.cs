@@ -23,6 +23,29 @@ namespace ModularPipelines.Google.Options;
 public record GcloudIdentityGroupsMembershipsListOptions : GcloudOptions
 {
     /// <summary>
+    /// list memberships in an existing     group
+    /// </summary>
+    /// <param name="GroupEmail">The email address of the group to show members for.</param>
+    public GcloudIdentityGroupsMembershipsListOptions(
+        string GroupEmail
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GroupEmail);
+        this.GroupEmail = GroupEmail;
+    }
+
+    public void Deconstruct(out string GroupEmail)
+    {
+        GroupEmail = this.GroupEmail;
+    }
+
+    /// <summary>
+    /// The email address of the group to show members for.
+    /// </summary>
+    [CliOption("--group-email", Format = OptionFormat.EqualsSeparated)]
+    public string GroupEmail { get; private init; }
+
+    /// <summary>
     /// The next_page_token value returned from a previous list request, if any.
     /// </summary>
     [SecretValue]

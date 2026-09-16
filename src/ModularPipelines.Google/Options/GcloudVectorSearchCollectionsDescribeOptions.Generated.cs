@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("vector-search", "collections", "describe")]
 public record GcloudVectorSearchCollectionsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a collection
+    /// </summary>
+    /// <param name="Collection">Collection resource - Name of the resource The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument collection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the collection or fully qualified identifier for the collection. To set the collection attribute: ▸ provide the argument collection on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudVectorSearchCollectionsDescribeOptions(
+        string Collection
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Collection);
+        this.Collection = Collection;
+    }
+
+    public void Deconstruct(out string Collection)
+    {
+        Collection = this.Collection;
+    }
+
+    /// <summary>
+    /// Collection resource - Name of the resource The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument collection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the collection resource. To set the location attribute: ▸ provide the argument collection on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Collection resource - Name of the resource The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument collection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the collection or fully qualified identifier for the collection. To set the collection attribute: ▸ provide the argument collection on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Collection { get; private init; }
+
 }

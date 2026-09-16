@@ -37,9 +37,6 @@ public enum GcloudGuestOsFeatures
     [EnumValue("SEV_SNP_CAPABLE")]
     SevSnpCapable,
 
-    [EnumValue("SNP_SVSM_CAPABLE")]
-    SnpSvsmCapable,
-
     [EnumValue("TDX_CAPABLE")]
     TdxCapable,
 

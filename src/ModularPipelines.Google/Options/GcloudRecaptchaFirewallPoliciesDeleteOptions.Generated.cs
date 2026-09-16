@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("recaptcha", "firewall-policies", "delete")]
 public record GcloudRecaptchaFirewallPoliciesDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete one or more reCAPTCHA     Firewall Policies
+    /// </summary>
+    /// <param name="FirewallPolicy">Firewall policy resource - The reCAPTCHA firewall policy to delete. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument firewall_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the firewall_policy or fully qualified identifier for the firewall_policy. To set the firewall_policy attribute: ▸ provide the argument firewall_policy on the command line.</param>
+    public GcloudRecaptchaFirewallPoliciesDeleteOptions(
+        string FirewallPolicy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FirewallPolicy);
+        this.FirewallPolicy = FirewallPolicy;
+    }
+
+    public void Deconstruct(out string FirewallPolicy)
+    {
+        FirewallPolicy = this.FirewallPolicy;
+    }
+
+    /// <summary>
+    /// Firewall policy resource - The reCAPTCHA firewall policy to delete. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument firewall_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the firewall_policy or fully qualified identifier for the firewall_policy. To set the firewall_policy attribute: ▸ provide the argument firewall_policy on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string FirewallPolicy { get; private init; }
+
 }

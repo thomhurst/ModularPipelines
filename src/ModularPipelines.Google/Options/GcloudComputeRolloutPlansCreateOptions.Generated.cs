@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +22,50 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("compute", "rollout-plans", "create")]
 public record GcloudComputeRolloutPlansCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a Google Compute Engine     rollout plan
+    /// </summary>
+    /// <param name="WavesFromFile">Path to a YAML or JSON file containing the wave definitions for the rollout plan.</param>
+    /// <param name="Name">Rollout plan resource - Name of the rollout plan to create. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument name on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the rollout plan or fully qualified identifier for the rollout plan. To set the name attribute: ▸ provide the argument name on the command line.</param>
+    public GcloudComputeRolloutPlansCreateOptions(
+        string WavesFromFile,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WavesFromFile);
+        this.WavesFromFile = WavesFromFile;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string WavesFromFile, out string Name)
+    {
+        WavesFromFile = this.WavesFromFile;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Path to a YAML or JSON file containing the wave definitions for the rollout plan.
+    /// </summary>
+    [CliOption("--waves-from-file", Format = OptionFormat.EqualsSeparated)]
+    public string WavesFromFile { get; private init; }
+
+    /// <summary>
+    /// An optional description of this rollout plan.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// The location scope of the rollout plan. LOCATION_SCOPE must be one of: ZONAL, REGIONAL.
+    /// </summary>
+    [CliOption("--location-scope", Format = OptionFormat.EqualsSeparated)]
+    public GcloudLocationScope? LocationScope { get; set; }
+
+    /// <summary>
+    /// Rollout plan resource - Name of the rollout plan to create. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument name on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the rollout plan or fully qualified identifier for the rollout plan. To set the name attribute: ▸ provide the argument name on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }

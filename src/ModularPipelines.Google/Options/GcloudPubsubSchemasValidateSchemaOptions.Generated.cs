@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,51 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pubsub", "schemas", "validate-schema")]
-public record GcloudPubsubSchemasValidateSchemaOptions : GcloudOptions
+public record GcloudPubsubSchemasValidateSchemaOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// validate a Pub/Sub schema
+    /// </summary>
+    /// <param name="Type">Type of the schema. TYPE must be one of: avro, protocol-buffer.</param>
+    public GcloudPubsubSchemasValidateSchemaOptions(
+        GcloudType Type
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+    }
+
+    public void Deconstruct(out GcloudType Type)
+    {
+        Type = this.Type;
+    }
+
+    /// <summary>
+    /// Type of the schema. TYPE must be one of: avro, protocol-buffer.
+    /// </summary>
+    [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudType Type { get; private init; }
+
+    /// <summary>
+    /// Schema definition. Exactly one of these must be specified: Inline schema definition.
+    /// </summary>
+    [CliOption("--definition", Format = OptionFormat.EqualsSeparated)]
+    public string? Definition { get; set; }
+
+    /// <summary>
+    /// Schema definition. Exactly one of these must be specified: File containing schema definition. Use a full or relative path to a local file containing the value of definition_file.
+    /// </summary>
+    [CliOption("--definition-file", Format = OptionFormat.EqualsSeparated)]
+    public string? DefinitionFile { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Definition) ? 1 : 0) + (!string.IsNullOrWhiteSpace(DefinitionFile) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Definition or DefinitionFile must be specified.", [nameof(Definition), nameof(DefinitionFile)]);
+        }
+        yield break;
+    }
+
 }

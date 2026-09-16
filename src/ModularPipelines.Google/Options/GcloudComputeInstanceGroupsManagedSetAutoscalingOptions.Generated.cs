@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +21,206 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "instance-groups", "managed", "set-autoscaling")]
-public record GcloudComputeInstanceGroupsManagedSetAutoscalingOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudComputeInstanceGroupsManagedSetAutoscalingOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// set autoscaling     parameters of a managed instance group
+    /// </summary>
+    /// <param name="MaxNumReplicas">Maximum number of replicas Autoscaler can set.</param>
+    /// <param name="Name">Name of the managed instance group to operate on.</param>
+    public GcloudComputeInstanceGroupsManagedSetAutoscalingOptions(
+        string MaxNumReplicas,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MaxNumReplicas);
+        this.MaxNumReplicas = MaxNumReplicas;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string MaxNumReplicas, out string Name)
+    {
+        MaxNumReplicas = this.MaxNumReplicas;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Maximum number of replicas Autoscaler can set.
+    /// </summary>
+    [CliOption("--max-num-replicas", Format = OptionFormat.EqualsSeparated)]
+    public string MaxNumReplicas { get; private init; }
+
+    /// <summary>
+    /// The number of seconds that your application takes to initialize on a VM instance. This is referred to as the initialization period (https://cloud.google.com/compute/docs/autoscaler#cool_down_period). Specifying an accurate initialization period improves autoscaler decisions. For example, when scaling out, the autoscaler ignores data from VMs that are still initializing because those VMs might not yet represent normal usage of your application. The default initialization period is 60 seconds. See $ gcloud topic datetimes for information on duration formats. Initialization periods might vary because of numerous factors. We recommend that you test how long your application may take to initialize. To do this, create a VM and time your application's startup process.
+    /// </summary>
+    [CliOption("--cool-down-period", Format = OptionFormat.EqualsSeparated)]
+    public string? CoolDownPeriod { get; set; }
+
+    /// <summary>
+    /// Indicates whether to use a predictive algorithm when scaling based on CPU. CPU_UTILIZATION_PREDICTIVE_METHOD must be one of: none (Default) No predictions are made when calculating the number of VM instances. optimize-availability Predictive autoscaling predicts the future values of the scaling metric and scales the group in advance to ensure that new VM instances are ready in time to cover the predicted peak.
+    /// </summary>
+    [CliOption("--cpu-utilization-predictive-method", Format = OptionFormat.EqualsSeparated)]
+    public string? CpuUtilizationPredictiveMethod { get; set; }
+
+    /// <summary>
+    /// Adds a target metric value for the Autoscaler to use. metric Protocol-free URL of a Google Cloud Monitoring metric. utilization-target Value of the metric Autoscaler aims to maintain (greater than 0.0). utilization-target-type How target is expressed. Valid values: DELTA_PER_MINUTE, DELTA_PER_SECOND, GAUGE. Mutually exclusive with --update-stackdriver-metric.
+    /// </summary>
+    [CliOption("--custom-metric-utilization", Format = OptionFormat.EqualsSeparated)]
+    public string? CustomMetricUtilization { get; set; }
+
+    /// <summary>
+    /// Notes about Autoscaler.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Minimum number of replicas Autoscaler can set.
+    /// </summary>
+    [CliOption("--min-num-replicas", Format = OptionFormat.EqualsSeparated)]
+    public string? MinNumReplicas { get; set; }
+
+    /// <summary>
+    /// Set the mode of an autoscaler for a managed instance group. You can turn off or restrict a group's autoscaler activities without affecting your autoscaler configuration. The autoscaler configuration persists while the activities are turned off or restricted, and the activities resume when the autoscaler is turned on again or when the restrictions are lifted. MODE must be one of: off Turns off autoscaling, while keeping the new configuration. on Permits autoscaling to scale out and in (default for new autoscalers). only-scale-out Permits autoscaling to scale only out and not in. only-up (DEPRECATED) Permits autoscaling to scale only out and not in. Value only-up is deprecated. Use --mode only-scale-out instead.
+    /// </summary>
+    [CliOption("--mode", Format = OptionFormat.EqualsSeparated)]
+    public string? Mode { get; set; }
+
+    /// <summary>
+    /// Stackdriver metric to remove from autoscaling configuration. If the metric is the only input used for autoscaling the command will fail.
+    /// </summary>
+    [CliOption("--remove-stackdriver-metric", Format = OptionFormat.EqualsSeparated)]
+    public string? RemoveStackdriverMetric { get; set; }
+
+    /// <summary>
+    /// Autoscaler will be based on CPU utilization.
+    /// </summary>
+    [CliFlag("--scale-based-on-cpu")]
+    public bool? ScaleBasedOnCpu { get; set; }
+
+    /// <summary>
+    /// Use autoscaling based on load balancing utilization.
+    /// </summary>
+    [CliFlag("--scale-based-on-load-balancing")]
+    public bool? ScaleBasedOnLoadBalancing { get; set; }
+
+    /// <summary>
+    /// Configuration that allows slower scale in so that even if Autoscaler recommends an abrupt scale in of a managed instance group, it will be throttled as specified by the parameters. max-scaled-in-replicas Maximum allowed number of VMs that can be deducted from the peak recommendation during the window. Possibly all these VMs can be deleted at once so the application needs to be prepared to lose that many VMs in one step. Mutually exclusive with 'max-scaled-in-replicas-percent'. max-scaled-in-replicas-percent Maximum allowed percent of VMs that can be deducted from the peak recommendation during the window. Possibly all these VMs can be deleted at once so the application needs to be prepared to lose that many VMs in one step. Mutually exclusive with 'max-scaled-in-replicas'. time-window How long back autoscaling should look when computing recommendations. The autoscaler will not resize below the maximum allowed deduction subtracted from the peak size observed in this period. Measured in seconds.
+    /// </summary>
+    [CliOption("--scale-in-control", Format = OptionFormat.EqualsSeparated)]
+    public string? ScaleInControl { get; set; }
+
+    /// <summary>
+    /// Unique name for the scaling schedule.
+    /// </summary>
+    [CliOption("--set-schedule", Format = OptionFormat.EqualsSeparated)]
+    public string? SetSchedule { get; set; }
+
+    /// <summary>
+    /// The number of seconds that the autoscaler waits for load stabilization before making scale-in decisions. For more information, see stabilization period (https://cloud.google.com/compute/docs/autoscaler#stabilization_period).
+    /// </summary>
+    [CliOption("--stabilization-period", Format = OptionFormat.EqualsSeparated)]
+    public string? StabilizationPeriod { get; set; }
+
+    /// <summary>
+    /// Expression for filtering samples used to autoscale, see https://cloud.google.com/monitoring/api/v3/filters.
+    /// </summary>
+    [CliOption("--stackdriver-metric-filter", Format = OptionFormat.EqualsSeparated)]
+    public string? StackdriverMetricFilter { get; set; }
+
+    /// <summary>
+    /// Value that indicates the amount of work that each instance is expected to handle. Autoscaler maintains enough VMs by dividing the available work by this value. Mutually exclusive with -stackdriver-metric-utilization-target-type, -stackdriver-metric-utilization-target-type, and --custom-metric-utilization.
+    /// </summary>
+    [CliOption("--stackdriver-metric-single-instance-assignment", Format = OptionFormat.EqualsSeparated)]
+    public string? StackdriverMetricSingleInstanceAssignment { get; set; }
+
+    /// <summary>
+    /// Value of the metric Autoscaler aims to maintain. When specifying this flag you must also provide --stackdriver-metric-utilization-target-type. Mutually exclusive with --stackdriver-metric-single-instance-assignment and --custom-metric-utilization.
+    /// </summary>
+    [CliOption("--stackdriver-metric-utilization-target", Format = OptionFormat.EqualsSeparated)]
+    public string? StackdriverMetricUtilizationTarget { get; set; }
+
+    /// <summary>
+    /// Value of the metric Autoscaler aims to maintain. When specifying this flag you must also provide --stackdriver-metric-utilization-target. Mutually exclusive with --stackdriver-metric-single-instance-assignment and --custom-metric-utilization. TARGET_TYPE must be one of: delta-per-minute, delta-per-second, gauge.
+    /// </summary>
+    [CliOption("--stackdriver-metric-utilization-target-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudStackdriverMetricUtilizationTargetType? StackdriverMetricUtilizationTargetType { get; set; }
+
+    /// <summary>
+    /// Autoscaler aims to maintain CPU utilization at target level (0.0 to 1.0).
+    /// </summary>
+    [CliOption("--target-cpu-utilization", Format = OptionFormat.EqualsSeparated)]
+    public string? TargetCpuUtilization { get; set; }
+
+    /// <summary>
+    /// Autoscaler aims to maintain the load balancing utilization level (greater than 0.0).
+    /// </summary>
+    [CliOption("--target-load-balancing-utilization", Format = OptionFormat.EqualsSeparated)]
+    public string? TargetLoadBalancingUtilization { get; set; }
+
+    /// <summary>
+    /// Stackdriver metric to use as an input for autoscaling. When using this flag, the target value of the metric must also be specified by using the following flags: --stackdriver-metric-single-instance-assignment or --stackdriver-metric-utilization-target and --stackdriver-metric-utilization-target-type. Mutually exclusive with --custom-metric-utilization.
+    /// </summary>
+    [CliOption("--update-stackdriver-metric", Format = OptionFormat.EqualsSeparated)]
+    public string? UpdateStackdriverMetric { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the managed instance group to operate on. If not specified, you might be prompted to select a region (interactive mode only). A list of regions can be fetched by running: $ gcloud compute regions list Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Zone of the managed instance group to operate on. If not specified, you might be prompted to select a zone (interactive mode only). A list of zones can be fetched by running: $ gcloud compute zones list Overrides the default compute/zone property value for this command invocation.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <summary>
+    /// Start time of the scaling schedule in cron format. This is when the autoscaler starts creating new VMs, if the group's current size is less than the minimum required instances. Set the start time to allow enough time for new VMs to boot and initialize. For example if your workload takes 10 minutes from VM creation to start serving then set the start time 10 minutes earlier than the time you need VMs to be ready.
+    /// </summary>
+    [CliOption("--schedule-cron", Format = OptionFormat.EqualsSeparated)]
+    public string? ScheduleCron { get; set; }
+
+    /// <summary>
+    /// A verbose description of the scaling schedule.
+    /// </summary>
+    [CliOption("--schedule-description", Format = OptionFormat.EqualsSeparated)]
+    public string? ScheduleDescription { get; set; }
+
+    /// <summary>
+    /// How long should the scaling schedule be active, measured in seconds. Minimum duration is 5 minutes. A scaling schedule is active from its start time and for its configured duration. During this time, the autoscaler scales the group to have at least as many VMs as defined by the minimum required instances. After the configured duration, if there is no need to maintain capacity, the autoscaler starts removing instances after the usual stabilization period and after scale-in controls (if configured). For more information, see Delays in scaling in (https://cloud.google.com/compute/docs/autoscaler/understanding-autoscaler-decisions#delays_in_scaling_in) and Scale-in controls (https://cloud.google.com/compute/docs/autoscaler/understanding-autoscaler-decisions#scale-in_controls). This ensures you don't accidentally lose capacity immediately after the scaling schedule ends.
+    /// </summary>
+    [CliOption("--schedule-duration-sec", Format = OptionFormat.EqualsSeparated)]
+    public string? ScheduleDurationSec { get; set; }
+
+    /// <summary>
+    /// How many VMs the autoscaler should provision for the duration of this scaling schedule. Autoscaler provides at least this number of instances when the scaling schedule is active. A managed instance group can have more VMs if there are other scaling schedules active with more required instances or if another signal (for example, scaling based on CPU) requires more instances to meet its target. This configuration does not change autoscaling minimum and maximum instance limits which are always in effect. Autoscaler does not create more than the maximum number of instances configured for a group.
+    /// </summary>
+    [CliOption("--schedule-min-required-replicas", Format = OptionFormat.EqualsSeparated)]
+    public string? ScheduleMinRequiredReplicas { get; set; }
+
+    /// <summary>
+    /// Name of the timezone that the scaling schedule's start time is in. It should be provided as a name from the IANA tz database (for example Europe/Paris or UTC). It automatically adjusts for daylight savings time (DST). If no time zone is provided, UTC is used as a default. See https://en.wikipedia.org/wiki/List_of_tz_database_time_zones for the list of valid timezones.
+    /// </summary>
+    [CliOption("--schedule-time-zone", Format = OptionFormat.EqualsSeparated)]
+    public string? ScheduleTimeZone { get; set; }
+
+    /// <summary>
+    /// Name of the managed instance group to operate on.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Region) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Zone) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Region or Zone may be specified.", [nameof(Region), nameof(Zone)]);
+        }
+        yield break;
+    }
+
 }

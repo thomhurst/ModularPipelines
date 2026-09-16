@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -20,7 +21,7 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "addresses", "create")]
-public record GcloudPreviewComputeAddressesCreateOptions : GcloudOptions
+public record GcloudPreviewComputeAddressesCreateOptions : GcloudOptions, IValidatableObject
 {
     /// <summary>
     /// An optional textual description for the addresses.
@@ -65,10 +66,32 @@ public record GcloudPreviewComputeAddressesCreateOptions : GcloudOptions
     public string? Subnet { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Ephemeral IP addresses to promote to reserved status. Only addresses that are being used by resources in the project can be promoted. When providing this flag, a parallel list of names for the addresses can be provided. For example, $ gcloud preview compute addresses create ADDRESS-1 ADDRESS-2 \ --addresses 162.222.181.197,162.222.181.198 \ --region us-central1 will result in 162.222.181.197 being reserved as 'ADDRESS-1' and 162.222.181.198 as 'ADDRESS-2'. If no names are given, server-generated names will be assigned to the IP addresses.
+    /// At most one of these can be specified: Ephemeral IP addresses to promote to reserved status. Only addresses that are being used by resources in the project can be promoted. When providing this flag, a parallel list of names for the addresses can be provided. For example, $ gcloud preview compute addresses create ADDRESS-1 ADDRESS-2 \ --addresses 162.222.181.197,162.222.181.198 \ --region us-central1 will result in 162.222.181.197 being reserved as 'ADDRESS-1' and 162.222.181.198 as 'ADDRESS-2'. If no names are given, server-generated names will be assigned to the IP addresses. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--addresses", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? Addresses { get; set; }
+    [CliOption("--addresses", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Addresses
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddressesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AddressesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// At most one of these can be specified: Version of the IP address to be allocated and reserved. The default is IPV4. IP version can only be specified for global addresses that are generated automatically (i.e., along with the --global flag, given --addresses is not specified) and if the --network-tier is PREMIUM. IP_VERSION must be one of: IPV4, IPV6.
@@ -99,5 +122,29 @@ public record GcloudPreviewComputeAddressesCreateOptions : GcloudOptions
     /// </summary>
     [CliOption("--ip-collection", Format = OptionFormat.EqualsSeparated)]
     public string? IpCollection { get; set; }
+
+    /// <summary>
+    /// Names of the addresses to create.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public IEnumerable<string>? Name { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((((object?)Addresses is global::System.Collections.Generic.IEnumerable<char> ? (object?)Addresses is not string || !string.IsNullOrWhiteSpace(Addresses?.ToString()) : ((object?)Addresses is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Addresses, static item => item is not null) : (Addresses is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Addresses), static item => item is not null)))) ? 1 : 0) + ((object?)IpVersion is not null ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Addresses or IpVersion may be specified.", [nameof(Addresses), nameof(IpVersion)]);
+        }
+        if ((Global == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(Region) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Global or Region may be specified.", [nameof(Global), nameof(Region)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(InternalRange) ? 1 : 0) + (!string.IsNullOrWhiteSpace(IpCollection) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of InternalRange or IpCollection may be specified.", [nameof(InternalRange), nameof(IpCollection)]);
+        }
+        yield break;
+    }
 
 }

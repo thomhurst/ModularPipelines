@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -20,8 +21,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "ssh")]
-public record GcloudComputeSshOptions : GcloudOptions
+public record GcloudComputeSshOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// SSH into a virtual machine instance
+    /// </summary>
+    /// <param name="UserInstance">Specifies the instance to SSH into. USER specifies the username with which to SSH. If omitted, the user login name is used. If using OS Login, USER will be replaced by the OS Login user. INSTANCE specifies the name of the virtual machine instance to SSH into.</param>
+    public GcloudComputeSshOptions(
+        string UserInstance
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(UserInstance);
+        this.UserInstance = UserInstance;
+    }
+
+    public void Deconstruct(out string UserInstance)
+    {
+        UserInstance = this.UserInstance;
+    }
+
     /// <summary>
     /// A command to run on the virtual machine. Runs the command on the target instance and then exits.
     /// </summary>
@@ -123,5 +141,31 @@ public record GcloudComputeSshOptions : GcloudOptions
     /// </summary>
     [CliOption("--ssh-key-expire-after", Format = OptionFormat.EqualsSeparated)]
     public string? SshKeyExpireAfter { get; set; }
+
+    /// <summary>
+    /// Specifies the instance to SSH into. USER specifies the username with which to SSH. If omitted, the user login name is used. If using OS Login, USER will be replaced by the OS Login user. INSTANCE specifies the name of the virtual machine instance to SSH into.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string UserInstance { get; private init; }
+
+    /// <summary>
+    /// Flags and positionals passed to the underlying ssh implementation. The '--' argument must be specified between gcloud specific args on the left and SSH_ARGS on the right. Example: $ gcloud compute ssh example-instance --zone=us-central1-a -- -vvv \ -L 80:%INSTANCE%:80
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true)]
+    public IEnumerable<string>? SshArgs { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((InternalIp == true ? 1 : 0) + (TunnelThroughIap == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of InternalIp or TunnelThroughIap may be specified.", [nameof(InternalIp), nameof(TunnelThroughIap)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(SshKeyExpiration) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SshKeyExpireAfter) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of SshKeyExpiration or SshKeyExpireAfter may be specified.", [nameof(SshKeyExpiration), nameof(SshKeyExpireAfter)]);
+        }
+        yield break;
+    }
 
 }

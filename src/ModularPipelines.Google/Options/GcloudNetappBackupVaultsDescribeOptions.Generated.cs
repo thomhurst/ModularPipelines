@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("netapp", "backup-vaults", "describe")]
 public record GcloudNetappBackupVaultsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// show metadata for a Cloud NetApp     Volumes Backup Vault
+    /// </summary>
+    /// <param name="BackupVault">Backup vault resource - The Backup Vault to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument backup_vault on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the backup_vault or fully qualified identifier for the backup_vault. To set the backup_vault attribute: ▸ provide the argument backup_vault on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetappBackupVaultsDescribeOptions(
+        string BackupVault
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BackupVault);
+        this.BackupVault = BackupVault;
+    }
+
+    public void Deconstruct(out string BackupVault)
+    {
+        BackupVault = this.BackupVault;
+    }
+
+    /// <summary>
+    /// Backup vault resource - The Backup Vault to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument backup_vault on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the backup_vault. To set the location attribute: ▸ provide the argument backup_vault on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property netapp/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Backup vault resource - The Backup Vault to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument backup_vault on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the backup_vault or fully qualified identifier for the backup_vault. To set the backup_vault attribute: ▸ provide the argument backup_vault on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string BackupVault { get; private init; }
+
 }

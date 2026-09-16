@@ -44,6 +44,7 @@ public class GcloudCompute : IGcloudCompute
     private GcloudComputeHttpHealthChecks? _httpHealthChecks;
     private GcloudComputeHttpsHealthChecks? _httpsHealthChecks;
     private GcloudComputeImages? _images;
+    private GcloudComputeImageViews? _imageViews;
     private GcloudComputeInstanceGroups? _instanceGroups;
     private GcloudComputeInstances? _instances;
     private GcloudComputeInstanceTemplates? _instanceTemplates;
@@ -226,6 +227,11 @@ public class GcloudCompute : IGcloudCompute
     /// gcloud images sub-commands.
     /// </summary>
     public GcloudComputeImages Images => _images ??= new GcloudComputeImages(_command);
+
+    /// <summary>
+    /// gcloud image-views sub-commands.
+    /// </summary>
+    public GcloudComputeImageViews ImageViews => _imageViews ??= new GcloudComputeImageViews(_command);
 
     /// <summary>
     /// gcloud instance-groups sub-commands.
@@ -554,11 +560,11 @@ public class GcloudCompute : IGcloudCompute
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ConnectToSerialPortAsync(
-        GcloudComputeConnectToSerialPortOptions? options = null,
+        GcloudComputeConnectToSerialPortOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeConnectToSerialPortOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -569,11 +575,11 @@ public class GcloudCompute : IGcloudCompute
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CopyFilesAsync(
-        GcloudComputeCopyFilesOptions? options = null,
+        GcloudComputeCopyFilesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeCopyFilesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -599,11 +605,11 @@ public class GcloudCompute : IGcloudCompute
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ScpAsync(
-        GcloudComputeScpOptions? options = null,
+        GcloudComputeScpOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeScpOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -629,11 +635,11 @@ public class GcloudCompute : IGcloudCompute
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SshAsync(
-        GcloudComputeSshOptions? options = null,
+        GcloudComputeSshOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeSshOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

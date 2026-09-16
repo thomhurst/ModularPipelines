@@ -22,6 +22,35 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDesignCenterSpacesApplicationTemplatesCreateOptions : GcloudOptions
 {
     /// <summary>
+    /// create an     application template
+    /// </summary>
+    /// <param name="ApplicationTemplate">ApplicationTemplate resource - Identifier. Application template name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument application_template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the applicationTemplate or fully qualified identifier for the applicationTemplate. To set the application_template attribute: ▸ provide the argument application_template on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDesignCenterSpacesApplicationTemplatesCreateOptions(
+        string ApplicationTemplate
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationTemplate);
+        this.ApplicationTemplate = ApplicationTemplate;
+    }
+
+    public void Deconstruct(out string ApplicationTemplate)
+    {
+        ApplicationTemplate = this.ApplicationTemplate;
+    }
+
+    /// <summary>
+    /// ApplicationTemplate resource - Identifier. Application template name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument application_template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the applicationTemplate resource. To set the location attribute: ▸ provide the argument application_template on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// ApplicationTemplate resource - Identifier. Application template name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument application_template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The space id of the applicationTemplate resource. To set the space attribute: ▸ provide the argument application_template on the command line with a fully specified name; ▸ provide the argument --space on the command line.
+    /// </summary>
+    [CliOption("--space", Format = OptionFormat.EqualsSeparated)]
+    public string? Space { get; set; }
+
+    /// <summary>
     /// Parameters to apply to all components in an application. You can specify projectID and region. key The key of the parameter. value The value of the parameter. Shorthand Example: --application-parameters=key=string,value={...} --application-parameters=key=string,value={...} JSON Example: --application-parameters='[{"key": "string", "value": {...}}]' File Example: --application-parameters=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--application-parameters", Format = OptionFormat.EqualsSeparated)]
@@ -58,9 +87,15 @@ public record GcloudDesignCenterSpacesApplicationTemplatesCreateOptions : Gcloud
     public IEnumerable<string>? RootOutputVariables { get; set; }
 
     /// <summary>
-    /// SaaS runtime context. The SaaS names. Format for each SaaS: projects/{project}/locations/{location}/saas/{saas}
+    /// SaaS runtime context. The SaaS names. Format for each SaaS: projects/{project}/locations/{location}/saas/{saas} Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--saas-runtime-context-names", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--saas-runtime-context-names", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? SaasRuntimeContextNames { get; set; }
+
+    /// <summary>
+    /// ApplicationTemplate resource - Identifier. Application template name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument application_template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the applicationTemplate or fully qualified identifier for the applicationTemplate. To set the application_template attribute: ▸ provide the argument application_template on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ApplicationTemplate { get; private init; }
 
 }

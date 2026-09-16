@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -22,10 +23,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "instances", "create")]
-public record GcloudSqlInstancesCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Instance
-) : GcloudOptions
+public record GcloudSqlInstancesCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// creates a new Cloud SQL instance
+    /// </summary>
+    /// <param name="Instance">Cloud SQL instance ID.</param>
+    public GcloudSqlInstancesCreateOptions(
+        string Instance
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+    }
+
+    public void Deconstruct(out string Instance)
+    {
+        Instance = this.Instance;
+    }
+
     /// <summary>
     /// Activation policy for this instance. This specifies when the instance should be activated and is applicable only when the instance state is RUNNABLE. The default is always. More information on activation policies can be found here: https://cloud.google.com/sql/docs/mysql/start-stop-restart-instance#activation_policy. ACTIVATION_POLICY must be one of: always, never.
     /// </summary>
@@ -33,9 +49,9 @@ public record GcloudSqlInstancesCreateOptions(
     public GcloudActivationPolicy? ActivationPolicy { get; set; }
 
     /// <summary>
-    /// A comma-separated list of the DNS servers to be used for Active Directory. Only available for SQL Server instances. E.g: 10.0.0.1,10.0.0.2
+    /// A comma-separated list of the DNS servers to be used for Active Directory. Only available for SQL Server instances. E.g: 10.0.0.1,10.0.0.2 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--active-directory-dns-servers", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--active-directory-dns-servers", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ActiveDirectoryDnsServers { get; set; }
 
     /// <summary>
@@ -100,9 +116,9 @@ public record GcloudSqlInstancesCreateOptions(
     public string? AuditUploadInterval { get; set; }
 
     /// <summary>
-    /// The list of external networks that are allowed to connect to the instance. Specified in CIDR notation, also known as 'slash' notation (e.g. 192.168.100.0/24).
+    /// The list of external networks that are allowed to connect to the instance. Specified in CIDR notation, also known as 'slash' notation (e.g. 192.168.100.0/24). Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--authorized-networks", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--authorized-networks", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AuthorizedNetworks { get; set; }
 
     /// <summary>
@@ -154,10 +170,10 @@ public record GcloudSqlInstancesCreateOptions(
     public string? Collation { get; set; }
 
     /// <summary>
-    /// Comma-separated list of connection pool flags to set on the instance connection pool. Use an equals sign to separate flag name and value. More information on available flags can be found here: https://cloud.google.com/sql/docs/mysql/managed-connection-pooling#configuration-options for MySQL and https://cloud.google.com/sql/docs/postgres/managed-connection-pooling#configuration-options for PostgreSQL. (e.g., --connection-pool-flags max_pool_size=1000,max_client_connections=20)
+    /// Comma-separated list of connection pool flags to set on the instance connection pool. Use an equals sign to separate flag name and value. More information on available flags can be found here: https://cloud.google.com/sql/docs/mysql/managed-connection-pooling#configuration-options for MySQL and https://cloud.google.com/sql/docs/postgres/managed-connection-pooling#configuration-options for PostgreSQL. (e.g., --connection-pool-flags max_pool_size=1000,max_client_connections=20) Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--connection-pool-flags", Format = OptionFormat.EqualsSeparated)]
-    public string? ConnectionPoolFlags { get; set; }
+    [CliOption("--connection-pool-flags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ConnectionPoolFlags { get; set; }
 
     /// <summary>
     /// Cloud SQL Connector enforcement mode. It determines how Cloud SQL Connectors are used in the connection. See the list of modes here (https://cloud.google.com/sql/docs/mysql/admin-api/rest/v1beta4/instances#connectorenforcement). CONNECTOR_ENFORCEMENT must be one of: CONNECTOR_ENFORCEMENT_UNSPECIFIED The requirement for Cloud SQL connectors is unknown. NOT_REQUIRED Does not require Cloud SQL connectors. REQUIRED Requires all connections to use Cloud SQL connectors, including the Cloud SQL Auth Proxy and Cloud SQL Java, Python, and Go connectors. Note: This disables all existing authorized networks.
@@ -172,10 +188,10 @@ public record GcloudSqlInstancesCreateOptions(
     public string? Cpu { get; set; }
 
     /// <summary>
-    /// A comma-separated list of DNS names to add to the instance's SSL certificate. A custom SAN is a structured way to add additional DNS names (host names) that are not managed by Cloud SQL to an instance. It allows for hostname verification during establishment of a database connection using the DNS name over SSL/TLS. When you create and/or update an instance, you can add a comma-separated list of up to three DNS names to the server certificate of your instance.
+    /// A comma-separated list of DNS names to add to the instance's SSL certificate. A custom SAN is a structured way to add additional DNS names (host names) that are not managed by Cloud SQL to an instance. It allows for hostname verification during establishment of a database connection using the DNS name over SSL/TLS. When you create and/or update an instance, you can add a comma-separated list of up to three DNS names to the server certificate of your instance. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--custom-subject-alternative-names", Format = OptionFormat.EqualsSeparated)]
-    public string? CustomSubjectAlternativeNames { get; set; }
+    [CliOption("--custom-subject-alternative-names", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? CustomSubjectAlternativeNames { get; set; }
 
     /// <summary>
     /// Controls connectivity to the instance using ExecuteSql API. DATA_API_ACCESS must be one of: ALLOW_DATA_API Allow using ExecuteSql API to connect to the instance. For Private IP instances, this will allow authorized users to access the instance from the public internet using ExecuteSql API. DATA_API_ACCESS_UNSPECIFIED Unspecified mode, effectively the same as DISALLOW_DATA_API. DISALLOW_DATA_API Disallow using ExecuteSql API to connect to the instance.
@@ -184,10 +200,10 @@ public record GcloudSqlInstancesCreateOptions(
     public string? DataApiAccess { get; set; }
 
     /// <summary>
-    /// Comma-separated list of database flags to set on the instance. Use an equals sign to separate flag name and value. Flags without values, like skip_grant_tables, can be written out without a value after, e.g., skip_grant_tables=. Use on/off for booleans. View the Instance Resource API for allowed flags. (e.g., --database-flags max_allowed_packet=55555,skip_grant_tables=,log_output=1)
+    /// Comma-separated list of database flags to set on the instance. Use an equals sign to separate flag name and value. Flags without values, like skip_grant_tables, can be written out without a value after, e.g., skip_grant_tables=. Use on/off for booleans. View the Instance Resource API for allowed flags. (e.g., --database-flags max_allowed_packet=55555,skip_grant_tables=,log_output=1) Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--database-flags", Format = OptionFormat.EqualsSeparated)]
-    public string? DatabaseFlags { get; set; }
+    [CliOption("--database-flags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? DatabaseFlags { get; set; }
 
     /// <summary>
     /// The database engine type and versions. If left unspecified, MYSQL_8_0 is used. See the list of database versions at https://cloud.google.com/sql/docs/mysql/admin-api/rest/v1beta4/SqlDatabaseVersion. Apart from listed major versions, DATABASE_VERSION also accepts supported minor versions. DATABASE_VERSION must be one of: MYSQL_5_6, MYSQL_5_7, MYSQL_8_0, MYSQL_8_4, MYSQL_9_7, POSTGRES_9_6, POSTGRES_10, POSTGRES_11, POSTGRES_12, POSTGRES_13, POSTGRES_14, POSTGRES_15, POSTGRES_16, POSTGRES_17, POSTGRES_18, SQLSERVER_2017_EXPRESS, SQLSERVER_2017_WEB, SQLSERVER_2017_STANDARD, SQLSERVER_2017_ENTERPRISE, SQLSERVER_2019_EXPRESS, SQLSERVER_2019_WEB, SQLSERVER_2019_STANDARD, SQLSERVER_2019_ENTERPRISE, SQLSERVER_2022_EXPRESS, SQLSERVER_2022_WEB, SQLSERVER_2022_STANDARD, SQLSERVER_2022_ENTERPRISE, SQLSERVER_2025_EXPRESS, SQLSERVER_2025_STANDARD, SQLSERVER_2025_ENTERPRISE.
@@ -505,7 +521,6 @@ public record GcloudSqlInstancesCreateOptions(
     /// <summary>
     /// Minimum number of characters allowed in the password.
     /// </summary>
-    [SecretValue]
     [CliOption("--password-policy-min-length", Format = OptionFormat.EqualsSeparated)]
     public string? PasswordPolicyMinLength { get; set; }
 
@@ -519,14 +534,13 @@ public record GcloudSqlInstancesCreateOptions(
     /// <summary>
     /// Number of previous passwords that cannot be reused. The valid range is 0 to 100.
     /// </summary>
-    [SecretValue]
     [CliOption("--password-policy-reuse-interval", Format = OptionFormat.EqualsSeparated)]
     public string? PasswordPolicyReuseInterval { get; set; }
 
     /// <summary>
-    /// A comma-separated list of performance capture settings to add to the MySQL instance. The input should be in a format of key=value. Available case-sensitive keys are: enabled (boolean), probing-interval-seconds (integer), probe-threshold (integer), running-threads-threshold (integer), seconds-behind-source-threshold (integer), transaction-duration-threshold (integer), cpu-utilization-threshold-percent (integer), memory-usage-threshold-percent (integer), transaction-lock-wait-threshold-count (integer), semaphore-wait-threshold-count (integer), history-list-length-threshold-count (integer), transaction-kill-threshold-seconds (integer), transaction-kill-type (string), transaction-kill-excluded-user-hosts (string, semicolon-separated list) Example: --performance-capture-config enabled=true,probe-threshold=5, cpu-utilization-threshold-percent=80, transaction-kill-excluded-user-hosts=user1@host1;user2@%, transaction-kill-type=READ_ONLY_TRANSACTIONS
+    /// A comma-separated list of performance capture settings to add to the MySQL instance. The input should be in a format of key=value. Available case-sensitive keys are: enabled (boolean), probing-interval-seconds (integer), probe-threshold (integer), running-threads-threshold (integer), seconds-behind-source-threshold (integer), transaction-duration-threshold (integer), cpu-utilization-threshold-percent (integer), memory-usage-threshold-percent (integer), transaction-lock-wait-threshold-count (integer), semaphore-wait-threshold-count (integer), history-list-length-threshold-count (integer), transaction-kill-threshold-seconds (integer), transaction-kill-type (string), transaction-kill-excluded-user-hosts (string, semicolon-separated list) Example: --performance-capture-config enabled=true,probe-threshold=5, cpu-utilization-threshold-percent=80, transaction-kill-excluded-user-hosts=user1@host1;user2@%, transaction-kill-type=READ_ONLY_TRANSACTIONS Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--performance-capture-config", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--performance-capture-config", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? PerformanceCaptureConfig { get; set; }
 
     /// <summary>
@@ -663,10 +677,10 @@ public record GcloudSqlInstancesCreateOptions(
     public GcloudStorageType? StorageType { get; set; }
 
     /// <summary>
-    /// Comma-separated list of tags to set on the instance. Use an equals signto separate tag name and value.(e.g., --tags tag1:value1,tag2=value2)
+    /// Comma-separated list of tags to set on the instance. Use an equals signto separate tag name and value.(e.g., --tags tag1:value1,tag2=value2) Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
-    public string? Tags { get; set; }
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// The number of threads per core. The value of this flag can be 1 or 2. To disable SMT, set this flag to 1. Only available in Cloud SQL for SQL Server instances.
@@ -693,9 +707,9 @@ public record GcloudSqlInstancesCreateOptions(
     public int? Timeout { get; set; }
 
     /// <summary>
-    /// A comma-separated list of projects. Each project in this list might be represented by a project number (numeric) or by a project ID (alphanumeric). This allows Private Service Connect connections to be established from specified consumer projects.
+    /// A comma-separated list of projects. Each project in this list might be represented by a project number (numeric) or by a project ID (alphanumeric). This allows Private Service Connect connections to be established from specified consumer projects. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--allowed-psc-projects", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--allowed-psc-projects", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AllowedPscProjects { get; set; }
 
     /// <summary>
@@ -705,117 +719,179 @@ public record GcloudSqlInstancesCreateOptions(
     public bool? EnablePrivateServiceConnect { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. ID of the key or fully qualified identifier for the key. To set the kms-key attribute: ◆ provide the argument --disk-encryption-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. ID of the key or fully qualified identifier for the key. To set the kms-key attribute: ◆ provide the argument --disk-encryption-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--disk-encryption-key", Format = OptionFormat.EqualsSeparated)]
     public string? DiskEncryptionKey { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The KMS keyring of the key. To set the kms-keyring attribute: ◆ provide the argument --disk-encryption-key on the command line with a fully specified name; ◆ provide the argument --disk-encryption-key-keyring on the command line.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. The KMS keyring of the key. To set the kms-keyring attribute: ◆ provide the argument --disk-encryption-key on the command line with a fully specified name; ◆ provide the argument --disk-encryption-key-keyring on the command line.
     /// </summary>
     [CliOption("--disk-encryption-key-keyring", Format = OptionFormat.EqualsSeparated)]
     public string? DiskEncryptionKeyKeyring { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud location for the key. To set the kms-location attribute: ◆ provide the argument --disk-encryption-key on the command line with a fully specified name; ◆ provide the argument --disk-encryption-key-location on the command line.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. The Google Cloud location for the key. To set the kms-location attribute: ◆ provide the argument --disk-encryption-key on the command line with a fully specified name; ◆ provide the argument --disk-encryption-key-location on the command line.
     /// </summary>
     [CliOption("--disk-encryption-key-location", Format = OptionFormat.EqualsSeparated)]
     public string? DiskEncryptionKeyLocation { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud project for the key. To set the kms-project attribute: ◆ provide the argument --disk-encryption-key on the command line with a fully specified name; ◆ provide the argument --disk-encryption-key-project on the command line; ◆ set the property core/project.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. The Google Cloud project for the key. To set the kms-project attribute: ◆ provide the argument --disk-encryption-key on the command line with a fully specified name; ◆ provide the argument --disk-encryption-key-project on the command line; ◆ set the property core/project.
     /// </summary>
     [CliOption("--disk-encryption-key-project", Format = OptionFormat.EqualsSeparated)]
     public string? DiskEncryptionKeyProject { get; set; }
 
     /// <summary>
-    /// Entraid configuration for the SQL Server instance. Set the Entraid application ID. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. Set the Entraid application ID. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--entra-id-application-id", Format = OptionFormat.EqualsSeparated)]
     public string? EntraIdApplicationId { get; set; }
 
     /// <summary>
-    /// Entraid configuration for the SQL Server instance. Set the Entraid tenant ID. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. Set the Entraid tenant ID. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--entra-id-tenant-id", Format = OptionFormat.EqualsSeparated)]
     public string? EntraIdTenantId { get; set; }
 
     /// <summary>
-    /// Options for configuring read pool auto scale. Disables automatic read pool scale-in. When disabled, read pool auto scaling only supports increasing the read pool node count. By default, both automatic read pool scale-in and scale-out are enabled. Use --auto-scale-disable-scale-in to enable and --no-auto-scale-disable-scale-in to disable.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. Disables automatic read pool scale-in. When disabled, read pool auto scaling only supports increasing the read pool node count. By default, both automatic read pool scale-in and scale-out are enabled. Use --auto-scale-disable-scale-in to enable and --no-auto-scale-disable-scale-in to disable.
     /// </summary>
     [CliFlag("--auto-scale-disable-scale-in")]
     public bool? AutoScaleDisableScaleIn { get; set; }
 
     /// <summary>
-    /// Negates --auto-scale-disable-scale-in. Options for configuring read pool auto scale. Disables automatic read pool scale-in. When disabled, read pool auto scaling only supports increasing the read pool node count. By default, both automatic read pool scale-in and scale-out are enabled. Use --auto-scale-disable-scale-in to enable and --no-auto-scale-disable-scale-in to disable.
+    /// Negates --auto-scale-disable-scale-in. Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. Disables automatic read pool scale-in. When disabled, read pool auto scaling only supports increasing the read pool node count. By default, both automatic read pool scale-in and scale-out are enabled. Use --auto-scale-disable-scale-in to enable and --no-auto-scale-disable-scale-in to disable.
     /// </summary>
     [CliFlag("--no-auto-scale-disable-scale-in")]
     public bool? NoAutoScaleDisableScaleIn { get; set; }
 
     /// <summary>
-    /// Options for configuring read pool auto scale. Enables read pool auto scaling. Supports automatically increasing and decreasing the read pool's node count based on need. Use --auto-scale-enabled to enable and --no-auto-scale-enabled to disable.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. Enables read pool auto scaling. Supports automatically increasing and decreasing the read pool's node count based on need. Use --auto-scale-enabled to enable and --no-auto-scale-enabled to disable.
     /// </summary>
     [CliFlag("--auto-scale-enabled")]
     public bool? AutoScaleEnabled { get; set; }
 
     /// <summary>
-    /// Negates --auto-scale-enabled. Options for configuring read pool auto scale. Enables read pool auto scaling. Supports automatically increasing and decreasing the read pool's node count based on need. Use --auto-scale-enabled to enable and --no-auto-scale-enabled to disable.
+    /// Negates --auto-scale-enabled. Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. Enables read pool auto scaling. Supports automatically increasing and decreasing the read pool's node count based on need. Use --auto-scale-enabled to enable and --no-auto-scale-enabled to disable.
     /// </summary>
     [CliFlag("--no-auto-scale-enabled")]
     public bool? NoAutoScaleEnabled { get; set; }
 
     /// <summary>
-    /// Options for configuring read pool auto scale. The cooldown period for automatic read pool scale-in. Minimum time between scale-in events. Must be an integer value. For example, if the value is 60, then a scale-in event will not be triggered within 60 seconds of the last scale-in event.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. The cooldown period for automatic read pool scale-in. Minimum time between scale-in events. Must be an integer value. For example, if the value is 60, then a scale-in event will not be triggered within 60 seconds of the last scale-in event.
     /// </summary>
     [CliOption("--auto-scale-in-cooldown-seconds", Format = OptionFormat.EqualsSeparated)]
     public int? AutoScaleInCooldownSeconds { get; set; }
 
     /// <summary>
-    /// Options for configuring read pool auto scale. Maximum number of read pool nodes to be maintained.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. Maximum number of read pool nodes to be maintained.
     /// </summary>
     [CliOption("--auto-scale-max-node-count", Format = OptionFormat.EqualsSeparated)]
     public int? AutoScaleMaxNodeCount { get; set; }
 
     /// <summary>
-    /// Options for configuring read pool auto scale. Minimum number of read pool nodes to be maintained.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. Minimum number of read pool nodes to be maintained.
     /// </summary>
     [CliOption("--auto-scale-min-node-count", Format = OptionFormat.EqualsSeparated)]
     public int? AutoScaleMinNodeCount { get; set; }
 
     /// <summary>
-    /// Options for configuring read pool auto scale. The cooldown period for automatic read pool scale-out. Minimum time between scale-out events. Must be an integer value. For example, if the value is 60, then a scale-out event will not be triggered within 60 seconds of the last scale-out event.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. The cooldown period for automatic read pool scale-out. Minimum time between scale-out events. Must be an integer value. For example, if the value is 60, then a scale-out event will not be triggered within 60 seconds of the last scale-out event.
     /// </summary>
     [CliOption("--auto-scale-out-cooldown-seconds", Format = OptionFormat.EqualsSeparated)]
     public int? AutoScaleOutCooldownSeconds { get; set; }
 
     /// <summary>
-    /// Options for configuring read pool auto scale. Target metrics for read pool auto scaling. Options are: AVERAGE_CPU_UTILIZATION and AVERAGE_DB_CONNECTIONS. Example: --auto-scale-target-metrics=AVERAGE_CPU_UTILIZATION=0.8
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. Target metrics for read pool auto scaling. Options are: AVERAGE_CPU_UTILIZATION and AVERAGE_DB_CONNECTIONS. Example: --auto-scale-target-metrics=AVERAGE_CPU_UTILIZATION=0.8 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--auto-scale-target-metrics", Format = OptionFormat.EqualsSeparated)]
-    public string? AutoScaleTargetMetrics { get; set; }
+    [CliOption("--auto-scale-target-metrics", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AutoScaleTargetMetrics
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AutoScaleTargetMetricsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AutoScaleTargetMetricsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Options for configuring read pool auto scale. At most one of these can be specified: Regional location (e.g. asia-east1, us-east1). See the full list of regions at https://cloud.google.com/sql/docs/instance-locations.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. At most one of these can be specified: Regional location (e.g. asia-east1, us-east1). See the full list of regions at https://cloud.google.com/sql/docs/instance-locations.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
 
     /// <summary>
-    /// Options for configuring read pool auto scale. At most one of these can be specified: Or at most one of these can be specified: (DEPRECATED) Preferred Compute Engine zone (e.g. us-central1-a, us-central1-b, etc.). Flag --gce-zone is deprecated and will be removed by release 255.0.0. Use --zone instead.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. At most one of these can be specified: Or at most one of these can be specified: (DEPRECATED) Preferred Compute Engine zone (e.g. us-central1-a, us-central1-b, etc.). Flag --gce-zone is deprecated and will be removed by release 255.0.0. Use --zone instead.
     /// </summary>
     [CliOption("--gce-zone", Format = OptionFormat.EqualsSeparated)]
     public string? GceZone { get; set; }
 
     /// <summary>
-    /// Options for configuring read pool auto scale. At most one of these can be specified: Or at most one of these can be specified: Or at least one of these can be specified: Preferred secondary Compute Engine zone (e.g. us-central1-a, us-central1-b, etc.).
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. At most one of these can be specified: Or at most one of these can be specified: Or at least one of these can be specified: Preferred secondary Compute Engine zone (e.g. us-central1-a, us-central1-b, etc.).
     /// </summary>
     [CliOption("--secondary-zone", Format = OptionFormat.EqualsSeparated)]
     public string? SecondaryZone { get; set; }
 
     /// <summary>
-    /// Options for configuring read pool auto scale. At most one of these can be specified: Or at most one of these can be specified: Or at least one of these can be specified: Preferred Compute Engine zone (e.g. us-central1-a, us-central1-b, etc.).
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. At most one of these can be specified: Or at most one of these can be specified: Or at least one of these can be specified: Preferred Compute Engine zone (e.g. us-central1-a, us-central1-b, etc.).
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }
+
+    /// <summary>
+    /// Cloud SQL instance ID.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Instance { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(DiskEncryptionKey) || !string.IsNullOrWhiteSpace(DiskEncryptionKeyKeyring) || !string.IsNullOrWhiteSpace(DiskEncryptionKeyLocation) || !string.IsNullOrWhiteSpace(DiskEncryptionKeyProject) || !string.IsNullOrWhiteSpace(EntraIdApplicationId) || !string.IsNullOrWhiteSpace(EntraIdTenantId) || (object?)AutoScaleInCooldownSeconds is not null || (object?)AutoScaleMaxNodeCount is not null || (object?)AutoScaleMinNodeCount is not null || (object?)AutoScaleOutCooldownSeconds is not null || ((object?)AutoScaleTargetMetrics is global::System.Collections.Generic.IEnumerable<char> ? (object?)AutoScaleTargetMetrics is not string || !string.IsNullOrWhiteSpace(AutoScaleTargetMetrics?.ToString()) : ((object?)AutoScaleTargetMetrics is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AutoScaleTargetMetrics, static item => item is not null) : (AutoScaleTargetMetrics is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AutoScaleTargetMetrics), static item => item is not null)))) || !string.IsNullOrWhiteSpace(Region) || !string.IsNullOrWhiteSpace(GceZone) || !string.IsNullOrWhiteSpace(SecondaryZone) || !string.IsNullOrWhiteSpace(Zone) || AutoScaleDisableScaleIn == true || NoAutoScaleDisableScaleIn == true || AutoScaleEnabled == true || NoAutoScaleEnabled == true) && (!(!string.IsNullOrWhiteSpace(DiskEncryptionKey))))
+        {
+            yield return new ValidationResult("DiskEncryptionKey must be specified when other arguments in this group are specified.", [nameof(DiskEncryptionKey)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(DiskEncryptionKey) || !string.IsNullOrWhiteSpace(DiskEncryptionKeyKeyring) || !string.IsNullOrWhiteSpace(DiskEncryptionKeyLocation) || !string.IsNullOrWhiteSpace(DiskEncryptionKeyProject) || !string.IsNullOrWhiteSpace(EntraIdApplicationId) || !string.IsNullOrWhiteSpace(EntraIdTenantId) || (object?)AutoScaleInCooldownSeconds is not null || (object?)AutoScaleMaxNodeCount is not null || (object?)AutoScaleMinNodeCount is not null || (object?)AutoScaleOutCooldownSeconds is not null || ((object?)AutoScaleTargetMetrics is global::System.Collections.Generic.IEnumerable<char> ? (object?)AutoScaleTargetMetrics is not string || !string.IsNullOrWhiteSpace(AutoScaleTargetMetrics?.ToString()) : ((object?)AutoScaleTargetMetrics is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AutoScaleTargetMetrics, static item => item is not null) : (AutoScaleTargetMetrics is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AutoScaleTargetMetrics), static item => item is not null)))) || !string.IsNullOrWhiteSpace(Region) || !string.IsNullOrWhiteSpace(GceZone) || !string.IsNullOrWhiteSpace(SecondaryZone) || !string.IsNullOrWhiteSpace(Zone) || AutoScaleDisableScaleIn == true || NoAutoScaleDisableScaleIn == true || AutoScaleEnabled == true || NoAutoScaleEnabled == true) && (!(!string.IsNullOrWhiteSpace(EntraIdApplicationId))))
+        {
+            yield return new ValidationResult("EntraIdApplicationId must be specified when other arguments in this group are specified.", [nameof(EntraIdApplicationId)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(DiskEncryptionKey) || !string.IsNullOrWhiteSpace(DiskEncryptionKeyKeyring) || !string.IsNullOrWhiteSpace(DiskEncryptionKeyLocation) || !string.IsNullOrWhiteSpace(DiskEncryptionKeyProject) || !string.IsNullOrWhiteSpace(EntraIdApplicationId) || !string.IsNullOrWhiteSpace(EntraIdTenantId) || (object?)AutoScaleInCooldownSeconds is not null || (object?)AutoScaleMaxNodeCount is not null || (object?)AutoScaleMinNodeCount is not null || (object?)AutoScaleOutCooldownSeconds is not null || ((object?)AutoScaleTargetMetrics is global::System.Collections.Generic.IEnumerable<char> ? (object?)AutoScaleTargetMetrics is not string || !string.IsNullOrWhiteSpace(AutoScaleTargetMetrics?.ToString()) : ((object?)AutoScaleTargetMetrics is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AutoScaleTargetMetrics, static item => item is not null) : (AutoScaleTargetMetrics is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AutoScaleTargetMetrics), static item => item is not null)))) || !string.IsNullOrWhiteSpace(Region) || !string.IsNullOrWhiteSpace(GceZone) || !string.IsNullOrWhiteSpace(SecondaryZone) || !string.IsNullOrWhiteSpace(Zone) || AutoScaleDisableScaleIn == true || NoAutoScaleDisableScaleIn == true || AutoScaleEnabled == true || NoAutoScaleEnabled == true) && (!(!string.IsNullOrWhiteSpace(EntraIdTenantId))))
+        {
+            yield return new ValidationResult("EntraIdTenantId must be specified when other arguments in this group are specified.", [nameof(EntraIdTenantId)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(DiskEncryptionKey) || !string.IsNullOrWhiteSpace(DiskEncryptionKeyKeyring) || !string.IsNullOrWhiteSpace(DiskEncryptionKeyLocation) || !string.IsNullOrWhiteSpace(DiskEncryptionKeyProject) || !string.IsNullOrWhiteSpace(EntraIdApplicationId) || !string.IsNullOrWhiteSpace(EntraIdTenantId) || (object?)AutoScaleInCooldownSeconds is not null || (object?)AutoScaleMaxNodeCount is not null || (object?)AutoScaleMinNodeCount is not null || (object?)AutoScaleOutCooldownSeconds is not null || ((object?)AutoScaleTargetMetrics is global::System.Collections.Generic.IEnumerable<char> ? (object?)AutoScaleTargetMetrics is not string || !string.IsNullOrWhiteSpace(AutoScaleTargetMetrics?.ToString()) : ((object?)AutoScaleTargetMetrics is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AutoScaleTargetMetrics, static item => item is not null) : (AutoScaleTargetMetrics is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AutoScaleTargetMetrics), static item => item is not null)))) || !string.IsNullOrWhiteSpace(Region) || !string.IsNullOrWhiteSpace(GceZone) || !string.IsNullOrWhiteSpace(SecondaryZone) || !string.IsNullOrWhiteSpace(Zone) || AutoScaleDisableScaleIn == true || NoAutoScaleDisableScaleIn == true || AutoScaleEnabled == true || NoAutoScaleEnabled == true) && ((!string.IsNullOrWhiteSpace(Region) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(GceZone) || !string.IsNullOrWhiteSpace(SecondaryZone) || !string.IsNullOrWhiteSpace(Zone)) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of Region or (GceZone, SecondaryZone, or Zone) may be specified.", [nameof(Region), nameof(GceZone), nameof(SecondaryZone), nameof(Zone)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(DiskEncryptionKey) || !string.IsNullOrWhiteSpace(DiskEncryptionKeyKeyring) || !string.IsNullOrWhiteSpace(DiskEncryptionKeyLocation) || !string.IsNullOrWhiteSpace(DiskEncryptionKeyProject) || !string.IsNullOrWhiteSpace(EntraIdApplicationId) || !string.IsNullOrWhiteSpace(EntraIdTenantId) || (object?)AutoScaleInCooldownSeconds is not null || (object?)AutoScaleMaxNodeCount is not null || (object?)AutoScaleMinNodeCount is not null || (object?)AutoScaleOutCooldownSeconds is not null || ((object?)AutoScaleTargetMetrics is global::System.Collections.Generic.IEnumerable<char> ? (object?)AutoScaleTargetMetrics is not string || !string.IsNullOrWhiteSpace(AutoScaleTargetMetrics?.ToString()) : ((object?)AutoScaleTargetMetrics is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AutoScaleTargetMetrics, static item => item is not null) : (AutoScaleTargetMetrics is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AutoScaleTargetMetrics), static item => item is not null)))) || !string.IsNullOrWhiteSpace(Region) || !string.IsNullOrWhiteSpace(GceZone) || !string.IsNullOrWhiteSpace(SecondaryZone) || !string.IsNullOrWhiteSpace(Zone) || AutoScaleDisableScaleIn == true || NoAutoScaleDisableScaleIn == true || AutoScaleEnabled == true || NoAutoScaleEnabled == true) && (!string.IsNullOrWhiteSpace(Region) || !string.IsNullOrWhiteSpace(GceZone) || !string.IsNullOrWhiteSpace(SecondaryZone) || !string.IsNullOrWhiteSpace(Zone)) && ((!string.IsNullOrWhiteSpace(GceZone) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(SecondaryZone) || !string.IsNullOrWhiteSpace(Zone)) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of GceZone or (SecondaryZone or Zone) may be specified.", [nameof(GceZone), nameof(SecondaryZone), nameof(Zone)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(DiskEncryptionKey) || !string.IsNullOrWhiteSpace(DiskEncryptionKeyKeyring) || !string.IsNullOrWhiteSpace(DiskEncryptionKeyLocation) || !string.IsNullOrWhiteSpace(DiskEncryptionKeyProject) || !string.IsNullOrWhiteSpace(EntraIdApplicationId) || !string.IsNullOrWhiteSpace(EntraIdTenantId) || (object?)AutoScaleInCooldownSeconds is not null || (object?)AutoScaleMaxNodeCount is not null || (object?)AutoScaleMinNodeCount is not null || (object?)AutoScaleOutCooldownSeconds is not null || ((object?)AutoScaleTargetMetrics is global::System.Collections.Generic.IEnumerable<char> ? (object?)AutoScaleTargetMetrics is not string || !string.IsNullOrWhiteSpace(AutoScaleTargetMetrics?.ToString()) : ((object?)AutoScaleTargetMetrics is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AutoScaleTargetMetrics, static item => item is not null) : (AutoScaleTargetMetrics is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AutoScaleTargetMetrics), static item => item is not null)))) || !string.IsNullOrWhiteSpace(Region) || !string.IsNullOrWhiteSpace(GceZone) || !string.IsNullOrWhiteSpace(SecondaryZone) || !string.IsNullOrWhiteSpace(Zone) || AutoScaleDisableScaleIn == true || NoAutoScaleDisableScaleIn == true || AutoScaleEnabled == true || NoAutoScaleEnabled == true) && ((AutoScaleDisableScaleIn == true ? 1 : 0) + (NoAutoScaleDisableScaleIn == true ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of AutoScaleDisableScaleIn or NoAutoScaleDisableScaleIn may be specified.", [nameof(AutoScaleDisableScaleIn), nameof(NoAutoScaleDisableScaleIn)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(DiskEncryptionKey) || !string.IsNullOrWhiteSpace(DiskEncryptionKeyKeyring) || !string.IsNullOrWhiteSpace(DiskEncryptionKeyLocation) || !string.IsNullOrWhiteSpace(DiskEncryptionKeyProject) || !string.IsNullOrWhiteSpace(EntraIdApplicationId) || !string.IsNullOrWhiteSpace(EntraIdTenantId) || (object?)AutoScaleInCooldownSeconds is not null || (object?)AutoScaleMaxNodeCount is not null || (object?)AutoScaleMinNodeCount is not null || (object?)AutoScaleOutCooldownSeconds is not null || ((object?)AutoScaleTargetMetrics is global::System.Collections.Generic.IEnumerable<char> ? (object?)AutoScaleTargetMetrics is not string || !string.IsNullOrWhiteSpace(AutoScaleTargetMetrics?.ToString()) : ((object?)AutoScaleTargetMetrics is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AutoScaleTargetMetrics, static item => item is not null) : (AutoScaleTargetMetrics is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AutoScaleTargetMetrics), static item => item is not null)))) || !string.IsNullOrWhiteSpace(Region) || !string.IsNullOrWhiteSpace(GceZone) || !string.IsNullOrWhiteSpace(SecondaryZone) || !string.IsNullOrWhiteSpace(Zone) || AutoScaleDisableScaleIn == true || NoAutoScaleDisableScaleIn == true || AutoScaleEnabled == true || NoAutoScaleEnabled == true) && ((AutoScaleEnabled == true ? 1 : 0) + (NoAutoScaleEnabled == true ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of AutoScaleEnabled or NoAutoScaleEnabled may be specified.", [nameof(AutoScaleEnabled), nameof(NoAutoScaleEnabled)]);
+        }
+        yield break;
+    }
 
 }

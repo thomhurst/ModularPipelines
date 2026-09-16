@@ -20,10 +20,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kms", "keys", "versions", "get-certificate-chain")]
-public record GcloudKmsKeysVersionsGetCertificateChainOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Version
-) : GcloudOptions
+public record GcloudKmsKeysVersionsGetCertificateChainOptions : GcloudOptions
 {
+    /// <summary>
+    /// get a certificate chain     for a given version
+    /// </summary>
+    /// <param name="Version">Name of the version from which to get the certificate chain.</param>
+    public GcloudKmsKeysVersionsGetCertificateChainOptions(
+        string Version
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Version);
+        this.Version = Version;
+    }
+
+    public void Deconstruct(out string Version)
+    {
+        Version = this.Version;
+    }
+
     /// <summary>
     /// Certificate chain to retrieve. CERTIFICATE_CHAIN_TYPE must be one of: all, cavium, google-card, google-partition.
     /// </summary>
@@ -53,5 +68,11 @@ public record GcloudKmsKeysVersionsGetCertificateChainOptions(
     /// </summary>
     [CliOption("--output-file", Format = OptionFormat.EqualsSeparated)]
     public string? OutputFile { get; set; }
+
+    /// <summary>
+    /// Name of the version from which to get the certificate chain.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Version { get; private init; }
 
 }

@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("ai", "index-endpoints", "describe")]
 public record GcloudAiIndexEndpointsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// gets detailed index endpoint     information about the given index endpoint id
+    /// </summary>
+    /// <param name="IndexEndpoint">Index endpoint resource - The index endpoint to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument index_endpoint on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the index_endpoint or fully qualified identifier for the index_endpoint. To set the name attribute: ▸ provide the argument index_endpoint on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudAiIndexEndpointsDescribeOptions(
+        string IndexEndpoint
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IndexEndpoint);
+        this.IndexEndpoint = IndexEndpoint;
+    }
+
+    public void Deconstruct(out string IndexEndpoint)
+    {
+        IndexEndpoint = this.IndexEndpoint;
+    }
+
+    /// <summary>
+    /// Index endpoint resource - The index endpoint to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument index_endpoint on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Cloud region for the index_endpoint. To set the region attribute: ▸ provide the argument index_endpoint on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property ai/region; ▸ choose one from the prompted list of available regions.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Index endpoint resource - The index endpoint to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument index_endpoint on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the index_endpoint or fully qualified identifier for the index_endpoint. To set the name attribute: ▸ provide the argument index_endpoint on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string IndexEndpoint { get; private init; }
+
 }

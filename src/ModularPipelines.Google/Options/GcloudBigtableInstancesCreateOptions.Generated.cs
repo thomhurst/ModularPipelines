@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +23,92 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("bigtable", "instances", "create")]
 public record GcloudBigtableInstancesCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a new Bigtable instance
+    /// </summary>
+    /// <param name="DisplayName">Friendly name of the instance.</param>
+    /// <param name="Instance">Instance resource - The instance to create. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line.</param>
+    public GcloudBigtableInstancesCreateOptions(
+        string DisplayName,
+        string Instance
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DisplayName);
+        this.DisplayName = DisplayName;
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+    }
+
+    public void Deconstruct(out string DisplayName, out string Instance)
+    {
+        DisplayName = this.DisplayName;
+        Instance = this.Instance;
+    }
+
+    /// <summary>
+    /// Friendly name of the instance.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string DisplayName { get; private init; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// (DEPRECATED) ID of the cluster The --cluster argument is deprecated; use --cluster-config instead.
+    /// </summary>
+    [CliOption("--cluster", Format = OptionFormat.EqualsSeparated)]
+    public string? Cluster { get; set; }
+
+    /// <summary>
+    /// Repeatable. Specify cluster config as a key-value dictionary. This is the recommended argument for specifying cluster configurations. Keys can be: *id*: Required. The ID of the cluster. *zone*: Required. ID of the zone where the cluster is located. Supported zones are listed at https://cloud.google.com/bigtable/docs/locations. *nodes*: The number of nodes in the cluster. Default=1. *node-scaling-factor*: The node scaling factor for the cluster. Default=node-scaling-factor-1x. NODE_SCALING_FACTOR must be one of: node-scaling-factor-1x, node-scaling-factor-2x. *kms-key*: The Cloud KMS (Key Management Service) cryptokey that will be used to protect the cluster. *autoscaling-min-nodes*: The minimum number of nodes for autoscaling. *autoscaling-max-nodes*: The maximum number of nodes for autoscaling. *autoscaling-cpu-target*: The target CPU utilization percentage for autoscaling. Accepted values are from 10 to 80. *autoscaling-storage-target*: The target storage utilization gibibytes per node for autoscaling. Accepted values are from 2560 to 5120 for SSD clusters and 8192 to 16384 for HDD clusters. If this argument is specified, the deprecated arguments for configuring a single cluster will be ignored, including --cluster, --cluster-zone, --cluster-num-nodes. See EXAMPLES section.
+    /// </summary>
+    [CliOption("--cluster-config", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ClusterConfig { get; set; }
+
+    /// <summary>
+    /// (DEPRECATED) Number of nodes to serve. The --cluster-num-nodes argument is deprecated; use --cluster-config instead.
+    /// </summary>
+    [CliOption("--cluster-num-nodes", Format = OptionFormat.EqualsSeparated)]
+    public string? ClusterNumNodes { get; set; }
+
+    /// <summary>
+    /// Storage class for the cluster. CLUSTER_STORAGE_TYPE must be one of: hdd, ssd.
+    /// </summary>
+    [CliOption("--cluster-storage-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudClusterStorageType? ClusterStorageType { get; set; }
+
+    /// <summary>
+    /// (DEPRECATED) ID of the zone where the cluster is located. Supported zones are listed at https://cloud.google.com/bigtable/docs/locations. The --cluster-zone argument is deprecated; use --cluster-config instead.
+    /// </summary>
+    [CliOption("--cluster-zone", Format = OptionFormat.EqualsSeparated)]
+    public string? ClusterZone { get; set; }
+
+    /// <summary>
+    /// The edition of the instance. EDITION must be one of: ENTERPRISE, ENTERPRISE_PLUS.
+    /// </summary>
+    [CliOption("--edition", Format = OptionFormat.EqualsSeparated)]
+    public GcloudEdition? Edition { get; set; }
+
+    /// <summary>
+    /// (DEPRECATED) The type of instance to create. The --instance-type argument is deprecated. DEVELOPMENT instances are no longer offered. All instances are of type PRODUCTION. INSTANCE_TYPE must be one of: DEVELOPMENT Development instances are low-cost instances meant for development and testing only. They do not provide high availability and no service level agreement applies. PRODUCTION Production instances provide high availability and are suitable for applications in production. Production instances created with the --instance-type argument have 3 nodes if a value is not provided for --cluster-num-nodes.
+    /// </summary>
+    [CliOption("--instance-type", Format = OptionFormat.EqualsSeparated)]
+    public string? InstanceType { get; set; }
+
+    /// <summary>
+    /// List of tags KEY=VALUE pairs to bind. Each item must be specified in either ID &lt;tag_key_id&gt;=&lt;tag_value_id&gt; or namespace format &lt;tag-key-namespaced-name&gt;=&lt;tag-value-short-name&gt;. Example: 123/environment=production,123/costCenter=marketing Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Tags { get; set; }
+
+    /// <summary>
+    /// Instance resource - The instance to create. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Instance { get; private init; }
+
 }

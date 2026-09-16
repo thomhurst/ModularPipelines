@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("dataplex", "metadata-jobs", "describe")]
 public record GcloudDataplexMetadataJobsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a Metadata Job
+    /// </summary>
+    /// <param name="MetadataJob">Metadata job resource - Arguments and flags that define the Dataplex metadata job you want to retrieve. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument metadata_job on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the metadata job or fully qualified identifier for the metadata job. To set the metadata_job attribute: ▸ provide the argument metadata_job on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDataplexMetadataJobsDescribeOptions(
+        string MetadataJob
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MetadataJob);
+        this.MetadataJob = MetadataJob;
+    }
+
+    public void Deconstruct(out string MetadataJob)
+    {
+        MetadataJob = this.MetadataJob;
+    }
+
+    /// <summary>
+    /// Metadata job resource - Arguments and flags that define the Dataplex metadata job you want to retrieve. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument metadata_job on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the Dataplex resource. To set the location attribute: ▸ provide the argument metadata_job on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property dataplex/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Metadata job resource - Arguments and flags that define the Dataplex metadata job you want to retrieve. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument metadata_job on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the metadata job or fully qualified identifier for the metadata job. To set the metadata_job attribute: ▸ provide the argument metadata_job on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string MetadataJob { get; private init; }
+
 }

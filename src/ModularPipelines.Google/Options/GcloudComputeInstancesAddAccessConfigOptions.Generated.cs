@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -20,10 +21,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "instances", "add-access-config")]
-public record GcloudComputeInstancesAddAccessConfigOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string InstanceName
-) : GcloudOptions
+public record GcloudComputeInstancesAddAccessConfigOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a Compute Engine     virtual machine access configuration
+    /// </summary>
+    /// <param name="InstanceName">Name of the instance to operate on. For details on valid instance names, refer to the criteria documented under the field 'name' at: https://cloud.google.com/compute/docs/reference/rest/v1/instances</param>
+    public GcloudComputeInstancesAddAccessConfigOptions(
+        string InstanceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceName);
+        this.InstanceName = InstanceName;
+    }
+
+    public void Deconstruct(out string InstanceName)
+    {
+        InstanceName = this.InstanceName;
+    }
+
     /// <summary>
     /// Specifies the name of the new access configuration. external-nat is used as the default if this flag is not provided. Since ONE_TO_ONE_NAT is currently the only access-config type, it is not recommended that you change this value.
     /// </summary>
@@ -77,5 +93,25 @@ public record GcloudComputeInstancesAddAccessConfigOptions(
     /// </summary>
     [CliFlag("--no-public-ptr-domain")]
     public bool? NoPublicPtrDomain { get; set; }
+
+    /// <summary>
+    /// Name of the instance to operate on. For details on valid instance names, refer to the criteria documented under the field 'name' at: https://cloud.google.com/compute/docs/reference/rest/v1/instances
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string InstanceName { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((PublicPtr == true ? 1 : 0) + (NoPublicPtr == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of PublicPtr or NoPublicPtr may be specified.", [nameof(PublicPtr), nameof(NoPublicPtr)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(PublicPtrDomain) ? 1 : 0) + (NoPublicPtrDomain == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of PublicPtrDomain or NoPublicPtrDomain may be specified.", [nameof(PublicPtrDomain), nameof(NoPublicPtrDomain)]);
+        }
+        yield break;
+    }
 
 }

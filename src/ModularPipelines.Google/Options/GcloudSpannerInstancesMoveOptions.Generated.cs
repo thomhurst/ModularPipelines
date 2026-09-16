@@ -19,8 +19,46 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("spanner", "instances", "move")]
-public record GcloudSpannerInstancesMoveOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Instance
-) : GcloudOptions
+public record GcloudSpannerInstancesMoveOptions : GcloudOptions
 {
+    /// <summary>
+    /// move the Cloud Spanner instance to the     specified instance configuration
+    /// </summary>
+    /// <param name="TargetConfig">Target Instance configuration to move the instances.</param>
+    /// <param name="Instance">Cloud Spanner instance ID.</param>
+    public GcloudSpannerInstancesMoveOptions(
+        string TargetConfig,
+        string Instance
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TargetConfig);
+        this.TargetConfig = TargetConfig;
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+    }
+
+    public void Deconstruct(out string TargetConfig, out string Instance)
+    {
+        TargetConfig = this.TargetConfig;
+        Instance = this.Instance;
+    }
+
+    /// <summary>
+    /// Target Instance configuration to move the instances.
+    /// </summary>
+    [CliOption("--target-config", Format = OptionFormat.EqualsSeparated)]
+    public string TargetConfig { get; private init; }
+
+    /// <summary>
+    /// Database level configurations for each database to be moved. Currently only used for CMEK-enabled databases to specificy the target database KMS keys. Sets target_database_move_configs value. database-id Required, sets database-id value. kms-key-names Sets kms-key-names value. Shorthand Example: --target-database-move-configs=database-id=string,kms-key-names=string --target-database-move-configs=database-id=string,kms-key-names=string JSON Example: --target-database-move-configs='[{"database-id": "string", "kms-key-names": "string"}]' File Example: --target-database-move-configs=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--target-database-move-configs", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? TargetDatabaseMoveConfigs { get; set; }
+
+    /// <summary>
+    /// Cloud Spanner instance ID.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Instance { get; private init; }
+
 }

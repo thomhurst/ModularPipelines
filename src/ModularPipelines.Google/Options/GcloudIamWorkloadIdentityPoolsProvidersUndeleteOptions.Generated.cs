@@ -21,4 +21,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("iam", "workload-identity-pools", "providers", "undelete")]
 public record GcloudIamWorkloadIdentityPoolsProvidersUndeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// undelete a workload     identity pool provider
+    /// </summary>
+    /// <param name="Provider">Workload identity pool provider resource - The workload identity pool provider to undelete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument provider on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the workload identity pool provider or fully qualified identifier for the workload identity pool provider. To set the provider attribute: ▸ provide the argument provider on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudIamWorkloadIdentityPoolsProvidersUndeleteOptions(
+        string Provider
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Provider);
+        this.Provider = Provider;
+    }
+
+    public void Deconstruct(out string Provider)
+    {
+        Provider = this.Provider;
+    }
+
+    /// <summary>
+    /// Workload identity pool provider resource - The workload identity pool provider to undelete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument provider on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location name. To set the location attribute: ▸ provide the argument provider on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Workload identity pool provider resource - The workload identity pool provider to undelete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument provider on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The ID to use for the pool, which becomes the final component of the resource name. This value should be 4-32 characters, and may contain the characters [a-z0-9-]. The prefix gcp- is reserved for use by Google, and may not be specified. To set the workload-identity-pool attribute: ▸ provide the argument provider on the command line with a fully specified name; ▸ provide the argument --workload-identity-pool on the command line.
+    /// </summary>
+    [CliOption("--workload-identity-pool", Format = OptionFormat.EqualsSeparated)]
+    public string? WorkloadIdentityPool { get; set; }
+
+    /// <summary>
+    /// Workload identity pool provider resource - The workload identity pool provider to undelete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument provider on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the workload identity pool provider or fully qualified identifier for the workload identity pool provider. To set the provider attribute: ▸ provide the argument provider on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Provider { get; private init; }
+
 }

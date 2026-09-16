@@ -21,4 +21,50 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("managed-kafka", "consumer-groups", "update")]
 public record GcloudManagedKafkaConsumerGroupsUpdateOptions : GcloudOptions
 {
+    /// <summary>
+    /// update a Managed Service for     Apache Kafka consumer group
+    /// </summary>
+    /// <param name="TopicsFile">The path to the JSON or YAML file containing the configuration of the topics to be updated for the consumer group. This also supports inline JSON or YAML. Required, sets topics_file value. Input Example: --topics-file=string File Example: --topics-file=path_to_file.(yaml|json)</param>
+    /// <param name="ConsumerGroup">Consumer group resource - Identifies the consumer group to be updated. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument consumer_group on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the consumer_group or fully qualified identifier for the consumer_group. To set the consumer_group attribute: ▸ provide the argument consumer_group on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudManagedKafkaConsumerGroupsUpdateOptions(
+        string TopicsFile,
+        string ConsumerGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TopicsFile);
+        this.TopicsFile = TopicsFile;
+        global::System.ArgumentNullException.ThrowIfNull(ConsumerGroup);
+        this.ConsumerGroup = ConsumerGroup;
+    }
+
+    public void Deconstruct(out string TopicsFile, out string ConsumerGroup)
+    {
+        TopicsFile = this.TopicsFile;
+        ConsumerGroup = this.ConsumerGroup;
+    }
+
+    /// <summary>
+    /// The path to the JSON or YAML file containing the configuration of the topics to be updated for the consumer group. This also supports inline JSON or YAML. Required, sets topics_file value. Input Example: --topics-file=string File Example: --topics-file=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--topics-file", Format = OptionFormat.EqualsSeparated)]
+    public string TopicsFile { get; private init; }
+
+    /// <summary>
+    /// Consumer group resource - Identifies the consumer group to be updated. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument consumer_group on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The cluster name. To set the cluster attribute: ▸ provide the argument consumer_group on the command line with a fully specified name; ▸ provide the argument --cluster on the command line.
+    /// </summary>
+    [CliOption("--cluster", Format = OptionFormat.EqualsSeparated)]
+    public string? Cluster { get; set; }
+
+    /// <summary>
+    /// Consumer group resource - Identifies the consumer group to be updated. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument consumer_group on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the location of the Managed Service for Apache Kafka resource. See https://cloud.google.com/managed-service-for-apache-kafka/docs/locations for a list of supported locations. To set the location attribute: ▸ provide the argument consumer_group on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Consumer group resource - Identifies the consumer group to be updated. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument consumer_group on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the consumer_group or fully qualified identifier for the consumer_group. To set the consumer_group attribute: ▸ provide the argument consumer_group on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ConsumerGroup { get; private init; }
+
 }

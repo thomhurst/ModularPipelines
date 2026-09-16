@@ -24,6 +24,29 @@ namespace ModularPipelines.Google.Options;
 public record GcloudRedisInstancesCreateOptions : GcloudOptions
 {
     /// <summary>
+    /// create a Memorystore Redis instance
+    /// </summary>
+    /// <param name="Instance">Instance resource - Arguments and flags that specify the Memorystore Redis instance you want to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudRedisInstancesCreateOptions(
+        string Instance
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+    }
+
+    public void Deconstruct(out string Instance)
+    {
+        Instance = this.Instance;
+    }
+
+    /// <summary>
+    /// Instance resource - Arguments and flags that specify the Memorystore Redis instance you want to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The name of the Redis region of the instance. Overrides the default redis/region property value for this command invocation. To set the region attribute: ▸ provide the argument instance on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property redis/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
     /// A secondary zone for the Redis instance. Only applicable to the standard tier. This protects the instance against zonal failures by provisioning it across two zones. If provided, alternative zone must be a different zone from the one provided through --zone.
     /// </summary>
     [CliOption("--alternative-zone", Format = OptionFormat.EqualsSeparated)]
@@ -60,9 +83,9 @@ public record GcloudRedisInstancesCreateOptions : GcloudOptions
     public bool? EnableAuth { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
@@ -108,9 +131,9 @@ public record GcloudRedisInstancesCreateOptions : GcloudOptions
     public string? ReadReplicasMode { get; set; }
 
     /// <summary>
-    /// A list of Redis config KEY=VALUE pairs to set on the instance according to http://redis.io/topics/config. Currently, the only supported parameters are: Redis version 3.2 and newer: maxmemory-policy, notify-keyspace-events, timeout, databases. Redis version 4.0 and newer: activedefrag, lfu-decay-time, lfu-log-factor, maxmemory-gb. Redis version 5.0 and newer: stream-node-max-bytes, stream-node-max-entries.
+    /// A list of Redis config KEY=VALUE pairs to set on the instance according to http://redis.io/topics/config. Currently, the only supported parameters are: Redis version 3.2 and newer: maxmemory-policy, notify-keyspace-events, timeout, databases. Redis version 4.0 and newer: activedefrag, lfu-decay-time, lfu-log-factor, maxmemory-gb. Redis version 5.0 and newer: stream-node-max-bytes, stream-node-max-entries. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--redis-config", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--redis-config", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? RedisConfig { get; set; }
 
     /// <summary>
@@ -138,9 +161,9 @@ public record GcloudRedisInstancesCreateOptions : GcloudOptions
     public int? Size { get; set; }
 
     /// <summary>
-    /// List of tag KEY=VALUE pairs to add.
+    /// List of tag KEY=VALUE pairs to add. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
@@ -160,5 +183,11 @@ public record GcloudRedisInstancesCreateOptions : GcloudOptions
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }
+
+    /// <summary>
+    /// Instance resource - Arguments and flags that specify the Memorystore Redis instance you want to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Instance { get; private init; }
 
 }

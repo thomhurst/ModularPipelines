@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("compute", "os-config", "patch-jobs", "list-instance-details")]
 public record GcloudComputeOsConfigPatchJobsListInstanceDetailsOptions : GcloudOptions
 {
+    /// <summary>
+    /// list the     instance details for an OS patch job
+    /// </summary>
+    /// <param name="PatchJob">Patch job resource - Patch job to list instance details. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument patch_job on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the patch_job or fully qualified identifier for the patch_job. To set the patch_job attribute: ▸ provide the argument patch_job on the command line.</param>
+    public GcloudComputeOsConfigPatchJobsListInstanceDetailsOptions(
+        string PatchJob
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PatchJob);
+        this.PatchJob = PatchJob;
+    }
+
+    public void Deconstruct(out string PatchJob)
+    {
+        PatchJob = this.PatchJob;
+    }
+
+    /// <summary>
+    /// Patch job resource - Patch job to list instance details. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument patch_job on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the patch_job or fully qualified identifier for the patch_job. To set the patch_job attribute: ▸ provide the argument patch_job on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PatchJob { get; private init; }
+
 }

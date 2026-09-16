@@ -10,6 +10,9 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +22,130 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventarc", "google-api-sources", "create")]
-public record GcloudEventarcGoogleApiSourcesCreateOptions : GcloudOptions
+public record GcloudEventarcGoogleApiSourcesCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create an Eventarc Google API     source
+    /// </summary>
+    /// <param name="DestinationMessageBus">Message bus resource - The destination message bus of the Google API source. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the location attribute: ◆ provide the argument --destination-message-bus on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property eventarc/location. This must be specified. ID of the message bus or fully qualified identifier for the message bus. To set the message-bus attribute: ▸ provide the argument --destination-message-bus on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="GoogleApiSource">Google API source resource - The Google API source to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument google_api_source on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the Google API source or fully qualified identifier for the Google API source. To set the google-api-source attribute: ▸ provide the argument google_api_source on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudEventarcGoogleApiSourcesCreateOptions(
+        string DestinationMessageBus,
+        string GoogleApiSource
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DestinationMessageBus);
+        this.DestinationMessageBus = DestinationMessageBus;
+        global::System.ArgumentNullException.ThrowIfNull(GoogleApiSource);
+        this.GoogleApiSource = GoogleApiSource;
+    }
+
+    public void Deconstruct(out string DestinationMessageBus, out string GoogleApiSource)
+    {
+        DestinationMessageBus = this.DestinationMessageBus;
+        GoogleApiSource = this.GoogleApiSource;
+    }
+
+    /// <summary>
+    /// Message bus resource - The destination message bus of the Google API source. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the location attribute: ◆ provide the argument --destination-message-bus on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property eventarc/location. This must be specified. ID of the message bus or fully qualified identifier for the message bus. To set the message-bus attribute: ▸ provide the argument --destination-message-bus on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--destination-message-bus", Format = OptionFormat.EqualsSeparated)]
+    public string DestinationMessageBus { get; private init; }
+
+    /// <summary>
+    /// Google API source resource - The Google API source to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument google_api_source on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location for the Eventarc Google API source, which should be one of the supported regions. Alternatively, set the [eventarc/location] property. To set the location attribute: ▸ provide the argument google_api_source on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property eventarc/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Message bus resource - The destination message bus of the Google API source. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the location attribute: ◆ provide the argument --destination-message-bus on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property eventarc/location. This must be specified. Project ID of the Google Cloud project for the message bus. To set the project attribute: ▸ provide the argument --destination-message-bus on the command line with a fully specified name; ▸ provide the argument --destination-message-bus-project on the command line; ▸ provide the argument --project on the command line; ▸ set the property core/project.
+    /// </summary>
+    [CliOption("--destination-message-bus-project", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationMessageBusProject { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Fully qualified name of the crypto key to use for customer-managed encryption. If this is unspecified, Google-managed keys will be used for encryption.
+    /// </summary>
+    [CliOption("--crypto-key", Format = OptionFormat.EqualsSeparated)]
+    public string? CryptoKey { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// The logging config for the Google API source. LOGGING_CONFIG must be one of: NONE, DEBUG, INFO, NOTICE, WARNING, ERROR, CRITICAL, ALERT, EMERGENCY.
+    /// </summary>
+    [CliOption("--logging-config", Format = OptionFormat.EqualsSeparated)]
+    public GcloudLoggingConfig? LoggingConfig { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: The organization subscription for the resource. Use --organization-subscription to enable and --no-organization-subscription to disable.
+    /// </summary>
+    [CliFlag("--organization-subscription")]
+    public bool? OrganizationSubscription { get; set; }
+
+    /// <summary>
+    /// Negates --organization-subscription. At most one of these can be specified: The organization subscription for the resource. Use --organization-subscription to enable and --no-organization-subscription to disable.
+    /// </summary>
+    [CliFlag("--no-organization-subscription")]
+    public bool? NoOrganizationSubscription { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: The project subscriptions for the resource. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--project-subscriptions", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ProjectSubscriptions
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __ProjectSubscriptionsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __ProjectSubscriptionsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Google API source resource - The Google API source to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument google_api_source on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the Google API source or fully qualified identifier for the Google API source. To set the google-api-source attribute: ▸ provide the argument google_api_source on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string GoogleApiSource { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((((object?)ProjectSubscriptions is global::System.Collections.Generic.IEnumerable<char> ? (object?)ProjectSubscriptions is not string || !string.IsNullOrWhiteSpace(ProjectSubscriptions?.ToString()) : ((object?)ProjectSubscriptions is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ProjectSubscriptions, static item => item is not null) : (ProjectSubscriptions is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ProjectSubscriptions), static item => item is not null)))) ? 1 : 0) + ((OrganizationSubscription == true || NoOrganizationSubscription == true) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ProjectSubscriptions or (OrganizationSubscription or NoOrganizationSubscription) may be specified.", [nameof(ProjectSubscriptions), nameof(OrganizationSubscription), nameof(NoOrganizationSubscription)]);
+        }
+        if ((((object?)ProjectSubscriptions is global::System.Collections.Generic.IEnumerable<char> ? (object?)ProjectSubscriptions is not string || !string.IsNullOrWhiteSpace(ProjectSubscriptions?.ToString()) : ((object?)ProjectSubscriptions is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ProjectSubscriptions, static item => item is not null) : (ProjectSubscriptions is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ProjectSubscriptions), static item => item is not null)))) || OrganizationSubscription == true || NoOrganizationSubscription == true) && ((OrganizationSubscription == true ? 1 : 0) + (NoOrganizationSubscription == true ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of OrganizationSubscription or NoOrganizationSubscription may be specified.", [nameof(OrganizationSubscription), nameof(NoOrganizationSubscription)]);
+        }
+        yield break;
+    }
+
 }

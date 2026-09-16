@@ -23,6 +23,29 @@ namespace ModularPipelines.Google.Options;
 public record GcloudBackupDrBackupVaultsUpdateOptions : GcloudOptions
 {
     /// <summary>
+    /// update a Backup and DR backup vault
+    /// </summary>
+    /// <param name="BackupVault">Backup Vault resource - Name of the existing backup vault to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument backup_vault on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the Backup Vault or fully qualified identifier for the Backup Vault. To set the name attribute: ▸ provide the argument backup_vault on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudBackupDrBackupVaultsUpdateOptions(
+        string BackupVault
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BackupVault);
+        this.BackupVault = BackupVault;
+    }
+
+    public void Deconstruct(out string BackupVault)
+    {
+        BackupVault = this.BackupVault;
+    }
+
+    /// <summary>
+    /// Backup Vault resource - Name of the existing backup vault to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument backup_vault on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the Backup Vault. To set the location attribute: ▸ provide the argument backup_vault on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Authorize certain sources and destinations for data being sent into, or restored from the current backup vault. Access restrictions can be modified to be more or less restrictive. ::: More restrictive access restriction update will fail by default if there will be non compliant Data Sources. To allow such updates, use the --force-update-access-restriction flag. ::: For Google Cloud Console resources, the following changes are allowed to make access restrictions more restrictive: * `UNRESTRICTED` to `WITHIN_PROJECT` / `WITHIN_ORG_BUT_UNRESTRICTED_FOR_BA` / `WITHIN_ORGANIZATION` * `WITHIN_PROJECT` to `WITHIN_ORGANIZATION` / `WITHIN_ORG_BUT_UNRESTRICTED_FOR_BA` ::: For Management Server resources, the following changes are allowed to make access restrictions more restrictive: * `UNRESTRICTED` to `WITHIN_PROJECT` / `WITHIN_ORG_BUT_UNRESTRICTED_FOR_BA` / `WITHIN_ORGANIZATION` * `WITHIN_PROJECT` to `WITHIN_ORGANIZATION` / `WITHIN_ORG_BUT_UNRESTRICTED_FOR_BA` ::: For both Google Cloud Console and Management Server resources, the following changes are allowed to make access restrictions more restrictive: * `UNRESTRICTED` to `WITHIN_PROJECT` / `WITHIN_ORG_BUT_UNRESTRICTED_FOR_BA` / `WITHIN_ORGANIZATION` * `WITHIN_PROJECT` to `WITHIN_ORGANIZATION` / `WITHIN_ORG_BUT_UNRESTRICTED_FOR_BA` ::: For Google Cloud Console resources, the following changes are allowed to make access restrictions less restrictive: * `WITHIN_ORGANIZATION` to `UNRESTRICTED` / `WITHIN_ORG_BUT_UNRESTRICTED_FOR_BA` * `WITHIN_PROJECT` to `UNRESTRICTED` * `WITHIN_ORG_BUT_UNRESTRICTED_FOR_BA` to `UNRESTRICTED` ::: For Management Server resources, the following changes are allowed to make access restrictions less restrictive: * `WITHIN_ORG_BUT_UNRESTRICTED_FOR_BA` to `UNRESTRICTED` ACCESS_RESTRICTION must be one of: within-project, within-org, unrestricted, within-org-but-unrestricted-for-ba.
     /// </summary>
     [CliOption("--access-restriction", Format = OptionFormat.EqualsSeparated)]
@@ -69,5 +92,11 @@ public record GcloudBackupDrBackupVaultsUpdateOptions : GcloudOptions
     /// </summary>
     [CliFlag("--unlock-backup-min-enforced-retention")]
     public bool? UnlockBackupMinEnforcedRetention { get; set; }
+
+    /// <summary>
+    /// Backup Vault resource - Name of the existing backup vault to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument backup_vault on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the Backup Vault or fully qualified identifier for the Backup Vault. To set the name attribute: ▸ provide the argument backup_vault on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string BackupVault { get; private init; }
 
 }

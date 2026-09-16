@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -20,7 +21,7 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logging", "read")]
-public record GcloudLoggingReadOptions : GcloudOptions
+public record GcloudLoggingReadOptions : GcloudOptions, IValidatableObject
 {
     /// <summary>
     /// Return entries that are not older than this value. Works only with DESC ordering and filters without a timestamp. See $ gcloud topic datetimes for information on duration formats.
@@ -53,16 +54,38 @@ public record GcloudLoggingReadOptions : GcloudOptions
     public string? Organization { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Project of the log entries to read. The Google Cloud project ID to use for this invocation. If omitted, then the current project is assumed; the current project can be listed using gcloud config list --format='text(core.project)' and can be set using gcloud config set project PROJECTID. --project and its fallback core/project property play two roles in the invocation. It specifies the project of the resource to operate on. It also specifies the project for API enablement check, quota, and billing. To specify a different project for quota and billing, use --billing-project or billing/quota_project property.
+    /// At most one of these can be specified: Project of the log entries to read. The Google Cloud project ID to use for this invocation. If omitted, then the current project is assumed; the current project can be listed using gcloud config list --format='text(core.project)' and can be set using gcloud config set project PROJECTID. --project and its fallback core/project property play two roles in the invocation: they specify both the project of the resource to operate on, and the project for API enablement checks, quota, and billing. To specify a different project for quota and billing, use the --billing-project flag or the billing/quota_project property.
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
     public string? Project { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Resource name(s) to read logs from. A resource can either be an top-level resource (e.g., "projects/my-project") or a full log view resource path (e.g., "projects/my-project/locations/my-location/buckets/my-bucket/views/my-view"). Multiple resources can be specified, separated by a comma.
+    /// At most one of these can be specified: Resource name(s) to read logs from. A resource can either be an top-level resource (e.g., "projects/my-project") or a full log view resource path (e.g., "projects/my-project/locations/my-location/buckets/my-bucket/views/my-view"). Multiple resources can be specified, separated by a comma. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--resource-names", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? ResourceNames { get; set; }
+    [CliOption("--resource-names", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ResourceNames
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __ResourceNamesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __ResourceNamesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// At most one of these can be specified: Or at least one of these can be specified: These arguments are used in conjunction with the parent to construct a view resource. Id of the log bucket. If this argument is provided then --location and --view must also be specified. This flag argument must be specified if any of the other arguments in this group are specified.
@@ -81,5 +104,37 @@ public record GcloudLoggingReadOptions : GcloudOptions
     /// </summary>
     [CliOption("--view", Format = OptionFormat.EqualsSeparated)]
     public string? View { get; set; }
+
+    /// <summary>
+    /// Filter expression that specifies the log entries to return. Detailed information about filters can be found at: https://cloud.google.com/logging/docs/view/logging-query-language
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? LogFilter { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(BillingAccount) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Folder) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Project) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of BillingAccount, Folder, Organization, or Project may be specified.", [nameof(BillingAccount), nameof(Folder), nameof(Organization), nameof(Project)]);
+        }
+        if ((((object?)ResourceNames is global::System.Collections.Generic.IEnumerable<char> ? (object?)ResourceNames is not string || !string.IsNullOrWhiteSpace(ResourceNames?.ToString()) : ((object?)ResourceNames is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ResourceNames, static item => item is not null) : (ResourceNames is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ResourceNames), static item => item is not null)))) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(Bucket) || !string.IsNullOrWhiteSpace(Location) || !string.IsNullOrWhiteSpace(View)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ResourceNames or (Bucket, Location, or View) may be specified.", [nameof(ResourceNames), nameof(Bucket), nameof(Location), nameof(View)]);
+        }
+        if ((((object?)ResourceNames is global::System.Collections.Generic.IEnumerable<char> ? (object?)ResourceNames is not string || !string.IsNullOrWhiteSpace(ResourceNames?.ToString()) : ((object?)ResourceNames is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ResourceNames, static item => item is not null) : (ResourceNames is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ResourceNames), static item => item is not null)))) || !string.IsNullOrWhiteSpace(Bucket) || !string.IsNullOrWhiteSpace(Location) || !string.IsNullOrWhiteSpace(View)) && (!string.IsNullOrWhiteSpace(Bucket) || !string.IsNullOrWhiteSpace(Location) || !string.IsNullOrWhiteSpace(View)) && (!string.IsNullOrWhiteSpace(Bucket) || !string.IsNullOrWhiteSpace(Location) || !string.IsNullOrWhiteSpace(View)) && (!(!string.IsNullOrWhiteSpace(Bucket))))
+        {
+            yield return new ValidationResult("Bucket must be specified when other arguments in this group are specified.", [nameof(Bucket)]);
+        }
+        if ((((object?)ResourceNames is global::System.Collections.Generic.IEnumerable<char> ? (object?)ResourceNames is not string || !string.IsNullOrWhiteSpace(ResourceNames?.ToString()) : ((object?)ResourceNames is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ResourceNames, static item => item is not null) : (ResourceNames is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ResourceNames), static item => item is not null)))) || !string.IsNullOrWhiteSpace(Bucket) || !string.IsNullOrWhiteSpace(Location) || !string.IsNullOrWhiteSpace(View)) && (!string.IsNullOrWhiteSpace(Bucket) || !string.IsNullOrWhiteSpace(Location) || !string.IsNullOrWhiteSpace(View)) && (!string.IsNullOrWhiteSpace(Bucket) || !string.IsNullOrWhiteSpace(Location) || !string.IsNullOrWhiteSpace(View)) && (!(!string.IsNullOrWhiteSpace(Location))))
+        {
+            yield return new ValidationResult("Location must be specified when other arguments in this group are specified.", [nameof(Location)]);
+        }
+        if ((((object?)ResourceNames is global::System.Collections.Generic.IEnumerable<char> ? (object?)ResourceNames is not string || !string.IsNullOrWhiteSpace(ResourceNames?.ToString()) : ((object?)ResourceNames is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ResourceNames, static item => item is not null) : (ResourceNames is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ResourceNames), static item => item is not null)))) || !string.IsNullOrWhiteSpace(Bucket) || !string.IsNullOrWhiteSpace(Location) || !string.IsNullOrWhiteSpace(View)) && (!string.IsNullOrWhiteSpace(Bucket) || !string.IsNullOrWhiteSpace(Location) || !string.IsNullOrWhiteSpace(View)) && (!string.IsNullOrWhiteSpace(Bucket) || !string.IsNullOrWhiteSpace(Location) || !string.IsNullOrWhiteSpace(View)) && (!(!string.IsNullOrWhiteSpace(View))))
+        {
+            yield return new ValidationResult("View must be specified when other arguments in this group are specified.", [nameof(View)]);
+        }
+        yield break;
+    }
 
 }

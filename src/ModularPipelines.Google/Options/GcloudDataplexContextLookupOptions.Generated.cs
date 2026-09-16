@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +22,62 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("dataplex", "context", "lookup")]
 public record GcloudDataplexContextLookupOptions : GcloudOptions
 {
+    /// <summary>
+    /// looks up metadata that can be used as     context by agents
+    /// </summary>
+    /// <param name="Resources">The identifier describing the resource, for example: projects/{project}/locations/{location}/entryGroups/{entry_group}/entries/{entry} Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    public GcloudDataplexContextLookupOptions(
+        IEnumerable<string> Resources
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Resources);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Resources));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Resources));
+            }
+
+            Resources = materialized;
+        }
+        this.Resources = Resources;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Resources)
+    {
+        Resources = this.Resources;
+    }
+
+    /// <summary>
+    /// The identifier describing the resource, for example: projects/{project}/locations/{location}/entryGroups/{entry_group}/entries/{entry} Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--resources", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> Resources { get; private init; }
+
+    /// <summary>
+    /// Includes all schema fields in the context.
+    /// </summary>
+    [CliFlag("--all-schema-fields")]
+    public bool? AllSchemaFields { get; set; }
+
+    /// <summary>
+    /// The output format of the command. CONTEXT_FORMAT must be one of: json, xml, yaml.
+    /// </summary>
+    [CliOption("--context-format", Format = OptionFormat.EqualsSeparated)]
+    public GcloudContextFormat? ContextFormat { get; set; }
+
+    /// <summary>
+    /// Location resource - The Dataplex location for the context lookup. If not specified, the location will be taken from the dataplex/location property in your gcloud configuration. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property dataplex/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the location or fully qualified identifier for the location. To set the location attribute: ◆ provide the argument --location on the command line; ◆ set the property dataplex/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Location resource - The Dataplex location for the context lookup. If not specified, the location will be taken from the dataplex/location property in your gcloud configuration. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property dataplex/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Additional options for the command. This can be provided as a JSON string. Example: --options='{"key": "value"}'
+    /// </summary>
+    [CliOption("--options", Format = OptionFormat.EqualsSeparated)]
+    public string? Options { get; set; }
+
 }

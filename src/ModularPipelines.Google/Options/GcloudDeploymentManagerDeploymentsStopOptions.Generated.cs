@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deployment-manager", "deployments", "stop")]
-public record GcloudDeploymentManagerDeploymentsStopOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string DeploymentName
-) : GcloudOptions
+public record GcloudDeploymentManagerDeploymentsStopOptions : GcloudOptions
 {
+    /// <summary>
+    /// stop a pending or running     deployment update or creation
+    /// </summary>
+    /// <param name="DeploymentName">Deployment name.</param>
+    public GcloudDeploymentManagerDeploymentsStopOptions(
+        string DeploymentName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DeploymentName);
+        this.DeploymentName = DeploymentName;
+    }
+
+    public void Deconstruct(out string DeploymentName)
+    {
+        DeploymentName = this.DeploymentName;
+    }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -34,5 +49,11 @@ public record GcloudDeploymentManagerDeploymentsStopOptions(
     /// </summary>
     [CliOption("--fingerprint", Format = OptionFormat.EqualsSeparated)]
     public string? Fingerprint { get; set; }
+
+    /// <summary>
+    /// Deployment name.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string DeploymentName { get; private init; }
 
 }

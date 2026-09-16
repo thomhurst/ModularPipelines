@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "config", "configurations", "create")]
-public record GcloudPreviewConfigConfigurationsCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ConfigurationName
-) : GcloudOptions
+public record GcloudPreviewConfigConfigurationsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// creates a new named     configuration
+    /// </summary>
+    /// <param name="ConfigurationName">Name of the configuration to create</param>
+    public GcloudPreviewConfigConfigurationsCreateOptions(
+        string ConfigurationName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConfigurationName);
+        this.ConfigurationName = ConfigurationName;
+    }
+
+    public void Deconstruct(out string ConfigurationName)
+    {
+        ConfigurationName = this.ConfigurationName;
+    }
+
     /// <summary>
     /// If true, activate this configuration upon create. Enabled by default, use --no-activate to disable.
     /// </summary>
@@ -34,5 +49,11 @@ public record GcloudPreviewConfigConfigurationsCreateOptions(
     /// </summary>
     [CliFlag("--no-activate")]
     public bool? NoActivate { get; set; }
+
+    /// <summary>
+    /// Name of the configuration to create
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ConfigurationName { get; private init; }
 
 }

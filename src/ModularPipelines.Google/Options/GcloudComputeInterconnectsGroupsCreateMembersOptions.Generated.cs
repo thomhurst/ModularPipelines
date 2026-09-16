@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,123 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "interconnects", "groups", "create-members")]
-public record GcloudComputeInterconnectsGroupsCreateMembersOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudComputeInterconnectsGroupsCreateMembersOptions : GcloudOptions
 {
+    /// <summary>
+    /// create new member     interconnects in a Compute Engine interconnect group
+    /// </summary>
+    /// <param name="Interconnect">New member interconnects to create in the interconnect group. To create multiple interconnects, this flag should be specified multiple times. Each interconnect takes in the same set of flags as the gcloud compute interconnects create command, except instead of a location, a facility must be specified. These flags are defined as a comma separated list of flag=value pairs. Example: --interconnect name=interconnect1,facility=iad-1,description="my interconnect",link-type=LINK_TYPE_ETHERNET_10G_LR,requested-link-count=1,interconnect-type=DEDICATED,admin-enabled,noc-contact-email=noc@google.com,customer-name=customer-name,requested-features=MACSEC:CROSS_SITE_NETWORK Note that for multiple requested-features, use a colon (:) as the delimiter, as the comma is used to separate the flags. Similarly, if you need to use a comma in another flag value, you should set an alternative delimiter for the --interconnect flag. Run gcloud topic escaping for more information. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="Name">Name of the interconnect group to create members.</param>
+    public GcloudComputeInterconnectsGroupsCreateMembersOptions(
+        IEnumerable<string> Interconnect,
+        string Name
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Interconnect);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Interconnect));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Interconnect));
+            }
+
+            Interconnect = materialized;
+        }
+        this.Interconnect = Interconnect;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Interconnect, out string Name)
+    {
+        Interconnect = this.Interconnect;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// New member interconnects to create in the interconnect group. To create multiple interconnects, this flag should be specified multiple times. Each interconnect takes in the same set of flags as the gcloud compute interconnects create command, except instead of a location, a facility must be specified. These flags are defined as a comma separated list of flag=value pairs. Example: --interconnect name=interconnect1,facility=iad-1,description="my interconnect",link-type=LINK_TYPE_ETHERNET_10G_LR,requested-link-count=1,interconnect-type=DEDICATED,admin-enabled,noc-contact-email=noc@google.com,customer-name=customer-name,requested-features=MACSEC:CROSS_SITE_NETWORK Note that for multiple requested-features, use a colon (:) as the delimiter, as the comma is used to separate the flags. Similarly, if you need to use a comma in another flag value, you should set an alternative delimiter for the --interconnect flag. Run gcloud topic escaping for more information. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--interconnect", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> Interconnect { get; private init; }
+
+    /// <summary>
+    /// Administrative status of the interconnect. If not provided on creation, defaults to enabled. When this is enabled, the interconnect is operational and will carry traffic across any functioning linked interconnect attachments. Use --no-admin-enabled to disable it.
+    /// </summary>
+    [CliFlag("--admin-enabled")]
+    public bool? AdminEnabled { get; set; }
+
+    /// <summary>
+    /// Negates --admin-enabled. Administrative status of the interconnect. If not provided on creation, defaults to enabled. When this is enabled, the interconnect is operational and will carry traffic across any functioning linked interconnect attachments. Use --no-admin-enabled to disable it.
+    /// </summary>
+    [CliFlag("--no-admin-enabled")]
+    public bool? NoAdminEnabled { get; set; }
+
+    /// <summary>
+    /// Customer name to put in the Letter of Authorization as the party authorized to request an interconnect. This field is required for most interconnects, however it is prohibited when creating a Cross-Cloud Interconnect.
+    /// </summary>
+    [CliOption("--customer-name", Format = OptionFormat.EqualsSeparated)]
+    public string? CustomerName { get; set; }
+
+    /// <summary>
+    /// An optional, textual description for the interconnect.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// The facility (zone free location) to create the interconnect in.
+    /// </summary>
+    [CliOption("--facility", Format = OptionFormat.EqualsSeparated)]
+    public string? Facility { get; set; }
+
+    /// <summary>
+    /// The behavior when the intent of the interconnect group does not match the topology capability of the member interconnects. INTENT_MISMATCH_BEHAVIOR must be one of: REJECT, CREATE.
+    /// </summary>
+    [CliOption("--intent-mismatch-behavior", Format = OptionFormat.EqualsSeparated)]
+    public GcloudIntentMismatchBehavior? IntentMismatchBehavior { get; set; }
+
+    /// <summary>
+    /// Type of the interconnect. INTERCONNECT_TYPE must be one of: DEDICATED Dedicated private interconnect. PARTNER Partner interconnect. Only available to approved partners.
+    /// </summary>
+    [CliOption("--interconnect-type", Format = OptionFormat.EqualsSeparated)]
+    public string? InterconnectType { get; set; }
+
+    /// <summary>
+    /// Type of the link for the interconnect. LINK_TYPE must be one of: LINK_TYPE_ETHERNET_100G_LR 100Gbps Ethernet, LR Optics. LINK_TYPE_ETHERNET_10G_LR 10Gbps Ethernet, LR Optics. LINK_TYPE_ETHERNET_400G_LR4 400Gbps Ethernet, LR4 Optics.
+    /// </summary>
+    [CliOption("--link-type", Format = OptionFormat.EqualsSeparated)]
+    public string? LinkType { get; set; }
+
+    /// <summary>
+    /// Email address to contact the customer NOC for operations and maintenance notifications regarding this interconnect.
+    /// </summary>
+    [CliOption("--noc-contact-email", Format = OptionFormat.EqualsSeparated)]
+    public string? NocContactEmail { get; set; }
+
+    /// <summary>
+    /// The location of the interconnect for Cross-Cloud Interconnect.
+    /// </summary>
+    [CliOption("--remote-location", Format = OptionFormat.EqualsSeparated)]
+    public string? RemoteLocation { get; set; }
+
+    /// <summary>
+    /// List of features requested for this interconnect. FEATURES must be one of: CROSS_SITE_NETWORK If specified then the interconnect is created on Cross-Site Network capable hardware ports. This parameter can only be provided during interconnect INSERT and cannot be changed using interconnect PATCH. L2_FORWARDING If specified then the interconnect is created on L2 forwarding capable hardware ports. This parameter can only be provided during interconnect INSERT and cannot be changed using interconnect PATCH. MACSEC If specified then the interconnect is created on MACsec capable hardware ports. If not specified, the interconnect is created on non-MACsec capable ports first, if available. This parameter can only be provided during interconnect INSERT and cannot be changed using interconnect PATCH. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--requested-features", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RequestedFeatures { get; set; }
+
+    /// <summary>
+    /// Target number of physical links in the link bundle.
+    /// </summary>
+    [CliOption("--requested-link-count", Format = OptionFormat.EqualsSeparated)]
+    public int? RequestedLinkCount { get; set; }
+
+    /// <summary>
+    /// Name of the interconnect group to create members.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }

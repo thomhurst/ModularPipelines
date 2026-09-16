@@ -6,6 +6,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -21,4 +22,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("secrets", "rotate-secret")]
 public record GcloudSecretsRotateSecretOptions : GcloudOptions
 {
+    /// <summary>
+    /// rotate a secret
+    /// </summary>
+    /// <param name="Location">Location resource - The location of the secret. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the location or fully qualified identifier for the location. To set the location attribute: ▸ provide the argument --location on the command line.</param>
+    /// <param name="Secret">Secret resource - The secret to rotate secret and add a new version. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument SECRET on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the secret or fully qualified identifier for the secret. To set the secret attribute: ▸ provide the argument SECRET on the command line.</param>
+    public GcloudSecretsRotateSecretOptions(
+        string Location,
+        string Secret
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        global::System.ArgumentNullException.ThrowIfNull(Secret);
+        this.Secret = Secret;
+    }
+
+    public void Deconstruct(out string Location, out string Secret)
+    {
+        Location = this.Location;
+        Secret = this.Secret;
+    }
+
+    /// <summary>
+    /// Location resource - The location of the secret. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the location or fully qualified identifier for the location. To set the location attribute: ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// Secret resource - The secret to rotate secret and add a new version. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument SECRET on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the secret or fully qualified identifier for the secret. To set the secret attribute: ▸ provide the argument SECRET on the command line.
+    /// </summary>
+    [SecretValue]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Secret { get; private init; }
+
 }

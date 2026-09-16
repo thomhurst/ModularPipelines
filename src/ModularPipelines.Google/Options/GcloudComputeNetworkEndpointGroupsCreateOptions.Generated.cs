@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -20,10 +21,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "network-endpoint-groups", "create")]
-public record GcloudComputeNetworkEndpointGroupsCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudComputeNetworkEndpointGroupsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a Compute Engine     network endpoint group
+    /// </summary>
+    /// <param name="Name">Name of the network endpoint group to operate on.</param>
+    public GcloudComputeNetworkEndpointGroupsCreateOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// The default port to use if the port number is not specified in the network endpoint. If this flag isn't specified for a NEG with endpoint type gce-vm-ip-port, gce-vm-ip-portmap or non-gcp-private-ip-port, then every network endpoint in the network endpoint group must have a port specified. For a global NEG with endpoint type internet-ip-port and internet-fqdn-port if the default port is not specified, the well-known port for your backend protocol is used (80 for HTTP, 443 for HTTPS). This flag is not supported for NEGs with endpoint type serverless. This flag is not supported for NEGs with endpoint type private-service-connect.
     /// </summary>
@@ -73,49 +89,49 @@ public record GcloudComputeNetworkEndpointGroupsCreateOptions(
     public string? CloudFunctionUrlMask { get; set; }
 
     /// <summary>
-    /// Configuration for a Cloud Run network endpoint group. Cloud Run service must be provided explicitly or in the URL mask. Cloud Run tag is optional, and may be provided explicitly or in the URL mask. Cloud Run service name to add to the Serverless network endpoint groups (NEG). The service must be in the same project and the same region as the Serverless NEG.
+    /// The serverless routing configurations are only valid when endpoint type of the network endpoint group is serverless. At most one of these can be specified: Configuration for a Cloud Run network endpoint group. Cloud Run service must be provided explicitly or in the URL mask. Cloud Run tag is optional, and may be provided explicitly or in the URL mask. Cloud Run service name to add to the Serverless network endpoint groups (NEG). The service must be in the same project and the same region as the Serverless NEG.
     /// </summary>
     [CliOption("--cloud-run-service", Format = OptionFormat.EqualsSeparated)]
     public string? CloudRunService { get; set; }
 
     /// <summary>
-    /// Configuration for a Cloud Run network endpoint group. Cloud Run service must be provided explicitly or in the URL mask. Cloud Run tag is optional, and may be provided explicitly or in the URL mask. Cloud Run tag represents the "named revision" to provide additional fine-grained traffic routing configuration.
+    /// The serverless routing configurations are only valid when endpoint type of the network endpoint group is serverless. At most one of these can be specified: Configuration for a Cloud Run network endpoint group. Cloud Run service must be provided explicitly or in the URL mask. Cloud Run tag is optional, and may be provided explicitly or in the URL mask. Cloud Run tag represents the "named revision" to provide additional fine-grained traffic routing configuration.
     /// </summary>
     [CliOption("--cloud-run-tag", Format = OptionFormat.EqualsSeparated)]
     public string? CloudRunTag { get; set; }
 
     /// <summary>
-    /// Configuration for a Cloud Run network endpoint group. Cloud Run service must be provided explicitly or in the URL mask. Cloud Run tag is optional, and may be provided explicitly or in the URL mask. A template to parse service and tag fields from a request URL. URL mask allows for routing to multiple Run services without having to create multiple network endpoint groups and backend services.
+    /// The serverless routing configurations are only valid when endpoint type of the network endpoint group is serverless. At most one of these can be specified: Configuration for a Cloud Run network endpoint group. Cloud Run service must be provided explicitly or in the URL mask. Cloud Run tag is optional, and may be provided explicitly or in the URL mask. A template to parse service and tag fields from a request URL. URL mask allows for routing to multiple Run services without having to create multiple network endpoint groups and backend services.
     /// </summary>
     [CliOption("--cloud-run-url-mask", Format = OptionFormat.EqualsSeparated)]
     public string? CloudRunUrlMask { get; set; }
 
     /// <summary>
-    /// Configuration for an App Engine network endpoint group. Both App Engine service and version are optional, and may be provided explicitly or in the URL mask. The app-engine-app flag is only used for default routing. The App Engine app must be in the same project as the Serverless network endpoint groups (NEG). If set, the default routing is used. Use --app-engine-app to enable and --no-app-engine-app to disable.
+    /// The serverless routing configurations are only valid when endpoint type of the network endpoint group is serverless. At most one of these can be specified: Configuration for an App Engine network endpoint group. Both App Engine service and version are optional, and may be provided explicitly or in the URL mask. The app-engine-app flag is only used for default routing. The App Engine app must be in the same project as the Serverless network endpoint groups (NEG). If set, the default routing is used. Use --app-engine-app to enable and --no-app-engine-app to disable.
     /// </summary>
     [CliFlag("--app-engine-app")]
     public bool? AppEngineApp { get; set; }
 
     /// <summary>
-    /// Negates --app-engine-app. Configuration for an App Engine network endpoint group. Both App Engine service and version are optional, and may be provided explicitly or in the URL mask. The app-engine-app flag is only used for default routing. The App Engine app must be in the same project as the Serverless network endpoint groups (NEG). If set, the default routing is used. Use --app-engine-app to enable and --no-app-engine-app to disable.
+    /// Negates --app-engine-app. The serverless routing configurations are only valid when endpoint type of the network endpoint group is serverless. At most one of these can be specified: Configuration for an App Engine network endpoint group. Both App Engine service and version are optional, and may be provided explicitly or in the URL mask. The app-engine-app flag is only used for default routing. The App Engine app must be in the same project as the Serverless network endpoint groups (NEG). If set, the default routing is used. Use --app-engine-app to enable and --no-app-engine-app to disable.
     /// </summary>
     [CliFlag("--no-app-engine-app")]
     public bool? NoAppEngineApp { get; set; }
 
     /// <summary>
-    /// Configuration for an App Engine network endpoint group. Both App Engine service and version are optional, and may be provided explicitly or in the URL mask. The app-engine-app flag is only used for default routing. The App Engine app must be in the same project as the Serverless network endpoint groups (NEG). Optional serving service to add to the Serverless NEG.
+    /// The serverless routing configurations are only valid when endpoint type of the network endpoint group is serverless. At most one of these can be specified: Configuration for an App Engine network endpoint group. Both App Engine service and version are optional, and may be provided explicitly or in the URL mask. The app-engine-app flag is only used for default routing. The App Engine app must be in the same project as the Serverless network endpoint groups (NEG). Optional serving service to add to the Serverless NEG.
     /// </summary>
     [CliOption("--app-engine-service", Format = OptionFormat.EqualsSeparated)]
     public string? AppEngineService { get; set; }
 
     /// <summary>
-    /// Configuration for an App Engine network endpoint group. Both App Engine service and version are optional, and may be provided explicitly or in the URL mask. The app-engine-app flag is only used for default routing. The App Engine app must be in the same project as the Serverless network endpoint groups (NEG). A template to parse service and version fields from a request URL. URL mask allows for routing to multiple App Engine services without having to create multiple network endpoint groups and backend services.
+    /// The serverless routing configurations are only valid when endpoint type of the network endpoint group is serverless. At most one of these can be specified: Configuration for an App Engine network endpoint group. Both App Engine service and version are optional, and may be provided explicitly or in the URL mask. The app-engine-app flag is only used for default routing. The App Engine app must be in the same project as the Serverless network endpoint groups (NEG). A template to parse service and version fields from a request URL. URL mask allows for routing to multiple App Engine services without having to create multiple network endpoint groups and backend services.
     /// </summary>
     [CliOption("--app-engine-url-mask", Format = OptionFormat.EqualsSeparated)]
     public string? AppEngineUrlMask { get; set; }
 
     /// <summary>
-    /// Configuration for an App Engine network endpoint group. Both App Engine service and version are optional, and may be provided explicitly or in the URL mask. The app-engine-app flag is only used for default routing. The App Engine app must be in the same project as the Serverless network endpoint groups (NEG). Optional serving version to add to the Serverless NEG.
+    /// The serverless routing configurations are only valid when endpoint type of the network endpoint group is serverless. At most one of these can be specified: Configuration for an App Engine network endpoint group. Both App Engine service and version are optional, and may be provided explicitly or in the URL mask. The app-engine-app flag is only used for default routing. The App Engine app must be in the same project as the Serverless network endpoint groups (NEG). Optional serving version to add to the Serverless NEG.
     /// </summary>
     [CliOption("--app-engine-version", Format = OptionFormat.EqualsSeparated)]
     public string? AppEngineVersion { get; set; }
@@ -137,5 +153,29 @@ public record GcloudComputeNetworkEndpointGroupsCreateOptions(
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }
+
+    /// <summary>
+    /// Name of the network endpoint group to operate on.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (((!string.IsNullOrWhiteSpace(CloudFunctionName) || !string.IsNullOrWhiteSpace(CloudFunctionUrlMask)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(CloudRunService) || !string.IsNullOrWhiteSpace(CloudRunTag) || !string.IsNullOrWhiteSpace(CloudRunUrlMask)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(AppEngineService) || !string.IsNullOrWhiteSpace(AppEngineUrlMask) || !string.IsNullOrWhiteSpace(AppEngineVersion) || AppEngineApp == true || NoAppEngineApp == true) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of (CloudFunctionName or CloudFunctionUrlMask), (CloudRunService, CloudRunTag, or CloudRunUrlMask), or (AppEngineService, AppEngineUrlMask, AppEngineVersion, AppEngineApp, or NoAppEngineApp) may be specified.", [nameof(CloudFunctionName), nameof(CloudFunctionUrlMask), nameof(CloudRunService), nameof(CloudRunTag), nameof(CloudRunUrlMask), nameof(AppEngineService), nameof(AppEngineUrlMask), nameof(AppEngineVersion), nameof(AppEngineApp), nameof(NoAppEngineApp)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(CloudFunctionName) || !string.IsNullOrWhiteSpace(CloudFunctionUrlMask) || !string.IsNullOrWhiteSpace(CloudRunService) || !string.IsNullOrWhiteSpace(CloudRunTag) || !string.IsNullOrWhiteSpace(CloudRunUrlMask) || !string.IsNullOrWhiteSpace(AppEngineService) || !string.IsNullOrWhiteSpace(AppEngineUrlMask) || !string.IsNullOrWhiteSpace(AppEngineVersion) || AppEngineApp == true || NoAppEngineApp == true) && (!string.IsNullOrWhiteSpace(AppEngineService) || !string.IsNullOrWhiteSpace(AppEngineUrlMask) || !string.IsNullOrWhiteSpace(AppEngineVersion) || AppEngineApp == true || NoAppEngineApp == true) && ((AppEngineApp == true ? 1 : 0) + (NoAppEngineApp == true ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of AppEngineApp or NoAppEngineApp may be specified.", [nameof(AppEngineApp), nameof(NoAppEngineApp)]);
+        }
+        if ((Global == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(Region) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Zone) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Global, Region, or Zone may be specified.", [nameof(Global), nameof(Region), nameof(Zone)]);
+        }
+        yield break;
+    }
 
 }

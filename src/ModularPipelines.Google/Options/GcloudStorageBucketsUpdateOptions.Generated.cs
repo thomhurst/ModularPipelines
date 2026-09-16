@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -20,13 +21,13 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "buckets", "update")]
-public record GcloudStorageBucketsUpdateOptions : GcloudOptions
+public record GcloudStorageBucketsUpdateOptions : GcloudOptions, IValidatableObject
 {
     /// <summary>
-    /// Includes arbitrary headers in storage API calls. Accepts a comma separated list of key=value pairs, e.g. header1=value1,header2=value2. Overrides the default storage/additional_headers property value for this command invocation.
+    /// Includes arbitrary headers in storage API calls. Accepts a comma separated list of key=value pairs, e.g. header1=value1,header2=value2. Overrides the default storage/additional_headers property value for this command invocation. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--additional-headers", Format = OptionFormat.EqualsSeparated)]
-    public string? AdditionalHeaders { get; set; }
+    [CliOption("--additional-headers", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AdditionalHeaders { get; set; }
 
     /// <summary>
     /// Clears bucket soft delete settings. Does not affect objects already in soft-deleted state.
@@ -131,9 +132,9 @@ public record GcloudStorageBucketsUpdateOptions : GcloudOptions
     public string? AclFile { get; set; }
 
     /// <summary>
-    /// Key-value pairs mirroring the JSON accepted by your cloud provider. For example, for Cloud Storage,--add-acl-grant=entity=user-tim@gmail.com,role=OWNER
+    /// Key-value pairs mirroring the JSON accepted by your cloud provider. For example, for Cloud Storage,--add-acl-grant=entity=user-tim@gmail.com,role=OWNER Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-acl-grant", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--add-acl-grant", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AddAclGrant { get; set; }
 
     /// <summary>
@@ -149,9 +150,9 @@ public record GcloudStorageBucketsUpdateOptions : GcloudOptions
     public string? RemoveAclGrant { get; set; }
 
     /// <summary>
-    /// Adds default object ACL grant. See --add-acl-grant help text for more details.
+    /// Adds default object ACL grant. See --add-acl-grant help text for more details. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-default-object-acl-grant", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--add-default-object-acl-grant", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AddDefaultObjectAclGrant { get; set; }
 
     /// <summary>
@@ -221,16 +222,60 @@ public record GcloudStorageBucketsUpdateOptions : GcloudOptions
     public string? LabelsFile { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: Remove labels by their key names.
+    /// At most one of these can be specified: Or at least one of these can be specified: Remove labels by their key names. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveLabels { get; set; }
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveLabels
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveLabelsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveLabelsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: Add or update labels. Example: --update-labels=key1=value1,key2=value2
+    /// At most one of these can be specified: Or at least one of these can be specified: Add or update labels. Example: --update-labels=key1=value1,key2=value2 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? UpdateLabels { get; set; }
+    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? UpdateLabels
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __UpdateLabelsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __UpdateLabelsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// At most one of these can be specified: Removes all lifecycle configuration for the bucket.
@@ -309,5 +354,61 @@ public record GcloudStorageBucketsUpdateOptions : GcloudOptions
     /// </summary>
     [CliOption("--web-main-page-suffix", Format = OptionFormat.EqualsSeparated)]
     public string? WebMainPageSuffix { get; set; }
+
+    /// <summary>
+    /// Specifies the URLs of the buckets to update.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public IEnumerable<string>? Url { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((ClearCors == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(CorsFile) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearCors or CorsFile may be specified.", [nameof(ClearCors), nameof(CorsFile)]);
+        }
+        if ((ClearDefaultEncryptionKey == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(DefaultEncryptionKey) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearDefaultEncryptionKey or DefaultEncryptionKey may be specified.", [nameof(ClearDefaultEncryptionKey), nameof(DefaultEncryptionKey)]);
+        }
+        if ((ClearIpFilter == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(IpFilterFile) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearIpFilter or IpFilterFile may be specified.", [nameof(ClearIpFilter), nameof(IpFilterFile)]);
+        }
+        if ((ClearLabels == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(LabelsFile) ? 1 : 0) + ((((object?)RemoveLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveLabels is not string || !string.IsNullOrWhiteSpace(RemoveLabels?.ToString()) : ((object?)RemoveLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveLabels, static item => item is not null) : (RemoveLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveLabels), static item => item is not null)))) || ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateLabels is not string || !string.IsNullOrWhiteSpace(UpdateLabels?.ToString()) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateLabels, static item => item is not null) : (UpdateLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateLabels), static item => item is not null))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearLabels, LabelsFile, or (RemoveLabels or UpdateLabels) may be specified.", [nameof(ClearLabels), nameof(LabelsFile), nameof(RemoveLabels), nameof(UpdateLabels)]);
+        }
+        if ((ClearLifecycle == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(LifecycleFile) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearLifecycle or LifecycleFile may be specified.", [nameof(ClearLifecycle), nameof(LifecycleFile)]);
+        }
+        if ((ClearLogBucket == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(LogBucket) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearLogBucket or LogBucket may be specified.", [nameof(ClearLogBucket), nameof(LogBucket)]);
+        }
+        if ((ClearLogObjectPrefix == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(LogObjectPrefix) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearLogObjectPrefix or LogObjectPrefix may be specified.", [nameof(ClearLogObjectPrefix), nameof(LogObjectPrefix)]);
+        }
+        if ((ClearPap == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearPap may be specified.", [nameof(ClearPap)]);
+        }
+        if ((ClearRetentionPeriod == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(RetentionPeriod) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearRetentionPeriod or RetentionPeriod may be specified.", [nameof(ClearRetentionPeriod), nameof(RetentionPeriod)]);
+        }
+        if ((ClearWebErrorPage == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(WebErrorPage) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearWebErrorPage or WebErrorPage may be specified.", [nameof(ClearWebErrorPage), nameof(WebErrorPage)]);
+        }
+        if ((ClearWebMainPageSuffix == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(WebMainPageSuffix) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearWebMainPageSuffix or WebMainPageSuffix may be specified.", [nameof(ClearWebMainPageSuffix), nameof(WebMainPageSuffix)]);
+        }
+        yield break;
+    }
 
 }

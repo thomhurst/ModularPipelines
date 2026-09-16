@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -20,10 +21,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "insights", "inventory-reports", "create")]
-public record GcloudStorageInsightsInventoryReportsCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SourceBucketUrl
-) : GcloudOptions
+public record GcloudStorageInsightsInventoryReportsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a new inventory     report config
+    /// </summary>
+    /// <param name="SourceBucketUrl">URL of the source bucket that will contain the inventory report configuration.</param>
+    public GcloudStorageInsightsInventoryReportsCreateOptions(
+        string SourceBucketUrl
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceBucketUrl);
+        this.SourceBucketUrl = SourceBucketUrl;
+    }
+
+    public void Deconstruct(out string SourceBucketUrl)
+    {
+        SourceBucketUrl = this.SourceBucketUrl;
+    }
+
     /// <summary>
     /// Sets the URL of the destination bucket and path where generated reports are stored. Defaults to &lt;SOURCE_BUCKET_URL&gt;/inventory_reports/.
     /// </summary>
@@ -37,9 +53,9 @@ public record GcloudStorageInsightsInventoryReportsCreateOptions(
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// The metadata fields to be included in the inventory report. The fields: "project, bucket, name" are REQUIRED. Defaults to all fields being included. METADATA_FIELDS must be one of: project, bucket, name, location, size, timeCreated, timeDeleted, updated, storageClass, etag, retentionExpirationTime, crc32c, md5Hash, generation, metageneration, contentType, contentEncoding, timeStorageClassUpdated.
+    /// The metadata fields to be included in the inventory report. The fields: "project, bucket, name" are REQUIRED. Defaults to all fields being included. METADATA_FIELDS must be one of: project, bucket, name, location, size, timeCreated, timeDeleted, updated, storageClass, etag, retentionExpirationTime, crc32c, md5Hash, generation, metageneration, contentType, contentEncoding, timeStorageClassUpdated. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--metadata-fields", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--metadata-fields", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? MetadataFields { get; set; }
 
     /// <summary>
@@ -89,5 +105,25 @@ public record GcloudStorageInsightsInventoryReportsCreateOptions(
     /// </summary>
     [CliOption("--csv-separator", Format = OptionFormat.EqualsSeparated)]
     public string? CsvSeparator { get; set; }
+
+    /// <summary>
+    /// URL of the source bucket that will contain the inventory report configuration.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SourceBucketUrl { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((Parquet == true ? 1 : 0) + ((!string.IsNullOrWhiteSpace(CsvDelimiter) || !string.IsNullOrWhiteSpace(CsvSeparator) || CsvHeader == true || NoCsvHeader == true) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Parquet or (CsvDelimiter, CsvSeparator, CsvHeader, or NoCsvHeader) may be specified.", [nameof(Parquet), nameof(CsvDelimiter), nameof(CsvSeparator), nameof(CsvHeader), nameof(NoCsvHeader)]);
+        }
+        if ((Parquet == true || !string.IsNullOrWhiteSpace(CsvDelimiter) || !string.IsNullOrWhiteSpace(CsvSeparator) || CsvHeader == true || NoCsvHeader == true) && (!string.IsNullOrWhiteSpace(CsvDelimiter) || !string.IsNullOrWhiteSpace(CsvSeparator) || CsvHeader == true || NoCsvHeader == true) && (!string.IsNullOrWhiteSpace(CsvDelimiter) || !string.IsNullOrWhiteSpace(CsvSeparator) || CsvHeader == true || NoCsvHeader == true) && ((CsvHeader == true ? 1 : 0) + (NoCsvHeader == true ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of CsvHeader or NoCsvHeader may be specified.", [nameof(CsvHeader), nameof(NoCsvHeader)]);
+        }
+        yield break;
+    }
 
 }

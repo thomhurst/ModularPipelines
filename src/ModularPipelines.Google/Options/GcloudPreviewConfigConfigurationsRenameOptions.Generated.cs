@@ -19,8 +19,40 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "config", "configurations", "rename")]
-public record GcloudPreviewConfigConfigurationsRenameOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ConfigurationName
-) : GcloudOptions
+public record GcloudPreviewConfigConfigurationsRenameOptions : GcloudOptions
 {
+    /// <summary>
+    /// renames a named configuration
+    /// </summary>
+    /// <param name="NewName">Specifies the new name of the configuration.</param>
+    /// <param name="ConfigurationName">Name of the configuration to rename</param>
+    public GcloudPreviewConfigConfigurationsRenameOptions(
+        string NewName,
+        string ConfigurationName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NewName);
+        this.NewName = NewName;
+        global::System.ArgumentNullException.ThrowIfNull(ConfigurationName);
+        this.ConfigurationName = ConfigurationName;
+    }
+
+    public void Deconstruct(out string NewName, out string ConfigurationName)
+    {
+        NewName = this.NewName;
+        ConfigurationName = this.ConfigurationName;
+    }
+
+    /// <summary>
+    /// Specifies the new name of the configuration.
+    /// </summary>
+    [CliOption("--new-name", Format = OptionFormat.EqualsSeparated)]
+    public string NewName { get; private init; }
+
+    /// <summary>
+    /// Name of the configuration to rename
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ConfigurationName { get; private init; }
+
 }

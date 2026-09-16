@@ -20,14 +20,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "firewall-rules", "update")]
-public record GcloudComputeFirewallRulesUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudComputeFirewallRulesUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// A list of protocols and ports whose traffic will be allowed. The protocols allowed over this connection. This can be the (case-sensitive) string values tcp, udp, icmp, esp, ah, sctp, or any IP protocol number. An IP-based protocol must be specified for each rule. The rule applies only to specified protocol. For port-based protocols - tcp, udp, and sctp - a list of destination ports or port ranges to which the rule applies may optionally be specified. If no port or port range is specified, the rule applies to all destination ports. The ICMP protocol is supported, but there is no support for configuring ICMP packet filtering by ICMP code. For example, to create a rule that allows TCP traffic through port 80 and ICMP traffic: $ gcloud compute firewall-rules update MY-RULE --allow tcp:80,icmp To create a rule that allows TCP traffic from port 20000 to 25000: $ gcloud compute firewall-rules update MY-RULE \ --allow tcp:20000-25000 To create a rule that allows all TCP traffic: $ gcloud compute firewall-rules update MY-RULE --allow tcp Setting this will override the current values.
+    /// update a firewall rule
     /// </summary>
-    [CliOption("--allow", Format = OptionFormat.EqualsSeparated)]
+    /// <param name="Name">Name of the firewall rule to update.</param>
+    public GcloudComputeFirewallRulesUpdateOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// A list of protocols and ports whose traffic will be allowed. The protocols allowed over this connection. This can be the (case-sensitive) string values tcp, udp, icmp, esp, ah, sctp, or any IP protocol number. An IP-based protocol must be specified for each rule. The rule applies only to specified protocol. For port-based protocols - tcp, udp, and sctp - a list of destination ports or port ranges to which the rule applies may optionally be specified. If no port or port range is specified, the rule applies to all destination ports. The ICMP protocol is supported, but there is no support for configuring ICMP packet filtering by ICMP code. For example, to create a rule that allows TCP traffic through port 80 and ICMP traffic: $ gcloud compute firewall-rules update MY-RULE --allow tcp:80,icmp To create a rule that allows TCP traffic from port 20000 to 25000: $ gcloud compute firewall-rules update MY-RULE \ --allow tcp:20000-25000 To create a rule that allows all TCP traffic: $ gcloud compute firewall-rules update MY-RULE --allow tcp Setting this will override the current values. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--allow", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Allow { get; set; }
 
     /// <summary>
@@ -37,9 +52,9 @@ public record GcloudComputeFirewallRulesUpdateOptions(
     public string? Description { get; set; }
 
     /// <summary>
-    /// The firewall rule will apply to traffic that has destination IP address in these IP address block list. The IP address blocks must be specified in CIDR format: http://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing. Setting this will override the existing destination ranges for the firewall. The following will clear the existing destination ranges: $ gcloud compute firewall-rules update MY-RULE --destination-ranges
+    /// The firewall rule will apply to traffic that has destination IP address in these IP address block list. The IP address blocks must be specified in CIDR format: http://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing. Setting this will override the existing destination ranges for the firewall. The following will clear the existing destination ranges: $ gcloud compute firewall-rules update MY-RULE --destination-ranges Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--destination-ranges", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--destination-ranges", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? DestinationRanges { get; set; }
 
     /// <summary>
@@ -79,15 +94,15 @@ public record GcloudComputeFirewallRulesUpdateOptions(
     public string? Priority { get; set; }
 
     /// <summary>
-    /// A list of protocols and ports to which the firewall rule will apply. PROTOCOL is the IP protocol whose traffic will be checked. PROTOCOL can be either the name of a well-known protocol (e.g., tcp or icmp) or the IP protocol number. A list of IP protocols can be found at http://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml A port or port range can be specified after PROTOCOL to which the firewall rule apply on traffic through specific ports. If no port or port range is specified, connections through all ranges are applied. TCP and UDP rules must include a port or port range. Setting this will override the current values.
+    /// A list of protocols and ports to which the firewall rule will apply. PROTOCOL is the IP protocol whose traffic will be checked. PROTOCOL can be either the name of a well-known protocol (e.g., tcp or icmp) or the IP protocol number. A list of IP protocols can be found at http://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml A port or port range can be specified after PROTOCOL to which the firewall rule apply on traffic through specific ports. If no port or port range is specified, connections through all ranges are applied. TCP and UDP rules must include a port or port range. Setting this will override the current values. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--rules", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--rules", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Rules { get; set; }
 
     /// <summary>
-    /// A list of IP address blocks that are allowed to make inbound connections that match the firewall rule to the instances on the network. The IP address blocks must be specified in CIDR format: http://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing. If neither --source-ranges nor --source-tags are specified, --source-ranges defaults to 0.0.0.0/0, which means that the rule applies to all incoming IPv4 connections from inside or outside the network. If both --source-ranges and --source-tags are specified, the rule matches if either the range of the source matches --source-ranges or the tag of the source matches --source-tags. Setting this will override the existing source ranges for the firewall. The following will clear the existing source ranges: $ gcloud compute firewall-rules update MY-RULE --source-ranges
+    /// A list of IP address blocks that are allowed to make inbound connections that match the firewall rule to the instances on the network. The IP address blocks must be specified in CIDR format: http://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing. If neither --source-ranges nor --source-tags are specified, --source-ranges defaults to 0.0.0.0/0, which means that the rule applies to all incoming IPv4 connections from inside or outside the network. If both --source-ranges and --source-tags are specified, the rule matches if either the range of the source matches --source-ranges or the tag of the source matches --source-tags. Setting this will override the existing source ranges for the firewall. The following will clear the existing source ranges: $ gcloud compute firewall-rules update MY-RULE --source-ranges Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--source-ranges", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--source-ranges", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? SourceRanges { get; set; }
 
     /// <summary>
@@ -97,9 +112,9 @@ public record GcloudComputeFirewallRulesUpdateOptions(
     public IEnumerable<string>? SourceServiceAccounts { get; set; }
 
     /// <summary>
-    /// A list of instance tags indicating the set of instances on the network to which the rule applies if all other fields match. If neither --source-ranges nor --source-tags are specified, --source-ranges defaults to 0.0.0.0/0, which means that the rule applies to all incoming IPv4 connections from inside or outside the network. If both --source-ranges and --source-tags are specified, an inbound connection is allowed if either the range of the source matches --source-ranges or the tag of the source matches --source-tags. Tags can be assigned to instances during instance creation. If source tags are specified then neither a source nor target service account can also be specified. Setting this will override the existing source tags for the firewall. The following will clear the existing source tags: $ gcloud compute firewall-rules update MY-RULE --source-tags
+    /// A list of instance tags indicating the set of instances on the network to which the rule applies if all other fields match. If neither --source-ranges nor --source-tags are specified, --source-ranges defaults to 0.0.0.0/0, which means that the rule applies to all incoming IPv4 connections from inside or outside the network. If both --source-ranges and --source-tags are specified, an inbound connection is allowed if either the range of the source matches --source-ranges or the tag of the source matches --source-tags. Tags can be assigned to instances during instance creation. If source tags are specified then neither a source nor target service account can also be specified. Setting this will override the existing source tags for the firewall. The following will clear the existing source tags: $ gcloud compute firewall-rules update MY-RULE --source-tags Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--source-tags", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--source-tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? SourceTags { get; set; }
 
     /// <summary>
@@ -109,9 +124,15 @@ public record GcloudComputeFirewallRulesUpdateOptions(
     public IEnumerable<string>? TargetServiceAccounts { get; set; }
 
     /// <summary>
-    /// List of instance tags indicating the set of instances on the network which may accept connections that match the firewall rule. Note that tags can be assigned to instances during instance creation. If target tags are specified, then neither a source nor target service account can also be specified. If both target tags and target service account are omitted, all instances on the network can receive connections that match the rule. Setting this will override the existing target tags for the firewall. The following will clear the existing target tags: $ gcloud compute firewall-rules update MY-RULE --target-tags
+    /// List of instance tags indicating the set of instances on the network which may accept connections that match the firewall rule. Note that tags can be assigned to instances during instance creation. If target tags are specified, then neither a source nor target service account can also be specified. If both target tags and target service account are omitted, all instances on the network can receive connections that match the rule. Setting this will override the existing target tags for the firewall. The following will clear the existing target tags: $ gcloud compute firewall-rules update MY-RULE --target-tags Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--target-tags", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--target-tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? TargetTags { get; set; }
+
+    /// <summary>
+    /// Name of the firewall rule to update.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
 
 }

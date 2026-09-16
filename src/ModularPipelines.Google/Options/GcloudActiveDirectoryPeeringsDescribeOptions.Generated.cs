@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("active-directory", "peerings", "describe")]
 public record GcloudActiveDirectoryPeeringsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a Managed Microsoft     Active Directory domain peering
+    /// </summary>
+    /// <param name="Peering">Peering resource - Name of the Managed Microsoft AD domain peering you want to describe. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument peering on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the peering or fully qualified identifier for the peering. To set the peering attribute: ▸ provide the argument peering on the command line.</param>
+    public GcloudActiveDirectoryPeeringsDescribeOptions(
+        string Peering
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Peering);
+        this.Peering = Peering;
+    }
+
+    public void Deconstruct(out string Peering)
+    {
+        Peering = this.Peering;
+    }
+
+    /// <summary>
+    /// Peering resource - Name of the Managed Microsoft AD domain peering you want to describe. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument peering on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the peering or fully qualified identifier for the peering. To set the peering attribute: ▸ provide the argument peering on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Peering { get; private init; }
+
 }

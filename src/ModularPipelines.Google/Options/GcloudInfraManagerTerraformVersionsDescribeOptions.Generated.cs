@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("infra-manager", "terraform-versions", "describe")]
 public record GcloudInfraManagerTerraformVersionsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe Terraform     versions
+    /// </summary>
+    /// <param name="TerraformVersion">TerraformVersion resource - The Terraform version to describe The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument terraform_version on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the terraformVersion or fully qualified identifier for the terraformVersion. To set the terraform_version attribute: ▸ provide the argument terraform_version on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudInfraManagerTerraformVersionsDescribeOptions(
+        string TerraformVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TerraformVersion);
+        this.TerraformVersion = TerraformVersion;
+    }
+
+    public void Deconstruct(out string TerraformVersion)
+    {
+        TerraformVersion = this.TerraformVersion;
+    }
+
+    /// <summary>
+    /// TerraformVersion resource - The Terraform version to describe The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument terraform_version on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. locations TBD To set the location attribute: ▸ provide the argument terraform_version on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property infra-manager/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// TerraformVersion resource - The Terraform version to describe The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument terraform_version on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the terraformVersion or fully qualified identifier for the terraformVersion. To set the terraform_version attribute: ▸ provide the argument terraform_version on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string TerraformVersion { get; private init; }
+
 }

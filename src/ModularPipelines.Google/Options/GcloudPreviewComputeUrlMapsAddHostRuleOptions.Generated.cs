@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,90 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "url-maps", "add-host-rule")]
-public record GcloudPreviewComputeUrlMapsAddHostRuleOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string UrlMap
-) : GcloudOptions
+public record GcloudPreviewComputeUrlMapsAddHostRuleOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// add a rule to a URL map to     map hosts to a path matcher
+    /// </summary>
+    /// <param name="Hosts">The set of hosts to match requests against. Each host must be a fully qualified domain name (FQDN) with the exception that the host can begin with a ``*'' or ``*-''. ``*'' acts as a glob and will match any string of atoms to the left where an atom is separated by dots (``.'') or dashes (``-''). Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="PathMatcherName">The name of the path matcher to use if a request matches this host rule. The path matcher must already exist in the URL map (see gcloud compute url-maps add-path-matcher).</param>
+    /// <param name="UrlMap">Name of the URL map to operate on.</param>
+    public GcloudPreviewComputeUrlMapsAddHostRuleOptions(
+        IEnumerable<string> Hosts,
+        string PathMatcherName,
+        string UrlMap
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Hosts);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Hosts));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Hosts));
+            }
+
+            Hosts = materialized;
+        }
+        this.Hosts = Hosts;
+        global::System.ArgumentNullException.ThrowIfNull(PathMatcherName);
+        this.PathMatcherName = PathMatcherName;
+        global::System.ArgumentNullException.ThrowIfNull(UrlMap);
+        this.UrlMap = UrlMap;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Hosts, out string PathMatcherName, out string UrlMap)
+    {
+        Hosts = this.Hosts;
+        PathMatcherName = this.PathMatcherName;
+        UrlMap = this.UrlMap;
+    }
+
+    /// <summary>
+    /// The set of hosts to match requests against. Each host must be a fully qualified domain name (FQDN) with the exception that the host can begin with a ``*'' or ``*-''. ``*'' acts as a glob and will match any string of atoms to the left where an atom is separated by dots (``.'') or dashes (``-''). Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--hosts", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> Hosts { get; private init; }
+
+    /// <summary>
+    /// The name of the path matcher to use if a request matches this host rule. The path matcher must already exist in the URL map (see gcloud compute url-maps add-path-matcher).
+    /// </summary>
+    [CliOption("--path-matcher-name", Format = OptionFormat.EqualsSeparated)]
+    public string PathMatcherName { get; private init; }
+
+    /// <summary>
+    /// An optional, textual description for the host rule.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: If set, the URL map is global.
+    /// </summary>
+    [CliFlag("--global")]
+    public bool? Global { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the URL map to operate on. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Name of the URL map to operate on.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string UrlMap { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((Global == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(Region) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Global or Region may be specified.", [nameof(Global), nameof(Region)]);
+        }
+        yield break;
+    }
+
 }

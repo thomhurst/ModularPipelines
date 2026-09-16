@@ -21,4 +21,67 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("vector-search", "collections", "import-data-objects")]
 public record GcloudVectorSearchCollectionsImportDataObjectsOptions : GcloudOptions
 {
+    /// <summary>
+    /// import data objects     into a collection
+    /// </summary>
+    /// <param name="GcsImportContentsUri">URI prefix of the Cloud Storage DataObjects to import.</param>
+    /// <param name="GcsImportErrorUri">URI prefix of the Cloud Storage location to write any errors encountered during the import.</param>
+    /// <param name="Collection">Collection resource - The resource name of the Collection to import DataObjects into. Format: projects/{project}/locations/{location}/collections/{collection}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument collection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the collection or fully qualified identifier for the collection. To set the collection attribute: ▸ provide the argument collection on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudVectorSearchCollectionsImportDataObjectsOptions(
+        string GcsImportContentsUri,
+        string GcsImportErrorUri,
+        string Collection
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GcsImportContentsUri);
+        this.GcsImportContentsUri = GcsImportContentsUri;
+        global::System.ArgumentNullException.ThrowIfNull(GcsImportErrorUri);
+        this.GcsImportErrorUri = GcsImportErrorUri;
+        global::System.ArgumentNullException.ThrowIfNull(Collection);
+        this.Collection = Collection;
+    }
+
+    public void Deconstruct(out string GcsImportContentsUri, out string GcsImportErrorUri, out string Collection)
+    {
+        GcsImportContentsUri = this.GcsImportContentsUri;
+        GcsImportErrorUri = this.GcsImportErrorUri;
+        Collection = this.Collection;
+    }
+
+    /// <summary>
+    /// URI prefix of the Cloud Storage DataObjects to import.
+    /// </summary>
+    [CliOption("--gcs-import-contents-uri", Format = OptionFormat.EqualsSeparated)]
+    public string GcsImportContentsUri { get; private init; }
+
+    /// <summary>
+    /// URI prefix of the Cloud Storage location to write any errors encountered during the import.
+    /// </summary>
+    [CliOption("--gcs-import-error-uri", Format = OptionFormat.EqualsSeparated)]
+    public string GcsImportErrorUri { get; private init; }
+
+    /// <summary>
+    /// Collection resource - The resource name of the Collection to import DataObjects into. Format: projects/{project}/locations/{location}/collections/{collection}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument collection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the collection resource. To set the location attribute: ▸ provide the argument collection on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// URI prefix of the Cloud Storage location to write DataObject IDs and etags of DataObjects that were successfully imported. The service will write the successfully imported DataObjects to sharded files under this prefix. If this field is empty, no output will be written.
+    /// </summary>
+    [CliOption("--gcs-import-output-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? GcsImportOutputUri { get; set; }
+
+    /// <summary>
+    /// Collection resource - The resource name of the Collection to import DataObjects into. Format: projects/{project}/locations/{location}/collections/{collection}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument collection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the collection or fully qualified identifier for the collection. To set the collection attribute: ▸ provide the argument collection on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Collection { get; private init; }
+
 }

@@ -16,9 +16,9 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudActivationPolicy
 {
-    [EnumValue("always")]
+    [EnumValue("ALWAYS")]
     Always,
 
-    [EnumValue("never")]
+    [EnumValue("NEVER")]
     Never
 }

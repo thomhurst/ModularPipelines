@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -20,8 +21,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "tpus", "tpu-vm", "ssh")]
-public record GcloudComputeTpusTpuVmSshOptions : GcloudOptions
+public record GcloudComputeTpusTpuVmSshOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// SSH into a Cloud TPU VM
+    /// </summary>
+    /// <param name="UserTpu">Specifies the Cloud TPU VM to SSH into. USER specifies the username with which to SSH. If omitted, the user login name is used. TPU specifies the name of the Cloud TPU VM to SSH into.</param>
+    public GcloudComputeTpusTpuVmSshOptions(
+        string UserTpu
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(UserTpu);
+        this.UserTpu = UserTpu;
+    }
+
+    public void Deconstruct(out string UserTpu)
+    {
+        UserTpu = this.UserTpu;
+    }
+
     /// <summary>
     /// Print the equivalent scp/ssh command that would be run to stdout, instead of executing it.
     /// </summary>
@@ -99,5 +117,27 @@ public record GcloudComputeTpusTpuVmSshOptions : GcloudOptions
     /// </summary>
     [CliOption("--ssh-key-expire-after", Format = OptionFormat.EqualsSeparated)]
     public string? SshKeyExpireAfter { get; set; }
+
+    /// <summary>
+    /// Specifies the Cloud TPU VM to SSH into. USER specifies the username with which to SSH. If omitted, the user login name is used. TPU specifies the name of the Cloud TPU VM to SSH into.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string UserTpu { get; private init; }
+
+    /// <summary>
+    /// Flags and positionals passed to the underlying ssh implementation. The '--' argument must be specified between gcloud specific args on the left and SSH_ARGS on the right. Example: $ gcloud compute tpus tpu-vm ssh example-instance \ --zone=us-central1-a -- -vvv -L 80:%TPU%:80
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true)]
+    public IEnumerable<string>? SshArgs { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(SshKeyExpiration) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SshKeyExpireAfter) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of SshKeyExpiration or SshKeyExpireAfter may be specified.", [nameof(SshKeyExpiration), nameof(SshKeyExpireAfter)]);
+        }
+        yield break;
+    }
 
 }

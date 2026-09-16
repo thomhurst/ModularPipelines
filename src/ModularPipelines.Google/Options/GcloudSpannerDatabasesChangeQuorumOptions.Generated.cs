@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,77 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("spanner", "databases", "change-quorum")]
-public record GcloudSpannerDatabasesChangeQuorumOptions : GcloudOptions
+public record GcloudSpannerDatabasesChangeQuorumOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// change quorum of a Cloud Spanner     database
+    /// </summary>
+    /// <param name="Database">Database resource - The Cloud Spanner database to change quorum. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument database on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the database or fully qualified identifier for the database. To set the database attribute: ▸ provide the argument database on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudSpannerDatabasesChangeQuorumOptions(
+        string Database
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Database);
+        this.Database = Database;
+    }
+
+    public void Deconstruct(out string Database)
+    {
+        Database = this.Database;
+    }
+
+    /// <summary>
+    /// Database resource - The Cloud Spanner database to change quorum. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument database on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud Spanner instance for the database. To set the instance attribute: ▸ provide the argument database on the command line with a fully specified name; ▸ provide the argument --instance on the command line; ▸ set the property spanner/instance.
+    /// </summary>
+    [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
+    public string? Instance { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Command-line flag for dual-region quorum change: Switch to dual-region quorum type.
+    /// </summary>
+    [CliFlag("--dual-region")]
+    public bool? DualRegion { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Command-line flags for single-region quorum change: The cloud Spanner location. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--serving-location", Format = OptionFormat.EqualsSeparated)]
+    public string? ServingLocation { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Command-line flags for single-region quorum change: Switch to single-region quorum type. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliFlag("--single-region")]
+    public bool? SingleRegion { get; set; }
+
+    /// <summary>
+    /// Used for optimistic concurrency control.
+    /// </summary>
+    [CliOption("--etag", Format = OptionFormat.EqualsSeparated)]
+    public string? Etag { get; set; }
+
+    /// <summary>
+    /// Database resource - The Cloud Spanner database to change quorum. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument database on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the database or fully qualified identifier for the database. To set the database attribute: ▸ provide the argument database on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Database { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (((DualRegion == true) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(ServingLocation) || SingleRegion == true) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of (DualRegion) or (ServingLocation or SingleRegion) must be specified.", [nameof(DualRegion), nameof(ServingLocation), nameof(SingleRegion)]);
+        }
+        if ((DualRegion == true || !string.IsNullOrWhiteSpace(ServingLocation) || SingleRegion == true) && (!string.IsNullOrWhiteSpace(ServingLocation) || SingleRegion == true) && (!(!string.IsNullOrWhiteSpace(ServingLocation))))
+        {
+            yield return new ValidationResult("ServingLocation must be specified when other arguments in this group are specified.", [nameof(ServingLocation)]);
+        }
+        if ((DualRegion == true || !string.IsNullOrWhiteSpace(ServingLocation) || SingleRegion == true) && (!string.IsNullOrWhiteSpace(ServingLocation) || SingleRegion == true) && (!(SingleRegion == true)))
+        {
+            yield return new ValidationResult("SingleRegion must be specified when other arguments in this group are specified.", [nameof(SingleRegion)]);
+        }
+        yield break;
+    }
+
 }

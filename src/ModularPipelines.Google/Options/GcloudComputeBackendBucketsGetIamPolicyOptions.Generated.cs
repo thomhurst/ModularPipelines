@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,10 +20,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "backend-buckets", "get-iam-policy")]
-public record GcloudComputeBackendBucketsGetIamPolicyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string BackendBucket
-) : GcloudOptions
+public record GcloudComputeBackendBucketsGetIamPolicyOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// get the IAM policy for a     Compute Engine backend bucket
+    /// </summary>
+    /// <param name="BackendBucket">ID of the backend bucket or fully qualified identifier for the backend bucket. To set the backend_bucket attribute: + provide the argument backend_bucket on the command line.</param>
+    public GcloudComputeBackendBucketsGetIamPolicyOptions(
+        string BackendBucket
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BackendBucket);
+        this.BackendBucket = BackendBucket;
+    }
+
+    public void Deconstruct(out string BackendBucket)
+    {
+        BackendBucket = this.BackendBucket;
+    }
+
     /// <summary>
     /// At most one of these can be specified: If set, the backend bucket is global.
     /// </summary>
@@ -34,5 +50,21 @@ public record GcloudComputeBackendBucketsGetIamPolicyOptions(
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
+
+    /// <summary>
+    /// ID of the backend bucket or fully qualified identifier for the backend bucket. To set the backend_bucket attribute: + provide the argument backend_bucket on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string BackendBucket { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((Global == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(Region) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Global or Region may be specified.", [nameof(Global), nameof(Region)]);
+        }
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +22,134 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("iam", "oauth-clients", "create")]
 public record GcloudIamOauthClientsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create an OAuth client
+    /// </summary>
+    /// <param name="AllowedGrantTypes">A list of OAuth grant types that are allowed for the OAuth client. The following grant types are currently supported: ◆ authorization-code-grant ◆ refresh-token-grant Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="AllowedRedirectUris">A list of redirect uris that is allowed for redirecting when the authorization is completed. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="AllowedScopes">A list of scopes that the OAuth client is allowed to request during OAuth flows. The following scopes are currently supported: ◆ https://www.googleapis.com/auth/cloud-platform: View, edit, configure, and delete your Google Cloud data, and view the email address for your Google Account. ◆ openid: Associate you with your personal info on Google Cloud. ◆ email: The OAuth client can read a federated identity's email address. ◆ groups: The OAuth client can read a federated identity's groups. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="ClientType">The type of OAuth client. CLIENT_TYPE must be one of: confidential-client, public-client.</param>
+    /// <param name="OauthClient">Oauth client resource - The OAuth client to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument oauth_client on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the oauth client or fully qualified identifier for the oauth client. To set the oauth_client attribute: ▸ provide the argument oauth_client on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudIamOauthClientsCreateOptions(
+        IEnumerable<string> AllowedGrantTypes,
+        IEnumerable<string> AllowedRedirectUris,
+        IEnumerable<string> AllowedScopes,
+        GcloudClientType ClientType,
+        string OauthClient
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(AllowedGrantTypes);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(AllowedGrantTypes));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(AllowedGrantTypes));
+            }
+
+            AllowedGrantTypes = materialized;
+        }
+        this.AllowedGrantTypes = AllowedGrantTypes;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(AllowedRedirectUris);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(AllowedRedirectUris));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(AllowedRedirectUris));
+            }
+
+            AllowedRedirectUris = materialized;
+        }
+        this.AllowedRedirectUris = AllowedRedirectUris;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(AllowedScopes);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(AllowedScopes));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(AllowedScopes));
+            }
+
+            AllowedScopes = materialized;
+        }
+        this.AllowedScopes = AllowedScopes;
+        global::System.ArgumentNullException.ThrowIfNull(ClientType);
+        this.ClientType = ClientType;
+        global::System.ArgumentNullException.ThrowIfNull(OauthClient);
+        this.OauthClient = OauthClient;
+    }
+
+    public void Deconstruct(out IEnumerable<string> AllowedGrantTypes, out IEnumerable<string> AllowedRedirectUris, out IEnumerable<string> AllowedScopes, out GcloudClientType ClientType, out string OauthClient)
+    {
+        AllowedGrantTypes = this.AllowedGrantTypes;
+        AllowedRedirectUris = this.AllowedRedirectUris;
+        AllowedScopes = this.AllowedScopes;
+        ClientType = this.ClientType;
+        OauthClient = this.OauthClient;
+    }
+
+    /// <summary>
+    /// A list of OAuth grant types that are allowed for the OAuth client. The following grant types are currently supported: ◆ authorization-code-grant ◆ refresh-token-grant Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--allowed-grant-types", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> AllowedGrantTypes { get; private init; }
+
+    /// <summary>
+    /// A list of redirect uris that is allowed for redirecting when the authorization is completed. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--allowed-redirect-uris", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> AllowedRedirectUris { get; private init; }
+
+    /// <summary>
+    /// A list of scopes that the OAuth client is allowed to request during OAuth flows. The following scopes are currently supported: ◆ https://www.googleapis.com/auth/cloud-platform: View, edit, configure, and delete your Google Cloud data, and view the email address for your Google Account. ◆ openid: Associate you with your personal info on Google Cloud. ◆ email: The OAuth client can read a federated identity's email address. ◆ groups: The OAuth client can read a federated identity's groups. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--allowed-scopes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> AllowedScopes { get; private init; }
+
+    /// <summary>
+    /// The type of OAuth client. CLIENT_TYPE must be one of: confidential-client, public-client.
+    /// </summary>
+    [CliOption("--client-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudClientType ClientType { get; private init; }
+
+    /// <summary>
+    /// Oauth client resource - The OAuth client to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument oauth_client on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location name. To set the location attribute: ▸ provide the argument oauth_client on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// A description of the OAuth client. Cannot exceed 256 characters.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Disables the OAuth client. You cannot use a disabled OAuth client for login. Include --no-disabled to enable a disabled OAuth client.
+    /// </summary>
+    [CliFlag("--disabled")]
+    public bool? Disabled { get; set; }
+
+    /// <summary>
+    /// Negates --disabled. Disables the OAuth client. You cannot use a disabled OAuth client for login. Include --no-disabled to enable a disabled OAuth client.
+    /// </summary>
+    [CliFlag("--no-disabled")]
+    public bool? NoDisabled { get; set; }
+
+    /// <summary>
+    /// A display name for the OAuth client. Cannot exceed 32 characters.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// Oauth client resource - The OAuth client to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument oauth_client on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the oauth client or fully qualified identifier for the oauth client. To set the oauth_client attribute: ▸ provide the argument oauth_client on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string OauthClient { get; private init; }
+
 }

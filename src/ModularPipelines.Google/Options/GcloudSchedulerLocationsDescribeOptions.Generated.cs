@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("scheduler", "locations", "describe")]
-public record GcloudSchedulerLocationsDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Location
-) : GcloudOptions
+public record GcloudSchedulerLocationsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// show details about a location
+    /// </summary>
+    /// <param name="Location">The Cloud location to describe.</param>
+    public GcloudSchedulerLocationsDescribeOptions(
+        string Location
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+    }
+
+    public void Deconstruct(out string Location)
+    {
+        Location = this.Location;
+    }
+
+    /// <summary>
+    /// The Cloud location to describe.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Location { get; private init; }
+
 }

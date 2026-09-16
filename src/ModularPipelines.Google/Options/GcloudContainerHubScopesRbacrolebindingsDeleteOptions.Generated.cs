@@ -19,8 +19,41 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "hub", "scopes", "rbacrolebindings", "delete")]
-public record GcloudContainerHubScopesRbacrolebindingsDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Rbacr
-) : GcloudOptions
+public record GcloudContainerHubScopesRbacrolebindingsDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete a fleet scope     RBAC RoleBinding
+    /// </summary>
+    /// <param name="Name">Rbacrolebinding resource - The group of arguments defining an RBACRoleBinding. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument NAME on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the rbacrolebinding or fully qualified identifier for the rbacrolebinding. To set the rbacrolebinding attribute: ▸ provide the argument NAME on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudContainerHubScopesRbacrolebindingsDeleteOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Rbacrolebinding resource - The group of arguments defining an RBACRoleBinding. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument NAME on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location for the rbacrolebinding. To set the location attribute: ▸ provide the argument NAME on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property gkehub/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Rbacrolebinding resource - The group of arguments defining an RBACRoleBinding. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument NAME on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Name of the rbacrolebinding. To set the scope attribute: ▸ provide the argument NAME on the command line with a fully specified name; ▸ provide the argument --scope on the command line.
+    /// </summary>
+    [CliOption("--scope", Format = OptionFormat.EqualsSeparated)]
+    public string? Scope { get; set; }
+
+    /// <summary>
+    /// Rbacrolebinding resource - The group of arguments defining an RBACRoleBinding. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument NAME on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the rbacrolebinding or fully qualified identifier for the rbacrolebinding. To set the rbacrolebinding attribute: ▸ provide the argument NAME on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }

@@ -21,4 +21,50 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("composer", "environments", "storage", "data", "import")]
 public record GcloudComposerEnvironmentsStorageDataImportOptions : GcloudOptions
 {
+    /// <summary>
+    /// import data from local     storage or Cloud Storage into an environment
+    /// </summary>
+    /// <param name="Source">Path to a local directory/file or Cloud Storage bucket/object to be imported into the data/ subdirectory in the environment's Cloud Storage bucket. Cloud Storage paths must begin with 'gs://'.</param>
+    /// <param name="Environment">Environment resource - The environment into whose Cloud Storage bucket to import data.. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --environment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the environment or fully qualified identifier for the environment. To set the environment attribute: ▸ provide the argument --environment on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudComposerEnvironmentsStorageDataImportOptions(
+        string Source,
+        string Environment
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Source);
+        this.Source = Source;
+        global::System.ArgumentNullException.ThrowIfNull(Environment);
+        this.Environment = Environment;
+    }
+
+    public void Deconstruct(out string Source, out string Environment)
+    {
+        Source = this.Source;
+        Environment = this.Environment;
+    }
+
+    /// <summary>
+    /// Path to a local directory/file or Cloud Storage bucket/object to be imported into the data/ subdirectory in the environment's Cloud Storage bucket. Cloud Storage paths must begin with 'gs://'.
+    /// </summary>
+    [CliOption("--source", Format = OptionFormat.EqualsSeparated)]
+    public string Source { get; private init; }
+
+    /// <summary>
+    /// Environment resource - The environment into whose Cloud Storage bucket to import data.. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --environment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the environment or fully qualified identifier for the environment. To set the environment attribute: ▸ provide the argument --environment on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--environment", Format = OptionFormat.EqualsSeparated)]
+    public string Environment { get; private init; }
+
+    /// <summary>
+    /// Environment resource - The environment into whose Cloud Storage bucket to import data.. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --environment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Region where Composer environment runs or in which to create the environment. To set the location attribute: ▸ provide the argument --environment on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property composer/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// An optional subdirectory under the data/ directory in the environment's Cloud Storage bucket into which to import files. May contain forward slashes to delimit multiple levels of subdirectory nesting, but should not contain leading or trailing slashes. If the DESTINATION does not exist, it will be created.
+    /// </summary>
+    [CliOption("--destination", Format = OptionFormat.EqualsSeparated)]
+    public string? Destination { get; set; }
+
 }

@@ -6,10 +6,13 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +22,216 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "attached", "clusters", "register")]
-public record GcloudContainerAttachedClustersRegisterOptions : GcloudOptions
+public record GcloudContainerAttachedClustersRegisterOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// register an Attached cluster
+    /// </summary>
+    /// <param name="Distribution">Set the base platform type of the cluster to attach. Examples: $ gcloud container attached clusters register --distribution=aks $ gcloud container attached clusters register --distribution=eks $ gcloud container attached clusters register --distribution=generic</param>
+    /// <param name="FleetProject">ID or number of the Fleet host project where the cluster is registered.</param>
+    /// <param name="PlatformVersion">Platform version to use for the cluster. To retrieve a list of valid versions, run: $ gcloud alpha container attached get-server-config \ --location=LOCATION Replace LOCATION with the target Google Cloud location for the cluster.</param>
+    /// <param name="Context">kubectl config This must be specified. Context to use in the kubeconfig. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="Cluster">Cluster resource - cluster to register. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the cluster or fully qualified identifier for the cluster. To set the cluster attribute: ▸ provide the argument cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudContainerAttachedClustersRegisterOptions(
+        string Distribution,
+        string FleetProject,
+        string PlatformVersion,
+        string Context,
+        string Cluster
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Distribution);
+        this.Distribution = Distribution;
+        global::System.ArgumentNullException.ThrowIfNull(FleetProject);
+        this.FleetProject = FleetProject;
+        global::System.ArgumentNullException.ThrowIfNull(PlatformVersion);
+        this.PlatformVersion = PlatformVersion;
+        global::System.ArgumentNullException.ThrowIfNull(Context);
+        this.Context = Context;
+        global::System.ArgumentNullException.ThrowIfNull(Cluster);
+        this.Cluster = Cluster;
+    }
+
+    public void Deconstruct(out string Distribution, out string FleetProject, out string PlatformVersion, out string Context, out string Cluster)
+    {
+        Distribution = this.Distribution;
+        FleetProject = this.FleetProject;
+        PlatformVersion = this.PlatformVersion;
+        Context = this.Context;
+        Cluster = this.Cluster;
+    }
+
+    /// <summary>
+    /// Set the base platform type of the cluster to attach. Examples: $ gcloud container attached clusters register --distribution=aks $ gcloud container attached clusters register --distribution=eks $ gcloud container attached clusters register --distribution=generic
+    /// </summary>
+    [CliOption("--distribution", Format = OptionFormat.EqualsSeparated)]
+    public string Distribution { get; private init; }
+
+    /// <summary>
+    /// ID or number of the Fleet host project where the cluster is registered.
+    /// </summary>
+    [CliOption("--fleet-project", Format = OptionFormat.EqualsSeparated)]
+    public string FleetProject { get; private init; }
+
+    /// <summary>
+    /// Platform version to use for the cluster. To retrieve a list of valid versions, run: $ gcloud alpha container attached get-server-config \ --location=LOCATION Replace LOCATION with the target Google Cloud location for the cluster.
+    /// </summary>
+    [CliOption("--platform-version", Format = OptionFormat.EqualsSeparated)]
+    public string PlatformVersion { get; private init; }
+
+    /// <summary>
+    /// kubectl config This must be specified. Context to use in the kubeconfig. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--context", Format = OptionFormat.EqualsSeparated)]
+    public string Context { get; private init; }
+
+    /// <summary>
+    /// Cluster resource - cluster to register. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Google Cloud location for the cluster. To set the location attribute: ▸ provide the argument cluster on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property container_attached/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// kubectl config This must be specified. Path to the kubeconfig file. If not provided, the default at ~/.kube/config will be used.
+    /// </summary>
+    [CliOption("--kubeconfig", Format = OptionFormat.EqualsSeparated)]
+    public string? KubeConfig { get; set; }
+
+    /// <summary>
+    /// OIDC config Exactly one of these must be specified: Indicates no publicly routable OIDC discovery endpoint exists for the Kubernetes service account token issuer. If this flag is set, gcloud will read the issuer URL and JWKs from the cluster's api server.
+    /// </summary>
+    [CliFlag("--has-private-issuer")]
+    public bool? HasPrivateIssuer { get; set; }
+
+    /// <summary>
+    /// OIDC config Exactly one of these must be specified: Issuer url of the cluster to attach.
+    /// </summary>
+    [CliOption("--issuer-url", Format = OptionFormat.EqualsSeparated)]
+    public string? IssuerUrl { get; set; }
+
+    /// <summary>
+    /// Groups of users that can perform operations as a cluster administrator. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--admin-groups", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AdminGroups { get; set; }
+
+    /// <summary>
+    /// Users that can perform operations as a cluster administrator. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--admin-users", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AdminUsers { get; set; }
+
+    /// <summary>
+    /// Annotations for the cluster. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Annotations { get; set; }
+
+    /// <summary>
+    /// Set Binary Authorization evaluation mode for this cluster. BINAUTHZ_EVALUATION_MODE must be one of: DISABLED, PROJECT_SINGLETON_POLICY_ENFORCE.
+    /// </summary>
+    [CliOption("--binauthz-evaluation-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? BinauthzEvaluationMode { get; set; }
+
+    /// <summary>
+    /// Description for the cluster.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Enables managed collection for Managed Service for Prometheus in the cluster. See https://cloud.google.com/stackdriver/docs/managed-prometheus/setup-managed#enable-mgdcoll-gke for more info. Managed Prometheus is enabled by default for cluster versions 1.27 or greater, use --no-enable-managed-prometheus to disable.
+    /// </summary>
+    [CliFlag("--enable-managed-prometheus")]
+    public bool? EnableManagedPrometheus { get; set; }
+
+    /// <summary>
+    /// Negates --enable-managed-prometheus. Enables managed collection for Managed Service for Prometheus in the cluster. See https://cloud.google.com/stackdriver/docs/managed-prometheus/setup-managed#enable-mgdcoll-gke for more info. Managed Prometheus is enabled by default for cluster versions 1.27 or greater, use --no-enable-managed-prometheus to disable.
+    /// </summary>
+    [CliFlag("--no-enable-managed-prometheus")]
+    public bool? NoEnableManagedPrometheus { get; set; }
+
+    /// <summary>
+    /// Set the components that have logging enabled. Examples: $ gcloud container attached clusters register --logging=SYSTEM $ gcloud container attached clusters register \ --logging=SYSTEM,WORKLOAD $ gcloud container attached clusters register --logging=NONE COMPONENT must be one of: NONE, SYSTEM, WORKLOAD.
+    /// </summary>
+    [CliOption("--logging", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<GcloudLogging>? Logging { get; set; }
+
+    /// <summary>
+    /// Kubernetes labels to be applied to system component pods. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--system-component-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? SystemComponentLabels { get; set; }
+
+    /// <summary>
+    /// Kubernetes tolerations to be applied to system component pods. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--system-component-tolerations", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? SystemComponentTolerations { get; set; }
+
+    /// <summary>
+    /// Tag keys/values directly bound to this resource. The short name of a tag key or value can have a maximum length of 256 characters. The permitted character set for the short name includes UTF-8 encoded Unicode characters except single quotes, double quotes, backslashes, and forward slashes. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// Validate the cluster to create, but don't actually perform it.
+    /// </summary>
+    [CliFlag("--validate-only")]
+    public bool? ValidateOnly { get; set; }
+
+    /// <summary>
+    /// Cloud Monitoring Config At most one of these can be specified: Disables managed collection for Cloud Monitoring in the cluster. Cloud Monitoring is enabled by default for all clusters. Beginning with cluster version 1.31, use --disable-cloud-monitoring to disable.
+    /// </summary>
+    [CliFlag("--disable-cloud-monitoring")]
+    public bool? DisableCloudMonitoring { get; set; }
+
+    /// <summary>
+    /// Cloud Monitoring Config At most one of these can be specified: Enables managed collection for Cloud Monitoring in the cluster. Cloud Monitoring is enabled by default for all clusters. Beginning with cluster version 1.31, use --disable-cloud-monitoring to disable.
+    /// </summary>
+    [CliFlag("--enable-cloud-monitoring")]
+    public bool? EnableCloudMonitoring { get; set; }
+
+    /// <summary>
+    /// Proxy config Name of the Kubernetes secret that contains the HTTP/HTTPS proxy configuration. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--proxy-secret-name", Format = OptionFormat.EqualsSeparated)]
+    public string? ProxySecretName { get; set; }
+
+    /// <summary>
+    /// Proxy config Namespace of the Kubernetes secret that contains the HTTP/HTTPS proxy configuration. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--proxy-secret-namespace", Format = OptionFormat.EqualsSeparated)]
+    public string? ProxySecretNamespace { get; set; }
+
+    /// <summary>
+    /// Cluster resource - cluster to register. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the cluster or fully qualified identifier for the cluster. To set the cluster attribute: ▸ provide the argument cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Cluster { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((HasPrivateIssuer == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(IssuerUrl) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of HasPrivateIssuer or IssuerUrl must be specified.", [nameof(HasPrivateIssuer), nameof(IssuerUrl)]);
+        }
+        if ((DisableCloudMonitoring == true ? 1 : 0) + (EnableCloudMonitoring == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of DisableCloudMonitoring or EnableCloudMonitoring may be specified.", [nameof(DisableCloudMonitoring), nameof(EnableCloudMonitoring)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(ProxySecretName) || !string.IsNullOrWhiteSpace(ProxySecretNamespace)) && (!(!string.IsNullOrWhiteSpace(ProxySecretName))))
+        {
+            yield return new ValidationResult("ProxySecretName must be specified when other arguments in this group are specified.", [nameof(ProxySecretName)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(ProxySecretName) || !string.IsNullOrWhiteSpace(ProxySecretNamespace)) && (!(!string.IsNullOrWhiteSpace(ProxySecretNamespace))))
+        {
+            yield return new ValidationResult("ProxySecretNamespace must be specified when other arguments in this group are specified.", [nameof(ProxySecretNamespace)]);
+        }
+        yield break;
+    }
+
 }

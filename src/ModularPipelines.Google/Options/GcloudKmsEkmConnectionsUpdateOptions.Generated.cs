@@ -23,6 +23,29 @@ namespace ModularPipelines.Google.Options;
 public record GcloudKmsEkmConnectionsUpdateOptions : GcloudOptions
 {
     /// <summary>
+    /// update an ekmconnection
+    /// </summary>
+    /// <param name="EkmConnection">Ekmconnection resource - The KMS ekm connection resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument ekm_connection on the command line with a fully specified name; ◆ set the property core/project. This must be specified. ID of the ekmconnection or fully qualified identifier for the ekmconnection. To set the ekmconnection attribute: ▸ provide the argument ekm_connection on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudKmsEkmConnectionsUpdateOptions(
+        string EkmConnection
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EkmConnection);
+        this.EkmConnection = EkmConnection;
+    }
+
+    public void Deconstruct(out string EkmConnection)
+    {
+        EkmConnection = this.EkmConnection;
+    }
+
+    /// <summary>
+    /// Ekmconnection resource - The KMS ekm connection resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument ekm_connection on the command line with a fully specified name; ◆ set the property core/project. This must be specified. The Google Cloud location for the ekmconnection. To set the location attribute: ▸ provide the argument ekm_connection on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// The filter applied to the endpoints of the resolved service. If no filter is specified, all endpoints will be considered.
     /// </summary>
     [CliOption("--endpoint-filter", Format = OptionFormat.EqualsSeparated)]
@@ -35,9 +58,9 @@ public record GcloudKmsEkmConnectionsUpdateOptions : GcloudOptions
     public string? Hostname { get; set; }
 
     /// <summary>
-    /// A list of filenames of leaf server certificates used to authenticate HTTPS connections to the EKM replica in PEM format. If files are not in PEM, the assumed format will be DER.
+    /// A list of filenames of leaf server certificates used to authenticate HTTPS connections to the EKM replica in PEM format. If files are not in PEM, the assumed format will be DER. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--server-certificates-files", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--server-certificates-files", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ServerCertificatesFiles { get; set; }
 
     /// <summary>
@@ -57,5 +80,11 @@ public record GcloudKmsEkmConnectionsUpdateOptions : GcloudOptions
     /// </summary>
     [CliOption("--key-management-mode", Format = OptionFormat.EqualsSeparated)]
     public GcloudKeyManagementMode? KeyManagementMode { get; set; }
+
+    /// <summary>
+    /// Ekmconnection resource - The KMS ekm connection resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument ekm_connection on the command line with a fully specified name; ◆ set the property core/project. This must be specified. ID of the ekmconnection or fully qualified identifier for the ekmconnection. To set the ekmconnection attribute: ▸ provide the argument ekm_connection on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string EkmConnection { get; private init; }
 
 }

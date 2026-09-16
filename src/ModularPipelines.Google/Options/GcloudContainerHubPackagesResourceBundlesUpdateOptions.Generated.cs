@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "hub", "packages", "resource-bundles", "update")]
-public record GcloudContainerHubPackagesResourceBundlesUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudContainerHubPackagesResourceBundlesUpdateOptions : GcloudOptions
 {
+    /// <summary>
+    /// update Package     Rollouts Resource Bundle
+    /// </summary>
+    /// <param name="Name">Resource name.</param>
+    public GcloudContainerHubPackagesResourceBundlesUpdateOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// Resource description.
     /// </summary>
@@ -34,5 +49,11 @@ public record GcloudContainerHubPackagesResourceBundlesUpdateOptions(
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
+
+    /// <summary>
+    /// Resource name.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
 
 }

@@ -23,9 +23,38 @@ namespace ModularPipelines.Google.Options;
 public record GcloudApiGatewayApiConfigsDescribeOptions : GcloudOptions
 {
     /// <summary>
+    /// show details about a specific API     config
+    /// </summary>
+    /// <param name="ApiConfig">Api config resource - Name for API Config which will be created. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument api_config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument api_config on the command line with a fully specified name; ◆ Location for API and API Configs. Defaults to global. This must be specified. ID of the api-config or fully qualified identifier for the api-config. To set the api-config attribute: ▸ provide the argument api_config on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudApiGatewayApiConfigsDescribeOptions(
+        string ApiConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApiConfig);
+        this.ApiConfig = ApiConfig;
+    }
+
+    public void Deconstruct(out string ApiConfig)
+    {
+        ApiConfig = this.ApiConfig;
+    }
+
+    /// <summary>
+    /// Api config resource - Name for API Config which will be created. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument api_config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument api_config on the command line with a fully specified name; ◆ Location for API and API Configs. Defaults to global. This must be specified. API ID. To set the api attribute: ▸ provide the argument api_config on the command line with a fully specified name; ▸ provide the argument --api on the command line.
+    /// </summary>
+    [CliOption("--api", Format = OptionFormat.EqualsSeparated)]
+    public string? Api { get; set; }
+
+    /// <summary>
     /// The API Configuration view to return. If 'FULL' is specified, the base64 encoded API Configuration's source file conent will be included in the response. VIEW must be one of: BASIC, FULL.
     /// </summary>
     [CliOption("--view", Format = OptionFormat.EqualsSeparated)]
     public GcloudView? View { get; set; }
+
+    /// <summary>
+    /// Api config resource - Name for API Config which will be created. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument api_config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument api_config on the command line with a fully specified name; ◆ Location for API and API Configs. Defaults to global. This must be specified. ID of the api-config or fully qualified identifier for the api-config. To set the api-config attribute: ▸ provide the argument api_config on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ApiConfig { get; private init; }
 
 }

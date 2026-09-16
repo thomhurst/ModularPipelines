@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -20,13 +21,13 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "ls")]
-public record GcloudStorageLsOptions : GcloudOptions
+public record GcloudStorageLsOptions : GcloudOptions, IValidatableObject
 {
     /// <summary>
-    /// Includes arbitrary headers in storage API calls. Accepts a comma separated list of key=value pairs, e.g. header1=value1,header2=value2. Overrides the default storage/additional_headers property value for this command invocation.
+    /// Includes arbitrary headers in storage API calls. Accepts a comma separated list of key=value pairs, e.g. header1=value1,header2=value2. Overrides the default storage/additional_headers property value for this command invocation. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--additional-headers", Format = OptionFormat.EqualsSeparated)]
-    public string? AdditionalHeaders { get; set; }
+    [CliOption("--additional-headers", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AdditionalHeaders { get; set; }
 
     /// <summary>
     /// Include noncurrent object versions in the listing. This flag is typically only useful for buckets with object versioning (https://cloud.google.com/storage/docs/object-versioning) enabled. If combined with the --long option, the metageneration for each listed object is also included.
@@ -112,5 +113,21 @@ public record GcloudStorageLsOptions : GcloudOptions
     /// </summary>
     [CliFlag("--long")]
     public bool? Long { get; set; }
+
+    /// <summary>
+    /// The path of objects and directories to list. The path must begin with gs:// and is allowed to contain wildcard characters.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public IEnumerable<string>? Path { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((Full == true ? 1 : 0) + (Json == true ? 1 : 0) + (Long == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Full, Json, or Long may be specified.", [nameof(Full), nameof(Json), nameof(Long)]);
+        }
+        yield break;
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -20,8 +21,42 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logging", "operations", "list")]
-public record GcloudLoggingOperationsListOptions : GcloudOptions
+public record GcloudLoggingOperationsListOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// list long running operations
+    /// </summary>
+    /// <param name="Location">Location of the operations.</param>
+    /// <param name="OperationFilter">Filter expression that specifies the operations to return.</param>
+    public GcloudLoggingOperationsListOptions(
+        string Location,
+        string OperationFilter
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        global::System.ArgumentNullException.ThrowIfNull(OperationFilter);
+        this.OperationFilter = OperationFilter;
+    }
+
+    public void Deconstruct(out string Location, out string OperationFilter)
+    {
+        Location = this.Location;
+        OperationFilter = this.OperationFilter;
+    }
+
+    /// <summary>
+    /// Location of the operations.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// Filter expression that specifies the operations to return.
+    /// </summary>
+    [CliOption("--operation-filter", Format = OptionFormat.EqualsSeparated)]
+    public string OperationFilter { get; private init; }
+
     /// <summary>
     /// The next_page_token value returned from a previous List request, if any.
     /// </summary>
@@ -48,9 +83,19 @@ public record GcloudLoggingOperationsListOptions : GcloudOptions
     public string? Organization { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Project of the operations to list. The Google Cloud project ID to use for this invocation. If omitted, then the current project is assumed; the current project can be listed using gcloud config list --format='text(core.project)' and can be set using gcloud config set project PROJECTID. --project and its fallback core/project property play two roles in the invocation. It specifies the project of the resource to operate on. It also specifies the project for API enablement check, quota, and billing. To specify a different project for quota and billing, use --billing-project or billing/quota_project property.
+    /// At most one of these can be specified: Project of the operations to list. The Google Cloud project ID to use for this invocation. If omitted, then the current project is assumed; the current project can be listed using gcloud config list --format='text(core.project)' and can be set using gcloud config set project PROJECTID. --project and its fallback core/project property play two roles in the invocation: they specify both the project of the resource to operate on, and the project for API enablement checks, quota, and billing. To specify a different project for quota and billing, use the --billing-project flag or the billing/quota_project property.
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
     public string? Project { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(BillingAccount) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Folder) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Project) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of BillingAccount, Folder, Organization, or Project may be specified.", [nameof(BillingAccount), nameof(Folder), nameof(Organization), nameof(Project)]);
+        }
+        yield break;
+    }
 
 }

@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -20,14 +21,12 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("infra-manager", "previews", "create")]
-public record GcloudInfraManagerPreviewsCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Preview
-) : GcloudOptions
+public record GcloudInfraManagerPreviewsCreateOptions : GcloudOptions, IValidatableObject
 {
     /// <summary>
-    /// Preview annotations cannot be updated after creation.
+    /// Preview annotations cannot be updated after creation. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Annotations { get; set; }
 
     /// <summary>
@@ -49,9 +48,9 @@ public record GcloudInfraManagerPreviewsCreateOptions(
     public string? Deployment { get; set; }
 
     /// <summary>
-    /// Preview labels cannot be updated after creation.
+    /// Preview labels cannot be updated after creation. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
@@ -121,15 +120,39 @@ public record GcloudInfraManagerPreviewsCreateOptions(
     public string? LocalSource { get; set; }
 
     /// <summary>
-    /// Location resource - the location to be used as parent. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property infra-manager/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. At most one of these can be specified: Input variable values for the Terraform blueprint. It only accepts (key, value) pairs where value is a scalar value. Examples: Pass input values on command line: $ gcloud infra-manager previews create \ projects/p1/location/us-central1/deployments/my-deployment \ --gcs-source="gs://my-bucket" \ --input-values=projects=p1,region=r
+    /// Location resource - the location to be used as parent. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property infra-manager/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. At most one of these can be specified: Input variable values for the Terraform blueprint. It only accepts (key, value) pairs where value is a scalar value. Examples: Pass input values on command line: $ gcloud infra-manager previews create \ projects/p1/location/us-central1/deployments/my-deployment \ --gcs-source="gs://my-bucket" \ --input-values=projects=p1,region=r Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--input-values", Format = OptionFormat.EqualsSeparated)]
-    public IReadOnlyList<KeyValue>? InputValues { get; set; }
+    [CliOption("--input-values", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? InputValues
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
+    }
 
     /// <summary>
     /// Location resource - the location to be used as parent. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property infra-manager/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. At most one of these can be specified: A .tfvars file containing terraform variable values. --inputs-file flag is supported for python version 3.6 and above. Examples: Pass input values on the command line: $ gcloud infra-manager previews create \ projects/p1/location/us-central1/deployments/my-deployment \ --gcs-source="gs://my-bucket" \ --inputs-file=path-to-tfvar-file.tfvar
     /// </summary>
     [CliOption("--inputs-file", Format = OptionFormat.EqualsSeparated)]
     public string? InputsFile { get; set; }
+
+    /// <summary>
+    /// Preview resource - the preview to be used as parent. It is optional and will be generated if not specified with a fully specified name. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument PREVIEW on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument PREVIEW on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property infra-manager/location. ID of the preview or fully qualified identifier for the preview. To set the preview attribute: ◆ provide the argument PREVIEW on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Preview { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(GcsSource) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(GitSourceDirectory) || !string.IsNullOrWhiteSpace(GitSourceRef) || !string.IsNullOrWhiteSpace(GitSourceRepo)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(IgnoreFile) || !string.IsNullOrWhiteSpace(LocalSource)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of GcsSource, (GitSourceDirectory, GitSourceRef, or GitSourceRepo), or (IgnoreFile or LocalSource) may be specified.", [nameof(GcsSource), nameof(GitSourceDirectory), nameof(GitSourceRef), nameof(GitSourceRepo), nameof(IgnoreFile), nameof(LocalSource)]);
+        }
+        if ((((object?)InputValues is global::System.Collections.Generic.IEnumerable<char> ? (object?)InputValues is not string || !string.IsNullOrWhiteSpace(InputValues?.ToString()) : ((object?)InputValues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)InputValues, static item => item is not null) : (InputValues is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)InputValues), static item => item is not null)))) ? 1 : 0) + (!string.IsNullOrWhiteSpace(InputsFile) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of InputValues or InputsFile may be specified.", [nameof(InputValues), nameof(InputsFile)]);
+        }
+        yield break;
+    }
 
 }

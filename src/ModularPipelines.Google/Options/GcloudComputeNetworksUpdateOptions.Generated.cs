@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,10 +20,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "networks", "update")]
-public record GcloudComputeNetworksUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudComputeNetworksUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a Compute Engine network
+    /// </summary>
+    /// <param name="Name">Name of the network to operate on.</param>
+    public GcloudComputeNetworksUpdateOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -94,5 +110,21 @@ public record GcloudComputeNetworksUpdateOptions(
     /// </summary>
     [CliFlag("--switch-to-custom-subnet-mode")]
     public bool? SwitchToCustomSubnetMode { get; set; }
+
+    /// <summary>
+    /// Name of the network to operate on.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(BgpRoutingMode) ? 1 : 0) + (SwitchToCustomSubnetMode == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of BgpRoutingMode or SwitchToCustomSubnetMode may be specified.", [nameof(BgpRoutingMode), nameof(SwitchToCustomSubnetMode)]);
+        }
+        yield break;
+    }
 
 }

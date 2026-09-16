@@ -20,10 +20,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("run", "jobs", "logs", "read")]
-public record GcloudRunJobsLogsReadOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Job
-) : GcloudOptions
+public record GcloudRunJobsLogsReadOptions : GcloudOptions
 {
+    /// <summary>
+    /// read logs for Cloud Run jobs
+    /// </summary>
+    /// <param name="Job">Name for a Cloud Run job.</param>
+    public GcloudRunJobsLogsReadOptions(
+        string Job
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Job);
+        this.Job = Job;
+    }
+
+    public void Deconstruct(out string Job)
+    {
+        Job = this.Job;
+    }
+
     /// <summary>
     /// Return entries that are not older than this value. Works only with DESC ordering and filters without a timestamp. See $ gcloud topic datetimes for information on duration formats.
     /// </summary>
@@ -47,5 +62,11 @@ public record GcloudRunJobsLogsReadOptions(
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
+
+    /// <summary>
+    /// Name for a Cloud Run job.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Job { get; private init; }
 
 }

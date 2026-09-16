@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +21,168 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "org-security-policies", "rules", "update")]
-public record GcloudPreviewComputeOrgSecurityPoliciesRulesUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Priority
-) : GcloudOptions
+public record GcloudPreviewComputeOrgSecurityPoliciesRulesUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a     Compute Engine security policy rule
+    /// </summary>
+    /// <param name="SecurityPolicy">short name of the security policy into which the rule should be updated.</param>
+    /// <param name="Priority">Priority of the security policy rule to update.</param>
+    public GcloudPreviewComputeOrgSecurityPoliciesRulesUpdateOptions(
+        string SecurityPolicy,
+        string Priority
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SecurityPolicy);
+        this.SecurityPolicy = SecurityPolicy;
+        global::System.ArgumentNullException.ThrowIfNull(Priority);
+        this.Priority = Priority;
+    }
+
+    public void Deconstruct(out string SecurityPolicy, out string Priority)
+    {
+        SecurityPolicy = this.SecurityPolicy;
+        Priority = this.Priority;
+    }
+
+    /// <summary>
+    /// short name of the security policy into which the rule should be updated.
+    /// </summary>
+    [CliOption("--security-policy", Format = OptionFormat.EqualsSeparated)]
+    public string SecurityPolicy { get; private init; }
+
+    /// <summary>
+    /// Action to take if the request matches the match condition. ACTION must be one of: allow Allows the request from HTTP(S) Load Balancing. deny (DEPRECATED) Only used for Hierarchical Firewalls. deny-403 Denies the request from HTTP(S) Load Balancing, with an HTTP response status code of 403. deny-404 Denies the request from HTTP(S) Load Balancing, with an HTTP response status code of 404. deny-502 Denies the request from HTTP(S) Load Balancing, with an HTTP response status code of 502. goto-next Defers enforcement to the next policy in the hierarchy. redirect Redirects the request from HTTP(S) Load Balancing, based on redirect options.
+    /// </summary>
+    [CliOption("--action", Format = OptionFormat.EqualsSeparated)]
+    public string? Action { get; set; }
+
+    /// <summary>
+    /// Specified for Hierarchical Cloud Armor rules.
+    /// </summary>
+    [CliFlag("--cloud-armor")]
+    public bool? CloudArmor { get; set; }
+
+    /// <summary>
+    /// An optional, textual description for the rule.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Destination IP ranges to match for this rule. Can only be specified if DIRECTION is egress. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--dest-ip-ranges", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? DestIpRanges { get; set; }
+
+    /// <summary>
+    /// Direction of the traffic the rule is applied. The default is to apply on incoming traffic. DIRECTION must be one of: INGRESS, EGRESS.
+    /// </summary>
+    [CliOption("--direction", Format = OptionFormat.EqualsSeparated)]
+    public GcloudDirection? Direction { get; set; }
+
+    /// <summary>
+    /// Use this flag to enable logging of connections that allowed or denied by this rule. Use --enable-logging to enable and --no-enable-logging to disable.
+    /// </summary>
+    [CliFlag("--enable-logging")]
+    public bool? EnableLogging { get; set; }
+
+    /// <summary>
+    /// Negates --enable-logging. Use this flag to enable logging of connections that allowed or denied by this rule. Use --enable-logging to enable and --no-enable-logging to disable.
+    /// </summary>
+    [CliFlag("--no-enable-logging")]
+    public bool? NoEnableLogging { get; set; }
+
+    /// <summary>
+    /// A list of destination protocols and ports to which the firewall rule will apply. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--layer4-configs", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Layer4Configs { get; set; }
+
+    /// <summary>
+    /// New priority for the rule to update. Valid in [0, 65535].
+    /// </summary>
+    [CliOption("--new-priority", Format = OptionFormat.EqualsSeparated)]
+    public string? NewPriority { get; set; }
+
+    /// <summary>
+    /// Organization which the organization security policy belongs to. Must be set if SECURITY_POLICY is short name.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// If specified, the action will not be enforced. Use --preview to enable and --no-preview to disable.
+    /// </summary>
+    [CliFlag("--preview")]
+    public bool? Preview { get; set; }
+
+    /// <summary>
+    /// Negates --preview. If specified, the action will not be enforced. Use --preview to enable and --no-preview to disable.
+    /// </summary>
+    [CliFlag("--no-preview")]
+    public bool? NoPreview { get; set; }
+
+    /// <summary>
+    /// List of URLs of target resources to which the rule is applied. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--target-resources", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? TargetResources { get; set; }
+
+    /// <summary>
+    /// List of target service accounts for the rule.
+    /// </summary>
+    [CliOption("--target-service-accounts", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? TargetServiceAccounts { get; set; }
+
+    /// <summary>
+    /// Security policy rule matcher. At most one of these can be specified: The Cloud Armor rules language expression to match for this rule.
+    /// </summary>
+    [CliOption("--expression", Format = OptionFormat.EqualsSeparated)]
+    public string? Expression { get; set; }
+
+    /// <summary>
+    /// Security policy rule matcher. At most one of these can be specified: The source IPs/IP ranges to match for this rule. To match all IPs specify *. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--src-ip-ranges", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? SrcIpRanges
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __SrcIpRangesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __SrcIpRangesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Priority of the security policy rule to update.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Priority { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Expression) ? 1 : 0) + (((object?)SrcIpRanges is global::System.Collections.Generic.IEnumerable<char> ? (object?)SrcIpRanges is not string || !string.IsNullOrWhiteSpace(SrcIpRanges?.ToString()) : ((object?)SrcIpRanges is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SrcIpRanges, static item => item is not null) : (SrcIpRanges is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SrcIpRanges), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Expression or SrcIpRanges may be specified.", [nameof(Expression), nameof(SrcIpRanges)]);
+        }
+        yield break;
+    }
+
 }

@@ -19,8 +19,51 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "ssl", "client-certs", "create")]
-public record GcloudSqlSslClientCertsCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string CommonName
-) : GcloudOptions
+public record GcloudSqlSslClientCertsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a client certificate for a     Cloud SQL instance
+    /// </summary>
+    /// <param name="Instance">Cloud SQL instance ID.</param>
+    /// <param name="CommonName">User supplied name. Constrained to [a-zA-Z.-_ ]+.</param>
+    /// <param name="CertFile">Location of file which the private key of the created ssl-cert will be written to.</param>
+    public GcloudSqlSslClientCertsCreateOptions(
+        string Instance,
+        string CommonName,
+        string CertFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+        global::System.ArgumentNullException.ThrowIfNull(CommonName);
+        this.CommonName = CommonName;
+        global::System.ArgumentNullException.ThrowIfNull(CertFile);
+        this.CertFile = CertFile;
+    }
+
+    public void Deconstruct(out string Instance, out string CommonName, out string CertFile)
+    {
+        Instance = this.Instance;
+        CommonName = this.CommonName;
+        CertFile = this.CertFile;
+    }
+
+    /// <summary>
+    /// Cloud SQL instance ID.
+    /// </summary>
+    [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
+    public string Instance { get; private init; }
+
+    /// <summary>
+    /// User supplied name. Constrained to [a-zA-Z.-_ ]+.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string CommonName { get; private init; }
+
+    /// <summary>
+    /// Location of file which the private key of the created ssl-cert will be written to.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string CertFile { get; private init; }
+
 }

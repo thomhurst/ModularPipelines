@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,87 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netapp", "backup-vaults", "backups", "create")]
-public record GcloudNetappBackupVaultsBackupsCreateOptions : GcloudOptions
+public record GcloudNetappBackupVaultsBackupsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a Cloud NetApp Backup
+    /// </summary>
+    /// <param name="Backup">Backup resource - The Backup to create The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument backup on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the backup_vault attribute: ◆ provide the argument backup on the command line with a fully specified name; ◆ provide the argument --backup-vault on the command line. This must be specified. ID of the backup or fully qualified identifier for the backup. To set the backup attribute: ▸ provide the argument backup on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetappBackupVaultsBackupsCreateOptions(
+        string Backup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Backup);
+        this.Backup = Backup;
+    }
+
+    public void Deconstruct(out string Backup)
+    {
+        Backup = this.Backup;
+    }
+
+    /// <summary>
+    /// Backup resource - The Backup to create The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument backup on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the backup_vault attribute: ◆ provide the argument backup on the command line with a fully specified name; ◆ provide the argument --backup-vault on the command line. This must be specified. The location of the backup. To set the location attribute: ▸ provide the argument backup on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property netapp/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: ONTAP source for the backup. It consists of the following fields: ▸ storage-pool: The storage pool of the source volume. ▸ volume-uuid: The UUID of the source volume. ▸ snapshot-uuid: The UUID of the source snapshot (optional).
+    /// </summary>
+    [CliOption("--ontap-source", Format = OptionFormat.EqualsSeparated)]
+    public string? OntapSource { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Snapshot resource - The full name of the Source Snapshot that the Backup is based on', Format: projects/{project_id}/locations/{location}/volumes/{volume_id}/snapshots/{snapshot_id} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▫ provide the argument --source-snapshot on the command line with a fully specified name; ▫ provide the argument --project on the command line; ▫ set the property core/project. To set the location attribute: ▫ provide the argument --source-snapshot on the command line with a fully specified name; ▫ set the property netapp/location. To set the volume attribute: ▫ provide the argument --source-snapshot on the command line with a fully specified name. ID of the snapshot or fully qualified identifier for the snapshot. To set the snapshot attribute: ▫ provide the argument --source-snapshot on the command line.
+    /// </summary>
+    [CliOption("--source-snapshot", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceSnapshot { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Volume resource - The full name of the Source Volume that the Backup is based on', Format: projects/{projects_id}/locations/{location}/volumes/{volume_id} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▫ provide the argument --source-volume on the command line with a fully specified name; ▫ provide the argument --volume on the command line with a fully specified name; ▫ provide the argument --project on the command line; ▫ set the property core/project. To set the location attribute: ▫ provide the argument --source-volume on the command line with a fully specified name; ▫ provide the argument --volume on the command line with a fully specified name; ▫ provide the argument --location on the command line; ▫ set the property netapp/location. ID of the volume or fully qualified identifier for the volume. To set the volume attribute: ▫ provide the argument --source-volume on the command line; ▫ provide the argument --volume on the command line.
+    /// </summary>
+    [CliOption("--source-volume", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceVolume { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Backup vault resource - The Backup Vault that the Backup is stored in This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --backup-vault on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --backup-vault on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property netapp/location. ID of the backup_vault or fully qualified identifier for the backup_vault. To set the backup_vault attribute: ◆ provide the argument --backup-vault on the command line.
+    /// </summary>
+    [CliOption("--backup-vault", Format = OptionFormat.EqualsSeparated)]
+    public string? BackupVault { get; set; }
+
+    /// <summary>
+    /// Backup vault resource - The Backup Vault that the Backup is stored in This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --backup-vault on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --backup-vault on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property netapp/location. A description of the Cloud NetApp Backup Vault
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Backup vault resource - The Backup Vault that the Backup is stored in This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --backup-vault on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --backup-vault on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property netapp/location. List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Backup resource - The Backup to create The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument backup on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the backup_vault attribute: ◆ provide the argument backup on the command line with a fully specified name; ◆ provide the argument --backup-vault on the command line. This must be specified. ID of the backup or fully qualified identifier for the backup. To set the backup attribute: ▸ provide the argument backup on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Backup { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(OntapSource) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(SourceSnapshot) || !string.IsNullOrWhiteSpace(SourceVolume)) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of OntapSource or (SourceSnapshot or SourceVolume) must be specified.", [nameof(OntapSource), nameof(SourceSnapshot), nameof(SourceVolume)]);
+        }
+        yield break;
+    }
+
 }

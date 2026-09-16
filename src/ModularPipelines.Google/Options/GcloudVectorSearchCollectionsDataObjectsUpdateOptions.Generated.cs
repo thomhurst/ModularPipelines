@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,37 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vector-search", "collections", "data-objects", "update")]
-public record GcloudVectorSearchCollectionsDataObjectsUpdateOptions : GcloudOptions
+public record GcloudVectorSearchCollectionsDataObjectsUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a data object
+    /// </summary>
+    /// <param name="DataObject">DataObject resource - Identifier. The fully qualified resource name of the dataObject. Format: projects/{project}/locations/{location}/collections/{collection}/dataObjects/{data_object_id} The data_object_id must be 1-63 characters long, and comply with RFC1035 (https://www.ietf.org/rfc/rfc1035.txt). The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument data_object on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the dataObject or fully qualified identifier for the dataObject. To set the data_object attribute: ▸ provide the argument data_object on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudVectorSearchCollectionsDataObjectsUpdateOptions(
+        string DataObject
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataObject);
+        this.DataObject = DataObject;
+    }
+
+    public void Deconstruct(out string DataObject)
+    {
+        DataObject = this.DataObject;
+    }
+
+    /// <summary>
+    /// DataObject resource - Identifier. The fully qualified resource name of the dataObject. Format: projects/{project}/locations/{location}/collections/{collection}/dataObjects/{data_object_id} The data_object_id must be 1-63 characters long, and comply with RFC1035 (https://www.ietf.org/rfc/rfc1035.txt). The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument data_object on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The collection id of the dataObject resource. To set the collection attribute: ▸ provide the argument data_object on the command line with a fully specified name; ▸ provide the argument --collection on the command line.
+    /// </summary>
+    [CliOption("--collection", Format = OptionFormat.EqualsSeparated)]
+    public string? Collection { get; set; }
+
+    /// <summary>
+    /// DataObject resource - Identifier. The fully qualified resource name of the dataObject. Format: projects/{project}/locations/{location}/collections/{collection}/dataObjects/{data_object_id} The data_object_id must be 1-63 characters long, and comply with RFC1035 (https://www.ietf.org/rfc/rfc1035.txt). The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument data_object on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the dataObject resource. To set the location attribute: ▸ provide the argument data_object on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
     /// <summary>
     /// The data of the dataObject.
     /// </summary>
@@ -37,13 +67,93 @@ public record GcloudVectorSearchCollectionsDataObjectsUpdateOptions : GcloudOpti
     /// Update vectors. At most one of these can be specified: Set vectors to new value. The vectors of the dataObject. KEY Sets KEY value. VALUE Sets VALUE value. dense A dense vector. values The values of the vector. sparse A sparse vector. indices The corresponding indices for the values. values The values of the vector. Shorthand Example: --vectors=string={dense={values=[float]},sparse={indices=[int],values=[float]}} JSON Example: --vectors='{"string": {"dense": {"values": [float]}, "sparse": {"indices": [int], "values": [float]}}}' File Example: --vectors=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--vectors", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? Vectors { get; set; }
+    public IEnumerable<string>? Vectors
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __VectorsSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __VectorsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __VectorsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __VectorsSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Update vectors. At most one of these can be specified: Or at least one of these can be specified: Update vectors value or add key value pair. The vectors of the dataObject. KEY Sets KEY value. VALUE Sets VALUE value. dense A dense vector. values The values of the vector. sparse A sparse vector. indices The corresponding indices for the values. values The values of the vector. Shorthand Example: --update-vectors=string={dense={values=[float]},sparse={indices=[int],values=[float]}} JSON Example: --update-vectors='{"string": {"dense": {"values": [float]}, "sparse": {"indices": [int], "values": [float]}}}' File Example: --update-vectors=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--update-vectors", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? UpdateVectors { get; set; }
+    public IEnumerable<string>? UpdateVectors
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __UpdateVectorsSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __UpdateVectorsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __UpdateVectorsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __UpdateVectorsSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Update vectors. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear vectors value and set to empty map.
@@ -56,5 +166,25 @@ public record GcloudVectorSearchCollectionsDataObjectsUpdateOptions : GcloudOpti
     /// </summary>
     [CliOption("--remove-vectors", Format = OptionFormat.EqualsSeparated)]
     public string? RemoveVectors { get; set; }
+
+    /// <summary>
+    /// DataObject resource - Identifier. The fully qualified resource name of the dataObject. Format: projects/{project}/locations/{location}/collections/{collection}/dataObjects/{data_object_id} The data_object_id must be 1-63 characters long, and comply with RFC1035 (https://www.ietf.org/rfc/rfc1035.txt). The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument data_object on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the dataObject or fully qualified identifier for the dataObject. To set the data_object attribute: ▸ provide the argument data_object on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string DataObject { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((((object?)Vectors is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)Vectors, static item => item is not null) : ((object?)Vectors is global::System.Collections.Generic.IEnumerable<char> ? (object?)Vectors is not string || !string.IsNullOrWhiteSpace(Vectors?.ToString()) : ((object?)Vectors is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Vectors, static item => item is not null) : (Vectors is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Vectors), static item => item is not null))))) ? 1 : 0) + ((((object?)UpdateVectors is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)UpdateVectors, static item => item is not null) : ((object?)UpdateVectors is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateVectors is not string || !string.IsNullOrWhiteSpace(UpdateVectors?.ToString()) : ((object?)UpdateVectors is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateVectors, static item => item is not null) : (UpdateVectors is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateVectors), static item => item is not null))))) || ClearVectors == true || !string.IsNullOrWhiteSpace(RemoveVectors)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Vectors or (UpdateVectors, ClearVectors, or RemoveVectors) may be specified.", [nameof(Vectors), nameof(UpdateVectors), nameof(ClearVectors), nameof(RemoveVectors)]);
+        }
+        if ((((object?)Vectors is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)Vectors, static item => item is not null) : ((object?)Vectors is global::System.Collections.Generic.IEnumerable<char> ? (object?)Vectors is not string || !string.IsNullOrWhiteSpace(Vectors?.ToString()) : ((object?)Vectors is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Vectors, static item => item is not null) : (Vectors is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Vectors), static item => item is not null))))) || ((object?)UpdateVectors is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)UpdateVectors, static item => item is not null) : ((object?)UpdateVectors is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateVectors is not string || !string.IsNullOrWhiteSpace(UpdateVectors?.ToString()) : ((object?)UpdateVectors is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateVectors, static item => item is not null) : (UpdateVectors is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateVectors), static item => item is not null))))) || ClearVectors == true || !string.IsNullOrWhiteSpace(RemoveVectors)) && (((object?)UpdateVectors is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)UpdateVectors, static item => item is not null) : ((object?)UpdateVectors is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateVectors is not string || !string.IsNullOrWhiteSpace(UpdateVectors?.ToString()) : ((object?)UpdateVectors is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateVectors, static item => item is not null) : (UpdateVectors is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateVectors), static item => item is not null))))) || ClearVectors == true || !string.IsNullOrWhiteSpace(RemoveVectors)) && ((ClearVectors == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(RemoveVectors) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearVectors or RemoveVectors may be specified.", [nameof(ClearVectors), nameof(RemoveVectors)]);
+        }
+        yield break;
+    }
 
 }

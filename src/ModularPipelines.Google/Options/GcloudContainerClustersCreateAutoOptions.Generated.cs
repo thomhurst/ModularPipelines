@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -22,10 +23,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "clusters", "create-auto")]
-public record GcloudContainerClustersCreateAutoOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudContainerClustersCreateAutoOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create an Autopilot cluster for     running containers
+    /// </summary>
+    /// <param name="Name">The name of the cluster to create. The name may contain only lowercase alphanumerics and '-', must start with a letter and end with an alphanumeric, and must be no longer than 40 characters.</param>
+    public GcloudContainerClustersCreateAutoOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// Enable or restrict anonymous access to the cluster. When enabled, anonymous users will be authenticated as system:anonymous with the group system:unauthenticated. Limiting access restricts anonymous access to only the health check endpoints /readyz, /livez, and /healthz. ANONYMOUS_AUTHENTICATION_CONFIG must be one of: ENABLED 'ENABLED' enables anonymous calls. LIMITED 'LIMITED' restricts anonymous access to the cluster. Only calls to the health check endpoints are allowed anonymously, all other calls will be rejected.
     /// </summary>
@@ -51,9 +67,9 @@ public record GcloudContainerClustersCreateAutoOptions(
     public GcloudAutopilotGeneralProfile? AutopilotGeneralProfile { get; set; }
 
     /// <summary>
-    /// Specifies which privileged workload allowlist paths can be referenced and installed by AllowlistSynchronizers in Autopilot modes. The value is a comma-separated list of paths in the format: ◆ gke://&lt;partner_name&gt;/&lt;app_name&gt;/&lt;allowlist_path&gt; for Autopilot partner allowlists ◆ gs://&lt;bucket_name&gt;/&lt;allowlist_path&gt; for user allowlists By default, all GKE-managed allowlists (gke://*) are authorized. See https://cloud.google.com/kubernetes-engine/docs/resources/autopilot-partners for all supported Autopilot partner allowlists. When setting this flag, be careful to explicitly specify gke://* in addition to other entries if you rely on this default behavior. Wildcards (*) are supported. For example, if gke://* is authorized, then AllowlistSynchronizers can be used to install gke://partner1/allowlist1.yaml and gke://partner2/allowlist2.yaml. Note: Use of user allowlists (gs://) requires special permissions and is only available to a subset of high tier customers. Please contact your account team for more information. Examples: Allow all GKE-managed allowlists (default behavior): $ gcloud container clusters create-auto \ --autopilot-privileged-admission=gke://* Authorize only allowlists from a GKE Autopilot partner: $ gcloud container clusters create-auto \ --autopilot-privileged-admission=gke://my-partner/* Authorize only a singular user-owned allowlist $ gcloud container clusters create-auto \ --autopilot-privileged-admission=gs://my-bucket/allowlists/\ my-allowlist.yaml Authorize all user-owned allowlists under a given path: $ gcloud container clusters create-auto \ --autopilot-privileged-admission=gs://my-bucket/* Authorize all GKE-managed allowlists and a specific user-owned allowlist: $ gcloud container clusters create-auto \ --autopilot-privileged-admission=gke://*,gs://my-bucket/\ allowlists/my-allowlist.yaml Disable allowlist installation entirely: $ gcloud container clusters create-auto \ --autopilot-privileged-admission="" Exercise caution when using this flag on an existing cluster. Upon updates, existing AllowlistSynchronizers will uninstall allowlists that are no longer authorized. For instructions on installing allowlists in the cluster after authorization, please refer to: https://cloud.google.com/kubernetes-engine/docs/how-to/run-autopilot-partner-workloads
+    /// Specifies which privileged workload allowlist paths can be referenced and installed by AllowlistSynchronizers in Autopilot modes. The value is a comma-separated list of paths in the format: ◆ gke://&lt;partner_name&gt;/&lt;app_name&gt;/&lt;allowlist_path&gt; for Autopilot partner allowlists ◆ gs://&lt;bucket_name&gt;/&lt;allowlist_path&gt; for user allowlists By default, all GKE-managed allowlists (gke://*) are authorized. See https://cloud.google.com/kubernetes-engine/docs/resources/autopilot-partners for all supported Autopilot partner allowlists. When setting this flag, be careful to explicitly specify gke://* in addition to other entries if you rely on this default behavior. Wildcards (*) are supported. For example, if gke://* is authorized, then AllowlistSynchronizers can be used to install gke://partner1/allowlist1.yaml and gke://partner2/allowlist2.yaml. Note: Use of user allowlists (gs://) requires special permissions and is only available to a subset of high tier customers. Please contact your account team for more information. Examples: Allow all GKE-managed allowlists (default behavior): $ gcloud container clusters create-auto \ --autopilot-privileged-admission=gke://* Authorize only allowlists from a GKE Autopilot partner: $ gcloud container clusters create-auto \ --autopilot-privileged-admission=gke://my-partner/* Authorize only a singular user-owned allowlist $ gcloud container clusters create-auto \ --autopilot-privileged-admission=gs://my-bucket/allowlists/\ my-allowlist.yaml Authorize all user-owned allowlists under a given path: $ gcloud container clusters create-auto \ --autopilot-privileged-admission=gs://my-bucket/* Authorize all GKE-managed allowlists and a specific user-owned allowlist: $ gcloud container clusters create-auto \ --autopilot-privileged-admission=gke://*,gs://my-bucket/\ allowlists/my-allowlist.yaml Disable allowlist installation entirely: $ gcloud container clusters create-auto \ --autopilot-privileged-admission="" Exercise caution when using this flag on an existing cluster. Upon updates, existing AllowlistSynchronizers will uninstall allowlists that are no longer authorized. For instructions on installing allowlists in the cluster after authorization, please refer to: https://cloud.google.com/kubernetes-engine/docs/how-to/run-autopilot-partner-workloads Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--autopilot-privileged-admission", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--autopilot-privileged-admission", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AutopilotPrivilegedAdmission { get; set; }
 
     /// <summary>
@@ -69,15 +85,15 @@ public record GcloudContainerClustersCreateAutoOptions(
     public bool? NoAutoprovisioningEnableInsecureKubeletReadonlyPort { get; set; }
 
     /// <summary>
-    /// Applies the given Compute Engine tags (comma separated) on all nodes in the auto-provisioned node pools of the new Standard cluster or the new Autopilot cluster. Examples: $ gcloud container clusters create-auto example-cluster \ --autoprovisioning-network-tags=tag1,tag2 New nodes in auto-provisioned node pools, including ones created by resize or recreate, will have these tags on the Compute Engine API instance object and can be used in firewall rules. See https://cloud.google.com/sdk/gcloud/reference/compute/firewall-rules/create for examples.
+    /// Applies the given Compute Engine tags (comma separated) on all nodes in the auto-provisioned node pools of the new Standard cluster or the new Autopilot cluster. Examples: $ gcloud container clusters create-auto example-cluster \ --autoprovisioning-network-tags=tag1,tag2 New nodes in auto-provisioned node pools, including ones created by resize or recreate, will have these tags on the Compute Engine API instance object and can be used in firewall rules. See https://cloud.google.com/sdk/gcloud/reference/compute/firewall-rules/create for examples. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--autoprovisioning-network-tags", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--autoprovisioning-network-tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AutoprovisioningNetworkTags { get; set; }
 
     /// <summary>
-    /// Applies the specified comma-separated resource manager tags that has the GCE_FIREWALL purpose to all nodes in the new Autopilot cluster or all auto-provisioned nodes in the new Standard cluster. Examples: $ gcloud container clusters create-auto example-cluster \ --autoprovisioning-resource-manager-tags=tagKeys/\ 1234=tagValues/2345 $ gcloud container clusters create-auto example-cluster \ --autoprovisioning-resource-manager-tags=my-project/key1=value1 $ gcloud container clusters create-auto example-cluster \ --autoprovisioning-resource-manager-tags=12345/key1=value1,\ 23456/key2=value2 $ gcloud container clusters create-auto example-cluster \ --autoprovisioning-resource-manager-tags= All nodes in an Autopilot cluster or all auto-provisioned nodes in a Standard cluster, including nodes that are resized or re-created, will have the specified tags on the corresponding Instance object in the Compute Engine API. You can reference these tags in network firewall policy rules. For instructions, see https://cloud.google.com/firewall/docs/use-tags-for-firewalls.
+    /// Applies the specified comma-separated resource manager tags that has the GCE_FIREWALL purpose to all nodes in the new Autopilot cluster or all auto-provisioned nodes in the new Standard cluster. Examples: $ gcloud container clusters create-auto example-cluster \ --autoprovisioning-resource-manager-tags=tagKeys/\ 1234=tagValues/2345 $ gcloud container clusters create-auto example-cluster \ --autoprovisioning-resource-manager-tags=my-project/key1=value1 $ gcloud container clusters create-auto example-cluster \ --autoprovisioning-resource-manager-tags=12345/key1=value1,\ 23456/key2=value2 $ gcloud container clusters create-auto example-cluster \ --autoprovisioning-resource-manager-tags= All nodes in an Autopilot cluster or all auto-provisioned nodes in a Standard cluster, including nodes that are resized or re-created, will have the specified tags on the corresponding Instance object in the Compute Engine API. You can reference these tags in network firewall policy rules. For instructions, see https://cloud.google.com/firewall/docs/use-tags-for-firewalls. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--autoprovisioning-resource-manager-tags", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--autoprovisioning-resource-manager-tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? AutoprovisioningResourceManagerTags { get; set; }
 
     /// <summary>
@@ -129,9 +145,9 @@ public record GcloudContainerClustersCreateAutoOptions(
     public string? ControlPlaneEgress { get; set; }
 
     /// <summary>
-    /// Flags for Binary Authorization: Create a new subnetwork for the cluster. The name and range of the subnetwork can be customized via optional 'name' and 'range' key-value pairs. 'name' specifies the name of the subnetwork to be created. 'range' specifies the IP range for the new subnetwork. This can either be a netmask size (e.g. '/20') or a CIDR range (e.g. '10.0.0.0/20'). If a netmask size is specified, the IP is automatically taken from the free space in the cluster's network. Examples: Create a new subnetwork with a default name and size. $ gcloud container clusters create-auto --create-subnetwork "" Create a new subnetwork named "my-subnet" with netmask of size 21. $ gcloud container clusters create-auto \ --create-subnetwork name=my-subnet,range=/21 Create a new subnetwork with a default name with the primary range of 10.100.0.0/16. $ gcloud container clusters create-auto \ --create-subnetwork range=10.100.0.0/16 Create a new subnetwork with the name "my-subnet" with a default range. $ gcloud container clusters create-auto \ --create-subnetwork name=my-subnet Cannot be used in conjunction with '--subnetwork' option.
+    /// Flags for Binary Authorization: Create a new subnetwork for the cluster. The name and range of the subnetwork can be customized via optional 'name' and 'range' key-value pairs. 'name' specifies the name of the subnetwork to be created. 'range' specifies the IP range for the new subnetwork. This can either be a netmask size (e.g. '/20') or a CIDR range (e.g. '10.0.0.0/20'). If a netmask size is specified, the IP is automatically taken from the free space in the cluster's network. Examples: Create a new subnetwork with a default name and size. $ gcloud container clusters create-auto --create-subnetwork "" Create a new subnetwork named "my-subnet" with netmask of size 21. $ gcloud container clusters create-auto \ --create-subnetwork name=my-subnet,range=/21 Create a new subnetwork with a default name with the primary range of 10.100.0.0/16. $ gcloud container clusters create-auto \ --create-subnetwork range=10.100.0.0/16 Create a new subnetwork with the name "my-subnet" with a default range. $ gcloud container clusters create-auto \ --create-subnetwork name=my-subnet Cannot be used in conjunction with '--subnetwork' option. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--create-subnetwork", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--create-subnetwork", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? CreateSubnetwork { get; set; }
 
     /// <summary>
@@ -255,9 +271,9 @@ public record GcloudContainerClustersCreateAutoOptions(
     public bool? NoEnableKernelModuleSignatureEnforcement { get; set; }
 
     /// <summary>
-    /// Flags for Binary Authorization: Enable Kubernetes beta API features on this cluster. Beta APIs are not expected to be production ready and should be avoided in production-grade environments.
+    /// Flags for Binary Authorization: Enable Kubernetes beta API features on this cluster. Beta APIs are not expected to be production ready and should be avoided in production-grade environments. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--enable-kubernetes-unstable-apis", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--enable-kubernetes-unstable-apis", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? EnableKubernetesUnstableApis { get; set; }
 
     /// <summary>
@@ -333,15 +349,15 @@ public record GcloudContainerClustersCreateAutoOptions(
     public string? ImageType { get; set; }
 
     /// <summary>
-    /// Flags for Binary Authorization: Labels to apply to the Google Cloud resources in use by the Kubernetes Engine cluster. These are unrelated to Kubernetes labels. Examples: $ gcloud container clusters create-auto example-cluster \ --labels=label_a=value1,label_b=,label_c=value3
+    /// Flags for Binary Authorization: Labels to apply to the Google Cloud resources in use by the Kubernetes Engine cluster. These are unrelated to Kubernetes labels. Examples: $ gcloud container clusters create-auto example-cluster \ --labels=label_a=value1,label_b=,label_c=value3 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
-    /// Flags for Binary Authorization: Set the components that have logging enabled. Valid component values are: SYSTEM, WORKLOAD, API_SERVER, CONTROLLER_MANAGER, SCHEDULER, KCP_HPA, KCP_VPA The default is SYSTEM,WORKLOAD. If this flag is set, then SYSTEM must be included. For more information, see https://cloud.google.com/kubernetes-engine/docs/concepts/about-logs#available-logs Examples: $ gcloud container clusters create-auto --logging=SYSTEM $ gcloud container clusters create-auto --logging=SYSTEM,WORKLOAD $ gcloud container clusters create-auto \ --logging=SYSTEM,WORKLOAD,API_SERVER,CONTROLLER_MANAGER,\ SCHEDULER,KCP_HPA,KCP_VPA
+    /// Flags for Binary Authorization: Set the components that have logging enabled. Valid component values are: SYSTEM, WORKLOAD, API_SERVER, CONTROLLER_MANAGER, SCHEDULER, KCP_HPA, KCP_VPA The default is SYSTEM,WORKLOAD. If this flag is set, then SYSTEM must be included. For more information, see https://cloud.google.com/kubernetes-engine/docs/concepts/about-logs#available-logs Examples: $ gcloud container clusters create-auto --logging=SYSTEM $ gcloud container clusters create-auto --logging=SYSTEM,WORKLOAD $ gcloud container clusters create-auto \ --logging=SYSTEM,WORKLOAD,API_SERVER,CONTROLLER_MANAGER,\ SCHEDULER,KCP_HPA,KCP_VPA Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--logging", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--logging", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Logging { get; set; }
 
     /// <summary>
@@ -357,9 +373,9 @@ public record GcloudContainerClustersCreateAutoOptions(
     public string? MembershipType { get; set; }
 
     /// <summary>
-    /// Flags for Binary Authorization: Set the components that have monitoring enabled. Valid component values are: SYSTEM, WORKLOAD (Deprecated), NONE, API_SERVER, CONTROLLER_MANAGER, SCHEDULER, DAEMONSET, DEPLOYMENT, HPA, POD, STATEFULSET, STORAGE, CADVISOR, KUBELET, DCGM, JOBSET Note: DAEMONSET, DEPLOYMENT, HPA, POD, STATEFULSET, STORAGE, CADVISOR, KUBELET, DCGM, and JOBSET require Google Managed Prometheus to be enabled. For more information, see https://cloud.google.com/kubernetes-engine/docs/how-to/configure-metrics#available-metrics Examples: $ gcloud container clusters create-auto \ --monitoring=SYSTEM,API_SERVER,POD,DCGM $ gcloud container clusters create-auto --monitoring=SYSTEM
+    /// Flags for Binary Authorization: Set the components that have monitoring enabled. Valid component values are: SYSTEM, WORKLOAD (Deprecated), NONE, API_SERVER, CONTROLLER_MANAGER, SCHEDULER, DAEMONSET, DEPLOYMENT, HPA, POD, STATEFULSET, STORAGE, CADVISOR, KUBELET, DCGM, JOBSET Note: DAEMONSET, DEPLOYMENT, HPA, POD, STATEFULSET, STORAGE, CADVISOR, KUBELET, DCGM, and JOBSET require Google Managed Prometheus to be enabled. For more information, see https://cloud.google.com/kubernetes-engine/docs/how-to/configure-metrics#available-metrics Examples: $ gcloud container clusters create-auto \ --monitoring=SYSTEM,API_SERVER,POD,DCGM $ gcloud container clusters create-auto --monitoring=SYSTEM Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--monitoring", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--monitoring", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Monitoring { get; set; }
 
     /// <summary>
@@ -561,9 +577,9 @@ public record GcloudContainerClustersCreateAutoOptions(
     public bool? NoEnableMasterAuthorizedNetworks { get; set; }
 
     /// <summary>
-    /// Master Authorized Networks The list of CIDR blocks (up to 100 for private cluster, 50 for public cluster) that are allowed to connect to Kubernetes master through HTTPS. Specified in CIDR notation (e.g. 1.2.3.4/30). Cannot be specified unless --enable-master-authorized-networks is also specified.
+    /// Master Authorized Networks The list of CIDR blocks (up to 100 for private cluster, 50 for public cluster) that are allowed to connect to Kubernetes master through HTTPS. Specified in CIDR notation (e.g. 1.2.3.4/30). Cannot be specified unless --enable-master-authorized-networks is also specified. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--master-authorized-networks", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--master-authorized-networks", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? MasterAuthorizedNetworks { get; set; }
 
     /// <summary>
@@ -653,9 +669,9 @@ public record GcloudContainerClustersCreateAutoOptions(
     public string? MaintenancePatchVersionDisruptionInterval { get; set; }
 
     /// <summary>
-    /// Options to specify the node identity. Scopes options. Specifies scopes for the node instances. Examples: $ gcloud container clusters create-auto example-cluster \ --scopes=https://www.googleapis.com/auth/devstorage.read_only $ gcloud container clusters create-auto example-cluster \ --scopes=bigquery,storage-rw,compute-ro Multiple scopes can be specified, separated by commas. Various scopes are automatically added based on feature usage. Such scopes are not added if an equivalent scope already exists. ◆ monitoring-write: always added to ensure metrics can be written ◆ logging-write: added if Cloud Logging is enabled (--enable-cloud-logging/--logging) ◆ monitoring: added if Cloud Monitoring is enabled (--enable-cloud-monitoring/--monitoring) ◆ gke-default: added for Autopilot clusters that use the default service account ◆ cloud-platform: added for Autopilot clusters that use any other service account SCOPE can be either the full URI of the scope or an alias. Default scopes are assigned to all instances. Available aliases are: Alias URI bigquery https://www.googleapis.com/auth/bigquery cloud-platform https://www.googleapis.com/auth/cloud-platform cloud-source-repos https://www.googleapis.com/auth/source.full_control cloud-source-repos-ro https://www.googleapis.com/auth/source.read_only compute-ro https://www.googleapis.com/auth/compute.readonly compute-rw https://www.googleapis.com/auth/compute datastore https://www.googleapis.com/auth/datastore default https://www.googleapis.com/auth/devstorage.read_only https://www.googleapis.com/auth/logging.write https://www.googleapis.com/auth/monitoring.write https://www.googleapis.com/auth/pubsub https://www.googleapis.com/auth/service.management.readonly https://www.googleapis.com/auth/servicecontrol https://www.googleapis.com/auth/trace.append gke-default https://www.googleapis.com/auth/devstorage.read_only https://www.googleapis.com/auth/logging.write https://www.googleapis.com/auth/monitoring https://www.googleapis.com/auth/service.management.readonly https://www.googleapis.com/auth/servicecontrol https://www.googleapis.com/auth/trace.append logging-write https://www.googleapis.com/auth/logging.write monitoring https://www.googleapis.com/auth/monitoring monitoring-read https://www.googleapis.com/auth/monitoring.read monitoring-write https://www.googleapis.com/auth/monitoring.write pubsub https://www.googleapis.com/auth/pubsub service-control https://www.googleapis.com/auth/servicecontrol service-management https://www.googleapis.com/auth/service.management.readonly sql (deprecated) https://www.googleapis.com/auth/sqlservice sql-admin https://www.googleapis.com/auth/sqlservice.admin storage-full https://www.googleapis.com/auth/devstorage.full_control storage-ro https://www.googleapis.com/auth/devstorage.read_only storage-rw https://www.googleapis.com/auth/devstorage.read_write taskqueue https://www.googleapis.com/auth/taskqueue trace https://www.googleapis.com/auth/trace.append userinfo-email https://www.googleapis.com/auth/userinfo.email DEPRECATION WARNING: https://www.googleapis.com/auth/sqlservice account scope and sql alias do not provide SQL instance management capabilities and have been deprecated. Please, use https://www.googleapis.com/auth/sqlservice.admin or sql-admin to manage your Google SQL Service instances.
+    /// Options to specify the node identity. Scopes options. Specifies scopes for the node instances. Examples: $ gcloud container clusters create-auto example-cluster \ --scopes=https://www.googleapis.com/auth/devstorage.read_only $ gcloud container clusters create-auto example-cluster \ --scopes=bigquery,storage-rw,compute-ro Multiple scopes can be specified, separated by commas. Various scopes are automatically added based on feature usage. Such scopes are not added if an equivalent scope already exists. ◆ monitoring-write: always added to ensure metrics can be written ◆ logging-write: added if Cloud Logging is enabled (--enable-cloud-logging/--logging) ◆ monitoring: added if Cloud Monitoring is enabled (--enable-cloud-monitoring/--monitoring) ◆ gke-default: added for Autopilot clusters that use the default service account ◆ cloud-platform: added for Autopilot clusters that use any other service account SCOPE can be either the full URI of the scope or an alias. Default scopes are assigned to all instances. Available aliases are: Alias URI bigquery https://www.googleapis.com/auth/bigquery cloud-platform https://www.googleapis.com/auth/cloud-platform cloud-source-repos https://www.googleapis.com/auth/source.full_control cloud-source-repos-ro https://www.googleapis.com/auth/source.read_only compute-ro https://www.googleapis.com/auth/compute.readonly compute-rw https://www.googleapis.com/auth/compute datastore https://www.googleapis.com/auth/datastore default https://www.googleapis.com/auth/devstorage.read_only https://www.googleapis.com/auth/logging.write https://www.googleapis.com/auth/monitoring.write https://www.googleapis.com/auth/pubsub https://www.googleapis.com/auth/service.management.readonly https://www.googleapis.com/auth/servicecontrol https://www.googleapis.com/auth/trace.append gke-default https://www.googleapis.com/auth/devstorage.read_only https://www.googleapis.com/auth/logging.write https://www.googleapis.com/auth/monitoring https://www.googleapis.com/auth/service.management.readonly https://www.googleapis.com/auth/servicecontrol https://www.googleapis.com/auth/trace.append logging-write https://www.googleapis.com/auth/logging.write monitoring https://www.googleapis.com/auth/monitoring monitoring-read https://www.googleapis.com/auth/monitoring.read monitoring-write https://www.googleapis.com/auth/monitoring.write pubsub https://www.googleapis.com/auth/pubsub service-control https://www.googleapis.com/auth/servicecontrol service-management https://www.googleapis.com/auth/service.management.readonly sql (deprecated) https://www.googleapis.com/auth/sqlservice sql-admin https://www.googleapis.com/auth/sqlservice.admin storage-full https://www.googleapis.com/auth/devstorage.full_control storage-ro https://www.googleapis.com/auth/devstorage.read_only storage-rw https://www.googleapis.com/auth/devstorage.read_write taskqueue https://www.googleapis.com/auth/taskqueue trace https://www.googleapis.com/auth/trace.append userinfo-email https://www.googleapis.com/auth/userinfo.email DEPRECATION WARNING: https://www.googleapis.com/auth/sqlservice account scope and sql alias do not provide SQL instance management capabilities and have been deprecated. Please, use https://www.googleapis.com/auth/sqlservice.admin or sql-admin to manage your Google SQL Service instances. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--scopes", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--scopes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Scopes { get; set; }
 
     /// <summary>
@@ -663,5 +679,33 @@ public record GcloudContainerClustersCreateAutoOptions(
     /// </summary>
     [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
     public string? ServiceAccount { get; set; }
+
+    /// <summary>
+    /// The name of the cluster to create. The name may contain only lowercase alphanumerics and '-', must start with a letter and end with an alphanumeric, and must be no longer than 40 characters.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(AdditiveVpcScopeDnsDomain) ? 1 : 0) + (DisableAdditiveVpcScope == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of AdditiveVpcScopeDnsDomain or DisableAdditiveVpcScope may be specified.", [nameof(AdditiveVpcScopeDnsDomain), nameof(DisableAdditiveVpcScope)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(DataplaneV2ObservabilityMode) ? 1 : 0) + (DisableDataplaneV2FlowObservability == true ? 1 : 0) + (EnableDataplaneV2FlowObservability == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of DataplaneV2ObservabilityMode, DisableDataplaneV2FlowObservability, or EnableDataplaneV2FlowObservability may be specified.", [nameof(DataplaneV2ObservabilityMode), nameof(DisableDataplaneV2FlowObservability), nameof(EnableDataplaneV2FlowObservability)]);
+        }
+        if ((DisablePodSnapshots == true ? 1 : 0) + (EnablePodSnapshots == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of DisablePodSnapshots or EnablePodSnapshots may be specified.", [nameof(DisablePodSnapshots), nameof(EnablePodSnapshots)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Location) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Region) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Zone) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Location, Region, or Zone may be specified.", [nameof(Location), nameof(Region), nameof(Zone)]);
+        }
+        yield break;
+    }
 
 }

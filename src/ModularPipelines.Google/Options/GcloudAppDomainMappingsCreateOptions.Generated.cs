@@ -20,10 +20,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("app", "domain-mappings", "create")]
-public record GcloudAppDomainMappingsCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Domain
-) : GcloudOptions
+public record GcloudAppDomainMappingsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// creates a domain mapping
+    /// </summary>
+    /// <param name="Domain">A valid domain which may begin with a wildcard, such as: example.com or *.example.com</param>
+    public GcloudAppDomainMappingsCreateOptions(
+        string Domain
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Domain);
+        this.Domain = Domain;
+    }
+
+    public void Deconstruct(out string Domain)
+    {
+        Domain = this.Domain;
+    }
+
     /// <summary>
     /// A certificate id to use for this domain. May not be used on a domain mapping with automatically managed certificates. Use the gcloud app ssl-certificates list to see available certificates for this app.
     /// </summary>
@@ -35,5 +50,11 @@ public record GcloudAppDomainMappingsCreateOptions(
     /// </summary>
     [CliOption("--certificate-management", Format = OptionFormat.EqualsSeparated)]
     public GcloudCertificateManagement? CertificateManagement { get; set; }
+
+    /// <summary>
+    /// A valid domain which may begin with a wildcard, such as: example.com or *.example.com
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Domain { get; private init; }
 
 }

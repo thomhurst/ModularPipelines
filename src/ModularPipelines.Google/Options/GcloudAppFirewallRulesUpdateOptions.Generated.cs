@@ -20,10 +20,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("app", "firewall-rules", "update")]
-public record GcloudAppFirewallRulesUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Priority
-) : GcloudOptions
+public record GcloudAppFirewallRulesUpdateOptions : GcloudOptions
 {
+    /// <summary>
+    /// updates a firewall rule
+    /// </summary>
+    /// <param name="Priority">An integer between 1 and 2^32-1 which indicates the evaluation order of rules. Lowest priority rules are evaluated first. The handle default may also be used to refer to the final rule at priority 2^32-1 which is always present in a set of rules.</param>
+    public GcloudAppFirewallRulesUpdateOptions(
+        string Priority
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Priority);
+        this.Priority = Priority;
+    }
+
+    public void Deconstruct(out string Priority)
+    {
+        Priority = this.Priority;
+    }
+
     /// <summary>
     /// Allow or deny matched traffic. ACTION must be one of: ALLOW, DENY.
     /// </summary>
@@ -41,5 +56,11 @@ public record GcloudAppFirewallRulesUpdateOptions(
     /// </summary>
     [CliOption("--source-range", Format = OptionFormat.EqualsSeparated)]
     public string? SourceRange { get; set; }
+
+    /// <summary>
+    /// An integer between 1 and 2^32-1 which indicates the evaluation order of rules. Lowest priority rules are evaluated first. The handle default may also be used to refer to the final rule at priority 2^32-1 which is always present in a set of rules.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Priority { get; private init; }
 
 }

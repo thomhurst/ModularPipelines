@@ -19,8 +19,51 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("billing", "accounts", "add-iam-policy-binding")]
-public record GcloudBillingAccountsAddIamPolicyBindingOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Iam
-) : GcloudOptions
+public record GcloudBillingAccountsAddIamPolicyBindingOptions : GcloudOptions
 {
+    /// <summary>
+    /// add an IAM policy binding     to a Cloud Billing account
+    /// </summary>
+    /// <param name="Member">The principal to add the binding for. Should be of the form user|group|serviceAccount:email or domain:domain. Examples: user:test-user@gmail.com, group:admins@example.com, serviceAccount:test123@example.domain.com, or domain:example.domain.com. Some resources also accept the following special values: ◆ allUsers - Special identifier that represents anyone who is on the internet, with or without a Google account. ◆ allAuthenticatedUsers - Special identifier that represents anyone who is authenticated with a Google account or a service account.</param>
+    /// <param name="Role">Role name to assign to the principal. The role name is the complete path of a predefined role, such as roles/logging.viewer, or the role ID for a custom role, such as organizations/{ORGANIZATION_ID}/roles/logging.viewer.</param>
+    /// <param name="Account">Account resource - Name of the Cloud Billing account for which to add the IAM policy binding. This represents a Cloud resource. This must be specified. ID of the account or fully qualified identifier for the account. To set the account attribute: ▸ provide the argument account on the command line.</param>
+    public GcloudBillingAccountsAddIamPolicyBindingOptions(
+        string Member,
+        string Role,
+        string Account
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Member);
+        this.Member = Member;
+        global::System.ArgumentNullException.ThrowIfNull(Role);
+        this.Role = Role;
+        global::System.ArgumentNullException.ThrowIfNull(Account);
+        this.Account = Account;
+    }
+
+    public void Deconstruct(out string Member, out string Role, out string Account)
+    {
+        Member = this.Member;
+        Role = this.Role;
+        Account = this.Account;
+    }
+
+    /// <summary>
+    /// The principal to add the binding for. Should be of the form user|group|serviceAccount:email or domain:domain. Examples: user:test-user@gmail.com, group:admins@example.com, serviceAccount:test123@example.domain.com, or domain:example.domain.com. Some resources also accept the following special values: ◆ allUsers - Special identifier that represents anyone who is on the internet, with or without a Google account. ◆ allAuthenticatedUsers - Special identifier that represents anyone who is authenticated with a Google account or a service account.
+    /// </summary>
+    [CliOption("--member", Format = OptionFormat.EqualsSeparated)]
+    public string Member { get; private init; }
+
+    /// <summary>
+    /// Role name to assign to the principal. The role name is the complete path of a predefined role, such as roles/logging.viewer, or the role ID for a custom role, such as organizations/{ORGANIZATION_ID}/roles/logging.viewer.
+    /// </summary>
+    [CliOption("--role", Format = OptionFormat.EqualsSeparated)]
+    public string Role { get; private init; }
+
+    /// <summary>
+    /// Account resource - Name of the Cloud Billing account for which to add the IAM policy binding. This represents a Cloud resource. This must be specified. ID of the account or fully qualified identifier for the account. To set the account attribute: ▸ provide the argument account on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Account { get; private init; }
+
 }

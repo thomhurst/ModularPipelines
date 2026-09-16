@@ -22,6 +22,29 @@ namespace ModularPipelines.Google.Options;
 public record GcloudResourceManagerTagsBindingsListOptions : GcloudOptions
 {
     /// <summary>
+    /// lists TagBindings bound to the     specified resource
+    /// </summary>
+    /// <param name="Parent">Full resource name attached to the binding</param>
+    public GcloudResourceManagerTagsBindingsListOptions(
+        string Parent
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Parent);
+        this.Parent = Parent;
+    }
+
+    public void Deconstruct(out string Parent)
+    {
+        Parent = this.Parent;
+    }
+
+    /// <summary>
+    /// Full resource name attached to the binding
+    /// </summary>
+    [CliOption("--parent", Format = OptionFormat.EqualsSeparated)]
+    public string Parent { get; private init; }
+
+    /// <summary>
     /// Show all effective TagBindings on the resource. TagBindings applied at a higher level will be inherited to all descendants.
     /// </summary>
     [CliFlag("--effective")]

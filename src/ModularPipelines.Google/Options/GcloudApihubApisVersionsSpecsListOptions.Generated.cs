@@ -21,4 +21,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("apihub", "apis", "versions", "specs", "list")]
 public record GcloudApihubApisVersionsSpecsListOptions : GcloudOptions
 {
+    /// <summary>
+    /// list Specs
+    /// </summary>
+    /// <param name="Version">Version resource - The parent, which owns this collection of specs. Format: projects/{project}/locations/{location}/apis/{api}/versions/{version} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --version on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the version or fully qualified identifier for the version. To set the version attribute: ▸ provide the argument --version on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudApihubApisVersionsSpecsListOptions(
+        string Version
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Version);
+        this.Version = Version;
+    }
+
+    public void Deconstruct(out string Version)
+    {
+        Version = this.Version;
+    }
+
+    /// <summary>
+    /// Version resource - The parent, which owns this collection of specs. Format: projects/{project}/locations/{location}/apis/{api}/versions/{version} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --version on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the version or fully qualified identifier for the version. To set the version attribute: ▸ provide the argument --version on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
+    public string Version { get; private init; }
+
+    /// <summary>
+    /// Version resource - The parent, which owns this collection of specs. Format: projects/{project}/locations/{location}/apis/{api}/versions/{version} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --version on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The api id of the version resource. To set the api attribute: ▸ provide the argument --version on the command line with a fully specified name; ▸ provide the argument --api on the command line.
+    /// </summary>
+    [CliOption("--api", Format = OptionFormat.EqualsSeparated)]
+    public string? Api { get; set; }
+
+    /// <summary>
+    /// Version resource - The parent, which owns this collection of specs. Format: projects/{project}/locations/{location}/apis/{api}/versions/{version} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --version on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the version resource. To set the location attribute: ▸ provide the argument --version on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

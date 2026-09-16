@@ -19,14 +19,35 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "health-sources", "get-health")]
-public record GcloudComputeHealthSourcesGetHealthOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string HealthSource
-) : GcloudOptions
+public record GcloudComputeHealthSourcesGetHealthOptions : GcloudOptions
 {
+    /// <summary>
+    /// get health status of a health     source
+    /// </summary>
+    /// <param name="HealthSource">Name of the health source to operate on.</param>
+    public GcloudComputeHealthSourcesGetHealthOptions(
+        string HealthSource
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HealthSource);
+        this.HealthSource = HealthSource;
+    }
+
+    public void Deconstruct(out string HealthSource)
+    {
+        HealthSource = this.HealthSource;
+    }
+
     /// <summary>
     /// Region of the health source to operate on. Overrides the default compute/region property value for this command invocation.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
+
+    /// <summary>
+    /// Name of the health source to operate on.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string HealthSource { get; private init; }
 
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +21,286 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "routers", "nats", "create")]
-public record GcloudComputeRoutersNatsCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudComputeRoutersNatsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// add a NAT to a Compute Engine router
+    /// </summary>
+    /// <param name="Router">Router to use for NAT.</param>
+    /// <param name="Name">Name of the NAT to create</param>
+    public GcloudComputeRoutersNatsCreateOptions(
+        string Router,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Router);
+        this.Router = Router;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Router, out string Name)
+    {
+        Router = this.Router;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Router to use for NAT.
+    /// </summary>
+    [CliOption("--router", Format = OptionFormat.EqualsSeparated)]
+    public string Router { get; private init; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Network tier to use when automatically reserving NAT IP addresses. AUTO_NETWORK_TIER must be one of: PREMIUM High quality, Google-grade network tier with support for all networking products. STANDARD Public internet quality, with only limited support for other networking products.
+    /// </summary>
+    [CliOption("--auto-network-tier", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoNetworkTier { get; set; }
+
+    /// <summary>
+    /// Enable dynamic port allocation. If not specified, Dynamic Port Allocation is disabled by default. Use --enable-dynamic-port-allocation to enable and --no-enable-dynamic-port-allocation to disable.
+    /// </summary>
+    [CliFlag("--enable-dynamic-port-allocation")]
+    public bool? EnableDynamicPortAllocation { get; set; }
+
+    /// <summary>
+    /// Negates --enable-dynamic-port-allocation. Enable dynamic port allocation. If not specified, Dynamic Port Allocation is disabled by default. Use --enable-dynamic-port-allocation to enable and --no-enable-dynamic-port-allocation to disable.
+    /// </summary>
+    [CliFlag("--no-enable-dynamic-port-allocation")]
+    public bool? NoEnableDynamicPortAllocation { get; set; }
+
+    /// <summary>
+    /// Enable endpoint-independent mapping for the NAT (as defined in RFC 5128). If not specified, NATs have endpoint-independent mapping disabled by default. Use --no-enable-endpoint-independent-mapping to disable endpoint-independent mapping.
+    /// </summary>
+    [CliFlag("--enable-endpoint-independent-mapping")]
+    public bool? EnableEndpointIndependentMapping { get; set; }
+
+    /// <summary>
+    /// Negates --enable-endpoint-independent-mapping. Enable endpoint-independent mapping for the NAT (as defined in RFC 5128). If not specified, NATs have endpoint-independent mapping disabled by default. Use --no-enable-endpoint-independent-mapping to disable endpoint-independent mapping.
+    /// </summary>
+    [CliFlag("--no-enable-endpoint-independent-mapping")]
+    public bool? NoEnableEndpointIndependentMapping { get; set; }
+
+    /// <summary>
+    /// Enable logging for the NAT. Logs will be exported to Stackdriver. NAT logging is disabled by default. To disable logging for the NAT, use $ gcloud compute routers nats update MY-NAT --no-enable-logging \ --router ROUTER --region REGION
+    /// </summary>
+    [CliFlag("--enable-logging")]
+    public bool? EnableLogging { get; set; }
+
+    /// <summary>
+    /// Negates --enable-logging. Enable logging for the NAT. Logs will be exported to Stackdriver. NAT logging is disabled by default. To disable logging for the NAT, use $ gcloud compute routers nats update MY-NAT --no-enable-logging \ --router ROUTER --region REGION
+    /// </summary>
+    [CliFlag("--no-enable-logging")]
+    public bool? NoEnableLogging { get; set; }
+
+    /// <summary>
+    /// Endpoint Types supported by the NAT Gateway. ENDPOINT_TYPE must be one of: ENDPOINT_TYPE_VM For VM Endpoints ENDPOINT_TYPE_SWG For Secure Web Gateway Endpoints ENDPOINT_TYPE_MANAGED_PROXY_LB For regional Application Load Balancers (internal and external) and regional proxy Network Load Balancers (internal and external) endpoints The default is ENDPOINT_TYPE_VM. ENDPOINT_TYPE must be one of: ENDPOINT_TYPE_VM, ENDPOINT_TYPE_SWG, ENDPOINT_TYPE_MANAGED_PROXY_LB.
+    /// </summary>
+    [CliOption("--endpoint-types", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<GcloudEndpointTypes>? EndpointTypes { get; set; }
+
+    /// <summary>
+    /// Timeout for ICMP connections. See https://cloud.google.com/sdk/gcloud/reference/topic/datetimes for information on duration formats.
+    /// </summary>
+    [CliOption("--icmp-idle-timeout", Format = OptionFormat.EqualsSeparated)]
+    public string? IcmpIdleTimeout { get; set; }
+
+    /// <summary>
+    /// Filter for logs exported to stackdriver. The default is ALL. If logging is not enabled, filter settings will be persisted but will have no effect. Use --[no-]enable-logging to enable and disable logging. LOG_FILTER must be one of: ALL Export logs for all connections handled by this NAT. ERRORS_ONLY Export logs for connection failures only. TRANSLATIONS_ONLY Export logs for successful connections only.
+    /// </summary>
+    [CliOption("--log-filter", Format = OptionFormat.EqualsSeparated)]
+    public string? LogFilter { get; set; }
+
+    /// <summary>
+    /// Maximum ports to be allocated to a VM. This field can only be set when Dynamic Port Allocation is enabled and defaults to 65536. It must be set to a power of 2 that is greater than minPortsPerVm and at most 65536.
+    /// </summary>
+    [CliOption("--max-ports-per-vm", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxPortsPerVm { get; set; }
+
+    /// <summary>
+    /// Minimum ports to be allocated to a VM. If Dynamic Port Allocation is disabled, this defaults to 64. If Dynamic Port Allocation is enabled, this defaults to 32 and must be set to a power of 2 that is at least 32 and lower than maxPortsPerVm.
+    /// </summary>
+    [CliOption("--min-ports-per-vm", Format = OptionFormat.EqualsSeparated)]
+    public string? MinPortsPerVm { get; set; }
+
+    /// <summary>
+    /// Region of the NAT to create. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Path to YAML file containing NAT Rules applied to the NAT. The YAML file format must follow the REST API schema for NAT Rules. See API Discovery docs (https://www.googleapis.com/discovery/v1/apis/compute/alpha/rest) for reference.
+    /// </summary>
+    [CliOption("--rules", Format = OptionFormat.EqualsSeparated)]
+    public string? Rules { get; set; }
+
+    /// <summary>
+    /// Timeout for TCP established connections. See https://cloud.google.com/sdk/gcloud/reference/topic/datetimes for information on duration formats.
+    /// </summary>
+    [CliOption("--tcp-established-idle-timeout", Format = OptionFormat.EqualsSeparated)]
+    public string? TcpEstablishedIdleTimeout { get; set; }
+
+    /// <summary>
+    /// Timeout for TCP connections in the TIME_WAIT state. See https://cloud.google.com/sdk/gcloud/reference/topic/datetimes for information on duration formats.
+    /// </summary>
+    [CliOption("--tcp-time-wait-timeout", Format = OptionFormat.EqualsSeparated)]
+    public string? TcpTimeWaitTimeout { get; set; }
+
+    /// <summary>
+    /// Timeout for TCP transitory connections. See https://cloud.google.com/sdk/gcloud/reference/topic/datetimes for information on duration formats.
+    /// </summary>
+    [CliOption("--tcp-transitory-idle-timeout", Format = OptionFormat.EqualsSeparated)]
+    public string? TcpTransitoryIdleTimeout { get; set; }
+
+    /// <summary>
+    /// Type of the NAT Gateway. Defaults to PUBLIC if not specified. TYPE must be one of: PRIVATE Used for private-to-private NAT translations. Allows communication between VPC Networks. PUBLIC Used for private-to-public NAT translations. Allows VM instances to communicate with the internet.
+    /// </summary>
+    [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
+    public string? Type { get; set; }
+
+    /// <summary>
+    /// Timeout for UDP connections. See https://cloud.google.com/sdk/gcloud/reference/topic/datetimes for information on duration formats.
+    /// </summary>
+    [CliOption("--udp-idle-timeout", Format = OptionFormat.EqualsSeparated)]
+    public string? UdpIdleTimeout { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Automatically allocate external IP addresses for Cloud NAT
+    /// </summary>
+    [CliFlag("--auto-allocate-nat-external-ips")]
+    public bool? AutoAllocateNatExternalIps { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: External IP Addresses to use for Cloud NAT Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--nat-external-ip-pool", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? NatExternalIpPool
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __NatExternalIpPoolSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __NatExternalIpPoolSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Options for IPv4 subnetwork ranges. If not specified, one of the options for IPv6 subnetwork ranges must be provided. At most one of these can be specified: Allow all IP ranges of all subnetworks in the region, including primary and secondary ranges, to use NAT.
+    /// </summary>
+    [CliFlag("--nat-all-subnet-ip-ranges")]
+    public bool? NatAllSubnetIpRanges { get; set; }
+
+    /// <summary>
+    /// Options for IPv4 subnetwork ranges. If not specified, one of the options for IPv6 subnetwork ranges must be provided. At most one of these can be specified: List of subnetwork primary and secondary IP ranges to be allowed to use NAT. ▸ SUBNETWORK:ALL - specifying a subnetwork name with ALL includes the primary range and all secondary ranges of the subnet. ▸ SUBNETWORK - including a subnetwork name includes only the primary subnet range of the subnetwork. ▸ SUBNETWORK:RANGE_NAME - specifying a subnetwork and secondary range name includes only that secondary range. It does not include the primary range of the subnet. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--nat-custom-subnet-ip-ranges", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? NatCustomSubnetIpRanges
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __NatCustomSubnetIpRangesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __NatCustomSubnetIpRangesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Options for IPv4 subnetwork ranges. If not specified, one of the options for IPv6 subnetwork ranges must be provided. At most one of these can be specified: Allow only primary IP ranges of all subnetworks in the region to use NAT.
+    /// </summary>
+    [CliFlag("--nat-primary-subnet-ip-ranges")]
+    public bool? NatPrimarySubnetIpRanges { get; set; }
+
+    /// <summary>
+    /// Options for IPv6 subnetwork ranges. If not specified, one of the options for IPv4 subnetwork ranges must be provided. At most one of these can be specified: Allow all IPv6 subnetwork ranges in the region to use NAT.
+    /// </summary>
+    [CliFlag("--nat64-all-v6-subnet-ip-ranges")]
+    public bool? Nat64AllV6SubnetIpRanges { get; set; }
+
+    /// <summary>
+    /// Options for IPv6 subnetwork ranges. If not specified, one of the options for IPv4 subnetwork ranges must be provided. At most one of these can be specified: List of subnetworks with IPv6 ranges to be allowed to use NAT. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--nat64-custom-v6-subnet-ip-ranges", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Nat64CustomV6SubnetIpRanges
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __Nat64CustomV6SubnetIpRangesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __Nat64CustomV6SubnetIpRangesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Name of the NAT to create
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((AutoAllocateNatExternalIps == true ? 1 : 0) + (((object?)NatExternalIpPool is global::System.Collections.Generic.IEnumerable<char> ? (object?)NatExternalIpPool is not string || !string.IsNullOrWhiteSpace(NatExternalIpPool?.ToString()) : ((object?)NatExternalIpPool is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NatExternalIpPool, static item => item is not null) : (NatExternalIpPool is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NatExternalIpPool), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of AutoAllocateNatExternalIps or NatExternalIpPool may be specified.", [nameof(AutoAllocateNatExternalIps), nameof(NatExternalIpPool)]);
+        }
+        if ((NatAllSubnetIpRanges == true ? 1 : 0) + (((object?)NatCustomSubnetIpRanges is global::System.Collections.Generic.IEnumerable<char> ? (object?)NatCustomSubnetIpRanges is not string || !string.IsNullOrWhiteSpace(NatCustomSubnetIpRanges?.ToString()) : ((object?)NatCustomSubnetIpRanges is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NatCustomSubnetIpRanges, static item => item is not null) : (NatCustomSubnetIpRanges is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NatCustomSubnetIpRanges), static item => item is not null)))) ? 1 : 0) + (NatPrimarySubnetIpRanges == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of NatAllSubnetIpRanges, NatCustomSubnetIpRanges, or NatPrimarySubnetIpRanges may be specified.", [nameof(NatAllSubnetIpRanges), nameof(NatCustomSubnetIpRanges), nameof(NatPrimarySubnetIpRanges)]);
+        }
+        if ((Nat64AllV6SubnetIpRanges == true ? 1 : 0) + (((object?)Nat64CustomV6SubnetIpRanges is global::System.Collections.Generic.IEnumerable<char> ? (object?)Nat64CustomV6SubnetIpRanges is not string || !string.IsNullOrWhiteSpace(Nat64CustomV6SubnetIpRanges?.ToString()) : ((object?)Nat64CustomV6SubnetIpRanges is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Nat64CustomV6SubnetIpRanges, static item => item is not null) : (Nat64CustomV6SubnetIpRanges is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Nat64CustomV6SubnetIpRanges), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Nat64AllV6SubnetIpRanges or Nat64CustomV6SubnetIpRanges may be specified.", [nameof(Nat64AllV6SubnetIpRanges), nameof(Nat64CustomV6SubnetIpRanges)]);
+        }
+        yield break;
+    }
+
 }

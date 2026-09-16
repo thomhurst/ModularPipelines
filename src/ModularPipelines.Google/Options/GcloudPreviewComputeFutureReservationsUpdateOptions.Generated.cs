@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -20,10 +21,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "future-reservations", "update")]
-public record GcloudPreviewComputeFutureReservationsUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string FutureReservation
-) : GcloudOptions
+public record GcloudPreviewComputeFutureReservationsUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update Compute Engine     future reservations
+    /// </summary>
+    /// <param name="FutureReservation">Name of the future reservation to update.</param>
+    public GcloudPreviewComputeFutureReservationsUpdateOptions(
+        string FutureReservation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FutureReservation);
+        this.FutureReservation = FutureReservation;
+    }
+
+    public void Deconstruct(out string FutureReservation)
+    {
+        FutureReservation = this.FutureReservation;
+    }
+
     /// <summary>
     /// If specified, the auto-created reservations for a future reservation are deleted at the end time (default) or at a specified delete time. Use --auto-delete-auto-created-reservations to enable and --no-auto-delete-auto-created-reservations to disable.
     /// </summary>
@@ -139,10 +155,32 @@ public record GcloudPreviewComputeFutureReservationsUpdateOptions(
     public GcloudShareSetting? ShareSetting { get; set; }
 
     /// <summary>
-    /// Manage the properties of a shared future reservation. At most one of these can be specified: Or at least one of these can be specified: Manage the share settings of a future reservation. If this future reservation is shared, provide a comma-separated list of projects that this future reservation is shared with. The list must contain project IDs or project numbers.
+    /// Manage the properties of a shared future reservation. At most one of these can be specified: Or at least one of these can be specified: Manage the share settings of a future reservation. If this future reservation is shared, provide a comma-separated list of projects that this future reservation is shared with. The list must contain project IDs or project numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--share-with", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? ShareWith { get; set; }
+    [CliOption("--share-with", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ShareWith
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __ShareWithSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __ShareWithSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Manage the commitment info properties Name of commitment covering the delivered reservation at the time of delivery of future reservations. If not specified, it takes the name of the future reservation.
@@ -215,5 +253,41 @@ public record GcloudPreviewComputeFutureReservationsUpdateOptions(
     /// </summary>
     [CliOption("--end-time", Format = OptionFormat.EqualsSeparated)]
     public string? EndTime { get; set; }
+
+    /// <summary>
+    /// Name of the future reservation to update.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string FutureReservation { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(AutoCreatedReservationsDeleteTime) ? 1 : 0) + (!string.IsNullOrWhiteSpace(AutoCreatedReservationsDuration) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of AutoCreatedReservationsDeleteTime or AutoCreatedReservationsDuration may be specified.", [nameof(AutoCreatedReservationsDeleteTime), nameof(AutoCreatedReservationsDuration)]);
+        }
+        if ((ClearNamePrefix == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(NamePrefix) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearNamePrefix or NamePrefix may be specified.", [nameof(ClearNamePrefix), nameof(NamePrefix)]);
+        }
+        if ((ClearShareSettings == true ? 1 : 0) + (((object?)ShareSetting is not null || ((object?)ShareWith is global::System.Collections.Generic.IEnumerable<char> ? (object?)ShareWith is not string || !string.IsNullOrWhiteSpace(ShareWith?.ToString()) : ((object?)ShareWith is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ShareWith, static item => item is not null) : (ShareWith is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ShareWith), static item => item is not null))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearShareSettings or (ShareSetting or ShareWith) may be specified.", [nameof(ClearShareSettings), nameof(ShareSetting), nameof(ShareWith)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Accelerator) ? 1 : 0) + (ClearAccelerator == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Accelerator or ClearAccelerator may be specified.", [nameof(Accelerator), nameof(ClearAccelerator)]);
+        }
+        if ((ClearLocalSsd == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(LocalSsd) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearLocalSsd or LocalSsd may be specified.", [nameof(ClearLocalSsd), nameof(LocalSsd)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Duration) ? 1 : 0) + (!string.IsNullOrWhiteSpace(EndTime) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Duration or EndTime may be specified.", [nameof(Duration), nameof(EndTime)]);
+        }
+        yield break;
+    }
 
 }

@@ -21,4 +21,61 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("memorystore", "acl-policies", "create")]
 public record GcloudMemorystoreAclPoliciesCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create aclPolicies
+    /// </summary>
+    /// <param name="Rules">Required, The ACL rules within the ACL policy. rule The rule to be applied to the username. Ex: "on &gt;password123 ~ +@all" The format of the rule is defined by Valkey OSS: https://valkey.io/topics/acl/. username Specifies the IAM user or service account to be added to the ACL policy. This username will be directly set on the Valkey OSS. Shorthand Example: --rules=rule=string,username=string --rules=rule=string,username=string JSON Example: --rules='[{"rule": "string", "username": "string"}]' File Example: --rules=path_to_file.(yaml|json)</param>
+    /// <param name="AclPolicy">AclPolicy resource - Identifier. Full resource path of the ACL policy. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument acl_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the aclPolicy or fully qualified identifier for the aclPolicy. To set the acl_policy attribute: ▸ provide the argument acl_policy on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudMemorystoreAclPoliciesCreateOptions(
+        IEnumerable<string> Rules,
+        string AclPolicy
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Rules);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Rules));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Rules));
+            }
+
+            Rules = materialized;
+        }
+        this.Rules = Rules;
+        global::System.ArgumentNullException.ThrowIfNull(AclPolicy);
+        this.AclPolicy = AclPolicy;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Rules, out string AclPolicy)
+    {
+        Rules = this.Rules;
+        AclPolicy = this.AclPolicy;
+    }
+
+    /// <summary>
+    /// Required, The ACL rules within the ACL policy. rule The rule to be applied to the username. Ex: "on &gt;password123 ~ +@all" The format of the rule is defined by Valkey OSS: https://valkey.io/topics/acl/. username Specifies the IAM user or service account to be added to the ACL policy. This username will be directly set on the Valkey OSS. Shorthand Example: --rules=rule=string,username=string --rules=rule=string,username=string JSON Example: --rules='[{"rule": "string", "username": "string"}]' File Example: --rules=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--rules", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string> Rules { get; private init; }
+
+    /// <summary>
+    /// AclPolicy resource - Identifier. Full resource path of the ACL policy. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument acl_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the aclPolicy resource. To set the location attribute: ▸ provide the argument acl_policy on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Idempotent request UUID. .
+    /// </summary>
+    [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
+    public string? RequestId { get; set; }
+
+    /// <summary>
+    /// AclPolicy resource - Identifier. Full resource path of the ACL policy. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument acl_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the aclPolicy or fully qualified identifier for the aclPolicy. To set the acl_policy attribute: ▸ provide the argument acl_policy on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string AclPolicy { get; private init; }
+
 }

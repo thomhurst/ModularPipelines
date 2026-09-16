@@ -21,4 +21,57 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("auth", "enterprise-certificate-config", "create", "macos")]
 public record GcloudAuthEnterpriseCertificateConfigCreateMacosOptions : GcloudOptions
 {
+    /// <summary>
+    /// create an     enterprise-certificate configuration file for MacOS
+    /// </summary>
+    /// <param name="Issuer">The certificate issuer.</param>
+    public GcloudAuthEnterpriseCertificateConfigCreateMacosOptions(
+        string Issuer
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Issuer);
+        this.Issuer = Issuer;
+    }
+
+    public void Deconstruct(out string Issuer)
+    {
+        Issuer = this.Issuer;
+    }
+
+    /// <summary>
+    /// The certificate issuer.
+    /// </summary>
+    [CliOption("--issuer", Format = OptionFormat.EqualsSeparated)]
+    public string Issuer { get; private init; }
+
+    /// <summary>
+    /// Provide a custom path to the enterprise-certificate-proxy binary. This flag must be the full path to the binary.
+    /// </summary>
+    [CliOption("--ecp", Format = OptionFormat.EqualsSeparated)]
+    public string? Ecp { get; set; }
+
+    /// <summary>
+    /// Provide a custom path to the enterprise-certificate-proxy shared client library. This flag must be the full path to the shared library.
+    /// </summary>
+    [CliOption("--ecp-client", Format = OptionFormat.EqualsSeparated)]
+    public string? EcpClient { get; set; }
+
+    /// <summary>
+    /// Provide a custom path to the ECP HTTP proxy binary. This flag must be the full path to the binary.
+    /// </summary>
+    [CliOption("--ecp-http-proxy", Format = OptionFormat.EqualsSeparated)]
+    public string? EcpHttpProxy { get; set; }
+
+    /// <summary>
+    /// Specify the target keychain(s) for certificate lookup.Accepted values are "login", "system", or "all". If omitted,defaults to "all". Use "all" to include custom keychains.
+    /// </summary>
+    [CliOption("--keychain-type", Format = OptionFormat.EqualsSeparated)]
+    public string? KeychainType { get; set; }
+
+    /// <summary>
+    /// Override the file path that the enterprise-certificate-proxy configuration is written to.
+    /// </summary>
+    [CliOption("--output-file", Format = OptionFormat.EqualsSeparated)]
+    public string? OutputFile { get; set; }
+
 }

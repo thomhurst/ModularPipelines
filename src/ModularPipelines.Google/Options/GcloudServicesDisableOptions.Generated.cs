@@ -19,10 +19,36 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("services", "disable")]
-public record GcloudServicesDisableOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Service
-) : GcloudOptions
+public record GcloudServicesDisableOptions : GcloudOptions
 {
+    /// <summary>
+    /// disable a service for consumption for a project
+    /// </summary>
+    /// <param name="Service">The name of the service(s) to disable.</param>
+    public GcloudServicesDisableOptions(
+        IEnumerable<string> Service
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Service);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Service));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Service));
+            }
+
+            Service = materialized;
+        }
+        this.Service = Service;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Service)
+    {
+        Service = this.Service;
+    }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -34,5 +60,11 @@ public record GcloudServicesDisableOptions(
     /// </summary>
     [CliFlag("--force")]
     public bool? Force { get; set; }
+
+    /// <summary>
+    /// The name of the service(s) to disable.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> Service { get; private init; }
 
 }

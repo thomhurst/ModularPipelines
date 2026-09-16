@@ -19,8 +19,40 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dns", "operations", "describe")]
-public record GcloudDnsOperationsDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string OperationId
-) : GcloudOptions
+public record GcloudDnsOperationsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe an operation
+    /// </summary>
+    /// <param name="Zone">Name of zone to get operations from.</param>
+    /// <param name="OperationId">The id of the operation to display.</param>
+    public GcloudDnsOperationsDescribeOptions(
+        string Zone,
+        string OperationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Zone);
+        this.Zone = Zone;
+        global::System.ArgumentNullException.ThrowIfNull(OperationId);
+        this.OperationId = OperationId;
+    }
+
+    public void Deconstruct(out string Zone, out string OperationId)
+    {
+        Zone = this.Zone;
+        OperationId = this.OperationId;
+    }
+
+    /// <summary>
+    /// Name of zone to get operations from.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string Zone { get; private init; }
+
+    /// <summary>
+    /// The id of the operation to display.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string OperationId { get; private init; }
+
 }

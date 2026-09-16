@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("vmware", "private-clouds", "management-dns-zone-bindings", "list")]
 public record GcloudVmwarePrivateCloudsManagementDnsZoneBindingsListOptions : GcloudOptions
 {
+    /// <summary>
+    /// list     management DNS zone bindings in a VMware Engine private cloud
+    /// </summary>
+    /// <param name="PrivateCloud">Private cloud resource - private_cloud. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --private-cloud on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the private cloud or fully qualified identifier for the private cloud. To set the private-cloud attribute: ▸ provide the argument --private-cloud on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudVmwarePrivateCloudsManagementDnsZoneBindingsListOptions(
+        string PrivateCloud
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PrivateCloud);
+        this.PrivateCloud = PrivateCloud;
+    }
+
+    public void Deconstruct(out string PrivateCloud)
+    {
+        PrivateCloud = this.PrivateCloud;
+    }
+
+    /// <summary>
+    /// Private cloud resource - private_cloud. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --private-cloud on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the private cloud or fully qualified identifier for the private cloud. To set the private-cloud attribute: ▸ provide the argument --private-cloud on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--private-cloud", Format = OptionFormat.EqualsSeparated)]
+    public string PrivateCloud { get; private init; }
+
+    /// <summary>
+    /// Private cloud resource - private_cloud. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --private-cloud on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the private cloud or cluster. To set the location attribute: ▸ provide the argument --private-cloud on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property compute/zone.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

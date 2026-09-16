@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,120 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("edge-cloud", "networking", "routers", "add-interface")]
-public record GcloudEdgeCloudNetworkingRoutersAddInterfaceOptions : GcloudOptions
+public record GcloudEdgeCloudNetworkingRoutersAddInterfaceOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// add an interface to a     Distributed Cloud Edge Network router
+    /// </summary>
+    /// <param name="InterfaceName">The name of the interface being added.</param>
+    /// <param name="Router">Router resource - The router to which we add an interface. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument router on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the router or fully qualified identifier for the router. To set the router attribute: ▸ provide the argument router on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudEdgeCloudNetworkingRoutersAddInterfaceOptions(
+        string InterfaceName,
+        string Router
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InterfaceName);
+        this.InterfaceName = InterfaceName;
+        global::System.ArgumentNullException.ThrowIfNull(Router);
+        this.Router = Router;
+    }
+
+    public void Deconstruct(out string InterfaceName, out string Router)
+    {
+        InterfaceName = this.InterfaceName;
+        Router = this.Router;
+    }
+
+    /// <summary>
+    /// The name of the interface being added.
+    /// </summary>
+    [CliOption("--interface-name", Format = OptionFormat.EqualsSeparated)]
+    public string InterfaceName { get; private init; }
+
+    /// <summary>
+    /// Router resource - The router to which we add an interface. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument router on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud location for the router. To set the location attribute: ▸ provide the argument router on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Router resource - The router to which we add an interface. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument router on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The zone of the router. To set the zone attribute: ▸ provide the argument router on the command line with a fully specified name; ▸ provide the argument --zone on the command line.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <summary>
+    /// The argument group for configuring the interface for the router. Exactly one of these must be specified: The argument group for adding loopback interfaces to edge router. The list of ip ranges for the loopback interface. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--loopback-ip-addresses", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? LoopbackIpAddresses
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __LoopbackIpAddressesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __LoopbackIpAddressesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// The argument group for configuring the interface for the router. Exactly one of these must be specified: The argument group for adding southbound interfaces to edge router. Subnetwork of the interface being added.
+    /// </summary>
+    [CliOption("--subnetwork", Format = OptionFormat.EqualsSeparated)]
+    public string? Subnetwork { get; set; }
+
+    /// <summary>
+    /// The argument group for configuring the interface for the router. Exactly one of these must be specified: The argument group for adding northbound interfaces to edge router. Interconnect attachment of the interface being added.
+    /// </summary>
+    [CliOption("--interconnect-attachment", Format = OptionFormat.EqualsSeparated)]
+    public string? InterconnectAttachment { get; set; }
+
+    /// <summary>
+    /// The argument group for configuring the interface for the router. Exactly one of these must be specified: The argument group for adding northbound interfaces to edge router. Link-local address of the router for this interface.
+    /// </summary>
+    [CliOption("--ip-address", Format = OptionFormat.EqualsSeparated)]
+    public string? IpAddress { get; set; }
+
+    /// <summary>
+    /// The argument group for configuring the interface for the router. Exactly one of these must be specified: The argument group for adding northbound interfaces to edge router. Subnet mask for the link-local IP range of the interface. The interface IP address and BGP peer IP address must be selected from the subnet defined by this link-local range.
+    /// </summary>
+    [CliOption("--ip-mask-length", Format = OptionFormat.EqualsSeparated)]
+    public string? IpMaskLength { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Router resource - The router to which we add an interface. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument router on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the router or fully qualified identifier for the router. To set the router attribute: ▸ provide the argument router on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Router { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (((((object?)LoopbackIpAddresses is global::System.Collections.Generic.IEnumerable<char> ? (object?)LoopbackIpAddresses is not string || !string.IsNullOrWhiteSpace(LoopbackIpAddresses?.ToString()) : ((object?)LoopbackIpAddresses is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)LoopbackIpAddresses, static item => item is not null) : (LoopbackIpAddresses is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)LoopbackIpAddresses), static item => item is not null))))) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(Subnetwork)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(InterconnectAttachment) || !string.IsNullOrWhiteSpace(IpAddress) || !string.IsNullOrWhiteSpace(IpMaskLength)) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of (LoopbackIpAddresses), (Subnetwork), or (InterconnectAttachment, IpAddress, or IpMaskLength) must be specified.", [nameof(LoopbackIpAddresses), nameof(Subnetwork), nameof(InterconnectAttachment), nameof(IpAddress), nameof(IpMaskLength)]);
+        }
+        yield break;
+    }
+
 }

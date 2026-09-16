@@ -6,6 +6,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -22,6 +23,23 @@ namespace ModularPipelines.Google.Options;
 public record GcloudSecretsDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// delete a secret
+    /// </summary>
+    /// <param name="Secret">Secret resource - The secret to delete. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument SECRET on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the secret or fully qualified identifier for the secret. To set the secret attribute: ▸ provide the argument SECRET on the command line.</param>
+    public GcloudSecretsDeleteOptions(
+        string Secret
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Secret);
+        this.Secret = Secret;
+    }
+
+    public void Deconstruct(out string Secret)
+    {
+        Secret = this.Secret;
+    }
+
+    /// <summary>
     /// Current entity tag (ETag) of the secret. If specified, the secret is deleted only if the ETag provided matches the current secret's ETag.
     /// </summary>
     [CliOption("--etag", Format = OptionFormat.EqualsSeparated)]
@@ -32,5 +50,12 @@ public record GcloudSecretsDeleteOptions : GcloudOptions
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
+
+    /// <summary>
+    /// Secret resource - The secret to delete. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument SECRET on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the secret or fully qualified identifier for the secret. To set the secret attribute: ▸ provide the argument SECRET on the command line.
+    /// </summary>
+    [SecretValue]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Secret { get; private init; }
 
 }

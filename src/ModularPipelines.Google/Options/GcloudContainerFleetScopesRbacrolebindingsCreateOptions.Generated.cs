@@ -10,6 +10,9 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +22,85 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "fleet", "scopes", "rbacrolebindings", "create")]
-public record GcloudContainerFleetScopesRbacrolebindingsCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Rbacr
-) : GcloudOptions
+public record GcloudContainerFleetScopesRbacrolebindingsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create an RBAC     RoleBinding
+    /// </summary>
+    /// <param name="Name">Rbacrolebinding resource - The group of arguments defining an RBACRoleBinding. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument NAME on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the rbacrolebinding or fully qualified identifier for the rbacrolebinding. To set the rbacrolebinding attribute: ▸ provide the argument NAME on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudContainerFleetScopesRbacrolebindingsCreateOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Rbacrolebinding resource - The group of arguments defining an RBACRoleBinding. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument NAME on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location for the rbacrolebinding. To set the location attribute: ▸ provide the argument NAME on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property gkehub/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Rbacrolebinding resource - The group of arguments defining an RBACRoleBinding. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument NAME on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Name of the rbacrolebinding. To set the scope attribute: ▸ provide the argument NAME on the command line with a fully specified name; ▸ provide the argument --scope on the command line.
+    /// </summary>
+    [CliOption("--scope", Format = OptionFormat.EqualsSeparated)]
+    public string? Scope { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Custom role to assign to principal.
+    /// </summary>
+    [CliOption("--custom-role", Format = OptionFormat.EqualsSeparated)]
+    public string? CustomRole { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Predefined role to assign to principal (admin, edit, view). ROLE must be one of: admin, edit, view.
+    /// </summary>
+    [CliOption("--role", Format = OptionFormat.EqualsSeparated)]
+    public GcloudRole? Role { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Group for the RoleBinding.
+    /// </summary>
+    [CliOption("--group", Format = OptionFormat.EqualsSeparated)]
+    public string? Group { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: User for the RoleBinding.
+    /// </summary>
+    [CliOption("--user", Format = OptionFormat.EqualsSeparated)]
+    public string? User { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Rbacrolebinding resource - The group of arguments defining an RBACRoleBinding. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument NAME on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the rbacrolebinding or fully qualified identifier for the rbacrolebinding. To set the rbacrolebinding attribute: ▸ provide the argument NAME on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(CustomRole) ? 1 : 0) + ((object?)Role is not null ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of CustomRole or Role must be specified.", [nameof(CustomRole), nameof(Role)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Group) ? 1 : 0) + (!string.IsNullOrWhiteSpace(User) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Group or User must be specified.", [nameof(Group), nameof(User)]);
+        }
+        yield break;
+    }
+
 }

@@ -21,4 +21,92 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("ai", "index-endpoints", "mutate-deployed-index")]
 public record GcloudAiIndexEndpointsMutateDeployedIndexOptions : GcloudOptions
 {
+    /// <summary>
+    /// mutate an existing     deployed index from a Vertex AI index endpoint
+    /// </summary>
+    /// <param name="DeployedIndexId">Id of the deployed index.</param>
+    /// <param name="IndexEndpoint">Index endpoint resource - The index endpoint ID of the index endpoint.. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument index_endpoint on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the index_endpoint or fully qualified identifier for the index_endpoint. To set the name attribute: ▸ provide the argument index_endpoint on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudAiIndexEndpointsMutateDeployedIndexOptions(
+        string DeployedIndexId,
+        string IndexEndpoint
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DeployedIndexId);
+        this.DeployedIndexId = DeployedIndexId;
+        global::System.ArgumentNullException.ThrowIfNull(IndexEndpoint);
+        this.IndexEndpoint = IndexEndpoint;
+    }
+
+    public void Deconstruct(out string DeployedIndexId, out string IndexEndpoint)
+    {
+        DeployedIndexId = this.DeployedIndexId;
+        IndexEndpoint = this.IndexEndpoint;
+    }
+
+    /// <summary>
+    /// Id of the deployed index.
+    /// </summary>
+    [CliOption("--deployed-index-id", Format = OptionFormat.EqualsSeparated)]
+    public string DeployedIndexId { get; private init; }
+
+    /// <summary>
+    /// Index endpoint resource - The index endpoint ID of the index endpoint.. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument index_endpoint on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Cloud region for the index_endpoint. To set the region attribute: ▸ provide the argument index_endpoint on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property ai/region; ▸ choose one from the prompted list of available regions.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// List of allowed JWT issuers for a deployed index. Each entry must be a valid Google service account, in the following format: service-account-name@project-id.iam.gserviceaccount.com Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--allowed-issuers", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AllowedIssuers { get; set; }
+
+    /// <summary>
+    /// List of JWT audiences that are allowed to access a deployed index. JWT containing any of these audiences (https://tools.ietf.org/html/draft-ietf-oauth-json-web-token-32#section -4.1.3) will be accepted. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--audiences", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Audiences { get; set; }
+
+    /// <summary>
+    /// Deployment group can be no longer than 64 characters (eg:test, prod). If not set, we will use the default deployment group. Creating deployment_groups with reserved_ip_ranges is a recommended practice when the peered network has multiple peering ranges.This creates your deployments from predictable IP spaces for easier traffic administration.
+    /// </summary>
+    [CliOption("--deployment-group", Format = OptionFormat.EqualsSeparated)]
+    public string? DeploymentGroup { get; set; }
+
+    /// <summary>
+    /// If true, online prediction access logs are sent to Cloud Logging. These logs are standard server access logs, containing information like timestamp and latency for each prediction request.
+    /// </summary>
+    [CliFlag("--enable-access-logging")]
+    public bool? EnableAccessLogging { get; set; }
+
+    /// <summary>
+    /// The machine resources to be used for each node of this deployment. For available machine types, see https://cloud.google.com/ai-platform-unified/docs/predictions/machine-types.
+    /// </summary>
+    [CliOption("--machine-type", Format = OptionFormat.EqualsSeparated)]
+    public string? MachineType { get; set; }
+
+    /// <summary>
+    /// Maximum number of machine replicas the deployed index will be always deployed on.
+    /// </summary>
+    [CliOption("--max-replica-count", Format = OptionFormat.EqualsSeparated)]
+    public int? MaxReplicaCount { get; set; }
+
+    /// <summary>
+    /// Minimum number of machine replicas the deployed index will be always deployed on. If specified, the value must be equal to or larger than 1.
+    /// </summary>
+    [CliOption("--min-replica-count", Format = OptionFormat.EqualsSeparated)]
+    public int? MinReplicaCount { get; set; }
+
+    /// <summary>
+    /// List of reserved IP ranges deployed index will be deployed to. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--reserved-ip-ranges", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ReservedIpRanges { get; set; }
+
+    /// <summary>
+    /// Index endpoint resource - The index endpoint ID of the index endpoint.. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument index_endpoint on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the index_endpoint or fully qualified identifier for the index_endpoint. To set the name attribute: ▸ provide the argument index_endpoint on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string IndexEndpoint { get; private init; }
+
 }

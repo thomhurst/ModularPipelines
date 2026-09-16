@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,126 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-security", "firewall-endpoint-associations", "create")]
-public record GcloudNetworkSecurityFirewallEndpointAssociationsCreateOptions : GcloudOptions
+public record GcloudNetworkSecurityFirewallEndpointAssociationsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a     Firewall Plus endpoint association
+    /// </summary>
+    /// <param name="Network">Network resource - Firewall Plus. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --network on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the network or fully qualified identifier for the network. To set the network-name attribute: ▸ provide the argument --network on the command line.</param>
+    /// <param name="Endpoint">Firewall endpoint resource - Firewall Plus. The arguments in this group can be used to specify the attributes of this resource. This resource can be one of the following types: [firewall endpoint]. This must be specified. ID of the firewall endpoint or fully qualified identifier for the firewall endpoint. To set the endpoint-name attribute: ▸ provide the argument --endpoint on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetworkSecurityFirewallEndpointAssociationsCreateOptions(
+        string Network,
+        string Endpoint
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Network);
+        this.Network = Network;
+        global::System.ArgumentNullException.ThrowIfNull(Endpoint);
+        this.Endpoint = Endpoint;
+    }
+
+    public void Deconstruct(out string Network, out string Endpoint)
+    {
+        Network = this.Network;
+        Endpoint = this.Endpoint;
+    }
+
+    /// <summary>
+    /// Network resource - Firewall Plus. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --network on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the network or fully qualified identifier for the network. To set the network-name attribute: ▸ provide the argument --network on the command line.
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string Network { get; private init; }
+
+    /// <summary>
+    /// Firewall endpoint resource - Firewall Plus. The arguments in this group can be used to specify the attributes of this resource. This resource can be one of the following types: [firewall endpoint]. This must be specified. ID of the firewall endpoint or fully qualified identifier for the firewall endpoint. To set the endpoint-name attribute: ▸ provide the argument --endpoint on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--endpoint", Format = OptionFormat.EqualsSeparated)]
+    public string Endpoint { get; private init; }
+
+    /// <summary>
+    /// Firewall endpoint resource - Firewall Plus. The arguments in this group can be used to specify the attributes of this resource. This resource can be one of the following types: [firewall endpoint]. This must be specified. Zone of the firewall endpoint. To set the endpoint-zone attribute: ▸ provide the argument --endpoint on the command line with a fully specified name; ▸ provide the argument --endpoint-zone on the command line; ▸ provide the argument --zone on the command line; ▸ provide the argument --location on the command line; ▸ provide the argument FIREWALL_ENDPOINT_ASSOCIATION on the command line with a fully specified name.
+    /// </summary>
+    [CliOption("--endpoint-zone", Format = OptionFormat.EqualsSeparated)]
+    public string? EndpointZone { get; set; }
+
+    /// <summary>
+    /// Firewall endpoint resource - Firewall Plus. The arguments in this group can be used to specify the attributes of this resource. This resource can be one of the following types: [firewall endpoint]. This must be specified. Organization ID to which the changes should apply. To set the organization attribute: ▸ provide the argument --endpoint on the command line with a fully specified name; ▸ provide the argument --organization on the command line.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Location of the firewall endpoint association
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Zone of the firewall endpoint association
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Negates --async. Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--no-async")]
+    public bool? NoAsync { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Time to synchronously wait for the operation to complete, after which the operation continues asynchronously. Ignored if --no-async isn't specified. See $ gcloud topic datetimes for information on time formats.
+    /// </summary>
+    [CliOption("--max-wait", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxWait { get; set; }
+
+    /// <summary>
+    /// TLS Inspection Policy resource - Path to TLS Inspection Policy configuration to use for intercepting TLS-encrypted traffic in this network. The arguments in this group can be used to specify the attributes of this resource. ID of the TLS Inspection Policy or fully qualified identifier for the TLS Inspection Policy. To set the tls_inspection_policy attribute: ◆ provide the argument --tls-inspection-policy on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--tls-inspection-policy", Format = OptionFormat.EqualsSeparated)]
+    public string? TlsInspectionPolicy { get; set; }
+
+    /// <summary>
+    /// TLS Inspection Policy resource - Path to TLS Inspection Policy configuration to use for intercepting TLS-encrypted traffic in this network. The arguments in this group can be used to specify the attributes of this resource. Project of the TLS Inspection Policy. To set the tls-inspection-policy-project attribute: ◆ provide the argument --tls-inspection-policy on the command line with a fully specified name; ◆ provide the argument --tls-inspection-policy-project on the command line; ◆ provide the argument --project on the command line; ◆ provide the argument FIREWALL_ENDPOINT_ASSOCIATION on the command line with a fully specified name.
+    /// </summary>
+    [CliOption("--tls-inspection-policy-project", Format = OptionFormat.EqualsSeparated)]
+    public string? TlsInspectionPolicyProject { get; set; }
+
+    /// <summary>
+    /// TLS Inspection Policy resource - Path to TLS Inspection Policy configuration to use for intercepting TLS-encrypted traffic in this network. The arguments in this group can be used to specify the attributes of this resource. Region of the TLS Inspection Policy. NOTE: TLS Inspection Policy needs to be in the same region as Firewall Plus endpoint resource. To set the tls-inspection-policy-region attribute: ◆ provide the argument --tls-inspection-policy on the command line with a fully specified name; ◆ provide the argument --tls-inspection-policy-region on the command line.
+    /// </summary>
+    [CliOption("--tls-inspection-policy-region", Format = OptionFormat.EqualsSeparated)]
+    public string? TlsInspectionPolicyRegion { get; set; }
+
+    /// <summary>
+    /// Name to give the association. If not specified, an auto-generated UUID will be used.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? AssociationId { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Location) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Zone) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Location or Zone must be specified.", [nameof(Location), nameof(Zone)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(TlsInspectionPolicy) || !string.IsNullOrWhiteSpace(TlsInspectionPolicyProject) || !string.IsNullOrWhiteSpace(TlsInspectionPolicyRegion)) && (!(!string.IsNullOrWhiteSpace(TlsInspectionPolicy))))
+        {
+            yield return new ValidationResult("TlsInspectionPolicy must be specified when other arguments in this group are specified.", [nameof(TlsInspectionPolicy)]);
+        }
+        yield break;
+    }
+
 }

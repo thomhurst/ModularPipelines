@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,320 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "bare-metal", "admin-clusters", "create")]
-public record GcloudContainerBareMetalAdminClustersCreateOptions : GcloudOptions
+public record GcloudContainerBareMetalAdminClustersCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create an Anthos on     bare metal admin cluster
+    /// </summary>
+    /// <param name="Version">Anthos cluster on bare metal version for the admin cluster resource.</param>
+    /// <param name="IslandModePodAddressCidrBlocks">Populate one of the network configs. This must be specified. Island mode CIDR network configuration. IPv4 address range for all pods in the cluster. This flag argument must be specified if any of the other arguments in this group are specified. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="IslandModeServiceAddressCidrBlocks">Populate one of the network configs. This must be specified. Island mode CIDR network configuration. IPv4 address range for all services in the cluster. This flag argument must be specified if any of the other arguments in this group are specified. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="LvpNodeMountsConfigPath">Anthos on bare metal cluster storage configuration. This must be specified. LVP node mounts class and path used by the storage. This must be specified. Path for the LVP node mounts class. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="LvpNodeMountsConfigStorageClass">Anthos on bare metal cluster storage configuration. This must be specified. LVP node mounts class and path used by the storage. This must be specified. Storage class for LVP node mounts. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="AdminCluster">Admin cluster resource - admin cluster to create The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument admin_cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the admin_cluster or fully qualified identifier for the admin_cluster. To set the admin_cluster attribute: ▸ provide the argument admin_cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudContainerBareMetalAdminClustersCreateOptions(
+        string Version,
+        IEnumerable<string> IslandModePodAddressCidrBlocks,
+        IEnumerable<string> IslandModeServiceAddressCidrBlocks,
+        string LvpNodeMountsConfigPath,
+        string LvpNodeMountsConfigStorageClass,
+        string AdminCluster
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Version);
+        this.Version = Version;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(IslandModePodAddressCidrBlocks);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(IslandModePodAddressCidrBlocks));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(IslandModePodAddressCidrBlocks));
+            }
+
+            IslandModePodAddressCidrBlocks = materialized;
+        }
+        this.IslandModePodAddressCidrBlocks = IslandModePodAddressCidrBlocks;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(IslandModeServiceAddressCidrBlocks);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(IslandModeServiceAddressCidrBlocks));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(IslandModeServiceAddressCidrBlocks));
+            }
+
+            IslandModeServiceAddressCidrBlocks = materialized;
+        }
+        this.IslandModeServiceAddressCidrBlocks = IslandModeServiceAddressCidrBlocks;
+        global::System.ArgumentNullException.ThrowIfNull(LvpNodeMountsConfigPath);
+        this.LvpNodeMountsConfigPath = LvpNodeMountsConfigPath;
+        global::System.ArgumentNullException.ThrowIfNull(LvpNodeMountsConfigStorageClass);
+        this.LvpNodeMountsConfigStorageClass = LvpNodeMountsConfigStorageClass;
+        global::System.ArgumentNullException.ThrowIfNull(AdminCluster);
+        this.AdminCluster = AdminCluster;
+    }
+
+    public void Deconstruct(out string Version, out IEnumerable<string> IslandModePodAddressCidrBlocks, out IEnumerable<string> IslandModeServiceAddressCidrBlocks, out string LvpNodeMountsConfigPath, out string LvpNodeMountsConfigStorageClass, out string AdminCluster)
+    {
+        Version = this.Version;
+        IslandModePodAddressCidrBlocks = this.IslandModePodAddressCidrBlocks;
+        IslandModeServiceAddressCidrBlocks = this.IslandModeServiceAddressCidrBlocks;
+        LvpNodeMountsConfigPath = this.LvpNodeMountsConfigPath;
+        LvpNodeMountsConfigStorageClass = this.LvpNodeMountsConfigStorageClass;
+        AdminCluster = this.AdminCluster;
+    }
+
+    /// <summary>
+    /// Anthos cluster on bare metal version for the admin cluster resource.
+    /// </summary>
+    [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
+    public string Version { get; private init; }
+
+    /// <summary>
+    /// Populate one of the network configs. This must be specified. Island mode CIDR network configuration. IPv4 address range for all pods in the cluster. This flag argument must be specified if any of the other arguments in this group are specified. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--island-mode-pod-address-cidr-blocks", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> IslandModePodAddressCidrBlocks { get; private init; }
+
+    /// <summary>
+    /// Populate one of the network configs. This must be specified. Island mode CIDR network configuration. IPv4 address range for all services in the cluster. This flag argument must be specified if any of the other arguments in this group are specified. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--island-mode-service-address-cidr-blocks", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> IslandModeServiceAddressCidrBlocks { get; private init; }
+
+    /// <summary>
+    /// Anthos on bare metal cluster storage configuration. This must be specified. LVP node mounts class and path used by the storage. This must be specified. Path for the LVP node mounts class. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--lvp-node-mounts-config-path", Format = OptionFormat.EqualsSeparated)]
+    public string LvpNodeMountsConfigPath { get; private init; }
+
+    /// <summary>
+    /// Anthos on bare metal cluster storage configuration. This must be specified. LVP node mounts class and path used by the storage. This must be specified. Storage class for LVP node mounts. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--lvp-node-mounts-config-storage-class", Format = OptionFormat.EqualsSeparated)]
+    public string LvpNodeMountsConfigStorageClass { get; private init; }
+
+    /// <summary>
+    /// Admin cluster resource - admin cluster to create The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument admin_cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Google Cloud location for the admin_cluster. To set the location attribute: ▸ provide the argument admin_cluster on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property container_bare_metal/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal admin cluster load balancer configuration. This must be specified. Control plane load balancer port configuration. This must be specified. Control plane load balancer port configuration.
+    /// </summary>
+    [CliOption("--control-plane-load-balancer-port", Format = OptionFormat.EqualsSeparated)]
+    public string? ControlPlaneLoadBalancerPort { get; set; }
+
+    /// <summary>
+    /// VIPs used by the load balancer. This must be specified. VIP for the Kubernetes API of this cluster.
+    /// </summary>
+    [CliOption("--control-plane-vip", Format = OptionFormat.EqualsSeparated)]
+    public string? ControlPlaneVip { get; set; }
+
+    /// <summary>
+    /// Manual load balancer configuration. ManualLB typed load balancers configuration.
+    /// </summary>
+    [CliFlag("--enable-manual-lb")]
+    public bool? EnableManualLb { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal cluster control plane configuration. At least one of these must be specified: API Server argument configuration. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--api-server-args", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? ApiServerArgs
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
+    }
+
+    /// <summary>
+    /// Anthos on bare metal cluster control plane configuration. At least one of these must be specified: Anthos on bare metal cluster control plane node pool configuration. This must be specified. Anthos on bare metal node pool configuration for control plane nodes. This must be specified. Anthos on bare metal node configuration for control plane nodes. This must be specified. Populate control plane node config. Exactly one of these must be specified: Control plane node configuration.
+    /// </summary>
+    [CliOption("--control-plane-node-configs", Format = OptionFormat.EqualsSeparated)]
+    public string? ControlPlaneNodeConfigs { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal cluster control plane configuration. At least one of these must be specified: Labels assigned to nodes of a node pool. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--control-plane-node-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? ControlPlaneNodeLabels
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
+    }
+
+    /// <summary>
+    /// Anthos on bare metal cluster control plane configuration. At least one of these must be specified: Node taint applied to every Kubernetes node in a node pool. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--control-plane-node-taints", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? ControlPlaneNodeTaints
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
+    }
+
+    /// <summary>
+    /// LVP share configuration. At least one of these must be specified: Number of subdirectories to create under path.
+    /// </summary>
+    [CliOption("--shared-path-pv-count", Format = OptionFormat.EqualsSeparated)]
+    public string? SharedPathPvCount { get; set; }
+
+    /// <summary>
+    /// LVP share configuration. At least one of these must be specified: LVP share class and path used by the storage. This must be specified. Path for the LVP share class. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--lvp-share-path", Format = OptionFormat.EqualsSeparated)]
+    public string? LvpSharePath { get; set; }
+
+    /// <summary>
+    /// LVP share configuration. At least one of these must be specified: LVP share class and path used by the storage. This must be specified. Storage class for LVP share. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--lvp-share-storage-class", Format = OptionFormat.EqualsSeparated)]
+    public string? LvpShareStorageClass { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal admin cluster security configuration. Admin cluster authorization configurations Users that will be granted the view role on the admin cluster, providing view only access to the cluster.
+    /// </summary>
+    [CliOption("--admin-users", Format = OptionFormat.EqualsSeparated)]
+    public string? AdminUsers { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal admin cluster security configuration. Admin cluster authorization configurations Annotations on the Anthos on bare metal resource. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Annotations { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal admin cluster security configuration. Admin cluster authorization configurations Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal admin cluster security configuration. Admin cluster authorization configurations Set Binary Authorization evaluation mode for this cluster. BINAUTHZ_EVALUATION_MODE must be one of: DISABLED, PROJECT_SINGLETON_POLICY_ENFORCE.
+    /// </summary>
+    [CliOption("--binauthz-evaluation-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? BinauthzEvaluationMode { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal admin cluster security configuration. Admin cluster authorization configurations Description for the resource.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal cluster operations configuration. Whether collection of application logs/metrics should be enabled (in addition to system logs/metrics).
+    /// </summary>
+    [CliFlag("--enable-application-logs")]
+    public bool? EnableApplicationLogs { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal node access related settings for the admin cluster. User name used to access node machines.
+    /// </summary>
+    [CliOption("--login-user", Format = OptionFormat.EqualsSeparated)]
+    public string? LoginUser { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal cluster maintenance configuration. IPv4 addresses to be placed into maintenance mode. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--maintenance-address-cidr-blocks", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? MaintenanceAddressCidrBlocks { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal admin cluster workload node configuration. Maximum number of pods a node can run.
+    /// </summary>
+    [CliOption("--max-pods-per-node", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxPodsPerNode { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal admin cluster workload node configuration. If set, only validate the request, but do not actually perform the operation.
+    /// </summary>
+    [CliFlag("--validate-only")]
+    public bool? ValidateOnly { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal cluster proxy configuration. Address of the proxy server. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--uri", Format = OptionFormat.EqualsSeparated)]
+    public string? Uri { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal cluster proxy configuration. List of IPs, hostnames, and domains that should skip the proxy. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--no-proxy", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? NoProxy
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __NoProxySnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __NoProxySnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Admin cluster resource - admin cluster to create The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument admin_cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the admin_cluster or fully qualified identifier for the admin_cluster. To set the admin_cluster attribute: ▸ provide the argument admin_cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string AdminCluster { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(!string.IsNullOrWhiteSpace(ControlPlaneLoadBalancerPort)))
+        {
+            yield return new ValidationResult("At least one of ControlPlaneLoadBalancerPort must be specified.", [nameof(ControlPlaneLoadBalancerPort)]);
+        }
+        if (!(!string.IsNullOrWhiteSpace(ControlPlaneVip)))
+        {
+            yield return new ValidationResult("At least one of ControlPlaneVip must be specified.", [nameof(ControlPlaneVip)]);
+        }
+        if (!(EnableManualLb == true))
+        {
+            yield return new ValidationResult("At least one of EnableManualLb must be specified.", [nameof(EnableManualLb)]);
+        }
+        if (!(((object?)ApiServerArgs is global::System.Collections.Generic.IEnumerable<char> ? (object?)ApiServerArgs is not string || !string.IsNullOrWhiteSpace(ApiServerArgs?.ToString()) : ((object?)ApiServerArgs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ApiServerArgs, static item => item is not null) : (ApiServerArgs is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ApiServerArgs), static item => item is not null)))) || !string.IsNullOrWhiteSpace(ControlPlaneNodeConfigs) || ((object?)ControlPlaneNodeLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)ControlPlaneNodeLabels is not string || !string.IsNullOrWhiteSpace(ControlPlaneNodeLabels?.ToString()) : ((object?)ControlPlaneNodeLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ControlPlaneNodeLabels, static item => item is not null) : (ControlPlaneNodeLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ControlPlaneNodeLabels), static item => item is not null)))) || ((object?)ControlPlaneNodeTaints is global::System.Collections.Generic.IEnumerable<char> ? (object?)ControlPlaneNodeTaints is not string || !string.IsNullOrWhiteSpace(ControlPlaneNodeTaints?.ToString()) : ((object?)ControlPlaneNodeTaints is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ControlPlaneNodeTaints, static item => item is not null) : (ControlPlaneNodeTaints is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ControlPlaneNodeTaints), static item => item is not null))))))
+        {
+            yield return new ValidationResult("At least one of ApiServerArgs, ControlPlaneNodeConfigs, ControlPlaneNodeLabels, or ControlPlaneNodeTaints must be specified.", [nameof(ApiServerArgs), nameof(ControlPlaneNodeConfigs), nameof(ControlPlaneNodeLabels), nameof(ControlPlaneNodeTaints)]);
+        }
+        if ((((object?)ApiServerArgs is global::System.Collections.Generic.IEnumerable<char> ? (object?)ApiServerArgs is not string || !string.IsNullOrWhiteSpace(ApiServerArgs?.ToString()) : ((object?)ApiServerArgs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ApiServerArgs, static item => item is not null) : (ApiServerArgs is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ApiServerArgs), static item => item is not null)))) || !string.IsNullOrWhiteSpace(ControlPlaneNodeConfigs) || ((object?)ControlPlaneNodeLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)ControlPlaneNodeLabels is not string || !string.IsNullOrWhiteSpace(ControlPlaneNodeLabels?.ToString()) : ((object?)ControlPlaneNodeLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ControlPlaneNodeLabels, static item => item is not null) : (ControlPlaneNodeLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ControlPlaneNodeLabels), static item => item is not null)))) || ((object?)ControlPlaneNodeTaints is global::System.Collections.Generic.IEnumerable<char> ? (object?)ControlPlaneNodeTaints is not string || !string.IsNullOrWhiteSpace(ControlPlaneNodeTaints?.ToString()) : ((object?)ControlPlaneNodeTaints is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ControlPlaneNodeTaints, static item => item is not null) : (ControlPlaneNodeTaints is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ControlPlaneNodeTaints), static item => item is not null))))) && ((!string.IsNullOrWhiteSpace(ControlPlaneNodeConfigs) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ControlPlaneNodeConfigs may be specified.", [nameof(ControlPlaneNodeConfigs)]);
+        }
+        if (!(!string.IsNullOrWhiteSpace(SharedPathPvCount) || !string.IsNullOrWhiteSpace(LvpSharePath) || !string.IsNullOrWhiteSpace(LvpShareStorageClass)))
+        {
+            yield return new ValidationResult("At least one of SharedPathPvCount, LvpSharePath, or LvpShareStorageClass must be specified.", [nameof(SharedPathPvCount), nameof(LvpSharePath), nameof(LvpShareStorageClass)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(SharedPathPvCount) || !string.IsNullOrWhiteSpace(LvpSharePath) || !string.IsNullOrWhiteSpace(LvpShareStorageClass)) && (!string.IsNullOrWhiteSpace(LvpSharePath) || !string.IsNullOrWhiteSpace(LvpShareStorageClass)) && (!(!string.IsNullOrWhiteSpace(LvpSharePath))))
+        {
+            yield return new ValidationResult("LvpSharePath must be specified when other arguments in this group are specified.", [nameof(LvpSharePath)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(SharedPathPvCount) || !string.IsNullOrWhiteSpace(LvpSharePath) || !string.IsNullOrWhiteSpace(LvpShareStorageClass)) && (!string.IsNullOrWhiteSpace(LvpSharePath) || !string.IsNullOrWhiteSpace(LvpShareStorageClass)) && (!(!string.IsNullOrWhiteSpace(LvpShareStorageClass))))
+        {
+            yield return new ValidationResult("LvpShareStorageClass must be specified when other arguments in this group are specified.", [nameof(LvpShareStorageClass)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Uri) || ((object?)NoProxy is global::System.Collections.Generic.IEnumerable<char> ? (object?)NoProxy is not string || !string.IsNullOrWhiteSpace(NoProxy?.ToString()) : ((object?)NoProxy is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NoProxy, static item => item is not null) : (NoProxy is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NoProxy), static item => item is not null))))) && (!(!string.IsNullOrWhiteSpace(Uri))))
+        {
+            yield return new ValidationResult("Uri must be specified when other arguments in this group are specified.", [nameof(Uri)]);
+        }
+        yield break;
+    }
+
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +21,190 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "networks", "subnets", "create")]
-public record GcloudComputeNetworksSubnetsCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudComputeNetworksSubnetsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// define a subnet for a network in     custom subnet mode
+    /// </summary>
+    /// <param name="Network">The network to which the subnetwork belongs.</param>
+    /// <param name="Name">Name of the subnetwork to create.</param>
+    public GcloudComputeNetworksSubnetsCreateOptions(
+        string Network,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Network);
+        this.Network = Network;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Network, out string Name)
+    {
+        Network = this.Network;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The network to which the subnetwork belongs.
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string Network { get; private init; }
+
+    /// <summary>
+    /// Allow/disallow this subnetwork's IP address ranges to conflict with existing custom routes. Use --allow-cidr-routes-overlap to enable and --no-allow-cidr-routes-overlap to disable.
+    /// </summary>
+    [CliFlag("--allow-cidr-routes-overlap")]
+    public bool? AllowCidrRoutesOverlap { get; set; }
+
+    /// <summary>
+    /// Negates --allow-cidr-routes-overlap. Allow/disallow this subnetwork's IP address ranges to conflict with existing custom routes. Use --allow-cidr-routes-overlap to enable and --no-allow-cidr-routes-overlap to disable.
+    /// </summary>
+    [CliFlag("--no-allow-cidr-routes-overlap")]
+    public bool? NoAllowCidrRoutesOverlap { get; set; }
+
+    /// <summary>
+    /// An optional description of this subnetwork.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Enable/disable VPC Flow Logs for this subnet. More information for VPC Flow Logs can be found at https://cloud.google.com/vpc/docs/using-flow-logs.
+    /// </summary>
+    [CliFlag("--enable-flow-logs")]
+    public bool? EnableFlowLogs { get; set; }
+
+    /// <summary>
+    /// Enable/disable access to Google Cloud APIs from this subnet for instances without a public ip address.
+    /// </summary>
+    [CliFlag("--enable-private-ip-google-access")]
+    public bool? EnablePrivateIpGoogleAccess { get; set; }
+
+    /// <summary>
+    /// The /64 external IPv6 CIDR range to assign to this subnet. The range must be associated with an IPv6 BYOIP sub-prefix that is defined by the --ip-collection flag. If you specify --ip-collection but not --external-ipv6-prefix, a random /64 range is allocated from the sub-prefix. For example, --external-ipv6-prefix=2600:1901:0:0:0:0:0:0/64
+    /// </summary>
+    [CliOption("--external-ipv6-prefix", Format = OptionFormat.EqualsSeparated)]
+    public string? ExternalIpv6Prefix { get; set; }
+
+    /// <summary>
+    /// The /64 internal IPv6 CIDR range to assign to this subnet. The range must be associated with an IPv6 BYOIP sub-prefix that is defined by the --ip-collection flag. If you specify --ip-collection but not --internal-ipv6-prefix, a random /64 range is allocated from the sub-prefix. For example, --internal-ipv6-prefix 2600:1901:0:0:0:0:0:0/64
+    /// </summary>
+    [CliOption("--internal-ipv6-prefix", Format = OptionFormat.EqualsSeparated)]
+    public string? InternalIpv6Prefix { get; set; }
+
+    /// <summary>
+    /// Resource reference to a public delegated prefix. The PublicDelegatedPrefix must be a sub-prefix in EXTERNAL_IPV6_SUBNETWORK_CREATION or INTERNAL_IPV6_SUBNETWORK_CREATION mode.
+    /// </summary>
+    [CliOption("--ip-collection", Format = OptionFormat.EqualsSeparated)]
+    public string? IpCollection { get; set; }
+
+    /// <summary>
+    /// IPv6 access type can be specified only when the subnet is created, or when the subnet is first updated to have a stack type of IPV4_IPV6. Once set, the access type is immutable. IPV6_ACCESS_TYPE must be one of: EXTERNAL VMs in this subnet can have external IPv6. INTERNAL VMs in this subnet can have internal IPv6.
+    /// </summary>
+    [CliOption("--ipv6-access-type", Format = OptionFormat.EqualsSeparated)]
+    public string? Ipv6AccessType { get; set; }
+
+    /// <summary>
+    /// Can only be specified if VPC Flow Logs for this subnetwork is enabled. Toggles the aggregation interval for collecting flow logs. Increasing the interval time will reduce the amount of generated flow logs for long lasting connections. Default is an interval of 5 seconds per connection. LOGGING_AGGREGATION_INTERVAL must be one of: interval-10-min, interval-15-min, interval-1-min, interval-30-sec, interval-5-min, interval-5-sec.
+    /// </summary>
+    [CliOption("--logging-aggregation-interval", Format = OptionFormat.EqualsSeparated)]
+    public GcloudLoggingAggregationInterval? LoggingAggregationInterval { get; set; }
+
+    /// <summary>
+    /// Can only be specified if VPC Flow Logs for this subnetwork is enabled. Export filter used to define which logs should be generated.
+    /// </summary>
+    [CliOption("--logging-filter-expr", Format = OptionFormat.EqualsSeparated)]
+    public string? LoggingFilterExpr { get; set; }
+
+    /// <summary>
+    /// Can only be specified if VPC Flow Logs for this subnetwork is enabled. The value of the field must be in [0, 1]. Set the sampling rate of VPC flow logs within the subnetwork where 1.0 means all collected logs are reported and 0.0 means no logs are reported. Default is 0.5 which means half of all collected logs are reported.
+    /// </summary>
+    [CliOption("--logging-flow-sampling", Format = OptionFormat.EqualsSeparated)]
+    public string? LoggingFlowSampling { get; set; }
+
+    /// <summary>
+    /// Can only be specified if VPC Flow Logs for this subnetwork is enabled. Configures whether metadata fields should be added to the reported logs. Default is to exclude all metadata. LOGGING_METADATA must be one of: custom, exclude-all, include-all.
+    /// </summary>
+    [CliOption("--logging-metadata", Format = OptionFormat.EqualsSeparated)]
+    public GcloudLoggingMetadata? LoggingMetadata { get; set; }
+
+    /// <summary>
+    /// Can only be specified if VPC Flow Logs for this subnetwork is enabled and "metadata" is set to CUSTOM_METADATA. The comma-separated list of metadata fields that should be added to reported logs. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--logging-metadata-fields", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? LoggingMetadataFields { get; set; }
+
+    /// <summary>
+    /// The private IPv6 google access type for the VMs in this subnet. PRIVATE_IPV6_GOOGLE_ACCESS_TYPE must be one of: disable, enable-bidirectional-access, enable-outbound-vm-access.
+    /// </summary>
+    [CliOption("--private-ipv6-google-access-type", Format = OptionFormat.EqualsSeparated)]
+    public string? PrivateIpv6GoogleAccessType { get; set; }
+
+    /// <summary>
+    /// The purpose of this subnetwork. PURPOSE must be one of: GLOBAL_MANAGED_PROXY Reserved for Global Envoy-based Load Balancing. INTERNAL_HTTPS_LOAD_BALANCER Reserved for Internal HTTP(S) Load Balancing. PEER_MIGRATION Reserved for subnet migration between peered VPCs. PRIVATE Regular user created or automatically created subnet. PRIVATE_NAT Reserved for use as source range for Private NAT. PRIVATE_SERVICE_CONNECT Reserved for Private Service Connect Internal Load Balancing. REGIONAL_MANAGED_PROXY Reserved for Regional Envoy-based Load Balancing.
+    /// </summary>
+    [CliOption("--purpose", Format = OptionFormat.EqualsSeparated)]
+    public string? Purpose { get; set; }
+
+    /// <summary>
+    /// The IP space allocated to this subnetwork in CIDR format.
+    /// </summary>
+    [CliOption("--range", Format = OptionFormat.EqualsSeparated)]
+    public string? Range { get; set; }
+
+    /// <summary>
+    /// Region of the subnetwork to create. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// If set, the primary IP range of the subnetwork will be associated with the given internal range resource. If --range is set, the subnetwork will only use the given IP range, which must be contained by the IP range defined by the internal range resource. For example, --range=10.0.0.0/24 --reserved-internal-range //networkconnectivity.googleapis.com/projects/PROJECT/locations/global/internalRanges/RANGE If --range is not set, the subnetwork will use the entire IP range defined by the internal range resource. For example, --reserved-internal-range //networkconnectivity.googleapis.com/projects/PROJECT/locations/global/internalRanges/RANGE
+    /// </summary>
+    [CliOption("--reserved-internal-range", Format = OptionFormat.EqualsSeparated)]
+    public string? ReservedInternalRange { get; set; }
+
+    /// <summary>
+    /// Resolve subnet mask can only be set when subnet is created. If set, DHCP configures VMs with the netmask of the subnet (instead of /32), which lets the VMs communicate directly with each other. RESOLVE_SUBNET_MASK must be one of: ARP_ALL_RANGES VMs connected to this subnet receive ARP responses from IP addresses in the following ranges: ▸ the primary IPv4 address range ▸ any secondary IPv4 address ranges that the VM is connected to ARP_PRIMARY_RANGE VMs connected to this subnet receive ARP responses from IP addresses in the primary IPv4 range only.
+    /// </summary>
+    [CliOption("--resolve-subnet-mask", Format = OptionFormat.EqualsSeparated)]
+    public string? ResolveSubnetMask { get; set; }
+
+    /// <summary>
+    /// A comma-separated list of Resource Manager tags to apply to the subnetwork. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? ResourceManagerTags { get; set; }
+
+    /// <summary>
+    /// The role of subnetwork. This field is required when the purpose is set to GLOBAL_MANAGED_PROXY, REGIONAL_MANAGED_PROXY or INTERNAL_HTTPS_LOAD_BALANCER. ROLE must be one of: ACTIVE The ACTIVE subnet that is currently used. BACKUP The BACKUP subnet that could be promoted to ACTIVE.
+    /// </summary>
+    [CliOption("--role", Format = OptionFormat.EqualsSeparated)]
+    public string? Role { get; set; }
+
+    /// <summary>
+    /// Adds a secondary IP range to the subnetwork for use in IP aliasing. For example, --secondary-range range1=192.168.64.0/24 adds a secondary range 192.168.64.0/24 with name range1. ◆ RANGE_NAME - Name of the secondary range. ◆ RANGE - IP range in CIDR format. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--secondary-range", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? SecondaryRange { get; set; }
+
+    /// <summary>
+    /// Adds secondary IP ranges that are associated with internal range resources. For example, --secondary-range-with-reserved-internal-range range1=//networkconnectivity.googleapis.com/projects/PROJECT/locations/global/internalRanges/RANGE adds a secondary range with the reserved internal range resource. ◆ RANGE_NAME - Name of the secondary range. ◆ INTERNAL_RANGE_URL - URL of an internal range resource. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--secondary-range-with-reserved-internal-range", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? SecondaryRangeWithReservedInternalRange { get; set; }
+
+    /// <summary>
+    /// The stack type for this subnet. Determines if IPv6 is enabled on the subnet. If not specified IPV4_ONLY will be used. STACK_TYPE must be one of: IPV4_IPV6 New VMs in this subnet can have both IPv4 and IPv6 addresses IPV4_ONLY New VMs in this subnet will only be assigned IPv4 addresses IPV6_ONLY New VMs in this subnet will only be assigned IPv6 addresses
+    /// </summary>
+    [CliOption("--stack-type", Format = OptionFormat.EqualsSeparated)]
+    public string? StackType { get; set; }
+
+    /// <summary>
+    /// Name of the subnetwork to create.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }

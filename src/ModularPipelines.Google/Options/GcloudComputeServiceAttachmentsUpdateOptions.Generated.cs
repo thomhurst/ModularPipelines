@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "service-attachments", "update")]
-public record GcloudComputeServiceAttachmentsUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudComputeServiceAttachmentsUpdateOptions : GcloudOptions
 {
+    /// <summary>
+    /// update a Google Compute Engine     service attachment
+    /// </summary>
+    /// <param name="Name">Name of the service attachment to update.</param>
+    public GcloudComputeServiceAttachmentsUpdateOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// This defines the service attachment's connection preference. CONNECTION_PREFERENCE must be one of: ACCEPT_AUTOMATIC Always accept connection requests from consumers automatically. ACCEPT_MANUAL Only accept connection requests from consumers with the approval of the service provider.
     /// </summary>
@@ -30,15 +45,15 @@ public record GcloudComputeServiceAttachmentsUpdateOptions(
     public string? ConnectionPreference { get; set; }
 
     /// <summary>
-    /// Specifies which consumer projects/networks/endpoints are allowed to connect to the service attachment. A connection limit is required for each accepted project/network (optional for endpoints). For a given service attachment, consumer accept and reject lists must contain entries of the same type: all projects, all networks or all endpoints. For example: ◆ --consumer-accept-list myProjectId1=20 - Accepts a consumer project myProjectId1 with connection limit 20. ◆ --consumer-accept-list projects/myProjectId1/global/networks/myNet1=20 - Accepts a consumer network myNet1 with connection limit 20. ◆ --consumer-accept-list projects/myProjectId1/regions/myRegion1/forwardingRules/8167352512 - Accepts a consumer endpoint with ID 8167352512. ◆ PROJECT_OR_NETWORK_OR_ENDPOINT - Consumer project ID/number or network URL or endpoint URL. ◆ CONNECTION_LIMIT - The maximum number of allowed connections. This field is optional for endpoints.
+    /// Specifies which consumer projects/networks/endpoints are allowed to connect to the service attachment. A connection limit is required for each accepted project/network (optional for endpoints). For a given service attachment, consumer accept and reject lists must contain entries of the same type: all projects, all networks or all endpoints. For example: ◆ --consumer-accept-list myProjectId1=20 - Accepts a consumer project myProjectId1 with connection limit 20. ◆ --consumer-accept-list projects/myProjectId1/global/networks/myNet1=20 - Accepts a consumer network myNet1 with connection limit 20. ◆ --consumer-accept-list projects/myProjectId1/regions/myRegion1/forwardingRules/8167352512 - Accepts a consumer endpoint with ID 8167352512. ◆ PROJECT_OR_NETWORK_OR_ENDPOINT - Consumer project ID/number or network URL or endpoint URL. ◆ CONNECTION_LIMIT - The maximum number of allowed connections. This field is optional for endpoints. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--consumer-accept-list", Format = OptionFormat.EqualsSeparated)]
-    public string? ConsumerAcceptList { get; set; }
+    [CliOption("--consumer-accept-list", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ConsumerAcceptList { get; set; }
 
     /// <summary>
-    /// Specifies a comma-separated list of projects/networks/endpoints that are not allowed to connect to this service attachment. The project can be specified using its project ID or project number and the network or endpoint can be specified using its URL. For a given service attachment, consumer accept and reject lists must contain entries of the same type: all projects, all networks, or all endpoints.
+    /// Specifies a comma-separated list of projects/networks/endpoints that are not allowed to connect to this service attachment. The project can be specified using its project ID or project number and the network or endpoint can be specified using its URL. For a given service attachment, consumer accept and reject lists must contain entries of the same type: all projects, all networks, or all endpoints. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--consumer-reject-list", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--consumer-reject-list", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ConsumerRejectList { get; set; }
 
     /// <summary>
@@ -66,9 +81,9 @@ public record GcloudComputeServiceAttachmentsUpdateOptions(
     public string? NatIpsPerEndpoint { get; set; }
 
     /// <summary>
-    /// The subnetworks provided by service producer to use for NAT
+    /// The subnetworks provided by service producer to use for NAT Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--nat-subnets", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--nat-subnets", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? NatSubnets { get; set; }
 
     /// <summary>
@@ -112,5 +127,11 @@ public record GcloudComputeServiceAttachmentsUpdateOptions(
     /// </summary>
     [CliOption("--target-service", Format = OptionFormat.EqualsSeparated)]
     public string? TargetService { get; set; }
+
+    /// <summary>
+    /// Name of the service attachment to update.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
 
 }

@@ -19,6 +19,9 @@ public enum GcloudScimUsage
     [EnumValue("enabled-for-groups")]
     EnabledForGroups,
 
+    [EnumValue("enabled-for-users-groups")]
+    EnabledForUsersGroups,
+
     [EnumValue("scim-usage-unspecified")]
     ScimUsageUnspecified
 }

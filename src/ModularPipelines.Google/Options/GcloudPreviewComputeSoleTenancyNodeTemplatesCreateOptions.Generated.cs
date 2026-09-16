@@ -10,6 +10,9 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +22,93 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "sole-tenancy", "node-templates", "create")]
-public record GcloudPreviewComputeSoleTenancyNodeTemplatesCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputeSoleTenancyNodeTemplatesCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a     Compute Engine node template
+    /// </summary>
+    /// <param name="Name">Name of the node templates to operate on.</param>
+    public GcloudPreviewComputeSoleTenancyNodeTemplatesCreateOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Exactly one of these must be specified: The requirements for nodes. Google Compute Engine will automatically choose a node type that fits the requirements on Node Group creation. If multiple node types match your defined criteria, the NodeType with the least amount of each resource will be selected. You can specify 'any' to indicate any non-zero value for a certain resource. The following keys are allowed: vCPU The number of committed cores available to the node. memory The amount of memory available to the node. This value should include unit (eg. 3072MB or 9GB). If no units are specified, MB is assumed. localSSD Optional. The amount of SSD space available on the node. This value should include unit (eg. 3072MB or 9GB). If no units are specified, GB is assumed. If this key is not specified, local SSD is unconstrained.
+    /// </summary>
+    [CliOption("--node-requirements", Format = OptionFormat.EqualsSeparated)]
+    public string? NodeRequirements { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: The node type to use for nodes in node groups using this template. The type of a node determines what resources are available to instances running on the node. See the following for more information: $ gcloud preview compute sole-tenancy node-types list
+    /// </summary>
+    [CliOption("--node-type", Format = OptionFormat.EqualsSeparated)]
+    public string? NodeType { get; set; }
+
+    /// <summary>
+    /// Attaches accelerators (e.g. GPUs) to the node template. type The specific type (e.g. nvidia-tesla-k80 for nVidia Tesla K80) of accelerator to attach to the node template. Use 'gcloud compute accelerator-types list' to learn about all available accelerator types. count Number of accelerators to attach to each node template. The default value is 1.
+    /// </summary>
+    [CliOption("--accelerator", Format = OptionFormat.EqualsSeparated)]
+    public string? Accelerator { get; set; }
+
+    /// <summary>
+    /// CPU overcommit type for nodes created based on this template. To overcommit CPUs on a VM, set --cpu-overcommit-type equal to either standard or none, and then when creating a VM, specify a value for the --min-node-cpu flag. Lower values for --min-node-cpu specify a higher overcommit ratio, that is, proportionally more vCPUs in relation to physical CPUs. You can only overcommit CPUs on VMs that are scheduled on nodes that support it. CPU_OVERCOMMIT_TYPE must be one of: enabled, none.
+    /// </summary>
+    [CliOption("--cpu-overcommit-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudCpuOvercommitType? CpuOvercommitType { get; set; }
+
+    /// <summary>
+    /// An optional description of this resource.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Option to specify disk properties. It is mutually exclusive with '--node-requirements=[localSSD=LOCALSSD]' but '--node-requirements=[memory=MEMORY],[vCPU=VCPU],any' are still available. type Specifies the desired disk type on the node. This disk type must be a local storage type. This should be the name of the disk type. Currently only local-ssd is allowed. size The size of the disk in GiB. count Specifies the number of such disks. Set to 16 or 24.
+    /// </summary>
+    [CliOption("--disk", Format = OptionFormat.EqualsSeparated)]
+    public string? Disk { get; set; }
+
+    /// <summary>
+    /// Labels to use for node affinity, which will be used in instance scheduling. This corresponds to the --node-affinity flag on compute instances create and compute instance-templates create. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--node-affinity-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? NodeAffinityLabels { get; set; }
+
+    /// <summary>
+    /// Region of the node templates to operate on. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// The server binding policy for nodes using this template, which determines where the nodes should restart following a maintenance event. SERVER_BINDING must be one of: restart-node-on-any-server Nodes using this template will restart on any physical server following a maintenance event. restart-node-on-minimal-servers Nodes using this template will restart on the same physical server following a maintenance event, instead of being live migrated to or restarted on a new physical server. This means that VMs on such nodes will experience outages while maintenance is applied. This option may be useful if you are using software licenses tied to the underlying server characteristics such as physical sockets or cores, to avoid the need for additional licenses when maintenance occurs. Note that in some cases, Google Compute Engine may need to move your VMs to a new underlying server. During these situations your VMs will be restarted on a new physical server and assigned a new sole tenant physical server ID.
+    /// </summary>
+    [CliOption("--server-binding", Format = OptionFormat.EqualsSeparated)]
+    public string? ServerBinding { get; set; }
+
+    /// <summary>
+    /// Name of the node templates to operate on.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(NodeRequirements) ? 1 : 0) + (!string.IsNullOrWhiteSpace(NodeType) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of NodeRequirements or NodeType must be specified.", [nameof(NodeRequirements), nameof(NodeType)]);
+        }
+        yield break;
+    }
+
 }

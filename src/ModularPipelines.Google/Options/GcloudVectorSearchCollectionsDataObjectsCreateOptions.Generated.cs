@@ -22,6 +22,35 @@ namespace ModularPipelines.Google.Options;
 public record GcloudVectorSearchCollectionsDataObjectsCreateOptions : GcloudOptions
 {
     /// <summary>
+    /// create a data object
+    /// </summary>
+    /// <param name="DataObject">DataObject resource - Identifier. The fully qualified resource name of the dataObject. Format: projects/{project}/locations/{location}/collections/{collection}/dataObjects/{data_object_id} The data_object_id must be 1-63 characters long, and comply with RFC1035 (https://www.ietf.org/rfc/rfc1035.txt). The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument data_object on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the dataObject or fully qualified identifier for the dataObject. To set the data_object attribute: ▸ provide the argument data_object on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudVectorSearchCollectionsDataObjectsCreateOptions(
+        string DataObject
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataObject);
+        this.DataObject = DataObject;
+    }
+
+    public void Deconstruct(out string DataObject)
+    {
+        DataObject = this.DataObject;
+    }
+
+    /// <summary>
+    /// DataObject resource - Identifier. The fully qualified resource name of the dataObject. Format: projects/{project}/locations/{location}/collections/{collection}/dataObjects/{data_object_id} The data_object_id must be 1-63 characters long, and comply with RFC1035 (https://www.ietf.org/rfc/rfc1035.txt). The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument data_object on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The collection id of the dataObject resource. To set the collection attribute: ▸ provide the argument data_object on the command line with a fully specified name; ▸ provide the argument --collection on the command line.
+    /// </summary>
+    [CliOption("--collection", Format = OptionFormat.EqualsSeparated)]
+    public string? Collection { get; set; }
+
+    /// <summary>
+    /// DataObject resource - Identifier. The fully qualified resource name of the dataObject. Format: projects/{project}/locations/{location}/collections/{collection}/dataObjects/{data_object_id} The data_object_id must be 1-63 characters long, and comply with RFC1035 (https://www.ietf.org/rfc/rfc1035.txt). The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument data_object on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the dataObject resource. To set the location attribute: ▸ provide the argument data_object on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// The data of the dataObject.
     /// </summary>
     [CliOption("--data", Format = OptionFormat.EqualsSeparated)]
@@ -38,5 +67,11 @@ public record GcloudVectorSearchCollectionsDataObjectsCreateOptions : GcloudOpti
     /// </summary>
     [CliOption("--vectors", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Vectors { get; set; }
+
+    /// <summary>
+    /// DataObject resource - Identifier. The fully qualified resource name of the dataObject. Format: projects/{project}/locations/{location}/collections/{collection}/dataObjects/{data_object_id} The data_object_id must be 1-63 characters long, and comply with RFC1035 (https://www.ietf.org/rfc/rfc1035.txt). The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument data_object on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the dataObject or fully qualified identifier for the dataObject. To set the data_object attribute: ▸ provide the argument data_object on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string DataObject { get; private init; }
 
 }

@@ -21,4 +21,45 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("scc", "findings", "export-to-bigquery")]
 public record GcloudSccFindingsExportToBigqueryOptions : GcloudOptions
 {
+    /// <summary>
+    /// export Security Command Center     findings to bigquery
+    /// </summary>
+    /// <param name="DataSet">BigQuery dataset to export findings to.</param>
+    public GcloudSccFindingsExportToBigqueryOptions(
+        string DataSet
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataSet);
+        this.DataSet = DataSet;
+    }
+
+    public void Deconstruct(out string DataSet)
+    {
+        DataSet = this.DataSet;
+    }
+
+    /// <summary>
+    /// BigQuery dataset to export findings to.
+    /// </summary>
+    [CliOption("--dataset", Format = OptionFormat.EqualsSeparated)]
+    public string DataSet { get; private init; }
+
+    /// <summary>
+    /// When data residency controls are enabled, this attribute specifies the location in which the resource is located and applicable. The location attribute can be provided as part of the fully specified resource name or with the --location argument on the command line. The default location is global. NOTE: If you override the endpoint to a regional endpoint (https://cloud.google.com/security-command-center/docs/reference/rest/index.html?rep_location=global#regional-service-endpoint) you must specify the correct data location (https://cloud.google.com/security-command-center/docs/data-residency-support#locations) using this flag. The default location on this command is unrelated to the default location that is specified when data residency controls are enabled for Security Command Center. NOTE: If no location is specified, the default location is global AND the request will be routed to the SCC V1 API. To use the SCC V2 API - please explicitly specify the flag.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Source id. Defaults to all sources.
+    /// </summary>
+    [CliOption("--source", Format = OptionFormat.EqualsSeparated)]
+    public string? Source { get; set; }
+
+    /// <summary>
+    /// Parent resource - parent organization, folder, or project in the Google Cloud resource hierarchy to be used for the gcloud scc command. Specify the argument as either [RESOURCE_TYPE/RESOURCE_ID] or [RESOURCE_ID], as shown in the preceding examples. This represents a Cloud resource. ID of the parent or fully qualified identifier for the parent. To set the parent attribute: ◆ provide the argument parent on the command line; ◆ Set the parent property in configuration using gcloud config set scc/parent if it is not specified in command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Parent { get; set; }
+
 }

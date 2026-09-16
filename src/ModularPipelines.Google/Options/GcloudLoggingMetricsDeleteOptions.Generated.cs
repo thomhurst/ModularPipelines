@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logging", "metrics", "delete")]
-public record GcloudLoggingMetricsDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string MetricName
-) : GcloudOptions
+public record GcloudLoggingMetricsDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// based metric
+    /// </summary>
+    /// <param name="MetricName">The name of the metric to delete.</param>
+    public GcloudLoggingMetricsDeleteOptions(
+        string MetricName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MetricName);
+        this.MetricName = MetricName;
+    }
+
+    public void Deconstruct(out string MetricName)
+    {
+        MetricName = this.MetricName;
+    }
+
+    /// <summary>
+    /// The name of the metric to delete.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string MetricName { get; private init; }
+
 }

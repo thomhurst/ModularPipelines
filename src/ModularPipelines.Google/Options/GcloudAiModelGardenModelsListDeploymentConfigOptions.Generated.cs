@@ -23,6 +23,29 @@ namespace ModularPipelines.Google.Options;
 public record GcloudAiModelGardenModelsListDeploymentConfigOptions : GcloudOptions
 {
     /// <summary>
+    /// list the machine     specifications supported by and verified for a model in Model Garden
+    /// </summary>
+    /// <param name="Model">The model to be deployed. If it is a Model Garden model, it should be in the format of {publisher_name}/{model_name}@{model_version_name}, e.g. google/gemma2@gemma-2-2b. If it is a Hugging Face model, it should be in the convention of Hugging Face models, e.g. meta-llama/Meta-Llama-3-8B.</param>
+    public GcloudAiModelGardenModelsListDeploymentConfigOptions(
+        string Model
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Model);
+        this.Model = Model;
+    }
+
+    public void Deconstruct(out string Model)
+    {
+        Model = this.Model;
+    }
+
+    /// <summary>
+    /// The model to be deployed. If it is a Model Garden model, it should be in the format of {publisher_name}/{model_name}@{model_version_name}, e.g. google/gemma2@gemma-2-2b. If it is a Hugging Face model, it should be in the convention of Hugging Face models, e.g. meta-llama/Meta-Llama-3-8B.
+    /// </summary>
+    [CliOption("--model", Format = OptionFormat.EqualsSeparated)]
+    public string Model { get; private init; }
+
+    /// <summary>
     /// The access token from Hugging Face needed to read the model artifacts of gated models in order to generate the deployment configs. It is only needed when the Hugging Face model to deploy is gated and not verified by Model Garden. You can use the gcloud ai alpha/beta model-garden models list command to find out which ones are verified by Model Garden.
     /// </summary>
     [SecretValue]

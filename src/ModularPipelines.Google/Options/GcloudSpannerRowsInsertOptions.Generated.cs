@@ -21,4 +21,66 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("spanner", "rows", "insert")]
 public record GcloudSpannerRowsInsertOptions : GcloudOptions
 {
+    /// <summary>
+    /// insert a row in a Cloud Spanner database
+    /// </summary>
+    /// <param name="Data">The column names and values for the row being added. For complicated input values, such as arrays, use the --flags-file flag. See $ gcloud topic flags-file for more information. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="Table">The Cloud Spanner table name.</param>
+    /// <param name="Database">Database resource - The Cloud Spanner database in which to insert a row. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --database on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the database or fully qualified identifier for the database. To set the database attribute: ▸ provide the argument --database on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudSpannerRowsInsertOptions(
+        IEnumerable<string> Data,
+        string Table,
+        string Database
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Data);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Data));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Data));
+            }
+
+            Data = materialized;
+        }
+        this.Data = Data;
+        global::System.ArgumentNullException.ThrowIfNull(Table);
+        this.Table = Table;
+        global::System.ArgumentNullException.ThrowIfNull(Database);
+        this.Database = Database;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Data, out string Table, out string Database)
+    {
+        Data = this.Data;
+        Table = this.Table;
+        Database = this.Database;
+    }
+
+    /// <summary>
+    /// The column names and values for the row being added. For complicated input values, such as arrays, use the --flags-file flag. See $ gcloud topic flags-file for more information. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--data", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> Data { get; private init; }
+
+    /// <summary>
+    /// The Cloud Spanner table name.
+    /// </summary>
+    [CliOption("--table", Format = OptionFormat.EqualsSeparated)]
+    public string Table { get; private init; }
+
+    /// <summary>
+    /// Database resource - The Cloud Spanner database in which to insert a row. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --database on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the database or fully qualified identifier for the database. To set the database attribute: ▸ provide the argument --database on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--database", Format = OptionFormat.EqualsSeparated)]
+    public string Database { get; private init; }
+
+    /// <summary>
+    /// Database resource - The Cloud Spanner database in which to insert a row. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --database on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud Spanner instance for the database. To set the instance attribute: ▸ provide the argument --database on the command line with a fully specified name; ▸ provide the argument --instance on the command line; ▸ set the property spanner/instance.
+    /// </summary>
+    [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
+    public string? Instance { get; set; }
+
 }

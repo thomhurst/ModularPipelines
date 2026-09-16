@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,46 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ml", "language", "analyze-sentiment")]
-public record GcloudMlLanguageAnalyzeSentimentOptions : GcloudOptions
+public record GcloudMlLanguageAnalyzeSentimentOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: Specify input text on the command line. Useful for experiments, or for extremely short text.
+    /// </summary>
+    [CliOption("--content", Format = OptionFormat.EqualsSeparated)]
+    public string? Content { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Specify a local file or Google Cloud Storage (format gs://bucket/object) file path containing the text to be analyzed. More useful for longer text or data output from another system.
+    /// </summary>
+    [CliOption("--content-file", Format = OptionFormat.EqualsSeparated)]
+    public string? ContentFile { get; set; }
+
+    /// <summary>
+    /// Specify the format of the input text. CONTENT_TYPE must be one of: html, plain-text.
+    /// </summary>
+    [CliOption("--content-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudContentType? ContentType { get; set; }
+
+    /// <summary>
+    /// The encoding type used by the API to calculate offsets. If set to none, encoding-dependent offsets will be set at -1. This is an optional flag only used for the entity mentions in results, and does not affect how the input is read or analyzed. ENCODING_TYPE must be one of: none, utf16, utf32, utf8.
+    /// </summary>
+    [CliOption("--encoding-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudEncodingType? EncodingType { get; set; }
+
+    /// <summary>
+    /// Specify the language of the input text. If omitted, the server will attempt to auto-detect. Both ISO (such as en or es) and BCP-47 (such as en-US or ja-JP) language codes are accepted.
+    /// </summary>
+    [CliOption("--language", Format = OptionFormat.EqualsSeparated)]
+    public string? Language { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Content) ? 1 : 0) + (!string.IsNullOrWhiteSpace(ContentFile) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Content or ContentFile must be specified.", [nameof(Content), nameof(ContentFile)]);
+        }
+        yield break;
+    }
+
 }

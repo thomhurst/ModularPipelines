@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("artifacts", "projects", "update")]
-public record GcloudArtifactsProjectsUpdateOptions : GcloudOptions
+public record GcloudArtifactsProjectsUpdateOptions : GcloudOptions, IValidatableObject
 {
     /// <summary>
     /// Location resource - The location of the project configuration to update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property artifacts/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the location or fully qualified identifier for the location. To set the location attribute: ◆ provide the argument --location on the command line; ◆ set the property artifacts/location.
@@ -50,5 +51,15 @@ public record GcloudArtifactsProjectsUpdateOptions : GcloudOptions
     /// </summary>
     [CliFlag("--enable-platform-logs")]
     public bool? EnablePlatformLogs { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((ClearPlatformLogs == true ? 1 : 0) + (DisablePlatformLogs == true ? 1 : 0) + (EnablePlatformLogs == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearPlatformLogs, DisablePlatformLogs, or EnablePlatformLogs may be specified.", [nameof(ClearPlatformLogs), nameof(DisablePlatformLogs), nameof(EnablePlatformLogs)]);
+        }
+        yield break;
+    }
 
 }

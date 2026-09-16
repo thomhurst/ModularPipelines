@@ -19,14 +19,35 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "buckets", "anywhere-caches", "list")]
-public record GcloudStorageBucketsAnywhereCachesListOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Url
-) : GcloudOptions
+public record GcloudStorageBucketsAnywhereCachesListOptions : GcloudOptions
 {
+    /// <summary>
+    /// list all Anywhere Cache     instances of a bucket
+    /// </summary>
+    /// <param name="Url">Specifies the URL of the bucket for which anywhere cache instances should be listed.</param>
+    public GcloudStorageBucketsAnywhereCachesListOptions(
+        string Url
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Url);
+        this.Url = Url;
+    }
+
+    public void Deconstruct(out string Url)
+    {
+        Url = this.Url;
+    }
+
     /// <summary>
     /// Shows metadata in the format returned by the API instead of standardizing it.
     /// </summary>
     [CliFlag("--raw")]
     public bool? Raw { get; set; }
+
+    /// <summary>
+    /// Specifies the URL of the bucket for which anywhere cache instances should be listed.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Url { get; private init; }
 
 }

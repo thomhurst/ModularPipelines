@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ml", "vision", "detect-safe-search")]
-public record GcloudMlVisionDetectSafeSearchOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ImagePath
-) : GcloudOptions
+public record GcloudMlVisionDetectSafeSearchOptions : GcloudOptions
 {
+    /// <summary>
+    /// detect explicit content in an image
+    /// </summary>
+    /// <param name="ImagePath">Path to the image to be analyzed. This can be either a local path or a URL. If you provide a local file, the contents will be sent directly to Google Cloud Vision. If you provide a URL, it must be in Google Cloud Storage format (gs://bucket/object) or an HTTP URL (http://... or https://...)</param>
+    public GcloudMlVisionDetectSafeSearchOptions(
+        string ImagePath
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ImagePath);
+        this.ImagePath = ImagePath;
+    }
+
+    public void Deconstruct(out string ImagePath)
+    {
+        ImagePath = this.ImagePath;
+    }
+
+    /// <summary>
+    /// Path to the image to be analyzed. This can be either a local path or a URL. If you provide a local file, the contents will be sent directly to Google Cloud Vision. If you provide a URL, it must be in Google Cloud Storage format (gs://bucket/object) or an HTTP URL (http://... or https://...)
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ImagePath { get; private init; }
+
 }

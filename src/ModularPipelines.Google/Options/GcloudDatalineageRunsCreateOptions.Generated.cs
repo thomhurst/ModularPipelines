@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +22,79 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("datalineage", "runs", "create")]
 public record GcloudDatalineageRunsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a data lineage run
+    /// </summary>
+    /// <param name="StartTime">The start time of the run.</param>
+    /// <param name="State">The state of the run. STATE must be one of: aborted, completed, failed, started, unknown.</param>
+    /// <param name="Run">Run resource - The run to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument run on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the run or fully qualified identifier for the run. To set the run attribute: ▸ provide the argument run on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDatalineageRunsCreateOptions(
+        string StartTime,
+        GcloudState State,
+        string Run
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StartTime);
+        this.StartTime = StartTime;
+        global::System.ArgumentNullException.ThrowIfNull(State);
+        this.State = State;
+        global::System.ArgumentNullException.ThrowIfNull(Run);
+        this.Run = Run;
+    }
+
+    public void Deconstruct(out string StartTime, out GcloudState State, out string Run)
+    {
+        StartTime = this.StartTime;
+        State = this.State;
+        Run = this.Run;
+    }
+
+    /// <summary>
+    /// The start time of the run.
+    /// </summary>
+    [CliOption("--start-time", Format = OptionFormat.EqualsSeparated)]
+    public string StartTime { get; private init; }
+
+    /// <summary>
+    /// The state of the run. STATE must be one of: aborted, completed, failed, started, unknown.
+    /// </summary>
+    [CliOption("--state", Format = OptionFormat.EqualsSeparated)]
+    public GcloudState State { get; private init; }
+
+    /// <summary>
+    /// Run resource - The run to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument run on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the run. To set the location attribute: ▸ provide the argument run on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Run resource - The run to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument run on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The name of the process. To set the process attribute: ▸ provide the argument run on the command line with a fully specified name; ▸ provide the argument --process on the command line.
+    /// </summary>
+    [CliOption("--process", Format = OptionFormat.EqualsSeparated)]
+    public string? Process { get; set; }
+
+    /// <summary>
+    /// Additional attributes for the run. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--attributes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Attributes { get; set; }
+
+    /// <summary>
+    /// The display name of the run.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// The end time of the run.
+    /// </summary>
+    [CliOption("--end-time", Format = OptionFormat.EqualsSeparated)]
+    public string? EndTime { get; set; }
+
+    /// <summary>
+    /// Run resource - The run to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument run on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the run or fully qualified identifier for the run. To set the run attribute: ▸ provide the argument run on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Run { get; private init; }
+
 }

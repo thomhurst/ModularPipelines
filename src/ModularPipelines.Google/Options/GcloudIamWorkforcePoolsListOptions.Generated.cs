@@ -22,6 +22,40 @@ namespace ModularPipelines.Google.Options;
 public record GcloudIamWorkforcePoolsListOptions : GcloudOptions
 {
     /// <summary>
+    /// list the workforce pools for an     organization
+    /// </summary>
+    /// <param name="Location">The location of the workforce pools to list.</param>
+    /// <param name="Organization">The parent organization of the workforce pools to list.</param>
+    public GcloudIamWorkforcePoolsListOptions(
+        string Location,
+        string Organization
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        global::System.ArgumentNullException.ThrowIfNull(Organization);
+        this.Organization = Organization;
+    }
+
+    public void Deconstruct(out string Location, out string Organization)
+    {
+        Location = this.Location;
+        Organization = this.Organization;
+    }
+
+    /// <summary>
+    /// The location of the workforce pools to list.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// The parent organization of the workforce pools to list.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string Organization { get; private init; }
+
+    /// <summary>
     /// Show soft-deleted workforce pools by specifying this flag.
     /// </summary>
     [CliFlag("--show-deleted")]

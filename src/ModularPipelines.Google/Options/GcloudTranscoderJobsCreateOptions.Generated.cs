@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -21,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("transcoder", "jobs", "create")]
-public record GcloudTranscoderJobsCreateOptions : GcloudOptions
+public record GcloudTranscoderJobsCreateOptions : GcloudOptions, IValidatableObject
 {
     /// <summary>
     /// Processing priority of a batch mode transcoder job. This value will override batch mode priority in job config.
@@ -36,9 +37,9 @@ public record GcloudTranscoderJobsCreateOptions : GcloudOptions
     public string? InputUri { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
@@ -82,5 +83,15 @@ public record GcloudTranscoderJobsCreateOptions : GcloudOptions
     /// </summary>
     [CliOption("--template-id", Format = OptionFormat.EqualsSeparated)]
     public string? TemplateId { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(File) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Json) ? 1 : 0) + (!string.IsNullOrWhiteSpace(TemplateId) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of File, Json, or TemplateId may be specified.", [nameof(File), nameof(Json), nameof(TemplateId)]);
+        }
+        yield break;
+    }
 
 }

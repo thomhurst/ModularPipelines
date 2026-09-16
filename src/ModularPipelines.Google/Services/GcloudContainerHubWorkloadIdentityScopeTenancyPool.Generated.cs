@@ -55,11 +55,11 @@ public class GcloudContainerHubWorkloadIdentityScopeTenancyPool
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetAsync(
-        GcloudContainerHubWorkloadIdentityScopeTenancyPoolSetOptions? options = null,
+        GcloudContainerHubWorkloadIdentityScopeTenancyPoolSetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudContainerHubWorkloadIdentityScopeTenancyPoolSetOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

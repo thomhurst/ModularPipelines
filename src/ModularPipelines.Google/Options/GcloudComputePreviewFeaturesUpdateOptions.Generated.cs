@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,62 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "preview-features", "update")]
-public record GcloudComputePreviewFeaturesUpdateOptions : GcloudOptions
+public record GcloudComputePreviewFeaturesUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a preview feature's     activation status
+    /// </summary>
+    /// <param name="ActivationStatus">The activation status of the preview feature. ACTIVATION_STATUS must be one of: enabled, unspecified.</param>
+    /// <param name="PreviewFeature">Preview feature resource - Name of the preview feature you want to update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument preview_feature on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the preview feature or fully qualified identifier for the preview feature. To set the preview_feature attribute: ▸ provide the argument preview_feature on the command line.</param>
+    public GcloudComputePreviewFeaturesUpdateOptions(
+        GcloudActivationStatus ActivationStatus,
+        string PreviewFeature
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ActivationStatus);
+        this.ActivationStatus = ActivationStatus;
+        global::System.ArgumentNullException.ThrowIfNull(PreviewFeature);
+        this.PreviewFeature = PreviewFeature;
+    }
+
+    public void Deconstruct(out GcloudActivationStatus ActivationStatus, out string PreviewFeature)
+    {
+        ActivationStatus = this.ActivationStatus;
+        PreviewFeature = this.PreviewFeature;
+    }
+
+    /// <summary>
+    /// The activation status of the preview feature. ACTIVATION_STATUS must be one of: enabled, unspecified.
+    /// </summary>
+    [CliOption("--activation-status", Format = OptionFormat.EqualsSeparated)]
+    public GcloudActivationStatus ActivationStatus { get; private init; }
+
+    /// <summary>
+    /// The rollout plan of the preview feature. Exactly one of these must be specified: Use a custom rollout plan by name.
+    /// </summary>
+    [CliOption("--custom-rollout-plan", Format = OptionFormat.EqualsSeparated)]
+    public string? CustomRolloutPlan { get; set; }
+
+    /// <summary>
+    /// The rollout plan of the preview feature. Exactly one of these must be specified: Use a predefined rollout plan. ROLLOUT_PLAN must be one of: fast-rollout, two-day-rollout.
+    /// </summary>
+    [CliOption("--rollout-plan", Format = OptionFormat.EqualsSeparated)]
+    public GcloudRolloutPlan? RolloutPlan { get; set; }
+
+    /// <summary>
+    /// Preview feature resource - Name of the preview feature you want to update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument preview_feature on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the preview feature or fully qualified identifier for the preview feature. To set the preview_feature attribute: ▸ provide the argument preview_feature on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PreviewFeature { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(CustomRolloutPlan) ? 1 : 0) + ((object?)RolloutPlan is not null ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of CustomRolloutPlan or RolloutPlan must be specified.", [nameof(CustomRolloutPlan), nameof(RolloutPlan)]);
+        }
+        yield break;
+    }
+
 }

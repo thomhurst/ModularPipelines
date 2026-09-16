@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +21,377 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "forwarding-rules", "create")]
-public record GcloudPreviewComputeForwardingRulesCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputeForwardingRulesCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a forwarding rule     to direct network traffic to a load balancer
+    /// </summary>
+    /// <param name="Name">Name of the forwarding rule to create.</param>
+    public GcloudPreviewComputeForwardingRulesCreateOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Target backend service that receives the traffic.
+    /// </summary>
+    [CliOption("--backend-service", Format = OptionFormat.EqualsSeparated)]
+    public string? BackendService { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Target bundle of Google APIs that will receive forwarded traffic via Private Service Connect. Acceptable values are all-apis, meaning all Google APIs, or vpc-sc, meaning just the APIs that support VPC Service Controls
+    /// </summary>
+    [CliOption("--target-google-apis-bundle", Format = OptionFormat.EqualsSeparated)]
+    public string? TargetGoogleApisBundle { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Target gRPC proxy that receives the traffic.
+    /// </summary>
+    [CliOption("--target-grpc-proxy", Format = OptionFormat.EqualsSeparated)]
+    public string? TargetGrpcProxy { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Target HTTP proxy that receives the traffic. For the acceptable ports, see Port specifications (https://cloud.google.com/load-balancing/docs/forwarding-rule-concepts#port_specifications).
+    /// </summary>
+    [CliOption("--target-http-proxy", Format = OptionFormat.EqualsSeparated)]
+    public string? TargetHttpProxy { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Target HTTPS proxy that receives the traffic. For the acceptable ports, see Port specifications (https://cloud.google.com/load-balancing/docs/forwarding-rule-concepts#port_specifications).
+    /// </summary>
+    [CliOption("--target-https-proxy", Format = OptionFormat.EqualsSeparated)]
+    public string? TargetHttpsProxy { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Name of the target instance that receives the traffic. The target instance must be in a zone in the forwarding rule's region. Global forwarding rules cannot direct traffic to target instances. If not specified and the compute/zone property isn't set, you might be prompted to select a zone (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
+    /// </summary>
+    [CliOption("--target-instance", Format = OptionFormat.EqualsSeparated)]
+    public string? TargetInstance { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Target pool that receives the traffic. The target pool must be in the same region as the forwarding rule. Global forwarding rules cannot direct traffic to target pools.
+    /// </summary>
+    [CliOption("--target-pool", Format = OptionFormat.EqualsSeparated)]
+    public string? TargetPool { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Target service attachment that receives the traffic. The target service attachment must be in the same region as the forwarding rule.
+    /// </summary>
+    [CliOption("--target-service-attachment", Format = OptionFormat.EqualsSeparated)]
+    public string? TargetServiceAttachment { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Target SSL proxy that receives the traffic. For the acceptable ports, see Port specifications (https://cloud.google.com/load-balancing/docs/forwarding-rule-concepts#port_specifications).
+    /// </summary>
+    [CliOption("--target-ssl-proxy", Format = OptionFormat.EqualsSeparated)]
+    public string? TargetSslProxy { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Target TCP proxy that receives the traffic. For the acceptable ports, see Port specifications (https://cloud.google.com/load-balancing/docs/forwarding-rule-concepts#port_specifications).
+    /// </summary>
+    [CliOption("--target-tcp-proxy", Format = OptionFormat.EqualsSeparated)]
+    public string? TargetTcpProxy { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Target VPN gateway (Cloud VPN Classic gateway) that receives forwarded traffic. Acceptable values for --ports flag are: 500, 4500.
+    /// </summary>
+    [CliOption("--target-vpn-gateway", Format = OptionFormat.EqualsSeparated)]
+    public string? TargetVpnGateway { get; set; }
+
+    /// <summary>
+    /// The IP address that the forwarding rule serves. When a client sends traffic to this IP address, the forwarding rule directs the traffic to the target that you specify in the forwarding rule. If you don't specify a reserved IP address, an ephemeral IP address is assigned. You can specify the IP address as a literal IP address or as a reference to an existing Address resource. The following examples are all valid: ◆ 100.1.2.3 ◆ 2600:1901::/96 ◆ https://compute.googleapis.com/compute/v1/projects/project-1/regions/us-central1/addresses/address-1 ◆ projects/project-1/regions/us-central1/addresses/address-1 ◆ projects/project-1/global/addresses/address-1 ◆ address-1 The load-balancing-scheme (EXTERNAL, EXTERNAL_MANAGED, INTERNAL, INTERNAL_SELF_MANAGED, INTERNAL_MANAGED) and the target of the forwarding rule determine the type of IP address that you can use. The address type must be external for load-balancing-scheme EXTERNAL or EXTERNAL_MANAGED. For other load-balancing-schemes, the address type must be internal. For detailed information, refer to https://cloud.google.com/load-balancing/docs/forwarding-rule-concepts#ip_address_specifications.
+    /// </summary>
+    [CliOption("--address", Format = OptionFormat.EqualsSeparated)]
+    public string? Address { get; set; }
+
+    /// <summary>
+    /// If True, then clients from all regions can access this internal forwarding rule. This can only be specified for forwarding rules with the LOAD_BALANCING_SCHEME set to INTERNAL or INTERNAL_MANAGED. For forwarding rules of type INTERNAL, the target must be either a backend service or a target instance.
+    /// </summary>
+    [CliFlag("--allow-global-access")]
+    public bool? AllowGlobalAccess { get; set; }
+
+    /// <summary>
+    /// If specified, clients from all regions can access this Private Service Connect forwarding rule. This can only be specified if the forwarding rule's target is a service attachment (--target-service-attachment).
+    /// </summary>
+    [CliFlag("--allow-psc-global-access")]
+    public bool? AllowPscGlobalAccess { get; set; }
+
+    /// <summary>
+    /// Optional textual description for the forwarding rule.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// If specified, then a DNS zone will not be auto-generated for this Private Service Connect forwarding rule. This can only be specified if the forwarding rule's target is a service attachment (--target-service-attachment=SERVICE_ATTACHMENT) or Google APIs bundle (--target-google-apis-bundle=API_BUNDLE)
+    /// </summary>
+    [CliFlag("--disable-automate-dns-zone")]
+    public bool? DisableAutomateDnsZone { get; set; }
+
+    /// <summary>
+    /// Resource reference to a public delegated prefix. The PublicDelegatedPrefix (PDP) must be a sub-prefix in EXTERNAL_IPV6_FORWARDING_RULE_CREATION mode.
+    /// </summary>
+    [CliOption("--ip-collection", Format = OptionFormat.EqualsSeparated)]
+    public string? IpCollection { get; set; }
+
+    /// <summary>
+    /// Region of the public delegated prefix to operate on. If not specified, the region is set to the region of the forwarding rule. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--ip-collection-region", Format = OptionFormat.EqualsSeparated)]
+    public string? IpCollectionRegion { get; set; }
+
+    /// <summary>
+    /// IP protocol that the rule will serve. The default is TCP. Note that if the load-balancing scheme is INTERNAL, the protocol must be one of: TCP, UDP, L3_DEFAULT. For a load-balancing scheme that is EXTERNAL, all IP_PROTOCOL options are valid. IP_PROTOCOL must be one of: AH, ESP, ICMP, SCTP, TCP, UDP, L3_DEFAULT.
+    /// </summary>
+    [CliOption("--ip-protocol", Format = OptionFormat.EqualsSeparated)]
+    public GcloudIpProtocol? IpProtocol { get; set; }
+
+    /// <summary>
+    /// Version of the IP address to be allocated or assigned. The default is IPv4. IP_VERSION must be one of: IPV4, IPV6.
+    /// </summary>
+    [CliOption("--ip-version", Format = OptionFormat.EqualsSeparated)]
+    public GcloudIpVersion? IpVersion { get; set; }
+
+    /// <summary>
+    /// If set, this forwarding rule can be used as a collector for packet mirroring. This can only be specified for forwarding rules with the LOAD_BALANCING_SCHEME set to INTERNAL.
+    /// </summary>
+    [CliFlag("--is-mirroring-collector")]
+    public bool? IsMirroringCollector { get; set; }
+
+    /// <summary>
+    /// This defines the forwarding rule's load balancing scheme. Note that it defaults to EXTERNAL and is not applicable for Private Service Connect forwarding rules. LOAD_BALANCING_SCHEME must be one of: EXTERNAL Classic Application Load Balancers, global external proxy Network Load Balancers, external passthrough Network Load Balancers or protocol forwarding, used with one of --target-http-proxy, --target-https-proxy, --target-tcp-proxy, --target-ssl-proxy, --target-pool, --target-vpn-gateway, --target-instance. EXTERNAL_MANAGED Global and regional external Application Load Balancers, and regional external proxy Network Load Balancers, used with --target-http-proxy, --target-https-proxy, --target-tcp-proxy. INTERNAL Internal passthrough Network Load Balancers or protocol forwarding, used with --backend-service. INTERNAL_MANAGED Internal Application Load Balancers and internal proxy Network Load Balancers, used with --target-http-proxy, --target-https-proxy, --target-tcp-proxy. INTERNAL_SELF_MANAGED Traffic Director, used with --target-http-proxy, --target-https-proxy, --target-grpc-proxy, --target-tcp-proxy.
+    /// </summary>
+    [CliOption("--load-balancing-scheme", Format = OptionFormat.EqualsSeparated)]
+    public string? LoadBalancingScheme { get; set; }
+
+    /// <summary>
+    /// Opaque filter criteria used by load balancer to restrict routing configuration to a limited set of xDS compliant clients. filter-match-criteria Specifies how individual filter label matches contribute toward the overall metadata filter match. Supported values are MATCH_ANY and MATCH_ALL. filter-labels A list of label/value pairs that must match labels in the provided metadata based on filter-match-criteria, e.g., {'key1':'val1','key2':'val2'}. Can be specified multiple times for multiple metadata filters.
+    /// </summary>
+    [CliOption("--metadata-filter", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? MetadataFilter { get; set; }
+
+    /// <summary>
+    /// (Only for --load-balancing-scheme=INTERNAL or --load-balancing-scheme=INTERNAL_SELF_MANAGED or --load-balancing-scheme=EXTERNAL_MANAGED (regional) or --load-balancing-scheme=INTERNAL_MANAGED) Network that this forwarding rule applies to. If this field is not specified, the default network is used. In the absence of the default network, this field must be specified.
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string? Network { get; set; }
+
+    /// <summary>
+    /// Network tier to assign to the forwarding rules. NETWORK_TIER must be one of: PREMIUM, STANDARD. The default value is PREMIUM.
+    /// </summary>
+    [CliOption("--network-tier", Format = OptionFormat.EqualsSeparated)]
+    public GcloudNetworkTier? NetworkTier { get; set; }
+
+    /// <summary>
+    /// The Service Directory service in which to register this forwarding rule as an endpoint. The Service Directory service must be in the same project and region as the forwarding rule you are creating.
+    /// </summary>
+    [CliOption("--service-directory-registration", Format = OptionFormat.EqualsSeparated)]
+    public string? ServiceDirectoryRegistration { get; set; }
+
+    /// <summary>
+    /// (Only for Internal Load Balancing): https://cloud.google.com/load-balancing/docs/dns-names/ The DNS label to use as the prefix of the fully qualified domain name for this forwarding rule. The full name will be internally generated and output as dnsName. If this field is not specified, no DNS record will be generated and no DNS name will be output. You cannot use the --service-label flag if the forwarding rule references an internal IP address that has the --purpose=SHARED_LOADBALANCER_VIP flag set.
+    /// </summary>
+    [CliOption("--service-label", Format = OptionFormat.EqualsSeparated)]
+    public string? ServiceLabel { get; set; }
+
+    /// <summary>
+    /// List of comma-separated IP addresses or IP ranges. If set, this forwarding rule only forwards traffic when the packet's source IP address matches one of the IP ranges set here. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--source-ip-ranges", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? SourceIpRanges { get; set; }
+
+    /// <summary>
+    /// (Only for --load-balancing-scheme=INTERNAL and --load-balancing-scheme=INTERNAL_MANAGED) Subnetwork that this forwarding rule applies to. If the network is auto mode, this flag is optional. If the network is custom mode, this flag is required.
+    /// </summary>
+    [CliOption("--subnet", Format = OptionFormat.EqualsSeparated)]
+    public string? Subnet { get; set; }
+
+    /// <summary>
+    /// Region of the subnetwork to operate on. If not specified, the region is set to the region of the forwarding rule. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--subnet-region", Format = OptionFormat.EqualsSeparated)]
+    public string? SubnetRegion { get; set; }
+
+    /// <summary>
+    /// Zone of the target instance to operate on. Overrides the default compute/zone property value for this command invocation.
+    /// </summary>
+    [CliOption("--target-instance-zone", Format = OptionFormat.EqualsSeparated)]
+    public string? TargetInstanceZone { get; set; }
+
+    /// <summary>
+    /// Region of the target pool to operate on. If not specified, the region is set to the region of the forwarding rule. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--target-pool-region", Format = OptionFormat.EqualsSeparated)]
+    public string? TargetPoolRegion { get; set; }
+
+    /// <summary>
+    /// Region of the target service attachment to operate on. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--target-service-attachment-region", Format = OptionFormat.EqualsSeparated)]
+    public string? TargetServiceAttachmentRegion { get; set; }
+
+    /// <summary>
+    /// Region of the VPN gateway to operate on. If not specified, the region is set to the region of the forwarding rule. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--target-vpn-gateway-region", Format = OptionFormat.EqualsSeparated)]
+    public string? TargetVpnGatewayRegion { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the address to operate on. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--address-region", Format = OptionFormat.EqualsSeparated)]
+    public string? AddressRegion { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: If set, the address is global.
+    /// </summary>
+    [CliFlag("--global-address")]
+    public bool? GlobalAddress { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the backend service to operate on. If not specified, the region is set to the region of the forwarding rule. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--backend-service-region", Format = OptionFormat.EqualsSeparated)]
+    public string? BackendServiceRegion { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: If set, the backend service is global.
+    /// </summary>
+    [CliFlag("--global-backend-service")]
+    public bool? GlobalBackendService { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: If set, the forwarding rule is global.
+    /// </summary>
+    [CliFlag("--global")]
+    public bool? Global { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the forwarding rule to create. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: If set, the http proxy is global.
+    /// </summary>
+    [CliFlag("--global-target-http-proxy")]
+    public bool? GlobalTargetHttpProxy { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the http proxy to operate on. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--target-http-proxy-region", Format = OptionFormat.EqualsSeparated)]
+    public string? TargetHttpProxyRegion { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: If set, the https proxy is global.
+    /// </summary>
+    [CliFlag("--global-target-https-proxy")]
+    public bool? GlobalTargetHttpsProxy { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the https proxy to operate on. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--target-https-proxy-region", Format = OptionFormat.EqualsSeparated)]
+    public string? TargetHttpsProxyRegion { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: If set, the tcp proxy is global.
+    /// </summary>
+    [CliFlag("--global-target-tcp-proxy")]
+    public bool? GlobalTargetTcpProxy { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the tcp proxy to operate on. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--target-tcp-proxy-region", Format = OptionFormat.EqualsSeparated)]
+    public string? TargetTcpProxyRegion { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: DEPRECATED, use --ports. If specified, only packets addressed to ports in the specified range are forwarded. For more information, refer to https://cloud.google.com/load-balancing/docs/forwarding-rule-concepts#port_specifications.
+    /// </summary>
+    [CliOption("--port-range", Format = OptionFormat.EqualsSeparated)]
+    public string? PortRange { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: List of comma-separated ports. The forwarding rule forwards packets with matching destination ports. Port specification requirements vary depending on the load-balancing scheme and target. For more information, refer to https://cloud.google.com/load-balancing/docs/forwarding-rule-concepts#port_specifications. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--ports", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Ports
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __PortsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __PortsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Name of the forwarding rule to create.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(BackendService) ? 1 : 0) + (!string.IsNullOrWhiteSpace(TargetGoogleApisBundle) ? 1 : 0) + (!string.IsNullOrWhiteSpace(TargetGrpcProxy) ? 1 : 0) + (!string.IsNullOrWhiteSpace(TargetHttpProxy) ? 1 : 0) + (!string.IsNullOrWhiteSpace(TargetHttpsProxy) ? 1 : 0) + (!string.IsNullOrWhiteSpace(TargetInstance) ? 1 : 0) + (!string.IsNullOrWhiteSpace(TargetPool) ? 1 : 0) + (!string.IsNullOrWhiteSpace(TargetServiceAttachment) ? 1 : 0) + (!string.IsNullOrWhiteSpace(TargetSslProxy) ? 1 : 0) + (!string.IsNullOrWhiteSpace(TargetTcpProxy) ? 1 : 0) + (!string.IsNullOrWhiteSpace(TargetVpnGateway) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of BackendService, TargetGoogleApisBundle, TargetGrpcProxy, TargetHttpProxy, TargetHttpsProxy, TargetInstance, TargetPool, TargetServiceAttachment, TargetSslProxy, TargetTcpProxy, or TargetVpnGateway must be specified.", [nameof(BackendService), nameof(TargetGoogleApisBundle), nameof(TargetGrpcProxy), nameof(TargetHttpProxy), nameof(TargetHttpsProxy), nameof(TargetInstance), nameof(TargetPool), nameof(TargetServiceAttachment), nameof(TargetSslProxy), nameof(TargetTcpProxy), nameof(TargetVpnGateway)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(AddressRegion) ? 1 : 0) + (GlobalAddress == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of AddressRegion or GlobalAddress may be specified.", [nameof(AddressRegion), nameof(GlobalAddress)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(BackendServiceRegion) ? 1 : 0) + (GlobalBackendService == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of BackendServiceRegion or GlobalBackendService may be specified.", [nameof(BackendServiceRegion), nameof(GlobalBackendService)]);
+        }
+        if ((Global == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(Region) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Global or Region may be specified.", [nameof(Global), nameof(Region)]);
+        }
+        if ((GlobalTargetHttpProxy == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(TargetHttpProxyRegion) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of GlobalTargetHttpProxy or TargetHttpProxyRegion may be specified.", [nameof(GlobalTargetHttpProxy), nameof(TargetHttpProxyRegion)]);
+        }
+        if ((GlobalTargetHttpsProxy == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(TargetHttpsProxyRegion) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of GlobalTargetHttpsProxy or TargetHttpsProxyRegion may be specified.", [nameof(GlobalTargetHttpsProxy), nameof(TargetHttpsProxyRegion)]);
+        }
+        if ((GlobalTargetTcpProxy == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(TargetTcpProxyRegion) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of GlobalTargetTcpProxy or TargetTcpProxyRegion may be specified.", [nameof(GlobalTargetTcpProxy), nameof(TargetTcpProxyRegion)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(PortRange) ? 1 : 0) + (((object?)Ports is global::System.Collections.Generic.IEnumerable<char> ? (object?)Ports is not string || !string.IsNullOrWhiteSpace(Ports?.ToString()) : ((object?)Ports is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Ports, static item => item is not null) : (Ports is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Ports), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of PortRange or Ports may be specified.", [nameof(PortRange), nameof(Ports)]);
+        }
+        yield break;
+    }
+
 }

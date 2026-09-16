@@ -21,4 +21,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("policy-intelligence", "simulate", "orgpolicy")]
 public record GcloudPolicyIntelligenceSimulateOrgpolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// understand how changes to     organization policies could affect your resources
+    /// </summary>
+    /// <param name="Organization">Organization ID.</param>
+    public GcloudPolicyIntelligenceSimulateOrgpolicyOptions(
+        string Organization
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Organization);
+        this.Organization = Organization;
+    }
+
+    public void Deconstruct(out string Organization)
+    {
+        Organization = this.Organization;
+    }
+
+    /// <summary>
+    /// Organization ID.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string Organization { get; private init; }
+
+    /// <summary>
+    /// Path to the JSON or YAML file that contains the custom constraints to simulate. Multiple custom constraints can be simulated by providing multiple, comma-separated paths. For example: --custom-constraints=constraint1.json,constraint2.json Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--custom-constraints", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? CustomConstraints { get; set; }
+
+    /// <summary>
+    /// Path to the JSON or YAML file that contains the organization policy to simulate. Multiple policies can be simulated by providing multiple, comma-separated paths. For example: --policies=p1.json,p2.json Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--policies", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Policies { get; set; }
+
 }

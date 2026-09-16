@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -20,7 +21,7 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("access-approval", "settings", "update")]
-public record GcloudAccessApprovalSettingsUpdateOptions : GcloudOptions
+public record GcloudAccessApprovalSettingsUpdateOptions : GcloudOptions, IValidatableObject
 {
     /// <summary>
     /// The asymmetric crypto key version to use for signing approval requests. Use '' to remove the custom signing key.
@@ -35,16 +36,16 @@ public record GcloudAccessApprovalSettingsUpdateOptions : GcloudOptions
     public GcloudApprovalPolicy? ApprovalPolicy { get; set; }
 
     /// <summary>
-    /// Comma-separated list of services to enroll for Access Approval or 'all' for all supported services. Note for project and folder enrollments, only 'all' is supported. Use '' to clear all enrolled services.
+    /// Comma-separated list of services to enroll for Access Approval or 'all' for all supported services. Note for project and folder enrollments, only 'all' is supported. Use '' to clear all enrolled services. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--enrolled_services", Format = OptionFormat.EqualsSeparated)]
-    public string? EnrolledServices { get; set; }
+    [CliOption("--enrolled_services", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? EnrolledServices { get; set; }
 
     /// <summary>
-    /// Comma-separated list of email addresses to which notifications relating to approval requests should be sent or '' to clear all saved notification emails.
+    /// Comma-separated list of email addresses to which notifications relating to approval requests should be sent or '' to clear all saved notification emails. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--notification_emails", Format = OptionFormat.EqualsSeparated)]
-    public string? NotificationEmails { get; set; }
+    [CliOption("--notification_emails", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? NotificationEmails { get; set; }
 
     /// <summary>
     /// The pubsub topic to publish notifications to when approval requests are made.
@@ -93,5 +94,15 @@ public record GcloudAccessApprovalSettingsUpdateOptions : GcloudOptions
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
     public string? Project { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Folder) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Project) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Folder, Organization, or Project may be specified.", [nameof(Folder), nameof(Organization), nameof(Project)]);
+        }
+        yield break;
+    }
 
 }

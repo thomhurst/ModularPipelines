@@ -20,10 +20,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("run", "worker-pools", "logs", "read")]
-public record GcloudRunWorkerPoolsLogsReadOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string WorkerPool
-) : GcloudOptions
+public record GcloudRunWorkerPoolsLogsReadOptions : GcloudOptions
 {
+    /// <summary>
+    /// read logs for a Cloud Run worker pool
+    /// </summary>
+    /// <param name="WorkerPool">Name for a Cloud Run worker pool.</param>
+    public GcloudRunWorkerPoolsLogsReadOptions(
+        string WorkerPool
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkerPool);
+        this.WorkerPool = WorkerPool;
+    }
+
+    public void Deconstruct(out string WorkerPool)
+    {
+        WorkerPool = this.WorkerPool;
+    }
+
     /// <summary>
     /// Return entries that are not older than this value. Works only with DESC ordering and filters without a timestamp. See $ gcloud topic datetimes for information on duration formats.
     /// </summary>
@@ -47,5 +62,11 @@ public record GcloudRunWorkerPoolsLogsReadOptions(
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
+
+    /// <summary>
+    /// Name for a Cloud Run worker pool.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string WorkerPool { get; private init; }
 
 }

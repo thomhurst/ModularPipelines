@@ -19,14 +19,35 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ml", "vision", "detect-document")]
-public record GcloudMlVisionDetectDocumentOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ImagePath
-) : GcloudOptions
+public record GcloudMlVisionDetectDocumentOptions : GcloudOptions
 {
     /// <summary>
-    /// List of languages to use for text detection.
+    /// detect dense text in an image
     /// </summary>
-    [CliOption("--language-hints", Format = OptionFormat.EqualsSeparated)]
+    /// <param name="ImagePath">Path to the image to be analyzed. This can be either a local path or a URL. If you provide a local file, the contents will be sent directly to Google Cloud Vision. If you provide a URL, it must be in Google Cloud Storage format (gs://bucket/object) or an HTTP URL (http://... or https://...)</param>
+    public GcloudMlVisionDetectDocumentOptions(
+        string ImagePath
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ImagePath);
+        this.ImagePath = ImagePath;
+    }
+
+    public void Deconstruct(out string ImagePath)
+    {
+        ImagePath = this.ImagePath;
+    }
+
+    /// <summary>
+    /// List of languages to use for text detection. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--language-hints", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? LanguageHints { get; set; }
+
+    /// <summary>
+    /// Path to the image to be analyzed. This can be either a local path or a URL. If you provide a local file, the contents will be sent directly to Google Cloud Vision. If you provide a URL, it must be in Google Cloud Storage format (gs://bucket/object) or an HTTP URL (http://... or https://...)
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ImagePath { get; private init; }
 
 }

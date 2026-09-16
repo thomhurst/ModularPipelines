@@ -19,8 +19,63 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("services", "peered-dns-domains", "create")]
-public record GcloudServicesPeeredDnsDomainsCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudServicesPeeredDnsDomainsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a peered DNS domain for     a private service connection
+    /// </summary>
+    /// <param name="DnsSuffix">The DNS domain name suffix of the peered DNS domain.</param>
+    /// <param name="Network">The network in the consumer project peered with the service.</param>
+    /// <param name="Name">The name of the peered DNS domain to create.</param>
+    public GcloudServicesPeeredDnsDomainsCreateOptions(
+        string DnsSuffix,
+        string Network,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DnsSuffix);
+        this.DnsSuffix = DnsSuffix;
+        global::System.ArgumentNullException.ThrowIfNull(Network);
+        this.Network = Network;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string DnsSuffix, out string Network, out string Name)
+    {
+        DnsSuffix = this.DnsSuffix;
+        Network = this.Network;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The DNS domain name suffix of the peered DNS domain.
+    /// </summary>
+    [CliOption("--dns-suffix", Format = OptionFormat.EqualsSeparated)]
+    public string DnsSuffix { get; private init; }
+
+    /// <summary>
+    /// The network in the consumer project peered with the service.
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string Network { get; private init; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// The name of the service to create a peered DNS domain for.
+    /// </summary>
+    [CliOption("--service", Format = OptionFormat.EqualsSeparated)]
+    public string? Service { get; set; }
+
+    /// <summary>
+    /// The name of the peered DNS domain to create.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }

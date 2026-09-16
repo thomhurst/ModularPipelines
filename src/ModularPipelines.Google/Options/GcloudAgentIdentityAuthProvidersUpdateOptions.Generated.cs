@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -20,8 +21,31 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("agent-identity", "auth-providers", "update")]
-public record GcloudAgentIdentityAuthProvidersUpdateOptions : GcloudOptions
+public record GcloudAgentIdentityAuthProvidersUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update an auth provider
+    /// </summary>
+    /// <param name="AuthProvider">AuthProvider resource - Identifier. The full resource name of the auth_provider. Format: projects/{project}/locations/{location}/authProviders/{auth_provider} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument auth_provider on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the authProvider or fully qualified identifier for the authProvider. To set the auth_provider attribute: ▸ provide the argument auth_provider on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudAgentIdentityAuthProvidersUpdateOptions(
+        string AuthProvider
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AuthProvider);
+        this.AuthProvider = AuthProvider;
+    }
+
+    public void Deconstruct(out string AuthProvider)
+    {
+        AuthProvider = this.AuthProvider;
+    }
+
+    /// <summary>
+    /// AuthProvider resource - Identifier. The full resource name of the auth_provider. Format: projects/{project}/locations/{location}/authProviders/{auth_provider} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument auth_provider on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the authProvider resource. To set the location attribute: ▸ provide the argument auth_provider on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
     /// <summary>
     /// Description of the resource. Must be less than 256 characters.
     /// </summary>
@@ -35,16 +59,60 @@ public record GcloudAgentIdentityAuthProvidersUpdateOptions : GcloudOptions
     public string? RequestId { get; set; }
 
     /// <summary>
-    /// Update allowed_scopes. At most one of these can be specified: Set allowed_scopes to new value.
+    /// Update allowed_scopes. At most one of these can be specified: Set allowed_scopes to new value. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--allowed-scopes", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AllowedScopes { get; set; }
+    [CliOption("--allowed-scopes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AllowedScopes
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AllowedScopesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AllowedScopesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Update allowed_scopes. At most one of these can be specified: Or at least one of these can be specified: Add new value to allowed_scopes list.
+    /// Update allowed_scopes. At most one of these can be specified: Or at least one of these can be specified: Add new value to allowed_scopes list. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-allowed-scopes", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AddAllowedScopes { get; set; }
+    [CliOption("--add-allowed-scopes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AddAllowedScopes
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddAllowedScopesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AddAllowedScopesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Update allowed_scopes. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear allowed_scopes value and set to empty list.
@@ -53,22 +121,88 @@ public record GcloudAgentIdentityAuthProvidersUpdateOptions : GcloudOptions
     public bool? ClearAllowedScopes { get; set; }
 
     /// <summary>
-    /// Update allowed_scopes. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from allowed_scopes list.
+    /// Update allowed_scopes. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from allowed_scopes list. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-allowed-scopes", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveAllowedScopes { get; set; }
+    [CliOption("--remove-allowed-scopes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveAllowedScopes
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveAllowedScopesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveAllowedScopesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Update blocked_scopes. At most one of these can be specified: Set blocked_scopes to new value.
+    /// Update blocked_scopes. At most one of these can be specified: Set blocked_scopes to new value. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--blocked-scopes", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? BlockedScopes { get; set; }
+    [CliOption("--blocked-scopes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? BlockedScopes
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __BlockedScopesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __BlockedScopesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Update blocked_scopes. At most one of these can be specified: Or at least one of these can be specified: Add new value to blocked_scopes list.
+    /// Update blocked_scopes. At most one of these can be specified: Or at least one of these can be specified: Add new value to blocked_scopes list. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-blocked-scopes", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AddBlockedScopes { get; set; }
+    [CliOption("--add-blocked-scopes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AddBlockedScopes
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddBlockedScopesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AddBlockedScopesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Update blocked_scopes. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear blocked_scopes value and set to empty list.
@@ -77,10 +211,32 @@ public record GcloudAgentIdentityAuthProvidersUpdateOptions : GcloudOptions
     public bool? ClearBlockedScopes { get; set; }
 
     /// <summary>
-    /// Update blocked_scopes. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from blocked_scopes list.
+    /// Update blocked_scopes. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from blocked_scopes list. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-blocked-scopes", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveBlockedScopes { get; set; }
+    [CliOption("--remove-blocked-scopes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveBlockedScopes
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveBlockedScopesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveBlockedScopesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// AuthProvider type specific parameters. Required when creating an auth_provider. Set authProvider.authProviderTypeParams back to default value.
@@ -96,64 +252,64 @@ public record GcloudAgentIdentityAuthProvidersUpdateOptions : GcloudOptions
     public string? ApiKey { get; set; }
 
     /// <summary>
-    /// AuthProvider type specific parameters. Required when creating an auth_provider. Message describing ThreeLeggedOAuth object. The authorization endpoint to send users to for consenting to delegate to the agent. eg. "https://auth.atlassian.com/authorize"
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Arguments for the type. At most one of these can be specified: Message describing ThreeLeggedOAuth object. The authorization endpoint to send users to for consenting to delegate to the agent. eg. "https://auth.atlassian.com/authorize"
     /// </summary>
     [CliOption("--three-legged-oauth-authorization-url", Format = OptionFormat.EqualsSeparated)]
     public string? ThreeLeggedOauthAuthorizationUrl { get; set; }
 
     /// <summary>
-    /// AuthProvider type specific parameters. Required when creating an auth_provider. Message describing ThreeLeggedOAuth object. The client ID of the OAuth client.
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Arguments for the type. At most one of these can be specified: Message describing ThreeLeggedOAuth object. The client ID of the OAuth client.
     /// </summary>
     [CliOption("--three-legged-oauth-client-id", Format = OptionFormat.EqualsSeparated)]
     public string? ThreeLeggedOauthClientId { get; set; }
 
     /// <summary>
-    /// AuthProvider type specific parameters. Required when creating an auth_provider. Message describing ThreeLeggedOAuth object. The client secret of the OAuth client.
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Arguments for the type. At most one of these can be specified: Message describing ThreeLeggedOAuth object. The client secret of the OAuth client.
     /// </summary>
     [SecretValue]
     [CliOption("--three-legged-oauth-client-secret", Format = OptionFormat.EqualsSeparated)]
     public string? ThreeLeggedOauthClientSecret { get; set; }
 
     /// <summary>
-    /// AuthProvider type specific parameters. Required when creating an auth_provider. Message describing ThreeLeggedOAuth object. The default continue URI for 3LO flow to redirect end users after consent.
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Arguments for the type. At most one of these can be specified: Message describing ThreeLeggedOAuth object. The default continue URI for 3LO flow to redirect end users after consent.
     /// </summary>
     [CliOption("--three-legged-oauth-default-continue-uri", Format = OptionFormat.EqualsSeparated)]
     public string? ThreeLeggedOauthDefaultContinueUri { get; set; }
 
     /// <summary>
-    /// AuthProvider type specific parameters. Required when creating an auth_provider. Message describing ThreeLeggedOAuth object. Enables Proof Key for Code Exchange (PKCE) for the OAuth flow to prevent authorization code interception attacks. Use --three-legged-oauth-enable-pkce to enable and --no-three-legged-oauth-enable-pkce to disable.
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Arguments for the type. At most one of these can be specified: Message describing ThreeLeggedOAuth object. Enables Proof Key for Code Exchange (PKCE) for the OAuth flow to prevent authorization code interception attacks. Use --three-legged-oauth-enable-pkce to enable and --no-three-legged-oauth-enable-pkce to disable.
     /// </summary>
     [CliFlag("--three-legged-oauth-enable-pkce")]
     public bool? ThreeLeggedOauthEnablePkce { get; set; }
 
     /// <summary>
-    /// Negates --three-legged-oauth-enable-pkce. AuthProvider type specific parameters. Required when creating an auth_provider. Message describing ThreeLeggedOAuth object. Enables Proof Key for Code Exchange (PKCE) for the OAuth flow to prevent authorization code interception attacks. Use --three-legged-oauth-enable-pkce to enable and --no-three-legged-oauth-enable-pkce to disable.
+    /// Negates --three-legged-oauth-enable-pkce. AuthProvider type specific parameters. Required when creating an auth_provider. Arguments for the type. At most one of these can be specified: Message describing ThreeLeggedOAuth object. Enables Proof Key for Code Exchange (PKCE) for the OAuth flow to prevent authorization code interception attacks. Use --three-legged-oauth-enable-pkce to enable and --no-three-legged-oauth-enable-pkce to disable.
     /// </summary>
     [CliFlag("--no-three-legged-oauth-enable-pkce")]
     public bool? NoThreeLeggedOauthEnablePkce { get; set; }
 
     /// <summary>
-    /// AuthProvider type specific parameters. Required when creating an auth_provider. Message describing ThreeLeggedOAuth object. The token endpoint for requesting tokens on behalf of an end user. eg. "https://auth.atlassian.com/oauth/token"
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Arguments for the type. At most one of these can be specified: Message describing ThreeLeggedOAuth object. The token endpoint for requesting tokens on behalf of an end user. eg. "https://auth.atlassian.com/oauth/token"
     /// </summary>
     [SecretValue]
     [CliOption("--three-legged-oauth-token-url", Format = OptionFormat.EqualsSeparated)]
     public string? ThreeLeggedOauthTokenUrl { get; set; }
 
     /// <summary>
-    /// AuthProvider type specific parameters. Required when creating an auth_provider. Message describing TwoLeggedOAuth object. The client ID of the OAuth client.
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Arguments for the type. At most one of these can be specified: Message describing TwoLeggedOAuth object. The client ID of the OAuth client.
     /// </summary>
     [CliOption("--two-legged-oauth-client-id", Format = OptionFormat.EqualsSeparated)]
     public string? TwoLeggedOauthClientId { get; set; }
 
     /// <summary>
-    /// AuthProvider type specific parameters. Required when creating an auth_provider. Message describing TwoLeggedOAuth object. The client secret of the OAuth client.
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Arguments for the type. At most one of these can be specified: Message describing TwoLeggedOAuth object. The client secret of the OAuth client.
     /// </summary>
     [SecretValue]
     [CliOption("--two-legged-oauth-client-secret", Format = OptionFormat.EqualsSeparated)]
     public string? TwoLeggedOauthClientSecret { get; set; }
 
     /// <summary>
-    /// AuthProvider type specific parameters. Required when creating an auth_provider. Message describing TwoLeggedOAuth object. The token endpoint of the OAuth client.
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Arguments for the type. At most one of these can be specified: Message describing TwoLeggedOAuth object. The token endpoint of the OAuth client.
     /// </summary>
     [SecretValue]
     [CliOption("--two-legged-oauth-token-url", Format = OptionFormat.EqualsSeparated)]
@@ -163,13 +319,93 @@ public record GcloudAgentIdentityAuthProvidersUpdateOptions : GcloudOptions
     /// AuthProvider type specific parameters. Required when creating an auth_provider. Update labels. At most one of these can be specified: Set labels to new value. Labels as key value pairs. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? Labels { get; set; }
+    public IEnumerable<string>? Labels
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __LabelsSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __LabelsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __LabelsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __LabelsSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// AuthProvider type specific parameters. Required when creating an auth_provider. Update labels. At most one of these can be specified: Or at least one of these can be specified: Update labels value or add key value pair. Labels as key value pairs. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --update-labels=string=string JSON Example: --update-labels='{"string": "string"}' File Example: --update-labels=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? UpdateLabels { get; set; }
+    public IEnumerable<string>? UpdateLabels
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __UpdateLabelsSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __UpdateLabelsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __UpdateLabelsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __UpdateLabelsSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// AuthProvider type specific parameters. Required when creating an auth_provider. Update labels. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear labels value and set to empty map.
@@ -184,16 +420,60 @@ public record GcloudAgentIdentityAuthProvidersUpdateOptions : GcloudOptions
     public string? RemoveLabels { get; set; }
 
     /// <summary>
-    /// AuthProvider type specific parameters. Required when creating an auth_provider. Update workload_ids. At most one of these can be specified: Set workload_ids to new value.
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Update workload_ids. At most one of these can be specified: Set workload_ids to new value. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--workload-ids", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? WorkloadIds { get; set; }
+    [CliOption("--workload-ids", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? WorkloadIds
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __WorkloadIdsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __WorkloadIdsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// AuthProvider type specific parameters. Required when creating an auth_provider. Update workload_ids. At most one of these can be specified: Or at least one of these can be specified: Add new value to workload_ids list.
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Update workload_ids. At most one of these can be specified: Or at least one of these can be specified: Add new value to workload_ids list. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-workload-ids", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AddWorkloadIds { get; set; }
+    [CliOption("--add-workload-ids", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AddWorkloadIds
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddWorkloadIdsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AddWorkloadIdsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// AuthProvider type specific parameters. Required when creating an auth_provider. Update workload_ids. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear workload_ids value and set to empty list.
@@ -202,9 +482,83 @@ public record GcloudAgentIdentityAuthProvidersUpdateOptions : GcloudOptions
     public bool? ClearWorkloadIds { get; set; }
 
     /// <summary>
-    /// AuthProvider type specific parameters. Required when creating an auth_provider. Update workload_ids. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from workload_ids list.
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Update workload_ids. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from workload_ids list. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-workload-ids", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveWorkloadIds { get; set; }
+    [CliOption("--remove-workload-ids", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveWorkloadIds
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveWorkloadIdsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveWorkloadIdsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// AuthProvider resource - Identifier. The full resource name of the auth_provider. Format: projects/{project}/locations/{location}/authProviders/{auth_provider} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument auth_provider on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the authProvider or fully qualified identifier for the authProvider. To set the auth_provider attribute: ▸ provide the argument auth_provider on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string AuthProvider { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((((object?)AllowedScopes is global::System.Collections.Generic.IEnumerable<char> ? (object?)AllowedScopes is not string || !string.IsNullOrWhiteSpace(AllowedScopes?.ToString()) : ((object?)AllowedScopes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AllowedScopes, static item => item is not null) : (AllowedScopes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AllowedScopes), static item => item is not null)))) ? 1 : 0) + ((((object?)AddAllowedScopes is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddAllowedScopes is not string || !string.IsNullOrWhiteSpace(AddAllowedScopes?.ToString()) : ((object?)AddAllowedScopes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddAllowedScopes, static item => item is not null) : (AddAllowedScopes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddAllowedScopes), static item => item is not null)))) || ClearAllowedScopes == true || ((object?)RemoveAllowedScopes is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveAllowedScopes is not string || !string.IsNullOrWhiteSpace(RemoveAllowedScopes?.ToString()) : ((object?)RemoveAllowedScopes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveAllowedScopes, static item => item is not null) : (RemoveAllowedScopes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveAllowedScopes), static item => item is not null))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of AllowedScopes or (AddAllowedScopes, ClearAllowedScopes, or RemoveAllowedScopes) may be specified.", [nameof(AllowedScopes), nameof(AddAllowedScopes), nameof(ClearAllowedScopes), nameof(RemoveAllowedScopes)]);
+        }
+        if ((((object?)AllowedScopes is global::System.Collections.Generic.IEnumerable<char> ? (object?)AllowedScopes is not string || !string.IsNullOrWhiteSpace(AllowedScopes?.ToString()) : ((object?)AllowedScopes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AllowedScopes, static item => item is not null) : (AllowedScopes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AllowedScopes), static item => item is not null)))) || ((object?)AddAllowedScopes is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddAllowedScopes is not string || !string.IsNullOrWhiteSpace(AddAllowedScopes?.ToString()) : ((object?)AddAllowedScopes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddAllowedScopes, static item => item is not null) : (AddAllowedScopes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddAllowedScopes), static item => item is not null)))) || ClearAllowedScopes == true || ((object?)RemoveAllowedScopes is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveAllowedScopes is not string || !string.IsNullOrWhiteSpace(RemoveAllowedScopes?.ToString()) : ((object?)RemoveAllowedScopes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveAllowedScopes, static item => item is not null) : (RemoveAllowedScopes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveAllowedScopes), static item => item is not null))))) && (((object?)AddAllowedScopes is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddAllowedScopes is not string || !string.IsNullOrWhiteSpace(AddAllowedScopes?.ToString()) : ((object?)AddAllowedScopes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddAllowedScopes, static item => item is not null) : (AddAllowedScopes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddAllowedScopes), static item => item is not null)))) || ClearAllowedScopes == true || ((object?)RemoveAllowedScopes is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveAllowedScopes is not string || !string.IsNullOrWhiteSpace(RemoveAllowedScopes?.ToString()) : ((object?)RemoveAllowedScopes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveAllowedScopes, static item => item is not null) : (RemoveAllowedScopes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveAllowedScopes), static item => item is not null))))) && ((ClearAllowedScopes == true ? 1 : 0) + (((object?)RemoveAllowedScopes is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveAllowedScopes is not string || !string.IsNullOrWhiteSpace(RemoveAllowedScopes?.ToString()) : ((object?)RemoveAllowedScopes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveAllowedScopes, static item => item is not null) : (RemoveAllowedScopes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveAllowedScopes), static item => item is not null)))) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearAllowedScopes or RemoveAllowedScopes may be specified.", [nameof(ClearAllowedScopes), nameof(RemoveAllowedScopes)]);
+        }
+        if ((((object?)BlockedScopes is global::System.Collections.Generic.IEnumerable<char> ? (object?)BlockedScopes is not string || !string.IsNullOrWhiteSpace(BlockedScopes?.ToString()) : ((object?)BlockedScopes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)BlockedScopes, static item => item is not null) : (BlockedScopes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)BlockedScopes), static item => item is not null)))) ? 1 : 0) + ((((object?)AddBlockedScopes is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddBlockedScopes is not string || !string.IsNullOrWhiteSpace(AddBlockedScopes?.ToString()) : ((object?)AddBlockedScopes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddBlockedScopes, static item => item is not null) : (AddBlockedScopes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddBlockedScopes), static item => item is not null)))) || ClearBlockedScopes == true || ((object?)RemoveBlockedScopes is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveBlockedScopes is not string || !string.IsNullOrWhiteSpace(RemoveBlockedScopes?.ToString()) : ((object?)RemoveBlockedScopes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveBlockedScopes, static item => item is not null) : (RemoveBlockedScopes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveBlockedScopes), static item => item is not null))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of BlockedScopes or (AddBlockedScopes, ClearBlockedScopes, or RemoveBlockedScopes) may be specified.", [nameof(BlockedScopes), nameof(AddBlockedScopes), nameof(ClearBlockedScopes), nameof(RemoveBlockedScopes)]);
+        }
+        if ((((object?)BlockedScopes is global::System.Collections.Generic.IEnumerable<char> ? (object?)BlockedScopes is not string || !string.IsNullOrWhiteSpace(BlockedScopes?.ToString()) : ((object?)BlockedScopes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)BlockedScopes, static item => item is not null) : (BlockedScopes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)BlockedScopes), static item => item is not null)))) || ((object?)AddBlockedScopes is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddBlockedScopes is not string || !string.IsNullOrWhiteSpace(AddBlockedScopes?.ToString()) : ((object?)AddBlockedScopes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddBlockedScopes, static item => item is not null) : (AddBlockedScopes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddBlockedScopes), static item => item is not null)))) || ClearBlockedScopes == true || ((object?)RemoveBlockedScopes is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveBlockedScopes is not string || !string.IsNullOrWhiteSpace(RemoveBlockedScopes?.ToString()) : ((object?)RemoveBlockedScopes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveBlockedScopes, static item => item is not null) : (RemoveBlockedScopes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveBlockedScopes), static item => item is not null))))) && (((object?)AddBlockedScopes is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddBlockedScopes is not string || !string.IsNullOrWhiteSpace(AddBlockedScopes?.ToString()) : ((object?)AddBlockedScopes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddBlockedScopes, static item => item is not null) : (AddBlockedScopes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddBlockedScopes), static item => item is not null)))) || ClearBlockedScopes == true || ((object?)RemoveBlockedScopes is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveBlockedScopes is not string || !string.IsNullOrWhiteSpace(RemoveBlockedScopes?.ToString()) : ((object?)RemoveBlockedScopes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveBlockedScopes, static item => item is not null) : (RemoveBlockedScopes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveBlockedScopes), static item => item is not null))))) && ((ClearBlockedScopes == true ? 1 : 0) + (((object?)RemoveBlockedScopes is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveBlockedScopes is not string || !string.IsNullOrWhiteSpace(RemoveBlockedScopes?.ToString()) : ((object?)RemoveBlockedScopes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveBlockedScopes, static item => item is not null) : (RemoveBlockedScopes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveBlockedScopes), static item => item is not null)))) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearBlockedScopes or RemoveBlockedScopes may be specified.", [nameof(ClearBlockedScopes), nameof(RemoveBlockedScopes)]);
+        }
+        if (((!string.IsNullOrWhiteSpace(ApiKey)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(ThreeLeggedOauthAuthorizationUrl) || !string.IsNullOrWhiteSpace(ThreeLeggedOauthClientId) || !string.IsNullOrWhiteSpace(ThreeLeggedOauthClientSecret) || !string.IsNullOrWhiteSpace(ThreeLeggedOauthDefaultContinueUri) || !string.IsNullOrWhiteSpace(ThreeLeggedOauthTokenUrl) || ThreeLeggedOauthEnablePkce == true || NoThreeLeggedOauthEnablePkce == true) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(TwoLeggedOauthClientId) || !string.IsNullOrWhiteSpace(TwoLeggedOauthClientSecret) || !string.IsNullOrWhiteSpace(TwoLeggedOauthTokenUrl)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of (ApiKey), (ThreeLeggedOauthAuthorizationUrl, ThreeLeggedOauthClientId, ThreeLeggedOauthClientSecret, ThreeLeggedOauthDefaultContinueUri, ThreeLeggedOauthTokenUrl, ThreeLeggedOauthEnablePkce, or NoThreeLeggedOauthEnablePkce), or (TwoLeggedOauthClientId, TwoLeggedOauthClientSecret, or TwoLeggedOauthTokenUrl) may be specified.", [nameof(ApiKey), nameof(ThreeLeggedOauthAuthorizationUrl), nameof(ThreeLeggedOauthClientId), nameof(ThreeLeggedOauthClientSecret), nameof(ThreeLeggedOauthDefaultContinueUri), nameof(ThreeLeggedOauthTokenUrl), nameof(ThreeLeggedOauthEnablePkce), nameof(NoThreeLeggedOauthEnablePkce), nameof(TwoLeggedOauthClientId), nameof(TwoLeggedOauthClientSecret), nameof(TwoLeggedOauthTokenUrl)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(ApiKey) || !string.IsNullOrWhiteSpace(ThreeLeggedOauthAuthorizationUrl) || !string.IsNullOrWhiteSpace(ThreeLeggedOauthClientId) || !string.IsNullOrWhiteSpace(ThreeLeggedOauthClientSecret) || !string.IsNullOrWhiteSpace(ThreeLeggedOauthDefaultContinueUri) || !string.IsNullOrWhiteSpace(ThreeLeggedOauthTokenUrl) || ThreeLeggedOauthEnablePkce == true || NoThreeLeggedOauthEnablePkce == true || !string.IsNullOrWhiteSpace(TwoLeggedOauthClientId) || !string.IsNullOrWhiteSpace(TwoLeggedOauthClientSecret) || !string.IsNullOrWhiteSpace(TwoLeggedOauthTokenUrl)) && (!string.IsNullOrWhiteSpace(ThreeLeggedOauthAuthorizationUrl) || !string.IsNullOrWhiteSpace(ThreeLeggedOauthClientId) || !string.IsNullOrWhiteSpace(ThreeLeggedOauthClientSecret) || !string.IsNullOrWhiteSpace(ThreeLeggedOauthDefaultContinueUri) || !string.IsNullOrWhiteSpace(ThreeLeggedOauthTokenUrl) || ThreeLeggedOauthEnablePkce == true || NoThreeLeggedOauthEnablePkce == true) && ((ThreeLeggedOauthEnablePkce == true ? 1 : 0) + (NoThreeLeggedOauthEnablePkce == true ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ThreeLeggedOauthEnablePkce or NoThreeLeggedOauthEnablePkce may be specified.", [nameof(ThreeLeggedOauthEnablePkce), nameof(NoThreeLeggedOauthEnablePkce)]);
+        }
+        if ((((object?)Labels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)Labels, static item => item is not null) : ((object?)Labels is global::System.Collections.Generic.IEnumerable<char> ? (object?)Labels is not string || !string.IsNullOrWhiteSpace(Labels?.ToString()) : ((object?)Labels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Labels, static item => item is not null) : (Labels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Labels), static item => item is not null))))) ? 1 : 0) + ((((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)UpdateLabels, static item => item is not null) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateLabels is not string || !string.IsNullOrWhiteSpace(UpdateLabels?.ToString()) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateLabels, static item => item is not null) : (UpdateLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateLabels), static item => item is not null))))) || ClearLabels == true || !string.IsNullOrWhiteSpace(RemoveLabels)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Labels or (UpdateLabels, ClearLabels, or RemoveLabels) may be specified.", [nameof(Labels), nameof(UpdateLabels), nameof(ClearLabels), nameof(RemoveLabels)]);
+        }
+        if ((((object?)Labels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)Labels, static item => item is not null) : ((object?)Labels is global::System.Collections.Generic.IEnumerable<char> ? (object?)Labels is not string || !string.IsNullOrWhiteSpace(Labels?.ToString()) : ((object?)Labels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Labels, static item => item is not null) : (Labels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Labels), static item => item is not null))))) || ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)UpdateLabels, static item => item is not null) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateLabels is not string || !string.IsNullOrWhiteSpace(UpdateLabels?.ToString()) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateLabels, static item => item is not null) : (UpdateLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateLabels), static item => item is not null))))) || ClearLabels == true || !string.IsNullOrWhiteSpace(RemoveLabels)) && (((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)UpdateLabels, static item => item is not null) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateLabels is not string || !string.IsNullOrWhiteSpace(UpdateLabels?.ToString()) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateLabels, static item => item is not null) : (UpdateLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateLabels), static item => item is not null))))) || ClearLabels == true || !string.IsNullOrWhiteSpace(RemoveLabels)) && ((ClearLabels == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(RemoveLabels) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearLabels or RemoveLabels may be specified.", [nameof(ClearLabels), nameof(RemoveLabels)]);
+        }
+        if ((((object?)WorkloadIds is global::System.Collections.Generic.IEnumerable<char> ? (object?)WorkloadIds is not string || !string.IsNullOrWhiteSpace(WorkloadIds?.ToString()) : ((object?)WorkloadIds is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)WorkloadIds, static item => item is not null) : (WorkloadIds is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)WorkloadIds), static item => item is not null)))) ? 1 : 0) + ((((object?)AddWorkloadIds is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddWorkloadIds is not string || !string.IsNullOrWhiteSpace(AddWorkloadIds?.ToString()) : ((object?)AddWorkloadIds is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddWorkloadIds, static item => item is not null) : (AddWorkloadIds is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddWorkloadIds), static item => item is not null)))) || ClearWorkloadIds == true || ((object?)RemoveWorkloadIds is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveWorkloadIds is not string || !string.IsNullOrWhiteSpace(RemoveWorkloadIds?.ToString()) : ((object?)RemoveWorkloadIds is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveWorkloadIds, static item => item is not null) : (RemoveWorkloadIds is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveWorkloadIds), static item => item is not null))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of WorkloadIds or (AddWorkloadIds, ClearWorkloadIds, or RemoveWorkloadIds) may be specified.", [nameof(WorkloadIds), nameof(AddWorkloadIds), nameof(ClearWorkloadIds), nameof(RemoveWorkloadIds)]);
+        }
+        if ((((object?)WorkloadIds is global::System.Collections.Generic.IEnumerable<char> ? (object?)WorkloadIds is not string || !string.IsNullOrWhiteSpace(WorkloadIds?.ToString()) : ((object?)WorkloadIds is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)WorkloadIds, static item => item is not null) : (WorkloadIds is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)WorkloadIds), static item => item is not null)))) || ((object?)AddWorkloadIds is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddWorkloadIds is not string || !string.IsNullOrWhiteSpace(AddWorkloadIds?.ToString()) : ((object?)AddWorkloadIds is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddWorkloadIds, static item => item is not null) : (AddWorkloadIds is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddWorkloadIds), static item => item is not null)))) || ClearWorkloadIds == true || ((object?)RemoveWorkloadIds is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveWorkloadIds is not string || !string.IsNullOrWhiteSpace(RemoveWorkloadIds?.ToString()) : ((object?)RemoveWorkloadIds is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveWorkloadIds, static item => item is not null) : (RemoveWorkloadIds is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveWorkloadIds), static item => item is not null))))) && (((object?)AddWorkloadIds is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddWorkloadIds is not string || !string.IsNullOrWhiteSpace(AddWorkloadIds?.ToString()) : ((object?)AddWorkloadIds is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddWorkloadIds, static item => item is not null) : (AddWorkloadIds is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddWorkloadIds), static item => item is not null)))) || ClearWorkloadIds == true || ((object?)RemoveWorkloadIds is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveWorkloadIds is not string || !string.IsNullOrWhiteSpace(RemoveWorkloadIds?.ToString()) : ((object?)RemoveWorkloadIds is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveWorkloadIds, static item => item is not null) : (RemoveWorkloadIds is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveWorkloadIds), static item => item is not null))))) && ((ClearWorkloadIds == true ? 1 : 0) + (((object?)RemoveWorkloadIds is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveWorkloadIds is not string || !string.IsNullOrWhiteSpace(RemoveWorkloadIds?.ToString()) : ((object?)RemoveWorkloadIds is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveWorkloadIds, static item => item is not null) : (RemoveWorkloadIds is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveWorkloadIds), static item => item is not null)))) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearWorkloadIds or RemoveWorkloadIds may be specified.", [nameof(ClearWorkloadIds), nameof(RemoveWorkloadIds)]);
+        }
+        yield break;
+    }
 
 }

@@ -21,4 +21,38 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("bigtable", "instances", "tables", "list")]
 public record GcloudBigtableInstancesTablesListOptions : GcloudOptions
 {
+    /// <summary>
+    /// list existing Bigtable instance     tables
+    /// </summary>
+    /// <param name="Instances">ID of the instances. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    public GcloudBigtableInstancesTablesListOptions(
+        IEnumerable<string> Instances
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Instances);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Instances));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Instances));
+            }
+
+            Instances = materialized;
+        }
+        this.Instances = Instances;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Instances)
+    {
+        Instances = this.Instances;
+    }
+
+    /// <summary>
+    /// ID of the instances. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--instances", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> Instances { get; private init; }
+
 }

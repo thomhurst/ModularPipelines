@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("identity", "groups", "delete")]
-public record GcloudIdentityGroupsDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Email
-) : GcloudOptions
+public record GcloudIdentityGroupsDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete an existing group
+    /// </summary>
+    /// <param name="Email">The email address of the group being deleted.</param>
+    public GcloudIdentityGroupsDeleteOptions(
+        string Email
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Email);
+        this.Email = Email;
+    }
+
+    public void Deconstruct(out string Email)
+    {
+        Email = this.Email;
+    }
+
+    /// <summary>
+    /// The email address of the group being deleted.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Email { get; private init; }
+
 }

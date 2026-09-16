@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +21,137 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "network-firewall-policies", "mirroring-rules", "create")]
-public record GcloudPreviewComputeNetworkFirewallPoliciesMirroringRulesCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Priority
-) : GcloudOptions
+public record GcloudPreviewComputeNetworkFirewallPoliciesMirroringRulesCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// creates a Compute Engine network firewall policy packet mirroring rule
+    /// </summary>
+    /// <param name="Action">Action to take if the request matches the match condition. ACTION must be one of: mirror, do_not_mirror, goto_next.</param>
+    /// <param name="FirewallPolicy">Firewall policy ID with which to create rule.</param>
+    /// <param name="Layer4Configs">A list of destination protocols and ports to which the firewall rule will apply. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="Priority">Priority of the rule to be inserted. Valid in [0, 2147483547].</param>
+    public GcloudPreviewComputeNetworkFirewallPoliciesMirroringRulesCreateOptions(
+        GcloudAction Action,
+        string FirewallPolicy,
+        IEnumerable<string> Layer4Configs,
+        string Priority
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Action);
+        this.Action = Action;
+        global::System.ArgumentNullException.ThrowIfNull(FirewallPolicy);
+        this.FirewallPolicy = FirewallPolicy;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Layer4Configs);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Layer4Configs));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Layer4Configs));
+            }
+
+            Layer4Configs = materialized;
+        }
+        this.Layer4Configs = Layer4Configs;
+        global::System.ArgumentNullException.ThrowIfNull(Priority);
+        this.Priority = Priority;
+    }
+
+    public void Deconstruct(out GcloudAction Action, out string FirewallPolicy, out IEnumerable<string> Layer4Configs, out string Priority)
+    {
+        Action = this.Action;
+        FirewallPolicy = this.FirewallPolicy;
+        Layer4Configs = this.Layer4Configs;
+        Priority = this.Priority;
+    }
+
+    /// <summary>
+    /// Action to take if the request matches the match condition. ACTION must be one of: mirror, do_not_mirror, goto_next.
+    /// </summary>
+    [CliOption("--action", Format = OptionFormat.EqualsSeparated)]
+    public GcloudAction Action { get; private init; }
+
+    /// <summary>
+    /// Firewall policy ID with which to create rule.
+    /// </summary>
+    [CliOption("--firewall-policy", Format = OptionFormat.EqualsSeparated)]
+    public string FirewallPolicy { get; private init; }
+
+    /// <summary>
+    /// A list of destination protocols and ports to which the firewall rule will apply. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--layer4-configs", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> Layer4Configs { get; private init; }
+
+    /// <summary>
+    /// Use this flag to indicate that firewall policy is global.
+    /// </summary>
+    [CliFlag("--global-firewall-policy")]
+    public bool? GlobalFirewallPolicy { get; set; }
+
+    /// <summary>
+    /// An optional, textual description for the rule.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Destination IP ranges to match for this rule. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--dest-ip-ranges", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? DestIpRanges { get; set; }
+
+    /// <summary>
+    /// Direction of the traffic the rule is applied. The default is to apply on incoming traffic. DIRECTION must be one of: INGRESS, EGRESS.
+    /// </summary>
+    [CliOption("--direction", Format = OptionFormat.EqualsSeparated)]
+    public GcloudDirection? Direction { get; set; }
+
+    /// <summary>
+    /// Use this flag to disable the rule. Disabled rules will not affect traffic. Use --disabled to enable and --no-disabled to disable.
+    /// </summary>
+    [CliFlag("--disabled")]
+    public bool? Disabled { get; set; }
+
+    /// <summary>
+    /// Negates --disabled. Use this flag to disable the rule. Disabled rules will not affect traffic. Use --disabled to enable and --no-disabled to disable.
+    /// </summary>
+    [CliFlag("--no-disabled")]
+    public bool? NoDisabled { get; set; }
+
+    /// <summary>
+    /// A security profile group to be used with mirror action.
+    /// </summary>
+    [CliOption("--security-profile-group", Format = OptionFormat.EqualsSeparated)]
+    public string? SecurityProfileGroup { get; set; }
+
+    /// <summary>
+    /// A list of IP address blocks that are allowed to make inbound connections that match the firewall rule to the instances on the network. The IP address blocks must be specified in CIDR format: http://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing.Either --src-ip-ranges or --src-secure-tags must be specified for INGRESS traffic. If both --src-ip-ranges and --src-secure-tags are specified, the rule matches if either the range of the source matches --src-ip-ranges or the secure tag of the source matches --src-secure-tags.Multiple IP address blocks can be specified if they are separated by commas. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--src-ip-ranges", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? SrcIpRanges { get; set; }
+
+    /// <summary>
+    /// An optional, list of target secure tags with a name of the format tagValues/ or full namespaced name Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--target-secure-tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? TargetSecureTags { get; set; }
+
+    /// <summary>
+    /// Priority of the rule to be inserted. Valid in [0, 2147483547].
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Priority { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(GlobalFirewallPolicy == true))
+        {
+            yield return new ValidationResult("At least one of GlobalFirewallPolicy must be specified.", [nameof(GlobalFirewallPolicy)]);
+        }
+        yield break;
+    }
+
 }

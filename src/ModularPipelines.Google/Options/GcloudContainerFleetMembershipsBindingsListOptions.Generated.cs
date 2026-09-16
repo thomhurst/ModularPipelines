@@ -22,6 +22,29 @@ namespace ModularPipelines.Google.Options;
 public record GcloudContainerFleetMembershipsBindingsListOptions : GcloudOptions
 {
     /// <summary>
+    /// list Bindings in a     Membership
+    /// </summary>
+    /// <param name="Membership">Name of the Membership to list Bindings from.</param>
+    public GcloudContainerFleetMembershipsBindingsListOptions(
+        string Membership
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Membership);
+        this.Membership = Membership;
+    }
+
+    public void Deconstruct(out string Membership)
+    {
+        Membership = this.Membership;
+    }
+
+    /// <summary>
+    /// Name of the Membership to list Bindings from.
+    /// </summary>
+    [CliOption("--membership", Format = OptionFormat.EqualsSeparated)]
+    public string Membership { get; private init; }
+
+    /// <summary>
     /// Name of the Membership location to list Bindings from.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]

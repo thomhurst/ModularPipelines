@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +22,56 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("app", "services", "set-traffic")]
 public record GcloudAppServicesSetTrafficOptions : GcloudOptions
 {
+    /// <summary>
+    /// set traffic splitting settings
+    /// </summary>
+    /// <param name="Splits">Key-value pairs describing what proportion of traffic should go to each version. The split values are added together and used as weights. The exact values do not matter, only their relation to each other. For example, v1=2,v2=2 is equivalent to v1=.5,v2=.5 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    public GcloudAppServicesSetTrafficOptions(
+        IEnumerable<string> Splits
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Splits);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Splits));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Splits));
+            }
+
+            Splits = materialized;
+        }
+        this.Splits = Splits;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Splits)
+    {
+        Splits = this.Splits;
+    }
+
+    /// <summary>
+    /// Key-value pairs describing what proportion of traffic should go to each version. The split values are added together and used as weights. The exact values do not matter, only their relation to each other. For example, v1=2,v2=2 is equivalent to v1=.5,v2=.5 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--splits", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> Splits { get; private init; }
+
+    /// <summary>
+    /// The migrate flag determines whether or not to use traffic migration during the operation. Traffic migration will attempt to automatically migrate traffic from the previous version to the new version, giving the autoscaler time to respond. See the documentation here: https://cloud.google.com/appengine/docs/python/console/trafficmigration for more information.
+    /// </summary>
+    [CliFlag("--migrate")]
+    public bool? Migrate { get; set; }
+
+    /// <summary>
+    /// Whether to split traffic based on cookie, IP address or random. SPLIT_BY must be one of: cookie, ip, random.
+    /// </summary>
+    [CliOption("--split-by", Format = OptionFormat.EqualsSeparated)]
+    public GcloudSplitBy? SplitBy { get; set; }
+
+    /// <summary>
+    /// The services to modify.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public IEnumerable<string>? Services { get; set; }
+
 }

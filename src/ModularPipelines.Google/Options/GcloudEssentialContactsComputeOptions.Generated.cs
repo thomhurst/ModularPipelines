@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +21,42 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("essential-contacts", "compute")]
-public record GcloudEssentialContactsComputeOptions : GcloudOptions
+public record GcloudEssentialContactsComputeOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// compute the essential contacts that are     subscribed to the specified notification categories for a resource
+    /// </summary>
+    /// <param name="NotificationCategories">list of notification categories contact is subscribed to. NOTIFICATION_CATEGORIES must be one of: all, billing, legal, notification-category-unspecified, product-updates, security, suspension, technical, technical-incidents.</param>
+    public GcloudEssentialContactsComputeOptions(
+        IEnumerable<GcloudNotificationCategories> NotificationCategories
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(NotificationCategories);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<GcloudNotificationCategories>(NotificationCategories));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(NotificationCategories));
+            }
+
+            NotificationCategories = materialized;
+        }
+        this.NotificationCategories = NotificationCategories;
+    }
+
+    public void Deconstruct(out IEnumerable<GcloudNotificationCategories> NotificationCategories)
+    {
+        NotificationCategories = this.NotificationCategories;
+    }
+
+    /// <summary>
+    /// list of notification categories contact is subscribed to. NOTIFICATION_CATEGORIES must be one of: all, billing, legal, notification-category-unspecified, product-updates, security, suspension, technical, technical-incidents.
+    /// </summary>
+    [CliOption("--notification-categories", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<GcloudNotificationCategories> NotificationCategories { get; private init; }
+
     /// <summary>
     /// At most one of these can be specified: folder number where contacts are set. If neither --project, --folder, nor --organization are provided then the config property [core/project] will be used as the resource.
     /// </summary>
@@ -38,5 +74,15 @@ public record GcloudEssentialContactsComputeOptions : GcloudOptions
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
     public string? Project { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Folder) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Project) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Folder, Organization, or Project may be specified.", [nameof(Folder), nameof(Organization), nameof(Project)]);
+        }
+        yield break;
+    }
 
 }

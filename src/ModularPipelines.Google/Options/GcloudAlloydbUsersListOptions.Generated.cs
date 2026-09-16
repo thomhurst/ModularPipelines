@@ -21,4 +21,38 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("alloydb", "users", "list")]
 public record GcloudAlloydbUsersListOptions : GcloudOptions
 {
+    /// <summary>
+    /// lists AlloyDB users in a given cluster
+    /// </summary>
+    /// <param name="Cluster">AlloyDB cluster ID</param>
+    /// <param name="Region">Regional location (e.g. asia-east1, us-east1). See the full list of regions at https://cloud.google.com/sql/docs/instance-locations.</param>
+    public GcloudAlloydbUsersListOptions(
+        string Cluster,
+        string Region
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Cluster);
+        this.Cluster = Cluster;
+        global::System.ArgumentNullException.ThrowIfNull(Region);
+        this.Region = Region;
+    }
+
+    public void Deconstruct(out string Cluster, out string Region)
+    {
+        Cluster = this.Cluster;
+        Region = this.Region;
+    }
+
+    /// <summary>
+    /// AlloyDB cluster ID
+    /// </summary>
+    [CliOption("--cluster", Format = OptionFormat.EqualsSeparated)]
+    public string Cluster { get; private init; }
+
+    /// <summary>
+    /// Regional location (e.g. asia-east1, us-east1). See the full list of regions at https://cloud.google.com/sql/docs/instance-locations.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string Region { get; private init; }
+
 }

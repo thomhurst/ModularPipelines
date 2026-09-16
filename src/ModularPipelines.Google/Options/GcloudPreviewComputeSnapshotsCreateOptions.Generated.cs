@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -21,10 +22,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "snapshots", "create")]
-public record GcloudPreviewComputeSnapshotsCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputeSnapshotsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create Compute Engine snapshots
+    /// </summary>
+    /// <param name="Name">The name of the snapshot.</param>
+    public GcloudPreviewComputeSnapshotsCreateOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -56,15 +72,15 @@ public record GcloudPreviewComputeSnapshotsCreateOptions(
     public bool? GuestFlush { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
-    /// A comma-separated list of Resource Manager tags to apply to the snapshot.
+    /// A comma-separated list of Resource Manager tags to apply to the snapshot. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ResourceManagerTags { get; set; }
 
     /// <summary>
@@ -138,5 +154,25 @@ public record GcloudPreviewComputeSnapshotsCreateOptions(
     /// </summary>
     [CliOption("--source-instant-snapshot-zone", Format = OptionFormat.EqualsSeparated)]
     public string? SourceInstantSnapshotZone { get; set; }
+
+    /// <summary>
+    /// The name of the snapshot.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(SourceDiskRegion) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SourceDiskZone) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of SourceDiskRegion or SourceDiskZone may be specified.", [nameof(SourceDiskRegion), nameof(SourceDiskZone)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(SourceInstantSnapshotRegion) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SourceInstantSnapshotZone) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of SourceInstantSnapshotRegion or SourceInstantSnapshotZone may be specified.", [nameof(SourceInstantSnapshotRegion), nameof(SourceInstantSnapshotZone)]);
+        }
+        yield break;
+    }
 
 }

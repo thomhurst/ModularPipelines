@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,79 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("source", "repos", "update")]
-public record GcloudSourceReposUpdateOptions : GcloudOptions
+public record GcloudSourceReposUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update the configuration of a Cloud Source     Repository
+    /// </summary>
+    /// <param name="Repo">Repo resource - Name of the Cloud Source repository to update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument repo on the command line with a fully specified name; ◆ set the property core/project. This must be specified. ID of the repo or fully qualified identifier for the repo. To set the repo attribute: ▸ provide the argument repo on the command line.</param>
+    public GcloudSourceReposUpdateOptions(
+        string Repo
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Repo);
+        this.Repo = Repo;
+    }
+
+    public void Deconstruct(out string Repo)
+    {
+        Repo = this.Repo;
+    }
+
+    /// <summary>
+    /// Manages Cloud Pub/Sub topics associated with the repository. At least one of these must be specified: The format of the message to publish to the topic. MESSAGE_FORMAT must be one of: json, protobuf.
+    /// </summary>
+    [CliOption("--message-format", Format = OptionFormat.EqualsSeparated)]
+    public GcloudMessageFormat? MessageFormat { get; set; }
+
+    /// <summary>
+    /// Manages Cloud Pub/Sub topics associated with the repository. At least one of these must be specified: Email address of the service account used for publishing Cloud Pub/Sub messages. This service account needs to be in the same project as the repo. When added, the caller needs to have iam.serviceAccounts.actAs permission on this service account. If unspecified, it defaults to the Compute Engine default service account.
+    /// </summary>
+    [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
+    public string? ServiceAccount { get; set; }
+
+    /// <summary>
+    /// Manages Cloud Pub/Sub topics associated with the repository. At least one of these must be specified: Cloud project for the topic. If not set, the currently set project will be used.
+    /// </summary>
+    [CliOption("--topic-project", Format = OptionFormat.EqualsSeparated)]
+    public string? TopicProject { get; set; }
+
+    /// <summary>
+    /// Manages Cloud Pub/Sub topics associated with the repository. At least one of these must be specified: Exactly one of these must be specified: Topic resource - The Cloud Pub/Sub topic to add to the repository. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▫ provide the argument --add-topic on the command line with a fully specified name; ▫ provide the argument --topic-project on the command line; ▫ set the property core/project. ID of the topic or fully qualified identifier for the topic. To set the topic attribute: ▫ provide the argument --add-topic on the command line.
+    /// </summary>
+    [CliOption("--add-topic", Format = OptionFormat.EqualsSeparated)]
+    public string? AddTopic { get; set; }
+
+    /// <summary>
+    /// Manages Cloud Pub/Sub topics associated with the repository. At least one of these must be specified: Exactly one of these must be specified: Topic resource - The Cloud Pub/Sub topic to remove from the repository. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▫ provide the argument --remove-topic on the command line with a fully specified name; ▫ provide the argument --topic-project on the command line; ▫ set the property core/project. ID of the topic or fully qualified identifier for the topic. To set the topic attribute: ▫ provide the argument --remove-topic on the command line.
+    /// </summary>
+    [CliOption("--remove-topic", Format = OptionFormat.EqualsSeparated)]
+    public string? RemoveTopic { get; set; }
+
+    /// <summary>
+    /// Manages Cloud Pub/Sub topics associated with the repository. At least one of these must be specified: Exactly one of these must be specified: Topic resource - The Cloud Pub/Sub topic to update in the project. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▫ provide the argument --update-topic on the command line with a fully specified name; ▫ provide the argument --topic-project on the command line; ▫ set the property core/project. ID of the topic or fully qualified identifier for the topic. To set the topic attribute: ▫ provide the argument --update-topic on the command line.
+    /// </summary>
+    [CliOption("--update-topic", Format = OptionFormat.EqualsSeparated)]
+    public string? UpdateTopic { get; set; }
+
+    /// <summary>
+    /// Repo resource - Name of the Cloud Source repository to update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument repo on the command line with a fully specified name; ◆ set the property core/project. This must be specified. ID of the repo or fully qualified identifier for the repo. To set the repo attribute: ▸ provide the argument repo on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Repo { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!((object?)MessageFormat is not null || !string.IsNullOrWhiteSpace(ServiceAccount) || !string.IsNullOrWhiteSpace(TopicProject) || !string.IsNullOrWhiteSpace(AddTopic) || !string.IsNullOrWhiteSpace(RemoveTopic) || !string.IsNullOrWhiteSpace(UpdateTopic)))
+        {
+            yield return new ValidationResult("At least one of MessageFormat, ServiceAccount, TopicProject, AddTopic, RemoveTopic, or UpdateTopic must be specified.", [nameof(MessageFormat), nameof(ServiceAccount), nameof(TopicProject), nameof(AddTopic), nameof(RemoveTopic), nameof(UpdateTopic)]);
+        }
+        if (((object?)MessageFormat is not null || !string.IsNullOrWhiteSpace(ServiceAccount) || !string.IsNullOrWhiteSpace(TopicProject) || !string.IsNullOrWhiteSpace(AddTopic) || !string.IsNullOrWhiteSpace(RemoveTopic) || !string.IsNullOrWhiteSpace(UpdateTopic)) && (((!string.IsNullOrWhiteSpace(AddTopic)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(RemoveTopic)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(UpdateTopic)) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of (AddTopic), (RemoveTopic), or (UpdateTopic) may be specified.", [nameof(AddTopic), nameof(RemoveTopic), nameof(UpdateTopic)]);
+        }
+        yield break;
+    }
+
 }

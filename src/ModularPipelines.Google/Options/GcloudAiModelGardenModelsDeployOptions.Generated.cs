@@ -6,10 +6,12 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +23,208 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("ai", "model-garden", "models", "deploy")]
 public record GcloudAiModelGardenModelsDeployOptions : GcloudOptions
 {
+    /// <summary>
+    /// deploy a model in Model Garden to a     Vertex AI endpoint
+    /// </summary>
+    /// <param name="Model">The model to be deployed. If it is a Model Garden model, it should be in the format of {publisher_name}/{model_name}@{model_version_name}, e.g. google/gemma2@gemma-2-2b. If it is a Hugging Face model, it should be in the convention of Hugging Face models, e.g. meta-llama/Meta-Llama-3-8B. If it is a Custom Weights model, it should be in the format of gs://{gcs_bucket_uri}, e.g. gs://-model-garden-public-us/llama3.1/Meta-Llama-3.1-8B-Instruct.</param>
+    public GcloudAiModelGardenModelsDeployOptions(
+        string Model
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Model);
+        this.Model = Model;
+    }
+
+    public void Deconstruct(out string Model)
+    {
+        Model = this.Model;
+    }
+
+    /// <summary>
+    /// The model to be deployed. If it is a Model Garden model, it should be in the format of {publisher_name}/{model_name}@{model_version_name}, e.g. google/gemma2@gemma-2-2b. If it is a Hugging Face model, it should be in the convention of Hugging Face models, e.g. meta-llama/Meta-Llama-3-8B. If it is a Custom Weights model, it should be in the format of gs://{gcs_bucket_uri}, e.g. gs://-model-garden-public-us/llama3.1/Meta-Llama-3.1-8B-Instruct.
+    /// </summary>
+    [CliOption("--model", Format = OptionFormat.EqualsSeparated)]
+    public string Model { get; private init; }
+
+    /// <summary>
+    /// The accelerator count to serve the model. Accelerator count should be non-negative.
+    /// </summary>
+    [CliOption("--accelerator-count", Format = OptionFormat.EqualsSeparated)]
+    public int? AcceleratorCount { get; set; }
+
+    /// <summary>
+    /// The accelerator type to serve the model. It should be a supported accelerator type from the verified deployment configurations of the model. Use gcloud ai model-garden models list-deployment-config to check the supported accelerator types.
+    /// </summary>
+    [CliOption("--accelerator-type", Format = OptionFormat.EqualsSeparated)]
+    public string? AcceleratorType { get; set; }
+
+    /// <summary>
+    /// When set, the user accepts the End User License Agreement (EULA) of the model.
+    /// </summary>
+    [CliFlag("--accept-eula")]
+    public bool? AcceptEula { get; set; }
+
+    /// <summary>
+    /// If set to true, the command will terminate immediately and not keep polling the operation status.
+    /// </summary>
+    [CliFlag("--asynchronous")]
+    public bool? Asynchronous { get; set; }
+
+    /// <summary>
+    /// Comma-separated arguments passed to the command run by the container image. If not specified and no --command is provided, the container image's default command is used. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--container-args", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ContainerArgs { get; set; }
+
+    /// <summary>
+    /// Entrypoint for the container image. If not specified, the container image's default entrypoint is run. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--container-command", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ContainerCommand { get; set; }
+
+    /// <summary>
+    /// Deployment timeout in seconds.
+    /// </summary>
+    [CliOption("--container-deployment-timeout-seconds", Format = OptionFormat.EqualsSeparated)]
+    public int? ContainerDeploymentTimeoutSeconds { get; set; }
+
+    /// <summary>
+    /// List of key-value pairs to set as environment variables. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--container-env-vars", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? ContainerEnvVars { get; set; }
+
+    /// <summary>
+    /// Container ports to receive grpc requests at. Must be a number between 1 and 65535, inclusive. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--container-grpc-ports", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ContainerGrpcPorts { get; set; }
+
+    /// <summary>
+    /// Exec specifies the action to take. Used by health probe. An example of this argument would be ["cat", "/tmp/healthy"]. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--container-health-probe-exec", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ContainerHealthProbeExec { get; set; }
+
+    /// <summary>
+    /// How often (in seconds) to perform the health probe. Default to 10 seconds. Minimum value is 1.
+    /// </summary>
+    [CliOption("--container-health-probe-period-seconds", Format = OptionFormat.EqualsSeparated)]
+    public int? ContainerHealthProbePeriodSeconds { get; set; }
+
+    /// <summary>
+    /// Number of seconds after which the health probe times out. Defaults to 1 second. Minimum value is 1.
+    /// </summary>
+    [CliOption("--container-health-probe-timeout-seconds", Format = OptionFormat.EqualsSeparated)]
+    public int? ContainerHealthProbeTimeoutSeconds { get; set; }
+
+    /// <summary>
+    /// HTTP path to send health checks to inside the container.
+    /// </summary>
+    [CliOption("--container-health-route", Format = OptionFormat.EqualsSeparated)]
+    public string? ContainerHealthRoute { get; set; }
+
+    /// <summary>
+    /// URI of the Model serving container file in the Container Registry (e.g. gcr.io/myproject/server:latest).
+    /// </summary>
+    [CliOption("--container-image-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? ContainerImageUri { get; set; }
+
+    /// <summary>
+    /// Container ports to receive http requests at. Must be a number between 1 and 65535, inclusive. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--container-ports", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ContainerPorts { get; set; }
+
+    /// <summary>
+    /// HTTP path to send prediction requests to inside the container.
+    /// </summary>
+    [CliOption("--container-predict-route", Format = OptionFormat.EqualsSeparated)]
+    public string? ContainerPredictRoute { get; set; }
+
+    /// <summary>
+    /// The amount of the VM memory to reserve as the shared memory for the model in megabytes.
+    /// </summary>
+    [CliOption("--container-shared-memory-size-mb", Format = OptionFormat.EqualsSeparated)]
+    public int? ContainerSharedMemorySizeMb { get; set; }
+
+    /// <summary>
+    /// Exec specifies the action to take. Used by startup probe. An example of this argument would be ["cat", "/tmp/healthy"]. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--container-startup-probe-exec", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ContainerStartupProbeExec { get; set; }
+
+    /// <summary>
+    /// How often (in seconds) to perform the startup probe. Default to 10 seconds. Minimum value is 1.
+    /// </summary>
+    [CliOption("--container-startup-probe-period-seconds", Format = OptionFormat.EqualsSeparated)]
+    public int? ContainerStartupProbePeriodSeconds { get; set; }
+
+    /// <summary>
+    /// Number of seconds after which the startup probe times out. Defaults to 1 second. Minimum value is 1.
+    /// </summary>
+    [CliOption("--container-startup-probe-timeout-seconds", Format = OptionFormat.EqualsSeparated)]
+    public int? ContainerStartupProbeTimeoutSeconds { get; set; }
+
+    /// <summary>
+    /// If true, the dedicated endpoint will be disabled and the deployed model will be exposed through the shared DNS.
+    /// </summary>
+    [CliFlag("--disable-dedicated-endpoint")]
+    public bool? DisableDedicatedEndpoint { get; set; }
+
+    /// <summary>
+    /// If True, model will be deployed using faster deployment path. Useful for quick experiments. Not for production workloads. Only available for most popular models with certain machine types.
+    /// </summary>
+    [CliFlag("--enable-fast-tryout")]
+    public bool? EnableFastTryout { get; set; }
+
+    /// <summary>
+    /// Display name of the endpoint with the deployed model.
+    /// </summary>
+    [CliOption("--endpoint-display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? EndpointDisplayName { get; set; }
+
+    /// <summary>
+    /// The access token from Hugging Face needed to read the model artifacts of gated models. It is only needed when the Hugging Face model to deploy is gated.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--hugging-face-access-token", Format = OptionFormat.EqualsSeparated)]
+    public string? HuggingFaceAccessToken { get; set; }
+
+    /// <summary>
+    /// The machine type to deploy the model to. It should be a supported machine type from the deployment configurations of the model. Use gcloud ai model-garden models list-deployment-config to check the supported machine types.
+    /// </summary>
+    [CliOption("--machine-type", Format = OptionFormat.EqualsSeparated)]
+    public string? MachineType { get; set; }
+
+    /// <summary>
+    /// Region resource - Cloud region to deploy the model. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property ai/region with a fully specified name; ◆ choose one from the prompted list of available regions with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the region or fully qualified identifier for the region. To set the region attribute: ◆ provide the argument --region on the command line; ◆ set the property ai/region; ◆ choose one from the prompted list of available regions.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Region resource - Cloud region to deploy the model. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property ai/region with a fully specified name; ◆ choose one from the prompted list of available regions with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. A ReservationAffinity can be used to configure a Vertex AI resource (e.g., a DeployedModel) to draw its Compute Engine resources from a Shared Reservation, or exclusively from on-demand capacity.
+    /// </summary>
+    [CliOption("--reservation-affinity", Format = OptionFormat.EqualsSeparated)]
+    public string? ReservationAffinity { get; set; }
+
+    /// <summary>
+    /// Region resource - Cloud region to deploy the model. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property ai/region with a fully specified name; ◆ choose one from the prompted list of available regions with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. If true, schedule the deployment workload on Spot VM.
+    /// </summary>
+    [CliFlag("--spot")]
+    public bool? Spot { get; set; }
+
+    /// <summary>
+    /// Region resource - Cloud region to deploy the model. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property ai/region with a fully specified name; ◆ choose one from the prompted list of available regions with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. System labels for Model Garden deployments. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--system-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? SystemLabels { get; set; }
+
+    /// <summary>
+    /// Region resource - Cloud region to deploy the model. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property ai/region with a fully specified name; ◆ choose one from the prompted list of available regions with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. If true, the endpoint will be exposed through a dedicated DNS. Your request to the dedicated DNS will be isolated from other users' traffic and will have better performance and reliability.
+    /// </summary>
+    [CliFlag("--use-dedicated-endpoint")]
+    public bool? UseDedicatedEndpoint { get; set; }
+
 }

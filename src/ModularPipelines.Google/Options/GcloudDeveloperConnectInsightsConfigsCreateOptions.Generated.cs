@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,85 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("developer-connect", "insights-configs", "create")]
-public record GcloudDeveloperConnectInsightsConfigsCreateOptions : GcloudOptions
+public record GcloudDeveloperConnectInsightsConfigsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create an insight config
+    /// </summary>
+    /// <param name="InsightsConfig">Insights config resource - The insights config to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument insights_config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the insights_config or fully qualified identifier for the insights_config. To set the insightsConfigs attribute: ▸ provide the argument insights_config on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDeveloperConnectInsightsConfigsCreateOptions(
+        string InsightsConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InsightsConfig);
+        this.InsightsConfig = InsightsConfig;
+    }
+
+    public void Deconstruct(out string InsightsConfig)
+    {
+        InsightsConfig = this.InsightsConfig;
+    }
+
+    /// <summary>
+    /// Insights config resource - The insights config to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument insights_config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The region of the insight config. To set the location attribute: ▸ provide the argument insights_config on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: The App Hub application to which the insight config is associated.
+    /// </summary>
+    [CliOption("--app-hub-application", Format = OptionFormat.EqualsSeparated)]
+    public string? AppHubApplication { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: A comma-separated list of target project IDs/numbers to which the insight config is associated. Format examples: --target-projects=123567890,my-project --target-projects=projects/1234567890,projects/my-project Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--target-projects", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? TargetProjects
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __TargetProjectsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __TargetProjectsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Specifies a single artifact configuration. This flag can be repeated for multiple configurations. Each configuration can be provided in a key-value format. Format examples: --artifact-config=uri={REGION}-docker.pkg.dev/my-project/my-repo/my-image,buildProject=my-project --artifact-config=[uri={REGION}-docker.pkg.dev/my-project/my-repo/my-image,buildProject=my-project] Supported keys within a configuration: ◆ buildProject: String, e.g., my-project ◆ uri: String, e.g., {REGION}-docker.pkg.dev/my-project/my-repo/my-image
+    /// </summary>
+    [CliOption("--artifact-config", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ArtifactConfig { get; set; }
+
+    /// <summary>
+    /// Insights config resource - The insights config to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument insights_config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the insights_config or fully qualified identifier for the insights_config. To set the insightsConfigs attribute: ▸ provide the argument insights_config on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string InsightsConfig { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(AppHubApplication) ? 1 : 0) + (((object?)TargetProjects is global::System.Collections.Generic.IEnumerable<char> ? (object?)TargetProjects is not string || !string.IsNullOrWhiteSpace(TargetProjects?.ToString()) : ((object?)TargetProjects is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)TargetProjects, static item => item is not null) : (TargetProjects is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)TargetProjects), static item => item is not null)))) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of AppHubApplication or TargetProjects must be specified.", [nameof(AppHubApplication), nameof(TargetProjects)]);
+        }
+        yield break;
+    }
+
 }

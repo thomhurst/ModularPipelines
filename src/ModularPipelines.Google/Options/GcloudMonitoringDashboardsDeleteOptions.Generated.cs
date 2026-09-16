@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("monitoring", "dashboards", "delete")]
 public record GcloudMonitoringDashboardsDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete a Cloud Monitoring dashboard
+    /// </summary>
+    /// <param name="Dashboard">Dashboard resource - The dashboard to delete. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument dashboard on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the dashboard or fully qualified identifier for the dashboard. To set the dashboard attribute: ▸ provide the argument dashboard on the command line.</param>
+    public GcloudMonitoringDashboardsDeleteOptions(
+        string Dashboard
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Dashboard);
+        this.Dashboard = Dashboard;
+    }
+
+    public void Deconstruct(out string Dashboard)
+    {
+        Dashboard = this.Dashboard;
+    }
+
+    /// <summary>
+    /// Dashboard resource - The dashboard to delete. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument dashboard on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the dashboard or fully qualified identifier for the dashboard. To set the dashboard attribute: ▸ provide the argument dashboard on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Dashboard { get; private init; }
+
 }

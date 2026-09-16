@@ -21,4 +21,62 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("bigtable", "materialized-views", "create")]
 public record GcloudBigtableMaterializedViewsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a new Bigtable     materialized view
+    /// </summary>
+    /// <param name="Query">The query of the view.</param>
+    /// <param name="MaterializedView">Materialized view resource - The materialized view to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument materialized_view on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the materialized view or fully qualified identifier for the materialized view. To set the name attribute: ▸ provide the argument materialized_view on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudBigtableMaterializedViewsCreateOptions(
+        string Query,
+        string MaterializedView
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Query);
+        this.Query = Query;
+        global::System.ArgumentNullException.ThrowIfNull(MaterializedView);
+        this.MaterializedView = MaterializedView;
+    }
+
+    public void Deconstruct(out string Query, out string MaterializedView)
+    {
+        Query = this.Query;
+        MaterializedView = this.MaterializedView;
+    }
+
+    /// <summary>
+    /// The query of the view.
+    /// </summary>
+    [CliOption("--query", Format = OptionFormat.EqualsSeparated)]
+    public string Query { get; private init; }
+
+    /// <summary>
+    /// Materialized view resource - The materialized view to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument materialized_view on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Bigtable instance for the materialized view. To set the instance attribute: ▸ provide the argument materialized_view on the command line with a fully specified name; ▸ provide the argument --instance on the command line.
+    /// </summary>
+    [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
+    public string? Instance { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Whether the view is protected from deletion.
+    /// </summary>
+    [CliOption("--deletion-protection", Format = OptionFormat.EqualsSeparated)]
+    public string? DeletionProtection { get; set; }
+
+    /// <summary>
+    /// Ignore warnings when creating the materialized view.
+    /// </summary>
+    [CliFlag("--ignore-warnings")]
+    public bool? IgnoreWarnings { get; set; }
+
+    /// <summary>
+    /// Materialized view resource - The materialized view to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument materialized_view on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the materialized view or fully qualified identifier for the materialized view. To set the name attribute: ▸ provide the argument materialized_view on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string MaterializedView { get; private init; }
+
 }

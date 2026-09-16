@@ -19,14 +19,35 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("firestore", "operations", "describe")]
-public record GcloudFirestoreOperationsDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudFirestoreOperationsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// retrieves information about a Cloud     Firestore admin operation
+    /// </summary>
+    /// <param name="Name">The unique name of the Operation to retrieve, formatted as either the full or relative resource path: projects/my-app-id/databases/(default)/operations/foo or: foo</param>
+    public GcloudFirestoreOperationsDescribeOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// The database to operate on. The default value is (default). For example, to operate on database foo: $ gcloud firestore operations describe --database='foo'
     /// </summary>
     [CliOption("--database", Format = OptionFormat.EqualsSeparated)]
     public string? Database { get; set; }
+
+    /// <summary>
+    /// The unique name of the Operation to retrieve, formatted as either the full or relative resource path: projects/my-app-id/databases/(default)/operations/foo or: foo
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
 
 }

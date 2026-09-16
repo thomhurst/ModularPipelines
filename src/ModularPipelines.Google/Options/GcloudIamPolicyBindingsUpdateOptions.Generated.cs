@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,43 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "policy-bindings", "update")]
-public record GcloudIamPolicyBindingsUpdateOptions : GcloudOptions
+public record GcloudIamPolicyBindingsUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update PolicyBinding instance
+    /// </summary>
+    /// <param name="PolicyBinding">PolicyBinding resource - Identifier. The name of the policy binding, in the format {binding_parent/locations/{location}/policyBindings/{policy_binding_id}. The binding parent is the closest Resource Manager resource (project, folder, or organization) to the binding target. Format: ◆ projects/{project_id}/locations/{location}/policyBindings/{policy_binding_id} ◆ projects/{project_number}/locations/{location}/policyBindings/{policy_binding_id} ◆ folders/{folder_id}/locations/{location}/policyBindings/{policy_binding_id} ◆ organizations/{organization_id}/locations/{location}/policyBindings/{policy_binding_id} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument policy_binding on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [iam.folders.locations.policyBindings, iam.organizations.locations.policyBindings, iam.projects.locations.policyBindings]. This must be specified. ID of the policyBinding or fully qualified identifier for the policyBinding. To set the policy_binding attribute: ▸ provide the argument policy_binding on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudIamPolicyBindingsUpdateOptions(
+        string PolicyBinding
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyBinding);
+        this.PolicyBinding = PolicyBinding;
+    }
+
+    public void Deconstruct(out string PolicyBinding)
+    {
+        PolicyBinding = this.PolicyBinding;
+    }
+
+    /// <summary>
+    /// PolicyBinding resource - Identifier. The name of the policy binding, in the format {binding_parent/locations/{location}/policyBindings/{policy_binding_id}. The binding parent is the closest Resource Manager resource (project, folder, or organization) to the binding target. Format: ◆ projects/{project_id}/locations/{location}/policyBindings/{policy_binding_id} ◆ projects/{project_number}/locations/{location}/policyBindings/{policy_binding_id} ◆ folders/{folder_id}/locations/{location}/policyBindings/{policy_binding_id} ◆ organizations/{organization_id}/locations/{location}/policyBindings/{policy_binding_id} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument policy_binding on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [iam.folders.locations.policyBindings, iam.organizations.locations.policyBindings, iam.projects.locations.policyBindings]. This must be specified. The folder id of the policyBinding resource. To set the folder attribute: ▸ provide the argument policy_binding on the command line with a fully specified name; ▸ provide the argument --folder on the command line. Must be specified for resource of type [iam.folders.locations.policyBindings].
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// PolicyBinding resource - Identifier. The name of the policy binding, in the format {binding_parent/locations/{location}/policyBindings/{policy_binding_id}. The binding parent is the closest Resource Manager resource (project, folder, or organization) to the binding target. Format: ◆ projects/{project_id}/locations/{location}/policyBindings/{policy_binding_id} ◆ projects/{project_number}/locations/{location}/policyBindings/{policy_binding_id} ◆ folders/{folder_id}/locations/{location}/policyBindings/{policy_binding_id} ◆ organizations/{organization_id}/locations/{location}/policyBindings/{policy_binding_id} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument policy_binding on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [iam.folders.locations.policyBindings, iam.organizations.locations.policyBindings, iam.projects.locations.policyBindings]. This must be specified. The location id of the policyBinding resource. To set the location attribute: ▸ provide the argument policy_binding on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// PolicyBinding resource - Identifier. The name of the policy binding, in the format {binding_parent/locations/{location}/policyBindings/{policy_binding_id}. The binding parent is the closest Resource Manager resource (project, folder, or organization) to the binding target. Format: ◆ projects/{project_id}/locations/{location}/policyBindings/{policy_binding_id} ◆ projects/{project_number}/locations/{location}/policyBindings/{policy_binding_id} ◆ folders/{folder_id}/locations/{location}/policyBindings/{policy_binding_id} ◆ organizations/{organization_id}/locations/{location}/policyBindings/{policy_binding_id} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument policy_binding on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [iam.folders.locations.policyBindings, iam.organizations.locations.policyBindings, iam.projects.locations.policyBindings]. This must be specified. The organization id of the policyBinding resource. To set the organization attribute: ▸ provide the argument policy_binding on the command line with a fully specified name; ▸ provide the argument --organization on the command line. Must be specified for resource of type [iam.organizations.locations.policyBindings].
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -43,13 +79,93 @@ public record GcloudIamPolicyBindingsUpdateOptions : GcloudOptions
     /// Update annotations. At most one of these can be specified: Set annotations to new value. User-defined annotations. See https://google.aip.dev/148#annotations for more details such as format and size limitations. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --annotations=string=string JSON Example: --annotations='{"string": "string"}' File Example: --annotations=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--annotations", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? Annotations { get; set; }
+    public IEnumerable<string>? Annotations
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __AnnotationsSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AnnotationsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AnnotationsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __AnnotationsSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Update annotations. At most one of these can be specified: Or at least one of these can be specified: Update annotations value or add key value pair. User-defined annotations. See https://google.aip.dev/148#annotations for more details such as format and size limitations. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --update-annotations=string=string JSON Example: --update-annotations='{"string": "string"}' File Example: --update-annotations=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--update-annotations", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? UpdateAnnotations { get; set; }
+    public IEnumerable<string>? UpdateAnnotations
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __UpdateAnnotationsSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __UpdateAnnotationsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __UpdateAnnotationsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __UpdateAnnotationsSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Update annotations. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear annotations value and set to empty map.
@@ -92,5 +208,25 @@ public record GcloudIamPolicyBindingsUpdateOptions : GcloudOptions
     /// </summary>
     [CliOption("--condition-title", Format = OptionFormat.EqualsSeparated)]
     public string? ConditionTitle { get; set; }
+
+    /// <summary>
+    /// PolicyBinding resource - Identifier. The name of the policy binding, in the format {binding_parent/locations/{location}/policyBindings/{policy_binding_id}. The binding parent is the closest Resource Manager resource (project, folder, or organization) to the binding target. Format: ◆ projects/{project_id}/locations/{location}/policyBindings/{policy_binding_id} ◆ projects/{project_number}/locations/{location}/policyBindings/{policy_binding_id} ◆ folders/{folder_id}/locations/{location}/policyBindings/{policy_binding_id} ◆ organizations/{organization_id}/locations/{location}/policyBindings/{policy_binding_id} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument policy_binding on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [iam.folders.locations.policyBindings, iam.organizations.locations.policyBindings, iam.projects.locations.policyBindings]. This must be specified. ID of the policyBinding or fully qualified identifier for the policyBinding. To set the policy_binding attribute: ▸ provide the argument policy_binding on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PolicyBinding { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((((object?)Annotations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)Annotations, static item => item is not null) : ((object?)Annotations is global::System.Collections.Generic.IEnumerable<char> ? (object?)Annotations is not string || !string.IsNullOrWhiteSpace(Annotations?.ToString()) : ((object?)Annotations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Annotations, static item => item is not null) : (Annotations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Annotations), static item => item is not null))))) ? 1 : 0) + ((((object?)UpdateAnnotations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)UpdateAnnotations, static item => item is not null) : ((object?)UpdateAnnotations is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateAnnotations is not string || !string.IsNullOrWhiteSpace(UpdateAnnotations?.ToString()) : ((object?)UpdateAnnotations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateAnnotations, static item => item is not null) : (UpdateAnnotations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateAnnotations), static item => item is not null))))) || ClearAnnotations == true || !string.IsNullOrWhiteSpace(RemoveAnnotations)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Annotations or (UpdateAnnotations, ClearAnnotations, or RemoveAnnotations) may be specified.", [nameof(Annotations), nameof(UpdateAnnotations), nameof(ClearAnnotations), nameof(RemoveAnnotations)]);
+        }
+        if ((((object?)Annotations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)Annotations, static item => item is not null) : ((object?)Annotations is global::System.Collections.Generic.IEnumerable<char> ? (object?)Annotations is not string || !string.IsNullOrWhiteSpace(Annotations?.ToString()) : ((object?)Annotations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Annotations, static item => item is not null) : (Annotations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Annotations), static item => item is not null))))) || ((object?)UpdateAnnotations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)UpdateAnnotations, static item => item is not null) : ((object?)UpdateAnnotations is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateAnnotations is not string || !string.IsNullOrWhiteSpace(UpdateAnnotations?.ToString()) : ((object?)UpdateAnnotations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateAnnotations, static item => item is not null) : (UpdateAnnotations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateAnnotations), static item => item is not null))))) || ClearAnnotations == true || !string.IsNullOrWhiteSpace(RemoveAnnotations)) && (((object?)UpdateAnnotations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)UpdateAnnotations, static item => item is not null) : ((object?)UpdateAnnotations is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateAnnotations is not string || !string.IsNullOrWhiteSpace(UpdateAnnotations?.ToString()) : ((object?)UpdateAnnotations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateAnnotations, static item => item is not null) : (UpdateAnnotations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateAnnotations), static item => item is not null))))) || ClearAnnotations == true || !string.IsNullOrWhiteSpace(RemoveAnnotations)) && ((ClearAnnotations == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(RemoveAnnotations) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearAnnotations or RemoveAnnotations may be specified.", [nameof(ClearAnnotations), nameof(RemoveAnnotations)]);
+        }
+        yield break;
+    }
 
 }

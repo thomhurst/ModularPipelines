@@ -10,6 +10,9 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +22,610 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "os-config", "patch-jobs", "execute")]
-public record GcloudComputeOsConfigPatchJobsExecuteOptions : GcloudOptions
+public record GcloudComputeOsConfigPatchJobsExecuteOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Filters for selecting which instances to patch: Exactly one of these must be specified: A filter that targets all instances in the project.
+    /// </summary>
+    [CliFlag("--instance-filter-all")]
+    public bool? InstanceFilterAll { get; set; }
+
+    /// <summary>
+    /// Filters for selecting which instances to patch: Exactly one of these must be specified: Or at least one of these can be specified: Individual filters. The targeted instances must meet all criteria specified. A filter that represents a label set. Targeted instances must have all specified labels in this set. For example, "env=prod and app=web". This flag can be repeated. Targeted instances must have at least one of these label sets. This allows targeting of disparate groups, for example, "(env=prod and app=web) or (env=staging and app=web)".
+    /// </summary>
+    [CliOption("--instance-filter-group-labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? InstanceFilterGroupLabels
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __InstanceFilterGroupLabelsSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
+    }
+
+    private sealed class __InstanceFilterGroupLabelsSnapshotCliValuePair(
+        IReadOnlyList<KeyValue> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IReadOnlyList<KeyValue>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<KeyValue>
+            global::System.Collections.Generic.IEnumerable<KeyValue>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+
+        public int Count => source.Count;
+
+        public KeyValue this[int index] => source[index];
+    }
+
+    /// <summary>
+    /// Filters for selecting which instances to patch: Exactly one of these must be specified: Or at least one of these can be specified: Individual filters. The targeted instances must meet all criteria specified. A filter that targets instances whose name starts with one of these prefixes. For example, "prod-". Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--instance-filter-name-prefixes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? InstanceFilterNamePrefixes
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __InstanceFilterNamePrefixesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __InstanceFilterNamePrefixesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Filters for selecting which instances to patch: Exactly one of these must be specified: Or at least one of these can be specified: Individual filters. The targeted instances must meet all criteria specified. A filter that targets instances of any of the specified names. Instances are specified by the URI in the form "zones/&lt;ZONE&gt;/instances/&lt;INSTANCE_NAME&gt;", "projects/&lt;PROJECT_ID&gt;/zones/&lt;ZONE&gt;/instances/&lt;INSTANCE_NAME&gt;", or "https://www.googleapis.com/compute/v1/projects/&lt;PROJECT_ID&gt;/zones/&lt;ZONE&gt;/instances/&lt;INSTANCE_NAME&gt;". Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--instance-filter-names", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? InstanceFilterNames
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __InstanceFilterNamesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __InstanceFilterNamesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Filters for selecting which instances to patch: Exactly one of these must be specified: Or at least one of these can be specified: Individual filters. The targeted instances must meet all criteria specified. A filter that targets instances in any of the specified zones. Leave empty to target instances in any zone. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--instance-filter-zones", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? InstanceFilterZones
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __InstanceFilterZonesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __InstanceFilterZonesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Textual description of the patch job.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Display name for this patch job. This does not have to be unique.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// Whether to execute this patch job as a dry run. If this patch job is a dry run, instances are contacted, but the patch is not run.
+    /// </summary>
+    [CliFlag("--dry-run")]
+    public bool? DryRun { get; set; }
+
+    /// <summary>
+    /// Total duration in which the patch job must complete. If the patch does not complete in this time, the process times out. While some instances might still be running the patch, they will not continue to work after completing the current step. See $ gcloud topic datetimes for information on specifying absolute time durations. If unspecified, the job stays active until all instances complete the patch.
+    /// </summary>
+    [CliOption("--duration", Format = OptionFormat.EqualsSeparated)]
+    public string? Duration { get; set; }
+
+    /// <summary>
+    /// If set, patching of VMs that are part of a managed instance group (MIG) is allowed.
+    /// </summary>
+    [CliFlag("--mig-instances-allowed")]
+    public bool? MigInstancesAllowed { get; set; }
+
+    /// <summary>
+    /// Post-patch reboot settings. REBOOT_CONFIG must be one of: always Always reboot the machine after the update completes. default The agent decides if a reboot is necessary by checking signals such as registry keys or '/var/run/reboot-required'. never Never reboot the machine after the update completes.
+    /// </summary>
+    [CliOption("--reboot-config", Format = OptionFormat.EqualsSeparated)]
+    public string? RebootConfig { get; set; }
+
+    /// <summary>
+    /// Enables enhanced reporting for the patch job. If this flag is set: 1. The patch job skips instances that cannot be patched and reports them as SKIPPED. An instance cannot be patched for two reasons: ◆ The instance runs Container-Optimized OS (COS), which cannot be patched. ◆ The instance is part of a managed instance group (MIG), and patching MIG instances is disabled in the patch job's configuration (--mig-instances-allowed flag is not set). 2. The patch job is reported as SUCCEEDED if it completes without errors, even if some instances are SKIPPED. 3. The patch job is reported as COMPLETED_WITH_INACTIVE_VMS if it completes without errors, but does not patch instances that are INACTIVE.
+    /// </summary>
+    [CliFlag("--skip-unpatchable-vms")]
+    public bool? SkipUnpatchableVms { get; set; }
+
+    /// <summary>
+    /// Settings for machines running Apt: If specified, machines running Apt use the apt-get dist-upgrade command; otherwise the apt-get upgrade command is used.
+    /// </summary>
+    [CliFlag("--apt-dist")]
+    public bool? AptDist { get; set; }
+
+    /// <summary>
+    /// Settings for machines running Apt: At most one of these can be specified: List of Apt packages to exclude from update. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--apt-excludes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AptExcludes
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AptExcludesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AptExcludesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Settings for machines running Apt: At most one of these can be specified: An exclusive list of packages to be updated. These are the only packages that will be updated. If these packages are not installed, they will be ignored. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--apt-exclusive-packages", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AptExclusivePackages
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AptExclusivePackagesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AptExclusivePackagesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Post-patch step settings for Linux machines: A set of commands to run on a Linux machine after an OS patch completes. Commands must be supplied in a file. If the file contains a shell script, include the shebang line. The path to the file must be supplied in one of the following formats: An absolute path of the file on the local filesystem. A URI for a Google Cloud Storage object with a generation number.
+    /// </summary>
+    [CliOption("--post-patch-linux-executable", Format = OptionFormat.EqualsSeparated)]
+    public string? PostPatchLinuxExecutable { get; set; }
+
+    /// <summary>
+    /// Post-patch step settings for Linux machines: Additional exit codes that the executable can return to indicate a successful run. The default exit code for success is 0. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--post-patch-linux-success-codes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? PostPatchLinuxSuccessCodes { get; set; }
+
+    /// <summary>
+    /// Post-patch step settings for Windows machines: A set of commands to run on a Windows machine after an OS patch completes. Commands must be supplied in a file. If the file contains a PowerShell script, include the .ps1 file extension. The PowerShell script executes with flags -NonInteractive, -NoProfile, and -ExecutionPolicy Bypass. The path to the file must be supplied in one of the following formats: An absolute path of the file on the local filesystem. A URI for a Google Cloud Storage object with a generation number.
+    /// </summary>
+    [CliOption("--post-patch-windows-executable", Format = OptionFormat.EqualsSeparated)]
+    public string? PostPatchWindowsExecutable { get; set; }
+
+    /// <summary>
+    /// Post-patch step settings for Windows machines: Additional exit codes that the executable can return to indicate a successful run. The default exit code for success is 0. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--post-patch-windows-success-codes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? PostPatchWindowsSuccessCodes { get; set; }
+
+    /// <summary>
+    /// Pre-patch step settings for Linux machines: A set of commands to run on a Linux machine before an OS patch begins. Commands must be supplied in a file. If the file contains a shell script, include the shebang line. The path to the file must be supplied in one of the following formats: An absolute path of the file on the local filesystem. A URI for a Google Cloud Storage object with a generation number.
+    /// </summary>
+    [CliOption("--pre-patch-linux-executable", Format = OptionFormat.EqualsSeparated)]
+    public string? PrePatchLinuxExecutable { get; set; }
+
+    /// <summary>
+    /// Pre-patch step settings for Linux machines: Additional exit codes that the executable can return to indicate a successful run. The default exit code for success is 0. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--pre-patch-linux-success-codes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? PrePatchLinuxSuccessCodes { get; set; }
+
+    /// <summary>
+    /// Pre-patch step settings for Windows machines: A set of commands to run on a Windows machine before an OS patch begins. Commands must be supplied in a file. If the file contains a PowerShell script, include the .ps1 file extension. The PowerShell script executes with flags -NonInteractive, -NoProfile, and -ExecutionPolicy Bypass. The path to the file must be supplied in one of the following formats: An absolute path of the file on the local filesystem. A URI for a Google Cloud Storage object with a generation number.
+    /// </summary>
+    [CliOption("--pre-patch-windows-executable", Format = OptionFormat.EqualsSeparated)]
+    public string? PrePatchWindowsExecutable { get; set; }
+
+    /// <summary>
+    /// Pre-patch step settings for Windows machines: Additional exit codes that the executable can return to indicate a successful run. The default exit code for success is 0. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--pre-patch-windows-success-codes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? PrePatchWindowsSuccessCodes { get; set; }
+
+    /// <summary>
+    /// Rollout configurations for this patch job: Mode of the rollout. ROLLOUT_MODE must be one of: concurrent-zones Patches are applied to VMs in all zones at the same time. zone-by-zone Patches are applied one zone at a time. The patch job begins in the region with the lowest number of targeted VMs. Within the region, patching begins in the zone with the lowest number of targeted VMs. If multiple regions (or zones within a region) have the same number of targeted VMs, a tie-breaker is achieved by sorting the regions or zones in alphabetical order.
+    /// </summary>
+    [CliOption("--rollout-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? RolloutMode { get; set; }
+
+    /// <summary>
+    /// Rollout configurations for this patch job: Disruption budget for this rollout. A running VM with an active agent is considered disrupted if its patching operation fails anytime between the time the agent is notified until the patch process completes. At most one of these can be specified: Number of VMs per zone to disrupt at any given moment.
+    /// </summary>
+    [CliOption("--rollout-disruption-budget", Format = OptionFormat.EqualsSeparated)]
+    public string? RolloutDisruptionBudget { get; set; }
+
+    /// <summary>
+    /// Rollout configurations for this patch job: Disruption budget for this rollout. A running VM with an active agent is considered disrupted if its patching operation fails anytime between the time the agent is notified until the patch process completes. At most one of these can be specified: Percentage of VMs per zone to disrupt at any given moment. The number of VMs calculated from multiplying the percentage by the total number of VMs in a zone is rounded up.
+    /// </summary>
+    [CliOption("--rollout-disruption-budget-percent", Format = OptionFormat.EqualsSeparated)]
+    public string? RolloutDisruptionBudgetPercent { get; set; }
+
+    /// <summary>
+    /// Rollout configurations for this patch job: Settings for machines running Windows: At most one of these can be specified: An exclusive list of Knowledge Base (KB) IDs to be updated. These are the only patches that will be updated. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--windows-exclusive-patches", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? WindowsExclusivePatches
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __WindowsExclusivePatchesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __WindowsExclusivePatchesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Rollout configurations for this patch job: Settings for machines running Windows: At most one of these can be specified: Or at least one of these can be specified: Windows patch options List of classifications to use to restrict the Windows update. Only patches of the given classifications are applied. If omitted, a default Windows update is performed. For more information on classifications, see: https://support.microsoft.com/en-us/help/824684. WINDOWS_CLASSIFICATIONS must be one of: critical, security, definition, driver, feature-pack, service-pack, tool, update-rollup, update.
+    /// </summary>
+    [CliOption("--windows-classifications", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<GcloudWindowsClassifications>? WindowsClassifications
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __WindowsClassificationsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<GcloudWindowsClassifications>).Equals((object)values) ? global::System.Array.Empty<GcloudWindowsClassifications>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<GcloudWindowsClassifications>(values))))) : default;
+    }
+
+    private sealed class __WindowsClassificationsSnapshotKeyValue(
+        IEnumerable<GcloudWindowsClassifications> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<GcloudWindowsClassifications>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<GcloudWindowsClassifications>
+            global::System.Collections.Generic.IEnumerable<GcloudWindowsClassifications>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Rollout configurations for this patch job: Settings for machines running Windows: At most one of these can be specified: Or at least one of these can be specified: Windows patch options Optional list of Knowledge Base (KB) IDs to exclude from the update operation. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--windows-excludes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? WindowsExcludes
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __WindowsExcludesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __WindowsExcludesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Rollout configurations for this patch job: Settings for machines running Yum: At most one of these can be specified: An exclusive list of packages to be updated. These are the only packages that will be updated. If these packages are not installed, they will be ignored. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--yum-exclusive-packages", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? YumExclusivePackages
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __YumExclusivePackagesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __YumExclusivePackagesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Rollout configurations for this patch job: Settings for machines running Yum: At most one of these can be specified: Or at least one of these can be specified: Yum patch options Optional list of packages to exclude from updating. If this argument is specified, machines running Yum exclude the given list of packages using the Yum --exclude flag. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--yum-excludes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? YumExcludes
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __YumExcludesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __YumExcludesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Rollout configurations for this patch job: Settings for machines running Yum: At most one of these can be specified: Or at least one of these can be specified: Yum patch options If specified, machines running Yum use the command yum update-minimal; otherwise the patch uses yum-update.
+    /// </summary>
+    [CliFlag("--yum-minimal")]
+    public bool? YumMinimal { get; set; }
+
+    /// <summary>
+    /// Rollout configurations for this patch job: Settings for machines running Yum: At most one of these can be specified: Or at least one of these can be specified: Yum patch options If specified, machines running Yum append the --security flag to the patch command.
+    /// </summary>
+    [CliFlag("--yum-security")]
+    public bool? YumSecurity { get; set; }
+
+    /// <summary>
+    /// Rollout configurations for this patch job: Settings for machines running Zypper: At most one of these can be specified: An exclusive list of patches to be updated. These are the only patches that will be installed using the 'zypper patch patch:&lt;patch_name&gt;' command. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--zypper-exclusive-patches", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ZypperExclusivePatches
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __ZypperExclusivePatchesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __ZypperExclusivePatchesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Rollout configurations for this patch job: Settings for machines running Zypper: At most one of these can be specified: Or at least one of these can be specified: Zypper patch options If specified, machines running Zypper install only patches with the specified categories. Categories include security, recommended, and feature. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--zypper-categories", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ZypperCategories
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __ZypperCategoriesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __ZypperCategoriesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Rollout configurations for this patch job: Settings for machines running Zypper: At most one of these can be specified: Or at least one of these can be specified: Zypper patch options List of Zypper patches to exclude from the patch job. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--zypper-excludes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ZypperExcludes
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __ZypperExcludesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __ZypperExcludesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Rollout configurations for this patch job: Settings for machines running Zypper: At most one of these can be specified: Or at least one of these can be specified: Zypper patch options If specified, machines running Zypper install only patch with the specified severities. Severities include critical, important, moderate, and low. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--zypper-severities", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ZypperSeverities
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __ZypperSeveritiesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __ZypperSeveritiesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Rollout configurations for this patch job: Settings for machines running Zypper: At most one of these can be specified: Or at least one of these can be specified: Zypper patch options If specified, machines running Zypper add the --with-optional flag to zypper patch.
+    /// </summary>
+    [CliFlag("--zypper-with-optional")]
+    public bool? ZypperWithOptional { get; set; }
+
+    /// <summary>
+    /// Rollout configurations for this patch job: Settings for machines running Zypper: At most one of these can be specified: Or at least one of these can be specified: Zypper patch options If specified, machines running Zypper add the --with-update flag to zypper patch.
+    /// </summary>
+    [CliFlag("--zypper-with-update")]
+    public bool? ZypperWithUpdate { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((InstanceFilterAll == true ? 1 : 0) + ((((object?)InstanceFilterGroupLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)InstanceFilterGroupLabels, static item => item is not null) : ((object?)InstanceFilterGroupLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)InstanceFilterGroupLabels is not string || !string.IsNullOrWhiteSpace(InstanceFilterGroupLabels?.ToString()) : ((object?)InstanceFilterGroupLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)InstanceFilterGroupLabels, static item => item is not null) : (InstanceFilterGroupLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)InstanceFilterGroupLabels), static item => item is not null))))) || ((object?)InstanceFilterNamePrefixes is global::System.Collections.Generic.IEnumerable<char> ? (object?)InstanceFilterNamePrefixes is not string || !string.IsNullOrWhiteSpace(InstanceFilterNamePrefixes?.ToString()) : ((object?)InstanceFilterNamePrefixes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)InstanceFilterNamePrefixes, static item => item is not null) : (InstanceFilterNamePrefixes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)InstanceFilterNamePrefixes), static item => item is not null)))) || ((object?)InstanceFilterNames is global::System.Collections.Generic.IEnumerable<char> ? (object?)InstanceFilterNames is not string || !string.IsNullOrWhiteSpace(InstanceFilterNames?.ToString()) : ((object?)InstanceFilterNames is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)InstanceFilterNames, static item => item is not null) : (InstanceFilterNames is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)InstanceFilterNames), static item => item is not null)))) || ((object?)InstanceFilterZones is global::System.Collections.Generic.IEnumerable<char> ? (object?)InstanceFilterZones is not string || !string.IsNullOrWhiteSpace(InstanceFilterZones?.ToString()) : ((object?)InstanceFilterZones is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)InstanceFilterZones, static item => item is not null) : (InstanceFilterZones is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)InstanceFilterZones), static item => item is not null))))) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of InstanceFilterAll or (InstanceFilterGroupLabels, InstanceFilterNamePrefixes, InstanceFilterNames, or InstanceFilterZones) must be specified.", [nameof(InstanceFilterAll), nameof(InstanceFilterGroupLabels), nameof(InstanceFilterNamePrefixes), nameof(InstanceFilterNames), nameof(InstanceFilterZones)]);
+        }
+        if ((((object?)AptExcludes is global::System.Collections.Generic.IEnumerable<char> ? (object?)AptExcludes is not string || !string.IsNullOrWhiteSpace(AptExcludes?.ToString()) : ((object?)AptExcludes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AptExcludes, static item => item is not null) : (AptExcludes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AptExcludes), static item => item is not null)))) ? 1 : 0) + (((object?)AptExclusivePackages is global::System.Collections.Generic.IEnumerable<char> ? (object?)AptExclusivePackages is not string || !string.IsNullOrWhiteSpace(AptExclusivePackages?.ToString()) : ((object?)AptExclusivePackages is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AptExclusivePackages, static item => item is not null) : (AptExclusivePackages is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AptExclusivePackages), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of AptExcludes or AptExclusivePackages may be specified.", [nameof(AptExcludes), nameof(AptExclusivePackages)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(RolloutDisruptionBudget) ? 1 : 0) + (!string.IsNullOrWhiteSpace(RolloutDisruptionBudgetPercent) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of RolloutDisruptionBudget or RolloutDisruptionBudgetPercent may be specified.", [nameof(RolloutDisruptionBudget), nameof(RolloutDisruptionBudgetPercent)]);
+        }
+        if ((((object?)WindowsExclusivePatches is global::System.Collections.Generic.IEnumerable<char> ? (object?)WindowsExclusivePatches is not string || !string.IsNullOrWhiteSpace(WindowsExclusivePatches?.ToString()) : ((object?)WindowsExclusivePatches is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)WindowsExclusivePatches, static item => item is not null) : (WindowsExclusivePatches is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)WindowsExclusivePatches), static item => item is not null)))) ? 1 : 0) + ((((object?)WindowsClassifications is global::System.Collections.Generic.IEnumerable<char> ? (object?)WindowsClassifications is not string || !string.IsNullOrWhiteSpace(WindowsClassifications?.ToString()) : ((object?)WindowsClassifications is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)WindowsClassifications, static item => item is not null) : (WindowsClassifications is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)WindowsClassifications), static item => item is not null)))) || ((object?)WindowsExcludes is global::System.Collections.Generic.IEnumerable<char> ? (object?)WindowsExcludes is not string || !string.IsNullOrWhiteSpace(WindowsExcludes?.ToString()) : ((object?)WindowsExcludes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)WindowsExcludes, static item => item is not null) : (WindowsExcludes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)WindowsExcludes), static item => item is not null))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of WindowsExclusivePatches or (WindowsClassifications or WindowsExcludes) may be specified.", [nameof(WindowsExclusivePatches), nameof(WindowsClassifications), nameof(WindowsExcludes)]);
+        }
+        if ((((object?)YumExclusivePackages is global::System.Collections.Generic.IEnumerable<char> ? (object?)YumExclusivePackages is not string || !string.IsNullOrWhiteSpace(YumExclusivePackages?.ToString()) : ((object?)YumExclusivePackages is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)YumExclusivePackages, static item => item is not null) : (YumExclusivePackages is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)YumExclusivePackages), static item => item is not null)))) ? 1 : 0) + ((((object?)YumExcludes is global::System.Collections.Generic.IEnumerable<char> ? (object?)YumExcludes is not string || !string.IsNullOrWhiteSpace(YumExcludes?.ToString()) : ((object?)YumExcludes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)YumExcludes, static item => item is not null) : (YumExcludes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)YumExcludes), static item => item is not null)))) || YumMinimal == true || YumSecurity == true) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of YumExclusivePackages or (YumExcludes, YumMinimal, or YumSecurity) may be specified.", [nameof(YumExclusivePackages), nameof(YumExcludes), nameof(YumMinimal), nameof(YumSecurity)]);
+        }
+        if ((((object?)ZypperExclusivePatches is global::System.Collections.Generic.IEnumerable<char> ? (object?)ZypperExclusivePatches is not string || !string.IsNullOrWhiteSpace(ZypperExclusivePatches?.ToString()) : ((object?)ZypperExclusivePatches is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ZypperExclusivePatches, static item => item is not null) : (ZypperExclusivePatches is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ZypperExclusivePatches), static item => item is not null)))) ? 1 : 0) + ((((object?)ZypperCategories is global::System.Collections.Generic.IEnumerable<char> ? (object?)ZypperCategories is not string || !string.IsNullOrWhiteSpace(ZypperCategories?.ToString()) : ((object?)ZypperCategories is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ZypperCategories, static item => item is not null) : (ZypperCategories is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ZypperCategories), static item => item is not null)))) || ((object?)ZypperExcludes is global::System.Collections.Generic.IEnumerable<char> ? (object?)ZypperExcludes is not string || !string.IsNullOrWhiteSpace(ZypperExcludes?.ToString()) : ((object?)ZypperExcludes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ZypperExcludes, static item => item is not null) : (ZypperExcludes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ZypperExcludes), static item => item is not null)))) || ((object?)ZypperSeverities is global::System.Collections.Generic.IEnumerable<char> ? (object?)ZypperSeverities is not string || !string.IsNullOrWhiteSpace(ZypperSeverities?.ToString()) : ((object?)ZypperSeverities is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ZypperSeverities, static item => item is not null) : (ZypperSeverities is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ZypperSeverities), static item => item is not null)))) || ZypperWithOptional == true || ZypperWithUpdate == true) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ZypperExclusivePatches or (ZypperCategories, ZypperExcludes, ZypperSeverities, ZypperWithOptional, or ZypperWithUpdate) may be specified.", [nameof(ZypperExclusivePatches), nameof(ZypperCategories), nameof(ZypperExcludes), nameof(ZypperSeverities), nameof(ZypperWithOptional), nameof(ZypperWithUpdate)]);
+        }
+        yield break;
+    }
+
 }

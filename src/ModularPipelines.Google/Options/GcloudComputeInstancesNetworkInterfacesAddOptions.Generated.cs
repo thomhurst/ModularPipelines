@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -20,10 +21,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "instances", "network-interfaces", "add")]
-public record GcloudComputeInstancesNetworkInterfacesAddOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string InstanceName
-) : GcloudOptions
+public record GcloudComputeInstancesNetworkInterfacesAddOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// add a Dynamic Network     Interface to a Compute Engine instance
+    /// </summary>
+    /// <param name="InstanceName">Name of the instance to operate on. For details on valid instance names, refer to the criteria documented under the field 'name' at: https://cloud.google.com/compute/docs/reference/rest/v1/instances</param>
+    public GcloudComputeInstancesNetworkInterfacesAddOptions(
+        string InstanceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceName);
+        this.InstanceName = InstanceName;
+    }
+
+    public void Deconstruct(out string InstanceName)
+    {
+        InstanceName = this.InstanceName;
+    }
+
     /// <summary>
     /// The IP alias ranges to allocate for this interface. If there are multiple IP alias ranges, they are separated by semicolons. For example: --aliases="10.128.1.0/24;range1:/32" Each IP alias range consists of a range name and an IP range separated by a colon, or just the IP range. The range name is the name of the range within the network interface's subnet from which to allocate an IP alias range. If unspecified, it defaults to the primary IP range of the subnet. The IP range can be a CIDR range (e.g. 192.168.100.0/24), a single IP address (e.g. 192.168.100.1), or a netmask in CIDR format (e.g. /24). If the IP range is specified by CIDR range or single IP address, it must belong to the CIDR range specified by the range name on the subnet. If the IP range is specified by netmask, the IP allocator will pick an available range with the specified netmask and allocate it to this network interface.
     /// </summary>
@@ -137,5 +153,21 @@ public record GcloudComputeInstancesNetworkInterfacesAddOptions(
     /// </summary>
     [CliFlag("--no-address")]
     public bool? NoAddress { get; set; }
+
+    /// <summary>
+    /// Name of the instance to operate on. For details on valid instance names, refer to the criteria documented under the field 'name' at: https://cloud.google.com/compute/docs/reference/rest/v1/instances
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string InstanceName { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Address) ? 1 : 0) + (NoAddress == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Address or NoAddress may be specified.", [nameof(Address), nameof(NoAddress)]);
+        }
+        yield break;
+    }
 
 }

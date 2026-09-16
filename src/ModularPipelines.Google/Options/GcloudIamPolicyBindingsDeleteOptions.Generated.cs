@@ -22,6 +22,41 @@ namespace ModularPipelines.Google.Options;
 public record GcloudIamPolicyBindingsDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// delete PolicyBinding instance
+    /// </summary>
+    /// <param name="PolicyBinding">PolicyBinding resource - The name of the policy binding to delete. Format: ◆ projects/{project_id}/locations/{location}/policyBindings/{policy_binding_id} ◆ projects/{project_number}/locations/{location}/policyBindings/{policy_binding_id} ◆ folders/{folder_id}/locations/{location}/policyBindings/{policy_binding_id} ◆ organizations/{organization_id}/locations/{location}/policyBindings/{policy_binding_id} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument policy_binding on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [iam.folders.locations.policyBindings, iam.organizations.locations.policyBindings, iam.projects.locations.policyBindings]. This must be specified. ID of the policyBinding or fully qualified identifier for the policyBinding. To set the policy_binding attribute: ▸ provide the argument policy_binding on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudIamPolicyBindingsDeleteOptions(
+        string PolicyBinding
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyBinding);
+        this.PolicyBinding = PolicyBinding;
+    }
+
+    public void Deconstruct(out string PolicyBinding)
+    {
+        PolicyBinding = this.PolicyBinding;
+    }
+
+    /// <summary>
+    /// PolicyBinding resource - The name of the policy binding to delete. Format: ◆ projects/{project_id}/locations/{location}/policyBindings/{policy_binding_id} ◆ projects/{project_number}/locations/{location}/policyBindings/{policy_binding_id} ◆ folders/{folder_id}/locations/{location}/policyBindings/{policy_binding_id} ◆ organizations/{organization_id}/locations/{location}/policyBindings/{policy_binding_id} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument policy_binding on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [iam.folders.locations.policyBindings, iam.organizations.locations.policyBindings, iam.projects.locations.policyBindings]. This must be specified. The folder id of the policyBinding resource. To set the folder attribute: ▸ provide the argument policy_binding on the command line with a fully specified name; ▸ provide the argument --folder on the command line. Must be specified for resource of type [iam.folders.locations.policyBindings].
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// PolicyBinding resource - The name of the policy binding to delete. Format: ◆ projects/{project_id}/locations/{location}/policyBindings/{policy_binding_id} ◆ projects/{project_number}/locations/{location}/policyBindings/{policy_binding_id} ◆ folders/{folder_id}/locations/{location}/policyBindings/{policy_binding_id} ◆ organizations/{organization_id}/locations/{location}/policyBindings/{policy_binding_id} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument policy_binding on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [iam.folders.locations.policyBindings, iam.organizations.locations.policyBindings, iam.projects.locations.policyBindings]. This must be specified. The location id of the policyBinding resource. To set the location attribute: ▸ provide the argument policy_binding on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// PolicyBinding resource - The name of the policy binding to delete. Format: ◆ projects/{project_id}/locations/{location}/policyBindings/{policy_binding_id} ◆ projects/{project_number}/locations/{location}/policyBindings/{policy_binding_id} ◆ folders/{folder_id}/locations/{location}/policyBindings/{policy_binding_id} ◆ organizations/{organization_id}/locations/{location}/policyBindings/{policy_binding_id} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument policy_binding on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [iam.folders.locations.policyBindings, iam.organizations.locations.policyBindings, iam.projects.locations.policyBindings]. This must be specified. The organization id of the policyBinding resource. To set the organization attribute: ▸ provide the argument policy_binding on the command line with a fully specified name; ▸ provide the argument --organization on the command line. Must be specified for resource of type [iam.organizations.locations.policyBindings].
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
@@ -32,5 +67,11 @@ public record GcloudIamPolicyBindingsDeleteOptions : GcloudOptions
     /// </summary>
     [CliOption("--etag", Format = OptionFormat.EqualsSeparated)]
     public string? Etag { get; set; }
+
+    /// <summary>
+    /// PolicyBinding resource - The name of the policy binding to delete. Format: ◆ projects/{project_id}/locations/{location}/policyBindings/{policy_binding_id} ◆ projects/{project_number}/locations/{location}/policyBindings/{policy_binding_id} ◆ folders/{folder_id}/locations/{location}/policyBindings/{policy_binding_id} ◆ organizations/{organization_id}/locations/{location}/policyBindings/{policy_binding_id} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument policy_binding on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [iam.folders.locations.policyBindings, iam.organizations.locations.policyBindings, iam.projects.locations.policyBindings]. This must be specified. ID of the policyBinding or fully qualified identifier for the policyBinding. To set the policy_binding attribute: ▸ provide the argument policy_binding on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PolicyBinding { get; private init; }
 
 }

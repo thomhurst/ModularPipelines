@@ -22,6 +22,29 @@ namespace ModularPipelines.Google.Options;
 public record GcloudServiceExtensionsLbEdgeExtensionsImportOptions : GcloudOptions
 {
     /// <summary>
+    /// import an     LbEdgeExtension resource
+    /// </summary>
+    /// <param name="LbEdgeExtension">LbEdgeExtension resource - The ID of the new or updated LbEdgeExtension resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument lb_edge_extension on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the LbEdgeExtension or fully qualified identifier for the LbEdgeExtension. To set the lb_edge_extension attribute: ▸ provide the argument lb_edge_extension on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudServiceExtensionsLbEdgeExtensionsImportOptions(
+        string LbEdgeExtension
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LbEdgeExtension);
+        this.LbEdgeExtension = LbEdgeExtension;
+    }
+
+    public void Deconstruct(out string LbEdgeExtension)
+    {
+        LbEdgeExtension = this.LbEdgeExtension;
+    }
+
+    /// <summary>
+    /// LbEdgeExtension resource - The ID of the new or updated LbEdgeExtension resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument lb_edge_extension on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Cloud region in which the resource is located. To set the location attribute: ▸ provide the argument lb_edge_extension on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
@@ -32,5 +55,11 @@ public record GcloudServiceExtensionsLbEdgeExtensionsImportOptions : GcloudOptio
     /// </summary>
     [CliOption("--source", Format = OptionFormat.EqualsSeparated)]
     public string? Source { get; set; }
+
+    /// <summary>
+    /// LbEdgeExtension resource - The ID of the new or updated LbEdgeExtension resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument lb_edge_extension on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the LbEdgeExtension or fully qualified identifier for the LbEdgeExtension. To set the lb_edge_extension attribute: ▸ provide the argument lb_edge_extension on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string LbEdgeExtension { get; private init; }
 
 }

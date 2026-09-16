@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,133 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("notebooks", "runtimes", "create")]
-public record GcloudNotebooksRuntimesCreateOptions : GcloudOptions
+public record GcloudNotebooksRuntimesCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// request for creating an runtime
+    /// </summary>
+    /// <param name="Runtime">Runtime resource - User-defined unique name of this runtime. The runtime name must be 1 to 63 characters long and contain only lowercase letters, numeric characters, and dashes. The first character must be a lowercase letter and the last character cannot be a dash. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument runtime on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the runtime or fully qualified identifier for the runtime. To set the runtime attribute: ▸ provide the argument runtime on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNotebooksRuntimesCreateOptions(
+        string Runtime
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Runtime);
+        this.Runtime = Runtime;
+    }
+
+    public void Deconstruct(out string Runtime)
+    {
+        Runtime = this.Runtime;
+    }
+
+    /// <summary>
+    /// Runtime resource - User-defined unique name of this runtime. The runtime name must be 1 to 63 characters long and contain only lowercase letters, numeric characters, and dashes. The first character must be a lowercase letter and the last character cannot be a dash. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument runtime on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Google Cloud location of this runtime https://cloud.google.com/compute/docs/regions-zones/#locations. To set the location attribute: ▸ provide the argument runtime on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property notebooks/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: access type
+    /// </summary>
+    [CliOption("--runtime-access-type", Format = OptionFormat.EqualsSeparated)]
+    public string? RuntimeAccessType { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: runtime owner
+    /// </summary>
+    [CliOption("--runtime-owner", Format = OptionFormat.EqualsSeparated)]
+    public string? RuntimeOwner { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: runtime type
+    /// </summary>
+    [CliOption("--runtime-type", Format = OptionFormat.EqualsSeparated)]
+    public string? RuntimeType { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: machine type This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--machine-type", Format = OptionFormat.EqualsSeparated)]
+    public string? MachineType { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: runtime interface
+    /// </summary>
+    [CliOption("--interface", Format = OptionFormat.EqualsSeparated)]
+    public string? Interface { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: runtime mode
+    /// </summary>
+    [CliOption("--mode", Format = OptionFormat.EqualsSeparated)]
+    public string? Mode { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: runtime source
+    /// </summary>
+    [CliOption("--source", Format = OptionFormat.EqualsSeparated)]
+    public string? Source { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: runtime type
+    /// </summary>
+    [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
+    public string? Type { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// custom gpu driver path
+    /// </summary>
+    [CliOption("--custom-gpu-driver-path", Format = OptionFormat.EqualsSeparated)]
+    public string? CustomGpuDriverPath { get; set; }
+
+    /// <summary>
+    /// idle shutdown timeout
+    /// </summary>
+    [CliOption("--idle-shutdown-timeout", Format = OptionFormat.EqualsSeparated)]
+    public int? IdleShutdownTimeout { get; set; }
+
+    /// <summary>
+    /// install gpu driver
+    /// </summary>
+    [CliOption("--install-gpu-driver", Format = OptionFormat.EqualsSeparated)]
+    public string? InstallGpuDriver { get; set; }
+
+    /// <summary>
+    /// post startup script
+    /// </summary>
+    [CliOption("--post-startup-script", Format = OptionFormat.EqualsSeparated)]
+    public string? PostStartupScript { get; set; }
+
+    /// <summary>
+    /// post startup script behavior
+    /// </summary>
+    [CliOption("--post-startup-script-behavior", Format = OptionFormat.EqualsSeparated)]
+    public string? PostStartupScriptBehavior { get; set; }
+
+    /// <summary>
+    /// Runtime resource - User-defined unique name of this runtime. The runtime name must be 1 to 63 characters long and contain only lowercase letters, numeric characters, and dashes. The first character must be a lowercase letter and the last character cannot be a dash. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument runtime on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the runtime or fully qualified identifier for the runtime. To set the runtime attribute: ▸ provide the argument runtime on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Runtime { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(!string.IsNullOrWhiteSpace(RuntimeAccessType) || !string.IsNullOrWhiteSpace(RuntimeOwner)))
+        {
+            yield return new ValidationResult("At least one of RuntimeAccessType or RuntimeOwner must be specified.", [nameof(RuntimeAccessType), nameof(RuntimeOwner)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(RuntimeType) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(MachineType) || !string.IsNullOrWhiteSpace(Interface) || !string.IsNullOrWhiteSpace(Mode) || !string.IsNullOrWhiteSpace(Source) || !string.IsNullOrWhiteSpace(Type)) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of RuntimeType or (MachineType, Interface, Mode, Source, or Type) must be specified.", [nameof(RuntimeType), nameof(MachineType), nameof(Interface), nameof(Mode), nameof(Source), nameof(Type)]);
+        }
+        yield break;
+    }
+
 }

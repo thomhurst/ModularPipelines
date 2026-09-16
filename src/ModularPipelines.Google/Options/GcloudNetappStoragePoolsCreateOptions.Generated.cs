@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +23,162 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("netapp", "storage-pools", "create")]
 public record GcloudNetappStoragePoolsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a Cloud NetApp Storage Pool
+    /// </summary>
+    /// <param name="Capacity">The desired capacity of the Storage Pool in GiB or TiB units.If no capacity unit is specified, GiB is assumed.</param>
+    /// <param name="Network">Network configuration for a Cloud NetApp Files Storage Pool. Specifying psa-range is optional. name The name of the Google Compute Engine VPC network to which the volume is connected. Short-form (VPC network ID) or long-form (full VPC network name: projects/PROJECT/locations/LOCATION/networks/NETWORK) are both accepted, but please use the long-form when attempting to create a Storage Pool using a shared VPC. psa-range This field is not implemented. The values provided in this field are ignored.</param>
+    /// <param name="ServiceLevel">The service level for the Cloud NetApp Storage Pool. For more details, see: https://cloud.google.com/netapp/volumes/docs/configure-and-use/storage-pools/overview#service_levels SERVICE_LEVEL must be one of: extreme Extreme Service Level for Cloud NetApp Storage Pool. The Extreme Service Level has a throughput per GiB of allocated volume size of 128 KiB/s. flex Flex Service Level for Cloud NetApp Storage Pool. The Flex Service Level has a throughput per GiB of allocated volume size of 16 KiB/s. premium Premium Service Level for Cloud NetApp Storage Pool. The Premium Service Level has a throughput per GiB of allocated volume size of 64 KiB/s. standard Standard Service Level for Cloud NetApp Storage Pool. The Standard Service Level has a throughput per GiB of allocated volume size of 16 KiB/s.</param>
+    /// <param name="StoragePool">Storage pool resource - The Storage Pool to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument storage_pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the storage_pool or fully qualified identifier for the storage_pool. To set the storage_pool attribute: ▸ provide the argument storage_pool on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetappStoragePoolsCreateOptions(
+        string Capacity,
+        string Network,
+        string ServiceLevel,
+        string StoragePool
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Capacity);
+        this.Capacity = Capacity;
+        global::System.ArgumentNullException.ThrowIfNull(Network);
+        this.Network = Network;
+        global::System.ArgumentNullException.ThrowIfNull(ServiceLevel);
+        this.ServiceLevel = ServiceLevel;
+        global::System.ArgumentNullException.ThrowIfNull(StoragePool);
+        this.StoragePool = StoragePool;
+    }
+
+    public void Deconstruct(out string Capacity, out string Network, out string ServiceLevel, out string StoragePool)
+    {
+        Capacity = this.Capacity;
+        Network = this.Network;
+        ServiceLevel = this.ServiceLevel;
+        StoragePool = this.StoragePool;
+    }
+
+    /// <summary>
+    /// The desired capacity of the Storage Pool in GiB or TiB units.If no capacity unit is specified, GiB is assumed.
+    /// </summary>
+    [CliOption("--capacity", Format = OptionFormat.EqualsSeparated)]
+    public string Capacity { get; private init; }
+
+    /// <summary>
+    /// Network configuration for a Cloud NetApp Files Storage Pool. Specifying psa-range is optional. name The name of the Google Compute Engine VPC network to which the volume is connected. Short-form (VPC network ID) or long-form (full VPC network name: projects/PROJECT/locations/LOCATION/networks/NETWORK) are both accepted, but please use the long-form when attempting to create a Storage Pool using a shared VPC. psa-range This field is not implemented. The values provided in this field are ignored.
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string Network { get; private init; }
+
+    /// <summary>
+    /// The service level for the Cloud NetApp Storage Pool. For more details, see: https://cloud.google.com/netapp/volumes/docs/configure-and-use/storage-pools/overview#service_levels SERVICE_LEVEL must be one of: extreme Extreme Service Level for Cloud NetApp Storage Pool. The Extreme Service Level has a throughput per GiB of allocated volume size of 128 KiB/s. flex Flex Service Level for Cloud NetApp Storage Pool. The Flex Service Level has a throughput per GiB of allocated volume size of 16 KiB/s. premium Premium Service Level for Cloud NetApp Storage Pool. The Premium Service Level has a throughput per GiB of allocated volume size of 64 KiB/s. standard Standard Service Level for Cloud NetApp Storage Pool. The Standard Service Level has a throughput per GiB of allocated volume size of 16 KiB/s.
+    /// </summary>
+    [CliOption("--service-level", Format = OptionFormat.EqualsSeparated)]
+    public string ServiceLevel { get; private init; }
+
+    /// <summary>
+    /// Storage pool resource - The Storage Pool to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument storage_pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the storage_pool. To set the location attribute: ▸ provide the argument storage_pool on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property netapp/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Active directory resource - The Active Directory to attach to the Storage Pool. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --active-directory on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --active-directory on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property netapp/location. ID of the active_directory or fully qualified identifier for the active_directory. To set the active_directory attribute: ◆ provide the argument --active-directory on the command line.
+    /// </summary>
+    [CliOption("--active-directory", Format = OptionFormat.EqualsSeparated)]
+    public string? ActiveDirectory { get; set; }
+
+    /// <summary>
+    /// Active directory resource - The Active Directory to attach to the Storage Pool. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --active-directory on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --active-directory on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property netapp/location. Boolean flag indicating whether Storage Pool is allowed to use auto-tiering
+    /// </summary>
+    [CliOption("--allow-auto-tiering", Format = OptionFormat.EqualsSeparated)]
+    public string? AllowAutoTiering { get; set; }
+
+    /// <summary>
+    /// Active directory resource - The Active Directory to attach to the Storage Pool. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --active-directory on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --active-directory on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property netapp/location. Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Active directory resource - The Active Directory to attach to the Storage Pool. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --active-directory on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --active-directory on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property netapp/location. Boolean flag indicating whether Storage Pool is a custom performance Storage Pool or not
+    /// </summary>
+    [CliOption("--custom-performance-enabled", Format = OptionFormat.EqualsSeparated)]
+    public string? CustomPerformanceEnabled { get; set; }
+
+    /// <summary>
+    /// Active directory resource - The Active Directory to attach to the Storage Pool. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --active-directory on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --active-directory on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property netapp/location. A description of the Cloud NetApp Storage Pool
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Active directory resource - The Active Directory to attach to the Storage Pool. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --active-directory on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --active-directory on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property netapp/location. Boolean flag indicating whether Storage Pool is a NFS LDAP Storage Pool or not
+    /// </summary>
+    [CliOption("--enable-ldap", Format = OptionFormat.EqualsSeparated)]
+    public string? EnableLdap { get; set; }
+
+    /// <summary>
+    /// Kms config resource - The KMS config to attach to the Storage Pool. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --kms-config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --kms-config on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property netapp/location. ID of the kms_config or fully qualified identifier for the kms_config. To set the kms_config attribute: ◆ provide the argument --kms-config on the command line.
+    /// </summary>
+    [CliOption("--kms-config", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsConfig { get; set; }
+
+    /// <summary>
+    /// Kms config resource - The KMS config to attach to the Storage Pool. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --kms-config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --kms-config on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property netapp/location. List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Kms config resource - The KMS config to attach to the Storage Pool. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --kms-config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --kms-config on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property netapp/location. The mode of the Storage Pool. ONTAP mode is for performing ONTAP operations with ONTAP Mode APIs. DEFAULT mode is for performing operations allowed with NetApp Files APIs. MODE must be one of: default, ontap.
+    /// </summary>
+    [CliOption("--mode", Format = OptionFormat.EqualsSeparated)]
+    public GcloudMode? Mode { get; set; }
+
+    /// <summary>
+    /// Kms config resource - The KMS config to attach to the Storage Pool. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --kms-config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --kms-config on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property netapp/location. Quality of service (QoS) type for the Storage Pool. QOS_TYPE must be one of: auto, manual, qos-type-unspecified.
+    /// </summary>
+    [CliOption("--qos-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudQosType? QosType { get; set; }
+
+    /// <summary>
+    /// Kms config resource - The KMS config to attach to the Storage Pool. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --kms-config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --kms-config on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property netapp/location. String indicating replica zone for the Storage Pool
+    /// </summary>
+    [CliOption("--replica-zone", Format = OptionFormat.EqualsSeparated)]
+    public string? ReplicaZone { get; set; }
+
+    /// <summary>
+    /// Kms config resource - The KMS config to attach to the Storage Pool. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --kms-config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --kms-config on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property netapp/location. The scale type of the Storage Pool. default scale type is for standard capacity and performance. scaleout scale type is for higher capacity and performance. SCALE_TYPE must be one of: default, scaleout.
+    /// </summary>
+    [CliOption("--scale-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudScaleType? ScaleType { get; set; }
+
+    /// <summary>
+    /// Kms config resource - The KMS config to attach to the Storage Pool. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --kms-config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --kms-config on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property netapp/location. Integer indicating total IOPS of the Storage Pool
+    /// </summary>
+    [CliOption("--total-iops", Format = OptionFormat.EqualsSeparated)]
+    public int? TotalIops { get; set; }
+
+    /// <summary>
+    /// Kms config resource - The KMS config to attach to the Storage Pool. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --kms-config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --kms-config on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property netapp/location. The total throughput of the Storage Pool in MiB/s or GiB/s units. If no throughput unit is specified, MiB/s is assumed.
+    /// </summary>
+    [CliOption("--total-throughput", Format = OptionFormat.EqualsSeparated)]
+    public string? TotalThroughput { get; set; }
+
+    /// <summary>
+    /// Kms config resource - The KMS config to attach to the Storage Pool. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --kms-config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --kms-config on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property netapp/location. The type of the Storage Pool. FILE pools support file-based volumes only. UNIFIED pools support both file and block volumes. TYPE must be one of: file File-based volumes only (default). unified Both file and block volumes.
+    /// </summary>
+    [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
+    public string? Type { get; set; }
+
+    /// <summary>
+    /// Kms config resource - The KMS config to attach to the Storage Pool. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --kms-config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --kms-config on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property netapp/location. String indicating active zone of the Storage Pool
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <summary>
+    /// Storage pool resource - The Storage Pool to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument storage_pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the storage_pool or fully qualified identifier for the storage_pool. To set the storage_pool attribute: ▸ provide the argument storage_pool on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string StoragePool { get; private init; }
+
 }

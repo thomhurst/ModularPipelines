@@ -6,6 +6,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -21,4 +22,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("secrets", "replication", "set")]
 public record GcloudSecretsReplicationSetOptions : GcloudOptions
 {
+    /// <summary>
+    /// set a secret's replication
+    /// </summary>
+    /// <param name="ReplicationPolicyFile">JSON or YAML file to use to read the replication policy. The file must conform to https://cloud.google.com/secret-manager/docs/reference/rest/v1/projects.secrets#replication.Set this to "-" to read from stdin.</param>
+    /// <param name="Secret">Secret resource - The secret to update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument SECRET on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the secret or fully qualified identifier for the secret. To set the secret attribute: ▸ provide the argument SECRET on the command line.</param>
+    public GcloudSecretsReplicationSetOptions(
+        string ReplicationPolicyFile,
+        string Secret
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReplicationPolicyFile);
+        this.ReplicationPolicyFile = ReplicationPolicyFile;
+        global::System.ArgumentNullException.ThrowIfNull(Secret);
+        this.Secret = Secret;
+    }
+
+    public void Deconstruct(out string ReplicationPolicyFile, out string Secret)
+    {
+        ReplicationPolicyFile = this.ReplicationPolicyFile;
+        Secret = this.Secret;
+    }
+
+    /// <summary>
+    /// JSON or YAML file to use to read the replication policy. The file must conform to https://cloud.google.com/secret-manager/docs/reference/rest/v1/projects.secrets#replication.Set this to "-" to read from stdin.
+    /// </summary>
+    [CliOption("--replication-policy-file", Format = OptionFormat.EqualsSeparated)]
+    public string ReplicationPolicyFile { get; private init; }
+
+    /// <summary>
+    /// Secret resource - The secret to update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument SECRET on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the secret or fully qualified identifier for the secret. To set the secret attribute: ▸ provide the argument SECRET on the command line.
+    /// </summary>
+    [SecretValue]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Secret { get; private init; }
+
 }

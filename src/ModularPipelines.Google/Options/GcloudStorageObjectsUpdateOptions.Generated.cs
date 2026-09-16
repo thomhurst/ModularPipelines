@@ -22,10 +22,10 @@ namespace ModularPipelines.Google.Options;
 public record GcloudStorageObjectsUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Includes arbitrary headers in storage API calls. Accepts a comma separated list of key=value pairs, e.g. header1=value1,header2=value2. Overrides the default storage/additional_headers property value for this command invocation.
+    /// Includes arbitrary headers in storage API calls. Accepts a comma separated list of key=value pairs, e.g. header1=value1,header2=value2. Overrides the default storage/additional_headers property value for this command invocation. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--additional-headers", Format = OptionFormat.EqualsSeparated)]
-    public string? AdditionalHeaders { get; set; }
+    [CliOption("--additional-headers", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AdditionalHeaders { get; set; }
 
     /// <summary>
     /// Perform the operation on all object versions.
@@ -82,9 +82,9 @@ public record GcloudStorageObjectsUpdateOptions : GcloudOptions
     public string? AclFile { get; set; }
 
     /// <summary>
-    /// --recursive, -R, -r Recursively update objects under any buckets or directories that match the URL expression. Key-value pairs mirroring the JSON accepted by your cloud provider. For example, for Cloud Storage,--add-acl-grant=entity=user-tim@gmail.com,role=OWNER
+    /// --recursive, -R, -r Recursively update objects under any buckets or directories that match the URL expression. Key-value pairs mirroring the JSON accepted by your cloud provider. For example, for Cloud Storage,--add-acl-grant=entity=user-tim@gmail.com,role=OWNER Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-acl-grant", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--add-acl-grant", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AddAclGrant { get; set; }
 
     /// <summary>
@@ -110,5 +110,11 @@ public record GcloudStorageObjectsUpdateOptions : GcloudOptions
     /// </summary>
     [CliOption("--remove-acl-grant", Format = OptionFormat.EqualsSeparated)]
     public string? RemoveAclGrant { get; set; }
+
+    /// <summary>
+    /// Specifies URLs of objects to update.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public IEnumerable<string>? Url { get; set; }
 
 }

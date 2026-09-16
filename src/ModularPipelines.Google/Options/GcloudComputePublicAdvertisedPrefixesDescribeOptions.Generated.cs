@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "public-advertised-prefixes", "describe")]
-public record GcloudComputePublicAdvertisedPrefixesDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudComputePublicAdvertisedPrefixesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describes a Compute     Engine public advertised prefix
+    /// </summary>
+    /// <param name="Name">Name of the public advertised prefix to operate on.</param>
+    public GcloudComputePublicAdvertisedPrefixesDescribeOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Name of the public advertised prefix to operate on.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }

@@ -21,4 +21,56 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("redis", "clusters", "reschedule-maintenance")]
 public record GcloudRedisClustersRescheduleMaintenanceOptions : GcloudOptions
 {
+    /// <summary>
+    /// reschedule maintenance     window for a Memorystore for Redis Cluster instance
+    /// </summary>
+    /// <param name="RescheduleType">Reschedule type to use for the reschedule maintenance window. RESCHEDULE_TYPE must be one of: immediate Reschedule the maintenance to perform now. specific-time Reschedule the maintenance to a specific time.</param>
+    /// <param name="Cluster">Cluster resource - Arguments and flags that specify the Cloud Memorystore for Redis cluster instance you want to reschedule maintenance window. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the cluster or fully qualified identifier for the cluster. To set the cluster attribute: ▸ provide the argument cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudRedisClustersRescheduleMaintenanceOptions(
+        string RescheduleType,
+        string Cluster
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RescheduleType);
+        this.RescheduleType = RescheduleType;
+        global::System.ArgumentNullException.ThrowIfNull(Cluster);
+        this.Cluster = Cluster;
+    }
+
+    public void Deconstruct(out string RescheduleType, out string Cluster)
+    {
+        RescheduleType = this.RescheduleType;
+        Cluster = this.Cluster;
+    }
+
+    /// <summary>
+    /// Reschedule type to use for the reschedule maintenance window. RESCHEDULE_TYPE must be one of: immediate Reschedule the maintenance to perform now. specific-time Reschedule the maintenance to a specific time.
+    /// </summary>
+    [CliOption("--reschedule-type", Format = OptionFormat.EqualsSeparated)]
+    public string RescheduleType { get; private init; }
+
+    /// <summary>
+    /// Cluster resource - Arguments and flags that specify the Cloud Memorystore for Redis cluster instance you want to reschedule maintenance window. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The name of the Redis region of the cluster. Overrides the default redis/region property value for this command invocation. To set the region attribute: ▸ provide the argument cluster on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property redis/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Time in RFC3339 format, for example: 2012-11-15T16:19:00.094Z
+    /// </summary>
+    [CliOption("--schedule-time", Format = OptionFormat.EqualsSeparated)]
+    public string? ScheduleTime { get; set; }
+
+    /// <summary>
+    /// Cluster resource - Arguments and flags that specify the Cloud Memorystore for Redis cluster instance you want to reschedule maintenance window. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the cluster or fully qualified identifier for the cluster. To set the cluster attribute: ▸ provide the argument cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Cluster { get; private init; }
+
 }

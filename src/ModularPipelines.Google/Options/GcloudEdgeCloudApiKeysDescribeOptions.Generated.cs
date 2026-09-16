@@ -6,6 +6,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -21,4 +22,34 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("edge-cloud", "api-keys", "describe")]
 public record GcloudEdgeCloudApiKeysDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a Google Distributed Cloud     API key
+    /// </summary>
+    /// <param name="ApiKey">ApiKey resource - The Google Distributed Cloud API key to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument api_key on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the apiKey or fully qualified identifier for the apiKey. To set the api_key attribute: ▸ provide the argument api_key on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudEdgeCloudApiKeysDescribeOptions(
+        string ApiKey
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApiKey);
+        this.ApiKey = ApiKey;
+    }
+
+    public void Deconstruct(out string ApiKey)
+    {
+        ApiKey = this.ApiKey;
+    }
+
+    /// <summary>
+    /// ApiKey resource - The Google Distributed Cloud API key to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument api_key on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location name. To set the location attribute: ▸ provide the argument api_key on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// ApiKey resource - The Google Distributed Cloud API key to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument api_key on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the apiKey or fully qualified identifier for the apiKey. To set the api_key attribute: ▸ provide the argument api_key on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [SecretValue]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ApiKey { get; private init; }
+
 }

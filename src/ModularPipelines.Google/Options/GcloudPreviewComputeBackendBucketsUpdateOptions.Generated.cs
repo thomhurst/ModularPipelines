@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -20,20 +21,35 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "backend-buckets", "update")]
-public record GcloudPreviewComputeBackendBucketsUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string BackendBucketName
-) : GcloudOptions
+public record GcloudPreviewComputeBackendBucketsUpdateOptions : GcloudOptions, IValidatableObject
 {
     /// <summary>
-    /// Specifies a comma-separated list of HTTP headers, by field name, to include in cache keys. Only the request URL is included in the cache key by default.
+    /// update a backend bucket
     /// </summary>
-    [CliOption("--cache-key-include-http-header", Format = OptionFormat.EqualsSeparated)]
+    /// <param name="BackendBucketName">Name of the backend bucket to update.</param>
+    public GcloudPreviewComputeBackendBucketsUpdateOptions(
+        string BackendBucketName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BackendBucketName);
+        this.BackendBucketName = BackendBucketName;
+    }
+
+    public void Deconstruct(out string BackendBucketName)
+    {
+        BackendBucketName = this.BackendBucketName;
+    }
+
+    /// <summary>
+    /// Specifies a comma-separated list of HTTP headers, by field name, to include in cache keys. Only the request URL is included in the cache key by default. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--cache-key-include-http-header", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? CacheKeyIncludeHttpHeader { get; set; }
 
     /// <summary>
-    /// Specifies a comma-separated list of query string parameters to include in cache keys. Default parameters are always included. '&amp;' and '=' are percent encoded and not treated as delimiters.
+    /// Specifies a comma-separated list of query string parameters to include in cache keys. Default parameters are always included. '&amp;' and '=' are percent encoded and not treated as delimiters. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--cache-key-query-string-whitelist", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--cache-key-query-string-whitelist", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? CacheKeyQueryStringWhitelist { get; set; }
 
     /// <summary>
@@ -203,5 +219,53 @@ public record GcloudPreviewComputeBackendBucketsUpdateOptions(
     /// </summary>
     [CliFlag("--no-serve-while-stale")]
     public bool? NoServeWhileStale { get; set; }
+
+    /// <summary>
+    /// Name of the backend bucket to update.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string BackendBucketName { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(BypassCacheOnRequestHeaders) ? 1 : 0) + (NoBypassCacheOnRequestHeaders == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of BypassCacheOnRequestHeaders or NoBypassCacheOnRequestHeaders may be specified.", [nameof(BypassCacheOnRequestHeaders), nameof(NoBypassCacheOnRequestHeaders)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(ClientTtl) ? 1 : 0) + (NoClientTtl == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClientTtl or NoClientTtl may be specified.", [nameof(ClientTtl), nameof(NoClientTtl)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(CustomResponseHeader) ? 1 : 0) + (NoCustomResponseHeaders == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of CustomResponseHeader or NoCustomResponseHeaders may be specified.", [nameof(CustomResponseHeader), nameof(NoCustomResponseHeaders)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(DefaultTtl) ? 1 : 0) + (NoDefaultTtl == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of DefaultTtl or NoDefaultTtl may be specified.", [nameof(DefaultTtl), nameof(NoDefaultTtl)]);
+        }
+        if ((Global == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(Region) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Global or Region may be specified.", [nameof(Global), nameof(Region)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(MaxTtl) ? 1 : 0) + (NoMaxTtl == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of MaxTtl or NoMaxTtl may be specified.", [nameof(MaxTtl), nameof(NoMaxTtl)]);
+        }
+        if ((NoNegativeCachingPolicies == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(NegativeCachingPolicy) ? 1 : 0) + ((NegativeCaching == true || NoNegativeCaching == true) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of NoNegativeCachingPolicies, NegativeCachingPolicy, or (NegativeCaching or NoNegativeCaching) may be specified.", [nameof(NoNegativeCachingPolicies), nameof(NegativeCachingPolicy), nameof(NegativeCaching), nameof(NoNegativeCaching)]);
+        }
+        if ((NoNegativeCachingPolicies == true || !string.IsNullOrWhiteSpace(NegativeCachingPolicy) || NegativeCaching == true || NoNegativeCaching == true) && ((NegativeCaching == true ? 1 : 0) + (NoNegativeCaching == true ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of NegativeCaching or NoNegativeCaching may be specified.", [nameof(NegativeCaching), nameof(NoNegativeCaching)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(ServeWhileStale) ? 1 : 0) + (NoServeWhileStale == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ServeWhileStale or NoServeWhileStale may be specified.", [nameof(ServeWhileStale), nameof(NoServeWhileStale)]);
+        }
+        yield break;
+    }
 
 }

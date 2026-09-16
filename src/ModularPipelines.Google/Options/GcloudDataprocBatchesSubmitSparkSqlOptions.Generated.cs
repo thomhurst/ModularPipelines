@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -20,10 +21,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataproc", "batches", "submit", "spark-sql")]
-public record GcloudDataprocBatchesSubmitSparkSqlOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SqlScript
-) : GcloudOptions
+public record GcloudDataprocBatchesSubmitSparkSqlOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// submit a Spark SQL batch job
+    /// </summary>
+    /// <param name="SqlScript">URI of the script that contains Spark SQL queries to execute.</param>
+    public GcloudDataprocBatchesSubmitSparkSqlOptions(
+        string SqlScript
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SqlScript);
+        this.SqlScript = SqlScript;
+    }
+
+    public void Deconstruct(out string SqlScript)
+    {
+        SqlScript = this.SqlScript;
+    }
+
     /// <summary>
     /// Return immediately without waiting for the operation in progress to complete.
     /// </summary>
@@ -55,9 +71,9 @@ public record GcloudDataprocBatchesSubmitSparkSqlOptions(
     public string? HistoryServerCluster { get; set; }
 
     /// <summary>
-    /// Comma-separated list of jar files to be provided to the classpaths.
+    /// Comma-separated list of jar files to be provided to the classpaths. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--jars", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--jars", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Jars { get; set; }
 
     /// <summary>
@@ -67,9 +83,9 @@ public record GcloudDataprocBatchesSubmitSparkSqlOptions(
     public string? KmsKey { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
@@ -79,10 +95,10 @@ public record GcloudDataprocBatchesSubmitSparkSqlOptions(
     public string? MetastoreService { get; set; }
 
     /// <summary>
-    /// Specifies configuration properties for the workload. See Dataproc Serverless for Spark documentation (https://cloud.google.com/dataproc-serverless/docs/concepts/properties) for the list of supported properties.
+    /// Specifies configuration properties for the workload. See Dataproc Serverless for Spark documentation (https://cloud.google.com/dataproc-serverless/docs/concepts/properties) for the list of supported properties. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--properties", Format = OptionFormat.EqualsSeparated)]
-    public string? Properties { get; set; }
+    [CliOption("--properties", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Properties { get; set; }
 
     /// <summary>
     /// Region resource - Dataproc region to use. Each Dataproc region constitutes an independent resource namespace constrained to deploying instances into Compute Engine zones inside the region. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property dataproc/region with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the region or fully qualified identifier for the region. To set the region attribute: ◆ provide the argument --region on the command line; ◆ set the property dataproc/region.
@@ -115,9 +131,9 @@ public record GcloudDataprocBatchesSubmitSparkSqlOptions(
     public string? StagingBucket { get; set; }
 
     /// <summary>
-    /// Region resource - Dataproc region to use. Each Dataproc region constitutes an independent resource namespace constrained to deploying instances into Compute Engine zones inside the region. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property dataproc/region with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Network tags for traffic control.
+    /// Region resource - Dataproc region to use. Each Dataproc region constitutes an independent resource namespace constrained to deploying instances into Compute Engine zones inside the region. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property dataproc/region with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Network tags for traffic control. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
@@ -133,10 +149,10 @@ public record GcloudDataprocBatchesSubmitSparkSqlOptions(
     public string? UserWorkloadAuthenticationType { get; set; }
 
     /// <summary>
-    /// Region resource - Dataproc region to use. Each Dataproc region constitutes an independent resource namespace constrained to deploying instances into Compute Engine zones inside the region. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property dataproc/region with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Mapping of query variable names to values (equivalent to the Spark SQL command: SET name="value";).
+    /// Region resource - Dataproc region to use. Each Dataproc region constitutes an independent resource namespace constrained to deploying instances into Compute Engine zones inside the region. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property dataproc/region with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Mapping of query variable names to values (equivalent to the Spark SQL command: SET name="value";). Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--vars", Format = OptionFormat.EqualsSeparated)]
-    public string? Vars { get; set; }
+    [CliOption("--vars", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Vars { get; set; }
 
     /// <summary>
     /// Region resource - Dataproc region to use. Each Dataproc region constitutes an independent resource namespace constrained to deploying instances into Compute Engine zones inside the region. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property dataproc/region with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Optional runtime version. If not specified, a default version will be used.
@@ -155,5 +171,21 @@ public record GcloudDataprocBatchesSubmitSparkSqlOptions(
     /// </summary>
     [CliOption("--subnet", Format = OptionFormat.EqualsSeparated)]
     public string? Subnet { get; set; }
+
+    /// <summary>
+    /// URI of the script that contains Spark SQL queries to execute.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SqlScript { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Network) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Subnet) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Network or Subnet may be specified.", [nameof(Network), nameof(Subnet)]);
+        }
+        yield break;
+    }
 
 }

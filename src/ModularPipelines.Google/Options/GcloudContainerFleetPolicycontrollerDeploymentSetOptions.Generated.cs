@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -20,10 +21,35 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "fleet", "policycontroller", "deployment", "set")]
-public record GcloudContainerFleetPolicycontrollerDeploymentSetOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Deployment
-) : GcloudOptions
+public record GcloudContainerFleetPolicycontrollerDeploymentSetOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// sets configuration     of the Policy Controller components
+    /// </summary>
+    /// <param name="Deployment">The PolicyController deployment component (e.g. "admission", "audit" or "mutation") upon which to set configuration.</param>
+    /// <param name="Property">Property to be set.</param>
+    /// <param name="Value">The value to set the property to. Valid input varies based on the property being set.</param>
+    public GcloudContainerFleetPolicycontrollerDeploymentSetOptions(
+        string Deployment,
+        string Property,
+        string Value
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Deployment);
+        this.Deployment = Deployment;
+        global::System.ArgumentNullException.ThrowIfNull(Property);
+        this.Property = Property;
+        global::System.ArgumentNullException.ThrowIfNull(Value);
+        this.Value = Value;
+    }
+
+    public void Deconstruct(out string Deployment, out string Property, out string Value)
+    {
+        Deployment = this.Deployment;
+        Property = this.Property;
+        Value = this.Value;
+    }
+
     /// <summary>
     /// Applies only to "toleration" property. EFFECT must be one of: NoSchedule, PreferNoSchedule, NoExecute.
     /// </summary>
@@ -37,15 +63,69 @@ public record GcloudContainerFleetPolicycontrollerDeploymentSetOptions(
     public bool? AllMemberships { get; set; }
 
     /// <summary>
-    /// Membership flags. At most one of these can be specified: Or at least one of these can be specified: Membership resource - The group of arguments defining one or more memberships. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▫ provide the argument --memberships on the command line with a fully specified name; ▫ provide the argument --project on the command line; ▫ set the property core/project. IDs of the memberships or fully qualified identifiers for the memberships. To set the memberships attribute: ▫ provide the argument --memberships on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Membership flags. At most one of these can be specified: Or at least one of these can be specified: Membership resource - The group of arguments defining one or more memberships. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▫ provide the argument --memberships on the command line with a fully specified name; ▫ provide the argument --project on the command line; ▫ set the property core/project. IDs of the memberships or fully qualified identifiers for the memberships. To set the memberships attribute: ▫ provide the argument --memberships on the command line. This flag argument must be specified if any of the other arguments in this group are specified. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--memberships", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? Memberships { get; set; }
+    [CliOption("--memberships", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Memberships
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __MembershipsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __MembershipsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Membership flags. At most one of these can be specified: Or at least one of these can be specified: Membership resource - The group of arguments defining one or more memberships. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▫ provide the argument --memberships on the command line with a fully specified name; ▫ provide the argument --project on the command line; ▫ set the property core/project. Location for the memberships. To set the location attribute: ▫ provide the argument --memberships on the command line with a fully specified name; ▫ provide the argument --location on the command line; ▫ set the property gkehub/location.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
+
+    /// <summary>
+    /// The PolicyController deployment component (e.g. "admission", "audit" or "mutation") upon which to set configuration.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Deployment { get; private init; }
+
+    /// <summary>
+    /// Property to be set.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Property { get; private init; }
+
+    /// <summary>
+    /// The value to set the property to. Valid input varies based on the property being set.
+    /// </summary>
+    [CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Value { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((AllMemberships == true ? 1 : 0) + ((((object?)Memberships is global::System.Collections.Generic.IEnumerable<char> ? (object?)Memberships is not string || !string.IsNullOrWhiteSpace(Memberships?.ToString()) : ((object?)Memberships is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Memberships, static item => item is not null) : (Memberships is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Memberships), static item => item is not null)))) || !string.IsNullOrWhiteSpace(Location)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of AllMemberships or (Memberships or Location) may be specified.", [nameof(AllMemberships), nameof(Memberships), nameof(Location)]);
+        }
+        if ((AllMemberships == true || ((object?)Memberships is global::System.Collections.Generic.IEnumerable<char> ? (object?)Memberships is not string || !string.IsNullOrWhiteSpace(Memberships?.ToString()) : ((object?)Memberships is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Memberships, static item => item is not null) : (Memberships is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Memberships), static item => item is not null)))) || !string.IsNullOrWhiteSpace(Location)) && (((object?)Memberships is global::System.Collections.Generic.IEnumerable<char> ? (object?)Memberships is not string || !string.IsNullOrWhiteSpace(Memberships?.ToString()) : ((object?)Memberships is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Memberships, static item => item is not null) : (Memberships is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Memberships), static item => item is not null)))) || !string.IsNullOrWhiteSpace(Location)) && (((object?)Memberships is global::System.Collections.Generic.IEnumerable<char> ? (object?)Memberships is not string || !string.IsNullOrWhiteSpace(Memberships?.ToString()) : ((object?)Memberships is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Memberships, static item => item is not null) : (Memberships is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Memberships), static item => item is not null)))) || !string.IsNullOrWhiteSpace(Location)) && (!(((object?)Memberships is global::System.Collections.Generic.IEnumerable<char> ? (object?)Memberships is not string || !string.IsNullOrWhiteSpace(Memberships?.ToString()) : ((object?)Memberships is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Memberships, static item => item is not null) : (Memberships is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Memberships), static item => item is not null)))))))
+        {
+            yield return new ValidationResult("Memberships must be specified when other arguments in this group are specified.", [nameof(Memberships)]);
+        }
+        yield break;
+    }
 
 }

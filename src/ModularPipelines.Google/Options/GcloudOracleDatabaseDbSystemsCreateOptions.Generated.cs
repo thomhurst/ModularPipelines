@@ -6,10 +6,12 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,460 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("oracle-database", "db-systems", "create")]
-public record GcloudOracleDatabaseDbSystemsCreateOptions : GcloudOptions
+public record GcloudOracleDatabaseDbSystemsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a new DbSystem
+    /// </summary>
+    /// <param name="DisplayName">The display name for the System db. The name does not have to be unique within your project.</param>
+    /// <param name="OdbSubnet">OdbSubnet resource - The name of the OdbSubnet associated with the DbSystem for IP allocation. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --location on the command line. To set the odb-network attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --odb-network on the command line. This must be specified. ID of the odbSubnet or fully qualified identifier for the odbSubnet. To set the odb-subnet attribute: ▸ provide the argument --odb-subnet on the command line.</param>
+    /// <param name="DbSystem">DbSystem resource - Identifier. The name of the DbSystem resource in the following format: projects/{project}/locations/{region}/dbSystems/{db_system} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument db_system on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument db_system on the command line with a fully specified name; ◆ provide the argument --location on the command line. This must be specified. ID of the dbSystem or fully qualified identifier for the dbSystem. To set the db_system attribute: ▸ provide the argument db_system on the command line.</param>
+    public GcloudOracleDatabaseDbSystemsCreateOptions(
+        string DisplayName,
+        string OdbSubnet,
+        string DbSystem
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DisplayName);
+        this.DisplayName = DisplayName;
+        global::System.ArgumentNullException.ThrowIfNull(OdbSubnet);
+        this.OdbSubnet = OdbSubnet;
+        global::System.ArgumentNullException.ThrowIfNull(DbSystem);
+        this.DbSystem = DbSystem;
+    }
+
+    public void Deconstruct(out string DisplayName, out string OdbSubnet, out string DbSystem)
+    {
+        DisplayName = this.DisplayName;
+        OdbSubnet = this.OdbSubnet;
+        DbSystem = this.DbSystem;
+    }
+
+    /// <summary>
+    /// The display name for the System db. The name does not have to be unique within your project.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string DisplayName { get; private init; }
+
+    /// <summary>
+    /// OdbSubnet resource - The name of the OdbSubnet associated with the DbSystem for IP allocation. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --location on the command line. To set the odb-network attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --odb-network on the command line. This must be specified. ID of the odbSubnet or fully qualified identifier for the odbSubnet. To set the odb-subnet attribute: ▸ provide the argument --odb-subnet on the command line.
+    /// </summary>
+    [CliOption("--odb-subnet", Format = OptionFormat.EqualsSeparated)]
+    public string OdbSubnet { get; private init; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// The GCP Oracle zone where Oracle DbSystem is hosted. Example: us-east4-b-r2. If not specified, the system will pick a zone based on availability.
+    /// </summary>
+    [CliOption("--gcp-oracle-zone", Format = OptionFormat.EqualsSeparated)]
+    public string? GcpOracleZone { get; set; }
+
+    /// <summary>
+    /// The labels or tags associated with the DbSystem. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Labels { get; set; }
+
+    /// <summary>
+    /// For resources [db_system, odb-network, odb-subnet], provides fallback value for resource location attribute. When the resource's full URI path is not provided, location will fallback to this flag value.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// For resources [odb-network, odb-subnet], provides fallback value for resource odb-network attribute. When the resource's full URI path is not provided, odb-network will fallback to this flag value.
+    /// </summary>
+    [CliOption("--odb-network", Format = OptionFormat.EqualsSeparated)]
+    public string? OdbNetwork { get; set; }
+
+    /// <summary>
+    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
+    /// </summary>
+    [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
+    public string? RequestId { get; set; }
+
+    /// <summary>
+    /// For resources [database-admin-password-secret-version, database-tde-wallet-password-secret-version], provides fallback value for resource secret attribute. When the resource's full URI path is not provided, secret will fallback to this flag value.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--secret", Format = OptionFormat.EqualsSeparated)]
+    public string? Secret { get; set; }
+
+    /// <summary>
+    /// The properties of a DbSystem. The number of CPU cores to enable for the DbSystem. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--properties-compute-count", Format = OptionFormat.EqualsSeparated)]
+    public int? PropertiesComputeCount { get; set; }
+
+    /// <summary>
+    /// The properties of a DbSystem. The database edition of the DbSystem. PROPERTIES_DATABASE_EDITION must be one of: enterprise-edition The database edition is Enterprise. enterprise-edition-high-performance The database edition is Enterprise Edition. standard-edition The database edition is Standard. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--properties-database-edition", Format = OptionFormat.EqualsSeparated)]
+    public string? PropertiesDatabaseEdition { get; set; }
+
+    /// <summary>
+    /// The properties of a DbSystem. The initial data storage size in GB. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--properties-initial-data-storage-size-gb", Format = OptionFormat.EqualsSeparated)]
+    public int? PropertiesInitialDataStorageSizeGb { get; set; }
+
+    /// <summary>
+    /// The properties of a DbSystem. The license model of the DbSystem. PROPERTIES_LICENSE_MODEL must be one of: bring-your-own-license The license model is bring your own license. license-included The license model is included. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--properties-license-model", Format = OptionFormat.EqualsSeparated)]
+    public string? PropertiesLicenseModel { get; set; }
+
+    /// <summary>
+    /// The properties of a DbSystem. Shape of DB System. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--properties-shape", Format = OptionFormat.EqualsSeparated)]
+    public string? PropertiesShape { get; set; }
+
+    /// <summary>
+    /// The properties of a DbSystem. SSH public keys to be stored with the DbSystem. This flag argument must be specified if any of the other arguments in this group are specified. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--properties-ssh-public-keys", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? PropertiesSshPublicKeys
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __PropertiesSshPublicKeysSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __PropertiesSshPublicKeysSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Details of the DbSystem Options. The storage option used in DB system. DB_SYSTEM_OPTIONS_STORAGE_MANAGEMENT must be one of: asm Automatic storage management. This option is not supported. Only LVM is supported. lvm Logical Volume management.
+    /// </summary>
+    [CliOption("--db-system-options-storage-management", Format = OptionFormat.EqualsSeparated)]
+    public string? DbSystemOptionsStorageManagement { get; set; }
+
+    /// <summary>
+    /// Details of the DbSystem Options. The compute model of the DbSystem. PROPERTIES_COMPUTE_MODEL must be one of: ecpu The compute model is virtual. ocpu Deprecated: This option is not supported. Please use ECPU instead. The compute model is physical.
+    /// </summary>
+    [CliOption("--properties-compute-model", Format = OptionFormat.EqualsSeparated)]
+    public string? PropertiesComputeModel { get; set; }
+
+    /// <summary>
+    /// Details of the DbSystem Options. The data storage size in GB that is currently available to DbSystems. The value is same as initial_data_storage_size_gb. This can be modified from OCI console.
+    /// </summary>
+    [CliOption("--properties-data-storage-size-gb", Format = OptionFormat.EqualsSeparated)]
+    public int? PropertiesDataStorageSizeGb { get; set; }
+
+    /// <summary>
+    /// Details of the DbSystem Options. The host domain name of the DbSystem.
+    /// </summary>
+    [CliOption("--properties-domain", Format = OptionFormat.EqualsSeparated)]
+    public string? PropertiesDomain { get; set; }
+
+    /// <summary>
+    /// Details of the DbSystem Options. Prefix for DB System host names.
+    /// </summary>
+    [CliOption("--properties-hostname-prefix", Format = OptionFormat.EqualsSeparated)]
+    public string? PropertiesHostnamePrefix { get; set; }
+
+    /// <summary>
+    /// Details of the DbSystem Options. The memory size in GB. This value can not be set and is automatically calculated based on the number of ECPUs allocated to the DbSystem.
+    /// </summary>
+    [CliOption("--properties-memory-size-gb", Format = OptionFormat.EqualsSeparated)]
+    public int? PropertiesMemorySizeGb { get; set; }
+
+    /// <summary>
+    /// Details of the DbSystem Options. The number of nodes to launch for a virtual machine DbSystem. By default this will be set to 1.
+    /// </summary>
+    [CliOption("--properties-node-count", Format = OptionFormat.EqualsSeparated)]
+    public int? PropertiesNodeCount { get; set; }
+
+    /// <summary>
+    /// Details of the DbSystem Options. The private IP address of the DbSystem.
+    /// </summary>
+    [CliOption("--properties-private-ip", Format = OptionFormat.EqualsSeparated)]
+    public string? PropertiesPrivateIp { get; set; }
+
+    /// <summary>
+    /// Details of the DbSystem Options. The reco/redo storage size in GB. The value for recovery storage size is based on the available data storage size.
+    /// </summary>
+    [CliOption("--properties-reco-storage-size-gb", Format = OptionFormat.EqualsSeparated)]
+    public int? PropertiesRecoStorageSizeGb { get; set; }
+
+    /// <summary>
+    /// Data collection options for DbSystem. Indicates whether to enable data collection for diagnostics.
+    /// </summary>
+    [CliFlag("--data-collection-options-is-diagnostics-events-enabled")]
+    public bool? DataCollectionOptionsIsDiagnosticsEventsEnabled { get; set; }
+
+    /// <summary>
+    /// Data collection options for DbSystem. Indicates whether to enable incident logs and trace collection.
+    /// </summary>
+    [CliFlag("--data-collection-options-is-incident-logs-enabled")]
+    public bool? DataCollectionOptionsIsIncidentLogsEnabled { get; set; }
+
+    /// <summary>
+    /// Details of the Database Home resource. Represents a time zone from the IANA Time Zone Database (https://www.iana.org/time-zones). A valid Oracle Database version. For a list of supported versions, use the ListDbVersions operation. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--db-home-version", Format = OptionFormat.EqualsSeparated)]
+    public string? DbHomeVersion { get; set; }
+
+    /// <summary>
+    /// Details of the Database Home resource. Represents a time zone from the IANA Time Zone Database (https://www.iana.org/time-zones). The display name for the Database Home. The name does not have to be unique within your project.
+    /// </summary>
+    [CliOption("--db-home-display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DbHomeDisplayName { get; set; }
+
+    /// <summary>
+    /// Details of the Database Home resource. Represents a time zone from the IANA Time Zone Database (https://www.iana.org/time-zones). Whether unified auditing is enabled for the Database Home.
+    /// </summary>
+    [CliFlag("--db-home-is-unified-auditing-enabled")]
+    public bool? DbHomeIsUnifiedAuditingEnabled { get; set; }
+
+    /// <summary>
+    /// Details of the Database Home resource. Represents a time zone from the IANA Time Zone Database (https://www.iana.org/time-zones). Details of the Database resource. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/Database/ At least one of these must be specified: The password for the default ADMIN user. Note: Only one of admin_password_secret_version or admin_password can be populated.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--database-admin-password", Format = OptionFormat.EqualsSeparated)]
+    public string? DatabaseAdminPassword { get; set; }
+
+    /// <summary>
+    /// Details of the Database Home resource. Represents a time zone from the IANA Time Zone Database (https://www.iana.org/time-zones). SecretVersion resource - The resource name of a secret version in Secret Manager which contains the database admin user's password. Format: projects/{project}/secrets/{secret}/versions/{version}. Note: Only one of admin_password_secret_version or admin_password can be populated. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --database-admin-password-secret-version on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the secret attribute: ▸ provide the argument --database-admin-password-secret-version on the command line with a fully specified name; ▸ provide the argument --secret on the command line. ID of the secretVersion or fully qualified identifier for the secretVersion. To set the secret-version attribute: ▸ provide the argument --database-admin-password-secret-version on the command line.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--database-admin-password-secret-version", Format = OptionFormat.EqualsSeparated)]
+    public string? DatabaseAdminPasswordSecretVersion { get; set; }
+
+    /// <summary>
+    /// Details of the Database Home resource. Represents a time zone from the IANA Time Zone Database (https://www.iana.org/time-zones). SecretVersion resource - The resource name of a secret version in Secret Manager which contains the database admin user's password. Format: projects/{project}/secrets/{secret}/versions/{version}. Note: Only one of admin_password_secret_version or admin_password can be populated. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --database-admin-password-secret-version on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the secret attribute: ▸ provide the argument --database-admin-password-secret-version on the command line with a fully specified name; ▸ provide the argument --secret on the command line. The character set for the database. The default is AL32UTF8.
+    /// </summary>
+    [CliOption("--database-character-set", Format = OptionFormat.EqualsSeparated)]
+    public string? DatabaseCharacterSet { get; set; }
+
+    /// <summary>
+    /// Details of the Database Home resource. Represents a time zone from the IANA Time Zone Database (https://www.iana.org/time-zones). SecretVersion resource - The resource name of a secret version in Secret Manager which contains the database admin user's password. Format: projects/{project}/secrets/{secret}/versions/{version}. Note: Only one of admin_password_secret_version or admin_password can be populated. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --database-admin-password-secret-version on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the secret attribute: ▸ provide the argument --database-admin-password-secret-version on the command line with a fully specified name; ▸ provide the argument --secret on the command line. The name of the DbHome resource associated with the Database.
+    /// </summary>
+    [CliOption("--database-db-home-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DatabaseDbHomeName { get; set; }
+
+    /// <summary>
+    /// Details of the Database Home resource. Represents a time zone from the IANA Time Zone Database (https://www.iana.org/time-zones). SecretVersion resource - The resource name of a secret version in Secret Manager which contains the database admin user's password. Format: projects/{project}/secrets/{secret}/versions/{version}. Note: Only one of admin_password_secret_version or admin_password can be populated. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --database-admin-password-secret-version on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the secret attribute: ▸ provide the argument --database-admin-password-secret-version on the command line with a fully specified name; ▸ provide the argument --secret on the command line. The database name. The name must begin with an alphabetic character and can contain a maximum of eight alphanumeric characters. Special characters are not permitted.
+    /// </summary>
+    [CliOption("--database-db-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DatabaseDbName { get; set; }
+
+    /// <summary>
+    /// Details of the Database Home resource. Represents a time zone from the IANA Time Zone Database (https://www.iana.org/time-zones). SecretVersion resource - The resource name of a secret version in Secret Manager which contains the database admin user's password. Format: projects/{project}/secrets/{secret}/versions/{version}. Note: Only one of admin_password_secret_version or admin_password can be populated. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --database-admin-password-secret-version on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the secret attribute: ▸ provide the argument --database-admin-password-secret-version on the command line with a fully specified name; ▸ provide the argument --secret on the command line. The DB_UNIQUE_NAME of the Oracle Database being backed up.
+    /// </summary>
+    [CliOption("--database-db-unique-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DatabaseDbUniqueName { get; set; }
+
+    /// <summary>
+    /// Details of the Database Home resource. Represents a time zone from the IANA Time Zone Database (https://www.iana.org/time-zones). SecretVersion resource - The resource name of a secret version in Secret Manager which contains the database admin user's password. Format: projects/{project}/secrets/{secret}/versions/{version}. Note: Only one of admin_password_secret_version or admin_password can be populated. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --database-admin-password-secret-version on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the secret attribute: ▸ provide the argument --database-admin-password-secret-version on the command line with a fully specified name; ▸ provide the argument --secret on the command line. The database ID of the Database.
+    /// </summary>
+    [CliOption("--database-id", Format = OptionFormat.EqualsSeparated)]
+    public string? DatabaseId { get; set; }
+
+    /// <summary>
+    /// Details of the Database Home resource. Represents a time zone from the IANA Time Zone Database (https://www.iana.org/time-zones). SecretVersion resource - The resource name of a secret version in Secret Manager which contains the database admin user's password. Format: projects/{project}/secrets/{secret}/versions/{version}. Note: Only one of admin_password_secret_version or admin_password can be populated. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --database-admin-password-secret-version on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the secret attribute: ▸ provide the argument --database-admin-password-secret-version on the command line with a fully specified name; ▸ provide the argument --secret on the command line. Identifier. The name of the Database resource in the following format: projects/{project}/locations/{region}/databases/{database}
+    /// </summary>
+    [CliOption("--database-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DatabaseName { get; set; }
+
+    /// <summary>
+    /// Details of the Database Home resource. Represents a time zone from the IANA Time Zone Database (https://www.iana.org/time-zones). SecretVersion resource - The resource name of a secret version in Secret Manager which contains the database admin user's password. Format: projects/{project}/secrets/{secret}/versions/{version}. Note: Only one of admin_password_secret_version or admin_password can be populated. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --database-admin-password-secret-version on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the secret attribute: ▸ provide the argument --database-admin-password-secret-version on the command line with a fully specified name; ▸ provide the argument --secret on the command line. The national character set for the database. The default is AL16UTF16.
+    /// </summary>
+    [CliOption("--database-ncharacter-set", Format = OptionFormat.EqualsSeparated)]
+    public string? DatabaseNcharacterSet { get; set; }
+
+    /// <summary>
+    /// Details of the Database Home resource. Represents a time zone from the IANA Time Zone Database (https://www.iana.org/time-zones). SecretVersion resource - The resource name of a secret version in Secret Manager which contains the database admin user's password. Format: projects/{project}/secrets/{secret}/versions/{version}. Note: Only one of admin_password_secret_version or admin_password can be populated. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --database-admin-password-secret-version on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the secret attribute: ▸ provide the argument --database-admin-password-secret-version on the command line with a fully specified name; ▸ provide the argument --secret on the command line. The ID of the pluggable database associated with the Database. The ID must be unique within the project and location.
+    /// </summary>
+    [CliOption("--database-pluggable-id", Format = OptionFormat.EqualsSeparated)]
+    public string? DatabasePluggableId { get; set; }
+
+    /// <summary>
+    /// Details of the Database Home resource. Represents a time zone from the IANA Time Zone Database (https://www.iana.org/time-zones). SecretVersion resource - The resource name of a secret version in Secret Manager which contains the database admin user's password. Format: projects/{project}/secrets/{secret}/versions/{version}. Note: Only one of admin_password_secret_version or admin_password can be populated. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --database-admin-password-secret-version on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the secret attribute: ▸ provide the argument --database-admin-password-secret-version on the command line with a fully specified name; ▸ provide the argument --secret on the command line. The pluggable database associated with the Database. The name must begin with an alphabetic character and can contain a maximum of thirty alphanumeric characters.
+    /// </summary>
+    [CliOption("--database-pluggable-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DatabasePluggableName { get; set; }
+
+    /// <summary>
+    /// Details of the Database Home resource. Represents a time zone from the IANA Time Zone Database (https://www.iana.org/time-zones). SecretVersion resource - The resource name of a secret version in Secret Manager which contains the database admin user's password. Format: projects/{project}/secrets/{secret}/versions/{version}. Note: Only one of admin_password_secret_version or admin_password can be populated. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --database-admin-password-secret-version on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the secret attribute: ▸ provide the argument --database-admin-password-secret-version on the command line with a fully specified name; ▸ provide the argument --secret on the command line. The TDE wallet password for the database. Note: Only one of tde_wallet_password_secret_version or tde_wallet_password can be populated.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--database-tde-wallet-password", Format = OptionFormat.EqualsSeparated)]
+    public string? DatabaseTdeWalletPassword { get; set; }
+
+    /// <summary>
+    /// Details of the Database Home resource. Represents a time zone from the IANA Time Zone Database (https://www.iana.org/time-zones). SecretVersion resource - The resource name of a secret version in Secret Manager which contains the TDE wallet password for the database. Format: projects/{project}/secrets/{secret}/versions/{version}. Note: Only one of tde_wallet_password_secret_version or tde_wallet_password can be populated. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --database-tde-wallet-password-secret-version on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the secret attribute: ▸ provide the argument --database-tde-wallet-password-secret-version on the command line with a fully specified name; ▸ provide the argument --secret on the command line. The properties of a Database. Backup Options for the Database. ID of the secretVersion or fully qualified identifier for the secretVersion. To set the secret-version attribute: ▸ provide the argument --database-tde-wallet-password-secret-version on the command line.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--database-tde-wallet-password-secret-version", Format = OptionFormat.EqualsSeparated)]
+    public string? DatabaseTdeWalletPasswordSecretVersion { get; set; }
+
+    /// <summary>
+    /// Details of the Database Home resource. Represents a time zone from the IANA Time Zone Database (https://www.iana.org/time-zones). SecretVersion resource - The resource name of a secret version in Secret Manager which contains the TDE wallet password for the database. Format: projects/{project}/secrets/{secret}/versions/{version}. Note: Only one of tde_wallet_password_secret_version or tde_wallet_password can be populated. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --database-tde-wallet-password-secret-version on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the secret attribute: ▸ provide the argument --database-tde-wallet-password-secret-version on the command line with a fully specified name; ▸ provide the argument --secret on the command line. The properties of a Database. Backup Options for the Database. The Oracle Database version. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--properties-db-version", Format = OptionFormat.EqualsSeparated)]
+    public string? PropertiesDbVersion { get; set; }
+
+    /// <summary>
+    /// Details of the Database Home resource. Represents a time zone from the IANA Time Zone Database (https://www.iana.org/time-zones). SecretVersion resource - The resource name of a secret version in Secret Manager which contains the TDE wallet password for the database. Format: projects/{project}/secrets/{secret}/versions/{version}. Note: Only one of tde_wallet_password_secret_version or tde_wallet_password can be populated. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --database-tde-wallet-password-secret-version on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the secret attribute: ▸ provide the argument --database-tde-wallet-password-secret-version on the command line with a fully specified name; ▸ provide the argument --secret on the command line. The properties of a Database. Backup Options for the Database. If set to true, enables automatic backups on the database.
+    /// </summary>
+    [CliFlag("--db-backup-config-auto-enabled")]
+    public bool? DbBackupConfigAutoEnabled { get; set; }
+
+    /// <summary>
+    /// Details of the Database Home resource. Represents a time zone from the IANA Time Zone Database (https://www.iana.org/time-zones). SecretVersion resource - The resource name of a secret version in Secret Manager which contains the TDE wallet password for the database. Format: projects/{project}/secrets/{secret}/versions/{version}. Note: Only one of tde_wallet_password_secret_version or tde_wallet_password can be populated. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --database-tde-wallet-password-secret-version on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the secret attribute: ▸ provide the argument --database-tde-wallet-password-secret-version on the command line with a fully specified name; ▸ provide the argument --secret on the command line. The properties of a Database. Backup Options for the Database. The day of the week on which the full backup should be performed on the database. If no value is provided, it will default to Sunday. DB_BACKUP_CONFIG_AUTO_FULL_DAY must be one of: friday Friday monday Monday saturday Saturday sunday Sunday thursday Thursday tuesday Tuesday wednesday Wednesday
+    /// </summary>
+    [CliOption("--db-backup-config-auto-full-day", Format = OptionFormat.EqualsSeparated)]
+    public string? DbBackupConfigAutoFullDay { get; set; }
+
+    /// <summary>
+    /// Details of the Database Home resource. Represents a time zone from the IANA Time Zone Database (https://www.iana.org/time-zones). SecretVersion resource - The resource name of a secret version in Secret Manager which contains the TDE wallet password for the database. Format: projects/{project}/secrets/{secret}/versions/{version}. Note: Only one of tde_wallet_password_secret_version or tde_wallet_password can be populated. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --database-tde-wallet-password-secret-version on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the secret attribute: ▸ provide the argument --database-tde-wallet-password-secret-version on the command line with a fully specified name; ▸ provide the argument --secret on the command line. The properties of a Database. Backup Options for the Database. The window in which the full backup should be performed on the database. If no value is provided, the default is anytime. DB_BACKUP_CONFIG_AUTO_FULL_WINDOW must be one of: slot-eight 2:00 PM - 4:00 PM slot-eleven 8:00 PM - 10:00 PM slot-five 8:00 AM - 10:00 AM slot-four 6:00 AM - 8:00 AM slot-nine 4:00 PM - 6:00 PM slot-one 12:00 AM - 2:00 AM slot-seven 12:00 PM - 2:00 PM slot-six 10:00 AM - 12:00 PM slot-ten 6:00 PM - 8:00 PM slot-three 4:00 AM - 6:00 AM slot-twelve 10:00 PM - 12:00 AM slot-two 2:00 AM - 4:00 AM
+    /// </summary>
+    [CliOption("--db-backup-config-auto-full-window", Format = OptionFormat.EqualsSeparated)]
+    public string? DbBackupConfigAutoFullWindow { get; set; }
+
+    /// <summary>
+    /// Details of the Database Home resource. Represents a time zone from the IANA Time Zone Database (https://www.iana.org/time-zones). SecretVersion resource - The resource name of a secret version in Secret Manager which contains the TDE wallet password for the database. Format: projects/{project}/secrets/{secret}/versions/{version}. Note: Only one of tde_wallet_password_secret_version or tde_wallet_password can be populated. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --database-tde-wallet-password-secret-version on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the secret attribute: ▸ provide the argument --database-tde-wallet-password-secret-version on the command line with a fully specified name; ▸ provide the argument --secret on the command line. The properties of a Database. Backup Options for the Database. The window in which the incremental backup should be performed on the database. If no value is provided, the default is anytime except the auto full backup day. DB_BACKUP_CONFIG_AUTO_INCREMENTAL_WINDOW must be one of: slot-eight 2:00 PM - 4:00 PM slot-eleven 8:00 PM - 10:00 PM slot-five 8:00 AM - 10:00 AM slot-four 6:00 AM - 8:00 AM slot-nine 4:00 PM - 6:00 PM slot-one 12:00 AM - 2:00 AM slot-seven 12:00 PM - 2:00 PM slot-six 10:00 AM - 12:00 PM slot-ten 6:00 PM - 8:00 PM slot-three 4:00 AM - 6:00 AM slot-twelve 10:00 PM - 12:00 AM slot-two 2:00 AM - 4:00 AM
+    /// </summary>
+    [CliOption("--db-backup-config-auto-incremental-window", Format = OptionFormat.EqualsSeparated)]
+    public string? DbBackupConfigAutoIncrementalWindow { get; set; }
+
+    /// <summary>
+    /// Details of the Database Home resource. Represents a time zone from the IANA Time Zone Database (https://www.iana.org/time-zones). SecretVersion resource - The resource name of a secret version in Secret Manager which contains the TDE wallet password for the database. Format: projects/{project}/secrets/{secret}/versions/{version}. Note: Only one of tde_wallet_password_secret_version or tde_wallet_password can be populated. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --database-tde-wallet-password-secret-version on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the secret attribute: ▸ provide the argument --database-tde-wallet-password-secret-version on the command line with a fully specified name; ▸ provide the argument --secret on the command line. The properties of a Database. Backup Options for the Database. This defines when the backups will be deleted after Database termination. DB_BACKUP_CONFIG_DELETION_POLICY must be one of: delete-after-retention-period Keeps the backups as per the policy defined for database backups. delete-immediately Keeps the backup for predefined time i.e. 72 hours and then delete permanently.
+    /// </summary>
+    [CliOption("--db-backup-config-deletion-policy", Format = OptionFormat.EqualsSeparated)]
+    public string? DbBackupConfigDeletionPolicy { get; set; }
+
+    /// <summary>
+    /// Details of the Database Home resource. Represents a time zone from the IANA Time Zone Database (https://www.iana.org/time-zones). SecretVersion resource - The resource name of a secret version in Secret Manager which contains the TDE wallet password for the database. Format: projects/{project}/secrets/{secret}/versions/{version}. Note: Only one of tde_wallet_password_secret_version or tde_wallet_password can be populated. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --database-tde-wallet-password-secret-version on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the secret attribute: ▸ provide the argument --database-tde-wallet-password-secret-version on the command line with a fully specified name; ▸ provide the argument --secret on the command line. The properties of a Database. Backup Options for the Database. Details of the database backup destinations. type The type of the database backup destination. Shorthand Example: --db-backup-config-destination-details=type=string --db-backup-config-destination-details=type=string JSON Example: --db-backup-config-destination-details='[{"type": "string"}]' File Example: --db-backup-config-destination-details=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--db-backup-config-destination-details", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? DbBackupConfigDestinationDetails
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __DbBackupConfigDestinationDetailsSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __DbBackupConfigDestinationDetailsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __DbBackupConfigDestinationDetailsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __DbBackupConfigDestinationDetailsSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Details of the Database Home resource. Represents a time zone from the IANA Time Zone Database (https://www.iana.org/time-zones). SecretVersion resource - The resource name of a secret version in Secret Manager which contains the TDE wallet password for the database. Format: projects/{project}/secrets/{secret}/versions/{version}. Note: Only one of tde_wallet_password_secret_version or tde_wallet_password can be populated. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --database-tde-wallet-password-secret-version on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the secret attribute: ▸ provide the argument --database-tde-wallet-password-secret-version on the command line with a fully specified name; ▸ provide the argument --secret on the command line. The properties of a Database. Backup Options for the Database. The number of days an automatic backup is retained before being automatically deleted. This value determines the earliest point in time to which a database can be restored. Min: 1, Max: 60.
+    /// </summary>
+    [CliOption("--db-backup-config-retention-period-days", Format = OptionFormat.EqualsSeparated)]
+    public string? DbBackupConfigRetentionPeriodDays { get; set; }
+
+    /// <summary>
+    /// Details of the Database Home resource. Represents a time zone from the IANA Time Zone Database (https://www.iana.org/time-zones). IANA Time Zone Database time zone. For example "America/New_York".
+    /// </summary>
+    [CliOption("--time-zone-id", Format = OptionFormat.EqualsSeparated)]
+    public string? TimeZoneId { get; set; }
+
+    /// <summary>
+    /// Details of the Database Home resource. Represents a time zone from the IANA Time Zone Database (https://www.iana.org/time-zones). IANA Time Zone Database version number. For example "2019a".
+    /// </summary>
+    [CliOption("--time-zone-version", Format = OptionFormat.EqualsSeparated)]
+    public string? TimeZoneVersion { get; set; }
+
+    /// <summary>
+    /// DbSystem resource - Identifier. The name of the DbSystem resource in the following format: projects/{project}/locations/{region}/dbSystems/{db_system} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument db_system on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument db_system on the command line with a fully specified name; ◆ provide the argument --location on the command line. This must be specified. ID of the dbSystem or fully qualified identifier for the dbSystem. To set the db_system attribute: ▸ provide the argument db_system on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string DbSystem { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (((object?)PropertiesComputeCount is not null || !string.IsNullOrWhiteSpace(PropertiesDatabaseEdition) || (object?)PropertiesInitialDataStorageSizeGb is not null || !string.IsNullOrWhiteSpace(PropertiesLicenseModel) || !string.IsNullOrWhiteSpace(PropertiesShape) || ((object?)PropertiesSshPublicKeys is global::System.Collections.Generic.IEnumerable<char> ? (object?)PropertiesSshPublicKeys is not string || !string.IsNullOrWhiteSpace(PropertiesSshPublicKeys?.ToString()) : ((object?)PropertiesSshPublicKeys is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)PropertiesSshPublicKeys, static item => item is not null) : (PropertiesSshPublicKeys is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)PropertiesSshPublicKeys), static item => item is not null))))) && (!((object?)PropertiesComputeCount is not null)))
+        {
+            yield return new ValidationResult("PropertiesComputeCount must be specified when other arguments in this group are specified.", [nameof(PropertiesComputeCount)]);
+        }
+        if (((object?)PropertiesComputeCount is not null || !string.IsNullOrWhiteSpace(PropertiesDatabaseEdition) || (object?)PropertiesInitialDataStorageSizeGb is not null || !string.IsNullOrWhiteSpace(PropertiesLicenseModel) || !string.IsNullOrWhiteSpace(PropertiesShape) || ((object?)PropertiesSshPublicKeys is global::System.Collections.Generic.IEnumerable<char> ? (object?)PropertiesSshPublicKeys is not string || !string.IsNullOrWhiteSpace(PropertiesSshPublicKeys?.ToString()) : ((object?)PropertiesSshPublicKeys is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)PropertiesSshPublicKeys, static item => item is not null) : (PropertiesSshPublicKeys is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)PropertiesSshPublicKeys), static item => item is not null))))) && (!(!string.IsNullOrWhiteSpace(PropertiesDatabaseEdition))))
+        {
+            yield return new ValidationResult("PropertiesDatabaseEdition must be specified when other arguments in this group are specified.", [nameof(PropertiesDatabaseEdition)]);
+        }
+        if (((object?)PropertiesComputeCount is not null || !string.IsNullOrWhiteSpace(PropertiesDatabaseEdition) || (object?)PropertiesInitialDataStorageSizeGb is not null || !string.IsNullOrWhiteSpace(PropertiesLicenseModel) || !string.IsNullOrWhiteSpace(PropertiesShape) || ((object?)PropertiesSshPublicKeys is global::System.Collections.Generic.IEnumerable<char> ? (object?)PropertiesSshPublicKeys is not string || !string.IsNullOrWhiteSpace(PropertiesSshPublicKeys?.ToString()) : ((object?)PropertiesSshPublicKeys is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)PropertiesSshPublicKeys, static item => item is not null) : (PropertiesSshPublicKeys is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)PropertiesSshPublicKeys), static item => item is not null))))) && (!((object?)PropertiesInitialDataStorageSizeGb is not null)))
+        {
+            yield return new ValidationResult("PropertiesInitialDataStorageSizeGb must be specified when other arguments in this group are specified.", [nameof(PropertiesInitialDataStorageSizeGb)]);
+        }
+        if (((object?)PropertiesComputeCount is not null || !string.IsNullOrWhiteSpace(PropertiesDatabaseEdition) || (object?)PropertiesInitialDataStorageSizeGb is not null || !string.IsNullOrWhiteSpace(PropertiesLicenseModel) || !string.IsNullOrWhiteSpace(PropertiesShape) || ((object?)PropertiesSshPublicKeys is global::System.Collections.Generic.IEnumerable<char> ? (object?)PropertiesSshPublicKeys is not string || !string.IsNullOrWhiteSpace(PropertiesSshPublicKeys?.ToString()) : ((object?)PropertiesSshPublicKeys is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)PropertiesSshPublicKeys, static item => item is not null) : (PropertiesSshPublicKeys is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)PropertiesSshPublicKeys), static item => item is not null))))) && (!(!string.IsNullOrWhiteSpace(PropertiesLicenseModel))))
+        {
+            yield return new ValidationResult("PropertiesLicenseModel must be specified when other arguments in this group are specified.", [nameof(PropertiesLicenseModel)]);
+        }
+        if (((object?)PropertiesComputeCount is not null || !string.IsNullOrWhiteSpace(PropertiesDatabaseEdition) || (object?)PropertiesInitialDataStorageSizeGb is not null || !string.IsNullOrWhiteSpace(PropertiesLicenseModel) || !string.IsNullOrWhiteSpace(PropertiesShape) || ((object?)PropertiesSshPublicKeys is global::System.Collections.Generic.IEnumerable<char> ? (object?)PropertiesSshPublicKeys is not string || !string.IsNullOrWhiteSpace(PropertiesSshPublicKeys?.ToString()) : ((object?)PropertiesSshPublicKeys is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)PropertiesSshPublicKeys, static item => item is not null) : (PropertiesSshPublicKeys is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)PropertiesSshPublicKeys), static item => item is not null))))) && (!(!string.IsNullOrWhiteSpace(PropertiesShape))))
+        {
+            yield return new ValidationResult("PropertiesShape must be specified when other arguments in this group are specified.", [nameof(PropertiesShape)]);
+        }
+        if (((object?)PropertiesComputeCount is not null || !string.IsNullOrWhiteSpace(PropertiesDatabaseEdition) || (object?)PropertiesInitialDataStorageSizeGb is not null || !string.IsNullOrWhiteSpace(PropertiesLicenseModel) || !string.IsNullOrWhiteSpace(PropertiesShape) || ((object?)PropertiesSshPublicKeys is global::System.Collections.Generic.IEnumerable<char> ? (object?)PropertiesSshPublicKeys is not string || !string.IsNullOrWhiteSpace(PropertiesSshPublicKeys?.ToString()) : ((object?)PropertiesSshPublicKeys is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)PropertiesSshPublicKeys, static item => item is not null) : (PropertiesSshPublicKeys is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)PropertiesSshPublicKeys), static item => item is not null))))) && (!(((object?)PropertiesSshPublicKeys is global::System.Collections.Generic.IEnumerable<char> ? (object?)PropertiesSshPublicKeys is not string || !string.IsNullOrWhiteSpace(PropertiesSshPublicKeys?.ToString()) : ((object?)PropertiesSshPublicKeys is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)PropertiesSshPublicKeys, static item => item is not null) : (PropertiesSshPublicKeys is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)PropertiesSshPublicKeys), static item => item is not null)))))))
+        {
+            yield return new ValidationResult("PropertiesSshPublicKeys must be specified when other arguments in this group are specified.", [nameof(PropertiesSshPublicKeys)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(DbHomeVersion) || !string.IsNullOrWhiteSpace(DbHomeDisplayName) || DbHomeIsUnifiedAuditingEnabled == true || !string.IsNullOrWhiteSpace(TimeZoneId) || !string.IsNullOrWhiteSpace(TimeZoneVersion) || !string.IsNullOrWhiteSpace(DatabaseAdminPassword) || !string.IsNullOrWhiteSpace(DatabaseAdminPasswordSecretVersion) || !string.IsNullOrWhiteSpace(DatabaseCharacterSet) || !string.IsNullOrWhiteSpace(DatabaseDbHomeName) || !string.IsNullOrWhiteSpace(DatabaseDbName) || !string.IsNullOrWhiteSpace(DatabaseDbUniqueName) || !string.IsNullOrWhiteSpace(DatabaseId) || !string.IsNullOrWhiteSpace(DatabaseName) || !string.IsNullOrWhiteSpace(DatabaseNcharacterSet) || !string.IsNullOrWhiteSpace(DatabasePluggableId) || !string.IsNullOrWhiteSpace(DatabasePluggableName) || !string.IsNullOrWhiteSpace(DatabaseTdeWalletPassword) || !string.IsNullOrWhiteSpace(DatabaseTdeWalletPasswordSecretVersion) || !string.IsNullOrWhiteSpace(PropertiesDbVersion) || DbBackupConfigAutoEnabled == true || !string.IsNullOrWhiteSpace(DbBackupConfigAutoFullDay) || !string.IsNullOrWhiteSpace(DbBackupConfigAutoFullWindow) || !string.IsNullOrWhiteSpace(DbBackupConfigAutoIncrementalWindow) || !string.IsNullOrWhiteSpace(DbBackupConfigDeletionPolicy) || ((object?)DbBackupConfigDestinationDetails is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)DbBackupConfigDestinationDetails, static item => item is not null) : ((object?)DbBackupConfigDestinationDetails is global::System.Collections.Generic.IEnumerable<char> ? (object?)DbBackupConfigDestinationDetails is not string || !string.IsNullOrWhiteSpace(DbBackupConfigDestinationDetails?.ToString()) : ((object?)DbBackupConfigDestinationDetails is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)DbBackupConfigDestinationDetails, static item => item is not null) : (DbBackupConfigDestinationDetails is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)DbBackupConfigDestinationDetails), static item => item is not null))))) || !string.IsNullOrWhiteSpace(DbBackupConfigRetentionPeriodDays)) && (!(!string.IsNullOrWhiteSpace(DbHomeVersion))))
+        {
+            yield return new ValidationResult("DbHomeVersion must be specified when other arguments in this group are specified.", [nameof(DbHomeVersion)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(DbHomeVersion) || !string.IsNullOrWhiteSpace(DbHomeDisplayName) || DbHomeIsUnifiedAuditingEnabled == true || !string.IsNullOrWhiteSpace(TimeZoneId) || !string.IsNullOrWhiteSpace(TimeZoneVersion) || !string.IsNullOrWhiteSpace(DatabaseAdminPassword) || !string.IsNullOrWhiteSpace(DatabaseAdminPasswordSecretVersion) || !string.IsNullOrWhiteSpace(DatabaseCharacterSet) || !string.IsNullOrWhiteSpace(DatabaseDbHomeName) || !string.IsNullOrWhiteSpace(DatabaseDbName) || !string.IsNullOrWhiteSpace(DatabaseDbUniqueName) || !string.IsNullOrWhiteSpace(DatabaseId) || !string.IsNullOrWhiteSpace(DatabaseName) || !string.IsNullOrWhiteSpace(DatabaseNcharacterSet) || !string.IsNullOrWhiteSpace(DatabasePluggableId) || !string.IsNullOrWhiteSpace(DatabasePluggableName) || !string.IsNullOrWhiteSpace(DatabaseTdeWalletPassword) || !string.IsNullOrWhiteSpace(DatabaseTdeWalletPasswordSecretVersion) || !string.IsNullOrWhiteSpace(PropertiesDbVersion) || DbBackupConfigAutoEnabled == true || !string.IsNullOrWhiteSpace(DbBackupConfigAutoFullDay) || !string.IsNullOrWhiteSpace(DbBackupConfigAutoFullWindow) || !string.IsNullOrWhiteSpace(DbBackupConfigAutoIncrementalWindow) || !string.IsNullOrWhiteSpace(DbBackupConfigDeletionPolicy) || ((object?)DbBackupConfigDestinationDetails is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)DbBackupConfigDestinationDetails, static item => item is not null) : ((object?)DbBackupConfigDestinationDetails is global::System.Collections.Generic.IEnumerable<char> ? (object?)DbBackupConfigDestinationDetails is not string || !string.IsNullOrWhiteSpace(DbBackupConfigDestinationDetails?.ToString()) : ((object?)DbBackupConfigDestinationDetails is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)DbBackupConfigDestinationDetails, static item => item is not null) : (DbBackupConfigDestinationDetails is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)DbBackupConfigDestinationDetails), static item => item is not null))))) || !string.IsNullOrWhiteSpace(DbBackupConfigRetentionPeriodDays)) && (!(!string.IsNullOrWhiteSpace(DatabaseAdminPassword))))
+        {
+            yield return new ValidationResult("At least one of DatabaseAdminPassword must be specified.", [nameof(DatabaseAdminPassword)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(DbHomeVersion) || !string.IsNullOrWhiteSpace(DbHomeDisplayName) || DbHomeIsUnifiedAuditingEnabled == true || !string.IsNullOrWhiteSpace(TimeZoneId) || !string.IsNullOrWhiteSpace(TimeZoneVersion) || !string.IsNullOrWhiteSpace(DatabaseAdminPassword) || !string.IsNullOrWhiteSpace(DatabaseAdminPasswordSecretVersion) || !string.IsNullOrWhiteSpace(DatabaseCharacterSet) || !string.IsNullOrWhiteSpace(DatabaseDbHomeName) || !string.IsNullOrWhiteSpace(DatabaseDbName) || !string.IsNullOrWhiteSpace(DatabaseDbUniqueName) || !string.IsNullOrWhiteSpace(DatabaseId) || !string.IsNullOrWhiteSpace(DatabaseName) || !string.IsNullOrWhiteSpace(DatabaseNcharacterSet) || !string.IsNullOrWhiteSpace(DatabasePluggableId) || !string.IsNullOrWhiteSpace(DatabasePluggableName) || !string.IsNullOrWhiteSpace(DatabaseTdeWalletPassword) || !string.IsNullOrWhiteSpace(DatabaseTdeWalletPasswordSecretVersion) || !string.IsNullOrWhiteSpace(PropertiesDbVersion) || DbBackupConfigAutoEnabled == true || !string.IsNullOrWhiteSpace(DbBackupConfigAutoFullDay) || !string.IsNullOrWhiteSpace(DbBackupConfigAutoFullWindow) || !string.IsNullOrWhiteSpace(DbBackupConfigAutoIncrementalWindow) || !string.IsNullOrWhiteSpace(DbBackupConfigDeletionPolicy) || ((object?)DbBackupConfigDestinationDetails is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)DbBackupConfigDestinationDetails, static item => item is not null) : ((object?)DbBackupConfigDestinationDetails is global::System.Collections.Generic.IEnumerable<char> ? (object?)DbBackupConfigDestinationDetails is not string || !string.IsNullOrWhiteSpace(DbBackupConfigDestinationDetails?.ToString()) : ((object?)DbBackupConfigDestinationDetails is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)DbBackupConfigDestinationDetails, static item => item is not null) : (DbBackupConfigDestinationDetails is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)DbBackupConfigDestinationDetails), static item => item is not null))))) || !string.IsNullOrWhiteSpace(DbBackupConfigRetentionPeriodDays)) && (!string.IsNullOrWhiteSpace(DatabaseTdeWalletPasswordSecretVersion) || !string.IsNullOrWhiteSpace(PropertiesDbVersion) || DbBackupConfigAutoEnabled == true || !string.IsNullOrWhiteSpace(DbBackupConfigAutoFullDay) || !string.IsNullOrWhiteSpace(DbBackupConfigAutoFullWindow) || !string.IsNullOrWhiteSpace(DbBackupConfigAutoIncrementalWindow) || !string.IsNullOrWhiteSpace(DbBackupConfigDeletionPolicy) || ((object?)DbBackupConfigDestinationDetails is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)DbBackupConfigDestinationDetails, static item => item is not null) : ((object?)DbBackupConfigDestinationDetails is global::System.Collections.Generic.IEnumerable<char> ? (object?)DbBackupConfigDestinationDetails is not string || !string.IsNullOrWhiteSpace(DbBackupConfigDestinationDetails?.ToString()) : ((object?)DbBackupConfigDestinationDetails is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)DbBackupConfigDestinationDetails, static item => item is not null) : (DbBackupConfigDestinationDetails is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)DbBackupConfigDestinationDetails), static item => item is not null))))) || !string.IsNullOrWhiteSpace(DbBackupConfigRetentionPeriodDays)) && (!(!string.IsNullOrWhiteSpace(PropertiesDbVersion))))
+        {
+            yield return new ValidationResult("PropertiesDbVersion must be specified when other arguments in this group are specified.", [nameof(PropertiesDbVersion)]);
+        }
+        yield break;
+    }
+
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -20,10 +21,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("scc", "custom-modules", "sha", "update")]
-public record GcloudSccCustomModulesShaUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string CustomModule
-) : GcloudOptions
+public record GcloudSccCustomModulesShaUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a Security Health Analytics     custom module
+    /// </summary>
+    /// <param name="CustomModule">ID or the full resource name of the Security Health Analytics custom module. If you specify the full resource name, you do not need to specify the --organization, --folder, or --project flags.</param>
+    public GcloudSccCustomModulesShaUpdateOptions(
+        string CustomModule
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CustomModule);
+        this.CustomModule = CustomModule;
+    }
+
+    public void Deconstruct(out string CustomModule)
+    {
+        CustomModule = this.CustomModule;
+    }
+
     /// <summary>
     /// Path to a YAML file that contains the configuration for the Security Health Analytics custom module. Use a full or relative path to a local file containing the value of custom_config.
     /// </summary>
@@ -59,5 +75,21 @@ public record GcloudSccCustomModulesShaUpdateOptions(
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
     public string? Project { get; set; }
+
+    /// <summary>
+    /// ID or the full resource name of the Security Health Analytics custom module. If you specify the full resource name, you do not need to specify the --organization, --folder, or --project flags.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string CustomModule { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Folder) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Project) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Folder, Organization, or Project may be specified.", [nameof(Folder), nameof(Organization), nameof(Project)]);
+        }
+        yield break;
+    }
 
 }

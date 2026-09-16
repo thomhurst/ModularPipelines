@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -20,8 +21,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("oracle-database", "autonomous-databases", "create")]
-public record GcloudOracleDatabaseAutonomousDatabasesCreateOptions : GcloudOptions
+public record GcloudOracleDatabaseAutonomousDatabasesCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a new     AutonomousDatabase
+    /// </summary>
+    /// <param name="AutonomousDatabase">AutonomousDatabase resource - Identifier. The name of the Autonomous Database resource in the following format: projects/{project}/locations/{region}/autonomousDatabases/{autonomous_database} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument autonomous_database on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument autonomous_database on the command line with a fully specified name; ◆ provide the argument --location on the command line. This must be specified. ID of the autonomousDatabase or fully qualified identifier for the autonomousDatabase. To set the autonomous_database attribute: ▸ provide the argument autonomous_database on the command line.</param>
+    public GcloudOracleDatabaseAutonomousDatabasesCreateOptions(
+        string AutonomousDatabase
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AutonomousDatabase);
+        this.AutonomousDatabase = AutonomousDatabase;
+    }
+
+    public void Deconstruct(out string AutonomousDatabase)
+    {
+        AutonomousDatabase = this.AutonomousDatabase;
+    }
+
     /// <summary>
     /// The password for the default ADMIN user. Note: Only one of admin_password_secret_version or admin_password can be populated.
     /// </summary>
@@ -90,99 +108,161 @@ public record GcloudOracleDatabaseAutonomousDatabasesCreateOptions : GcloudOptio
     public string? RequestId { get; set; }
 
     /// <summary>
-    /// SecretVersion resource - The resource name of a secret version in Secret Manager which contains the database admin user's password. Format: projects/{project}/secrets/{secret}/versions/{version}. Note: Only one of admin_password_secret_version or admin_password can be populated. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --admin-password-secret-version on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the secretVersion or fully qualified identifier for the secretVersion. To set the secret-version attribute: ◆ provide the argument --admin-password-secret-version on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// SecretVersion resource - The resource name of a secret version in Secret Manager which contains the database admin user's password. Format: projects/{project}/secrets/{secret}/versions/{version}. Note: Only one of admin_password_secret_version or admin_password can be populated. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --admin-password-secret-version on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. The properties of an Autonomous Database. ID of the secretVersion or fully qualified identifier for the secretVersion. To set the secret-version attribute: ◆ provide the argument --admin-password-secret-version on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [SecretValue]
     [CliOption("--admin-password-secret-version", Format = OptionFormat.EqualsSeparated)]
     public string? AdminPasswordSecretVersion { get; set; }
 
     /// <summary>
-    /// SecretVersion resource - The resource name of a secret version in Secret Manager which contains the database admin user's password. Format: projects/{project}/secrets/{secret}/versions/{version}. Note: Only one of admin_password_secret_version or admin_password can be populated. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --admin-password-secret-version on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. The secret id of the secretVersion resource. To set the secret attribute: ◆ provide the argument --admin-password-secret-version on the command line with a fully specified name; ◆ provide the argument --secret on the command line.
+    /// SecretVersion resource - The resource name of a secret version in Secret Manager which contains the database admin user's password. Format: projects/{project}/secrets/{secret}/versions/{version}. Note: Only one of admin_password_secret_version or admin_password can be populated. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --admin-password-secret-version on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. The properties of an Autonomous Database. The secret id of the secretVersion resource. To set the secret attribute: ◆ provide the argument --admin-password-secret-version on the command line with a fully specified name; ◆ provide the argument --secret on the command line.
     /// </summary>
     [SecretValue]
     [CliOption("--secret", Format = OptionFormat.EqualsSeparated)]
     public string? Secret { get; set; }
 
     /// <summary>
-    /// The properties of an Autonomous Database. The workload type of the Autonomous Database. PROPERTIES_DB_WORKLOAD must be one of: ajd Autonomous JSON Database. apex Autonomous Database with the Oracle APEX Application Development workload type. dw Autonomous Data Warehouse database. oltp Autonomous Transaction Processing database. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// SecretVersion resource - The resource name of a secret version in Secret Manager which contains the database admin user's password. Format: projects/{project}/secrets/{secret}/versions/{version}. Note: Only one of admin_password_secret_version or admin_password can be populated. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --admin-password-secret-version on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. The properties of an Autonomous Database. The workload type of the Autonomous Database. PROPERTIES_DB_WORKLOAD must be one of: ajd Autonomous JSON Database. apex Autonomous Database with the Oracle APEX Application Development workload type. dw Autonomous Data Warehouse database. oltp Autonomous Transaction Processing database. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--properties-db-workload", Format = OptionFormat.EqualsSeparated)]
     public string? PropertiesDbWorkload { get; set; }
 
     /// <summary>
-    /// The properties of an Autonomous Database. The license type used for the Autonomous Database. PROPERTIES_LICENSE_TYPE must be one of: bring-your-own-license Bring your own license license-included License included part of offer This flag argument must be specified if any of the other arguments in this group are specified.
+    /// SecretVersion resource - The resource name of a secret version in Secret Manager which contains the database admin user's password. Format: projects/{project}/secrets/{secret}/versions/{version}. Note: Only one of admin_password_secret_version or admin_password can be populated. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --admin-password-secret-version on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. The properties of an Autonomous Database. The license type used for the Autonomous Database. PROPERTIES_LICENSE_TYPE must be one of: bring-your-own-license Bring your own license license-included License included part of offer This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--properties-license-type", Format = OptionFormat.EqualsSeparated)]
     public string? PropertiesLicenseType { get; set; }
 
     /// <summary>
-    /// The properties of an Autonomous Database. The list of allowlisted IP addresses for the Autonomous Database.
+    /// SecretVersion resource - The resource name of a secret version in Secret Manager which contains the database admin user's password. Format: projects/{project}/secrets/{secret}/versions/{version}. Note: Only one of admin_password_secret_version or admin_password can be populated. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --admin-password-secret-version on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. The properties of an Autonomous Database. The list of allowlisted IP addresses for the Autonomous Database. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--properties-allowlisted-ips", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? PropertiesAllowlistedIps { get; set; }
+    [CliOption("--properties-allowlisted-ips", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? PropertiesAllowlistedIps
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __PropertiesAllowlistedIpsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __PropertiesAllowlistedIpsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// The properties of an Autonomous Database. The retention period for the Autonomous Database. This field is specified in days, can range from 1 day to 60 days, and has a default value of 60 days.
+    /// SecretVersion resource - The resource name of a secret version in Secret Manager which contains the database admin user's password. Format: projects/{project}/secrets/{secret}/versions/{version}. Note: Only one of admin_password_secret_version or admin_password can be populated. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --admin-password-secret-version on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. The properties of an Autonomous Database. The retention period for the Autonomous Database. This field is specified in days, can range from 1 day to 60 days, and has a default value of 60 days.
     /// </summary>
     [CliOption("--properties-backup-retention-period-days", Format = OptionFormat.EqualsSeparated)]
     public string? PropertiesBackupRetentionPeriodDays { get; set; }
 
     /// <summary>
-    /// The properties of an Autonomous Database. The character set for the Autonomous Database. The default is AL32UTF8.
+    /// SecretVersion resource - The resource name of a secret version in Secret Manager which contains the database admin user's password. Format: projects/{project}/secrets/{secret}/versions/{version}. Note: Only one of admin_password_secret_version or admin_password can be populated. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --admin-password-secret-version on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. The properties of an Autonomous Database. The character set for the Autonomous Database. The default is AL32UTF8.
     /// </summary>
     [CliOption("--properties-character-set", Format = OptionFormat.EqualsSeparated)]
     public string? PropertiesCharacterSet { get; set; }
 
     /// <summary>
-    /// The properties of an Autonomous Database. The number of compute servers for the Autonomous Database.
+    /// SecretVersion resource - The resource name of a secret version in Secret Manager which contains the database admin user's password. Format: projects/{project}/secrets/{secret}/versions/{version}. Note: Only one of admin_password_secret_version or admin_password can be populated. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --admin-password-secret-version on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. The properties of an Autonomous Database. The number of compute servers for the Autonomous Database.
     /// </summary>
     [CliOption("--properties-compute-count", Format = OptionFormat.EqualsSeparated)]
     public int? PropertiesComputeCount { get; set; }
 
     /// <summary>
-    /// The properties of an Autonomous Database. The number of CPU cores to be made available to the database.
+    /// SecretVersion resource - The resource name of a secret version in Secret Manager which contains the database admin user's password. Format: projects/{project}/secrets/{secret}/versions/{version}. Note: Only one of admin_password_secret_version or admin_password can be populated. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --admin-password-secret-version on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. The properties of an Autonomous Database. The number of CPU cores to be made available to the database.
     /// </summary>
     [CliOption("--properties-cpu-core-count", Format = OptionFormat.EqualsSeparated)]
     public int? PropertiesCpuCoreCount { get; set; }
 
     /// <summary>
-    /// The properties of an Autonomous Database. The list of customer contacts. email The email address used by Oracle to send notifications regarding databases and infrastructure. Shorthand Example: --properties-customer-contacts=email=string --properties-customer-contacts=email=string JSON Example: --properties-customer-contacts='[{"email": "string"}]' File Example: --properties-customer-contacts=path_to_file.(yaml|json)
+    /// SecretVersion resource - The resource name of a secret version in Secret Manager which contains the database admin user's password. Format: projects/{project}/secrets/{secret}/versions/{version}. Note: Only one of admin_password_secret_version or admin_password can be populated. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --admin-password-secret-version on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. The properties of an Autonomous Database. The list of customer contacts. email The email address used by Oracle to send notifications regarding databases and infrastructure. Shorthand Example: --properties-customer-contacts=email=string --properties-customer-contacts=email=string JSON Example: --properties-customer-contacts='[{"email": "string"}]' File Example: --properties-customer-contacts=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--properties-customer-contacts", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? PropertiesCustomerContacts { get; set; }
+    public IEnumerable<string>? PropertiesCustomerContacts
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __PropertiesCustomerContactsSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __PropertiesCustomerContactsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __PropertiesCustomerContactsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __PropertiesCustomerContactsSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// The properties of an Autonomous Database. The size of the data stored in the database, in gigabytes.
+    /// SecretVersion resource - The resource name of a secret version in Secret Manager which contains the database admin user's password. Format: projects/{project}/secrets/{secret}/versions/{version}. Note: Only one of admin_password_secret_version or admin_password can be populated. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --admin-password-secret-version on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. The properties of an Autonomous Database. The size of the data stored in the database, in gigabytes.
     /// </summary>
     [CliOption("--properties-data-storage-size-gb", Format = OptionFormat.EqualsSeparated)]
     public int? PropertiesDataStorageSizeGb { get; set; }
 
     /// <summary>
-    /// The properties of an Autonomous Database. The size of the data stored in the database, in terabytes.
+    /// SecretVersion resource - The resource name of a secret version in Secret Manager which contains the database admin user's password. Format: projects/{project}/secrets/{secret}/versions/{version}. Note: Only one of admin_password_secret_version or admin_password can be populated. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --admin-password-secret-version on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. The properties of an Autonomous Database. The size of the data stored in the database, in terabytes.
     /// </summary>
     [CliOption("--properties-data-storage-size-tb", Format = OptionFormat.EqualsSeparated)]
     public int? PropertiesDataStorageSizeTb { get; set; }
 
     /// <summary>
-    /// The properties of an Autonomous Database. The edition of the Autonomous Databases. PROPERTIES_DB_EDITION must be one of: enterprise-edition Enterprise Database Edition standard-edition Standard Database Edition
+    /// SecretVersion resource - The resource name of a secret version in Secret Manager which contains the database admin user's password. Format: projects/{project}/secrets/{secret}/versions/{version}. Note: Only one of admin_password_secret_version or admin_password can be populated. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --admin-password-secret-version on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. The properties of an Autonomous Database. The edition of the Autonomous Databases. PROPERTIES_DB_EDITION must be one of: enterprise-edition Enterprise Database Edition standard-edition Standard Database Edition
     /// </summary>
     [CliOption("--properties-db-edition", Format = OptionFormat.EqualsSeparated)]
     public string? PropertiesDbEdition { get; set; }
 
     /// <summary>
-    /// The properties of an Autonomous Database. The Oracle Database version for the Autonomous Database.
+    /// SecretVersion resource - The resource name of a secret version in Secret Manager which contains the database admin user's password. Format: projects/{project}/secrets/{secret}/versions/{version}. Note: Only one of admin_password_secret_version or admin_password can be populated. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --admin-password-secret-version on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. The properties of an Autonomous Database. The Oracle Database version for the Autonomous Database.
     /// </summary>
     [CliOption("--properties-db-version", Format = OptionFormat.EqualsSeparated)]
     public string? PropertiesDbVersion { get; set; }
 
     /// <summary>
-    /// The properties of an Autonomous Database. This field indicates if auto scaling is enabled for the Autonomous Database CPU core count.
+    /// SecretVersion resource - The resource name of a secret version in Secret Manager which contains the database admin user's password. Format: projects/{project}/secrets/{secret}/versions/{version}. Note: Only one of admin_password_secret_version or admin_password can be populated. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --admin-password-secret-version on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. The properties of an Autonomous Database. This field indicates if auto scaling is enabled for the Autonomous Database CPU core count.
     /// </summary>
     [CliFlag("--properties-is-auto-scaling-enabled")]
     public bool? PropertiesIsAutoScalingEnabled { get; set; }
 
     /// <summary>
-    /// The properties of an Autonomous Database. This field indicates if auto scaling is enabled for the Autonomous Database storage.
+    /// SecretVersion resource - The resource name of a secret version in Secret Manager which contains the database admin user's password. Format: projects/{project}/secrets/{secret}/versions/{version}. Note: Only one of admin_password_secret_version or admin_password can be populated. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --admin-password-secret-version on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. The properties of an Autonomous Database. This field indicates if auto scaling is enabled for the Autonomous Database storage.
     /// </summary>
     [CliFlag("--properties-is-storage-auto-scaling-enabled")]
     public bool? PropertiesIsStorageAutoScalingEnabled { get; set; }
@@ -230,43 +310,43 @@ public record GcloudOracleDatabaseAutonomousDatabasesCreateOptions : GcloudOptio
     public string? PropertiesPrivateEndpointLabel { get; set; }
 
     /// <summary>
-    /// Arguments for the refreshable clone. Indicates if the Autonomous Database is a refreshable clone. This field is used in update flow to connect / disconnect a refreshable clone from its source database.
+    /// Arguments for the refreshable clone. The encryption key used to encrypt the Autonomous Database. Indicates if the Autonomous Database is a refreshable clone. This field is used in update flow to connect / disconnect a refreshable clone from its source database.
     /// </summary>
     [CliFlag("--properties-refreshable-clone")]
     public bool? PropertiesRefreshableClone { get; set; }
 
     /// <summary>
-    /// Arguments for the refreshable clone. The ID of the Oracle Cloud Infrastructure vault secret.
+    /// Arguments for the refreshable clone. The encryption key used to encrypt the Autonomous Database. The ID of the Oracle Cloud Infrastructure vault secret.
     /// </summary>
     [CliOption("--properties-secret-id", Format = OptionFormat.EqualsSeparated)]
     public string? PropertiesSecretId { get; set; }
 
     /// <summary>
-    /// Arguments for the refreshable clone. The ID of the Oracle Cloud Infrastructure vault.
+    /// Arguments for the refreshable clone. The encryption key used to encrypt the Autonomous Database. The ID of the Oracle Cloud Infrastructure vault.
     /// </summary>
     [CliOption("--properties-vault-id", Format = OptionFormat.EqualsSeparated)]
     public string? PropertiesVaultId { get; set; }
 
     /// <summary>
-    /// The encryption key used to encrypt the Autonomous Database. The provider of the encryption key. ENCRYPTION_KEY_PROVIDER must be one of: google-managed Google Managed KMS key, if selected, please provide the KMS key name. oracle-managed Oracle Managed.
+    /// Arguments for the refreshable clone. The encryption key used to encrypt the Autonomous Database. The provider of the encryption key. ENCRYPTION_KEY_PROVIDER must be one of: google-managed Google Managed KMS key, if selected, please provide the KMS key name. oracle-managed Oracle Managed.
     /// </summary>
     [CliOption("--encryption-key-provider", Format = OptionFormat.EqualsSeparated)]
     public string? EncryptionKeyProvider { get; set; }
 
     /// <summary>
-    /// CryptoKey resource - The KMS key used to encrypt the Autonomous Database. This field is required if the provider is GOOGLE_MANAGED. The name of the KMS key resource in the following format: projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{crypto_key}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --encryption-key-kms on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --encryption-key-kms on the command line with a fully specified name; ◆ provide the argument --location on the command line. ID of the cryptoKey or fully qualified identifier for the cryptoKey. To set the crypto-key attribute: ◆ provide the argument --encryption-key-kms on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// CryptoKey resource - The KMS key used to encrypt the Autonomous Database. This field is required if the provider is GOOGLE_MANAGED. The name of the KMS key resource in the following format: projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{crypto_key}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --encryption-key-kms on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --encryption-key-kms on the command line with a fully specified name; ◆ provide the argument --location on the command line. The source configuration for the standby Autonomous Database. ID of the cryptoKey or fully qualified identifier for the cryptoKey. To set the crypto-key attribute: ◆ provide the argument --encryption-key-kms on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--encryption-key-kms", Format = OptionFormat.EqualsSeparated)]
     public string? EncryptionKeyKms { get; set; }
 
     /// <summary>
-    /// CryptoKey resource - The KMS key used to encrypt the Autonomous Database. This field is required if the provider is GOOGLE_MANAGED. The name of the KMS key resource in the following format: projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{crypto_key}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --encryption-key-kms on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --encryption-key-kms on the command line with a fully specified name; ◆ provide the argument --location on the command line. The keyRing id of the cryptoKey resource. To set the key-ring attribute: ◆ provide the argument --encryption-key-kms on the command line with a fully specified name; ◆ provide the argument --key-ring on the command line.
+    /// CryptoKey resource - The KMS key used to encrypt the Autonomous Database. This field is required if the provider is GOOGLE_MANAGED. The name of the KMS key resource in the following format: projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{crypto_key}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --encryption-key-kms on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --encryption-key-kms on the command line with a fully specified name; ◆ provide the argument --location on the command line. The source configuration for the standby Autonomous Database. The keyRing id of the cryptoKey resource. To set the key-ring attribute: ◆ provide the argument --encryption-key-kms on the command line with a fully specified name; ◆ provide the argument --key-ring on the command line.
     /// </summary>
     [CliOption("--key-ring", Format = OptionFormat.EqualsSeparated)]
     public string? KeyRing { get; set; }
 
     /// <summary>
-    /// The source configuration for the standby Autonomous Database. The frequency in seconds a refreshable clone is refreshed after auto-refresh is enabled.
+    /// CryptoKey resource - The KMS key used to encrypt the Autonomous Database. This field is required if the provider is GOOGLE_MANAGED. The name of the KMS key resource in the following format: projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{crypto_key}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --encryption-key-kms on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --encryption-key-kms on the command line with a fully specified name; ◆ provide the argument --location on the command line. The source configuration for the standby Autonomous Database. The frequency in seconds a refreshable clone is refreshed after auto-refresh is enabled.
     /// </summary>
     [CliOption("--source-config-auto-refresh-frequency-seconds", Format = OptionFormat.EqualsSeparated)]
     public int? SourceConfigAutoRefreshFrequencySeconds { get; set; }
@@ -330,5 +410,33 @@ public record GcloudOracleDatabaseAutonomousDatabasesCreateOptions : GcloudOptio
     /// </summary>
     [CliFlag("--source-config-use-latest-available-backup")]
     public bool? SourceConfigUseLatestAvailableBackup { get; set; }
+
+    /// <summary>
+    /// AutonomousDatabase resource - Identifier. The name of the Autonomous Database resource in the following format: projects/{project}/locations/{region}/autonomousDatabases/{autonomous_database} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument autonomous_database on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument autonomous_database on the command line with a fully specified name; ◆ provide the argument --location on the command line. This must be specified. ID of the autonomousDatabase or fully qualified identifier for the autonomousDatabase. To set the autonomous_database attribute: ▸ provide the argument autonomous_database on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string AutonomousDatabase { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(AdminPasswordSecretVersion) || !string.IsNullOrWhiteSpace(Secret) || !string.IsNullOrWhiteSpace(PropertiesDbWorkload) || !string.IsNullOrWhiteSpace(PropertiesLicenseType) || ((object?)PropertiesAllowlistedIps is global::System.Collections.Generic.IEnumerable<char> ? (object?)PropertiesAllowlistedIps is not string || !string.IsNullOrWhiteSpace(PropertiesAllowlistedIps?.ToString()) : ((object?)PropertiesAllowlistedIps is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)PropertiesAllowlistedIps, static item => item is not null) : (PropertiesAllowlistedIps is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)PropertiesAllowlistedIps), static item => item is not null)))) || !string.IsNullOrWhiteSpace(PropertiesBackupRetentionPeriodDays) || !string.IsNullOrWhiteSpace(PropertiesCharacterSet) || (object?)PropertiesComputeCount is not null || (object?)PropertiesCpuCoreCount is not null || ((object?)PropertiesCustomerContacts is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)PropertiesCustomerContacts, static item => item is not null) : ((object?)PropertiesCustomerContacts is global::System.Collections.Generic.IEnumerable<char> ? (object?)PropertiesCustomerContacts is not string || !string.IsNullOrWhiteSpace(PropertiesCustomerContacts?.ToString()) : ((object?)PropertiesCustomerContacts is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)PropertiesCustomerContacts, static item => item is not null) : (PropertiesCustomerContacts is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)PropertiesCustomerContacts), static item => item is not null))))) || (object?)PropertiesDataStorageSizeGb is not null || (object?)PropertiesDataStorageSizeTb is not null || !string.IsNullOrWhiteSpace(PropertiesDbEdition) || !string.IsNullOrWhiteSpace(PropertiesDbVersion) || PropertiesIsAutoScalingEnabled == true || PropertiesIsStorageAutoScalingEnabled == true) && (!(!string.IsNullOrWhiteSpace(AdminPasswordSecretVersion))))
+        {
+            yield return new ValidationResult("AdminPasswordSecretVersion must be specified when other arguments in this group are specified.", [nameof(AdminPasswordSecretVersion)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(AdminPasswordSecretVersion) || !string.IsNullOrWhiteSpace(Secret) || !string.IsNullOrWhiteSpace(PropertiesDbWorkload) || !string.IsNullOrWhiteSpace(PropertiesLicenseType) || ((object?)PropertiesAllowlistedIps is global::System.Collections.Generic.IEnumerable<char> ? (object?)PropertiesAllowlistedIps is not string || !string.IsNullOrWhiteSpace(PropertiesAllowlistedIps?.ToString()) : ((object?)PropertiesAllowlistedIps is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)PropertiesAllowlistedIps, static item => item is not null) : (PropertiesAllowlistedIps is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)PropertiesAllowlistedIps), static item => item is not null)))) || !string.IsNullOrWhiteSpace(PropertiesBackupRetentionPeriodDays) || !string.IsNullOrWhiteSpace(PropertiesCharacterSet) || (object?)PropertiesComputeCount is not null || (object?)PropertiesCpuCoreCount is not null || ((object?)PropertiesCustomerContacts is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)PropertiesCustomerContacts, static item => item is not null) : ((object?)PropertiesCustomerContacts is global::System.Collections.Generic.IEnumerable<char> ? (object?)PropertiesCustomerContacts is not string || !string.IsNullOrWhiteSpace(PropertiesCustomerContacts?.ToString()) : ((object?)PropertiesCustomerContacts is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)PropertiesCustomerContacts, static item => item is not null) : (PropertiesCustomerContacts is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)PropertiesCustomerContacts), static item => item is not null))))) || (object?)PropertiesDataStorageSizeGb is not null || (object?)PropertiesDataStorageSizeTb is not null || !string.IsNullOrWhiteSpace(PropertiesDbEdition) || !string.IsNullOrWhiteSpace(PropertiesDbVersion) || PropertiesIsAutoScalingEnabled == true || PropertiesIsStorageAutoScalingEnabled == true) && (!(!string.IsNullOrWhiteSpace(PropertiesDbWorkload))))
+        {
+            yield return new ValidationResult("PropertiesDbWorkload must be specified when other arguments in this group are specified.", [nameof(PropertiesDbWorkload)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(AdminPasswordSecretVersion) || !string.IsNullOrWhiteSpace(Secret) || !string.IsNullOrWhiteSpace(PropertiesDbWorkload) || !string.IsNullOrWhiteSpace(PropertiesLicenseType) || ((object?)PropertiesAllowlistedIps is global::System.Collections.Generic.IEnumerable<char> ? (object?)PropertiesAllowlistedIps is not string || !string.IsNullOrWhiteSpace(PropertiesAllowlistedIps?.ToString()) : ((object?)PropertiesAllowlistedIps is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)PropertiesAllowlistedIps, static item => item is not null) : (PropertiesAllowlistedIps is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)PropertiesAllowlistedIps), static item => item is not null)))) || !string.IsNullOrWhiteSpace(PropertiesBackupRetentionPeriodDays) || !string.IsNullOrWhiteSpace(PropertiesCharacterSet) || (object?)PropertiesComputeCount is not null || (object?)PropertiesCpuCoreCount is not null || ((object?)PropertiesCustomerContacts is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)PropertiesCustomerContacts, static item => item is not null) : ((object?)PropertiesCustomerContacts is global::System.Collections.Generic.IEnumerable<char> ? (object?)PropertiesCustomerContacts is not string || !string.IsNullOrWhiteSpace(PropertiesCustomerContacts?.ToString()) : ((object?)PropertiesCustomerContacts is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)PropertiesCustomerContacts, static item => item is not null) : (PropertiesCustomerContacts is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)PropertiesCustomerContacts), static item => item is not null))))) || (object?)PropertiesDataStorageSizeGb is not null || (object?)PropertiesDataStorageSizeTb is not null || !string.IsNullOrWhiteSpace(PropertiesDbEdition) || !string.IsNullOrWhiteSpace(PropertiesDbVersion) || PropertiesIsAutoScalingEnabled == true || PropertiesIsStorageAutoScalingEnabled == true) && (!(!string.IsNullOrWhiteSpace(PropertiesLicenseType))))
+        {
+            yield return new ValidationResult("PropertiesLicenseType must be specified when other arguments in this group are specified.", [nameof(PropertiesLicenseType)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(EncryptionKeyKms) || !string.IsNullOrWhiteSpace(KeyRing) || (object?)SourceConfigAutoRefreshFrequencySeconds is not null) && (!(!string.IsNullOrWhiteSpace(EncryptionKeyKms))))
+        {
+            yield return new ValidationResult("EncryptionKeyKms must be specified when other arguments in this group are specified.", [nameof(EncryptionKeyKms)]);
+        }
+        yield break;
+    }
 
 }

@@ -22,6 +22,40 @@ namespace ModularPipelines.Google.Options;
 public record GcloudContainerAiProfilesBenchmarksListOptions : GcloudOptions
 {
     /// <summary>
+    /// list benchmarks for a given     model and model server
+    /// </summary>
+    /// <param name="Model">The model.</param>
+    /// <param name="ModelServer">The model server.</param>
+    public GcloudContainerAiProfilesBenchmarksListOptions(
+        string Model,
+        string ModelServer
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Model);
+        this.Model = Model;
+        global::System.ArgumentNullException.ThrowIfNull(ModelServer);
+        this.ModelServer = ModelServer;
+    }
+
+    public void Deconstruct(out string Model, out string ModelServer)
+    {
+        Model = this.Model;
+        ModelServer = this.ModelServer;
+    }
+
+    /// <summary>
+    /// The model.
+    /// </summary>
+    [CliOption("--model", Format = OptionFormat.EqualsSeparated)]
+    public string Model { get; private init; }
+
+    /// <summary>
+    /// The model server.
+    /// </summary>
+    [CliOption("--model-server", Format = OptionFormat.EqualsSeparated)]
+    public string ModelServer { get; private init; }
+
+    /// <summary>
     /// The format to print the output in. Default is csvprofile, which displays the profile information in a CSV format, including cost conversions.
     /// </summary>
     [CliOption("--format", Format = OptionFormat.EqualsSeparated)]

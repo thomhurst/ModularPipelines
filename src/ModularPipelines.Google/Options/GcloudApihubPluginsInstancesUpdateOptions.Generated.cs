@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -20,8 +21,37 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apihub", "plugins", "instances", "update")]
-public record GcloudApihubPluginsInstancesUpdateOptions : GcloudOptions
+public record GcloudApihubPluginsInstancesUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a Plugin Instance
+    /// </summary>
+    /// <param name="Instance">Instance resource - Identifier. The unique name of the plugin instance resource. Format: projects/{project}/locations/{location}/plugins/{plugin}/instances/{instance} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudApihubPluginsInstancesUpdateOptions(
+        string Instance
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+    }
+
+    public void Deconstruct(out string Instance)
+    {
+        Instance = this.Instance;
+    }
+
+    /// <summary>
+    /// Instance resource - Identifier. The unique name of the plugin instance resource. Format: projects/{project}/locations/{location}/plugins/{plugin}/instances/{instance} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the instance resource. To set the location attribute: ▸ provide the argument instance on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Instance resource - Identifier. The unique name of the plugin instance resource. Format: projects/{project}/locations/{location}/plugins/{plugin}/instances/{instance} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The plugin id of the instance resource. To set the plugin attribute: ▸ provide the argument instance on the command line with a fully specified name; ▸ provide the argument --plugin on the command line.
+    /// </summary>
+    [CliOption("--plugin", Format = OptionFormat.EqualsSeparated)]
+    public string? Plugin { get; set; }
+
     /// <summary>
     /// The display name for this plugin instance. Max length is 255 characters.
     /// </summary>
@@ -38,13 +68,93 @@ public record GcloudApihubPluginsInstancesUpdateOptions : GcloudOptions
     /// Update actions. At most one of these can be specified: Set actions to new value. The action status for the plugin instance. actionId This should map to one of the [action id][google.cloud.apihub.v1.PluginActionConfig.id] specified in [actions_config][google.cloud.apihub.v1.Plugin.actions_config] in the plugin. curationConfig This configuration should be provided if the plugin action is publishing data to API hub curate layer. curationType The curation type for this plugin instance. customCuration Custom curation information for this plugin instance. curation The unique name of the curation resource. This will be the name of the curation resource in the format: projects/{project}/locations/{location}/curations/{curation}. scheduleCronExpression The schedule for this plugin instance action. This can only be set if the plugin supports API_HUB_SCHEDULE_TRIGGER mode for this action. scheduleTimeZone The time zone for the schedule cron expression. If not provided, UTC will be used. serviceAccount The service account used to publish data. Note, the service account will only be accepted for non-Google Cloud plugins like OPDK. Shorthand Example: --actions=actionId=string,curationConfig={curationType=string,customCuration={curation=string}},scheduleCronExpression=string,scheduleTimeZone=string,serviceAccount=string --actions=actionId=string,curationConfig={curationType=string,customCuration={curation=string}},scheduleCronExpression=string,scheduleTimeZone=string,serviceAccount=string JSON Example: --actions='[{"actionId": "string", "curationConfig": {"curationType": "string", "customCuration": {"curation": "string"}}, "scheduleCronExpression": "string", "scheduleTimeZone": "string", "serviceAccount": "string"}]' File Example: --actions=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--actions", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? Actions { get; set; }
+    public IEnumerable<string>? Actions
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __ActionsSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __ActionsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __ActionsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __ActionsSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Update actions. At most one of these can be specified: Or at least one of these can be specified: Add new value to actions list. The action status for the plugin instance. actionId This should map to one of the [action id][google.cloud.apihub.v1.PluginActionConfig.id] specified in [actions_config][google.cloud.apihub.v1.Plugin.actions_config] in the plugin. curationConfig This configuration should be provided if the plugin action is publishing data to API hub curate layer. curationType The curation type for this plugin instance. customCuration Custom curation information for this plugin instance. curation The unique name of the curation resource. This will be the name of the curation resource in the format: projects/{project}/locations/{location}/curations/{curation}. scheduleCronExpression The schedule for this plugin instance action. This can only be set if the plugin supports API_HUB_SCHEDULE_TRIGGER mode for this action. scheduleTimeZone The time zone for the schedule cron expression. If not provided, UTC will be used. serviceAccount The service account used to publish data. Note, the service account will only be accepted for non-Google Cloud plugins like OPDK. Shorthand Example: --add-actions=actionId=string,curationConfig={curationType=string,customCuration={curation=string}},scheduleCronExpression=string,scheduleTimeZone=string,serviceAccount=string --add-actions=actionId=string,curationConfig={curationType=string,customCuration={curation=string}},scheduleCronExpression=string,scheduleTimeZone=string,serviceAccount=string JSON Example: --add-actions='[{"actionId": "string", "curationConfig": {"curationType": "string", "customCuration": {"curation": "string"}}, "scheduleCronExpression": "string", "scheduleTimeZone": "string", "serviceAccount": "string"}]' File Example: --add-actions=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--add-actions", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AddActions { get; set; }
+    public IEnumerable<string>? AddActions
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __AddActionsSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddActionsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AddActionsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __AddActionsSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Update actions. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear actions value and set to empty list.
@@ -56,19 +166,139 @@ public record GcloudApihubPluginsInstancesUpdateOptions : GcloudOptions
     /// Update actions. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from actions list. The action status for the plugin instance. actionId This should map to one of the [action id][google.cloud.apihub.v1.PluginActionConfig.id] specified in [actions_config][google.cloud.apihub.v1.Plugin.actions_config] in the plugin. curationConfig This configuration should be provided if the plugin action is publishing data to API hub curate layer. curationType The curation type for this plugin instance. customCuration Custom curation information for this plugin instance. curation The unique name of the curation resource. This will be the name of the curation resource in the format: projects/{project}/locations/{location}/curations/{curation}. scheduleCronExpression The schedule for this plugin instance action. This can only be set if the plugin supports API_HUB_SCHEDULE_TRIGGER mode for this action. scheduleTimeZone The time zone for the schedule cron expression. If not provided, UTC will be used. serviceAccount The service account used to publish data. Note, the service account will only be accepted for non-Google Cloud plugins like OPDK. Shorthand Example: --remove-actions=actionId=string,curationConfig={curationType=string,customCuration={curation=string}},scheduleCronExpression=string,scheduleTimeZone=string,serviceAccount=string --remove-actions=actionId=string,curationConfig={curationType=string,customCuration={curation=string}},scheduleCronExpression=string,scheduleTimeZone=string,serviceAccount=string JSON Example: --remove-actions='[{"actionId": "string", "curationConfig": {"curationType": "string", "customCuration": {"curation": "string"}}, "scheduleCronExpression": "string", "scheduleTimeZone": "string", "serviceAccount": "string"}]' File Example: --remove-actions=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-actions", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveActions { get; set; }
+    public IEnumerable<string>? RemoveActions
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __RemoveActionsSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveActionsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveActionsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __RemoveActionsSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Update additional_config. At most one of these can be specified: Set additional_config to new value. The additional information for this plugin instance corresponding to the additional config template of the plugin. This information will be sent to plugin hosting service on each call to plugin hosted service. The key will be the config_variable_template.display_name to uniquely identify the config variable. KEY Sets KEY value. VALUE Sets VALUE value. boolValue The config variable value in case of config variable of type boolean. enumValue The config variable value in case of config variable of type enum. description Description of the option. displayName Display name of the option. id Id of the option. intValue The config variable value in case of config variable of type integer. multiIntValues The config variable value in case of config variable of type multi integer. values The config variable value of data type multi int. multiSelectValues The config variable value in case of config variable of type multi select. values The config variable value of data type multi select. description Description of the option. displayName Display name of the option. id Id of the option. multiStringValues The config variable value in case of config variable of type multi string. values The config variable value of data type multi string. secretValue The config variable value in case of config variable of type secret. secretVersion The resource name of the secret version in the format, format as: projects/*/secrets/*/versions/*. stringValue The config variable value in case of config variable of type string. Shorthand Example: --additional-config=string={boolValue=boolean,enumValue={description=string,displayName=string,id=string},intValue=int,multiIntValues={values=[int]},multiSelectValues={values=[{description=string,displayName=string,id=string}]},multiStringValues={values=[string]},secretValue={secretVersion=string},stringValue=string} JSON Example: --additional-config='{"string": {"boolValue": boolean, "enumValue": {"description": "string", "displayName": "string", "id": "string"}, "intValue": int, "multiIntValues": {"values": [int]}, "multiSelectValues": {"values": [{"description": "string", "displayName": "string", "id": "string"}]}, "multiStringValues": {"values": ["string"]}, "secretValue": {"secretVersion": "string"}, "stringValue": "string"}}' File Example: --additional-config=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--additional-config", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AdditionalConfig { get; set; }
+    public IEnumerable<string>? AdditionalConfig
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __AdditionalConfigSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AdditionalConfigSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AdditionalConfigSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __AdditionalConfigSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Update additional_config. At most one of these can be specified: Or at least one of these can be specified: Update additional_config value or add key value pair. The additional information for this plugin instance corresponding to the additional config template of the plugin. This information will be sent to plugin hosting service on each call to plugin hosted service. The key will be the config_variable_template.display_name to uniquely identify the config variable. KEY Sets KEY value. VALUE Sets VALUE value. boolValue The config variable value in case of config variable of type boolean. enumValue The config variable value in case of config variable of type enum. description Description of the option. displayName Display name of the option. id Id of the option. intValue The config variable value in case of config variable of type integer. multiIntValues The config variable value in case of config variable of type multi integer. values The config variable value of data type multi int. multiSelectValues The config variable value in case of config variable of type multi select. values The config variable value of data type multi select. description Description of the option. displayName Display name of the option. id Id of the option. multiStringValues The config variable value in case of config variable of type multi string. values The config variable value of data type multi string. secretValue The config variable value in case of config variable of type secret. secretVersion The resource name of the secret version in the format, format as: projects/*/secrets/*/versions/*. stringValue The config variable value in case of config variable of type string. Shorthand Example: --update-additional-config=string={boolValue=boolean,enumValue={description=string,displayName=string,id=string},intValue=int,multiIntValues={values=[int]},multiSelectValues={values=[{description=string,displayName=string,id=string}]},multiStringValues={values=[string]},secretValue={secretVersion=string},stringValue=string} JSON Example: --update-additional-config='{"string": {"boolValue": boolean, "enumValue": {"description": "string", "displayName": "string", "id": "string"}, "intValue": int, "multiIntValues": {"values": [int]}, "multiSelectValues": {"values": [{"description": "string", "displayName": "string", "id": "string"}]}, "multiStringValues": {"values": ["string"]}, "secretValue": {"secretVersion": "string"}, "stringValue": "string"}}' File Example: --update-additional-config=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--update-additional-config", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? UpdateAdditionalConfig { get; set; }
+    public IEnumerable<string>? UpdateAdditionalConfig
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __UpdateAdditionalConfigSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __UpdateAdditionalConfigSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __UpdateAdditionalConfigSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __UpdateAdditionalConfigSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Update additional_config. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear additional_config value and set to empty map.
@@ -108,34 +338,34 @@ public record GcloudApihubPluginsInstancesUpdateOptions : GcloudOptions
     public string? ApiKeyConfigName { get; set; }
 
     /// <summary>
-    /// AuthConfig represents the authentication information. Secret provides a reference to entries in Secret Manager. The resource name of the secret version in the format, format as: projects/*/secrets/*/versions/*.
+    /// AuthConfig represents the authentication information. Arguments for the config. At most one of these can be specified: Secret provides a reference to entries in Secret Manager. The resource name of the secret version in the format, format as: projects/*/secrets/*/versions/*.
     /// </summary>
     [SecretValue]
     [CliOption("--api-key-config-secret-version", Format = OptionFormat.EqualsSeparated)]
     public string? ApiKeyConfigSecretVersion { get; set; }
 
     /// <summary>
-    /// AuthConfig represents the authentication information. Parameters to support Oauth 2.0 client credentials grant authentication. See https://tools.ietf.org/html/rfc6749#section-1.3.4 for more details. The client identifier.
+    /// AuthConfig represents the authentication information. Arguments for the config. At most one of these can be specified: Parameters to support Oauth 2.0 client credentials grant authentication. See https://tools.ietf.org/html/rfc6749#section-1.3.4 for more details. The client identifier.
     /// </summary>
     [CliOption("--oauth2-client-credentials-config-id", Format = OptionFormat.EqualsSeparated)]
     public string? Oauth2ClientCredentialsConfigId { get; set; }
 
     /// <summary>
-    /// AuthConfig represents the authentication information. Secret provides a reference to entries in Secret Manager. The resource name of the secret version in the format, format as: projects/*/secrets/*/versions/*.
+    /// AuthConfig represents the authentication information. Arguments for the config. At most one of these can be specified: Secret provides a reference to entries in Secret Manager. The resource name of the secret version in the format, format as: projects/*/secrets/*/versions/*.
     /// </summary>
     [SecretValue]
     [CliOption("--oauth2-client-credentials-config-secret-version", Format = OptionFormat.EqualsSeparated)]
     public string? Oauth2ClientCredentialsConfigSecretVersion { get; set; }
 
     /// <summary>
-    /// AuthConfig represents the authentication information. Parameters to support Username and Password Authentication. Secret provides a reference to entries in Secret Manager. The resource name of the secret version in the format, format as: projects/*/secrets/*/versions/*.
+    /// AuthConfig represents the authentication information. Arguments for the config. At most one of these can be specified: Parameters to support Username and Password Authentication. Secret provides a reference to entries in Secret Manager. The resource name of the secret version in the format, format as: projects/*/secrets/*/versions/*.
     /// </summary>
     [SecretValue]
     [CliOption("--user-password-config-secret-version", Format = OptionFormat.EqualsSeparated)]
     public string? UserPasswordConfigSecretVersion { get; set; }
 
     /// <summary>
-    /// AuthConfig represents the authentication information. Parameters to support Username and Password Authentication. Secret provides a reference to entries in Secret Manager. Username.
+    /// AuthConfig represents the authentication information. Arguments for the config. At most one of these can be specified: Parameters to support Username and Password Authentication. Secret provides a reference to entries in Secret Manager. Username.
     /// </summary>
     [CliOption("--user-password-config-username", Format = OptionFormat.EqualsSeparated)]
     public string? UserPasswordConfigUsername { get; set; }
@@ -144,13 +374,93 @@ public record GcloudApihubPluginsInstancesUpdateOptions : GcloudOptions
     /// AuthConfig represents the authentication information. Update source_environments_config. At most one of these can be specified: Set source_environments_config to new value. The source environment's config present in the gateway instance linked to the plugin instance. The key is the source_environment name from the SourceEnvironment message. KEY Sets KEY value. VALUE Sets VALUE value. createTime The time at which the environment was created at the source. sourceEnvironment The name of the environment at the source. This should map to [Deployment][google.cloud.apihub.v1.SourceEnvironment.source_environment]. sourceEnvironmentUri The location where additional information about source environments can be found. The location should be relative path of the environment manifest with respect to a plugin instance. updateTime The time at which the environment was last updated at the source. Shorthand Example: --source-environments-config=string={createTime=string,sourceEnvironment=string,sourceEnvironmentUri=string,updateTime=string} JSON Example: --source-environments-config='{"string": {"createTime": "string", "sourceEnvironment": "string", "sourceEnvironmentUri": "string", "updateTime": "string"}}' File Example: --source-environments-config=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--source-environments-config", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? SourceEnvironmentsConfig { get; set; }
+    public IEnumerable<string>? SourceEnvironmentsConfig
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __SourceEnvironmentsConfigSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __SourceEnvironmentsConfigSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __SourceEnvironmentsConfigSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __SourceEnvironmentsConfigSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// AuthConfig represents the authentication information. Update source_environments_config. At most one of these can be specified: Or at least one of these can be specified: Update source_environments_config value or add key value pair. The source environment's config present in the gateway instance linked to the plugin instance. The key is the source_environment name from the SourceEnvironment message. KEY Sets KEY value. VALUE Sets VALUE value. createTime The time at which the environment was created at the source. sourceEnvironment The name of the environment at the source. This should map to [Deployment][google.cloud.apihub.v1.SourceEnvironment.source_environment]. sourceEnvironmentUri The location where additional information about source environments can be found. The location should be relative path of the environment manifest with respect to a plugin instance. updateTime The time at which the environment was last updated at the source. Shorthand Example: --update-source-environments-config=string={createTime=string,sourceEnvironment=string,sourceEnvironmentUri=string,updateTime=string} JSON Example: --update-source-environments-config='{"string": {"createTime": "string", "sourceEnvironment": "string", "sourceEnvironmentUri": "string", "updateTime": "string"}}' File Example: --update-source-environments-config=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--update-source-environments-config", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? UpdateSourceEnvironmentsConfig { get; set; }
+    public IEnumerable<string>? UpdateSourceEnvironmentsConfig
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __UpdateSourceEnvironmentsConfigSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __UpdateSourceEnvironmentsConfigSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __UpdateSourceEnvironmentsConfigSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __UpdateSourceEnvironmentsConfigSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// AuthConfig represents the authentication information. Update source_environments_config. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear source_environments_config value and set to empty map.
@@ -163,5 +473,45 @@ public record GcloudApihubPluginsInstancesUpdateOptions : GcloudOptions
     /// </summary>
     [CliOption("--remove-source-environments-config", Format = OptionFormat.EqualsSeparated)]
     public string? RemoveSourceEnvironmentsConfig { get; set; }
+
+    /// <summary>
+    /// Instance resource - Identifier. The unique name of the plugin instance resource. Format: projects/{project}/locations/{location}/plugins/{plugin}/instances/{instance} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Instance { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((((object?)Actions is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)Actions, static item => item is not null) : ((object?)Actions is global::System.Collections.Generic.IEnumerable<char> ? (object?)Actions is not string || !string.IsNullOrWhiteSpace(Actions?.ToString()) : ((object?)Actions is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Actions, static item => item is not null) : (Actions is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Actions), static item => item is not null))))) ? 1 : 0) + ((((object?)AddActions is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddActions, static item => item is not null) : ((object?)AddActions is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddActions is not string || !string.IsNullOrWhiteSpace(AddActions?.ToString()) : ((object?)AddActions is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddActions, static item => item is not null) : (AddActions is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddActions), static item => item is not null))))) || ClearActions == true || ((object?)RemoveActions is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveActions, static item => item is not null) : ((object?)RemoveActions is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveActions is not string || !string.IsNullOrWhiteSpace(RemoveActions?.ToString()) : ((object?)RemoveActions is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveActions, static item => item is not null) : (RemoveActions is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveActions), static item => item is not null)))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Actions or (AddActions, ClearActions, or RemoveActions) may be specified.", [nameof(Actions), nameof(AddActions), nameof(ClearActions), nameof(RemoveActions)]);
+        }
+        if ((((object?)Actions is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)Actions, static item => item is not null) : ((object?)Actions is global::System.Collections.Generic.IEnumerable<char> ? (object?)Actions is not string || !string.IsNullOrWhiteSpace(Actions?.ToString()) : ((object?)Actions is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Actions, static item => item is not null) : (Actions is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Actions), static item => item is not null))))) || ((object?)AddActions is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddActions, static item => item is not null) : ((object?)AddActions is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddActions is not string || !string.IsNullOrWhiteSpace(AddActions?.ToString()) : ((object?)AddActions is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddActions, static item => item is not null) : (AddActions is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddActions), static item => item is not null))))) || ClearActions == true || ((object?)RemoveActions is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveActions, static item => item is not null) : ((object?)RemoveActions is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveActions is not string || !string.IsNullOrWhiteSpace(RemoveActions?.ToString()) : ((object?)RemoveActions is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveActions, static item => item is not null) : (RemoveActions is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveActions), static item => item is not null)))))) && (((object?)AddActions is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddActions, static item => item is not null) : ((object?)AddActions is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddActions is not string || !string.IsNullOrWhiteSpace(AddActions?.ToString()) : ((object?)AddActions is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddActions, static item => item is not null) : (AddActions is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddActions), static item => item is not null))))) || ClearActions == true || ((object?)RemoveActions is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveActions, static item => item is not null) : ((object?)RemoveActions is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveActions is not string || !string.IsNullOrWhiteSpace(RemoveActions?.ToString()) : ((object?)RemoveActions is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveActions, static item => item is not null) : (RemoveActions is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveActions), static item => item is not null)))))) && ((ClearActions == true ? 1 : 0) + (((object?)RemoveActions is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveActions, static item => item is not null) : ((object?)RemoveActions is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveActions is not string || !string.IsNullOrWhiteSpace(RemoveActions?.ToString()) : ((object?)RemoveActions is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveActions, static item => item is not null) : (RemoveActions is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveActions), static item => item is not null))))) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearActions or RemoveActions may be specified.", [nameof(ClearActions), nameof(RemoveActions)]);
+        }
+        if ((((object?)AdditionalConfig is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AdditionalConfig, static item => item is not null) : ((object?)AdditionalConfig is global::System.Collections.Generic.IEnumerable<char> ? (object?)AdditionalConfig is not string || !string.IsNullOrWhiteSpace(AdditionalConfig?.ToString()) : ((object?)AdditionalConfig is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AdditionalConfig, static item => item is not null) : (AdditionalConfig is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AdditionalConfig), static item => item is not null))))) ? 1 : 0) + ((((object?)UpdateAdditionalConfig is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)UpdateAdditionalConfig, static item => item is not null) : ((object?)UpdateAdditionalConfig is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateAdditionalConfig is not string || !string.IsNullOrWhiteSpace(UpdateAdditionalConfig?.ToString()) : ((object?)UpdateAdditionalConfig is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateAdditionalConfig, static item => item is not null) : (UpdateAdditionalConfig is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateAdditionalConfig), static item => item is not null))))) || ClearAdditionalConfig == true || !string.IsNullOrWhiteSpace(RemoveAdditionalConfig)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of AdditionalConfig or (UpdateAdditionalConfig, ClearAdditionalConfig, or RemoveAdditionalConfig) may be specified.", [nameof(AdditionalConfig), nameof(UpdateAdditionalConfig), nameof(ClearAdditionalConfig), nameof(RemoveAdditionalConfig)]);
+        }
+        if ((((object?)AdditionalConfig is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AdditionalConfig, static item => item is not null) : ((object?)AdditionalConfig is global::System.Collections.Generic.IEnumerable<char> ? (object?)AdditionalConfig is not string || !string.IsNullOrWhiteSpace(AdditionalConfig?.ToString()) : ((object?)AdditionalConfig is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AdditionalConfig, static item => item is not null) : (AdditionalConfig is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AdditionalConfig), static item => item is not null))))) || ((object?)UpdateAdditionalConfig is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)UpdateAdditionalConfig, static item => item is not null) : ((object?)UpdateAdditionalConfig is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateAdditionalConfig is not string || !string.IsNullOrWhiteSpace(UpdateAdditionalConfig?.ToString()) : ((object?)UpdateAdditionalConfig is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateAdditionalConfig, static item => item is not null) : (UpdateAdditionalConfig is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateAdditionalConfig), static item => item is not null))))) || ClearAdditionalConfig == true || !string.IsNullOrWhiteSpace(RemoveAdditionalConfig)) && (((object?)UpdateAdditionalConfig is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)UpdateAdditionalConfig, static item => item is not null) : ((object?)UpdateAdditionalConfig is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateAdditionalConfig is not string || !string.IsNullOrWhiteSpace(UpdateAdditionalConfig?.ToString()) : ((object?)UpdateAdditionalConfig is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateAdditionalConfig, static item => item is not null) : (UpdateAdditionalConfig is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateAdditionalConfig), static item => item is not null))))) || ClearAdditionalConfig == true || !string.IsNullOrWhiteSpace(RemoveAdditionalConfig)) && ((ClearAdditionalConfig == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(RemoveAdditionalConfig) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearAdditionalConfig or RemoveAdditionalConfig may be specified.", [nameof(ClearAdditionalConfig), nameof(RemoveAdditionalConfig)]);
+        }
+        if (((!string.IsNullOrWhiteSpace(ApiKeyConfigHttpElementLocation) || !string.IsNullOrWhiteSpace(ApiKeyConfigName)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(ApiKeyConfigSecretVersion)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(Oauth2ClientCredentialsConfigId)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(Oauth2ClientCredentialsConfigSecretVersion)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(UserPasswordConfigSecretVersion) || !string.IsNullOrWhiteSpace(UserPasswordConfigUsername)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of (ApiKeyConfigHttpElementLocation or ApiKeyConfigName), (ApiKeyConfigSecretVersion), (Oauth2ClientCredentialsConfigId), (Oauth2ClientCredentialsConfigSecretVersion), or (UserPasswordConfigSecretVersion or UserPasswordConfigUsername) may be specified.", [nameof(ApiKeyConfigHttpElementLocation), nameof(ApiKeyConfigName), nameof(ApiKeyConfigSecretVersion), nameof(Oauth2ClientCredentialsConfigId), nameof(Oauth2ClientCredentialsConfigSecretVersion), nameof(UserPasswordConfigSecretVersion), nameof(UserPasswordConfigUsername)]);
+        }
+        if ((((object?)SourceEnvironmentsConfig is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)SourceEnvironmentsConfig, static item => item is not null) : ((object?)SourceEnvironmentsConfig is global::System.Collections.Generic.IEnumerable<char> ? (object?)SourceEnvironmentsConfig is not string || !string.IsNullOrWhiteSpace(SourceEnvironmentsConfig?.ToString()) : ((object?)SourceEnvironmentsConfig is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SourceEnvironmentsConfig, static item => item is not null) : (SourceEnvironmentsConfig is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SourceEnvironmentsConfig), static item => item is not null))))) ? 1 : 0) + ((((object?)UpdateSourceEnvironmentsConfig is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)UpdateSourceEnvironmentsConfig, static item => item is not null) : ((object?)UpdateSourceEnvironmentsConfig is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateSourceEnvironmentsConfig is not string || !string.IsNullOrWhiteSpace(UpdateSourceEnvironmentsConfig?.ToString()) : ((object?)UpdateSourceEnvironmentsConfig is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateSourceEnvironmentsConfig, static item => item is not null) : (UpdateSourceEnvironmentsConfig is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateSourceEnvironmentsConfig), static item => item is not null))))) || ClearSourceEnvironmentsConfig == true || !string.IsNullOrWhiteSpace(RemoveSourceEnvironmentsConfig)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of SourceEnvironmentsConfig or (UpdateSourceEnvironmentsConfig, ClearSourceEnvironmentsConfig, or RemoveSourceEnvironmentsConfig) may be specified.", [nameof(SourceEnvironmentsConfig), nameof(UpdateSourceEnvironmentsConfig), nameof(ClearSourceEnvironmentsConfig), nameof(RemoveSourceEnvironmentsConfig)]);
+        }
+        if ((((object?)SourceEnvironmentsConfig is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)SourceEnvironmentsConfig, static item => item is not null) : ((object?)SourceEnvironmentsConfig is global::System.Collections.Generic.IEnumerable<char> ? (object?)SourceEnvironmentsConfig is not string || !string.IsNullOrWhiteSpace(SourceEnvironmentsConfig?.ToString()) : ((object?)SourceEnvironmentsConfig is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SourceEnvironmentsConfig, static item => item is not null) : (SourceEnvironmentsConfig is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SourceEnvironmentsConfig), static item => item is not null))))) || ((object?)UpdateSourceEnvironmentsConfig is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)UpdateSourceEnvironmentsConfig, static item => item is not null) : ((object?)UpdateSourceEnvironmentsConfig is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateSourceEnvironmentsConfig is not string || !string.IsNullOrWhiteSpace(UpdateSourceEnvironmentsConfig?.ToString()) : ((object?)UpdateSourceEnvironmentsConfig is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateSourceEnvironmentsConfig, static item => item is not null) : (UpdateSourceEnvironmentsConfig is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateSourceEnvironmentsConfig), static item => item is not null))))) || ClearSourceEnvironmentsConfig == true || !string.IsNullOrWhiteSpace(RemoveSourceEnvironmentsConfig)) && (((object?)UpdateSourceEnvironmentsConfig is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)UpdateSourceEnvironmentsConfig, static item => item is not null) : ((object?)UpdateSourceEnvironmentsConfig is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateSourceEnvironmentsConfig is not string || !string.IsNullOrWhiteSpace(UpdateSourceEnvironmentsConfig?.ToString()) : ((object?)UpdateSourceEnvironmentsConfig is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateSourceEnvironmentsConfig, static item => item is not null) : (UpdateSourceEnvironmentsConfig is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateSourceEnvironmentsConfig), static item => item is not null))))) || ClearSourceEnvironmentsConfig == true || !string.IsNullOrWhiteSpace(RemoveSourceEnvironmentsConfig)) && ((ClearSourceEnvironmentsConfig == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(RemoveSourceEnvironmentsConfig) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearSourceEnvironmentsConfig or RemoveSourceEnvironmentsConfig may be specified.", [nameof(ClearSourceEnvironmentsConfig), nameof(RemoveSourceEnvironmentsConfig)]);
+        }
+        yield break;
+    }
 
 }

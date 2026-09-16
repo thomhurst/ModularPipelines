@@ -20,10 +20,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iap", "settings", "set")]
-public record GcloudIapSettingsSetOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SettingFile
-) : GcloudOptions
+public record GcloudIapSettingsSetOptions : GcloudOptions
 {
+    /// <summary>
+    /// set the setting for an IAP resource
+    /// </summary>
+    /// <param name="SettingFile">JSON or YAML file containing the IAP resource settings. JSON example: { "access_settings": { "oauth_settings": { "login_hint": { "value": "test_hint" } }, "gcip_settings": { "tenant_ids": [ "tenant1-p9puj", "tenant2-y8rxc" ], "login_page_uri": { "value": "https://test.com/?apiKey=abcd_efgh" } }, "cors_settings": { "allow_http_options": { "value": true } } }, "application_settings": { "csm_settings": { "rctoken_aud": { "value": "test_aud" } } } } YAML example: accessSettings : oauthSettings: loginHint: test_hint gcipSettings: tenantIds: - tenant1-p9puj - tenant2-y8rxc loginPageUri: https://test.com/?apiKey=abcd_efgh corsSettings: allowHttpOptions: true applicationSettings: csmSettings: rctokenAud: test_aud</param>
+    public GcloudIapSettingsSetOptions(
+        string SettingFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SettingFile);
+        this.SettingFile = SettingFile;
+    }
+
+    public void Deconstruct(out string SettingFile)
+    {
+        SettingFile = this.SettingFile;
+    }
+
     /// <summary>
     /// Folder ID.
     /// </summary>
@@ -65,5 +80,11 @@ public record GcloudIapSettingsSetOptions(
     /// </summary>
     [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
     public string? Version { get; set; }
+
+    /// <summary>
+    /// JSON or YAML file containing the IAP resource settings. JSON example: { "access_settings": { "oauth_settings": { "login_hint": { "value": "test_hint" } }, "gcip_settings": { "tenant_ids": [ "tenant1-p9puj", "tenant2-y8rxc" ], "login_page_uri": { "value": "https://test.com/?apiKey=abcd_efgh" } }, "cors_settings": { "allow_http_options": { "value": true } } }, "application_settings": { "csm_settings": { "rctoken_aud": { "value": "test_aud" } } } } YAML example: accessSettings : oauthSettings: loginHint: test_hint gcipSettings: tenantIds: - tenant1-p9puj - tenant2-y8rxc loginPageUri: https://test.com/?apiKey=abcd_efgh corsSettings: allowHttpOptions: true applicationSettings: csmSettings: rctokenAud: test_aud
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SettingFile { get; private init; }
 
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +21,80 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("scc", "findings", "set-mute")]
-public record GcloudSccFindingsSetMuteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Finding
-) : GcloudOptions
+public record GcloudSccFindingsSetMuteOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a Security Command Center finding's     mute state
+    /// </summary>
+    /// <param name="Mute">Desired mute state of the finding. MUTE must be one of: muted, unmuted, undefined.</param>
+    /// <param name="Finding">ID of the finding or the full resource name of the finding.</param>
+    public GcloudSccFindingsSetMuteOptions(
+        GcloudMute Mute,
+        string Finding
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Mute);
+        this.Mute = Mute;
+        global::System.ArgumentNullException.ThrowIfNull(Finding);
+        this.Finding = Finding;
+    }
+
+    public void Deconstruct(out GcloudMute Mute, out string Finding)
+    {
+        Mute = this.Mute;
+        Finding = this.Finding;
+    }
+
+    /// <summary>
+    /// Desired mute state of the finding. MUTE must be one of: muted, unmuted, undefined.
+    /// </summary>
+    [CliOption("--mute", Format = OptionFormat.EqualsSeparated)]
+    public GcloudMute Mute { get; private init; }
+
+    /// <summary>
+    /// When data residency controls are enabled, this attribute specifies the location in which the resource is located and applicable. The location attribute can be provided as part of the fully specified resource name or with the --location argument on the command line. The default location is global. NOTE: If you override the endpoint to a regional endpoint (https://cloud.google.com/security-command-center/docs/reference/rest/index.html?rep_location=global#regional-service-endpoint) you must specify the correct data location (https://cloud.google.com/security-command-center/docs/data-residency-support#locations) using this flag. The default location on this command is unrelated to the default location that is specified when data residency controls are enabled for Security Command Center. NOTE: If no location is specified, the default location is global AND the request will be routed to the SCC V1 API. To use the SCC V2 API - please explicitly specify the flag.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// ID of the source.
+    /// </summary>
+    [CliOption("--source", Format = OptionFormat.EqualsSeparated)]
+    public string? Source { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Folder where the finding resides. Formatted as folders/456 or just 456.
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Organization where the finding resides. Formatted as organizations/123 or just 123.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Project (id or number) where the finding resides. Formatted as projects/789 or just 789.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
+    /// <summary>
+    /// ID of the finding or the full resource name of the finding.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Finding { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Folder) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Project) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Folder, Organization, or Project may be specified.", [nameof(Folder), nameof(Organization), nameof(Project)]);
+        }
+        yield break;
+    }
+
 }

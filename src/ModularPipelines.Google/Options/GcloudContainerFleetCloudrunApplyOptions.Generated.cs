@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,50 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "fleet", "cloudrun", "apply")]
-public record GcloudContainerFleetCloudrunApplyOptions : GcloudOptions
+public record GcloudContainerFleetCloudrunApplyOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Cluster identifier. Exactly one of these must be specified: The location/name of the GKE cluster. The location can be a zone or a region for e.g us-central1-a/my-cluster.
+    /// </summary>
+    [CliOption("--gke-cluster", Format = OptionFormat.EqualsSeparated)]
+    public string? GkeCluster { get; set; }
+
+    /// <summary>
+    /// Cluster identifier. Exactly one of these must be specified: The URI of a GKE cluster that you want to register to Hub; for example, 'https://container.googleapis.com/v1/projects/my-project/locations/us-central1-a/clusters/my-cluster'. To obtain the URI, you can run 'gcloud container clusters list --uri'. Note that this should only be provided if the cluster being registered is a GKE cluster. The service will validate the provided URI to confirm that it maps to a valid GKE cluster."
+    /// </summary>
+    [CliOption("--gke-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? GkeUri { get; set; }
+
+    /// <summary>
+    /// Cluster identifier. Exactly one of these must be specified: Or at least one of these can be specified: Non-GKE cluster identifier. The cluster context as it appears in the kubeconfig file. You can get this value from the command line by running command: kubectl config current-context. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--context", Format = OptionFormat.EqualsSeparated)]
+    public string? Context { get; set; }
+
+    /// <summary>
+    /// Cluster identifier. Exactly one of these must be specified: Or at least one of these can be specified: Non-GKE cluster identifier. The kubeconfig file containing an entry for the cluster. Defaults to $KUBECONFIG if it is set in the environment, otherwise defaults to $HOME/.kube/config.
+    /// </summary>
+    [CliOption("--kubeconfig", Format = OptionFormat.EqualsSeparated)]
+    public string? KubeConfig { get; set; }
+
+    /// <summary>
+    /// The path to CloudRun custom resource config file.
+    /// </summary>
+    [CliOption("--config", Format = OptionFormat.EqualsSeparated)]
+    public string? Config { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(GkeCluster) ? 1 : 0) + (!string.IsNullOrWhiteSpace(GkeUri) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(Context) || !string.IsNullOrWhiteSpace(KubeConfig)) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of GkeCluster, GkeUri, or (Context or KubeConfig) must be specified.", [nameof(GkeCluster), nameof(GkeUri), nameof(Context), nameof(KubeConfig)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(GkeCluster) || !string.IsNullOrWhiteSpace(GkeUri) || !string.IsNullOrWhiteSpace(Context) || !string.IsNullOrWhiteSpace(KubeConfig)) && (!string.IsNullOrWhiteSpace(Context) || !string.IsNullOrWhiteSpace(KubeConfig)) && (!string.IsNullOrWhiteSpace(Context) || !string.IsNullOrWhiteSpace(KubeConfig)) && (!(!string.IsNullOrWhiteSpace(Context))))
+        {
+            yield return new ValidationResult("Context must be specified when other arguments in this group are specified.", [nameof(Context)]);
+        }
+        yield break;
+    }
+
 }

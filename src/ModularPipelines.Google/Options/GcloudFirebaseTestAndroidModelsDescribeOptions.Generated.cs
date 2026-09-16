@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("firebase", "test", "android", "models", "describe")]
-public record GcloudFirebaseTestAndroidModelsDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ModelId
-) : GcloudOptions
+public record GcloudFirebaseTestAndroidModelsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe an Android model
+    /// </summary>
+    /// <param name="ModelId">ID of the model to describe, found using $ gcloud firebase test android models list.</param>
+    public GcloudFirebaseTestAndroidModelsDescribeOptions(
+        string ModelId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ModelId);
+        this.ModelId = ModelId;
+    }
+
+    public void Deconstruct(out string ModelId)
+    {
+        ModelId = this.ModelId;
+    }
+
+    /// <summary>
+    /// ID of the model to describe, found using $ gcloud firebase test android models list.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ModelId { get; private init; }
+
 }

@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("resource-manager", "tags", "keys", "list")]
 public record GcloudResourceManagerTagsKeysListOptions : GcloudOptions
 {
+    /// <summary>
+    /// lists TagKeys under the specified     parent resource
+    /// </summary>
+    /// <param name="Parent">Parent of the TagKey in the form of organizations/{org_id}.</param>
+    public GcloudResourceManagerTagsKeysListOptions(
+        string Parent
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Parent);
+        this.Parent = Parent;
+    }
+
+    public void Deconstruct(out string Parent)
+    {
+        Parent = this.Parent;
+    }
+
+    /// <summary>
+    /// Parent of the TagKey in the form of organizations/{org_id}.
+    /// </summary>
+    [CliOption("--parent", Format = OptionFormat.EqualsSeparated)]
+    public string Parent { get; private init; }
+
 }

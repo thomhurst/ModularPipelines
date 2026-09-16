@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("iam", "service-accounts", "enable")]
 public record GcloudIamServiceAccountsEnableOptions : GcloudOptions
 {
+    /// <summary>
+    /// enable an IAM service account
+    /// </summary>
+    /// <param name="ServiceAccount">ServiceAccount resource - The IAM service account to enable. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument service_account on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the serviceAccount or fully qualified identifier for the serviceAccount. To set the service_account attribute: ▸ provide the argument service_account on the command line.</param>
+    public GcloudIamServiceAccountsEnableOptions(
+        string ServiceAccount
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceAccount);
+        this.ServiceAccount = ServiceAccount;
+    }
+
+    public void Deconstruct(out string ServiceAccount)
+    {
+        ServiceAccount = this.ServiceAccount;
+    }
+
+    /// <summary>
+    /// ServiceAccount resource - The IAM service account to enable. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument service_account on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the serviceAccount or fully qualified identifier for the serviceAccount. To set the service_account attribute: ▸ provide the argument service_account on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ServiceAccount { get; private init; }
+
 }

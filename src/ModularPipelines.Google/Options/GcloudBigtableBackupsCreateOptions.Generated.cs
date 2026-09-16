@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,92 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bigtable", "backups", "create")]
-public record GcloudBigtableBackupsCreateOptions : GcloudOptions
+public record GcloudBigtableBackupsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// creates a backup of a Cloud Bigtable table
+    /// </summary>
+    /// <param name="Table">ID of the table from which the backup will be created.</param>
+    /// <param name="Backup">Backup resource - The Cloud Bigtable backup to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument backup on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the backup or fully qualified identifier for the backup. To set the backup attribute: ▸ provide the argument backup on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudBigtableBackupsCreateOptions(
+        string Table,
+        string Backup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Table);
+        this.Table = Table;
+        global::System.ArgumentNullException.ThrowIfNull(Backup);
+        this.Backup = Backup;
+    }
+
+    public void Deconstruct(out string Table, out string Backup)
+    {
+        Table = this.Table;
+        Backup = this.Backup;
+    }
+
+    /// <summary>
+    /// ID of the table from which the backup will be created.
+    /// </summary>
+    [CliOption("--table", Format = OptionFormat.EqualsSeparated)]
+    public string Table { get; private init; }
+
+    /// <summary>
+    /// Backup resource - The Cloud Bigtable backup to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument backup on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Name of the Bigtable cluster. To set the cluster attribute: ▸ provide the argument backup on the command line with a fully specified name; ▸ provide the argument --cluster on the command line.
+    /// </summary>
+    [CliOption("--cluster", Format = OptionFormat.EqualsSeparated)]
+    public string? Cluster { get; set; }
+
+    /// <summary>
+    /// Backup resource - The Cloud Bigtable backup to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument backup on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Name of the Bigtable instance. To set the instance attribute: ▸ provide the argument backup on the command line with a fully specified name; ▸ provide the argument --instance on the command line.
+    /// </summary>
+    [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
+    public string? Instance { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Absolute expiration time of the backup. From the time the request is received, must be: ▸ At least 6 hours in the future ▸ At most 90 days in the future See $ gcloud topic datetimes for information on date/time formats.
+    /// </summary>
+    [CliOption("--expiration-date", Format = OptionFormat.EqualsSeparated)]
+    public string? ExpirationDate { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Retention period of the backup relative from now; must be: ▸ At least 6 hours ▸ At most 90 days See $ gcloud topic datetimes for information on duration formats.
+    /// </summary>
+    [CliOption("--retention-period", Format = OptionFormat.EqualsSeparated)]
+    public string? RetentionPeriod { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Type of the backup; whether the backup is a standard backup or a hot backup. BACKUP_TYPE must be one of: backup-type-unspecified, hot, standard.
+    /// </summary>
+    [CliOption("--backup-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudBackupType? BackupType { get; set; }
+
+    /// <summary>
+    /// Time at which a hot backup will be converted to a standard backup relative from now; must be: ◆ At least 24 hours Only applies for hot backups. See $ gcloud topic datetimes for information on date/time formats.
+    /// </summary>
+    [CliOption("--hot-to-standard-time", Format = OptionFormat.EqualsSeparated)]
+    public string? HotToStandardTime { get; set; }
+
+    /// <summary>
+    /// Backup resource - The Cloud Bigtable backup to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument backup on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the backup or fully qualified identifier for the backup. To set the backup attribute: ▸ provide the argument backup on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Backup { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(ExpirationDate) ? 1 : 0) + (!string.IsNullOrWhiteSpace(RetentionPeriod) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of ExpirationDate or RetentionPeriod must be specified.", [nameof(ExpirationDate), nameof(RetentionPeriod)]);
+        }
+        yield break;
+    }
+
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -20,10 +21,30 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("transfer", "jobs", "create")]
-public record GcloudTransferJobsCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Source
-) : GcloudOptions
+public record GcloudTransferJobsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a Transfer Service transfer job
+    /// </summary>
+    /// <param name="Source">The source of your data. Available sources and formatting information: Public clouds - ◆ [Google Cloud Storage] gs://example-bucket/example-folder/ ◆ [Amazon S3] s3://examplebucket/example-folder ◆ [Azure Blob Storage or Data Lake Storage] http://examplestorageaccount.blob.core.windows.net/examplecontainer/examplefolder POSIX filesystem - Specify the posix:// scheme followed by the absolute path to the desired directory, starting from the root of the host machine (denoted by a leading slash). For example: ◆ posix:///path/directory/ A file transfer agent must be installed on the POSIX filesystem, and you need an agent pool flag on this jobs command to activate the agent. Hadoop Distributed File System (HDFS) - Specify the hdfs:// scheme followed by the absolute path to the desired directory, starting from the root of the file system (denoted by a leading slash). For example: ◆ hdfs:///path/directory/ Namenode details should not be included in the path specification, as they are required separately during the agent installation process. A file transfer agent must be installed, and you need an agent pool flag on this jobs command to activate the agent. Publicly-accessible objects - Specify the URL of a TSV file containing a list of URLs of publicly-accessible objects. For example: ◆ http://example.com/tsvfile</param>
+    /// <param name="Destination">The destination of your transferred data. Available destinations and formatting information: Google Cloud Storage - Specify the gs:// scheme; name of the bucket; and, if transferring to a folder, the path to the folder. For example: ◆ gs://example-bucket/example-folder/ POSIX filesystem - Specify the posix:// scheme followed by the absolute path to the desired directory, starting from the root of the host machine (denoted by a leading slash). For example: ◆ posix:///path/directory/ A file transfer agent must be installed on the POSIX filesystem, and you need an agent pool flag on this jobs command to activate the agent.</param>
+    public GcloudTransferJobsCreateOptions(
+        string Source,
+        string Destination
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Source);
+        this.Source = Source;
+        global::System.ArgumentNullException.ThrowIfNull(Destination);
+        this.Destination = Destination;
+    }
+
+    public void Deconstruct(out string Source, out string Destination)
+    {
+        Source = this.Source;
+        Destination = this.Destination;
+    }
+
     /// <summary>
     /// JOB INFORMATION A unique identifier for the job. Referring to your source and destination is recommended. If left blank, the name is auto-generated upon submission of the job.
     /// </summary>
@@ -115,159 +136,297 @@ public record GcloudTransferJobsCreateOptions(
     public string? ScheduleRepeatsUntil { get; set; }
 
     /// <summary>
-    /// OBJECT CONDITIONS A set of conditions to determine which objects are transferred. For time-based object condition formatting tips, see https://cloud.google.com/sdk/gcloud/reference/topic/datetimes. Note: If you specify multiple conditions, objects must have at least one of the specified 'include' prefixes and all of the specified time conditions. If an object has an 'exclude' prefix, it will be excluded even if it matches other conditions. Include only objects that start with the specified prefix(es). Separate multiple prefixes with commas, omitting spaces after the commas (e.g., --include-prefixes=foo,bar).
+    /// OBJECT CONDITIONS A set of conditions to determine which objects are transferred. For time-based object condition formatting tips, see https://cloud.google.com/sdk/gcloud/reference/topic/datetimes. Note: If you specify multiple conditions, objects must have at least one of the specified 'include' prefixes and all of the specified time conditions. If an object has an 'exclude' prefix, it will be excluded even if it matches other conditions. TRANSFER OPTIONS NOTIFICATION CONFIG A configuration for receiving notifications of transfer operation status changes via Cloud Pub/Sub. Include only objects that start with the specified prefix(es). Separate multiple prefixes with commas, omitting spaces after the commas (e.g., --include-prefixes=foo,bar). Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--include-prefixes", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? IncludePrefixes { get; set; }
+    [CliOption("--include-prefixes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? IncludePrefixes
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __IncludePrefixesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __IncludePrefixesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// OBJECT CONDITIONS A set of conditions to determine which objects are transferred. For time-based object condition formatting tips, see https://cloud.google.com/sdk/gcloud/reference/topic/datetimes. Note: If you specify multiple conditions, objects must have at least one of the specified 'include' prefixes and all of the specified time conditions. If an object has an 'exclude' prefix, it will be excluded even if it matches other conditions. Exclude any objects that start with the prefix(es) entered. Separate multiple prefixes with commas, omitting spaces after the commas (e.g., --exclude-prefixes=foo,bar).
+    /// OBJECT CONDITIONS A set of conditions to determine which objects are transferred. For time-based object condition formatting tips, see https://cloud.google.com/sdk/gcloud/reference/topic/datetimes. Note: If you specify multiple conditions, objects must have at least one of the specified 'include' prefixes and all of the specified time conditions. If an object has an 'exclude' prefix, it will be excluded even if it matches other conditions. TRANSFER OPTIONS NOTIFICATION CONFIG A configuration for receiving notifications of transfer operation status changes via Cloud Pub/Sub. Exclude any objects that start with the prefix(es) entered. Separate multiple prefixes with commas, omitting spaces after the commas (e.g., --exclude-prefixes=foo,bar). Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--exclude-prefixes", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? ExcludePrefixes { get; set; }
+    [CliOption("--exclude-prefixes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ExcludePrefixes
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __ExcludePrefixesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __ExcludePrefixesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// OBJECT CONDITIONS A set of conditions to determine which objects are transferred. For time-based object condition formatting tips, see https://cloud.google.com/sdk/gcloud/reference/topic/datetimes. Note: If you specify multiple conditions, objects must have at least one of the specified 'include' prefixes and all of the specified time conditions. If an object has an 'exclude' prefix, it will be excluded even if it matches other conditions. Include only objects that match the specified glob pattern. For more information about glob patterns, see https://docs.cloud.google.com/storage-transfer/docs/filter-by-glob-pattern
+    /// OBJECT CONDITIONS A set of conditions to determine which objects are transferred. For time-based object condition formatting tips, see https://cloud.google.com/sdk/gcloud/reference/topic/datetimes. Note: If you specify multiple conditions, objects must have at least one of the specified 'include' prefixes and all of the specified time conditions. If an object has an 'exclude' prefix, it will be excluded even if it matches other conditions. TRANSFER OPTIONS NOTIFICATION CONFIG A configuration for receiving notifications of transfer operation status changes via Cloud Pub/Sub. Include only objects that match the specified glob pattern. For more information about glob patterns, see https://docs.cloud.google.com/storage-transfer/docs/filter-by-glob-pattern
     /// </summary>
     [CliOption("--match-glob", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? MatchGlob { get; set; }
+    public string? MatchGlob { get; set; }
 
     /// <summary>
-    /// OBJECT CONDITIONS A set of conditions to determine which objects are transferred. For time-based object condition formatting tips, see https://cloud.google.com/sdk/gcloud/reference/topic/datetimes. Note: If you specify multiple conditions, objects must have at least one of the specified 'include' prefixes and all of the specified time conditions. If an object has an 'exclude' prefix, it will be excluded even if it matches other conditions. Include objects last modified before an absolute date/time. Ex. by specifying '2020-01-01', the transfer would include objects last modified before January 1, 2020. Use the %Y-%m-%dT%H:%M:%S%z datetime format.
+    /// OBJECT CONDITIONS A set of conditions to determine which objects are transferred. For time-based object condition formatting tips, see https://cloud.google.com/sdk/gcloud/reference/topic/datetimes. Note: If you specify multiple conditions, objects must have at least one of the specified 'include' prefixes and all of the specified time conditions. If an object has an 'exclude' prefix, it will be excluded even if it matches other conditions. TRANSFER OPTIONS NOTIFICATION CONFIG A configuration for receiving notifications of transfer operation status changes via Cloud Pub/Sub. Include objects last modified before an absolute date/time. Ex. by specifying '2020-01-01', the transfer would include objects last modified before January 1, 2020. Use the %Y-%m-%dT%H:%M:%S%z datetime format.
     /// </summary>
     [CliOption("--include-modified-before-absolute", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? IncludeModifiedBeforeAbsolute { get; set; }
+    public string? IncludeModifiedBeforeAbsolute { get; set; }
 
     /// <summary>
-    /// OBJECT CONDITIONS A set of conditions to determine which objects are transferred. For time-based object condition formatting tips, see https://cloud.google.com/sdk/gcloud/reference/topic/datetimes. Note: If you specify multiple conditions, objects must have at least one of the specified 'include' prefixes and all of the specified time conditions. If an object has an 'exclude' prefix, it will be excluded even if it matches other conditions. Include objects last modified after an absolute date/time. Ex. by specifying '2020-01-01', the transfer would include objects last modified after January 1, 2020. Use the %Y-%m-%dT%H:%M:%S%z datetime format.
+    /// OBJECT CONDITIONS A set of conditions to determine which objects are transferred. For time-based object condition formatting tips, see https://cloud.google.com/sdk/gcloud/reference/topic/datetimes. Note: If you specify multiple conditions, objects must have at least one of the specified 'include' prefixes and all of the specified time conditions. If an object has an 'exclude' prefix, it will be excluded even if it matches other conditions. TRANSFER OPTIONS NOTIFICATION CONFIG A configuration for receiving notifications of transfer operation status changes via Cloud Pub/Sub. Include objects last modified after an absolute date/time. Ex. by specifying '2020-01-01', the transfer would include objects last modified after January 1, 2020. Use the %Y-%m-%dT%H:%M:%S%z datetime format.
     /// </summary>
     [CliOption("--include-modified-after-absolute", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? IncludeModifiedAfterAbsolute { get; set; }
+    public string? IncludeModifiedAfterAbsolute { get; set; }
 
     /// <summary>
-    /// OBJECT CONDITIONS A set of conditions to determine which objects are transferred. For time-based object condition formatting tips, see https://cloud.google.com/sdk/gcloud/reference/topic/datetimes. Note: If you specify multiple conditions, objects must have at least one of the specified 'include' prefixes and all of the specified time conditions. If an object has an 'exclude' prefix, it will be excluded even if it matches other conditions. Include objects that were modified before a relative date/time in the past. Ex. by specifying a duration of '10d', the transfer would include objects last modified more than 10 days before its start time. Use the absolute duration format (ex. 1m for 1 month; 1h30m for 1 hour 30 minutes).
+    /// OBJECT CONDITIONS A set of conditions to determine which objects are transferred. For time-based object condition formatting tips, see https://cloud.google.com/sdk/gcloud/reference/topic/datetimes. Note: If you specify multiple conditions, objects must have at least one of the specified 'include' prefixes and all of the specified time conditions. If an object has an 'exclude' prefix, it will be excluded even if it matches other conditions. TRANSFER OPTIONS NOTIFICATION CONFIG A configuration for receiving notifications of transfer operation status changes via Cloud Pub/Sub. Include objects that were modified before a relative date/time in the past. Ex. by specifying a duration of '10d', the transfer would include objects last modified more than 10 days before its start time. Use the absolute duration format (ex. 1m for 1 month; 1h30m for 1 hour 30 minutes).
     /// </summary>
     [CliOption("--include-modified-before-relative", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? IncludeModifiedBeforeRelative { get; set; }
+    public string? IncludeModifiedBeforeRelative { get; set; }
 
     /// <summary>
-    /// OBJECT CONDITIONS A set of conditions to determine which objects are transferred. For time-based object condition formatting tips, see https://cloud.google.com/sdk/gcloud/reference/topic/datetimes. Note: If you specify multiple conditions, objects must have at least one of the specified 'include' prefixes and all of the specified time conditions. If an object has an 'exclude' prefix, it will be excluded even if it matches other conditions. Include objects that were modified after a relative date/time in the past. Ex. by specifying a duration of '10d', the transfer would include objects last modified less than 10 days before its start time. Use the absolute duration format (ex. 1m for 1 month; 1h30m for 1 hour 30 minutes).
+    /// OBJECT CONDITIONS A set of conditions to determine which objects are transferred. For time-based object condition formatting tips, see https://cloud.google.com/sdk/gcloud/reference/topic/datetimes. Note: If you specify multiple conditions, objects must have at least one of the specified 'include' prefixes and all of the specified time conditions. If an object has an 'exclude' prefix, it will be excluded even if it matches other conditions. TRANSFER OPTIONS NOTIFICATION CONFIG A configuration for receiving notifications of transfer operation status changes via Cloud Pub/Sub. Include objects that were modified after a relative date/time in the past. Ex. by specifying a duration of '10d', the transfer would include objects last modified less than 10 days before its start time. Use the absolute duration format (ex. 1m for 1 month; 1h30m for 1 hour 30 minutes).
     /// </summary>
     [CliOption("--include-modified-after-relative", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? IncludeModifiedAfterRelative { get; set; }
+    public string? IncludeModifiedAfterRelative { get; set; }
 
     /// <summary>
-    /// TRANSFER OPTIONS Determine when destination objects are overwritten by source objects. Options include: ◆ 'different' - Overwrites files with the same name if the contents are different (e.g., if etags or checksums don't match) ◆ 'always' - Overwrite destination file whenever source file has the same name -- even if they're identical ◆ 'never' - Never overwrite destination file when source file has the same name OVERWRITE_WHEN must be one of: always, different, never.
+    /// OBJECT CONDITIONS A set of conditions to determine which objects are transferred. For time-based object condition formatting tips, see https://cloud.google.com/sdk/gcloud/reference/topic/datetimes. Note: If you specify multiple conditions, objects must have at least one of the specified 'include' prefixes and all of the specified time conditions. If an object has an 'exclude' prefix, it will be excluded even if it matches other conditions. TRANSFER OPTIONS NOTIFICATION CONFIG A configuration for receiving notifications of transfer operation status changes via Cloud Pub/Sub. Include only objects belonging to the specified Amazon S3 Storage classes. Objects in other storage classes are skipped. Separate multiple classes with commas, omitting spaces E.g., --include-storage-classes=STANDARD,GLACIER. See Filter source objects by storage class (https://cloud.google.com/storage-transfer/docs/filtering-objects#filter-storage-class) for more information. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--include-storage-classes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? IncludeStorageClasses
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __IncludeStorageClassesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __IncludeStorageClassesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// OBJECT CONDITIONS A set of conditions to determine which objects are transferred. For time-based object condition formatting tips, see https://cloud.google.com/sdk/gcloud/reference/topic/datetimes. Note: If you specify multiple conditions, objects must have at least one of the specified 'include' prefixes and all of the specified time conditions. If an object has an 'exclude' prefix, it will be excluded even if it matches other conditions. TRANSFER OPTIONS NOTIFICATION CONFIG A configuration for receiving notifications of transfer operation status changes via Cloud Pub/Sub. Determine when destination objects are overwritten by source objects. Options include: ◆ 'different' - Overwrites files with the same name if the contents are different (e.g., if etags or checksums don't match) ◆ 'always' - Overwrite destination file whenever source file has the same name -- even if they're identical ◆ 'never' - Never overwrite destination file when source file has the same name OVERWRITE_WHEN must be one of: always, different, never.
     /// </summary>
     [CliOption("--overwrite-when", Format = OptionFormat.EqualsSeparated)]
     public GcloudOverwriteWhen? OverwriteWhen { get; set; }
 
     /// <summary>
-    /// TRANSFER OPTIONS By default, transfer jobs won't delete any data from your source or destination. These options enable you to delete data if needed for your use case. Options include: ◆ 'destination-if-unique' - Delete files from destination if they're not also at source. Use to sync destination to source (i.e., make destination match source exactly) ◆ 'source-after-transfer' - Delete files from source after they're transferred DELETE_FROM must be one of: destination-if-unique, source-after-transfer.
+    /// OBJECT CONDITIONS A set of conditions to determine which objects are transferred. For time-based object condition formatting tips, see https://cloud.google.com/sdk/gcloud/reference/topic/datetimes. Note: If you specify multiple conditions, objects must have at least one of the specified 'include' prefixes and all of the specified time conditions. If an object has an 'exclude' prefix, it will be excluded even if it matches other conditions. TRANSFER OPTIONS NOTIFICATION CONFIG A configuration for receiving notifications of transfer operation status changes via Cloud Pub/Sub. By default, transfer jobs won't delete any data from your source or destination. These options enable you to delete data if needed for your use case. Options include: ◆ 'destination-if-unique' - Delete files from destination if they're not also at source. Use to sync destination to source (i.e., make destination match source exactly) ◆ 'source-after-transfer' - Delete files from source after they're transferred DELETE_FROM must be one of: destination-if-unique, source-after-transfer.
     /// </summary>
     [CliOption("--delete-from", Format = OptionFormat.EqualsSeparated)]
     public GcloudDeleteFrom? DeleteFrom { get; set; }
 
     /// <summary>
-    /// TRANSFER OPTIONS Specify object metadata values that can optionally be preserved. Example: --preserve-metadata=storage-class,uid For more info, see: https://cloud.google.com/storage-transfer/docs/metadata-preservation. METADATA_FIELDS must be one of: acl, gid, kms-key, mode, storage-class, symlink, temporary-hold, time-created, uid.
+    /// OBJECT CONDITIONS A set of conditions to determine which objects are transferred. For time-based object condition formatting tips, see https://cloud.google.com/sdk/gcloud/reference/topic/datetimes. Note: If you specify multiple conditions, objects must have at least one of the specified 'include' prefixes and all of the specified time conditions. If an object has an 'exclude' prefix, it will be excluded even if it matches other conditions. TRANSFER OPTIONS NOTIFICATION CONFIG A configuration for receiving notifications of transfer operation status changes via Cloud Pub/Sub. Specify object metadata values that can optionally be preserved. Example: --preserve-metadata=storage-class,uid For more info, see: https://cloud.google.com/storage-transfer/docs/metadata-preservation. METADATA_FIELDS must be one of: acl, gid, kms-key, mode, storage-class, symlink, temporary-hold, time-created, uid.
     /// </summary>
-    [CliOption("--preserve-metadata", Format = OptionFormat.EqualsSeparated)]
-    public GcloudPreserveMetadata? PreserveMetadata { get; set; }
+    [CliOption("--preserve-metadata", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<GcloudPreserveMetadata>? PreserveMetadata
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __PreserveMetadataSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<GcloudPreserveMetadata>).Equals((object)values) ? global::System.Array.Empty<GcloudPreserveMetadata>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<GcloudPreserveMetadata>(values))))) : default;
+    }
+
+    private sealed class __PreserveMetadataSnapshotKeyValue(
+        IEnumerable<GcloudPreserveMetadata> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<GcloudPreserveMetadata>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<GcloudPreserveMetadata>
+            global::System.Collections.Generic.IEnumerable<GcloudPreserveMetadata>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// TRANSFER OPTIONS Specifies the storage class to set on objects being transferred to Cloud Storage buckets. If unspecified, the objects' storage class is set to the destination bucket default. Valid values are: ◆ Any of the values listed in the Cloud Storage documentation: Available storage classes (https://cloud.google.com/storage/docs/storage-classes#classes). ◆ preserve - Preserves each object's original storage class. Only supported for transfers between Cloud Storage buckets. Custom storage class settings are ignored if the destination bucket is Autoclass-enabled (https://cloud.google.com/storage/docs/autoclass). Objects transferred into Autoclass-enabled buckets are initially set to the STANDARD storage class.
+    /// OBJECT CONDITIONS A set of conditions to determine which objects are transferred. For time-based object condition formatting tips, see https://cloud.google.com/sdk/gcloud/reference/topic/datetimes. Note: If you specify multiple conditions, objects must have at least one of the specified 'include' prefixes and all of the specified time conditions. If an object has an 'exclude' prefix, it will be excluded even if it matches other conditions. TRANSFER OPTIONS NOTIFICATION CONFIG A configuration for receiving notifications of transfer operation status changes via Cloud Pub/Sub. Specifies the storage class to set on objects being transferred to Cloud Storage buckets. If unspecified, the objects' storage class is set to the destination bucket default. Valid values are: ◆ Any of the values listed in the Cloud Storage documentation: Available storage classes (https://cloud.google.com/storage/docs/storage-classes#classes). ◆ preserve - Preserves each object's original storage class. Only supported for transfers between Cloud Storage buckets. Custom storage class settings are ignored if the destination bucket is Autoclass-enabled (https://cloud.google.com/storage/docs/autoclass). Objects transferred into Autoclass-enabled buckets are initially set to the STANDARD storage class.
     /// </summary>
     [CliOption("--custom-storage-class", Format = OptionFormat.EqualsSeparated)]
     public string? CustomStorageClass { get; set; }
 
     /// <summary>
-    /// NOTIFICATION CONFIG A configuration for receiving notifications of transfer operation status changes via Cloud Pub/Sub. Pub/Sub topic used for notifications.
+    /// OBJECT CONDITIONS A set of conditions to determine which objects are transferred. For time-based object condition formatting tips, see https://cloud.google.com/sdk/gcloud/reference/topic/datetimes. Note: If you specify multiple conditions, objects must have at least one of the specified 'include' prefixes and all of the specified time conditions. If an object has an 'exclude' prefix, it will be excluded even if it matches other conditions. TRANSFER OPTIONS NOTIFICATION CONFIG A configuration for receiving notifications of transfer operation status changes via Cloud Pub/Sub. Pub/Sub topic used for notifications.
     /// </summary>
     [CliOption("--notification-pubsub-topic", Format = OptionFormat.EqualsSeparated)]
     public string? NotificationPubsubTopic { get; set; }
 
     /// <summary>
-    /// NOTIFICATION CONFIG A configuration for receiving notifications of transfer operation status changes via Cloud Pub/Sub. Define which change of transfer operation status will trigger Pub/Sub notifications. Choices include 'success', 'failed', 'aborted'. To trigger notifications for all three status changes, you can leave this flag unspecified as long as you've specified a topic for the --notification-pubsub-topic flag. EVENT_TYPES must be one of: success, failed, aborted.
+    /// OBJECT CONDITIONS A set of conditions to determine which objects are transferred. For time-based object condition formatting tips, see https://cloud.google.com/sdk/gcloud/reference/topic/datetimes. Note: If you specify multiple conditions, objects must have at least one of the specified 'include' prefixes and all of the specified time conditions. If an object has an 'exclude' prefix, it will be excluded even if it matches other conditions. TRANSFER OPTIONS NOTIFICATION CONFIG A configuration for receiving notifications of transfer operation status changes via Cloud Pub/Sub. Define which change of transfer operation status will trigger Pub/Sub notifications. Choices include 'success', 'failed', 'aborted'. To trigger notifications for all three status changes, you can leave this flag unspecified as long as you've specified a topic for the --notification-pubsub-topic flag. EVENT_TYPES must be one of: success, failed, aborted.
     /// </summary>
-    [CliOption("--notification-event-types", Format = OptionFormat.EqualsSeparated)]
-    public GcloudNotificationEventTypes? NotificationEventTypes { get; set; }
+    [CliOption("--notification-event-types", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<GcloudNotificationEventTypes>? NotificationEventTypes
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __NotificationEventTypesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<GcloudNotificationEventTypes>).Equals((object)values) ? global::System.Array.Empty<GcloudNotificationEventTypes>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<GcloudNotificationEventTypes>(values))))) : default;
+    }
+
+    private sealed class __NotificationEventTypesSnapshotKeyValue(
+        IEnumerable<GcloudNotificationEventTypes> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<GcloudNotificationEventTypes>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<GcloudNotificationEventTypes>
+            global::System.Collections.Generic.IEnumerable<GcloudNotificationEventTypes>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// NOTIFICATION CONFIG A configuration for receiving notifications of transfer operation status changes via Cloud Pub/Sub. If 'none', no transfer operation details are included with notifications. If 'json', a json representation of the relevant transfer operation is included in notification messages (e.g., to see errors after an operation fails). NOTIFICATION_PAYLOAD_FORMAT must be one of: json, none.
+    /// OBJECT CONDITIONS A set of conditions to determine which objects are transferred. For time-based object condition formatting tips, see https://cloud.google.com/sdk/gcloud/reference/topic/datetimes. Note: If you specify multiple conditions, objects must have at least one of the specified 'include' prefixes and all of the specified time conditions. If an object has an 'exclude' prefix, it will be excluded even if it matches other conditions. TRANSFER OPTIONS NOTIFICATION CONFIG A configuration for receiving notifications of transfer operation status changes via Cloud Pub/Sub. If 'none', no transfer operation details are included with notifications. If 'json', a json representation of the relevant transfer operation is included in notification messages (e.g., to see errors after an operation fails). NOTIFICATION_PAYLOAD_FORMAT must be one of: json, none.
     /// </summary>
     [CliOption("--notification-payload-format", Format = OptionFormat.EqualsSeparated)]
     public GcloudNotificationPayloadFormat? NotificationPayloadFormat { get; set; }
 
     /// <summary>
-    /// LOGGING CONFIG Configure which transfer actions and action states are reported when logs are generated for this job. Logs can be viewed by running the following command: gcloud logging read "resource.type=storage_transfer_job" Sets whether to generate logs for transfers with a POSIX filesystem source. This setting will later be merged with other log configurations. Use --enable-posix-transfer-logs to enable and --no-enable-posix-transfer-logs to disable.
+    /// LOGGING CONFIG Configure which transfer actions and action states are reported when logs are generated for this job. Logs can be viewed by running the following command: gcloud logging read "resource.type=storage_transfer_job" ADDITIONAL OPTIONS EXECUTION OPTIONS Sets whether to generate logs for transfers with a POSIX filesystem source. This setting will later be merged with other log configurations. Use --enable-posix-transfer-logs to enable and --no-enable-posix-transfer-logs to disable.
     /// </summary>
     [CliFlag("--enable-posix-transfer-logs")]
     public bool? EnablePosixTransferLogs { get; set; }
 
     /// <summary>
-    /// Negates --enable-posix-transfer-logs. LOGGING CONFIG Configure which transfer actions and action states are reported when logs are generated for this job. Logs can be viewed by running the following command: gcloud logging read "resource.type=storage_transfer_job" Sets whether to generate logs for transfers with a POSIX filesystem source. This setting will later be merged with other log configurations. Use --enable-posix-transfer-logs to enable and --no-enable-posix-transfer-logs to disable.
+    /// Negates --enable-posix-transfer-logs. LOGGING CONFIG Configure which transfer actions and action states are reported when logs are generated for this job. Logs can be viewed by running the following command: gcloud logging read "resource.type=storage_transfer_job" ADDITIONAL OPTIONS EXECUTION OPTIONS Sets whether to generate logs for transfers with a POSIX filesystem source. This setting will later be merged with other log configurations. Use --enable-posix-transfer-logs to enable and --no-enable-posix-transfer-logs to disable.
     /// </summary>
     [CliFlag("--no-enable-posix-transfer-logs")]
     public bool? NoEnablePosixTransferLogs { get; set; }
 
     /// <summary>
-    /// LOGGING CONFIG Configure which transfer actions and action states are reported when logs are generated for this job. Logs can be viewed by running the following command: gcloud logging read "resource.type=storage_transfer_job" Define the transfer operation actions to report in logs. Separate multiple actions with commas, omitting spaces after the commas (e.g., --log-actions=find,copy). LOG_ACTIONS must be one of: copy, delete, find.
+    /// LOGGING CONFIG Configure which transfer actions and action states are reported when logs are generated for this job. Logs can be viewed by running the following command: gcloud logging read "resource.type=storage_transfer_job" ADDITIONAL OPTIONS EXECUTION OPTIONS Define the transfer operation actions to report in logs. Separate multiple actions with commas, omitting spaces after the commas (e.g., --log-actions=find,copy). LOG_ACTIONS must be one of: copy, delete, find.
     /// </summary>
-    [CliOption("--log-actions", Format = OptionFormat.EqualsSeparated)]
-    public GcloudLogActions? LogActions { get; set; }
+    [CliOption("--log-actions", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<GcloudLogActions>? LogActions { get; set; }
 
     /// <summary>
-    /// LOGGING CONFIG Configure which transfer actions and action states are reported when logs are generated for this job. Logs can be viewed by running the following command: gcloud logging read "resource.type=storage_transfer_job" The states in which the actions specified in --log-actions are logged. Separate multiple states with a comma, omitting the space after the comma (e.g., --log-action-states=succeeded,failed). LOG_ACTION_STATES must be one of: failed, skipped, succeeded.
+    /// LOGGING CONFIG Configure which transfer actions and action states are reported when logs are generated for this job. Logs can be viewed by running the following command: gcloud logging read "resource.type=storage_transfer_job" ADDITIONAL OPTIONS EXECUTION OPTIONS The states in which the actions specified in --log-actions are logged. Separate multiple states with a comma, omitting the space after the comma (e.g., --log-action-states=succeeded,failed). LOG_ACTION_STATES must be one of: failed, skipped, succeeded.
     /// </summary>
-    [CliOption("--log-action-states", Format = OptionFormat.EqualsSeparated)]
-    public GcloudLogActionStates? LogActionStates { get; set; }
+    [CliOption("--log-action-states", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<GcloudLogActionStates>? LogActionStates { get; set; }
 
     /// <summary>
-    /// ADDITIONAL OPTIONS For transfers from S3-compatible sources, specify your storage system's endpoint. Check with your provider for formatting (ex. s3.us-east-1.amazonaws.com for Amazon S3).
+    /// LOGGING CONFIG Configure which transfer actions and action states are reported when logs are generated for this job. Logs can be viewed by running the following command: gcloud logging read "resource.type=storage_transfer_job" ADDITIONAL OPTIONS EXECUTION OPTIONS For transfers from S3-compatible sources, specify your storage system's endpoint. Check with your provider for formatting (ex. s3.us-east-1.amazonaws.com for Amazon S3).
     /// </summary>
     [CliOption("--source-endpoint", Format = OptionFormat.EqualsSeparated)]
     public string? SourceEndpoint { get; set; }
 
     /// <summary>
-    /// ADDITIONAL OPTIONS For transfers from S3-compatible sources, specify a region for signing requests. You can leave this unspecified if your storage provider doesn't require a signing region.
+    /// LOGGING CONFIG Configure which transfer actions and action states are reported when logs are generated for this job. Logs can be viewed by running the following command: gcloud logging read "resource.type=storage_transfer_job" ADDITIONAL OPTIONS EXECUTION OPTIONS For transfers from S3-compatible sources, specify a region for signing requests. You can leave this unspecified if your storage provider doesn't require a signing region.
     /// </summary>
     [CliOption("--source-signing-region", Format = OptionFormat.EqualsSeparated)]
     public string? SourceSigningRegion { get; set; }
 
     /// <summary>
-    /// ADDITIONAL OPTIONS For transfers from S3-compatible sources, choose a process for adding authentication information to S3 API requests. Refer to AWS's SigV4 (https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html) and SigV2 (https://docs.aws.amazon.com/general/latest/gr/signature-version-2.html) documentation for more information. SOURCE_AUTH_METHOD must be one of: AWS_SIGNATURE_V2, AWS_SIGNATURE_V4.
+    /// LOGGING CONFIG Configure which transfer actions and action states are reported when logs are generated for this job. Logs can be viewed by running the following command: gcloud logging read "resource.type=storage_transfer_job" ADDITIONAL OPTIONS EXECUTION OPTIONS For transfers from S3-compatible sources, choose a process for adding authentication information to S3 API requests. Refer to AWS's SigV4 (https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html) and SigV2 (https://docs.aws.amazon.com/general/latest/gr/signature-version-2.html) documentation for more information. SOURCE_AUTH_METHOD must be one of: AWS_SIGNATURE_V2, AWS_SIGNATURE_V4.
     /// </summary>
     [CliOption("--source-auth-method", Format = OptionFormat.EqualsSeparated)]
     public GcloudSourceAuthMethod? SourceAuthMethod { get; set; }
 
     /// <summary>
-    /// ADDITIONAL OPTIONS For transfers from S3-compatible sources, choose the version of the S3 listing API for returning objects from the bucket. Refer to AWS's ListObjectsV2 (https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjectsV2.html) and ListObjects (https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjects.html) documentation for more information. SOURCE_LIST_API must be one of: LIST_OBJECTS, LIST_OBJECTS_V2.
+    /// LOGGING CONFIG Configure which transfer actions and action states are reported when logs are generated for this job. Logs can be viewed by running the following command: gcloud logging read "resource.type=storage_transfer_job" ADDITIONAL OPTIONS EXECUTION OPTIONS For transfers from S3-compatible sources, choose the version of the S3 listing API for returning objects from the bucket. Refer to AWS's ListObjectsV2 (https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjectsV2.html) and ListObjects (https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjects.html) documentation for more information. SOURCE_LIST_API must be one of: LIST_OBJECTS, LIST_OBJECTS_V2.
     /// </summary>
     [CliOption("--source-list-api", Format = OptionFormat.EqualsSeparated)]
     public GcloudSourceListApi? SourceListApi { get; set; }
 
     /// <summary>
-    /// ADDITIONAL OPTIONS For transfers from S3-compatible sources, choose the network protocol agents should use for this job. SOURCE_NETWORK_PROTOCOL must be one of: HTTP, HTTPS.
+    /// LOGGING CONFIG Configure which transfer actions and action states are reported when logs are generated for this job. Logs can be viewed by running the following command: gcloud logging read "resource.type=storage_transfer_job" ADDITIONAL OPTIONS EXECUTION OPTIONS For transfers from S3-compatible sources, choose the network protocol agents should use for this job. SOURCE_NETWORK_PROTOCOL must be one of: HTTP, HTTPS.
     /// </summary>
     [CliOption("--source-network-protocol", Format = OptionFormat.EqualsSeparated)]
     public GcloudSourceNetworkProtocol? SourceNetworkProtocol { get; set; }
 
     /// <summary>
-    /// ADDITIONAL OPTIONS For transfers from S3-compatible sources, choose which addressing style to use. Determines if the bucket name is in the hostname or part of the URL. For example, https://s3.region.amazonaws.com/bucket-name/key-name for path style and Ex. https://bucket-name.s3.region.amazonaws.com/key-name for virtual-hosted style. SOURCE_REQUEST_MODEL must be one of: PATH_STYLE, VIRTUAL_HOSTED_STYLE.
+    /// LOGGING CONFIG Configure which transfer actions and action states are reported when logs are generated for this job. Logs can be viewed by running the following command: gcloud logging read "resource.type=storage_transfer_job" ADDITIONAL OPTIONS EXECUTION OPTIONS For transfers from S3-compatible sources, choose which addressing style to use. Determines if the bucket name is in the hostname or part of the URL. For example, https://s3.region.amazonaws.com/bucket-name/key-name for path style and Ex. https://bucket-name.s3.region.amazonaws.com/key-name for virtual-hosted style. SOURCE_REQUEST_MODEL must be one of: PATH_STYLE, VIRTUAL_HOSTED_STYLE.
     /// </summary>
     [CliOption("--source-request-model", Format = OptionFormat.EqualsSeparated)]
     public GcloudSourceRequestModel? SourceRequestModel { get; set; }
 
     /// <summary>
-    /// ADDITIONAL OPTIONS For transfers from S3, optionally route egress traffic through a CloudFront instance. Supply the endpoint of the CloudFront instance: https://example.cloudfront.net. See documentation (https://cloud.google.com/storage-transfer/docs/s3-cloudfront) for more information.
+    /// LOGGING CONFIG Configure which transfer actions and action states are reported when logs are generated for this job. Logs can be viewed by running the following command: gcloud logging read "resource.type=storage_transfer_job" ADDITIONAL OPTIONS EXECUTION OPTIONS For transfers from S3, optionally route egress traffic through a CloudFront instance. Supply the endpoint of the CloudFront instance: https://example.cloudfront.net. See documentation (https://cloud.google.com/storage-transfer/docs/s3-cloudfront) for more information.
     /// </summary>
     [CliOption("--s3-cloudfront-domain", Format = OptionFormat.EqualsSeparated)]
     public string? S3CloudfrontDomain { get; set; }
 
     /// <summary>
-    /// EXECUTION OPTIONS For jobs set to run upon creation, this flag blocks other tasks in your terminal until the job's initial, immediate transfer operation has completed. If not included, tasks will run asynchronously.
+    /// LOGGING CONFIG Configure which transfer actions and action states are reported when logs are generated for this job. Logs can be viewed by running the following command: gcloud logging read "resource.type=storage_transfer_job" ADDITIONAL OPTIONS EXECUTION OPTIONS For jobs set to run upon creation, this flag blocks other tasks in your terminal until the job's initial, immediate transfer operation has completed. If not included, tasks will run asynchronously.
     /// </summary>
     [CliFlag("--no-async")]
     public bool? NoAsync { get; set; }
+
+    /// <summary>
+    /// The source of your data. Available sources and formatting information: Public clouds - ◆ [Google Cloud Storage] gs://example-bucket/example-folder/ ◆ [Amazon S3] s3://examplebucket/example-folder ◆ [Azure Blob Storage or Data Lake Storage] http://examplestorageaccount.blob.core.windows.net/examplecontainer/examplefolder POSIX filesystem - Specify the posix:// scheme followed by the absolute path to the desired directory, starting from the root of the host machine (denoted by a leading slash). For example: ◆ posix:///path/directory/ A file transfer agent must be installed on the POSIX filesystem, and you need an agent pool flag on this jobs command to activate the agent. Hadoop Distributed File System (HDFS) - Specify the hdfs:// scheme followed by the absolute path to the desired directory, starting from the root of the file system (denoted by a leading slash). For example: ◆ hdfs:///path/directory/ Namenode details should not be included in the path specification, as they are required separately during the agent installation process. A file transfer agent must be installed, and you need an agent pool flag on this jobs command to activate the agent. Publicly-accessible objects - Specify the URL of a TSV file containing a list of URLs of publicly-accessible objects. For example: ◆ http://example.com/tsvfile
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Source { get; private init; }
+
+    /// <summary>
+    /// The destination of your transferred data. Available destinations and formatting information: Google Cloud Storage - Specify the gs:// scheme; name of the bucket; and, if transferring to a folder, the path to the folder. For example: ◆ gs://example-bucket/example-folder/ POSIX filesystem - Specify the posix:// scheme followed by the absolute path to the desired directory, starting from the root of the host machine (denoted by a leading slash). For example: ◆ posix:///path/directory/ A file transfer agent must be installed on the POSIX filesystem, and you need an agent pool flag on this jobs command to activate the agent.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Destination { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(((object?)IncludePrefixes is global::System.Collections.Generic.IEnumerable<char> ? (object?)IncludePrefixes is not string || !string.IsNullOrWhiteSpace(IncludePrefixes?.ToString()) : ((object?)IncludePrefixes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)IncludePrefixes, static item => item is not null) : (IncludePrefixes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)IncludePrefixes), static item => item is not null)))) || ((object?)ExcludePrefixes is global::System.Collections.Generic.IEnumerable<char> ? (object?)ExcludePrefixes is not string || !string.IsNullOrWhiteSpace(ExcludePrefixes?.ToString()) : ((object?)ExcludePrefixes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ExcludePrefixes, static item => item is not null) : (ExcludePrefixes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ExcludePrefixes), static item => item is not null)))) || !string.IsNullOrWhiteSpace(MatchGlob) || !string.IsNullOrWhiteSpace(IncludeModifiedBeforeAbsolute) || !string.IsNullOrWhiteSpace(IncludeModifiedAfterAbsolute) || !string.IsNullOrWhiteSpace(IncludeModifiedBeforeRelative) || !string.IsNullOrWhiteSpace(IncludeModifiedAfterRelative) || ((object?)IncludeStorageClasses is global::System.Collections.Generic.IEnumerable<char> ? (object?)IncludeStorageClasses is not string || !string.IsNullOrWhiteSpace(IncludeStorageClasses?.ToString()) : ((object?)IncludeStorageClasses is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)IncludeStorageClasses, static item => item is not null) : (IncludeStorageClasses is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)IncludeStorageClasses), static item => item is not null)))) || (object?)OverwriteWhen is not null || (object?)DeleteFrom is not null || ((object?)PreserveMetadata is global::System.Collections.Generic.IEnumerable<char> ? (object?)PreserveMetadata is not string || !string.IsNullOrWhiteSpace(PreserveMetadata?.ToString()) : ((object?)PreserveMetadata is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)PreserveMetadata, static item => item is not null) : (PreserveMetadata is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)PreserveMetadata), static item => item is not null)))) || !string.IsNullOrWhiteSpace(CustomStorageClass) || !string.IsNullOrWhiteSpace(NotificationPubsubTopic) || ((object?)NotificationEventTypes is global::System.Collections.Generic.IEnumerable<char> ? (object?)NotificationEventTypes is not string || !string.IsNullOrWhiteSpace(NotificationEventTypes?.ToString()) : ((object?)NotificationEventTypes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NotificationEventTypes, static item => item is not null) : (NotificationEventTypes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NotificationEventTypes), static item => item is not null)))) || (object?)NotificationPayloadFormat is not null))
+        {
+            yield return new ValidationResult("At least one of IncludePrefixes, ExcludePrefixes, MatchGlob, IncludeModifiedBeforeAbsolute, IncludeModifiedAfterAbsolute, IncludeModifiedBeforeRelative, IncludeModifiedAfterRelative, IncludeStorageClasses, OverwriteWhen, DeleteFrom, PreserveMetadata, CustomStorageClass, NotificationPubsubTopic, NotificationEventTypes, or NotificationPayloadFormat must be specified.", [nameof(IncludePrefixes), nameof(ExcludePrefixes), nameof(MatchGlob), nameof(IncludeModifiedBeforeAbsolute), nameof(IncludeModifiedAfterAbsolute), nameof(IncludeModifiedBeforeRelative), nameof(IncludeModifiedAfterRelative), nameof(IncludeStorageClasses), nameof(OverwriteWhen), nameof(DeleteFrom), nameof(PreserveMetadata), nameof(CustomStorageClass), nameof(NotificationPubsubTopic), nameof(NotificationEventTypes), nameof(NotificationPayloadFormat)]);
+        }
+        yield break;
+    }
 
 }

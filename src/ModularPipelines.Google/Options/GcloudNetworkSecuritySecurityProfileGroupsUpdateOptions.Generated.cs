@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -20,8 +21,37 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-security", "security-profile-groups", "update")]
-public record GcloudNetworkSecuritySecurityProfileGroupsUpdateOptions : GcloudOptions
+public record GcloudNetworkSecuritySecurityProfileGroupsUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a Security     Profile Group
+    /// </summary>
+    /// <param name="SecurityProfileGroup">Security profile group resource - Security Profile Group Name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument security_profile_group on the command line with a fully specified name; ◆ set the property core/project. This resource can be one of the following types: [networksecurity.organizations.locations.securityProfileGroups, networksecurity.projects.locations.securityProfileGroups]. This must be specified. ID of the security_profile_group or fully qualified identifier for the security_profile_group. To set the security_profile_group attribute: ▸ provide the argument security_profile_group on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetworkSecuritySecurityProfileGroupsUpdateOptions(
+        string SecurityProfileGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SecurityProfileGroup);
+        this.SecurityProfileGroup = SecurityProfileGroup;
+    }
+
+    public void Deconstruct(out string SecurityProfileGroup)
+    {
+        SecurityProfileGroup = this.SecurityProfileGroup;
+    }
+
+    /// <summary>
+    /// Security profile group resource - Security Profile Group Name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument security_profile_group on the command line with a fully specified name; ◆ set the property core/project. This resource can be one of the following types: [networksecurity.organizations.locations.securityProfileGroups, networksecurity.projects.locations.securityProfileGroups]. This must be specified. location of the security_profile_group - Global. To set the location attribute: ▸ provide the argument security_profile_group on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Security profile group resource - Security Profile Group Name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument security_profile_group on the command line with a fully specified name; ◆ set the property core/project. This resource can be one of the following types: [networksecurity.organizations.locations.securityProfileGroups, networksecurity.projects.locations.securityProfileGroups]. This must be specified. Organization ID of Security Profile Group To set the organization attribute: ▸ provide the argument security_profile_group on the command line with a fully specified name; ▸ provide the argument --organization on the command line. Must be specified for resource of type [networksecurity.organizations.locations.securityProfileGroups].
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete. The default is False.
     /// </summary>
@@ -35,9 +65,9 @@ public record GcloudNetworkSecuritySecurityProfileGroupsUpdateOptions : GcloudOp
     public string? Description { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
 
     /// <summary>
@@ -47,10 +77,32 @@ public record GcloudNetworkSecuritySecurityProfileGroupsUpdateOptions : GcloudOp
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveLabels { get; set; }
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveLabels
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveLabelsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveLabelsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// At most one of these can be specified: Clear the threat-prevention-profile field.
@@ -111,5 +163,37 @@ public record GcloudNetworkSecuritySecurityProfileGroupsUpdateOptions : GcloudOp
     /// </summary>
     [CliOption("--url-filtering-profile-project", Format = OptionFormat.EqualsSeparated)]
     public string? UrlFilteringProfileProject { get; set; }
+
+    /// <summary>
+    /// Security profile group resource - Security Profile Group Name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument security_profile_group on the command line with a fully specified name; ◆ set the property core/project. This resource can be one of the following types: [networksecurity.organizations.locations.securityProfileGroups, networksecurity.projects.locations.securityProfileGroups]. This must be specified. ID of the security_profile_group or fully qualified identifier for the security_profile_group. To set the security_profile_group attribute: ▸ provide the argument security_profile_group on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SecurityProfileGroup { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((ClearLabels == true ? 1 : 0) + (((object?)RemoveLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveLabels is not string || !string.IsNullOrWhiteSpace(RemoveLabels?.ToString()) : ((object?)RemoveLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveLabels, static item => item is not null) : (RemoveLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveLabels), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearLabels or RemoveLabels may be specified.", [nameof(ClearLabels), nameof(RemoveLabels)]);
+        }
+        if ((ClearThreatPreventionProfile == true ? 1 : 0) + ((!string.IsNullOrWhiteSpace(ThreatPreventionProfile) || !string.IsNullOrWhiteSpace(ThreatPreventionProfileLocation) || !string.IsNullOrWhiteSpace(ThreatPreventionProfileOrganization) || !string.IsNullOrWhiteSpace(ThreatPreventionProfileProject)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearThreatPreventionProfile or (ThreatPreventionProfile, ThreatPreventionProfileLocation, ThreatPreventionProfileOrganization, or ThreatPreventionProfileProject) may be specified.", [nameof(ClearThreatPreventionProfile), nameof(ThreatPreventionProfile), nameof(ThreatPreventionProfileLocation), nameof(ThreatPreventionProfileOrganization), nameof(ThreatPreventionProfileProject)]);
+        }
+        if ((ClearThreatPreventionProfile == true || !string.IsNullOrWhiteSpace(ThreatPreventionProfile) || !string.IsNullOrWhiteSpace(ThreatPreventionProfileLocation) || !string.IsNullOrWhiteSpace(ThreatPreventionProfileOrganization) || !string.IsNullOrWhiteSpace(ThreatPreventionProfileProject)) && (!string.IsNullOrWhiteSpace(ThreatPreventionProfile) || !string.IsNullOrWhiteSpace(ThreatPreventionProfileLocation) || !string.IsNullOrWhiteSpace(ThreatPreventionProfileOrganization) || !string.IsNullOrWhiteSpace(ThreatPreventionProfileProject)) && (!string.IsNullOrWhiteSpace(ThreatPreventionProfile) || !string.IsNullOrWhiteSpace(ThreatPreventionProfileLocation) || !string.IsNullOrWhiteSpace(ThreatPreventionProfileOrganization) || !string.IsNullOrWhiteSpace(ThreatPreventionProfileProject)) && (!(!string.IsNullOrWhiteSpace(ThreatPreventionProfile))))
+        {
+            yield return new ValidationResult("ThreatPreventionProfile must be specified when other arguments in this group are specified.", [nameof(ThreatPreventionProfile)]);
+        }
+        if ((ClearUrlFilteringProfile == true ? 1 : 0) + ((!string.IsNullOrWhiteSpace(UrlFilteringProfile) || !string.IsNullOrWhiteSpace(UrlFilteringProfileLocation) || !string.IsNullOrWhiteSpace(UrlFilteringProfileOrganization) || !string.IsNullOrWhiteSpace(UrlFilteringProfileProject)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearUrlFilteringProfile or (UrlFilteringProfile, UrlFilteringProfileLocation, UrlFilteringProfileOrganization, or UrlFilteringProfileProject) may be specified.", [nameof(ClearUrlFilteringProfile), nameof(UrlFilteringProfile), nameof(UrlFilteringProfileLocation), nameof(UrlFilteringProfileOrganization), nameof(UrlFilteringProfileProject)]);
+        }
+        if ((ClearUrlFilteringProfile == true || !string.IsNullOrWhiteSpace(UrlFilteringProfile) || !string.IsNullOrWhiteSpace(UrlFilteringProfileLocation) || !string.IsNullOrWhiteSpace(UrlFilteringProfileOrganization) || !string.IsNullOrWhiteSpace(UrlFilteringProfileProject)) && (!string.IsNullOrWhiteSpace(UrlFilteringProfile) || !string.IsNullOrWhiteSpace(UrlFilteringProfileLocation) || !string.IsNullOrWhiteSpace(UrlFilteringProfileOrganization) || !string.IsNullOrWhiteSpace(UrlFilteringProfileProject)) && (!string.IsNullOrWhiteSpace(UrlFilteringProfile) || !string.IsNullOrWhiteSpace(UrlFilteringProfileLocation) || !string.IsNullOrWhiteSpace(UrlFilteringProfileOrganization) || !string.IsNullOrWhiteSpace(UrlFilteringProfileProject)) && (!(!string.IsNullOrWhiteSpace(UrlFilteringProfile))))
+        {
+            yield return new ValidationResult("UrlFilteringProfile must be specified when other arguments in this group are specified.", [nameof(UrlFilteringProfile)]);
+        }
+        yield break;
+    }
 
 }

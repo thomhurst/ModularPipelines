@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +21,103 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("recommender", "recommender-config", "update")]
-public record GcloudRecommenderRecommenderConfigUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Recommender
-) : GcloudOptions
+public record GcloudRecommenderRecommenderConfigUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a recommender     configuration
+    /// </summary>
+    /// <param name="Etag">Etag of the recommender configuration.</param>
+    /// <param name="Location">Location to use for this invocation.</param>
+    /// <param name="Recommender">Recommender to use for this invocation.</param>
+    public GcloudRecommenderRecommenderConfigUpdateOptions(
+        string Etag,
+        string Location,
+        string Recommender
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Etag);
+        this.Etag = Etag;
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        global::System.ArgumentNullException.ThrowIfNull(Recommender);
+        this.Recommender = Recommender;
+    }
+
+    public void Deconstruct(out string Etag, out string Location, out string Recommender)
+    {
+        Etag = this.Etag;
+        Location = this.Location;
+        Recommender = this.Recommender;
+    }
+
+    /// <summary>
+    /// Etag of the recommender configuration.
+    /// </summary>
+    [CliOption("--etag", Format = OptionFormat.EqualsSeparated)]
+    public string Etag { get; private init; }
+
+    /// <summary>
+    /// Location to use for this invocation.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// Resource that is associated with cloud entity type. Exactly one of these must be specified: The Google Cloud billing account ID to use for this invocation.
+    /// </summary>
+    [CliOption("--billing-account", Format = OptionFormat.EqualsSeparated)]
+    public string? BillingAccount { get; set; }
+
+    /// <summary>
+    /// Resource that is associated with cloud entity type. Exactly one of these must be specified: The Google Cloud organization ID to use for this invocation.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Resource that is associated with cloud entity type. Exactly one of these must be specified: The Google Cloud project ID. Overrides the default core/project property value for this command invocation.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
+    /// <summary>
+    /// Store small amounts of arbitrary data on the recommender configuration. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Annotations { get; set; }
+
+    /// <summary>
+    /// Generation configuration file for the recommender configuration.
+    /// </summary>
+    [CliOption("--config-file", Format = OptionFormat.EqualsSeparated)]
+    public string? ConfigFile { get; set; }
+
+    /// <summary>
+    /// Display name of the recommender configuration.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// If true, validate the request and preview the change, but do not actually update it.
+    /// </summary>
+    [CliFlag("--validate-only")]
+    public bool? ValidateOnly { get; set; }
+
+    /// <summary>
+    /// Recommender to use for this invocation.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Recommender { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(BillingAccount) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Project) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of BillingAccount, Organization, or Project must be specified.", [nameof(BillingAccount), nameof(Organization), nameof(Project)]);
+        }
+        yield break;
+    }
+
 }

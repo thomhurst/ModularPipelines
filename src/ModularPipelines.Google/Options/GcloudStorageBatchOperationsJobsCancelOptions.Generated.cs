@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("storage", "batch-operations", "jobs", "cancel")]
 public record GcloudStorageBatchOperationsJobsCancelOptions : GcloudOptions
 {
+    /// <summary>
+    /// operations job
+    /// </summary>
+    /// <param name="BatchJob">Batch job resource - The batch job to cancel. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument batch_job on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument batch_job on the command line with a fully specified name; ◆ The default is global. This must be specified. ID of the batch-job or fully qualified identifier for the batch-job. To set the batch-job attribute: ▸ provide the argument batch_job on the command line.</param>
+    public GcloudStorageBatchOperationsJobsCancelOptions(
+        string BatchJob
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BatchJob);
+        this.BatchJob = BatchJob;
+    }
+
+    public void Deconstruct(out string BatchJob)
+    {
+        BatchJob = this.BatchJob;
+    }
+
+    /// <summary>
+    /// Batch job resource - The batch job to cancel. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument batch_job on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument batch_job on the command line with a fully specified name; ◆ The default is global. This must be specified. ID of the batch-job or fully qualified identifier for the batch-job. To set the batch-job attribute: ▸ provide the argument batch_job on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string BatchJob { get; private init; }
+
 }

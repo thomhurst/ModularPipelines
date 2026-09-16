@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -21,10 +22,35 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "instances", "point-in-time-restore")]
-public record GcloudSqlInstancesPointInTimeRestoreOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Datasource
-) : GcloudOptions
+public record GcloudSqlInstancesPointInTimeRestoreOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// performs a point in time     restore for a Cloud SQL instance managed by Google Cloud Backup and     Disaster Recovery Service
+    /// </summary>
+    /// <param name="Datasource">The Google Cloud Backup and Disaster Recovery (DR) Service Datasource URI, of the form projects/{project}/locations/{region}/backupVaults/ {backupvault}/dataSources/{datasource}.</param>
+    /// <param name="Target">Cloud SQL instance ID of the target instance.</param>
+    /// <param name="PointInTime">The point in time in which to restore the instance to. Uses RFC 3339 format in UTC timezone. For example, '2012-11-15T16:19:00.094Z'.</param>
+    public GcloudSqlInstancesPointInTimeRestoreOptions(
+        string Datasource,
+        string Target,
+        string PointInTime
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Datasource);
+        this.Datasource = Datasource;
+        global::System.ArgumentNullException.ThrowIfNull(Target);
+        this.Target = Target;
+        global::System.ArgumentNullException.ThrowIfNull(PointInTime);
+        this.PointInTime = PointInTime;
+    }
+
+    public void Deconstruct(out string Datasource, out string Target, out string PointInTime)
+    {
+        Datasource = this.Datasource;
+        Target = this.Target;
+        PointInTime = this.PointInTime;
+    }
+
     /// <summary>
     /// Activation policy for this instance. This specifies when the instance should be activated and is applicable only when the instance state is RUNNABLE. The default is always. More information on activation policies can be found here: https://cloud.google.com/sql/docs/mysql/start-stop-restart-instance#activation_policy. ACTIVATION_POLICY must be one of: always, never.
     /// </summary>
@@ -32,9 +58,9 @@ public record GcloudSqlInstancesPointInTimeRestoreOptions(
     public GcloudActivationPolicy? ActivationPolicy { get; set; }
 
     /// <summary>
-    /// A comma-separated list of the DNS servers to be used for Active Directory. Only available for SQL Server instances. E.g: 10.0.0.1,10.0.0.2
+    /// A comma-separated list of the DNS servers to be used for Active Directory. Only available for SQL Server instances. E.g: 10.0.0.1,10.0.0.2 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--active-directory-dns-servers", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--active-directory-dns-servers", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ActiveDirectoryDnsServers { get; set; }
 
     /// <summary>
@@ -105,9 +131,9 @@ public record GcloudSqlInstancesPointInTimeRestoreOptions(
     public string? AuditUploadInterval { get; set; }
 
     /// <summary>
-    /// The list of external networks that are allowed to connect to the instance. Specified in CIDR notation, also known as 'slash' notation (e.g. 192.168.100.0/24).
+    /// The list of external networks that are allowed to connect to the instance. Specified in CIDR notation, also known as 'slash' notation (e.g. 192.168.100.0/24). Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--authorized-networks", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--authorized-networks", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AuthorizedNetworks { get; set; }
 
     /// <summary>
@@ -429,9 +455,9 @@ public record GcloudSqlInstancesPointInTimeRestoreOptions(
     public int? Timeout { get; set; }
 
     /// <summary>
-    /// A comma-separated list of projects. Each project in this list might be represented by a project number (numeric) or by a project ID (alphanumeric). This allows Private Service Connect connections to be established from specified consumer projects.
+    /// A comma-separated list of projects. Each project in this list might be represented by a project number (numeric) or by a project ID (alphanumeric). This allows Private Service Connect connections to be established from specified consumer projects. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--allowed-psc-projects", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--allowed-psc-projects", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AllowedPscProjects { get; set; }
 
     /// <summary>
@@ -487,5 +513,41 @@ public record GcloudSqlInstancesPointInTimeRestoreOptions(
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }
+
+    /// <summary>
+    /// The Google Cloud Backup and Disaster Recovery (DR) Service Datasource URI, of the form projects/{project}/locations/{region}/backupVaults/ {backupvault}/dataSources/{datasource}.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Datasource { get; private init; }
+
+    /// <summary>
+    /// Cloud SQL instance ID of the target instance.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Target { get; private init; }
+
+    /// <summary>
+    /// The point in time in which to restore the instance to. Uses RFC 3339 format in UTC timezone. For example, '2012-11-15T16:19:00.094Z'.
+    /// </summary>
+    [CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PointInTime { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(DiskEncryptionKey) || !string.IsNullOrWhiteSpace(DiskEncryptionKeyKeyring) || !string.IsNullOrWhiteSpace(DiskEncryptionKeyLocation) || !string.IsNullOrWhiteSpace(DiskEncryptionKeyProject) || !string.IsNullOrWhiteSpace(Region) || !string.IsNullOrWhiteSpace(GceZone) || !string.IsNullOrWhiteSpace(SecondaryZone) || !string.IsNullOrWhiteSpace(Zone)) && (!(!string.IsNullOrWhiteSpace(DiskEncryptionKey))))
+        {
+            yield return new ValidationResult("DiskEncryptionKey must be specified when other arguments in this group are specified.", [nameof(DiskEncryptionKey)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(DiskEncryptionKey) || !string.IsNullOrWhiteSpace(DiskEncryptionKeyKeyring) || !string.IsNullOrWhiteSpace(DiskEncryptionKeyLocation) || !string.IsNullOrWhiteSpace(DiskEncryptionKeyProject) || !string.IsNullOrWhiteSpace(Region) || !string.IsNullOrWhiteSpace(GceZone) || !string.IsNullOrWhiteSpace(SecondaryZone) || !string.IsNullOrWhiteSpace(Zone)) && ((!string.IsNullOrWhiteSpace(Region) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(GceZone) || !string.IsNullOrWhiteSpace(SecondaryZone) || !string.IsNullOrWhiteSpace(Zone)) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of Region or (GceZone, SecondaryZone, or Zone) may be specified.", [nameof(Region), nameof(GceZone), nameof(SecondaryZone), nameof(Zone)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(DiskEncryptionKey) || !string.IsNullOrWhiteSpace(DiskEncryptionKeyKeyring) || !string.IsNullOrWhiteSpace(DiskEncryptionKeyLocation) || !string.IsNullOrWhiteSpace(DiskEncryptionKeyProject) || !string.IsNullOrWhiteSpace(Region) || !string.IsNullOrWhiteSpace(GceZone) || !string.IsNullOrWhiteSpace(SecondaryZone) || !string.IsNullOrWhiteSpace(Zone)) && (!string.IsNullOrWhiteSpace(Region) || !string.IsNullOrWhiteSpace(GceZone) || !string.IsNullOrWhiteSpace(SecondaryZone) || !string.IsNullOrWhiteSpace(Zone)) && ((!string.IsNullOrWhiteSpace(GceZone) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(SecondaryZone) || !string.IsNullOrWhiteSpace(Zone)) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of GceZone or (SecondaryZone or Zone) may be specified.", [nameof(GceZone), nameof(SecondaryZone), nameof(Zone)]);
+        }
+        yield break;
+    }
 
 }

@@ -21,4 +21,10 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("compute", "tpus", "locations", "describe")]
 public record GcloudComputeTpusLocationsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// Location resource - The Cloud TPU Location you want to describe. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument zone on the command line with a fully specified name; ◆ set the property compute/zone with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the location or fully qualified identifier for the location. To set the zone attribute: ◆ provide the argument zone on the command line; ◆ set the property compute/zone.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Zone { get; set; }
+
 }

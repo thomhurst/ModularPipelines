@@ -10,6 +10,9 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +22,168 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "migration", "image-imports", "create")]
-public record GcloudComputeMigrationImageImportsCreateOptions : GcloudOptions
+public record GcloudComputeMigrationImageImportsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// import Virtual Disk images     to Google Compute Engine
+    /// </summary>
+    /// <param name="SourceFile">The path to the Google Cloud Storage file from which the image should be imported.</param>
+    /// <param name="ImageImportName">Image import resource - The Image Import resource you want to create. This would be the image name if --image-name is not given. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument image_import_name on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the image_import or fully qualified identifier for the image_import. To set the image_import_name attribute: ▸ provide the argument image_import_name on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudComputeMigrationImageImportsCreateOptions(
+        string SourceFile,
+        string ImageImportName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceFile);
+        this.SourceFile = SourceFile;
+        global::System.ArgumentNullException.ThrowIfNull(ImageImportName);
+        this.ImageImportName = ImageImportName;
+    }
+
+    public void Deconstruct(out string SourceFile, out string ImageImportName)
+    {
+        SourceFile = this.SourceFile;
+        ImageImportName = this.ImageImportName;
+    }
+
+    /// <summary>
+    /// The path to the Google Cloud Storage file from which the image should be imported.
+    /// </summary>
+    [CliOption("--source-file", Format = OptionFormat.EqualsSeparated)]
+    public string SourceFile { get; private init; }
+
+    /// <summary>
+    /// Image import resource - The Image Import resource you want to create. This would be the image name if --image-name is not given. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument image_import_name on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Resource location. To set the location attribute: ▸ provide the argument image_import_name on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property compute/region.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Comma-separated list of the additional licenses to assign to the image. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--additional-licenses", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AdditionalLicenses { get; set; }
+
+    /// <summary>
+    /// A description of the image.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// The name of the image family to which the new image belongs.
+    /// </summary>
+    [CliOption("--family-name", Format = OptionFormat.EqualsSeparated)]
+    public string? FamilyName { get; set; }
+
+    /// <summary>
+    /// The name of the image that will be imported to Google Compute Engine. Default is the Image Import name.
+    /// </summary>
+    [CliOption("--image-name", Format = OptionFormat.EqualsSeparated)]
+    public string? ImageName { get; set; }
+
+    /// <summary>
+    /// Fully qualified identifier for the Cloud KMS (Key Management Service) cryptokey that will be used to protect the image.
+    /// </summary>
+    [CliOption("--kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKey { get; set; }
+
+    /// <summary>
+    /// A map of labels to associate with the image. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// If true, the location of the imported image will be the region of the import job. Otherwise the closest multi-region is selected. Default is false.
+    /// </summary>
+    [CliFlag("--single-region-storage")]
+    public bool? SingleRegionStorage { get; set; }
+
+    /// <summary>
+    /// The target project resource path to which the image will be imported. Default is the customer project. To get a list of the target projects run the gcloud alpha migration vms target-projects list command.
+    /// </summary>
+    [CliOption("--target-project", Format = OptionFormat.EqualsSeparated)]
+    public string? TargetProject { get; set; }
+
+    /// <summary>
+    /// OS adaptation parameters At most one of these can be specified: A map of flags to pass to the OS adaptation process. The actual value depends on the modifier and can also be empty. e.g. --adaptation-modifiers=flag1=value1,flag2
+    /// </summary>
+    [CliOption("--adaptation-modifiers", Format = OptionFormat.EqualsSeparated)]
+    public string? AdaptationModifiers { get; set; }
+
+    /// <summary>
+    /// OS adaptation parameters At most one of these can be specified: This property will trigger an internal process which will convert the image from using the existing boot option to another. The size of the boot disk might be increased to allow the conversion. Currently only support BIOS_TO_EFI. BOOT_CONVERSION must be one of: bios-to-efi, boot-conversion-unspecified, none.
+    /// </summary>
+    [CliOption("--boot-conversion", Format = OptionFormat.EqualsSeparated)]
+    public GcloudBootConversion? BootConversion { get; set; }
+
+    /// <summary>
+    /// OS adaptation parameters At most one of these can be specified: If true, generalize the imported image. Default false. The generalization process enables co-existence of multiple VMs created from the same image. For Windows, generalizing the image removes computer-specific information such as installed drivers and the computer security identifier (SID).
+    /// </summary>
+    [CliFlag("--generalize")]
+    public bool? Generalize { get; set; }
+
+    /// <summary>
+    /// OS adaptation parameters At most one of these can be specified: The license to use post migration. LICENSE_TYPE must be one of: compute-engine-license-type-byol, compute-engine-license-type-default, compute-engine-license-type-payg.
+    /// </summary>
+    [CliOption("--license-type", Format = OptionFormat.EqualsSeparated)]
+    public string? LicenseType { get; set; }
+
+    /// <summary>
+    /// OS adaptation parameters At most one of these can be specified: Identifies the file system to adapt.
+    /// </summary>
+    [CliOption("--rootfs-uuid", Format = OptionFormat.EqualsSeparated)]
+    public string? RootfsUuid { get; set; }
+
+    /// <summary>
+    /// OS adaptation parameters At most one of these can be specified: If true, skip OS adaptation. Default false. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliFlag("--skip-os-adaptation")]
+    public bool? SkipOsAdaptation { get; set; }
+
+    /// <summary>
+    /// OS adaptation parameters At most one of these can be specified: Guest OS features to enable on the imported image. This field does not change the OS of the image; it only marks the image with the specified features, so ensure they are compatible with the OS. If specified, --skip-os-adaptation must be specified. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--guest-os-features", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? GuestOsFeatures
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __GuestOsFeaturesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __GuestOsFeaturesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Image import resource - The Image Import resource you want to create. This would be the image name if --image-name is not given. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument image_import_name on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the image_import or fully qualified identifier for the image_import. To set the image_import_name attribute: ▸ provide the argument image_import_name on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ImageImportName { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(AdaptationModifiers) ? 1 : 0) + ((object?)BootConversion is not null ? 1 : 0) + (Generalize == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(LicenseType) ? 1 : 0) + (!string.IsNullOrWhiteSpace(RootfsUuid) ? 1 : 0) + (SkipOsAdaptation == true ? 1 : 0) + (((object?)GuestOsFeatures is global::System.Collections.Generic.IEnumerable<char> ? (object?)GuestOsFeatures is not string || !string.IsNullOrWhiteSpace(GuestOsFeatures?.ToString()) : ((object?)GuestOsFeatures is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)GuestOsFeatures, static item => item is not null) : (GuestOsFeatures is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)GuestOsFeatures), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of AdaptationModifiers, BootConversion, Generalize, LicenseType, RootfsUuid, SkipOsAdaptation, or GuestOsFeatures may be specified.", [nameof(AdaptationModifiers), nameof(BootConversion), nameof(Generalize), nameof(LicenseType), nameof(RootfsUuid), nameof(SkipOsAdaptation), nameof(GuestOsFeatures)]);
+        }
+        yield break;
+    }
+
 }

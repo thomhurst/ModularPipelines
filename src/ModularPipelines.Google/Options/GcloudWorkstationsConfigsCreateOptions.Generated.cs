@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -20,8 +21,37 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workstations", "configs", "create")]
-public record GcloudWorkstationsConfigsCreateOptions : GcloudOptions
+public record GcloudWorkstationsConfigsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a workstation configuration
+    /// </summary>
+    /// <param name="Config">Config resource - The group of arguments defining a config The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the config or fully qualified identifier for the config. To set the config attribute: ▸ provide the argument config on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudWorkstationsConfigsCreateOptions(
+        string Config
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Config);
+        this.Config = Config;
+    }
+
+    public void Deconstruct(out string Config)
+    {
+        Config = this.Config;
+    }
+
+    /// <summary>
+    /// Config resource - The group of arguments defining a config The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The cluster for the config. To set the cluster attribute: ▸ provide the argument config on the command line with a fully specified name; ▸ provide the argument --cluster on the command line; ▸ set the property workstations/cluster.
+    /// </summary>
+    [CliOption("--cluster", Format = OptionFormat.EqualsSeparated)]
+    public string? Cluster { get; set; }
+
+    /// <summary>
+    /// Config resource - The group of arguments defining a config The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The region for the config. To set the region attribute: ▸ provide the argument config on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property workstations/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
     /// <summary>
     /// A Single or Range of ports externally accessible in the workstation. If not specified defaults to ports 22, 80 and ports 1024-65535. To specify a single port, both first and last should be same. Example: $ gcloud workstations configs create \ --allowed-ports=first=9000,last=9090 $ gcloud workstations configs create --allowed-ports=first=80,last=80 Sets allowed_ports value. first Required, sets first value. last Required, sets last value. Shorthand Example: --allowed-ports=first=int,last=int JSON Example: --allowed-ports='{"first": int, "last": int}' File Example: --allowed-ports=path_to_file.(yaml|json)
     /// </summary>
@@ -41,21 +71,21 @@ public record GcloudWorkstationsConfigsCreateOptions : GcloudOptions
     public int? BootDiskSize { get; set; }
 
     /// <summary>
-    /// Arguments passed to the entrypoint. Example: $ gcloud workstations configs create --container-args=arg_1,arg_2
+    /// Arguments passed to the entrypoint. Example: $ gcloud workstations configs create --container-args=arg_1,arg_2 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--container-args", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--container-args", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ContainerArgs { get; set; }
 
     /// <summary>
-    /// If set, overrides the default ENTRYPOINT specified by the image. Example: $ gcloud workstations configs create \ --container-command=executable,parameter_1,parameter_2
+    /// If set, overrides the default ENTRYPOINT specified by the image. Example: $ gcloud workstations configs create \ --container-command=executable,parameter_1,parameter_2 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--container-command", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--container-command", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ContainerCommand { get; set; }
 
     /// <summary>
-    /// Environment variables passed to the container. Example: $ gcloud workstations configs create \ --container-env=key1=value1,key2=value2
+    /// Environment variables passed to the container. Example: $ gcloud workstations configs create \ --container-env=key1=value1,key2=value2 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--container-env", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--container-env", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ContainerEnv { get; set; }
 
     /// <summary>
@@ -113,10 +143,10 @@ public record GcloudWorkstationsConfigsCreateOptions : GcloudOptions
     public bool? EnableSshToVm { get; set; }
 
     /// <summary>
-    /// Ephemeral directory which won't persist across workstation sessions. An ephemeral directory is backed by a Compute Engine persistent disk whose mount-path, source-snapshot, source-image, and read-only are configurable. mount-path Location of this directory in the running workstation. source-snapshot Name of the snapshot to use as the source for the disk. Must be empty if [source_image][] is set. Must be empty if [read_only][] is false. Updating [source_snapshot][] will update content in the ephemeral directory after the workstation is restarted. source-image Name of the disk image to use as the source for the disk. Must be empty if [source_snapshot][] is set. Updating [source_image][] will update content in the ephemeral directory after the workstation is restarted. read-only Whether the disk is read only. If true, the disk may be shared by multiple VMs and [source_snapshot][] must be set. Set to false when not specified and true when specified. Example: $ gcloud workstations configs create \ --ephemeral-directory="mount-path=/home2,disk-type=pd-balanced,s\ ource-snapshot=projects/my-project/global/snapshots/snapshot,read-on\ ly=true"
+    /// Ephemeral directory which won't persist across workstation sessions. An ephemeral directory is backed by a Compute Engine persistent disk whose mount-path, source-snapshot, source-image, and read-only are configurable. mount-path Location of this directory in the running workstation. source-snapshot Name of the snapshot to use as the source for the disk. Must be empty if [source_image][] is set. Must be empty if [read_only][] is false. Updating [source_snapshot][] will update content in the ephemeral directory after the workstation is restarted. source-image Name of the disk image to use as the source for the disk. Must be empty if [source_snapshot][] is set. Updating [source_image][] will update content in the ephemeral directory after the workstation is restarted. read-only Whether the disk is read only. If true, the disk may be shared by multiple VMs and [source_snapshot][] must be set. Set to false when not specified and true when specified. Example: $ gcloud workstations configs create \ --ephemeral-directory="mount-path=/home2,disk-type=pd-balanced,s\ ource-snapshot=projects/my-project/global/snapshots/snapshot,read-on\ ly=true" Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--ephemeral-directory", Format = OptionFormat.EqualsSeparated)]
-    public string? EphemeralDirectory { get; set; }
+    [CliOption("--ephemeral-directory", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? EphemeralDirectory { get; set; }
 
     /// <summary>
     /// Default value is false. If set, creator of a workstation will get roles/workstations.policyAdmin role along with roles/workstations.user role on the workstation created by them.
@@ -131,15 +161,15 @@ public record GcloudWorkstationsConfigsCreateOptions : GcloudOptions
     public int? IdleTimeout { get; set; }
 
     /// <summary>
-    /// Custom metadata to apply to Compute Engine instances. Example: $ gcloud workstations configs create \ --instance-metadata=key1=value1,key2=value2
+    /// Custom metadata to apply to Compute Engine instances. Example: $ gcloud workstations configs create \ --instance-metadata=key1=value1,key2=value2 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--instance-metadata", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--instance-metadata", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? InstanceMetadata { get; set; }
 
     /// <summary>
-    /// Labels that are applied to the configuration and propagated to the underlying Compute Engine resources. Example: $ gcloud workstations configs create \ --labels=label1=value1,label2=value2
+    /// Labels that are applied to the configuration and propagated to the underlying Compute Engine resources. Example: $ gcloud workstations configs create \ --labels=label1=value1,label2=value2 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Labels { get; set; }
 
     /// <summary>
@@ -155,9 +185,9 @@ public record GcloudWorkstationsConfigsCreateOptions : GcloudOptions
     public int? MaxUsableWorkstationsCount { get; set; }
 
     /// <summary>
-    /// Network tags to add to the Google Compute Engine machines backing the Workstations. Example: $ gcloud workstations configs create --network-tags=tag_1,tag_2
+    /// Network tags to add to the Google Compute Engine machines backing the Workstations. Example: $ gcloud workstations configs create --network-tags=tag_1,tag_2 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--network-tags", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--network-tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? NetworkTags { get; set; }
 
     /// <summary>
@@ -167,9 +197,9 @@ public record GcloudWorkstationsConfigsCreateOptions : GcloudOptions
     public int? PoolSize { get; set; }
 
     /// <summary>
-    /// Specifies the zones the VM and disk resources will be replicated within the region. If set, exactly two zones within the workstation cluster's region must be specified. Example: $ gcloud workstations configs create \ --replica-zones=us-central1-a,us-central1-f
+    /// Specifies the zones the VM and disk resources will be replicated within the region. If set, exactly two zones within the workstation cluster's region must be specified. Example: $ gcloud workstations configs create \ --replica-zones=us-central1-a,us-central1-f Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--replica-zones", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--replica-zones", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ReplicaZones { get; set; }
 
     /// <summary>
@@ -215,9 +245,9 @@ public record GcloudWorkstationsConfigsCreateOptions : GcloudOptions
     public string? StartupScriptUri { get; set; }
 
     /// <summary>
-    /// Resource manager tags to be bound to the instance. Tag keys and values have the same definition as https://cloud.google.com/resource-manager/docs/tags/tags-overview Example: $ gcloud workstations configs create \ --vm-tags=tagKeys/key1=tagValues/value1,tagKeys/key2=tagValues/\ value2
+    /// Resource manager tags to be bound to the instance. Tag keys and values have the same definition as https://cloud.google.com/resource-manager/docs/tags/tags-overview Example: $ gcloud workstations configs create \ --vm-tags=tagKeys/key1=tagValues/value1,tagKeys/key2=tagValues/\ value2 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--vm-tags", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--vm-tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? VmTags { get; set; }
 
     /// <summary>
@@ -315,5 +345,41 @@ public record GcloudWorkstationsConfigsCreateOptions : GcloudOptions
     /// </summary>
     [CliOption("--pd-source-snapshot", Format = OptionFormat.EqualsSeparated)]
     public string? PdSourceSnapshot { get; set; }
+
+    /// <summary>
+    /// Config resource - The group of arguments defining a config The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the config or fully qualified identifier for the config. To set the config attribute: ▸ provide the argument config on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Config { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (((object?)AcceleratorCount is not null || !string.IsNullOrWhiteSpace(AcceleratorType) || !string.IsNullOrWhiteSpace(ContainerCustomImage) || !string.IsNullOrWhiteSpace(ContainerPredefinedImage)) && (!((object?)AcceleratorCount is not null)))
+        {
+            yield return new ValidationResult("AcceleratorCount must be specified when other arguments in this group are specified.", [nameof(AcceleratorCount)]);
+        }
+        if (((object?)AcceleratorCount is not null || !string.IsNullOrWhiteSpace(AcceleratorType) || !string.IsNullOrWhiteSpace(ContainerCustomImage) || !string.IsNullOrWhiteSpace(ContainerPredefinedImage)) && ((!string.IsNullOrWhiteSpace(ContainerCustomImage) ? 1 : 0) + (!string.IsNullOrWhiteSpace(ContainerPredefinedImage) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ContainerCustomImage or ContainerPredefinedImage may be specified.", [nameof(ContainerCustomImage), nameof(ContainerPredefinedImage)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(KmsKey) || !string.IsNullOrWhiteSpace(KmsKeyServiceAccount) || NoPersistentStorage == true || (object?)DiskArchiveTimeout is not null || !string.IsNullOrWhiteSpace(DiskReclaimPolicy) || (object?)DiskType is not null || (object?)DiskSize is not null || !string.IsNullOrWhiteSpace(DiskSourceSnapshot) || (object?)PdDiskType is not null || !string.IsNullOrWhiteSpace(PdReclaimPolicy) || (object?)PdDiskSize is not null || !string.IsNullOrWhiteSpace(PdSourceSnapshot)) && (!(!string.IsNullOrWhiteSpace(KmsKey))))
+        {
+            yield return new ValidationResult("KmsKey must be specified when other arguments in this group are specified.", [nameof(KmsKey)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(KmsKey) || !string.IsNullOrWhiteSpace(KmsKeyServiceAccount) || NoPersistentStorage == true || (object?)DiskArchiveTimeout is not null || !string.IsNullOrWhiteSpace(DiskReclaimPolicy) || (object?)DiskType is not null || (object?)DiskSize is not null || !string.IsNullOrWhiteSpace(DiskSourceSnapshot) || (object?)PdDiskType is not null || !string.IsNullOrWhiteSpace(PdReclaimPolicy) || (object?)PdDiskSize is not null || !string.IsNullOrWhiteSpace(PdSourceSnapshot)) && ((NoPersistentStorage == true ? 1 : 0) + (((object?)DiskArchiveTimeout is not null || !string.IsNullOrWhiteSpace(DiskReclaimPolicy) || (object?)DiskType is not null || (object?)DiskSize is not null || !string.IsNullOrWhiteSpace(DiskSourceSnapshot)) ? 1 : 0) + (((object?)PdDiskType is not null || !string.IsNullOrWhiteSpace(PdReclaimPolicy) || (object?)PdDiskSize is not null || !string.IsNullOrWhiteSpace(PdSourceSnapshot)) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of NoPersistentStorage, (DiskArchiveTimeout, DiskReclaimPolicy, DiskType, DiskSize, or DiskSourceSnapshot), or (PdDiskType, PdReclaimPolicy, PdDiskSize, or PdSourceSnapshot) may be specified.", [nameof(NoPersistentStorage), nameof(DiskArchiveTimeout), nameof(DiskReclaimPolicy), nameof(DiskType), nameof(DiskSize), nameof(DiskSourceSnapshot), nameof(PdDiskType), nameof(PdReclaimPolicy), nameof(PdDiskSize), nameof(PdSourceSnapshot)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(KmsKey) || !string.IsNullOrWhiteSpace(KmsKeyServiceAccount) || NoPersistentStorage == true || (object?)DiskArchiveTimeout is not null || !string.IsNullOrWhiteSpace(DiskReclaimPolicy) || (object?)DiskType is not null || (object?)DiskSize is not null || !string.IsNullOrWhiteSpace(DiskSourceSnapshot) || (object?)PdDiskType is not null || !string.IsNullOrWhiteSpace(PdReclaimPolicy) || (object?)PdDiskSize is not null || !string.IsNullOrWhiteSpace(PdSourceSnapshot)) && (NoPersistentStorage == true || (object?)DiskArchiveTimeout is not null || !string.IsNullOrWhiteSpace(DiskReclaimPolicy) || (object?)DiskType is not null || (object?)DiskSize is not null || !string.IsNullOrWhiteSpace(DiskSourceSnapshot) || (object?)PdDiskType is not null || !string.IsNullOrWhiteSpace(PdReclaimPolicy) || (object?)PdDiskSize is not null || !string.IsNullOrWhiteSpace(PdSourceSnapshot)) && ((object?)DiskArchiveTimeout is not null || !string.IsNullOrWhiteSpace(DiskReclaimPolicy) || (object?)DiskType is not null || (object?)DiskSize is not null || !string.IsNullOrWhiteSpace(DiskSourceSnapshot)) && (((object?)DiskSize is not null ? 1 : 0) + (!string.IsNullOrWhiteSpace(DiskSourceSnapshot) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of DiskSize or DiskSourceSnapshot may be specified.", [nameof(DiskSize), nameof(DiskSourceSnapshot)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(KmsKey) || !string.IsNullOrWhiteSpace(KmsKeyServiceAccount) || NoPersistentStorage == true || (object?)DiskArchiveTimeout is not null || !string.IsNullOrWhiteSpace(DiskReclaimPolicy) || (object?)DiskType is not null || (object?)DiskSize is not null || !string.IsNullOrWhiteSpace(DiskSourceSnapshot) || (object?)PdDiskType is not null || !string.IsNullOrWhiteSpace(PdReclaimPolicy) || (object?)PdDiskSize is not null || !string.IsNullOrWhiteSpace(PdSourceSnapshot)) && (NoPersistentStorage == true || (object?)DiskArchiveTimeout is not null || !string.IsNullOrWhiteSpace(DiskReclaimPolicy) || (object?)DiskType is not null || (object?)DiskSize is not null || !string.IsNullOrWhiteSpace(DiskSourceSnapshot) || (object?)PdDiskType is not null || !string.IsNullOrWhiteSpace(PdReclaimPolicy) || (object?)PdDiskSize is not null || !string.IsNullOrWhiteSpace(PdSourceSnapshot)) && ((object?)PdDiskType is not null || !string.IsNullOrWhiteSpace(PdReclaimPolicy) || (object?)PdDiskSize is not null || !string.IsNullOrWhiteSpace(PdSourceSnapshot)) && (((object?)PdDiskSize is not null ? 1 : 0) + (!string.IsNullOrWhiteSpace(PdSourceSnapshot) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of PdDiskSize or PdSourceSnapshot may be specified.", [nameof(PdDiskSize), nameof(PdSourceSnapshot)]);
+        }
+        yield break;
+    }
 
 }

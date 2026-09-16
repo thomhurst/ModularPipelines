@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,57 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("app", "firewall-rules", "create")]
-public record GcloudAppFirewallRulesCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Priority
-) : GcloudOptions
+public record GcloudAppFirewallRulesCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// creates a firewall rule
+    /// </summary>
+    /// <param name="Action">Allow or deny matched traffic. ACTION must be one of: ALLOW, DENY.</param>
+    /// <param name="SourceRange">An IP address or range in CIDR notation or the * wildcard to match all traffic.</param>
+    /// <param name="Priority">An integer between 1 and 2^32-1 which indicates the evaluation order of rules. Lowest priority rules are evaluated first. The handle default may also be used to refer to the final rule at priority 2^32-1 which is always present in a set of rules.</param>
+    public GcloudAppFirewallRulesCreateOptions(
+        GcloudAction Action,
+        string SourceRange,
+        string Priority
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Action);
+        this.Action = Action;
+        global::System.ArgumentNullException.ThrowIfNull(SourceRange);
+        this.SourceRange = SourceRange;
+        global::System.ArgumentNullException.ThrowIfNull(Priority);
+        this.Priority = Priority;
+    }
+
+    public void Deconstruct(out GcloudAction Action, out string SourceRange, out string Priority)
+    {
+        Action = this.Action;
+        SourceRange = this.SourceRange;
+        Priority = this.Priority;
+    }
+
+    /// <summary>
+    /// Allow or deny matched traffic. ACTION must be one of: ALLOW, DENY.
+    /// </summary>
+    [CliOption("--action", Format = OptionFormat.EqualsSeparated)]
+    public GcloudAction Action { get; private init; }
+
+    /// <summary>
+    /// An IP address or range in CIDR notation or the * wildcard to match all traffic.
+    /// </summary>
+    [CliOption("--source-range", Format = OptionFormat.EqualsSeparated)]
+    public string SourceRange { get; private init; }
+
+    /// <summary>
+    /// A text description of the rule.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// An integer between 1 and 2^32-1 which indicates the evaluation order of rules. Lowest priority rules are evaluated first. The handle default may also be used to refer to the final rule at priority 2^32-1 which is always present in a set of rules.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Priority { get; private init; }
+
 }

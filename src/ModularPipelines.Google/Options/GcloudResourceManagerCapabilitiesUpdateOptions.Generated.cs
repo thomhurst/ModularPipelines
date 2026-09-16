@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,57 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resource-manager", "capabilities", "update")]
-public record GcloudResourceManagerCapabilitiesUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string CapabilityId
-) : GcloudOptions
+public record GcloudResourceManagerCapabilitiesUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a folder capability
+    /// </summary>
+    /// <param name="CapabilityId">ID for the capability you want to update.</param>
+    public GcloudResourceManagerCapabilitiesUpdateOptions(
+        string CapabilityId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CapabilityId);
+        this.CapabilityId = CapabilityId;
+    }
+
+    public void Deconstruct(out string CapabilityId)
+    {
+        CapabilityId = this.CapabilityId;
+    }
+
+    /// <summary>
+    /// Enable the Capability. Use --enable to enable and --no-enable to disable.
+    /// </summary>
+    [CliFlag("--enable")]
+    public bool? Enable { get; set; }
+
+    /// <summary>
+    /// Negates --enable. Enable the Capability. Use --enable to enable and --no-enable to disable.
+    /// </summary>
+    [CliFlag("--no-enable")]
+    public bool? NoEnable { get; set; }
+
+    /// <summary>
+    /// Update Mask. This is an optional field, and the only valid value this can be set to currently is "value".
+    /// </summary>
+    [CliOption("--update-mask", Format = OptionFormat.EqualsSeparated)]
+    public string? UpdateMask { get; set; }
+
+    /// <summary>
+    /// ID for the capability you want to update.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string CapabilityId { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((Enable == true ? 1 : 0) + (NoEnable == true ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Enable or NoEnable must be specified.", [nameof(Enable), nameof(NoEnable)]);
+        }
+        yield break;
+    }
+
 }

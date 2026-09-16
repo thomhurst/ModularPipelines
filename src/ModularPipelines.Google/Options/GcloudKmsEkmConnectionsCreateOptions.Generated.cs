@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +22,95 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("kms", "ekm-connections", "create")]
 public record GcloudKmsEkmConnectionsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a new ekm connection
+    /// </summary>
+    /// <param name="Hostname">The hostname of the EKM replica used at TLS and HTTP layers.</param>
+    /// <param name="ServerCertificatesFiles">A list of filenames of leaf server certificates used to authenticate HTTPS connections to the EKM replica in PEM format. If files are not in PEM, the assumed format will be DER. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="ServiceDirectoryService">The resource name of the Service Directory service pointing to an EKM replica.</param>
+    /// <param name="EkmConnection">Ekmconnection resource - The KMS ekm connection resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument ekm_connection on the command line with a fully specified name; ◆ set the property core/project. This must be specified. ID of the ekmconnection or fully qualified identifier for the ekmconnection. To set the ekmconnection attribute: ▸ provide the argument ekm_connection on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudKmsEkmConnectionsCreateOptions(
+        string Hostname,
+        IEnumerable<string> ServerCertificatesFiles,
+        string ServiceDirectoryService,
+        string EkmConnection
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Hostname);
+        this.Hostname = Hostname;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ServerCertificatesFiles);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ServerCertificatesFiles));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ServerCertificatesFiles));
+            }
+
+            ServerCertificatesFiles = materialized;
+        }
+        this.ServerCertificatesFiles = ServerCertificatesFiles;
+        global::System.ArgumentNullException.ThrowIfNull(ServiceDirectoryService);
+        this.ServiceDirectoryService = ServiceDirectoryService;
+        global::System.ArgumentNullException.ThrowIfNull(EkmConnection);
+        this.EkmConnection = EkmConnection;
+    }
+
+    public void Deconstruct(out string Hostname, out IEnumerable<string> ServerCertificatesFiles, out string ServiceDirectoryService, out string EkmConnection)
+    {
+        Hostname = this.Hostname;
+        ServerCertificatesFiles = this.ServerCertificatesFiles;
+        ServiceDirectoryService = this.ServiceDirectoryService;
+        EkmConnection = this.EkmConnection;
+    }
+
+    /// <summary>
+    /// The hostname of the EKM replica used at TLS and HTTP layers.
+    /// </summary>
+    [CliOption("--hostname", Format = OptionFormat.EqualsSeparated)]
+    public string Hostname { get; private init; }
+
+    /// <summary>
+    /// A list of filenames of leaf server certificates used to authenticate HTTPS connections to the EKM replica in PEM format. If files are not in PEM, the assumed format will be DER. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--server-certificates-files", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> ServerCertificatesFiles { get; private init; }
+
+    /// <summary>
+    /// The resource name of the Service Directory service pointing to an EKM replica.
+    /// </summary>
+    [CliOption("--service-directory-service", Format = OptionFormat.EqualsSeparated)]
+    public string ServiceDirectoryService { get; private init; }
+
+    /// <summary>
+    /// Ekmconnection resource - The KMS ekm connection resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument ekm_connection on the command line with a fully specified name; ◆ set the property core/project. This must be specified. The Google Cloud location for the ekmconnection. To set the location attribute: ▸ provide the argument ekm_connection on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// The filter applied to the endpoints of the resolved service. If no filter is specified, all endpoints will be considered.
+    /// </summary>
+    [CliOption("--endpoint-filter", Format = OptionFormat.EqualsSeparated)]
+    public string? EndpointFilter { get; set; }
+
+    /// <summary>
+    /// Specifies the key management mode for the EkmConnection and associated fields. Crypto space path for the EkmConnection. Required during EkmConnection creation if --key-management-mode=cloud-kms.
+    /// </summary>
+    [CliOption("--crypto-space-path", Format = OptionFormat.EqualsSeparated)]
+    public string? CryptoSpacePath { get; set; }
+
+    /// <summary>
+    /// Specifies the key management mode for the EkmConnection and associated fields. Key management mode of the ekm connection. An EkmConnection in cloud-kms mode means Cloud KMS will attempt to create and manage the key material that resides on the EKM for crypto keys created with this EkmConnection. An EkmConnection in manual mode means the external key material will not be managed by Cloud KMS. Omitting the flag defaults to manual. KEY_MANAGEMENT_MODE must be one of: manual, cloud-kms.
+    /// </summary>
+    [CliOption("--key-management-mode", Format = OptionFormat.EqualsSeparated)]
+    public GcloudKeyManagementMode? KeyManagementMode { get; set; }
+
+    /// <summary>
+    /// Ekmconnection resource - The KMS ekm connection resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument ekm_connection on the command line with a fully specified name; ◆ set the property core/project. This must be specified. ID of the ekmconnection or fully qualified identifier for the ekmconnection. To set the ekmconnection attribute: ▸ provide the argument ekm_connection on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string EkmConnection { get; private init; }
+
 }

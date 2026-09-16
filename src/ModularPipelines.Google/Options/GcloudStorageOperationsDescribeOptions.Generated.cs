@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "operations", "describe")]
-public record GcloudStorageOperationsDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string OperationName
-) : GcloudOptions
+public record GcloudStorageOperationsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// get configuration and latest storage     operation details
+    /// </summary>
+    /// <param name="OperationName">The operation name including the Cloud Storage bucket and operation ID.</param>
+    public GcloudStorageOperationsDescribeOptions(
+        string OperationName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OperationName);
+        this.OperationName = OperationName;
+    }
+
+    public void Deconstruct(out string OperationName)
+    {
+        OperationName = this.OperationName;
+    }
+
+    /// <summary>
+    /// The operation name including the Cloud Storage bucket and operation ID.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string OperationName { get; private init; }
+
 }

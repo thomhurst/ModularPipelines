@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -20,7 +21,7 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "intelligence-findings", "summarize")]
-public record GcloudStorageIntelligenceFindingsSummarizeOptions : GcloudOptions
+public record GcloudStorageIntelligenceFindingsSummarizeOptions : GcloudOptions, IValidatableObject
 {
     /// <summary>
     /// The resource scope for the summary. If not specified, summaries are aggregated at the level of the parent resource. RESOURCE_SCOPE must be one of: PROJECT, PARENT.
@@ -45,5 +46,15 @@ public record GcloudStorageIntelligenceFindingsSummarizeOptions : GcloudOptions
     /// </summary>
     [CliOption("--sub-folder", Format = OptionFormat.EqualsSeparated)]
     public string? SubFolder { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Project) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SubFolder) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Organization, Project, or SubFolder may be specified.", [nameof(Organization), nameof(Project), nameof(SubFolder)]);
+        }
+        yield break;
+    }
 
 }

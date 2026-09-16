@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -21,8 +22,31 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("looker", "instances", "update")]
-public record GcloudLookerInstancesUpdateOptions : GcloudOptions
+public record GcloudLookerInstancesUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a Looker instance
+    /// </summary>
+    /// <param name="Instance">Instance resource - Arguments and flags that specify the Looker instance you want to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudLookerInstancesUpdateOptions(
+        string Instance
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+    }
+
+    public void Deconstruct(out string Instance)
+    {
+        Instance = this.Instance;
+    }
+
+    /// <summary>
+    /// Instance resource - Arguments and flags that specify the Looker instance you want to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The name of the Looker region of the instance. Overrides the default looker/region property value for this command invocation. To set the region attribute: ▸ provide the argument instance on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property looker/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
     /// <summary>
     /// Accelerated Security Patch - Looker (Google Cloud core) releases security patches to your instance. If specified, accelerated security patch will be enabled. Use --no-accelerated-security-patch-enabled to disable it.
     /// </summary>
@@ -36,9 +60,9 @@ public record GcloudLookerInstancesUpdateOptions : GcloudOptions
     public bool? NoAcceleratedSecurityPatchEnabled { get; set; }
 
     /// <summary>
-    /// Email Domain Allowlist for Scheduled Content - Define the email domains to which your users can deliver Looker (Google Cloud core) content. This specifies the entire allowed email domain list.
+    /// Email Domain Allowlist for Scheduled Content - Define the email domains to which your users can deliver Looker (Google Cloud core) content. This specifies the entire allowed email domain list. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--allowed-email-domains", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--allowed-email-domains", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AllowedEmailDomains { get; set; }
 
     /// <summary>
@@ -138,10 +162,32 @@ public record GcloudLookerInstancesUpdateOptions : GcloudOptions
     public bool? ClearPscAllowedVpcs { get; set; }
 
     /// <summary>
-    /// User Allocations - There are ten Standard and two Developer users included in the cost of the product. You can allocate additional Standard, Viewer, and Developer users for this instance. It is an optional step and can be modified later. With the Standard edition of Looker (Google Cloud core), you can provision up to 50 total users, distributed across Viewer, Standard, and Developer. Private Service Connect - Private Service Connect allows the Looker Instance to be reached via a private connection from inside a VPC network, and for the Looker Instance to connect to managed services via private connections. At most one of these can be specified: List of VPCs that are allowed ingress into the Looker instance.
+    /// User Allocations - There are ten Standard and two Developer users included in the cost of the product. You can allocate additional Standard, Viewer, and Developer users for this instance. It is an optional step and can be modified later. With the Standard edition of Looker (Google Cloud core), you can provision up to 50 total users, distributed across Viewer, Standard, and Developer. Private Service Connect - Private Service Connect allows the Looker Instance to be reached via a private connection from inside a VPC network, and for the Looker Instance to connect to managed services via private connections. At most one of these can be specified: List of VPCs that are allowed ingress into the Looker instance. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--psc-allowed-vpcs", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? PscAllowedVpcs { get; set; }
+    [CliOption("--psc-allowed-vpcs", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? PscAllowedVpcs
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __PscAllowedVpcsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __PscAllowedVpcsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// User Allocations - There are ten Standard and two Developer users included in the cost of the product. You can allocate additional Standard, Viewer, and Developer users for this instance. It is an optional step and can be modified later. With the Standard edition of Looker (Google Cloud core), you can provision up to 50 total users, distributed across Viewer, Standard, and Developer. At most one of these can be specified: Remove all allowed VPCs from the PSC config of the instance.
@@ -153,7 +199,47 @@ public record GcloudLookerInstancesUpdateOptions : GcloudOptions
     /// User Allocations - There are ten Standard and two Developer users included in the cost of the product. You can allocate additional Standard, Viewer, and Developer users for this instance. It is an optional step and can be modified later. With the Standard edition of Looker (Google Cloud core), you can provision up to 50 total users, distributed across Viewer, Standard, and Developer. At most one of these can be specified: Service attachments representing egress connections for the Looker instance. This flag can be repeated. (Example: --psc-service-attachment domain="mydomain.com",attachment="projects/my-project/regions/us-east1/serviceAttachments/sa" --psc-service-attachments domain="mydomain2.com",attachment="projects/my-project/regions/us-east1/serviceAttachments/sa2") You can also assign multiple domains to a single service attachment. (Example: --psc-service-attachment multiple-domains="mydomain.com;mydomain2.com",attachment="projects/my-project/regions/us-east1/serviceAttachments/sa")
     /// </summary>
     [CliOption("--psc-service-attachment", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? PscServiceAttachment { get; set; }
+    public IEnumerable<string>? PscServiceAttachment
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __PscServiceAttachmentSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __PscServiceAttachmentSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __PscServiceAttachmentSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __PscServiceAttachmentSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Deny Maintanence Period - You must allow at least 48 hours of maintenance availability in a 60-day rolling window. Only contiguous availability windows of at least two hours are considered. When setting a maintenance exclusion please be aware that excluding application upgrades cannot exceed 60-days and excluding infrastructure upgrades cannot exceed 90-days. End date of the deny maintenance period in format: YYYY-MM-DD This flag argument must be specified if any of the other arguments in this group are specified.
@@ -186,9 +272,9 @@ public record GcloudLookerInstancesUpdateOptions : GcloudOptions
     public bool? NoEgressEnabled { get; set; }
 
     /// <summary>
-    /// Controlled Egress - Controlled egress allows you to egress data from a Looker (Google Cloud core) instance to a third party service provider. List of FQDNs that are allowed to egress from the Looker instance. Example: --egress-fqdns="github.com,my.salesforce.com". To clear all egress FQDNs, use --egress-fqdns="".
+    /// Controlled Egress - Controlled egress allows you to egress data from a Looker (Google Cloud core) instance to a third party service provider. List of FQDNs that are allowed to egress from the Looker instance. Example: --egress-fqdns="github.com,my.salesforce.com". To clear all egress FQDNs, use --egress-fqdns="". Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--egress-fqdns", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--egress-fqdns", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? EgressFqdns { get; set; }
 
     /// <summary>
@@ -227,5 +313,57 @@ public record GcloudLookerInstancesUpdateOptions : GcloudOptions
     [SecretValue]
     [CliOption("--oauth-client-secret", Format = OptionFormat.EqualsSeparated)]
     public string? OauthClientSecret { get; set; }
+
+    /// <summary>
+    /// Instance resource - Arguments and flags that specify the Looker instance you want to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Instance { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((ClearPeriodicExportConfig == true ? 1 : 0) + ((!string.IsNullOrWhiteSpace(PeriodicExportGcsUri) || !string.IsNullOrWhiteSpace(PeriodicExportKmsKey) || !string.IsNullOrWhiteSpace(PeriodicExportStartTime)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearPeriodicExportConfig or (PeriodicExportGcsUri, PeriodicExportKmsKey, or PeriodicExportStartTime) may be specified.", [nameof(ClearPeriodicExportConfig), nameof(PeriodicExportGcsUri), nameof(PeriodicExportKmsKey), nameof(PeriodicExportStartTime)]);
+        }
+        if ((ClearPscAllowedVpcs == true ? 1 : 0) + (((object?)PscAllowedVpcs is global::System.Collections.Generic.IEnumerable<char> ? (object?)PscAllowedVpcs is not string || !string.IsNullOrWhiteSpace(PscAllowedVpcs?.ToString()) : ((object?)PscAllowedVpcs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)PscAllowedVpcs, static item => item is not null) : (PscAllowedVpcs is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)PscAllowedVpcs), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearPscAllowedVpcs or PscAllowedVpcs may be specified.", [nameof(ClearPscAllowedVpcs), nameof(PscAllowedVpcs)]);
+        }
+        if ((ClearPscServiceAttachments == true ? 1 : 0) + (((object?)PscServiceAttachment is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)PscServiceAttachment, static item => item is not null) : ((object?)PscServiceAttachment is global::System.Collections.Generic.IEnumerable<char> ? (object?)PscServiceAttachment is not string || !string.IsNullOrWhiteSpace(PscServiceAttachment?.ToString()) : ((object?)PscServiceAttachment is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)PscServiceAttachment, static item => item is not null) : (PscServiceAttachment is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)PscServiceAttachment), static item => item is not null))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearPscServiceAttachments or PscServiceAttachment may be specified.", [nameof(ClearPscServiceAttachments), nameof(PscServiceAttachment)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(DenyMaintenancePeriodEndDate) || !string.IsNullOrWhiteSpace(DenyMaintenancePeriodStartDate) || !string.IsNullOrWhiteSpace(DenyMaintenancePeriodTime)) && (!(!string.IsNullOrWhiteSpace(DenyMaintenancePeriodEndDate))))
+        {
+            yield return new ValidationResult("DenyMaintenancePeriodEndDate must be specified when other arguments in this group are specified.", [nameof(DenyMaintenancePeriodEndDate)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(DenyMaintenancePeriodEndDate) || !string.IsNullOrWhiteSpace(DenyMaintenancePeriodStartDate) || !string.IsNullOrWhiteSpace(DenyMaintenancePeriodTime)) && (!(!string.IsNullOrWhiteSpace(DenyMaintenancePeriodStartDate))))
+        {
+            yield return new ValidationResult("DenyMaintenancePeriodStartDate must be specified when other arguments in this group are specified.", [nameof(DenyMaintenancePeriodStartDate)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(DenyMaintenancePeriodEndDate) || !string.IsNullOrWhiteSpace(DenyMaintenancePeriodStartDate) || !string.IsNullOrWhiteSpace(DenyMaintenancePeriodTime)) && (!(!string.IsNullOrWhiteSpace(DenyMaintenancePeriodTime))))
+        {
+            yield return new ValidationResult("DenyMaintenancePeriodTime must be specified when other arguments in this group are specified.", [nameof(DenyMaintenancePeriodTime)]);
+        }
+        if (((object?)MaintenanceWindowDay is not null || !string.IsNullOrWhiteSpace(MaintenanceWindowTime)) && (!((object?)MaintenanceWindowDay is not null)))
+        {
+            yield return new ValidationResult("MaintenanceWindowDay must be specified when other arguments in this group are specified.", [nameof(MaintenanceWindowDay)]);
+        }
+        if (((object?)MaintenanceWindowDay is not null || !string.IsNullOrWhiteSpace(MaintenanceWindowTime)) && (!(!string.IsNullOrWhiteSpace(MaintenanceWindowTime))))
+        {
+            yield return new ValidationResult("MaintenanceWindowTime must be specified when other arguments in this group are specified.", [nameof(MaintenanceWindowTime)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(OauthClientId) || !string.IsNullOrWhiteSpace(OauthClientSecret)) && (!(!string.IsNullOrWhiteSpace(OauthClientId))))
+        {
+            yield return new ValidationResult("OauthClientId must be specified when other arguments in this group are specified.", [nameof(OauthClientId)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(OauthClientId) || !string.IsNullOrWhiteSpace(OauthClientSecret)) && (!(!string.IsNullOrWhiteSpace(OauthClientSecret))))
+        {
+            yield return new ValidationResult("OauthClientSecret must be specified when other arguments in this group are specified.", [nameof(OauthClientSecret)]);
+        }
+        yield break;
+    }
 
 }

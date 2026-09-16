@@ -19,14 +19,35 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "buckets", "anywhere-caches", "describe")]
-public record GcloudStorageBucketsAnywhereCachesDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Id
-) : GcloudOptions
+public record GcloudStorageBucketsAnywhereCachesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// returns details of     Anywhere Cache instance of a bucket
+    /// </summary>
+    /// <param name="Id">Identifier for a Anywhere Cache instance. It is a combination of bucket_name/anywhere_cache_id, For example : test-bucket/my-cache-id.</param>
+    public GcloudStorageBucketsAnywhereCachesDescribeOptions(
+        string Id
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+    }
+
+    public void Deconstruct(out string Id)
+    {
+        Id = this.Id;
+    }
+
     /// <summary>
     /// Shows metadata in the format returned by the API instead of standardizing it.
     /// </summary>
     [CliFlag("--raw")]
     public bool? Raw { get; set; }
+
+    /// <summary>
+    /// Identifier for a Anywhere Cache instance. It is a combination of bucket_name/anywhere_cache_id, For example : test-bucket/my-cache-id.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Id { get; private init; }
 
 }

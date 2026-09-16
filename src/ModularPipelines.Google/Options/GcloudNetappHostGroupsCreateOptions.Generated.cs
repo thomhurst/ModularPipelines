@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +23,95 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("netapp", "host-groups", "create")]
 public record GcloudNetappHostGroupsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a Cloud NetApp Host Group
+    /// </summary>
+    /// <param name="Hosts">List of hosts in the host group. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="OsType">String indicating the OS type of the hosts in the host group. The supported values are: 'LINUX', 'WINDOWS', 'ESXI'. OS_TYPE must be one of: LINUX, WINDOWS, ESXI.</param>
+    /// <param name="Type">String indicating the type of host group. The supported values are: 'ISCSI_INITIATOR'. TYPE must be (only one value is supported): ISCSI_INITIATOR.</param>
+    /// <param name="HostGroup">Host group resource - The Host Group to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument host_group on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the host_group or fully qualified identifier for the host_group. To set the host_group attribute: ▸ provide the argument host_group on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetappHostGroupsCreateOptions(
+        IEnumerable<string> Hosts,
+        GcloudOsType OsType,
+        string Type,
+        string HostGroup
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Hosts);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Hosts));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Hosts));
+            }
+
+            Hosts = materialized;
+        }
+        this.Hosts = Hosts;
+        global::System.ArgumentNullException.ThrowIfNull(OsType);
+        this.OsType = OsType;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+        global::System.ArgumentNullException.ThrowIfNull(HostGroup);
+        this.HostGroup = HostGroup;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Hosts, out GcloudOsType OsType, out string Type, out string HostGroup)
+    {
+        Hosts = this.Hosts;
+        OsType = this.OsType;
+        Type = this.Type;
+        HostGroup = this.HostGroup;
+    }
+
+    /// <summary>
+    /// List of hosts in the host group. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--hosts", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> Hosts { get; private init; }
+
+    /// <summary>
+    /// String indicating the OS type of the hosts in the host group. The supported values are: 'LINUX', 'WINDOWS', 'ESXI'. OS_TYPE must be one of: LINUX, WINDOWS, ESXI.
+    /// </summary>
+    [CliOption("--os-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudOsType OsType { get; private init; }
+
+    /// <summary>
+    /// String indicating the type of host group. The supported values are: 'ISCSI_INITIATOR'. TYPE must be (only one value is supported): ISCSI_INITIATOR.
+    /// </summary>
+    [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
+    public string Type { get; private init; }
+
+    /// <summary>
+    /// Host group resource - The Host Group to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument host_group on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the host_group. To set the location attribute: ▸ provide the argument host_group on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property netapp/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// A description of the Cloud NetApp Host Group
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Host group resource - The Host Group to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument host_group on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the host_group or fully qualified identifier for the host_group. To set the host_group attribute: ▸ provide the argument host_group on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string HostGroup { get; private init; }
+
 }

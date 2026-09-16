@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("billing", "budgets", "delete")]
 public record GcloudBillingBudgetsDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete a budget
+    /// </summary>
+    /// <param name="Budget">Budget resource - Billing budget to delete. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the budget or fully qualified identifier for the budget. To set the budget attribute: ▸ provide the argument budget on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudBillingBudgetsDeleteOptions(
+        string Budget
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Budget);
+        this.Budget = Budget;
+    }
+
+    public void Deconstruct(out string Budget)
+    {
+        Budget = this.Budget;
+    }
+
+    /// <summary>
+    /// Budget resource - Billing budget to delete. The arguments in this group can be used to specify the attributes of this resource. This must be specified. The billing account. To set the billing-account attribute: ▸ provide the argument budget on the command line with a fully specified name; ▸ provide the argument --billing-account on the command line.
+    /// </summary>
+    [CliOption("--billing-account", Format = OptionFormat.EqualsSeparated)]
+    public string? BillingAccount { get; set; }
+
+    /// <summary>
+    /// Budget resource - Billing budget to delete. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the budget or fully qualified identifier for the budget. To set the budget attribute: ▸ provide the argument budget on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Budget { get; private init; }
+
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,78 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pubsub", "schemas", "validate-message")]
-public record GcloudPubsubSchemasValidateMessageOptions : GcloudOptions
+public record GcloudPubsubSchemasValidateMessageOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// validate a message against a     Pub/Sub schema
+    /// </summary>
+    /// <param name="Message">The message to validate against the schema.</param>
+    /// <param name="MessageEncoding">The encoding of the message. MESSAGE_ENCODING must be one of: binary, json.</param>
+    public GcloudPubsubSchemasValidateMessageOptions(
+        string Message,
+        GcloudMessageEncoding MessageEncoding
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Message);
+        this.Message = Message;
+        global::System.ArgumentNullException.ThrowIfNull(MessageEncoding);
+        this.MessageEncoding = MessageEncoding;
+    }
+
+    public void Deconstruct(out string Message, out GcloudMessageEncoding MessageEncoding)
+    {
+        Message = this.Message;
+        MessageEncoding = this.MessageEncoding;
+    }
+
+    /// <summary>
+    /// The message to validate against the schema.
+    /// </summary>
+    [CliOption("--message", Format = OptionFormat.EqualsSeparated)]
+    public string Message { get; private init; }
+
+    /// <summary>
+    /// The encoding of the message. MESSAGE_ENCODING must be one of: binary, json.
+    /// </summary>
+    [CliOption("--message-encoding", Format = OptionFormat.EqualsSeparated)]
+    public GcloudMessageEncoding MessageEncoding { get; private init; }
+
+    /// <summary>
+    /// Schema definition. Exactly one of these must be specified: Name or full path of an existing schema.
+    /// </summary>
+    [CliOption("--schema-name", Format = OptionFormat.EqualsSeparated)]
+    public string? SchemaName { get; set; }
+
+    /// <summary>
+    /// Schema definition. Exactly one of these must be specified: Or at least one of these can be specified: Type of inline schema. TYPE must be one of: avro, protocol-buffer. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudType? Type { get; set; }
+
+    /// <summary>
+    /// Schema definition. Exactly one of these must be specified: Or at least one of these can be specified: Schema specification. Exactly one of these must be specified: Inline schema definition.
+    /// </summary>
+    [CliOption("--definition", Format = OptionFormat.EqualsSeparated)]
+    public string? Definition { get; set; }
+
+    /// <summary>
+    /// Schema definition. Exactly one of these must be specified: Or at least one of these can be specified: Schema specification. Exactly one of these must be specified: File containing schema definition. Use a full or relative path to a local file containing the value of definition_file.
+    /// </summary>
+    [CliOption("--definition-file", Format = OptionFormat.EqualsSeparated)]
+    public string? DefinitionFile { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(SchemaName) ? 1 : 0) + (((object?)Type is not null || !string.IsNullOrWhiteSpace(Definition) || !string.IsNullOrWhiteSpace(DefinitionFile)) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of SchemaName or (Type, Definition, or DefinitionFile) must be specified.", [nameof(SchemaName), nameof(Type), nameof(Definition), nameof(DefinitionFile)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(SchemaName) || (object?)Type is not null || !string.IsNullOrWhiteSpace(Definition) || !string.IsNullOrWhiteSpace(DefinitionFile)) && ((object?)Type is not null || !string.IsNullOrWhiteSpace(Definition) || !string.IsNullOrWhiteSpace(DefinitionFile)) && ((!string.IsNullOrWhiteSpace(Definition) ? 1 : 0) + (!string.IsNullOrWhiteSpace(DefinitionFile) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of Definition or DefinitionFile may be specified.", [nameof(Definition), nameof(DefinitionFile)]);
+        }
+        yield break;
+    }
+
 }

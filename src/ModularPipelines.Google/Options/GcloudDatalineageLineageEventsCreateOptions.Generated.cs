@@ -21,4 +21,68 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("datalineage", "lineage-events", "create")]
 public record GcloudDatalineageLineageEventsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a Data Lineage event
+    /// </summary>
+    /// <param name="StartTime">The start time of the lineage event.</param>
+    /// <param name="LineageEvent">Lineage event resource - The lineage event to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument lineage_event on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the lineage_event or fully qualified identifier for the lineage_event. To set the lineage_event attribute: ▸ provide the argument lineage_event on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDatalineageLineageEventsCreateOptions(
+        string StartTime,
+        string LineageEvent
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StartTime);
+        this.StartTime = StartTime;
+        global::System.ArgumentNullException.ThrowIfNull(LineageEvent);
+        this.LineageEvent = LineageEvent;
+    }
+
+    public void Deconstruct(out string StartTime, out string LineageEvent)
+    {
+        StartTime = this.StartTime;
+        LineageEvent = this.LineageEvent;
+    }
+
+    /// <summary>
+    /// The start time of the lineage event.
+    /// </summary>
+    [CliOption("--start-time", Format = OptionFormat.EqualsSeparated)]
+    public string StartTime { get; private init; }
+
+    /// <summary>
+    /// Lineage event resource - The lineage event to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument lineage_event on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the lineage_event. To set the location attribute: ▸ provide the argument lineage_event on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Lineage event resource - The lineage event to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument lineage_event on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The name of the process. To set the process attribute: ▸ provide the argument lineage_event on the command line with a fully specified name; ▸ provide the argument --process on the command line.
+    /// </summary>
+    [CliOption("--process", Format = OptionFormat.EqualsSeparated)]
+    public string? Process { get; set; }
+
+    /// <summary>
+    /// Lineage event resource - The lineage event to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument lineage_event on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The name of the run. To set the run attribute: ▸ provide the argument lineage_event on the command line with a fully specified name; ▸ provide the argument --run on the command line.
+    /// </summary>
+    [CliOption("--run", Format = OptionFormat.EqualsSeparated)]
+    public string? Run { get; set; }
+
+    /// <summary>
+    /// The end time of the lineage event.
+    /// </summary>
+    [CliOption("--end-time", Format = OptionFormat.EqualsSeparated)]
+    public string? EndTime { get; set; }
+
+    /// <summary>
+    /// A list of source-target links representing data lineage. source Required, The source entity. field The fields of the source entity. fullyQualifiedName Required, The fully qualified name of the source entity. target Required, The target entity. field The fields of the target entity. fullyQualifiedName Required, The fully qualified name of the target entity. Shorthand Example: --links=source={field=[string],fullyQualifiedName=string},target={field=[string],fullyQualifiedName=string} --links=source={field=[string],fullyQualifiedName=string},target={field=[string],fullyQualifiedName=string} JSON Example: --links='[{"source": {"field": ["string"], "fullyQualifiedName": "string"}, "target": {"field": ["string"], "fullyQualifiedName": "string"}}]' File Example: --links=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--links", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Links { get; set; }
+
+    /// <summary>
+    /// Lineage event resource - The lineage event to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument lineage_event on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the lineage_event or fully qualified identifier for the lineage_event. To set the lineage_event attribute: ▸ provide the argument lineage_event on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string LineageEvent { get; private init; }
+
 }

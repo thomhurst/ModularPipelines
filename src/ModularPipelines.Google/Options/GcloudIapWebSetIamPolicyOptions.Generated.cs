@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -20,10 +21,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iap", "web", "set-iam-policy")]
-public record GcloudIapWebSetIamPolicyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PolicyFile
-) : GcloudOptions
+public record GcloudIapWebSetIamPolicyOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// set the IAM policy for an IAP IAM resource
+    /// </summary>
+    /// <param name="PolicyFile">JSON or YAML file containing the IAM policy.</param>
+    public GcloudIapWebSetIamPolicyOptions(
+        string PolicyFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyFile);
+        this.PolicyFile = PolicyFile;
+    }
+
+    public void Deconstruct(out string PolicyFile)
+    {
+        PolicyFile = this.PolicyFile;
+    }
+
     /// <summary>
     /// Region name. Not applicable for resource-type=app-engine. Required when resource-type=backend-services and regional scoped. Not applicable for global backend-services. Required when resource-type=cloud-run.
     /// </summary>
@@ -65,5 +81,21 @@ public record GcloudIapWebSetIamPolicyOptions(
     /// </summary>
     [CliOption("--mcp-server", Format = OptionFormat.EqualsSeparated)]
     public string? McpServer { get; set; }
+
+    /// <summary>
+    /// JSON or YAML file containing the IAM policy.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PolicyFile { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Agent) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Endpoint) ? 1 : 0) + (!string.IsNullOrWhiteSpace(McpServer) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Agent, Endpoint, or McpServer may be specified.", [nameof(Agent), nameof(Endpoint), nameof(McpServer)]);
+        }
+        yield break;
+    }
 
 }

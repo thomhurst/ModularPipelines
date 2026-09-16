@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("scheduler", "cmek-config", "describe")]
 public record GcloudSchedulerCmekConfigDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// get CMEK configuration for Cloud     Scheduler in the specified location
+    /// </summary>
+    /// <param name="Location">Google Cloud location for the KMS key.</param>
+    public GcloudSchedulerCmekConfigDescribeOptions(
+        string Location
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+    }
+
+    public void Deconstruct(out string Location)
+    {
+        Location = this.Location;
+    }
+
+    /// <summary>
+    /// Google Cloud location for the KMS key.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string Location { get; private init; }
+
 }

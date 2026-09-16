@@ -21,4 +21,49 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("network-management", "network-monitoring-providers", "monitoring-points", "download-server-connect-config")]
 public record GcloudNetworkManagementNetworkMonitoringProvidersMonitoringPointsDownloadServerConnectConfigOptions : GcloudOptions
 {
+    /// <summary>
+    /// points     download-server-connect-config - download the server connect     configuration
+    /// </summary>
+    /// <param name="Location">The location of the Network Monitoring Provider (example: global).</param>
+    /// <param name="NetworkMonitoringProvider">The ID of the Network Monitoring Provider.</param>
+    /// <param name="OutputFile">The path to save the downloaded server connect configuration.</param>
+    public GcloudNetworkManagementNetworkMonitoringProvidersMonitoringPointsDownloadServerConnectConfigOptions(
+        string Location,
+        string NetworkMonitoringProvider,
+        string OutputFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        global::System.ArgumentNullException.ThrowIfNull(NetworkMonitoringProvider);
+        this.NetworkMonitoringProvider = NetworkMonitoringProvider;
+        global::System.ArgumentNullException.ThrowIfNull(OutputFile);
+        this.OutputFile = OutputFile;
+    }
+
+    public void Deconstruct(out string Location, out string NetworkMonitoringProvider, out string OutputFile)
+    {
+        Location = this.Location;
+        NetworkMonitoringProvider = this.NetworkMonitoringProvider;
+        OutputFile = this.OutputFile;
+    }
+
+    /// <summary>
+    /// The location of the Network Monitoring Provider (example: global).
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// The ID of the Network Monitoring Provider.
+    /// </summary>
+    [CliOption("--network-monitoring-provider", Format = OptionFormat.EqualsSeparated)]
+    public string NetworkMonitoringProvider { get; private init; }
+
+    /// <summary>
+    /// The path to save the downloaded server connect configuration.
+    /// </summary>
+    [CliOption("--output-file", Format = OptionFormat.EqualsSeparated)]
+    public string OutputFile { get; private init; }
+
 }

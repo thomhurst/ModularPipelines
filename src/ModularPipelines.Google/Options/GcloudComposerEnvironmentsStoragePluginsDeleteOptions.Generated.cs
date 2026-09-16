@@ -21,4 +21,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("composer", "environments", "storage", "plugins", "delete")]
 public record GcloudComposerEnvironmentsStoragePluginsDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete plugins from     an Cloud Composer environment's Cloud Storage bucket
+    /// </summary>
+    /// <param name="Environment">Environment resource - The environment whose plugins to delete.. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --environment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the environment or fully qualified identifier for the environment. To set the environment attribute: ▸ provide the argument --environment on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudComposerEnvironmentsStoragePluginsDeleteOptions(
+        string Environment
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Environment);
+        this.Environment = Environment;
+    }
+
+    public void Deconstruct(out string Environment)
+    {
+        Environment = this.Environment;
+    }
+
+    /// <summary>
+    /// Environment resource - The environment whose plugins to delete.. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --environment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the environment or fully qualified identifier for the environment. To set the environment attribute: ▸ provide the argument --environment on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--environment", Format = OptionFormat.EqualsSeparated)]
+    public string Environment { get; private init; }
+
+    /// <summary>
+    /// Environment resource - The environment whose plugins to delete.. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --environment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Region where Composer environment runs or in which to create the environment. To set the location attribute: ▸ provide the argument --environment on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property composer/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// A relative path to a file or subdirectory to delete within the plugins Cloud Storage subdirectory. If not specified, the entire contents of the plugins subdirectory will be deleted.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Target { get; set; }
+
 }

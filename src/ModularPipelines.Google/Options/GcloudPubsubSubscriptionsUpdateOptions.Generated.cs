@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -22,8 +23,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pubsub", "subscriptions", "update")]
-public record GcloudPubsubSubscriptionsUpdateOptions : GcloudOptions
+public record GcloudPubsubSubscriptionsUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// updates an existing Cloud Pub/Sub     subscription
+    /// </summary>
+    /// <param name="Subscription">Subscription resource - Name of the subscription to update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument subscription on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the subscription or fully qualified identifier for the subscription. To set the subscription attribute: ▸ provide the argument subscription on the command line.</param>
+    public GcloudPubsubSubscriptionsUpdateOptions(
+        string Subscription
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Subscription);
+        this.Subscription = Subscription;
+    }
+
+    public void Deconstruct(out string Subscription)
+    {
+        Subscription = this.Subscription;
+    }
+
     /// <summary>
     /// The number of seconds the system will wait for a subscriber to acknowledge receiving a message before re-attempting delivery.
     /// </summary>
@@ -67,9 +85,9 @@ public record GcloudPubsubSubscriptionsUpdateOptions : GcloudOptions
     public bool? NoRetainAckedMessages { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
 
     /// <summary>
@@ -253,13 +271,13 @@ public record GcloudPubsubSubscriptionsUpdateOptions : GcloudOptions
     public string? MaxDeliveryAttempts { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Dead letter topic resource - Name of the topic to publish dead letter messages to. The arguments in this group can be used to specify the attributes of this resource. ID of the dead-letter-topic or fully qualified identifier for the dead-letter-topic. To set the topic attribute: ▫ provide the argument --dead-letter-topic on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// At most one of these can be specified: Or at least one of these can be specified: Dead letter topic resource - Name of the topic to publish dead letter messages to. The arguments in this group can be used to specify the attributes of this resource. ID of the dead-letter-topic or fully qualified identifier for the dead-letter-topic. To set the topic attribute: ▫ provide the argument --dead-letter-topic on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--dead-letter-topic", Format = OptionFormat.EqualsSeparated)]
     public string? DeadLetterTopic { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Dead letter topic resource - Name of the topic to publish dead letter messages to. The arguments in this group can be used to specify the attributes of this resource. Project ID of the Google Cloud project for the dead-letter-topic. To set the project attribute: ▫ provide the argument --dead-letter-topic on the command line with a fully specified name; ▫ provide the argument --dead-letter-topic-project on the command line; ▫ provide the argument --project on the command line; ▫ set the property core/project.
+    /// At most one of these can be specified: Or at least one of these can be specified: Dead letter topic resource - Name of the topic to publish dead letter messages to. The arguments in this group can be used to specify the attributes of this resource. Project ID of the Google Cloud project for the dead-letter-topic. To set the project attribute: ▫ provide the argument --dead-letter-topic on the command line with a fully specified name; ▫ provide the argument --dead-letter-topic-project on the command line; ▫ provide the argument --project on the command line; ▫ set the property core/project.
     /// </summary>
     [CliOption("--dead-letter-topic-project", Format = OptionFormat.EqualsSeparated)]
     public string? DeadLetterTopicProject { get; set; }
@@ -271,10 +289,32 @@ public record GcloudPubsubSubscriptionsUpdateOptions : GcloudOptions
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveLabels { get; set; }
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveLabels
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveLabelsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveLabelsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// At most one of these can be specified: If set, clears the message transforms field. Use --no-clear-message-transforms to disable this flag.
@@ -372,5 +412,117 @@ public record GcloudPubsubSubscriptionsUpdateOptions : GcloudOptions
     /// </summary>
     [CliFlag("--no-push-no-wrapper-write-metadata")]
     public bool? NoPushNoWrapperWriteMetadata { get; set; }
+
+    /// <summary>
+    /// Subscription resource - Name of the subscription to update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument subscription on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the subscription or fully qualified identifier for the subscription. To set the subscription attribute: ▸ provide the argument subscription on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Subscription { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (((!string.IsNullOrWhiteSpace(BigqueryTable) || !string.IsNullOrWhiteSpace(BigqueryServiceAccountEmail) || UseTableSchema == true || NoUseTableSchema == true || UseTopicSchema == true || NoUseTopicSchema == true || DropUnknownFields == true || NoDropUnknownFields == true || WriteMetadata == true || NoWriteMetadata == true) ? 1 : 0) + ((ClearBigqueryConfig == true || NoClearBigqueryConfig == true) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of (BigqueryTable, BigqueryServiceAccountEmail, UseTableSchema, NoUseTableSchema, UseTopicSchema, NoUseTopicSchema, DropUnknownFields, NoDropUnknownFields, WriteMetadata, or NoWriteMetadata) or (ClearBigqueryConfig or NoClearBigqueryConfig) may be specified.", [nameof(BigqueryTable), nameof(BigqueryServiceAccountEmail), nameof(UseTableSchema), nameof(NoUseTableSchema), nameof(UseTopicSchema), nameof(NoUseTopicSchema), nameof(DropUnknownFields), nameof(NoDropUnknownFields), nameof(WriteMetadata), nameof(NoWriteMetadata), nameof(ClearBigqueryConfig), nameof(NoClearBigqueryConfig)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(BigqueryTable) || !string.IsNullOrWhiteSpace(BigqueryServiceAccountEmail) || UseTableSchema == true || NoUseTableSchema == true || UseTopicSchema == true || NoUseTopicSchema == true || DropUnknownFields == true || NoDropUnknownFields == true || WriteMetadata == true || NoWriteMetadata == true || ClearBigqueryConfig == true || NoClearBigqueryConfig == true) && (!string.IsNullOrWhiteSpace(BigqueryTable) || !string.IsNullOrWhiteSpace(BigqueryServiceAccountEmail) || UseTableSchema == true || NoUseTableSchema == true || UseTopicSchema == true || NoUseTopicSchema == true || DropUnknownFields == true || NoDropUnknownFields == true || WriteMetadata == true || NoWriteMetadata == true) && (!string.IsNullOrWhiteSpace(BigqueryTable) || !string.IsNullOrWhiteSpace(BigqueryServiceAccountEmail) || UseTableSchema == true || NoUseTableSchema == true || UseTopicSchema == true || NoUseTopicSchema == true || DropUnknownFields == true || NoDropUnknownFields == true || WriteMetadata == true || NoWriteMetadata == true) && (!(!string.IsNullOrWhiteSpace(BigqueryTable))))
+        {
+            yield return new ValidationResult("BigqueryTable must be specified when other arguments in this group are specified.", [nameof(BigqueryTable)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(BigqueryTable) || !string.IsNullOrWhiteSpace(BigqueryServiceAccountEmail) || UseTableSchema == true || NoUseTableSchema == true || UseTopicSchema == true || NoUseTopicSchema == true || DropUnknownFields == true || NoDropUnknownFields == true || WriteMetadata == true || NoWriteMetadata == true || ClearBigqueryConfig == true || NoClearBigqueryConfig == true) && (!string.IsNullOrWhiteSpace(BigqueryTable) || !string.IsNullOrWhiteSpace(BigqueryServiceAccountEmail) || UseTableSchema == true || NoUseTableSchema == true || UseTopicSchema == true || NoUseTopicSchema == true || DropUnknownFields == true || NoDropUnknownFields == true || WriteMetadata == true || NoWriteMetadata == true) && (!string.IsNullOrWhiteSpace(BigqueryTable) || !string.IsNullOrWhiteSpace(BigqueryServiceAccountEmail) || UseTableSchema == true || NoUseTableSchema == true || UseTopicSchema == true || NoUseTopicSchema == true || DropUnknownFields == true || NoDropUnknownFields == true || WriteMetadata == true || NoWriteMetadata == true) && (((UseTableSchema == true || NoUseTableSchema == true) ? 1 : 0) + ((UseTopicSchema == true || NoUseTopicSchema == true) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of (UseTableSchema or NoUseTableSchema) or (UseTopicSchema or NoUseTopicSchema) may be specified.", [nameof(UseTableSchema), nameof(NoUseTableSchema), nameof(UseTopicSchema), nameof(NoUseTopicSchema)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(BigqueryTable) || !string.IsNullOrWhiteSpace(BigqueryServiceAccountEmail) || UseTableSchema == true || NoUseTableSchema == true || UseTopicSchema == true || NoUseTopicSchema == true || DropUnknownFields == true || NoDropUnknownFields == true || WriteMetadata == true || NoWriteMetadata == true || ClearBigqueryConfig == true || NoClearBigqueryConfig == true) && (!string.IsNullOrWhiteSpace(BigqueryTable) || !string.IsNullOrWhiteSpace(BigqueryServiceAccountEmail) || UseTableSchema == true || NoUseTableSchema == true || UseTopicSchema == true || NoUseTopicSchema == true || DropUnknownFields == true || NoDropUnknownFields == true || WriteMetadata == true || NoWriteMetadata == true) && (!string.IsNullOrWhiteSpace(BigqueryTable) || !string.IsNullOrWhiteSpace(BigqueryServiceAccountEmail) || UseTableSchema == true || NoUseTableSchema == true || UseTopicSchema == true || NoUseTopicSchema == true || DropUnknownFields == true || NoDropUnknownFields == true || WriteMetadata == true || NoWriteMetadata == true) && (UseTableSchema == true || NoUseTableSchema == true || UseTopicSchema == true || NoUseTopicSchema == true) && ((UseTableSchema == true ? 1 : 0) + (NoUseTableSchema == true ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of UseTableSchema or NoUseTableSchema may be specified.", [nameof(UseTableSchema), nameof(NoUseTableSchema)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(BigqueryTable) || !string.IsNullOrWhiteSpace(BigqueryServiceAccountEmail) || UseTableSchema == true || NoUseTableSchema == true || UseTopicSchema == true || NoUseTopicSchema == true || DropUnknownFields == true || NoDropUnknownFields == true || WriteMetadata == true || NoWriteMetadata == true || ClearBigqueryConfig == true || NoClearBigqueryConfig == true) && (!string.IsNullOrWhiteSpace(BigqueryTable) || !string.IsNullOrWhiteSpace(BigqueryServiceAccountEmail) || UseTableSchema == true || NoUseTableSchema == true || UseTopicSchema == true || NoUseTopicSchema == true || DropUnknownFields == true || NoDropUnknownFields == true || WriteMetadata == true || NoWriteMetadata == true) && (!string.IsNullOrWhiteSpace(BigqueryTable) || !string.IsNullOrWhiteSpace(BigqueryServiceAccountEmail) || UseTableSchema == true || NoUseTableSchema == true || UseTopicSchema == true || NoUseTopicSchema == true || DropUnknownFields == true || NoDropUnknownFields == true || WriteMetadata == true || NoWriteMetadata == true) && (UseTableSchema == true || NoUseTableSchema == true || UseTopicSchema == true || NoUseTopicSchema == true) && ((UseTopicSchema == true ? 1 : 0) + (NoUseTopicSchema == true ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of UseTopicSchema or NoUseTopicSchema may be specified.", [nameof(UseTopicSchema), nameof(NoUseTopicSchema)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(BigqueryTable) || !string.IsNullOrWhiteSpace(BigqueryServiceAccountEmail) || UseTableSchema == true || NoUseTableSchema == true || UseTopicSchema == true || NoUseTopicSchema == true || DropUnknownFields == true || NoDropUnknownFields == true || WriteMetadata == true || NoWriteMetadata == true || ClearBigqueryConfig == true || NoClearBigqueryConfig == true) && (!string.IsNullOrWhiteSpace(BigqueryTable) || !string.IsNullOrWhiteSpace(BigqueryServiceAccountEmail) || UseTableSchema == true || NoUseTableSchema == true || UseTopicSchema == true || NoUseTopicSchema == true || DropUnknownFields == true || NoDropUnknownFields == true || WriteMetadata == true || NoWriteMetadata == true) && (!string.IsNullOrWhiteSpace(BigqueryTable) || !string.IsNullOrWhiteSpace(BigqueryServiceAccountEmail) || UseTableSchema == true || NoUseTableSchema == true || UseTopicSchema == true || NoUseTopicSchema == true || DropUnknownFields == true || NoDropUnknownFields == true || WriteMetadata == true || NoWriteMetadata == true) && ((DropUnknownFields == true ? 1 : 0) + (NoDropUnknownFields == true ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of DropUnknownFields or NoDropUnknownFields may be specified.", [nameof(DropUnknownFields), nameof(NoDropUnknownFields)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(BigqueryTable) || !string.IsNullOrWhiteSpace(BigqueryServiceAccountEmail) || UseTableSchema == true || NoUseTableSchema == true || UseTopicSchema == true || NoUseTopicSchema == true || DropUnknownFields == true || NoDropUnknownFields == true || WriteMetadata == true || NoWriteMetadata == true || ClearBigqueryConfig == true || NoClearBigqueryConfig == true) && (!string.IsNullOrWhiteSpace(BigqueryTable) || !string.IsNullOrWhiteSpace(BigqueryServiceAccountEmail) || UseTableSchema == true || NoUseTableSchema == true || UseTopicSchema == true || NoUseTopicSchema == true || DropUnknownFields == true || NoDropUnknownFields == true || WriteMetadata == true || NoWriteMetadata == true) && (!string.IsNullOrWhiteSpace(BigqueryTable) || !string.IsNullOrWhiteSpace(BigqueryServiceAccountEmail) || UseTableSchema == true || NoUseTableSchema == true || UseTopicSchema == true || NoUseTopicSchema == true || DropUnknownFields == true || NoDropUnknownFields == true || WriteMetadata == true || NoWriteMetadata == true) && ((WriteMetadata == true ? 1 : 0) + (NoWriteMetadata == true ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of WriteMetadata or NoWriteMetadata may be specified.", [nameof(WriteMetadata), nameof(NoWriteMetadata)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(BigqueryTable) || !string.IsNullOrWhiteSpace(BigqueryServiceAccountEmail) || UseTableSchema == true || NoUseTableSchema == true || UseTopicSchema == true || NoUseTopicSchema == true || DropUnknownFields == true || NoDropUnknownFields == true || WriteMetadata == true || NoWriteMetadata == true || ClearBigqueryConfig == true || NoClearBigqueryConfig == true) && ((ClearBigqueryConfig == true ? 1 : 0) + (NoClearBigqueryConfig == true ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearBigqueryConfig or NoClearBigqueryConfig may be specified.", [nameof(ClearBigqueryConfig), nameof(NoClearBigqueryConfig)]);
+        }
+        if (((!string.IsNullOrWhiteSpace(CloudStorageBucket) || !string.IsNullOrWhiteSpace(CloudStorageFileDatetimeFormat) || !string.IsNullOrWhiteSpace(CloudStorageFilePrefix) || !string.IsNullOrWhiteSpace(CloudStorageFileSuffix) || !string.IsNullOrWhiteSpace(CloudStorageMaxBytes) || !string.IsNullOrWhiteSpace(CloudStorageMaxDuration) || !string.IsNullOrWhiteSpace(CloudStorageMaxMessages) || (object?)CloudStorageOutputFormat is not null || !string.IsNullOrWhiteSpace(CloudStorageServiceAccountEmail) || CloudStorageUseTopicSchema == true || NoCloudStorageUseTopicSchema == true || CloudStorageWriteMetadata == true || NoCloudStorageWriteMetadata == true) ? 1 : 0) + ((ClearCloudStorageConfig == true || NoClearCloudStorageConfig == true) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of (CloudStorageBucket, CloudStorageFileDatetimeFormat, CloudStorageFilePrefix, CloudStorageFileSuffix, CloudStorageMaxBytes, CloudStorageMaxDuration, CloudStorageMaxMessages, CloudStorageOutputFormat, CloudStorageServiceAccountEmail, CloudStorageUseTopicSchema, NoCloudStorageUseTopicSchema, CloudStorageWriteMetadata, or NoCloudStorageWriteMetadata) or (ClearCloudStorageConfig or NoClearCloudStorageConfig) may be specified.", [nameof(CloudStorageBucket), nameof(CloudStorageFileDatetimeFormat), nameof(CloudStorageFilePrefix), nameof(CloudStorageFileSuffix), nameof(CloudStorageMaxBytes), nameof(CloudStorageMaxDuration), nameof(CloudStorageMaxMessages), nameof(CloudStorageOutputFormat), nameof(CloudStorageServiceAccountEmail), nameof(CloudStorageUseTopicSchema), nameof(NoCloudStorageUseTopicSchema), nameof(CloudStorageWriteMetadata), nameof(NoCloudStorageWriteMetadata), nameof(ClearCloudStorageConfig), nameof(NoClearCloudStorageConfig)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(CloudStorageBucket) || !string.IsNullOrWhiteSpace(CloudStorageFileDatetimeFormat) || !string.IsNullOrWhiteSpace(CloudStorageFilePrefix) || !string.IsNullOrWhiteSpace(CloudStorageFileSuffix) || !string.IsNullOrWhiteSpace(CloudStorageMaxBytes) || !string.IsNullOrWhiteSpace(CloudStorageMaxDuration) || !string.IsNullOrWhiteSpace(CloudStorageMaxMessages) || (object?)CloudStorageOutputFormat is not null || !string.IsNullOrWhiteSpace(CloudStorageServiceAccountEmail) || CloudStorageUseTopicSchema == true || NoCloudStorageUseTopicSchema == true || CloudStorageWriteMetadata == true || NoCloudStorageWriteMetadata == true || ClearCloudStorageConfig == true || NoClearCloudStorageConfig == true) && (!string.IsNullOrWhiteSpace(CloudStorageBucket) || !string.IsNullOrWhiteSpace(CloudStorageFileDatetimeFormat) || !string.IsNullOrWhiteSpace(CloudStorageFilePrefix) || !string.IsNullOrWhiteSpace(CloudStorageFileSuffix) || !string.IsNullOrWhiteSpace(CloudStorageMaxBytes) || !string.IsNullOrWhiteSpace(CloudStorageMaxDuration) || !string.IsNullOrWhiteSpace(CloudStorageMaxMessages) || (object?)CloudStorageOutputFormat is not null || !string.IsNullOrWhiteSpace(CloudStorageServiceAccountEmail) || CloudStorageUseTopicSchema == true || NoCloudStorageUseTopicSchema == true || CloudStorageWriteMetadata == true || NoCloudStorageWriteMetadata == true) && (!string.IsNullOrWhiteSpace(CloudStorageBucket) || !string.IsNullOrWhiteSpace(CloudStorageFileDatetimeFormat) || !string.IsNullOrWhiteSpace(CloudStorageFilePrefix) || !string.IsNullOrWhiteSpace(CloudStorageFileSuffix) || !string.IsNullOrWhiteSpace(CloudStorageMaxBytes) || !string.IsNullOrWhiteSpace(CloudStorageMaxDuration) || !string.IsNullOrWhiteSpace(CloudStorageMaxMessages) || (object?)CloudStorageOutputFormat is not null || !string.IsNullOrWhiteSpace(CloudStorageServiceAccountEmail) || CloudStorageUseTopicSchema == true || NoCloudStorageUseTopicSchema == true || CloudStorageWriteMetadata == true || NoCloudStorageWriteMetadata == true) && (!(!string.IsNullOrWhiteSpace(CloudStorageBucket))))
+        {
+            yield return new ValidationResult("CloudStorageBucket must be specified when other arguments in this group are specified.", [nameof(CloudStorageBucket)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(CloudStorageBucket) || !string.IsNullOrWhiteSpace(CloudStorageFileDatetimeFormat) || !string.IsNullOrWhiteSpace(CloudStorageFilePrefix) || !string.IsNullOrWhiteSpace(CloudStorageFileSuffix) || !string.IsNullOrWhiteSpace(CloudStorageMaxBytes) || !string.IsNullOrWhiteSpace(CloudStorageMaxDuration) || !string.IsNullOrWhiteSpace(CloudStorageMaxMessages) || (object?)CloudStorageOutputFormat is not null || !string.IsNullOrWhiteSpace(CloudStorageServiceAccountEmail) || CloudStorageUseTopicSchema == true || NoCloudStorageUseTopicSchema == true || CloudStorageWriteMetadata == true || NoCloudStorageWriteMetadata == true || ClearCloudStorageConfig == true || NoClearCloudStorageConfig == true) && (!string.IsNullOrWhiteSpace(CloudStorageBucket) || !string.IsNullOrWhiteSpace(CloudStorageFileDatetimeFormat) || !string.IsNullOrWhiteSpace(CloudStorageFilePrefix) || !string.IsNullOrWhiteSpace(CloudStorageFileSuffix) || !string.IsNullOrWhiteSpace(CloudStorageMaxBytes) || !string.IsNullOrWhiteSpace(CloudStorageMaxDuration) || !string.IsNullOrWhiteSpace(CloudStorageMaxMessages) || (object?)CloudStorageOutputFormat is not null || !string.IsNullOrWhiteSpace(CloudStorageServiceAccountEmail) || CloudStorageUseTopicSchema == true || NoCloudStorageUseTopicSchema == true || CloudStorageWriteMetadata == true || NoCloudStorageWriteMetadata == true) && (!string.IsNullOrWhiteSpace(CloudStorageBucket) || !string.IsNullOrWhiteSpace(CloudStorageFileDatetimeFormat) || !string.IsNullOrWhiteSpace(CloudStorageFilePrefix) || !string.IsNullOrWhiteSpace(CloudStorageFileSuffix) || !string.IsNullOrWhiteSpace(CloudStorageMaxBytes) || !string.IsNullOrWhiteSpace(CloudStorageMaxDuration) || !string.IsNullOrWhiteSpace(CloudStorageMaxMessages) || (object?)CloudStorageOutputFormat is not null || !string.IsNullOrWhiteSpace(CloudStorageServiceAccountEmail) || CloudStorageUseTopicSchema == true || NoCloudStorageUseTopicSchema == true || CloudStorageWriteMetadata == true || NoCloudStorageWriteMetadata == true) && ((CloudStorageUseTopicSchema == true ? 1 : 0) + (NoCloudStorageUseTopicSchema == true ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of CloudStorageUseTopicSchema or NoCloudStorageUseTopicSchema may be specified.", [nameof(CloudStorageUseTopicSchema), nameof(NoCloudStorageUseTopicSchema)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(CloudStorageBucket) || !string.IsNullOrWhiteSpace(CloudStorageFileDatetimeFormat) || !string.IsNullOrWhiteSpace(CloudStorageFilePrefix) || !string.IsNullOrWhiteSpace(CloudStorageFileSuffix) || !string.IsNullOrWhiteSpace(CloudStorageMaxBytes) || !string.IsNullOrWhiteSpace(CloudStorageMaxDuration) || !string.IsNullOrWhiteSpace(CloudStorageMaxMessages) || (object?)CloudStorageOutputFormat is not null || !string.IsNullOrWhiteSpace(CloudStorageServiceAccountEmail) || CloudStorageUseTopicSchema == true || NoCloudStorageUseTopicSchema == true || CloudStorageWriteMetadata == true || NoCloudStorageWriteMetadata == true || ClearCloudStorageConfig == true || NoClearCloudStorageConfig == true) && (!string.IsNullOrWhiteSpace(CloudStorageBucket) || !string.IsNullOrWhiteSpace(CloudStorageFileDatetimeFormat) || !string.IsNullOrWhiteSpace(CloudStorageFilePrefix) || !string.IsNullOrWhiteSpace(CloudStorageFileSuffix) || !string.IsNullOrWhiteSpace(CloudStorageMaxBytes) || !string.IsNullOrWhiteSpace(CloudStorageMaxDuration) || !string.IsNullOrWhiteSpace(CloudStorageMaxMessages) || (object?)CloudStorageOutputFormat is not null || !string.IsNullOrWhiteSpace(CloudStorageServiceAccountEmail) || CloudStorageUseTopicSchema == true || NoCloudStorageUseTopicSchema == true || CloudStorageWriteMetadata == true || NoCloudStorageWriteMetadata == true) && (!string.IsNullOrWhiteSpace(CloudStorageBucket) || !string.IsNullOrWhiteSpace(CloudStorageFileDatetimeFormat) || !string.IsNullOrWhiteSpace(CloudStorageFilePrefix) || !string.IsNullOrWhiteSpace(CloudStorageFileSuffix) || !string.IsNullOrWhiteSpace(CloudStorageMaxBytes) || !string.IsNullOrWhiteSpace(CloudStorageMaxDuration) || !string.IsNullOrWhiteSpace(CloudStorageMaxMessages) || (object?)CloudStorageOutputFormat is not null || !string.IsNullOrWhiteSpace(CloudStorageServiceAccountEmail) || CloudStorageUseTopicSchema == true || NoCloudStorageUseTopicSchema == true || CloudStorageWriteMetadata == true || NoCloudStorageWriteMetadata == true) && ((CloudStorageWriteMetadata == true ? 1 : 0) + (NoCloudStorageWriteMetadata == true ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of CloudStorageWriteMetadata or NoCloudStorageWriteMetadata may be specified.", [nameof(CloudStorageWriteMetadata), nameof(NoCloudStorageWriteMetadata)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(CloudStorageBucket) || !string.IsNullOrWhiteSpace(CloudStorageFileDatetimeFormat) || !string.IsNullOrWhiteSpace(CloudStorageFilePrefix) || !string.IsNullOrWhiteSpace(CloudStorageFileSuffix) || !string.IsNullOrWhiteSpace(CloudStorageMaxBytes) || !string.IsNullOrWhiteSpace(CloudStorageMaxDuration) || !string.IsNullOrWhiteSpace(CloudStorageMaxMessages) || (object?)CloudStorageOutputFormat is not null || !string.IsNullOrWhiteSpace(CloudStorageServiceAccountEmail) || CloudStorageUseTopicSchema == true || NoCloudStorageUseTopicSchema == true || CloudStorageWriteMetadata == true || NoCloudStorageWriteMetadata == true || ClearCloudStorageConfig == true || NoClearCloudStorageConfig == true) && ((ClearCloudStorageConfig == true ? 1 : 0) + (NoClearCloudStorageConfig == true ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearCloudStorageConfig or NoClearCloudStorageConfig may be specified.", [nameof(ClearCloudStorageConfig), nameof(NoClearCloudStorageConfig)]);
+        }
+        if (((!string.IsNullOrWhiteSpace(MaxDeliveryAttempts) || !string.IsNullOrWhiteSpace(DeadLetterTopic) || !string.IsNullOrWhiteSpace(DeadLetterTopicProject)) ? 1 : 0) + ((ClearDeadLetterPolicy == true || NoClearDeadLetterPolicy == true) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of (MaxDeliveryAttempts, DeadLetterTopic, or DeadLetterTopicProject) or (ClearDeadLetterPolicy or NoClearDeadLetterPolicy) may be specified.", [nameof(MaxDeliveryAttempts), nameof(DeadLetterTopic), nameof(DeadLetterTopicProject), nameof(ClearDeadLetterPolicy), nameof(NoClearDeadLetterPolicy)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(MaxDeliveryAttempts) || !string.IsNullOrWhiteSpace(DeadLetterTopic) || !string.IsNullOrWhiteSpace(DeadLetterTopicProject) || ClearDeadLetterPolicy == true || NoClearDeadLetterPolicy == true) && (!string.IsNullOrWhiteSpace(MaxDeliveryAttempts) || !string.IsNullOrWhiteSpace(DeadLetterTopic) || !string.IsNullOrWhiteSpace(DeadLetterTopicProject)) && (!string.IsNullOrWhiteSpace(DeadLetterTopic) || !string.IsNullOrWhiteSpace(DeadLetterTopicProject)) && (!(!string.IsNullOrWhiteSpace(DeadLetterTopic))))
+        {
+            yield return new ValidationResult("DeadLetterTopic must be specified when other arguments in this group are specified.", [nameof(DeadLetterTopic)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(MaxDeliveryAttempts) || !string.IsNullOrWhiteSpace(DeadLetterTopic) || !string.IsNullOrWhiteSpace(DeadLetterTopicProject) || ClearDeadLetterPolicy == true || NoClearDeadLetterPolicy == true) && ((ClearDeadLetterPolicy == true ? 1 : 0) + (NoClearDeadLetterPolicy == true ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearDeadLetterPolicy or NoClearDeadLetterPolicy may be specified.", [nameof(ClearDeadLetterPolicy), nameof(NoClearDeadLetterPolicy)]);
+        }
+        if ((ClearLabels == true ? 1 : 0) + (((object?)RemoveLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveLabels is not string || !string.IsNullOrWhiteSpace(RemoveLabels?.ToString()) : ((object?)RemoveLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveLabels, static item => item is not null) : (RemoveLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveLabels), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearLabels or RemoveLabels may be specified.", [nameof(ClearLabels), nameof(RemoveLabels)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(MessageTransformsFile) ? 1 : 0) + ((ClearMessageTransforms == true || NoClearMessageTransforms == true) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of MessageTransformsFile or (ClearMessageTransforms or NoClearMessageTransforms) may be specified.", [nameof(MessageTransformsFile), nameof(ClearMessageTransforms), nameof(NoClearMessageTransforms)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(MessageTransformsFile) || ClearMessageTransforms == true || NoClearMessageTransforms == true) && ((ClearMessageTransforms == true ? 1 : 0) + (NoClearMessageTransforms == true ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearMessageTransforms or NoClearMessageTransforms may be specified.", [nameof(ClearMessageTransforms), nameof(NoClearMessageTransforms)]);
+        }
+        if (((!string.IsNullOrWhiteSpace(MaxRetryDelay) || !string.IsNullOrWhiteSpace(MinRetryDelay)) ? 1 : 0) + ((ClearRetryPolicy == true || NoClearRetryPolicy == true) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of (MaxRetryDelay or MinRetryDelay) or (ClearRetryPolicy or NoClearRetryPolicy) may be specified.", [nameof(MaxRetryDelay), nameof(MinRetryDelay), nameof(ClearRetryPolicy), nameof(NoClearRetryPolicy)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(MaxRetryDelay) || !string.IsNullOrWhiteSpace(MinRetryDelay) || ClearRetryPolicy == true || NoClearRetryPolicy == true) && ((ClearRetryPolicy == true ? 1 : 0) + (NoClearRetryPolicy == true ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearRetryPolicy or NoClearRetryPolicy may be specified.", [nameof(ClearRetryPolicy), nameof(NoClearRetryPolicy)]);
+        }
+        if (((PushNoWrapper == true || NoPushNoWrapper == true || PushNoWrapperWriteMetadata == true || NoPushNoWrapperWriteMetadata == true) ? 1 : 0) + ((ClearPushNoWrapperConfig == true || NoClearPushNoWrapperConfig == true) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of (PushNoWrapper, NoPushNoWrapper, PushNoWrapperWriteMetadata, or NoPushNoWrapperWriteMetadata) or (ClearPushNoWrapperConfig or NoClearPushNoWrapperConfig) may be specified.", [nameof(PushNoWrapper), nameof(NoPushNoWrapper), nameof(PushNoWrapperWriteMetadata), nameof(NoPushNoWrapperWriteMetadata), nameof(ClearPushNoWrapperConfig), nameof(NoClearPushNoWrapperConfig)]);
+        }
+        if ((PushNoWrapper == true || NoPushNoWrapper == true || PushNoWrapperWriteMetadata == true || NoPushNoWrapperWriteMetadata == true || ClearPushNoWrapperConfig == true || NoClearPushNoWrapperConfig == true) && (PushNoWrapper == true || NoPushNoWrapper == true || PushNoWrapperWriteMetadata == true || NoPushNoWrapperWriteMetadata == true) && (PushNoWrapper == true || NoPushNoWrapper == true || PushNoWrapperWriteMetadata == true || NoPushNoWrapperWriteMetadata == true) && ((PushNoWrapper == true ? 1 : 0) + (NoPushNoWrapper == true ? 1 : 0) != 1))
+        {
+            yield return new ValidationResult("Exactly one of PushNoWrapper or NoPushNoWrapper must be specified.", [nameof(PushNoWrapper), nameof(NoPushNoWrapper)]);
+        }
+        if ((PushNoWrapper == true || NoPushNoWrapper == true || PushNoWrapperWriteMetadata == true || NoPushNoWrapperWriteMetadata == true || ClearPushNoWrapperConfig == true || NoClearPushNoWrapperConfig == true) && (PushNoWrapper == true || NoPushNoWrapper == true || PushNoWrapperWriteMetadata == true || NoPushNoWrapperWriteMetadata == true) && (PushNoWrapper == true || NoPushNoWrapper == true || PushNoWrapperWriteMetadata == true || NoPushNoWrapperWriteMetadata == true) && ((PushNoWrapperWriteMetadata == true ? 1 : 0) + (NoPushNoWrapperWriteMetadata == true ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of PushNoWrapperWriteMetadata or NoPushNoWrapperWriteMetadata may be specified.", [nameof(PushNoWrapperWriteMetadata), nameof(NoPushNoWrapperWriteMetadata)]);
+        }
+        if ((PushNoWrapper == true || NoPushNoWrapper == true || PushNoWrapperWriteMetadata == true || NoPushNoWrapperWriteMetadata == true || ClearPushNoWrapperConfig == true || NoClearPushNoWrapperConfig == true) && ((ClearPushNoWrapperConfig == true ? 1 : 0) + (NoClearPushNoWrapperConfig == true ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearPushNoWrapperConfig or NoClearPushNoWrapperConfig may be specified.", [nameof(ClearPushNoWrapperConfig), nameof(NoClearPushNoWrapperConfig)]);
+        }
+        yield break;
+    }
 
 }

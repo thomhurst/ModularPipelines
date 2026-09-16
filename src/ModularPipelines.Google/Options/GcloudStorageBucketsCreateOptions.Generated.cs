@@ -20,15 +20,41 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "buckets", "create")]
-public record GcloudStorageBucketsCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Url
-) : GcloudOptions
+public record GcloudStorageBucketsCreateOptions : GcloudOptions
 {
     /// <summary>
-    /// Includes arbitrary headers in storage API calls. Accepts a comma separated list of key=value pairs, e.g. header1=value1,header2=value2. Overrides the default storage/additional_headers property value for this command invocation.
+    /// create buckets for storing objects
     /// </summary>
-    [CliOption("--additional-headers", Format = OptionFormat.EqualsSeparated)]
-    public string? AdditionalHeaders { get; set; }
+    /// <param name="Url">The URLs of the buckets to create.</param>
+    public GcloudStorageBucketsCreateOptions(
+        IEnumerable<string> Url
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Url);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Url));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Url));
+            }
+
+            Url = materialized;
+        }
+        this.Url = Url;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Url)
+    {
+        Url = this.Url;
+    }
+
+    /// <summary>
+    /// Includes arbitrary headers in storage API calls. Accepts a comma separated list of key=value pairs, e.g. header1=value1,header2=value2. Overrides the default storage/additional_headers property value for this command invocation. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--additional-headers", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AdditionalHeaders { get; set; }
 
     /// <summary>
     /// Set the default KMS key using the full path to the key, which has the following form: projects/[project-id]/locations/[location]/keyRings/[key-ring]/cryptoKeys/[my-key].
@@ -79,9 +105,9 @@ public record GcloudStorageBucketsCreateOptions(
     public string? Location { get; set; }
 
     /// <summary>
-    /// --[no-]pap, --[no-]public-access-prevention Sets public access prevention to "enforced". For details on how exactly public access is blocked, see: http://cloud.google.com/storage/docs/public-access-prevention. Use --public-access-prevention to enable and --no-public-access-prevention to disable. A comma-separated list of regions that form the custom dual-region (https://cloud.google.com/storage/docs/locations#location-dr). Only regions within the same continent are or will ever be valid. Invalid location pairs (such as mixed-continent, or with unsupported regions) will return an error.
+    /// --[no-]pap, --[no-]public-access-prevention Sets public access prevention to "enforced". For details on how exactly public access is blocked, see: http://cloud.google.com/storage/docs/public-access-prevention. Use --public-access-prevention to enable and --no-public-access-prevention to disable. A comma-separated list of regions that form the custom dual-region (https://cloud.google.com/storage/docs/locations#location-dr). Only regions within the same continent are or will ever be valid. Invalid location pairs (such as mixed-continent, or with unsupported regions) will return an error. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--placement", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--placement", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Placement { get; set; }
 
     /// <summary>
@@ -113,5 +139,11 @@ public record GcloudStorageBucketsCreateOptions(
     /// </summary>
     [CliFlag("--no-uniform-bucket-level-access")]
     public bool? NoUniformBucketLevelAccess { get; set; }
+
+    /// <summary>
+    /// The URLs of the buckets to create.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> Url { get; private init; }
 
 }

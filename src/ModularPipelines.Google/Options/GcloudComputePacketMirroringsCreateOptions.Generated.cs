@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,117 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "packet-mirrorings", "create")]
-public record GcloudComputePacketMirroringsCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudComputePacketMirroringsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a Compute Engine packet     mirroring policy
+    /// </summary>
+    /// <param name="CollectorIlb">Forwarding rule configured as collector. This must be a regional forwarding rule (in the same region) with load balancing scheme INTERNAL and isMirroringCollector set to true. You can provide this as the full URL to the forwarding rule, partial URL, or name. For example, the following are valid values: ◆ https://compute.googleapis.com/compute/v1/projects/myproject/ regions/us-central1/forwardingRules/fr-1 ◆ projects/myproject/regions/us-central1/forwardingRules/fr-1 ◆ fr-1</param>
+    /// <param name="Network">Network for this packet mirroring. Only the packets in this network will be mirrored. It is mandatory that all mirrored VMs have a network interface controller (NIC) in the given network. All mirrored subnetworks should belong to the given network. You can provide this as the full URL to the network, partial URL, or name. For example, the following are valid values: ◆ https://compute.googleapis.com/compute/v1/projects/myproject/ global/networks/network-1 ◆ projects/myproject/global/networks/network-1 ◆ network-1</param>
+    /// <param name="Name">Name of the packet mirroring to create.</param>
+    public GcloudComputePacketMirroringsCreateOptions(
+        string CollectorIlb,
+        string Network,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CollectorIlb);
+        this.CollectorIlb = CollectorIlb;
+        global::System.ArgumentNullException.ThrowIfNull(Network);
+        this.Network = Network;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string CollectorIlb, out string Network, out string Name)
+    {
+        CollectorIlb = this.CollectorIlb;
+        Network = this.Network;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Forwarding rule configured as collector. This must be a regional forwarding rule (in the same region) with load balancing scheme INTERNAL and isMirroringCollector set to true. You can provide this as the full URL to the forwarding rule, partial URL, or name. For example, the following are valid values: ◆ https://compute.googleapis.com/compute/v1/projects/myproject/ regions/us-central1/forwardingRules/fr-1 ◆ projects/myproject/regions/us-central1/forwardingRules/fr-1 ◆ fr-1
+    /// </summary>
+    [CliOption("--collector-ilb", Format = OptionFormat.EqualsSeparated)]
+    public string CollectorIlb { get; private init; }
+
+    /// <summary>
+    /// Network for this packet mirroring. Only the packets in this network will be mirrored. It is mandatory that all mirrored VMs have a network interface controller (NIC) in the given network. All mirrored subnetworks should belong to the given network. You can provide this as the full URL to the network, partial URL, or name. For example, the following are valid values: ◆ https://compute.googleapis.com/compute/v1/projects/myproject/ global/networks/network-1 ◆ projects/myproject/global/networks/network-1 ◆ network-1
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string Network { get; private init; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Optional, textual description for the packet mirroring.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Enable or disable the packet-mirroring. Enabled by default, use --no-enable to disable.
+    /// </summary>
+    [CliFlag("--enable")]
+    public bool? Enable { get; set; }
+
+    /// <summary>
+    /// Negates --enable. Enable or disable the packet-mirroring. Enabled by default, use --no-enable to disable.
+    /// </summary>
+    [CliFlag("--no-enable")]
+    public bool? NoEnable { get; set; }
+
+    /// <summary>
+    /// One or more IPv4 or IPv6 CIDR ranges that apply as filters on the source (ingress) or destination (egress) IP in the IP header. If no ranges are specified, all IPv4 traffic that matches the specified IPProtocols is mirrored. If neither cidrRanges nor IPProtocols is specified, all IPv4 traffic is mirrored. To mirror all IPv4 and IPv6 traffic, use 0.0.0.0/0,::/0 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--filter-cidr-ranges", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? FilterCidrRanges { get; set; }
+
+    /// <summary>
+    /// ◆ For ingress, only ingress traffic is mirrored. ◆ For egress, only egress traffic is mirrored. ◆ For both (default), both directions are mirrored. DIRECTION must be one of: both, egress, ingress.
+    /// </summary>
+    [CliOption("--filter-direction", Format = OptionFormat.EqualsSeparated)]
+    public GcloudFilterDirection? FilterDirection { get; set; }
+
+    /// <summary>
+    /// List of IP protocols that apply as filters for packet mirroring traffic. If unspecified, the packet mirroring applies to all traffic. PROTOCOL can be one of tcp, udp, icmp, esp, ah, ipip, sctp, or an IANA protocol number. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--filter-protocols", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? FilterProtocols { get; set; }
+
+    /// <summary>
+    /// List of instances to be mirrored. You can provide this as the full or valid partial URL to the instance. For example, the following are valid values: ◆ https://compute.googleapis.com/compute/v1/projects/myproject/ zones/us-central1-a/instances/instance- ◆ projects/myproject/zones/us-central1-a/instances/instance-1 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--mirrored-instances", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? MirroredInstances { get; set; }
+
+    /// <summary>
+    /// List of subnets to be mirrored. You can provide this as the full URL to the subnet, partial URL, or name. For example, the following are valid values: ◆ https://compute.googleapis.com/compute/v1/projects/myproject/ regions/us-central1/subnetworks/subnet-1 ◆ projects/myproject/regions/us-central1/subnetworks/subnet-1 ◆ subnet-1 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--mirrored-subnets", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? MirroredSubnets { get; set; }
+
+    /// <summary>
+    /// List of virtual machine instance tags to be mirrored. To read more about configuring network tags, read this guide: https://cloud.google.com/vpc/docs/add-remove-network-tags The virtual machines with the provided tags must live in zones contained in the same region as this packet mirroring. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--mirrored-tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? MirroredTags { get; set; }
+
+    /// <summary>
+    /// Region of the packet mirroring to create. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Name of the packet mirroring to create.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }

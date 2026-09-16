@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "interconnects", "macsec", "update")]
-public record GcloudPreviewComputeInterconnectsMacsecUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputeInterconnectsMacsecUpdateOptions : GcloudOptions
 {
+    /// <summary>
+    /// update a Compute     Engine interconnect MACsec configuration
+    /// </summary>
+    /// <param name="Name">Name of the interconnect to update.</param>
+    public GcloudPreviewComputeInterconnectsMacsecUpdateOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// Enable or disable MACsec on this Interconnect. MACsec enablement will fail if the MACsec configuration is not specified. Use --no-enabled to disable it.
     /// </summary>
@@ -46,5 +61,11 @@ public record GcloudPreviewComputeInterconnectsMacsecUpdateOptions(
     /// </summary>
     [CliFlag("--no-fail-open")]
     public bool? NoFailOpen { get; set; }
+
+    /// <summary>
+    /// Name of the interconnect to update.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
 
 }

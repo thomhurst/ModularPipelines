@@ -19,14 +19,35 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dns", "managed-zones", "delete")]
-public record GcloudDnsManagedZonesDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ZoneName
-) : GcloudOptions
+public record GcloudDnsManagedZonesDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// zone
+    /// </summary>
+    /// <param name="ZoneName">The name of the empty managed-zone to be deleted.</param>
+    public GcloudDnsManagedZonesDeleteOptions(
+        string ZoneName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ZoneName);
+        this.ZoneName = ZoneName;
+    }
+
+    public void Deconstruct(out string ZoneName)
+    {
+        ZoneName = this.ZoneName;
+    }
+
     /// <summary>
     /// Specifies the desired service location the request is sent to. Defaults to Cloud DNS global service. Use --location=global if you want to target the global service.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
+
+    /// <summary>
+    /// The name of the empty managed-zone to be deleted.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ZoneName { get; private init; }
 
 }

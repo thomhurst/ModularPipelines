@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +23,91 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("network-security", "org-address-groups", "create")]
 public record GcloudNetworkSecurityOrgAddressGroupsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create an address group
+    /// </summary>
+    /// <param name="Capacity">Capacity of the address group.</param>
+    /// <param name="Type">Type of the address group. TYPE must be one of: ipv4, ipv6.</param>
+    /// <param name="AddressGroup">Address group resource - Name of the address group to be created. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the address group or fully qualified identifier for the address group. To set the address_group attribute: ▸ provide the argument address_group on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetworkSecurityOrgAddressGroupsCreateOptions(
+        string Capacity,
+        GcloudType Type,
+        string AddressGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Capacity);
+        this.Capacity = Capacity;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+        global::System.ArgumentNullException.ThrowIfNull(AddressGroup);
+        this.AddressGroup = AddressGroup;
+    }
+
+    public void Deconstruct(out string Capacity, out GcloudType Type, out string AddressGroup)
+    {
+        Capacity = this.Capacity;
+        Type = this.Type;
+        AddressGroup = this.AddressGroup;
+    }
+
+    /// <summary>
+    /// Capacity of the address group.
+    /// </summary>
+    [CliOption("--capacity", Format = OptionFormat.EqualsSeparated)]
+    public string Capacity { get; private init; }
+
+    /// <summary>
+    /// Type of the address group. TYPE must be one of: ipv4, ipv6.
+    /// </summary>
+    [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudType Type { get; private init; }
+
+    /// <summary>
+    /// Address group resource - Name of the address group to be created. The arguments in this group can be used to specify the attributes of this resource. This must be specified. The location Id. To set the location attribute: ▸ provide the argument address_group on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Address group resource - Name of the address group to be created. The arguments in this group can be used to specify the attributes of this resource. This must be specified. Organization number. To set the organization attribute: ▸ provide the argument address_group on the command line with a fully specified name; ▸ provide the argument --organization on the command line.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Description of the address group.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Items of the address group. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--items", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Items { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// List of Address Group purposes. PURPOSE must be one of: cloud-armor, default.
+    /// </summary>
+    [CliOption("--purpose", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<GcloudPurpose>? Purpose { get; set; }
+
+    /// <summary>
+    /// Address group resource - Name of the address group to be created. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the address group or fully qualified identifier for the address group. To set the address_group attribute: ▸ provide the argument address_group on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string AddressGroup { get; private init; }
+
 }

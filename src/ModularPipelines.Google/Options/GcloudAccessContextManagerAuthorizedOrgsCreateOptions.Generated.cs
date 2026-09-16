@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +22,78 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("access-context-manager", "authorized-orgs", "create")]
 public record GcloudAccessContextManagerAuthorizedOrgsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a new     authorized organizations description
+    /// </summary>
+    /// <param name="AssetType">The asset type of this authorized organizations description. For example, device, or credential strength. ASSET_TYPE must be one of: asset-type-credential-strength, asset-type-device, asset-type-unspecified.</param>
+    /// <param name="AuthorizationDirection">Authorization direction of this authorization relationship. Specifies whether to allow specified organizations to evaluate this organization's traffic, or allow specified organizations traffic to be evaluated by this org. AUTHORIZATION_DIRECTION must be one of: authorization-direction-from, authorization-direction-to, authorization-direction-unspecified.</param>
+    /// <param name="AuthorizationType">The authorization type of the authorized organizations description. For example, trust, troubleshooting or logging. AUTHORIZATION_TYPE must be one of: authorization-type-trust, authorization-type-unspecified.</param>
+    /// <param name="AuthorizedOrgsDesc">Authorized orgs desc resource - The authorized organizations description to create. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the authorized-orgs-desc or fully qualified identifier for the authorized-orgs-desc. To set the authorized_orgs_desc attribute: ▸ provide the argument authorized_orgs_desc on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudAccessContextManagerAuthorizedOrgsCreateOptions(
+        GcloudAssetType AssetType,
+        string AuthorizationDirection,
+        string AuthorizationType,
+        string AuthorizedOrgsDesc
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AssetType);
+        this.AssetType = AssetType;
+        global::System.ArgumentNullException.ThrowIfNull(AuthorizationDirection);
+        this.AuthorizationDirection = AuthorizationDirection;
+        global::System.ArgumentNullException.ThrowIfNull(AuthorizationType);
+        this.AuthorizationType = AuthorizationType;
+        global::System.ArgumentNullException.ThrowIfNull(AuthorizedOrgsDesc);
+        this.AuthorizedOrgsDesc = AuthorizedOrgsDesc;
+    }
+
+    public void Deconstruct(out GcloudAssetType AssetType, out string AuthorizationDirection, out string AuthorizationType, out string AuthorizedOrgsDesc)
+    {
+        AssetType = this.AssetType;
+        AuthorizationDirection = this.AuthorizationDirection;
+        AuthorizationType = this.AuthorizationType;
+        AuthorizedOrgsDesc = this.AuthorizedOrgsDesc;
+    }
+
+    /// <summary>
+    /// The asset type of this authorized organizations description. For example, device, or credential strength. ASSET_TYPE must be one of: asset-type-credential-strength, asset-type-device, asset-type-unspecified.
+    /// </summary>
+    [CliOption("--asset_type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudAssetType AssetType { get; private init; }
+
+    /// <summary>
+    /// Authorization direction of this authorization relationship. Specifies whether to allow specified organizations to evaluate this organization's traffic, or allow specified organizations traffic to be evaluated by this org. AUTHORIZATION_DIRECTION must be one of: authorization-direction-from, authorization-direction-to, authorization-direction-unspecified.
+    /// </summary>
+    [CliOption("--authorization_direction", Format = OptionFormat.EqualsSeparated)]
+    public string AuthorizationDirection { get; private init; }
+
+    /// <summary>
+    /// The authorization type of the authorized organizations description. For example, trust, troubleshooting or logging. AUTHORIZATION_TYPE must be one of: authorization-type-trust, authorization-type-unspecified.
+    /// </summary>
+    [CliOption("--authorization_type", Format = OptionFormat.EqualsSeparated)]
+    public string AuthorizationType { get; private init; }
+
+    /// <summary>
+    /// Authorized orgs desc resource - The authorized organizations description to create. The arguments in this group can be used to specify the attributes of this resource. This must be specified. The ID of the access policy. To set the policy attribute: ▸ provide the argument authorized_orgs_desc on the command line with a fully specified name; ▸ provide the argument --policy on the command line; ▸ set the property access_context_manager/policy; ▸ automatically, if the current account belongs to an organization with exactly one access policy..
+    /// </summary>
+    [CliOption("--policy", Format = OptionFormat.EqualsSeparated)]
+    public string? Policy { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Comma-separated list of organizations (in the following format: organizations/&lt;organizationnumber&gt;). Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--orgs", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Orgs { get; set; }
+
+    /// <summary>
+    /// Authorized orgs desc resource - The authorized organizations description to create. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the authorized-orgs-desc or fully qualified identifier for the authorized-orgs-desc. To set the authorized_orgs_desc attribute: ▸ provide the argument authorized_orgs_desc on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string AuthorizedOrgsDesc { get; private init; }
+
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,10 +20,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "backend-buckets", "describe")]
-public record GcloudComputeBackendBucketsDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string BackendBucketName
-) : GcloudOptions
+public record GcloudComputeBackendBucketsDescribeOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// describe a backend bucket
+    /// </summary>
+    /// <param name="BackendBucketName">Name of the backend bucket to describe.</param>
+    public GcloudComputeBackendBucketsDescribeOptions(
+        string BackendBucketName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BackendBucketName);
+        this.BackendBucketName = BackendBucketName;
+    }
+
+    public void Deconstruct(out string BackendBucketName)
+    {
+        BackendBucketName = this.BackendBucketName;
+    }
+
     /// <summary>
     /// At most one of these can be specified: If set, the backend bucket is global.
     /// </summary>
@@ -34,5 +50,21 @@ public record GcloudComputeBackendBucketsDescribeOptions(
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
+
+    /// <summary>
+    /// Name of the backend bucket to describe.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string BackendBucketName { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((Global == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(Region) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Global or Region may be specified.", [nameof(Global), nameof(Region)]);
+        }
+        yield break;
+    }
 
 }

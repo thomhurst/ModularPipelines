@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -21,10 +22,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "resource-policies", "update", "snapshot-schedule")]
-public record GcloudComputeResourcePoliciesUpdateSnapshotScheduleOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudComputeResourcePoliciesUpdateSnapshotScheduleOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a     Compute Engine Snapshot Schedule Resource Policy
+    /// </summary>
+    /// <param name="Name">Name of the resource policy to operate on.</param>
+    public GcloudComputeResourcePoliciesUpdateSnapshotScheduleOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// An optional, textual description for the backend.
     /// </summary>
@@ -50,9 +66,9 @@ public record GcloudComputeResourcePoliciesUpdateSnapshotScheduleOptions(
     public string? Region { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. The label is added to each snapshot created by the schedule.
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. The label is added to each snapshot created by the schedule. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--snapshot-labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--snapshot-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? SnapshotLabels { get; set; }
 
     /// <summary>
@@ -62,27 +78,51 @@ public record GcloudComputeResourcePoliciesUpdateSnapshotScheduleOptions(
     public string? WeeklyScheduleFromFile { get; set; }
 
     /// <summary>
-    /// Using command flags: Start time for the disk snapshot schedule in UTC. For example, --start-time="15:00". This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Cycle Frequency Group. At most one of these can be specified: Using command flags: Start time for the disk snapshot schedule in UTC. For example, --start-time="15:00". This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--start-time", Format = OptionFormat.EqualsSeparated)]
     public string? StartTime { get; set; }
 
     /// <summary>
-    /// Using command flags: Exactly one of these must be specified: Snapshot schedule starts daily at START_TIME.
+    /// Cycle Frequency Group. At most one of these can be specified: Using command flags: Exactly one of these must be specified: Snapshot schedule starts daily at START_TIME.
     /// </summary>
     [CliFlag("--daily-schedule")]
     public bool? DailySchedule { get; set; }
 
     /// <summary>
-    /// Using command flags: Exactly one of these must be specified: Snapshot schedule occurs every n hours starting at START_TIME.
+    /// Cycle Frequency Group. At most one of these can be specified: Using command flags: Exactly one of these must be specified: Snapshot schedule occurs every n hours starting at START_TIME.
     /// </summary>
     [CliOption("--hourly-schedule", Format = OptionFormat.EqualsSeparated)]
     public string? HourlySchedule { get; set; }
 
     /// <summary>
-    /// Using command flags: Exactly one of these must be specified: Snapshot schedule occurs weekly on WEEKLY_SCHEDULE at START_TIME. WEEKLY_CYCLE must be one of: monday, tuesday, wednesday, thursday, friday, saturday, sunday.
+    /// Cycle Frequency Group. At most one of these can be specified: Using command flags: Exactly one of these must be specified: Snapshot schedule occurs weekly on WEEKLY_SCHEDULE at START_TIME. WEEKLY_CYCLE must be one of: monday, tuesday, wednesday, thursday, friday, saturday, sunday.
     /// </summary>
     [CliOption("--weekly-schedule", Format = OptionFormat.EqualsSeparated)]
     public GcloudWeeklySchedule? WeeklySchedule { get; set; }
+
+    /// <summary>
+    /// Name of the resource policy to operate on.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (((!string.IsNullOrWhiteSpace(WeeklyScheduleFromFile)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(StartTime) || DailySchedule == true || !string.IsNullOrWhiteSpace(HourlySchedule) || (object?)WeeklySchedule is not null) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of (WeeklyScheduleFromFile) or (StartTime, DailySchedule, HourlySchedule, or WeeklySchedule) may be specified.", [nameof(WeeklyScheduleFromFile), nameof(StartTime), nameof(DailySchedule), nameof(HourlySchedule), nameof(WeeklySchedule)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(WeeklyScheduleFromFile) || !string.IsNullOrWhiteSpace(StartTime) || DailySchedule == true || !string.IsNullOrWhiteSpace(HourlySchedule) || (object?)WeeklySchedule is not null) && (!string.IsNullOrWhiteSpace(StartTime) || DailySchedule == true || !string.IsNullOrWhiteSpace(HourlySchedule) || (object?)WeeklySchedule is not null) && (!(!string.IsNullOrWhiteSpace(StartTime))))
+        {
+            yield return new ValidationResult("StartTime must be specified when other arguments in this group are specified.", [nameof(StartTime)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(WeeklyScheduleFromFile) || !string.IsNullOrWhiteSpace(StartTime) || DailySchedule == true || !string.IsNullOrWhiteSpace(HourlySchedule) || (object?)WeeklySchedule is not null) && (!string.IsNullOrWhiteSpace(StartTime) || DailySchedule == true || !string.IsNullOrWhiteSpace(HourlySchedule) || (object?)WeeklySchedule is not null) && ((DailySchedule == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(HourlySchedule) ? 1 : 0) + ((object?)WeeklySchedule is not null ? 1 : 0) != 1))
+        {
+            yield return new ValidationResult("Exactly one of DailySchedule, HourlySchedule, or WeeklySchedule must be specified.", [nameof(DailySchedule), nameof(HourlySchedule), nameof(WeeklySchedule)]);
+        }
+        yield break;
+    }
 
 }

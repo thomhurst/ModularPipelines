@@ -19,8 +19,46 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "hub", "packages", "create")]
-public record GcloudContainerHubPackagesCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudContainerHubPackagesCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create Package Rollouts Fleet     Package
+    /// </summary>
+    /// <param name="Source">Source file containing Fleet Package configuration.</param>
+    /// <param name="Name">Resource name.</param>
+    public GcloudContainerHubPackagesCreateOptions(
+        string Source,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Source);
+        this.Source = Source;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Source, out string Name)
+    {
+        Source = this.Source;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Source file containing Fleet Package configuration.
+    /// </summary>
+    [CliOption("--source", Format = OptionFormat.EqualsSeparated)]
+    public string Source { get; private init; }
+
+    /// <summary>
+    /// Google Cloud zone or region.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Resource name.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }

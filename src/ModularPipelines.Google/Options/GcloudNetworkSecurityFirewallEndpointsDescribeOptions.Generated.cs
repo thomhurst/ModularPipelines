@@ -22,9 +22,44 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetworkSecurityFirewallEndpointsDescribeOptions : GcloudOptions
 {
     /// <summary>
+    /// describe a Firewall     Plus endpoint
+    /// </summary>
+    /// <param name="FirewallEndpoint">Firewall endpoint resource - Firewall Plus. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument FIREWALL_ENDPOINT on the command line with a fully specified name; ◆ set the property core/project. This resource can be one of the following types: [networksecurity.organizations.locations.firewallEndpoints, networksecurity.projects.locations.firewallEndpoints]. This must be specified. ID of the firewall endpoint or fully qualified identifier for the firewall endpoint. To set the endpoint-name attribute: ▸ provide the argument FIREWALL_ENDPOINT on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetworkSecurityFirewallEndpointsDescribeOptions(
+        string FirewallEndpoint
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FirewallEndpoint);
+        this.FirewallEndpoint = FirewallEndpoint;
+    }
+
+    public void Deconstruct(out string FirewallEndpoint)
+    {
+        FirewallEndpoint = this.FirewallEndpoint;
+    }
+
+    /// <summary>
+    /// Firewall endpoint resource - Firewall Plus. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument FIREWALL_ENDPOINT on the command line with a fully specified name; ◆ set the property core/project. This resource can be one of the following types: [networksecurity.organizations.locations.firewallEndpoints, networksecurity.projects.locations.firewallEndpoints]. This must be specified. Organization ID of the firewall endpoint. To set the organization attribute: ▸ provide the argument FIREWALL_ENDPOINT on the command line with a fully specified name; ▸ provide the argument --organization on the command line. Must be specified for resource of type [networksecurity.organizations.locations.firewallEndpoints].
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Firewall endpoint resource - Firewall Plus. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument FIREWALL_ENDPOINT on the command line with a fully specified name; ◆ set the property core/project. This resource can be one of the following types: [networksecurity.organizations.locations.firewallEndpoints, networksecurity.projects.locations.firewallEndpoints]. This must be specified. Zone of the firewall endpoint. To set the zone attribute: ▸ provide the argument FIREWALL_ENDPOINT on the command line with a fully specified name; ▸ provide the argument --zone on the command line; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <summary>
     /// Location of the endpoint
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
+
+    /// <summary>
+    /// Firewall endpoint resource - Firewall Plus. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument FIREWALL_ENDPOINT on the command line with a fully specified name; ◆ set the property core/project. This resource can be one of the following types: [networksecurity.organizations.locations.firewallEndpoints, networksecurity.projects.locations.firewallEndpoints]. This must be specified. ID of the firewall endpoint or fully qualified identifier for the firewall endpoint. To set the endpoint-name attribute: ▸ provide the argument FIREWALL_ENDPOINT on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string FirewallEndpoint { get; private init; }
 
 }

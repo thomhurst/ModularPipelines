@@ -13,11 +13,35 @@ using ModularPipelines.Google.Options;
 
 namespace ModularPipelines.Google.Options;
 
+/// <summary>
+/// Options for gcloud preview compute interconnects attachments groups get-operational-status.
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "interconnects", "attachments", "groups", "get-operational-status")]
-public record GcloudPreviewComputeInterconnectsAttachmentsGroupsGetOperationalStatusOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputeInterconnectsAttachmentsGroupsGetOperationalStatusOptions : GcloudOptions
 {
+    /// <summary>
+    /// Options for gcloud preview compute interconnects attachments groups get-operational-status.
+    /// </summary>
+    /// <param name="Name">Name of the interconnect attachment group to get operational status.</param>
+    public GcloudPreviewComputeInterconnectsAttachmentsGroupsGetOperationalStatusOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Name of the interconnect attachment group to get operational status.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }

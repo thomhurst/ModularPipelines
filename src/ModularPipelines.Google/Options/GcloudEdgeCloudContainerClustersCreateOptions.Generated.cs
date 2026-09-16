@@ -23,6 +23,29 @@ namespace ModularPipelines.Google.Options;
 public record GcloudEdgeCloudContainerClustersCreateOptions : GcloudOptions
 {
     /// <summary>
+    /// create an Edge Container     cluster
+    /// </summary>
+    /// <param name="Cluster">Cluster resource - Edge Container cluster to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the cluster or fully qualified identifier for the cluster. To set the cluster attribute: ▸ provide the argument cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudEdgeCloudContainerClustersCreateOptions(
+        string Cluster
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Cluster);
+        this.Cluster = Cluster;
+    }
+
+    public void Deconstruct(out string Cluster)
+    {
+        Cluster = this.Cluster;
+    }
+
+    /// <summary>
+    /// Cluster resource - Edge Container cluster to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Google Cloud location for the cluster. To set the location attribute: ▸ provide the argument cluster on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Username (Google email address) of the user who should be granted cluster-admin initially. This currently supports exactly one admin. If not set, the account issuing the creation request will be used by default.
     /// </summary>
     [CliOption("--admin-users", Format = OptionFormat.EqualsSeparated)]
@@ -101,9 +124,9 @@ public record GcloudEdgeCloudContainerClustersCreateOptions : GcloudOptions
     public bool? EnableGoogleGroupAuthentication { get; set; }
 
     /// <summary>
-    /// IPv4 address pools that are used for data plane load balancing of local control plane clusters. Existing pools cannot be updated after cluster creation; only adding new pools is allowed. Each address pool must be specified as one of the following two types of values: 1. A IPv4 address range, for example, "10.0.0.1-10.0.0.10". A range that contains a single IP (e.g. "10.0.0.1-10.0.0.1") is allowed. 2. A IPv4 CIDR block, for example, "10.0.0.1/24" Use comma when specifying multiple address pools, for example: --external-lb-ipv4-address-pools 10.0.0.1-10.0.0.10,10.0.0.1/24
+    /// IPv4 address pools that are used for data plane load balancing of local control plane clusters. Existing pools cannot be updated after cluster creation; only adding new pools is allowed. Each address pool must be specified as one of the following two types of values: 1. A IPv4 address range, for example, "10.0.0.1-10.0.0.10". A range that contains a single IP (e.g. "10.0.0.1-10.0.0.1") is allowed. 2. A IPv4 CIDR block, for example, "10.0.0.1/24" Use comma when specifying multiple address pools, for example: --external-lb-ipv4-address-pools 10.0.0.1-10.0.0.10,10.0.0.1/24 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--external-lb-ipv4-address-pools", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--external-lb-ipv4-address-pools", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ExternalLbIpv4AddressPools { get; set; }
 
     /// <summary>
@@ -113,9 +136,9 @@ public record GcloudEdgeCloudContainerClustersCreateOptions : GcloudOptions
     public string? FleetProject { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
@@ -177,5 +200,11 @@ public record GcloudEdgeCloudContainerClustersCreateOptions : GcloudOptions
     /// </summary>
     [CliOption("--zone-storage-kms-key", Format = OptionFormat.EqualsSeparated)]
     public string? ZoneStorageKmsKey { get; set; }
+
+    /// <summary>
+    /// Cluster resource - Edge Container cluster to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the cluster or fully qualified identifier for the cluster. To set the cluster attribute: ▸ provide the argument cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Cluster { get; private init; }
 
 }

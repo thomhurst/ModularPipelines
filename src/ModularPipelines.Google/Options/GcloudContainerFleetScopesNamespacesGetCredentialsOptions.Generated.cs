@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "fleet", "scopes", "namespaces", "get-credentials")]
-public record GcloudContainerFleetScopesNamespacesGetCredentialsOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Namespace
-) : GcloudOptions
+public record GcloudContainerFleetScopesNamespacesGetCredentialsOptions : GcloudOptions
 {
+    /// <summary>
+    /// fetch     credentials for a membership with a particular namespace
+    /// </summary>
+    /// <param name="Namespace">Name of the namespace for which to get access to memberships.</param>
+    public GcloudContainerFleetScopesNamespacesGetCredentialsOptions(
+        string Namespace
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Namespace);
+        this.Namespace = Namespace;
+    }
+
+    public void Deconstruct(out string Namespace)
+    {
+        Namespace = this.Namespace;
+    }
+
     /// <summary>
     /// Membership ID to get credentials from. If not provided, a prompt will offer a list of memberships in the fleet.
     /// </summary>
@@ -40,5 +55,11 @@ public record GcloudContainerFleetScopesNamespacesGetCredentialsOptions(
     /// </summary>
     [CliOption("--set-namespace-in-config", Format = OptionFormat.EqualsSeparated)]
     public string? SetNamespaceInConfig { get; set; }
+
+    /// <summary>
+    /// Name of the namespace for which to get access to memberships.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Namespace { get; private init; }
 
 }

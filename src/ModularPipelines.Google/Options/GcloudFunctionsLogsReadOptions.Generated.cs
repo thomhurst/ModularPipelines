@@ -70,4 +70,10 @@ public record GcloudFunctionsLogsReadOptions : GcloudOptions
     [CliOption("--start-time", Format = OptionFormat.EqualsSeparated)]
     public string? StartTime { get; set; }
 
+    /// <summary>
+    /// Name of the function which logs are to be displayed. If no name is specified, logs from all functions are displayed.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Name { get; set; }
+
 }

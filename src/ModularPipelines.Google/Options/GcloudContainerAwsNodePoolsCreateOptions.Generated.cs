@@ -6,10 +6,13 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +22,347 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "aws", "node-pools", "create")]
-public record GcloudContainerAwsNodePoolsCreateOptions : GcloudOptions
+public record GcloudContainerAwsNodePoolsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a node pool in an Anthos     cluster on AWS
+    /// </summary>
+    /// <param name="ConfigEncryptionKmsKeyArn">Amazon Resource Name (ARN) of the AWS KMS key to encrypt the user data.</param>
+    /// <param name="IamInstanceProfile">Name or ARN of the IAM instance profile associated with the node pool.</param>
+    /// <param name="MaxPodsPerNode">Maximum number of pods per node.</param>
+    /// <param name="NodeVersion">Kubernetes version to use for the node pool.</param>
+    /// <param name="SubnetId">Subnet ID of an existing VNET to use for the node pool.</param>
+    /// <param name="MaxNodes">Node pool autoscaling This must be specified. Maximum number of nodes in the node pool. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="MinNodes">Node pool autoscaling This must be specified. Minimum number of nodes in the node pool. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="NodePool">Node pool resource - node pool to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument node_pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the node_pool or fully qualified identifier for the node_pool. To set the node_pool attribute: ▸ provide the argument node_pool on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudContainerAwsNodePoolsCreateOptions(
+        string ConfigEncryptionKmsKeyArn,
+        string IamInstanceProfile,
+        string MaxPodsPerNode,
+        string NodeVersion,
+        string SubnetId,
+        string MaxNodes,
+        string MinNodes,
+        string NodePool
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConfigEncryptionKmsKeyArn);
+        this.ConfigEncryptionKmsKeyArn = ConfigEncryptionKmsKeyArn;
+        global::System.ArgumentNullException.ThrowIfNull(IamInstanceProfile);
+        this.IamInstanceProfile = IamInstanceProfile;
+        global::System.ArgumentNullException.ThrowIfNull(MaxPodsPerNode);
+        this.MaxPodsPerNode = MaxPodsPerNode;
+        global::System.ArgumentNullException.ThrowIfNull(NodeVersion);
+        this.NodeVersion = NodeVersion;
+        global::System.ArgumentNullException.ThrowIfNull(SubnetId);
+        this.SubnetId = SubnetId;
+        global::System.ArgumentNullException.ThrowIfNull(MaxNodes);
+        this.MaxNodes = MaxNodes;
+        global::System.ArgumentNullException.ThrowIfNull(MinNodes);
+        this.MinNodes = MinNodes;
+        global::System.ArgumentNullException.ThrowIfNull(NodePool);
+        this.NodePool = NodePool;
+    }
+
+    public void Deconstruct(out string ConfigEncryptionKmsKeyArn, out string IamInstanceProfile, out string MaxPodsPerNode, out string NodeVersion, out string SubnetId, out string MaxNodes, out string MinNodes, out string NodePool)
+    {
+        ConfigEncryptionKmsKeyArn = this.ConfigEncryptionKmsKeyArn;
+        IamInstanceProfile = this.IamInstanceProfile;
+        MaxPodsPerNode = this.MaxPodsPerNode;
+        NodeVersion = this.NodeVersion;
+        SubnetId = this.SubnetId;
+        MaxNodes = this.MaxNodes;
+        MinNodes = this.MinNodes;
+        NodePool = this.NodePool;
+    }
+
+    /// <summary>
+    /// Amazon Resource Name (ARN) of the AWS KMS key to encrypt the user data.
+    /// </summary>
+    [CliOption("--config-encryption-kms-key-arn", Format = OptionFormat.EqualsSeparated)]
+    public string ConfigEncryptionKmsKeyArn { get; private init; }
+
+    /// <summary>
+    /// Name or ARN of the IAM instance profile associated with the node pool.
+    /// </summary>
+    [CliOption("--iam-instance-profile", Format = OptionFormat.EqualsSeparated)]
+    public string IamInstanceProfile { get; private init; }
+
+    /// <summary>
+    /// Maximum number of pods per node.
+    /// </summary>
+    [CliOption("--max-pods-per-node", Format = OptionFormat.EqualsSeparated)]
+    public string MaxPodsPerNode { get; private init; }
+
+    /// <summary>
+    /// Kubernetes version to use for the node pool.
+    /// </summary>
+    [CliOption("--node-version", Format = OptionFormat.EqualsSeparated)]
+    public string NodeVersion { get; private init; }
+
+    /// <summary>
+    /// Subnet ID of an existing VNET to use for the node pool.
+    /// </summary>
+    [CliOption("--subnet-id", Format = OptionFormat.EqualsSeparated)]
+    public string SubnetId { get; private init; }
+
+    /// <summary>
+    /// Node pool autoscaling This must be specified. Maximum number of nodes in the node pool. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--max-nodes", Format = OptionFormat.EqualsSeparated)]
+    public string MaxNodes { get; private init; }
+
+    /// <summary>
+    /// Node pool autoscaling This must be specified. Minimum number of nodes in the node pool. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--min-nodes", Format = OptionFormat.EqualsSeparated)]
+    public string MinNodes { get; private init; }
+
+    /// <summary>
+    /// Node pool resource - node pool to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument node_pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. cluster of the node_pool. To set the cluster attribute: ▸ provide the argument node_pool on the command line with a fully specified name; ▸ provide the argument --cluster on the command line.
+    /// </summary>
+    [CliOption("--cluster", Format = OptionFormat.EqualsSeparated)]
+    public string? Cluster { get; set; }
+
+    /// <summary>
+    /// Node pool resource - node pool to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument node_pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Google Cloud location for the node_pool. To set the location attribute: ▸ provide the argument node_pool on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property container_aws/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Annotations for the node pool. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Annotations { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Enable node autorepair feature for a node pool. Use --no-enable-autorepair to disable. $ gcloud container aws node-pools create --enable-autorepair Node autorepair is disabled by default.
+    /// </summary>
+    [CliFlag("--enable-autorepair")]
+    public bool? EnableAutorepair { get; set; }
+
+    /// <summary>
+    /// Negates --enable-autorepair. Enable node autorepair feature for a node pool. Use --no-enable-autorepair to disable. $ gcloud container aws node-pools create --enable-autorepair Node autorepair is disabled by default.
+    /// </summary>
+    [CliFlag("--no-enable-autorepair")]
+    public bool? NoEnableAutorepair { get; set; }
+
+    /// <summary>
+    /// Enforce a Kubelet CPU CFS quota.
+    /// </summary>
+    [CliOption("--kubelet-config-cpu-cfs-quota", Format = OptionFormat.EqualsSeparated)]
+    public string? KubeletConfigCpuCfsQuota { get; set; }
+
+    /// <summary>
+    /// Kubelet CPU CFS quota period, within the range "1ms" to "1s".
+    /// </summary>
+    [CliOption("--kubelet-config-cpu-cfs-quota-period", Format = OptionFormat.EqualsSeparated)]
+    public string? KubeletConfigCpuCfsQuotaPeriod { get; set; }
+
+    /// <summary>
+    /// Kubelet CPU manager policy. KUBELET_CONFIG_CPU_MANAGER_POLICY must be one of: none, static.
+    /// </summary>
+    [CliOption("--kubelet-config-cpu-manager-policy", Format = OptionFormat.EqualsSeparated)]
+    public GcloudKubeletConfigCpuManagerPolicy? KubeletConfigCpuManagerPolicy { get; set; }
+
+    /// <summary>
+    /// Kubelet maximum number of PIDS in any pod, within the range 1024 to 4194304.
+    /// </summary>
+    [CliOption("--kubelet-config-pod-pids-limit", Format = OptionFormat.EqualsSeparated)]
+    public string? KubeletConfigPodPidsLimit { get; set; }
+
+    /// <summary>
+    /// Maximum number of extra (surge) nodes to be created beyond the current size of the node pool during its update process. Use --max-unavailable-update as well, if needed, to control the overall surge settings. To create an extra node each time the node pool is rolling updated, run: $ gcloud container aws node-pools create --max-surge-update=1 \ --max-unavailable-update=0
+    /// </summary>
+    [CliOption("--max-surge-update", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxSurgeUpdate { get; set; }
+
+    /// <summary>
+    /// Maximum number of nodes that can be simultaneously unavailable during this node pool's update process. Use --max-surge-update as well, if needed, to control the overall surge settings. To update 3 nodes in parallel (1 + 2), but keep at least 4 nodes (6 - 2) available each time the node pool is rolling updated, run: $ gcloud container aws node-pools create --min-nodes=6 \ --max-surge-update=1 --max-unavailable-update=2
+    /// </summary>
+    [CliOption("--max-unavailable-update", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxUnavailableUpdate { get; set; }
+
+    /// <summary>
+    /// Labels assigned to the node pool's nodes. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--node-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? NodeLabels { get; set; }
+
+    /// <summary>
+    /// Taints assigned to nodes of the node pool. Node taint is of format key=value:effect. Effect must be one of: NoExecute, NoSchedule, PreferNoSchedule.
+    /// </summary>
+    [CliOption("--node-taints", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<GcloudNodeTaints>? NodeTaints { get; set; }
+
+    /// <summary>
+    /// Number of I/O operations per second (IOPS) to provision for the root volume.
+    /// </summary>
+    [CliOption("--root-volume-iops", Format = OptionFormat.EqualsSeparated)]
+    public int? RootVolumeIops { get; set; }
+
+    /// <summary>
+    /// Amazon Resource Name (ARN) of the AWS KMS key to encrypt the root volume.
+    /// </summary>
+    [CliOption("--root-volume-kms-key-arn", Format = OptionFormat.EqualsSeparated)]
+    public string? RootVolumeKmsKeyArn { get; set; }
+
+    /// <summary>
+    /// Size of the root volume. The value must be a whole number followed by a size unit of GB for gigabyte, or TB for terabyte. If no size unit is specified, GB is assumed.
+    /// </summary>
+    [CliOption("--root-volume-size", Format = OptionFormat.EqualsSeparated)]
+    public int? RootVolumeSize { get; set; }
+
+    /// <summary>
+    /// Throughput to provision for the root volume, in MiB/s. Only valid if the volume type is GP3. If volume type is GP3 and throughput is not provided, it defaults to 125.
+    /// </summary>
+    [CliOption("--root-volume-throughput", Format = OptionFormat.EqualsSeparated)]
+    public string? RootVolumeThroughput { get; set; }
+
+    /// <summary>
+    /// Type of the root volume. ROOT_VOLUME_TYPE must be one of: gp2, gp3.
+    /// </summary>
+    [CliOption("--root-volume-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudRootVolumeType? RootVolumeType { get; set; }
+
+    /// <summary>
+    /// IDs of additional security groups to add to the node pool's nodes. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--security-group-ids", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? SecurityGroupIds { get; set; }
+
+    /// <summary>
+    /// Name of the EC2 key pair authorized to login to the node pool's nodes.
+    /// </summary>
+    [CliOption("--ssh-ec2-key-pair", Format = OptionFormat.EqualsSeparated)]
+    public string? SshEc2KeyPair { get; set; }
+
+    /// <summary>
+    /// Applies the given tags (comma separated) on the node pool. Example: $ gcloud container aws node-pools create EXAMPLE_NODE_POOL \ --tags=tag1=one,tag2=two Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// Validate the node pool to create, but don't actually perform it.
+    /// </summary>
+    [CliFlag("--validate-only")]
+    public bool? ValidateOnly { get; set; }
+
+    /// <summary>
+    /// Node pool autoscaling metrics collection Frequency at which EC2 Auto Scaling sends aggregated data to AWS CloudWatch. The only valid value is "1Minute". This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--autoscaling-metrics-granularity", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoscalingMetricsGranularity { get; set; }
+
+    /// <summary>
+    /// Node pool autoscaling metrics collection Autoscaling metrics to enable. For a list of valid metrics, refer to https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_EnableMetricsCollection.html. If granularity is specified but not any metrics, all metrics are enabled. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--autoscaling-metrics", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AutoscalingMetrics
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AutoscalingMetricsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AutoscalingMetricsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Node pool autoscaling metrics collection Node pool instance configuration At most one of these can be specified: AWS EC2 instance type for the node pool's nodes.
+    /// </summary>
+    [CliOption("--instance-type", Format = OptionFormat.EqualsSeparated)]
+    public string? InstanceType { get; set; }
+
+    /// <summary>
+    /// Node pool autoscaling metrics collection Node pool instance configuration At most one of these can be specified: List of AWS EC2 instance types for creating a spot node pool's nodes. The specified instance types must have the same CPU architecture, the same number of CPUs and memory. You can use the Amazon EC2 Instance Selector tool (https://github.com/aws/amazon-ec2-instance-selector) to choose instance types with matching CPU and memory configurations. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--spot-instance-types", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? SpotInstanceTypes
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __SpotInstanceTypesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __SpotInstanceTypesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Proxy config ARN of the AWS Secrets Manager secret that contains a proxy configuration. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--proxy-secret-arn", Format = OptionFormat.EqualsSeparated)]
+    public string? ProxySecretArn { get; set; }
+
+    /// <summary>
+    /// Proxy config Version ID string of the AWS Secrets Manager secret that contains a proxy configuration. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--proxy-secret-version-id", Format = OptionFormat.EqualsSeparated)]
+    public string? ProxySecretVersionId { get; set; }
+
+    /// <summary>
+    /// Node pool resource - node pool to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument node_pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the node_pool or fully qualified identifier for the node_pool. To set the node_pool attribute: ▸ provide the argument node_pool on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string NodePool { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(AutoscalingMetricsGranularity) || ((object?)AutoscalingMetrics is global::System.Collections.Generic.IEnumerable<char> ? (object?)AutoscalingMetrics is not string || !string.IsNullOrWhiteSpace(AutoscalingMetrics?.ToString()) : ((object?)AutoscalingMetrics is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AutoscalingMetrics, static item => item is not null) : (AutoscalingMetrics is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AutoscalingMetrics), static item => item is not null)))) || !string.IsNullOrWhiteSpace(InstanceType) || ((object?)SpotInstanceTypes is global::System.Collections.Generic.IEnumerable<char> ? (object?)SpotInstanceTypes is not string || !string.IsNullOrWhiteSpace(SpotInstanceTypes?.ToString()) : ((object?)SpotInstanceTypes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SpotInstanceTypes, static item => item is not null) : (SpotInstanceTypes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SpotInstanceTypes), static item => item is not null))))) && (!(!string.IsNullOrWhiteSpace(AutoscalingMetricsGranularity))))
+        {
+            yield return new ValidationResult("AutoscalingMetricsGranularity must be specified when other arguments in this group are specified.", [nameof(AutoscalingMetricsGranularity)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(AutoscalingMetricsGranularity) || ((object?)AutoscalingMetrics is global::System.Collections.Generic.IEnumerable<char> ? (object?)AutoscalingMetrics is not string || !string.IsNullOrWhiteSpace(AutoscalingMetrics?.ToString()) : ((object?)AutoscalingMetrics is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AutoscalingMetrics, static item => item is not null) : (AutoscalingMetrics is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AutoscalingMetrics), static item => item is not null)))) || !string.IsNullOrWhiteSpace(InstanceType) || ((object?)SpotInstanceTypes is global::System.Collections.Generic.IEnumerable<char> ? (object?)SpotInstanceTypes is not string || !string.IsNullOrWhiteSpace(SpotInstanceTypes?.ToString()) : ((object?)SpotInstanceTypes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SpotInstanceTypes, static item => item is not null) : (SpotInstanceTypes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SpotInstanceTypes), static item => item is not null))))) && ((!string.IsNullOrWhiteSpace(InstanceType) ? 1 : 0) + (((object?)SpotInstanceTypes is global::System.Collections.Generic.IEnumerable<char> ? (object?)SpotInstanceTypes is not string || !string.IsNullOrWhiteSpace(SpotInstanceTypes?.ToString()) : ((object?)SpotInstanceTypes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SpotInstanceTypes, static item => item is not null) : (SpotInstanceTypes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SpotInstanceTypes), static item => item is not null)))) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of InstanceType or SpotInstanceTypes may be specified.", [nameof(InstanceType), nameof(SpotInstanceTypes)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(ProxySecretArn) || !string.IsNullOrWhiteSpace(ProxySecretVersionId)) && (!(!string.IsNullOrWhiteSpace(ProxySecretArn))))
+        {
+            yield return new ValidationResult("ProxySecretArn must be specified when other arguments in this group are specified.", [nameof(ProxySecretArn)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(ProxySecretArn) || !string.IsNullOrWhiteSpace(ProxySecretVersionId)) && (!(!string.IsNullOrWhiteSpace(ProxySecretVersionId))))
+        {
+            yield return new ValidationResult("ProxySecretVersionId must be specified when other arguments in this group are specified.", [nameof(ProxySecretVersionId)]);
+        }
+        yield break;
+    }
+
 }

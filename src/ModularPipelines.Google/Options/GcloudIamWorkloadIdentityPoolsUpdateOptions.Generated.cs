@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -20,8 +21,31 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "workload-identity-pools", "update")]
-public record GcloudIamWorkloadIdentityPoolsUpdateOptions : GcloudOptions
+public record GcloudIamWorkloadIdentityPoolsUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a workload identity pool
+    /// </summary>
+    /// <param name="WorkloadIdentityPool">Workload identity pool resource - The workload identity pool to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument workload_identity_pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the workload identity pool or fully qualified identifier for the workload identity pool. To set the workload_identity_pool attribute: ▸ provide the argument workload_identity_pool on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudIamWorkloadIdentityPoolsUpdateOptions(
+        string WorkloadIdentityPool
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkloadIdentityPool);
+        this.WorkloadIdentityPool = WorkloadIdentityPool;
+    }
+
+    public void Deconstruct(out string WorkloadIdentityPool)
+    {
+        WorkloadIdentityPool = this.WorkloadIdentityPool;
+    }
+
+    /// <summary>
+    /// Workload identity pool resource - The workload identity pool to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument workload_identity_pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location name. To set the location attribute: ▸ provide the argument workload_identity_pool on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
     /// <summary>
     /// A description of the pool. Cannot exceed 256 characters.
     /// </summary>
@@ -81,5 +105,25 @@ public record GcloudIamWorkloadIdentityPoolsUpdateOptions : GcloudOptions
     /// </summary>
     [CliFlag("--no-use-default-shared-ca")]
     public bool? NoUseDefaultSharedCa { get; set; }
+
+    /// <summary>
+    /// Workload identity pool resource - The workload identity pool to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument workload_identity_pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the workload identity pool or fully qualified identifier for the workload identity pool. To set the workload_identity_pool attribute: ▸ provide the argument workload_identity_pool on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string WorkloadIdentityPool { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(InlineCertificateIssuanceConfigFile) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(CertificateLifetime) || (object?)KeyAlgorithm is not null || !string.IsNullOrWhiteSpace(RotationWindowPercentage) || UseDefaultSharedCa == true || NoUseDefaultSharedCa == true) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of InlineCertificateIssuanceConfigFile or (CertificateLifetime, KeyAlgorithm, RotationWindowPercentage, UseDefaultSharedCa, or NoUseDefaultSharedCa) may be specified.", [nameof(InlineCertificateIssuanceConfigFile), nameof(CertificateLifetime), nameof(KeyAlgorithm), nameof(RotationWindowPercentage), nameof(UseDefaultSharedCa), nameof(NoUseDefaultSharedCa)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(InlineCertificateIssuanceConfigFile) || !string.IsNullOrWhiteSpace(CertificateLifetime) || (object?)KeyAlgorithm is not null || !string.IsNullOrWhiteSpace(RotationWindowPercentage) || UseDefaultSharedCa == true || NoUseDefaultSharedCa == true) && (!string.IsNullOrWhiteSpace(CertificateLifetime) || (object?)KeyAlgorithm is not null || !string.IsNullOrWhiteSpace(RotationWindowPercentage) || UseDefaultSharedCa == true || NoUseDefaultSharedCa == true) && ((UseDefaultSharedCa == true ? 1 : 0) + (NoUseDefaultSharedCa == true ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of UseDefaultSharedCa or NoUseDefaultSharedCa may be specified.", [nameof(UseDefaultSharedCa), nameof(NoUseDefaultSharedCa)]);
+        }
+        yield break;
+    }
 
 }

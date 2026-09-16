@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,234 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apihub", "plugins", "create")]
-public record GcloudApihubPluginsCreateOptions : GcloudOptions
+public record GcloudApihubPluginsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a Plugin
+    /// </summary>
+    /// <param name="DisplayName">The display name of the plugin. Max length is 50 characters (Unicode code points).</param>
+    /// <param name="Plugin">Plugin resource - Identifier. The name of the plugin. Format: projects/{project}/locations/{location}/plugins/{plugin} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument plugin on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the plugin or fully qualified identifier for the plugin. To set the plugin attribute: ▸ provide the argument plugin on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudApihubPluginsCreateOptions(
+        string DisplayName,
+        string Plugin
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DisplayName);
+        this.DisplayName = DisplayName;
+        global::System.ArgumentNullException.ThrowIfNull(Plugin);
+        this.Plugin = Plugin;
+    }
+
+    public void Deconstruct(out string DisplayName, out string Plugin)
+    {
+        DisplayName = this.DisplayName;
+        Plugin = this.Plugin;
+    }
+
+    /// <summary>
+    /// The display name of the plugin. Max length is 50 characters (Unicode code points).
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string DisplayName { get; private init; }
+
+    /// <summary>
+    /// Plugin resource - Identifier. The name of the plugin. Format: projects/{project}/locations/{location}/plugins/{plugin} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument plugin on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the plugin resource. To set the location attribute: ▸ provide the argument plugin on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// The configuration of actions supported by the plugin. **REQUIRED**: This field must be provided when creating or updating a Plugin. The server will reject requests if this field is missing. description The description of the operation performed by the action. displayName The display name of the action. id The id of the action. triggerMode The trigger mode supported by the action. Shorthand Example: --actions-config=description=string,displayName=string,id=string,triggerMode=string --actions-config=description=string,displayName=string,id=string,triggerMode=string JSON Example: --actions-config='[{"description": "string", "displayName": "string", "id": "string", "triggerMode": "string"}]' File Example: --actions-config=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--actions-config", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ActionsConfig { get; set; }
+
+    /// <summary>
+    /// The plugin description. Max length is 2000 characters (Unicode code points).
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Documentation details. The uri of the externally hosted documentation.
+    /// </summary>
+    [CliOption("--documentation-external-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? DocumentationExternalUri { get; set; }
+
+    /// <summary>
+    /// Documentation details. The type of the gateway. GATEWAY_TYPE must be one of: api-discovery The gateway type is API Discovery. apigee-edge-private-cloud The gateway type is Apigee Edge Private Cloud. apigee-edge-public-cloud The gateway type is Apigee Edge Public Cloud. apigee-x-and-hybrid The gateway type is Apigee X and Hybrid. cloud-api-gateway The gateway type is Cloud API Gateway. cloud-endpoints The gateway type is Cloud Endpoints. others The gateway type for any other types of gateways.
+    /// </summary>
+    [CliOption("--gateway-type", Format = OptionFormat.EqualsSeparated)]
+    public string? GatewayType { get; set; }
+
+    /// <summary>
+    /// The information related to the service implemented by the plugin developer, used to invoke the plugin's functionality. The URI of the service implemented by the plugin developer, used to invoke the plugin's functionality. This information is only required for user defined plugins.
+    /// </summary>
+    [CliOption("--hosting-service-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? HostingServiceUri { get; set; }
+
+    /// <summary>
+    /// The information related to the service implemented by the plugin developer, used to invoke the plugin's functionality. The category of the plugin, identifying its primary category or purpose. This field is required for all plugins. PLUGIN_CATEGORY must be one of: api-gateway API_GATEWAY plugins represent plugins built for API Gateways like Apigee. api-producer API_PRODUCER plugins represent plugins built for API Producers like Cloud Run, Application Integration etc.
+    /// </summary>
+    [CliOption("--plugin-category", Format = OptionFormat.EqualsSeparated)]
+    public string? PluginCategory { get; set; }
+
+    /// <summary>
+    /// ConfigTemplate represents the configuration template for a plugin. AuthConfigTemplate represents the authentication template for a plugin. The list of authentication types supported by the plugin. AUTH_CONFIG_TEMPLATE_SUPPORTED_TYPES must be one of: api-key API Key authentication. google-service-account Google service account authentication. no-auth No authentication. oauth2-client-credentials Oauth 2.0 client credentials grant authentication. user-password Username and password authentication. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--auth-config-template-supported-types", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AuthConfigTemplateSupportedTypes { get; set; }
+
+    /// <summary>
+    /// ConfigTemplate represents the configuration template for a plugin. AuthConfigTemplate represents the authentication template for a plugin. The list of additional configuration variables for the plugin's configuration. description Description. enumOptions Enum options. To be populated if ValueType is ENUM. description Description of the option. displayName Display name of the option. id Id of the option. id ID of the config variable. Must be unique within the configuration. multiSelectOptions Multi select options. To be populated if ValueType is MULTI_SELECT. description Description of the option. displayName Display name of the option. id Id of the option. required Flag represents that this ConfigVariable must be provided for a PluginInstance. validationRegex Regular expression in RE2 syntax used for validating the value of a ConfigVariable. valueType Type of the parameter: string, int, bool etc. Shorthand Example: --config-template-additional=description=string,enumOptions=[{description=string,displayName=string,id=string}],id=string,multiSelectOptions=[{description=string,displayName=string,id=string}],required=boolean,validationRegex=string,valueType=string --config-template-additional=description=string,enumOptions=[{description=string,displayName=string,id=string}],id=string,multiSelectOptions=[{description=string,displayName=string,id=string}],required=boolean,validationRegex=string,valueType=string JSON Example: --config-template-additional='[{"description": "string", "enumOptions": [{"description": "string", "displayName": "string", "id": "string"}], "id": "string", "multiSelectOptions": [{"description": "string", "displayName": "string", "id": "string"}], "required": boolean, "validationRegex": "string", "valueType": "string"}]' File Example: --config-template-additional=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--config-template-additional", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ConfigTemplateAdditional { get; set; }
+
+    /// <summary>
+    /// ConfigTemplate represents the configuration template for a plugin. AuthConfigTemplate represents the authentication template for a plugin. The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type enum. Required, The attribute values in case attribute data type is enum. description The detailed description of the allowed value. displayName The display name of the allowed value. id The ID of the allowed value. ▫ If provided, the same will be used. The service will throw an error if the specified id is already used by another allowed value in the same attribute resource. ▫ If not provided, a system generated id derived from the display name will be used. In this case, the service will handle conflict resolution by adding a system generated suffix in case of duplicates. This value should be 4-63 characters, and valid characters are /[a-z][0-9]-/. immutable When set to true, the allowed value cannot be updated or deleted by the user. It can only be true for System defined attributes. Shorthand Example: --enum-values=description=string,displayName=string,id=string,immutable=boolean --enum-values=description=string,displayName=string,id=string,immutable=boolean JSON Example: --enum-values='[{"description": "string", "displayName": "string", "id": "string", "immutable": boolean}]' File Example: --enum-values=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--enum-values", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? EnumValues
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __EnumValuesSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __EnumValuesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __EnumValuesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __EnumValuesSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// ConfigTemplate represents the configuration template for a plugin. AuthConfigTemplate represents the authentication template for a plugin. The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--json-values", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? JsonValues
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __JsonValuesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __JsonValuesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// ConfigTemplate represents the configuration template for a plugin. AuthConfigTemplate represents the authentication template for a plugin. The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--string-values", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? StringValues
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __StringValuesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __StringValuesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// ConfigTemplate represents the configuration template for a plugin. AuthConfigTemplate represents the authentication template for a plugin. The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--uri-values", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? UriValues
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __UriValuesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __UriValuesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Plugin resource - Identifier. The name of the plugin. Format: projects/{project}/locations/{location}/plugins/{plugin} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument plugin on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the plugin or fully qualified identifier for the plugin. To set the plugin attribute: ▸ provide the argument plugin on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Plugin { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (((((object?)EnumValues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)EnumValues, static item => item is not null) : ((object?)EnumValues is global::System.Collections.Generic.IEnumerable<char> ? (object?)EnumValues is not string || !string.IsNullOrWhiteSpace(EnumValues?.ToString()) : ((object?)EnumValues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)EnumValues, static item => item is not null) : (EnumValues is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)EnumValues), static item => item is not null)))))) ? 1 : 0) + ((((object?)JsonValues is global::System.Collections.Generic.IEnumerable<char> ? (object?)JsonValues is not string || !string.IsNullOrWhiteSpace(JsonValues?.ToString()) : ((object?)JsonValues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)JsonValues, static item => item is not null) : (JsonValues is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)JsonValues), static item => item is not null))))) ? 1 : 0) + ((((object?)StringValues is global::System.Collections.Generic.IEnumerable<char> ? (object?)StringValues is not string || !string.IsNullOrWhiteSpace(StringValues?.ToString()) : ((object?)StringValues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)StringValues, static item => item is not null) : (StringValues is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)StringValues), static item => item is not null))))) ? 1 : 0) + ((((object?)UriValues is global::System.Collections.Generic.IEnumerable<char> ? (object?)UriValues is not string || !string.IsNullOrWhiteSpace(UriValues?.ToString()) : ((object?)UriValues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UriValues, static item => item is not null) : (UriValues is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UriValues), static item => item is not null))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of (EnumValues), (JsonValues), (StringValues), or (UriValues) may be specified.", [nameof(EnumValues), nameof(JsonValues), nameof(StringValues), nameof(UriValues)]);
+        }
+        yield break;
+    }
+
 }

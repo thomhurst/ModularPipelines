@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("tasks", "run")]
-public record GcloudTasksRunOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Task
-) : GcloudOptions
+public record GcloudTasksRunOptions : GcloudOptions
 {
+    /// <summary>
+    /// force a task to run now
+    /// </summary>
+    /// <param name="Task">The task to run.</param>
+    public GcloudTasksRunOptions(
+        string Task
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Task);
+        this.Task = Task;
+    }
+
+    public void Deconstruct(out string Task)
+    {
+        Task = this.Task;
+    }
+
     /// <summary>
     /// The location where we want to manage the queue or task. If not specified, uses the location of the current project's App Engine app if there is an associated app.
     /// </summary>
@@ -34,5 +49,11 @@ public record GcloudTasksRunOptions(
     /// </summary>
     [CliOption("--queue", Format = OptionFormat.EqualsSeparated)]
     public string? Queue { get; set; }
+
+    /// <summary>
+    /// The task to run.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Task { get; private init; }
 
 }

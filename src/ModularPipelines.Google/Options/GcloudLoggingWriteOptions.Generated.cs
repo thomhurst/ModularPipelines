@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -21,14 +22,34 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logging", "write")]
-public record GcloudLoggingWriteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string LogName
-) : GcloudOptions
+public record GcloudLoggingWriteOptions : GcloudOptions, IValidatableObject
 {
     /// <summary>
-    /// Monitored Resource labels to add to the payload
+    /// write a log entry
     /// </summary>
-    [CliOption("--monitored-resource-labels", Format = OptionFormat.EqualsSeparated)]
+    /// <param name="LogName">Name of the log where the log entry will be written.</param>
+    /// <param name="Message">Message to put in the log entry. It can be JSON if you include --payload-type=json.</param>
+    public GcloudLoggingWriteOptions(
+        string LogName,
+        string Message
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LogName);
+        this.LogName = LogName;
+        global::System.ArgumentNullException.ThrowIfNull(Message);
+        this.Message = Message;
+    }
+
+    public void Deconstruct(out string LogName, out string Message)
+    {
+        LogName = this.LogName;
+        Message = this.Message;
+    }
+
+    /// <summary>
+    /// Monitored Resource labels to add to the payload Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--monitored-resource-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? MonitoredResourceLabels { get; set; }
 
     /// <summary>
@@ -68,9 +89,31 @@ public record GcloudLoggingWriteOptions(
     public string? Organization { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Project of the log entries to write. The Google Cloud project ID to use for this invocation. If omitted, then the current project is assumed; the current project can be listed using gcloud config list --format='text(core.project)' and can be set using gcloud config set project PROJECTID. --project and its fallback core/project property play two roles in the invocation. It specifies the project of the resource to operate on. It also specifies the project for API enablement check, quota, and billing. To specify a different project for quota and billing, use --billing-project or billing/quota_project property.
+    /// At most one of these can be specified: Project of the log entries to write. The Google Cloud project ID to use for this invocation. If omitted, then the current project is assumed; the current project can be listed using gcloud config list --format='text(core.project)' and can be set using gcloud config set project PROJECTID. --project and its fallback core/project property play two roles in the invocation: they specify both the project of the resource to operate on, and the project for API enablement checks, quota, and billing. To specify a different project for quota and billing, use the --billing-project flag or the billing/quota_project property.
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
     public string? Project { get; set; }
+
+    /// <summary>
+    /// Name of the log where the log entry will be written.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string LogName { get; private init; }
+
+    /// <summary>
+    /// Message to put in the log entry. It can be JSON if you include --payload-type=json.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Message { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(BillingAccount) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Folder) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Project) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of BillingAccount, Folder, Organization, or Project may be specified.", [nameof(BillingAccount), nameof(Folder), nameof(Organization), nameof(Project)]);
+        }
+        yield break;
+    }
 
 }

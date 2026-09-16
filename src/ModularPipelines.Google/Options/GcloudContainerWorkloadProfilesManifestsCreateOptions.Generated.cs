@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +23,56 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("container", "workload", "profiles", "manifests", "create")]
 public record GcloudContainerWorkloadProfilesManifestsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// generate optimized     Kubernetes manifests for a given workload profile
+    /// </summary>
+    /// <param name="ClusterVersion">The GKE version to generate the manifest for.</param>
+    /// <param name="Workload">The name of the optimization set to generate the manifest for. This specifies the workload, workload version, and workload characterization to optimize for (e.g., "redis-7-caching").</param>
+    public GcloudContainerWorkloadProfilesManifestsCreateOptions(
+        string ClusterVersion,
+        string Workload
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterVersion);
+        this.ClusterVersion = ClusterVersion;
+        global::System.ArgumentNullException.ThrowIfNull(Workload);
+        this.Workload = Workload;
+    }
+
+    public void Deconstruct(out string ClusterVersion, out string Workload)
+    {
+        ClusterVersion = this.ClusterVersion;
+        Workload = this.Workload;
+    }
+
+    /// <summary>
+    /// The GKE version to generate the manifest for.
+    /// </summary>
+    [CliOption("--cluster-version", Format = OptionFormat.EqualsSeparated)]
+    public string ClusterVersion { get; private init; }
+
+    /// <summary>
+    /// The name of the optimization set to generate the manifest for. This specifies the workload, workload version, and workload characterization to optimize for (e.g., "redis-7-caching").
+    /// </summary>
+    [CliOption("--workload", Format = OptionFormat.EqualsSeparated)]
+    public string Workload { get; private init; }
+
+    /// <summary>
+    /// Additional key-value pair options for generating the manifest. For example, to specify allowed machine types: --options=machineType=type1,type2 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--options", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Options { get; set; }
+
+    /// <summary>
+    /// The output to display. Default is all. OUTPUT must be one of: manifest, all.
+    /// </summary>
+    [CliOption("--output", Format = OptionFormat.EqualsSeparated)]
+    public GcloudOutput? Output { get; set; }
+
+    /// <summary>
+    /// The path to save the output to. If not specified, output to the terminal.
+    /// </summary>
+    [CliOption("--output-path", Format = OptionFormat.EqualsSeparated)]
+    public string? OutputPath { get; set; }
+
 }

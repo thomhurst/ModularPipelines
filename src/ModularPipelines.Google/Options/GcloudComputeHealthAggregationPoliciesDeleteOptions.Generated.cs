@@ -22,9 +22,38 @@ namespace ModularPipelines.Google.Options;
 public record GcloudComputeHealthAggregationPoliciesDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// delete a health     aggregation policy
+    /// </summary>
+    /// <param name="HealthAggregationPolicy">Health aggregation policy resource - Name of the health aggregation policy you want to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument health_aggregation_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the health aggregation policy or fully qualified identifier for the health aggregation policy. To set the health_aggregation_policy attribute: ▸ provide the argument health_aggregation_policy on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudComputeHealthAggregationPoliciesDeleteOptions(
+        string HealthAggregationPolicy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HealthAggregationPolicy);
+        this.HealthAggregationPolicy = HealthAggregationPolicy;
+    }
+
+    public void Deconstruct(out string HealthAggregationPolicy)
+    {
+        HealthAggregationPolicy = this.HealthAggregationPolicy;
+    }
+
+    /// <summary>
+    /// Health aggregation policy resource - Name of the health aggregation policy you want to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument health_aggregation_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The name of the Google Compute Engine region. To set the region attribute: ▸ provide the argument health_aggregation_policy on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property compute/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
+
+    /// <summary>
+    /// Health aggregation policy resource - Name of the health aggregation policy you want to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument health_aggregation_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the health aggregation policy or fully qualified identifier for the health aggregation policy. To set the health_aggregation_policy attribute: ▸ provide the argument health_aggregation_policy on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string HealthAggregationPolicy { get; private init; }
 
 }
