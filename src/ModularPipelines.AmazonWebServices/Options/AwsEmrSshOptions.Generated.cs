@@ -52,7 +52,7 @@ public record AwsEmrSshOptions : AwsOptions
     [CliOption("--command")]
     public string? Command { get; set; }
 
-    [CliOption("--ssh-options")]
-    public string? SshOptions { get; set; }
+    [CliOption("--ssh-options", GroupValues = true)]
+    public IEnumerable<string>? SshOptions { get; set; }
 
 }

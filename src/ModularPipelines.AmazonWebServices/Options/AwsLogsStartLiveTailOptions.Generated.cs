@@ -64,10 +64,4 @@ public record AwsLogsStartLiveTailOptions : AwsOptions
     [CliOption("--mode")]
     public string? Mode { get; set; }
 
-    /// <summary>
-    /// The &lt;value&gt; operand.
-    /// </summary>
-    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
-    public IEnumerable<string>? Value { get; set; }
-
 }

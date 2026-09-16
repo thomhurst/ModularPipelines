@@ -230,7 +230,7 @@ public record AwsEc2RunInstancesOptions : AwsOptions
     /// <summary>
     /// Indicates whether termination protection is enabled for the in- stance. The default is false , which means that you can terminate the instance using the Amazon EC2 console, command line tools, or API. You can enable termination protection when you launch an in- stance, while the instance is running, or while the instance is stopped.
     /// </summary>
-    [CliFlag("--disable-api-termination")]
+    [CliFlag("--disable-api-termination", NegatedName = "--enable-api-termination")]
     public bool? DisableApiTermination { get; set; }
 
     /// <summary>

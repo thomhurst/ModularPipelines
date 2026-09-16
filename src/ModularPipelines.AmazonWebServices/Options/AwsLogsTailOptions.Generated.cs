@@ -25,22 +25,17 @@ public record AwsLogsTailOptions : AwsOptions
     /// Tails the logs for a CloudWatch Logs group. By default, the command re- turns logs from all associated CloudWatch Logs streams during the past ten minutes. Note that there is no guarantee for exact timestamp order- ing of logs.
     /// </summary>
     /// <param name="GroupName">The group_name operand.</param>
-    /// <param name="Value">The &lt;value&gt; operand.</param>
     public AwsLogsTailOptions(
-        string GroupName,
-        string Value
+        string GroupName
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(GroupName);
         this.GroupName = GroupName;
-        global::System.ArgumentNullException.ThrowIfNull(Value);
-        this.Value = Value;
     }
 
-    public void Deconstruct(out string GroupName, out string Value)
+    public void Deconstruct(out string GroupName)
     {
         GroupName = this.GroupName;
-        Value = this.Value;
     }
 
     [CliOption("--since")]
@@ -55,8 +50,8 @@ public record AwsLogsTailOptions : AwsOptions
     [CliOption("--filter-pattern")]
     public string? FilterPattern { get; set; }
 
-    [CliOption("--log-stream-names")]
-    public string? LogStreamNames { get; set; }
+    [CliOption("--log-stream-names", GroupValues = true)]
+    public IEnumerable<string>? LogStreamNames { get; set; }
 
     [CliOption("--log-stream-name-prefix")]
     public string? LogStreamNamePrefix { get; set; }
@@ -66,11 +61,5 @@ public record AwsLogsTailOptions : AwsOptions
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
     public string GroupName { get; private init; }
-
-    /// <summary>
-    /// The &lt;value&gt; operand.
-    /// </summary>
-    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
-    public string Value { get; private init; }
 
 }

@@ -155,8 +155,8 @@ public record AwsAutoscalingCreateAutoScalingGroupOptions : AwsOptions, IValidat
     /// <summary>
     /// The name of the placement group into which to launch your instances. For more information, see Placement groups in the Amazon EC2 User Guide . NOTE: A cluster placement group is a logical grouping of instances within a single Availability Zone. You cannot specify multiple Availability Zones and a cluster placement group. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
-    [CliOption("--placement-group", GroupValues = true)]
-    public IEnumerable<string>? PlacementGroup { get; set; }
+    [CliOption("--placement-group")]
+    public string? PlacementGroup { get; set; }
 
     /// <summary>
     /// A comma-separated list of subnet IDs for a virtual private cloud (VPC) where instances in the Auto Scaling group can be created. If you specify VPCZoneIdentifier with AvailabilityZones , the subnets that you specify must reside in those Availability Zones. Constraints: o min: 1 o max: 5000 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*

@@ -39,12 +39,6 @@ public record AwsEc2DeleteNetworkAclEntryOptions : AwsOptions, IValidatableObjec
         global::System.ArgumentNullException.ThrowIfNull(NetworkAclId);
         this.NetworkAclId = NetworkAclId;
         this.RuleNumber = RuleNumber;
-        if (!Egress)
-        {
-            throw new global::System.ArgumentException(
-                "Required flag must be enabled to emit its switch.",
-                nameof(Egress));
-        }
         this.Egress = Egress;
     }
 
@@ -82,7 +76,7 @@ public record AwsEc2DeleteNetworkAclEntryOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Indicates whether the rule is an egress rule.
     /// </summary>
-    [CliFlag("--egress")]
+    [CliFlag("--egress", NegatedName = "--ingress")]
     public bool? Egress { get; private init; }
 
     /// <summary>

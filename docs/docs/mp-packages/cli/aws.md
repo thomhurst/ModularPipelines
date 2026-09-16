@@ -5509,6 +5509,7 @@ var aws = context.Tools.Aws;
 | `aws directconnect allocate-public-virtual-interface` | `AwsDirectconnectAllocatePublicVirtualInterfaceOptions` |
 | `aws directconnect allocate-transit-virtual-interface` | `AwsDirectconnectAllocateTransitVirtualInterfaceOptions` |
 | `aws directconnect associate-connection-with-lag` | `AwsDirectconnectAssociateConnectionWithLagOptions` |
+| `aws directconnect associate-connections-to-resiliency-group` | `AwsDirectconnectAssociateConnectionsToResiliencyGroupOptions` |
 | `aws directconnect associate-hosted-connection` | `AwsDirectconnectAssociateHostedConnectionOptions` |
 | `aws directconnect associate-mac-sec-key` | `AwsDirectconnectAssociateMacSecKeyOptions` |
 | `aws directconnect associate-virtual-interface` | `AwsDirectconnectAssociateVirtualInterfaceOptions` |
@@ -5526,6 +5527,7 @@ var aws = context.Tools.Aws;
 | `aws directconnect create-lag` | `AwsDirectconnectCreateLagOptions` |
 | `aws directconnect create-private-virtual-interface` | `AwsDirectconnectCreatePrivateVirtualInterfaceOptions` |
 | `aws directconnect create-public-virtual-interface` | `AwsDirectconnectCreatePublicVirtualInterfaceOptions` |
+| `aws directconnect create-resiliency-group` | `AwsDirectconnectCreateResiliencyGroupOptions` |
 | `aws directconnect create-transit-virtual-interface` | `AwsDirectconnectCreateTransitVirtualInterfaceOptions` |
 | `aws directconnect delete-bgp-peer` | `AwsDirectconnectDeleteBgpPeerOptions` |
 | `aws directconnect delete-connection` | `AwsDirectconnectDeleteConnectionOptions` |
@@ -5534,6 +5536,7 @@ var aws = context.Tools.Aws;
 | `aws directconnect delete-direct-connect-gateway-association-proposal` | `AwsDirectconnectDeleteDirectConnectGatewayAssociationProposalOptions` |
 | `aws directconnect delete-interconnect` | `AwsDirectconnectDeleteInterconnectOptions` |
 | `aws directconnect delete-lag` | `AwsDirectconnectDeleteLagOptions` |
+| `aws directconnect delete-resiliency-group` | `AwsDirectconnectDeleteResiliencyGroupOptions` |
 | `aws directconnect delete-virtual-interface` | `AwsDirectconnectDeleteVirtualInterfaceOptions` |
 | `aws directconnect describe-connections` | `AwsDirectconnectDescribeConnectionsOptions` |
 | `aws directconnect describe-customer-metadata` | `AwsDirectconnectDescribeCustomerMetadataOptions` |
@@ -5551,7 +5554,11 @@ var aws = context.Tools.Aws;
 | `aws directconnect describe-virtual-gateways` | `AwsDirectconnectDescribeVirtualGatewaysOptions` |
 | `aws directconnect describe-virtual-interfaces` | `AwsDirectconnectDescribeVirtualInterfacesOptions` |
 | `aws directconnect disassociate-connection-from-lag` | `AwsDirectconnectDisassociateConnectionFromLagOptions` |
+| `aws directconnect disassociate-connections-from-resiliency-group` | `AwsDirectconnectDisassociateConnectionsFromResiliencyGroupOptions` |
 | `aws directconnect disassociate-mac-sec-key` | `AwsDirectconnectDisassociateMacSecKeyOptions` |
+| `aws directconnect get-resiliency-group` | `AwsDirectconnectGetResiliencyGroupOptions` |
+| `aws directconnect list-resiliency-group-associations` | `AwsDirectconnectListResiliencyGroupAssociationsOptions` |
+| `aws directconnect list-resiliency-groups` | `AwsDirectconnectListResiliencyGroupsOptions` |
 | `aws directconnect list-virtual-interface-routes` | `AwsDirectconnectListVirtualInterfaceRoutesOptions` |
 | `aws directconnect list-virtual-interface-test-history` | `AwsDirectconnectListVirtualInterfaceTestHistoryOptions` |
 | `aws directconnect start-bgp-failover-test` | `AwsDirectconnectStartBgpFailoverTestOptions` |
@@ -5559,9 +5566,11 @@ var aws = context.Tools.Aws;
 | `aws directconnect tag-resource` | `AwsDirectconnectTagResourceOptions` |
 | `aws directconnect untag-resource` | `AwsDirectconnectUntagResourceOptions` |
 | `aws directconnect update-connection` | `AwsDirectconnectUpdateConnectionOptions` |
+| `aws directconnect update-connections-billing-mode` | `AwsDirectconnectUpdateConnectionsBillingModeOptions` |
 | `aws directconnect update-direct-connect-gateway` | `AwsDirectconnectUpdateDirectConnectGatewayOptions` |
 | `aws directconnect update-direct-connect-gateway-association` | `AwsDirectconnectUpdateDirectConnectGatewayAssociationOptions` |
 | `aws directconnect update-lag` | `AwsDirectconnectUpdateLagOptions` |
+| `aws directconnect update-resiliency-group` | `AwsDirectconnectUpdateResiliencyGroupOptions` |
 | `aws directconnect update-virtual-interface-attributes` | `AwsDirectconnectUpdateVirtualInterfaceAttributesOptions` |
 | `aws discovery associate-configuration-items-to-application` | `AwsDiscoveryAssociateConfigurationItemsToApplicationOptions` |
 | `aws discovery batch-delete-agents` | `AwsDiscoveryBatchDeleteAgentsOptions` |

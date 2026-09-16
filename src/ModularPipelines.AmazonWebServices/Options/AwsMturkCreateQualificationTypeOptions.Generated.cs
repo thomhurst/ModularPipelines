@@ -85,8 +85,8 @@ public record AwsMturkCreateQualificationTypeOptions : AwsOptions, IValidatableO
     /// <summary>
     /// One or more words or phrases that describe the Qualification type, separated by commas. The keywords of a type make the type easier to find during a search.
     /// </summary>
-    [CliOption("--keywords", GroupValues = true)]
-    public IEnumerable<string>? Keywords { get; set; }
+    [CliOption("--keywords")]
+    public string? Keywords { get; set; }
 
     /// <summary>
     /// The number of seconds that a Worker must wait after requesting a Qualification of the Qualification type before the worker can retry the Qualification request. Constraints: None. If not specified, retries are disabled and Work- ers can request a Qualification of this type only once, even if the Worker has not been granted the Qualification. It is not possible to disable retries for a Qualification type after it has been created with retries enabled. If you want to disable retries, you must delete existing retry-enabled Qualification type and then create a new Qualification type with retries disabled.

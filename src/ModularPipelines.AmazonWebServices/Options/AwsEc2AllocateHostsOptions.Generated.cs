@@ -87,8 +87,8 @@ public record AwsEc2AllocateHostsOptions : AwsOptions
     /// <summary>
     /// Specifies the instance type to be supported by the Dedicated Hosts. If you specify an instance type, the Dedicated Hosts support in- stances of the specified instance type only. If you want the Dedicated Hosts to support multiple instance types in a specific instance family, omit this parameter and specify In- stanceFamily instead. You cannot specify InstanceType and Instance- Family in the same request.
     /// </summary>
-    [CliOption("--instance-type", GroupValues = true)]
-    public IEnumerable<string>? InstanceType { get; set; }
+    [CliOption("--instance-type")]
+    public string? InstanceType { get; set; }
 
     /// <summary>
     /// The number of Dedicated Hosts to allocate to your account with these parameters. If you are allocating the Dedicated Hosts on an Outpost, and you specify AssetIds , you can omit this parameter. In this case, Amazon EC2 allocates a Dedicated Host on each specified hard- ware asset. If you specify both AssetIds and Quantity , then the value that you specify for Quantity must be equal to the number of asset IDs specified.

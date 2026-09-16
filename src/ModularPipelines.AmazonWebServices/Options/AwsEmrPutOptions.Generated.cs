@@ -60,7 +60,7 @@ public record AwsEmrPutOptions : AwsOptions
     [CliOption("--dest")]
     public string? Dest { get; set; }
 
-    [CliOption("--ssh-options")]
-    public string? SshOptions { get; set; }
+    [CliOption("--ssh-options", GroupValues = true)]
+    public IEnumerable<string>? SshOptions { get; set; }
 
 }

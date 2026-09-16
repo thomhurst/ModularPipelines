@@ -83,8 +83,8 @@ public record AwsEc2AttachNetworkInterfaceOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// The index of the network card. Some instance types support multiple network cards. The primary network interface must be assigned to network card index 0. The default is network card index 0.
     /// </summary>
-    [CliOption("--network-card-index", GroupValues = true)]
-    public IEnumerable<string>? NetworkCardIndex { get; set; }
+    [CliOption("--network-card-index")]
+    public int? NetworkCardIndex { get; set; }
 
     /// <summary>
     /// Configures ENA Express for the network interface that this action attaches to the instance. EnaSrdEnabled -&gt; (boolean) Indicates whether ENA Express is enabled for the network inter- face. EnaSrdUdpSpecification -&gt; (structure) Configures ENA Express for UDP network traffic. EnaSrdUdpEnabled -&gt; (boolean) Indicates whether UDP traffic to and from the instance uses ENA Express. To specify this setting, you must first enable ENA Express. Shorthand Syntax: EnaSrdEnabled=boolean,EnaSrdUdpSpecification={EnaSrdUdpEnabled=boolean} JSON Syntax: { "EnaSrdEnabled": true|false, "EnaSrdUdpSpecification": { "EnaSrdUdpEnabled": true|false } }

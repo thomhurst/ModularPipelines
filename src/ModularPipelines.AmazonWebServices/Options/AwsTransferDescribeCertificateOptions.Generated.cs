@@ -29,21 +29,10 @@ public record AwsTransferDescribeCertificateOptions : AwsOptions, IValidatableOb
     /// </summary>
     /// <param name="CertificateId">An array of identifiers for the imported certificates. You use this identifier for working with profiles and partner profiles. Constraints: o min: 22 o max: 22 o pattern: cert-([0-9a-f]{17})</param>
     public AwsTransferDescribeCertificateOptions(
-        IEnumerable<string> CertificateId
+        string CertificateId
     )
     {
-        {
-            global::System.ArgumentNullException.ThrowIfNull(CertificateId);
-            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(CertificateId));
-            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
-            {
-                throw new global::System.ArgumentException(
-                    "Required collection must contain at least one value.",
-                    nameof(CertificateId));
-            }
-
-            CertificateId = materialized;
-        }
+        global::System.ArgumentNullException.ThrowIfNull(CertificateId);
         this.CertificateId = CertificateId;
     }
 
@@ -69,8 +58,8 @@ public record AwsTransferDescribeCertificateOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// An array of identifiers for the imported certificates. You use this identifier for working with profiles and partner profiles. Constraints: o min: 22 o max: 22 o pattern: cert-([0-9a-f]{17})
     /// </summary>
-    [CliOption("--certificate-id", GroupValues = true)]
-    public IEnumerable<string>? CertificateId { get; private init; }
+    [CliOption("--certificate-id")]
+    public string? CertificateId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

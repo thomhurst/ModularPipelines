@@ -48,12 +48,6 @@ public record AwsEc2ReplaceNetworkAclEntryOptions : AwsOptions, IValidatableObje
         this.Protocol = Protocol;
         global::System.ArgumentNullException.ThrowIfNull(RuleAction);
         this.RuleAction = RuleAction;
-        if (!Egress)
-        {
-            throw new global::System.ArgumentException(
-                "Required flag must be enabled to emit its switch.",
-                nameof(Egress));
-        }
         this.Egress = Egress;
     }
 
@@ -103,7 +97,7 @@ public record AwsEc2ReplaceNetworkAclEntryOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Indicates whether to replace the egress rule. Default: If no value is specified, we replace the ingress rule.
     /// </summary>
-    [CliFlag("--egress")]
+    [CliFlag("--egress", NegatedName = "--ingress")]
     public bool? Egress { get; private init; }
 
     /// <summary>

@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 using ModularPipelines.AmazonWebServices.Options;
 using static ModularPipelines.TestHelpers.OptionsRenderingTestHelper;
 
@@ -5,6 +7,27 @@ namespace ModularPipelines.AmazonWebServices.UnitTests;
 
 public class AwsRequiredCollectionTests
 {
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Network_Acl_Operations_Render_Both_Directions(bool egress)
+    {
+        AwsOptions[] operations =
+        [
+            new AwsEc2CreateNetworkAclEntryOptions("acl-example", 100, "6", AwsEc2CreateNetworkAclEntryRuleAction.Allow, egress),
+            new AwsEc2DeleteNetworkAclEntryOptions("acl-example", 100, egress),
+            new AwsEc2ReplaceNetworkAclEntryOptions("acl-example", 100, "6", AwsEc2ReplaceNetworkAclEntryRuleAction.Allow, egress),
+        ];
+        foreach (var options in operations)
+        {
+            var errors = new List<ValidationResult>();
+            await Assert.That(Validator.TryValidateObject(options, new ValidationContext(options), errors, true)).IsTrue();
+            var arguments = BuildArguments(options);
+            await Assert.That(arguments.Contains(egress ? "--egress" : "--ingress")).IsTrue();
+            await Assert.That(arguments.Contains(egress ? "--ingress" : "--egress")).IsFalse();
+        }
+    }
+
     [Test]
     [Arguments("")]
     [Arguments(" \t\r\n")]

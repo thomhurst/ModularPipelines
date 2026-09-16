@@ -84,8 +84,8 @@ public record AwsEc2AttachVolumeOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// The index of the EBS card. Some instance types support multiple EBS cards. The default EBS card index is 0.
     /// </summary>
-    [CliOption("--ebs-card-index", GroupValues = true)]
-    public IEnumerable<string>? EbsCardIndex { get; set; }
+    [CliOption("--ebs-card-index")]
+    public int? EbsCardIndex { get; set; }
 
     /// <summary>
     /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .

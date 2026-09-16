@@ -115,8 +115,8 @@ public record AwsMturkCreateHitOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// One or more words or phrases that describe the HIT, separated by commas. These words are used in searches to find HITs.
     /// </summary>
-    [CliOption("--keywords", GroupValues = true)]
-    public IEnumerable<string>? Keywords { get; set; }
+    [CliOption("--keywords")]
+    public string? Keywords { get; set; }
 
     /// <summary>
     /// The data the person completing the HIT uses to produce the results. Constraints: Must be a QuestionForm data structure, an ExternalQues- tion data structure, or an HTMLQuestion data structure. The XML question data must not be larger than 64 kilobytes (65,535 bytes) in size, including whitespace. Either a Question parameter or a HITLayoutId parameter must be pro- vided.

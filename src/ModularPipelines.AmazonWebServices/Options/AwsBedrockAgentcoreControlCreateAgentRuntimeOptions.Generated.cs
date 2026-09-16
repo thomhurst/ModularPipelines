@@ -150,6 +150,12 @@ public record AwsBedrockAgentcoreControlCreateAgentRuntimeOptions : AwsOptions, 
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
+    /// <summary>
+    /// The version of the runtime platform to use for the AgentCore Run- time. Constraints: o min: 1 o max: 128 o pattern: [^\s]+
+    /// </summary>
+    [CliOption("--platform-version")]
+    public string? PlatformVersion { get; set; }
+
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 

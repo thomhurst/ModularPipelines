@@ -66,10 +66,4 @@ public record AwsEmrAddInstanceGroupsOptions : AwsOptions
     [CliOption("--instance-groups", GroupValues = true)]
     public IEnumerable<string> InstanceGroups { get; private init; }
 
-    /// <summary>
-    /// The &lt;value&gt; operand.
-    /// </summary>
-    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
-    public IEnumerable<string>? Value { get; set; }
-
 }

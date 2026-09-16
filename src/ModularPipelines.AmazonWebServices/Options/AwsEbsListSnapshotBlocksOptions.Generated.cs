@@ -72,8 +72,8 @@ public record AwsEbsListSnapshotBlocksOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// The maximum number of blocks to be returned by the request. Even if additional blocks can be retrieved from the snapshot, the request can return less blocks than MaxResults or an empty array of blocks. To retrieve the next set of blocks from the snapshot, make another request with the returned NextToken value. The value of NextToken is null when there are no more blocks to return. Constraints: o min: 100 o max: 10000
     /// </summary>
-    [CliOption("--max-results", GroupValues = true)]
-    public IEnumerable<string>? MaxResults { get; set; }
+    [CliOption("--max-results")]
+    public int? MaxResults { get; set; }
 
     /// <summary>
     /// The block index from which the list should start. The list in the response will start from this block index or the next valid block index in the snapshot. If you specify NextToken , then StartingBlockIndex is ignored. Constraints: o min: 0

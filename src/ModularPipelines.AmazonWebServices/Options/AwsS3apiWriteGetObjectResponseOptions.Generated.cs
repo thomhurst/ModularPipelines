@@ -150,14 +150,14 @@ public record AwsS3apiWriteGetObjectResponseOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This speci- fies the Base64 encoded, 32-bit CRC32 checksum of the object re- turned by the Object Lambda function. This may not match the check- sum for the object stored in Amazon S3. Amazon S3 will perform vali- dation of the checksum values only when the original GetObject re- quest required checksum validation. For more information about checksums, see Checking object integrity in the Amazon S3 User Guide . Only one checksum header can be specified at a time. If you supply multiple checksum headers, this request will fail.
     /// </summary>
-    [CliOption("--checksum-crc32", GroupValues = true)]
-    public IEnumerable<string>? ChecksumCrc32 { get; set; }
+    [CliOption("--checksum-crc32")]
+    public string? ChecksumCrc32 { get; set; }
 
     /// <summary>
     /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This speci- fies the Base64 encoded, 32-bit CRC32C checksum of the object re- turned by the Object Lambda function. This may not match the check- sum for the object stored in Amazon S3. Amazon S3 will perform vali- dation of the checksum values only when the original GetObject re- quest required checksum validation. For more information about checksums, see Checking object integrity in the Amazon S3 User Guide . Only one checksum header can be specified at a time. If you supply multiple checksum headers, this request will fail.
     /// </summary>
-    [CliOption("--checksum-crc32-c", GroupValues = true)]
-    public IEnumerable<string>? ChecksumCrc32C { get; set; }
+    [CliOption("--checksum-crc32-c")]
+    public string? ChecksumCrc32C { get; set; }
 
     /// <summary>
     /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 64-bit CRC64NVME checksum of the part. For more information, see Checking object integrity in the Amazon S3 User Guide .
@@ -168,14 +168,14 @@ public record AwsS3apiWriteGetObjectResponseOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This speci- fies the Base64 encoded, 160-bit SHA1 digest of the object returned by the Object Lambda function. This may not match the checksum for the object stored in Amazon S3. Amazon S3 will perform validation of the checksum values only when the original GetObject request re- quired checksum validation. For more information about checksums, see Checking object integrity in the Amazon S3 User Guide . Only one checksum header can be specified at a time. If you supply multiple checksum headers, this request will fail.
     /// </summary>
-    [CliOption("--checksum-sha1", GroupValues = true)]
-    public IEnumerable<string>? ChecksumSha1 { get; set; }
+    [CliOption("--checksum-sha1")]
+    public string? ChecksumSha1 { get; set; }
 
     /// <summary>
     /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This speci- fies the Base64 encoded, 256-bit SHA256 digest of the object re- turned by the Object Lambda function. This may not match the check- sum for the object stored in Amazon S3. Amazon S3 will perform vali- dation of the checksum values only when the original GetObject re- quest required checksum validation. For more information about checksums, see Checking object integrity in the Amazon S3 User Guide . Only one checksum header can be specified at a time. If you supply multiple checksum headers, this request will fail.
     /// </summary>
-    [CliOption("--checksum-sha256", GroupValues = true)]
-    public IEnumerable<string>? ChecksumSha256 { get; set; }
+    [CliOption("--checksum-sha256")]
+    public string? ChecksumSha256 { get; set; }
 
     /// <summary>
     /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 512-bit SHA512 digest of the part. For more information, see Checking object integrity in the Amazon S3 User Guide .

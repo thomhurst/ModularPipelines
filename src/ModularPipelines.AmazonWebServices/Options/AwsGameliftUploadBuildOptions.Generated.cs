@@ -63,7 +63,7 @@ public record AwsGameliftUploadBuildOptions : AwsOptions
     [CliOption("--operating-system")]
     public string? OperatingSystem { get; set; }
 
-    [CliOption("--tags")]
-    public string? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
 }

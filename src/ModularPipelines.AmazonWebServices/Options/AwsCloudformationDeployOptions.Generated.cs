@@ -61,8 +61,8 @@ public record AwsCloudformationDeployOptions : AwsOptions
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
-    [CliOption("--parameter-overrides")]
-    public string? ParameterOverrides { get; set; }
+    [CliOption("--parameter-overrides", GroupValues = true)]
+    public IEnumerable<string>? ParameterOverrides { get; set; }
 
     [CliOption("--capabilities", GroupValues = true)]
     public IEnumerable<string>? Capabilities { get; set; }

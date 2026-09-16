@@ -46,8 +46,8 @@ public record AwsDdbPutOptions : AwsOptions
     /// <summary>
     /// A condition that must be satisfied in order for a conditional put operation to succeed. For more information, see Comparison Operator and Function Reference in the Amazon DynamoDB Developer Guide For CLI specific syntax see aws help ddb-expressions
     /// </summary>
-    [CliOption("--condition")]
-    public string? Condition { get; set; }
+    [CliOption("--condition", GroupValues = true)]
+    public IEnumerable<string>? Condition { get; set; }
 
     /// <summary>
     /// The &lt;table-name&gt; operand.

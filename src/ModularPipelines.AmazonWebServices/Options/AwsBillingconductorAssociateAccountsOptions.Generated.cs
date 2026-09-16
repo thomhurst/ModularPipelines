@@ -30,22 +30,11 @@ public record AwsBillingconductorAssociateAccountsOptions : AwsOptions, IValidat
     /// <param name="Arn">The Amazon Resource Name (ARN) of the billing group that associates the array of account IDs. Constraints: o pattern: (arn:aws(-cn)?:billingconductor::[0-9]{12}:billing- group/)?[a-zA-Z0-9]{10,12}</param>
     /// <param name="AccountIds">The associating array of account IDs. Constraints: o min: 0 o max: 30 (string) Constraints: o pattern: [0-9]{12} Syntax: "string" "string" ...</param>
     public AwsBillingconductorAssociateAccountsOptions(
-        IEnumerable<string> Arn,
+        string Arn,
         IEnumerable<string> AccountIds
     )
     {
-        {
-            global::System.ArgumentNullException.ThrowIfNull(Arn);
-            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Arn));
-            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
-            {
-                throw new global::System.ArgumentException(
-                    "Required collection must contain at least one value.",
-                    nameof(Arn));
-            }
-
-            Arn = materialized;
-        }
+        global::System.ArgumentNullException.ThrowIfNull(Arn);
         this.Arn = Arn;
         {
             global::System.ArgumentNullException.ThrowIfNull(AccountIds);
@@ -84,8 +73,8 @@ public record AwsBillingconductorAssociateAccountsOptions : AwsOptions, IValidat
     /// <summary>
     /// The Amazon Resource Name (ARN) of the billing group that associates the array of account IDs. Constraints: o pattern: (arn:aws(-cn)?:billingconductor::[0-9]{12}:billing- group/)?[a-zA-Z0-9]{10,12}
     /// </summary>
-    [CliOption("--arn", GroupValues = true)]
-    public IEnumerable<string>? Arn { get; private init; }
+    [CliOption("--arn")]
+    public string? Arn { get; private init; }
 
     /// <summary>
     /// The associating array of account IDs. Constraints: o min: 0 o max: 30 (string) Constraints: o pattern: [0-9]{12} Syntax: "string" "string" ...

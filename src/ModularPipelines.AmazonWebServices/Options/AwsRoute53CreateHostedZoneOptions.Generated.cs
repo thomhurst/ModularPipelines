@@ -86,8 +86,8 @@ public record AwsRoute53CreateHostedZoneOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// If you want to associate a reusable delegation set with this hosted zone, the ID that Amazon Route 53 assigned to the reusable delega- tion set when you created it. For more information about reusable delegation sets, see CreateReusableDelegationSet . If you are using a reusable delegation set to create a public hosted zone for a subdomain, make sure that the parent hosted zone doesn't use one or more of the same name servers. If you have overlapping nameservers, the operation will cause a ConflictingDomainsExist er- ror. Constraints: o max: 32
     /// </summary>
-    [CliOption("--delegation-set-id", GroupValues = true)]
-    public IEnumerable<string>? DelegationSetId { get; set; }
+    [CliOption("--delegation-set-id")]
+    public string? DelegationSetId { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

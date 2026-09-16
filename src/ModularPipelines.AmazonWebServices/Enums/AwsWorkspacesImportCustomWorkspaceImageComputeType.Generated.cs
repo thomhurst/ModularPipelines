@@ -23,5 +23,8 @@ public enum AwsWorkspacesImportCustomWorkspaceImageComputeType
     GraphicsG4Dn,
 
     [EnumValue("GRAPHICS_G6")]
-    GraphicsG6
+    GraphicsG6,
+
+    [EnumValue("GRAPHICS_G7")]
+    GraphicsG7
 }

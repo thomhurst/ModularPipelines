@@ -31,23 +31,12 @@ public record AwsCodecommitCreateApprovalRuleTemplateOptions : AwsOptions, IVali
     /// <param name="ApprovalRuleTemplateContent">The content of the approval rule that is created on pull requests in associated repositories. If you specify one or more destination ref- erences (branches), approval rules are created in an associated repository only if their destination references (branches) match those specified in the template. NOTE: When you create the content of the approval rule template, you can specify approvers in an approval pool in one of two ways: o CodeCommitApprovers : This option only requires an Amazon Web Services account and a resource. It can be used for both IAM users and federated access users whose name matches the pro- vided resource name. This is a very powerful option that of- fers a great deal of flexibility. For example, if you specify the Amazon Web Services account 123456789012 and Mary_Major , all of the following are counted as approvals coming from that user: o An IAM user in the account (arn:aws:iam::123456789012 :user/Mary_Major ) o A federated user identified in IAM as Mary_Major (arn:aws:sts::123456789012 :federated-user/Mary_Major ) This option does not recognize an active session of someone as- suming the role of CodeCommitReview with a role session name of Mary_Major (arn:aws:sts::123456789012 :assumed-role/CodeCom- mitReview/Mary_Major ) unless you include a wildcard ( * Mary_Major). System Message: WARNING/2 (&lt;string&gt;:, line 112) Inline emphasis start-string without end-string. o Fully qualified ARN : This option allows you to specify the fully qualified Amazon Resource Name (ARN) of the IAM user or role. For more information about IAM ARNs, wildcards, and formats, see IAM Identifiers in the IAM User Guide . Constraints: o min: 1 o max: 3000</param>
     public AwsCodecommitCreateApprovalRuleTemplateOptions(
         string ApprovalRuleTemplateName,
-        IEnumerable<string> ApprovalRuleTemplateContent
+        string ApprovalRuleTemplateContent
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(ApprovalRuleTemplateName);
         this.ApprovalRuleTemplateName = ApprovalRuleTemplateName;
-        {
-            global::System.ArgumentNullException.ThrowIfNull(ApprovalRuleTemplateContent);
-            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ApprovalRuleTemplateContent));
-            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
-            {
-                throw new global::System.ArgumentException(
-                    "Required collection must contain at least one value.",
-                    nameof(ApprovalRuleTemplateContent));
-            }
-
-            ApprovalRuleTemplateContent = materialized;
-        }
+        global::System.ArgumentNullException.ThrowIfNull(ApprovalRuleTemplateContent);
         this.ApprovalRuleTemplateContent = ApprovalRuleTemplateContent;
     }
 
@@ -79,8 +68,8 @@ public record AwsCodecommitCreateApprovalRuleTemplateOptions : AwsOptions, IVali
     /// <summary>
     /// The content of the approval rule that is created on pull requests in associated repositories. If you specify one or more destination ref- erences (branches), approval rules are created in an associated repository only if their destination references (branches) match those specified in the template. NOTE: When you create the content of the approval rule template, you can specify approvers in an approval pool in one of two ways: o CodeCommitApprovers : This option only requires an Amazon Web Services account and a resource. It can be used for both IAM users and federated access users whose name matches the pro- vided resource name. This is a very powerful option that of- fers a great deal of flexibility. For example, if you specify the Amazon Web Services account 123456789012 and Mary_Major , all of the following are counted as approvals coming from that user: o An IAM user in the account (arn:aws:iam::123456789012 :user/Mary_Major ) o A federated user identified in IAM as Mary_Major (arn:aws:sts::123456789012 :federated-user/Mary_Major ) This option does not recognize an active session of someone as- suming the role of CodeCommitReview with a role session name of Mary_Major (arn:aws:sts::123456789012 :assumed-role/CodeCom- mitReview/Mary_Major ) unless you include a wildcard ( * Mary_Major). System Message: WARNING/2 (&lt;string&gt;:, line 112) Inline emphasis start-string without end-string. o Fully qualified ARN : This option allows you to specify the fully qualified Amazon Resource Name (ARN) of the IAM user or role. For more information about IAM ARNs, wildcards, and formats, see IAM Identifiers in the IAM User Guide . Constraints: o min: 1 o max: 3000
     /// </summary>
-    [CliOption("--approval-rule-template-content", GroupValues = true)]
-    public IEnumerable<string>? ApprovalRuleTemplateContent { get; private init; }
+    [CliOption("--approval-rule-template-content")]
+    public string? ApprovalRuleTemplateContent { get; private init; }
 
     /// <summary>
     /// The description of the approval rule template. Consider providing a description that explains what this template does and when it might be appropriate to associate it with repositories. Constraints: o min: 0 o max: 1000

@@ -102,8 +102,8 @@ public record AwsGameliftstreamsCreateApplicationOptions : AwsOptions, IValidata
     /// <summary>
     /// An Amazon S3 URI to a bucket where you would like Amazon GameLift Streams to save application logs. Required if you specify one or more ApplicationLogPaths . NOTE: The log bucket must have permissions that give Amazon GameLift Streams access to write the log files. For more information, see Application log bucket permission policy in the Amazon GameLift Streams Developer Guide . Constraints: o min: 0 o max: 1024 o pattern: $|^s3://([a-zA-Z0-9][a-zA-Z0-9._-]{1,61}[a-zA-Z0-9])(/[a-zA-Z0-9._-]+)*/?
     /// </summary>
-    [CliOption("--application-log-output-uri", GroupValues = true)]
-    public IEnumerable<string>? ApplicationLogOutputUri { get; set; }
+    [CliOption("--application-log-output-uri")]
+    public string? ApplicationLogOutputUri { get; set; }
 
     /// <summary>
     /// A list of labels to assign to the new application resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Services re- sources is useful for resource management, access management and cost allocation. See Tagging Amazon Web Services Resources in the Amazon Web Services General Reference . You can use TagResource to add tags, UntagResource to remove tags, and ListTagsForResource to view tags on existing resources. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}

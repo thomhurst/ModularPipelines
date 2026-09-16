@@ -76,8 +76,8 @@ public record AwsGameliftstreamsUpdateApplicationOptions : AwsOptions, IValidata
     /// <summary>
     /// An Amazon S3 URI to a bucket where you would like Amazon GameLift Streams to save application logs. Required if you specify one or more ApplicationLogPaths . NOTE: The log bucket must have permissions that give Amazon GameLift Streams access to write the log files. For more information, see Application log bucket permission policy in the Amazon GameLift Streams Developer Guide . Constraints: o min: 0 o max: 1024 o pattern: $|^s3://([a-zA-Z0-9][a-zA-Z0-9._-]{1,61}[a-zA-Z0-9])(/[a-zA-Z0-9._-]+)*/?
     /// </summary>
-    [CliOption("--application-log-output-uri", GroupValues = true)]
-    public IEnumerable<string>? ApplicationLogOutputUri { get; set; }
+    [CliOption("--application-log-output-uri")]
+    public string? ApplicationLogOutputUri { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

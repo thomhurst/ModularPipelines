@@ -98,7 +98,7 @@ public record AwsEcsStartTaskOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Whether or not the execute command functionality is turned on for the task. If true , this turns on the execute command functionality on all containers in the task.
     /// </summary>
-    [CliFlag("--enable-execute-command")]
+    [CliFlag("--enable-execute-command", NegatedName = "--disable-execute-command")]
     public bool? EnableExecuteCommand { get; set; }
 
     /// <summary>

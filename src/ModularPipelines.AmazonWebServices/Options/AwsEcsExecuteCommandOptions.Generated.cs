@@ -38,12 +38,6 @@ public record AwsEcsExecuteCommandOptions : AwsOptions, IValidatableObject
     {
         global::System.ArgumentNullException.ThrowIfNull(Command);
         this.Command = Command;
-        if (!Interactive)
-        {
-            throw new global::System.ArgumentException(
-                "Required flag must be enabled to emit its switch.",
-                nameof(Interactive));
-        }
         this.Interactive = Interactive;
         global::System.ArgumentNullException.ThrowIfNull(Task);
         this.Task = Task;
@@ -77,7 +71,7 @@ public record AwsEcsExecuteCommandOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Use this flag to run your command in interactive mode.
     /// </summary>
-    [CliFlag("--interactive")]
+    [CliFlag("--interactive", NegatedName = "--non-interactive")]
     public bool? Interactive { get; private init; }
 
     /// <summary>

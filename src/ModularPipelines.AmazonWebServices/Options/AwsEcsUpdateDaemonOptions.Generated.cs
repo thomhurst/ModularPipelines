@@ -114,7 +114,7 @@ public record AwsEcsUpdateDaemonOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// If true , the execute command functionality is turned on for all tasks in the daemon. If false , the execute command functionality is turned off.
     /// </summary>
-    [CliFlag("--enable-execute-command")]
+    [CliFlag("--enable-execute-command", NegatedName = "--disable-execute-command")]
     public bool? EnableExecuteCommand { get; set; }
 
     /// <summary>

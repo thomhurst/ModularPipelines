@@ -37,8 +37,8 @@ public record AwsAppflowListConnectorEntitiesOptions : AwsOptions
     /// <summary>
     /// This optional parameter is specific to connector implementation. Some connectors support multiple levels or categories of entities. You can find out the list of roots for such providers by sending a request without the entitiesPath parameter. If the connector sup- ports entities at different roots, this initial request returns the list of roots. Otherwise, this request returns all entities sup- ported by the provider. Constraints: o max: 256 o pattern: [\s\w/!@#+=,.-]*
     /// </summary>
-    [CliOption("--entities-path", GroupValues = true)]
-    public IEnumerable<string>? EntitiesPath { get; set; }
+    [CliOption("--entities-path")]
+    public string? EntitiesPath { get; set; }
 
     /// <summary>
     /// The version of the API that's used by the connector. Constraints: o max: 256 o pattern: \S+

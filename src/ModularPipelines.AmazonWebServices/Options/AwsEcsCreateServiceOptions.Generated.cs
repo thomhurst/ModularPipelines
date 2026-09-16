@@ -193,7 +193,7 @@ public record AwsEcsCreateServiceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Determines whether the execute command functionality is turned on for the service. If true , this enables execute command functional- ity on all containers in the service tasks.
     /// </summary>
-    [CliFlag("--enable-execute-command")]
+    [CliFlag("--enable-execute-command", NegatedName = "--disable-execute-command")]
     public bool? EnableExecuteCommand { get; set; }
 
     /// <summary>

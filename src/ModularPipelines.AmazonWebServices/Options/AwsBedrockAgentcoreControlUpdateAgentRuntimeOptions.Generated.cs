@@ -144,6 +144,12 @@ public record AwsBedrockAgentcoreControlUpdateAgentRuntimeOptions : AwsOptions, 
     public string? CapacityProviderConfiguration { get; set; }
 
     /// <summary>
+    /// The updated version of the runtime platform to use for the AgentCore Runtime. Constraints: o min: 1 o max: 128 o pattern: [^\s]+
+    /// </summary>
+    [CliOption("--platform-version")]
+    public string? PlatformVersion { get; set; }
+
+    /// <summary>
     /// A unique, case-sensitive identifier to ensure idempotency of the re- quest. Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
     /// </summary>
     [SecretValue]

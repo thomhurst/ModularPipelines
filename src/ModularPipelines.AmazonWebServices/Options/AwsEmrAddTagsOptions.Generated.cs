@@ -10,7 +10,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -32,23 +31,12 @@ public record AwsEmrAddTagsOptions : AwsOptions, IValidatableObject
     /// <param name="Tags">A list of tags to associate with a cluster, which apply to each Ama- zon EC2 instance in the cluster. Tags are key-value pairs that con- sist of a required key string with a maximum of 128 characters, and an optional value string with a maximum of 256 characters. You can specify tags in key=value format or you can add a tag with- out a value using only the key name, for example key . Use a space to separate multiple tags.</param>
     public AwsEmrAddTagsOptions(
         string ResourceId,
-        IReadOnlyList<KeyValue> Tags
+        string Tags
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(ResourceId);
         this.ResourceId = ResourceId;
-        {
-            global::System.ArgumentNullException.ThrowIfNull(Tags);
-            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(Tags));
-            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
-            {
-                throw new global::System.ArgumentException(
-                    "Required collection must contain at least one value.",
-                    nameof(Tags));
-            }
-
-            Tags = materialized;
-        }
+        global::System.ArgumentNullException.ThrowIfNull(Tags);
         this.Tags = Tags;
     }
 
@@ -80,8 +68,8 @@ public record AwsEmrAddTagsOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// A list of tags to associate with a cluster, which apply to each Ama- zon EC2 instance in the cluster. Tags are key-value pairs that con- sist of a required key string with a maximum of 128 characters, and an optional value string with a maximum of 256 characters. You can specify tags in key=value format or you can add a tag with- out a value using only the key name, for example key . Use a space to separate multiple tags.
     /// </summary>
-    [CliOption("--tags", CollectionSeparator = ",")]
-    public IReadOnlyList<KeyValue>? Tags { get; private init; }
+    [CliOption("--tags")]
+    public string? Tags { get; private init; }
 
     /// <summary>
     /// The ID of the cluster that scopes the tag operation. Required when the resource being tagged is a session-scoped resource. Constraints: o max: 256

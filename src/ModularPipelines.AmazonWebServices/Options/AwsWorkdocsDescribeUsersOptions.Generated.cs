@@ -69,8 +69,8 @@ public record AwsWorkdocsDescribeUsersOptions : AwsOptions
     /// <summary>
     /// A query to filter users by user name. Remember the following about the Userids and Query parameters: o If you don't use either parameter, the API returns a paginated list of all users on the site. o If you use both parameters, the API ignores the Query parameter. o The Userid parameter only returns user names that match a corre- sponding user ID. o The Query parameter runs a "prefix" search for users by the Given- Name , SurName , or UserName fields included in a CreateUser API call. For example, querying on Ma returns Mrcia Oliveira, Mara Garca, and Mateo Jackson. If you use multiple characters, the API only returns data that matches all characters. For example, query- ing on Ma J only returns Mateo Jackson. Constraints: o min: 1 o max: 512 o pattern: [\u0020-\uFFFF]+
     /// </summary>
-    [CliOption("--user-query", GroupValues = true)]
-    public IEnumerable<string>? UserQuery { get; set; }
+    [CliOption("--user-query")]
+    public string? UserQuery { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

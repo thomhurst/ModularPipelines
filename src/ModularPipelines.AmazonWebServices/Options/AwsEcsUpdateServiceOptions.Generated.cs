@@ -143,7 +143,7 @@ public record AwsEcsUpdateServiceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// If true , this enables execute command functionality on all task containers. If you do not want to override the value that was set when the ser- vice was created, you can set this to null when performing this ac- tion. This parameter doesn't trigger a new service deployment.
     /// </summary>
-    [CliFlag("--enable-execute-command")]
+    [CliFlag("--enable-execute-command", NegatedName = "--disable-execute-command")]
     public bool? EnableExecuteCommand { get; set; }
 
     /// <summary>

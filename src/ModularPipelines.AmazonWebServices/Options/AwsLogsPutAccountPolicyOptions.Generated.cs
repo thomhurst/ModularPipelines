@@ -33,24 +33,13 @@ public record AwsLogsPutAccountPolicyOptions : AwsOptions, IValidatableObject
     /// <param name="PolicyType">The type of policy that you're creating or updating. Possible values: o DATA_PROTECTION_POLICY o SUBSCRIPTION_FILTER_POLICY o FIELD_INDEX_POLICY o TRANSFORMER_POLICY o METRIC_EXTRACTION_POLICY</param>
     public AwsLogsPutAccountPolicyOptions(
         string PolicyName,
-        IEnumerable<string> PolicyDocument,
+        string PolicyDocument,
         AwsLogsPutAccountPolicyPolicyType PolicyType
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(PolicyName);
         this.PolicyName = PolicyName;
-        {
-            global::System.ArgumentNullException.ThrowIfNull(PolicyDocument);
-            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(PolicyDocument));
-            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
-            {
-                throw new global::System.ArgumentException(
-                    "Required collection must contain at least one value.",
-                    nameof(PolicyDocument));
-            }
-
-            PolicyDocument = materialized;
-        }
+        global::System.ArgumentNullException.ThrowIfNull(PolicyDocument);
         this.PolicyDocument = PolicyDocument;
         global::System.ArgumentNullException.ThrowIfNull(PolicyType);
         this.PolicyType = PolicyType;
@@ -84,8 +73,8 @@ public record AwsLogsPutAccountPolicyOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Specify the policy, in JSON. Data protection policy A data protection policy must include two JSON blocks: o The first block must include both a DataIdentifer array and an Op- eration property with an Audit action. The DataIdentifer array lists the types of sensitive data that you want to mask. For more information about the available options, see Types of data that you can mask . The Operation property with an Audit action is re- quired to find the sensitive data terms. This Audit action must contain a FindingsDestination object. You can optionally use that FindingsDestination object to list one or more destinations to send audit findings to. If you specify destinations such as log groups, Firehose streams, and S3 buckets, they must already exist. o The second block must include both a DataIdentifer array and an Operation property with an Deidentify action. The DataIdentifer array must exactly match the DataIdentifer array in the first block of the policy. The Operation property with the Deidentify action is what actually masks the data, and it must contain the "MaskConfig": {} object. The "MaskConfig": {} object must be empty. For an example data protection policy, see the Examples section on this page. WARNING: The contents of the two DataIdentifer arrays must match exactly. In addition to the two JSON blocks, the policyDocument can also in- clude Name , Description , and Version fields. The Name is different than the operation's policyName parameter, and is used as a dimen- sion when CloudWatch Logs reports audit findings metrics to Cloud- Watch. The JSON specified in policyDocument can be up to 30,720 characters long. Subscription filter policy A subscription filter policy can include the following attributes in a JSON block: o DestinationArn The ARN of the destination to deliver log events to. Supported destinations are: o An Kinesis Data Streams data stream in the same account as the subscription policy, for same-account delivery. o An Firehose data stream in the same account as the subscription policy, for same-account delivery. o A Lambda function in the same account as the subscription pol- icy, for same-account delivery. o A logical destination in a different account created with PutDestination , for cross-account delivery. Kinesis Data Streams and Firehose are supported as logical destinations. o RoleArn The ARN of an IAM role that grants CloudWatch Logs permis- sions to deliver ingested log events to the destination stream. You don't need to provide the ARN when you are working with a log- ical destination for cross-account delivery. o FilterPattern A filter pattern for subscribing to a filtered stream of log events. o Distribution The method used to distribute log data to the desti- nation. By default, log data is grouped by log stream, but the grouping can be set to Random for a more even distribution. This property is only applicable when the destination is an Kinesis Data Streams data stream. Transformer policy A transformer policy must include one JSON block with the array of processors and their configurations. For more information about available processors, see Processors that you can use . Field index policy A field index filter policy can include the following attribute in a JSON block: o Fields The array of field indexes to create. o FieldsV2 The object of field indexes to create along with it's type. It must contain at least one field index. The following is an example of an index policy document that creates indexes with different types. "policyDocument": "{ \"Fields\": [ \"TransactionId\" ], \"FieldsV2\": {\"RequestId\": {\"type\": \"FIELD_INDEX\"}, \"AP- IName\": {\"type\": \"FACET\"}, \"StatusCode\": {\"type\": \"FACET\"}}}" You can use FieldsV2 to specify the type for each field. Supported types are FIELD_INDEX and FACET . Field names within Fields and FieldsV2 must be mutually exclusive.
     /// </summary>
-    [CliOption("--policy-document", GroupValues = true)]
-    public IEnumerable<string>? PolicyDocument { get; private init; }
+    [CliOption("--policy-document")]
+    public string? PolicyDocument { get; private init; }
 
     /// <summary>
     /// The type of policy that you're creating or updating. Possible values: o DATA_PROTECTION_POLICY o SUBSCRIPTION_FILTER_POLICY o FIELD_INDEX_POLICY o TRANSFORMER_POLICY o METRIC_EXTRACTION_POLICY

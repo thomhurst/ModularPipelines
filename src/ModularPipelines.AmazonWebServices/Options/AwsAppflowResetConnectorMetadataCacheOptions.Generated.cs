@@ -48,8 +48,8 @@ public record AwsAppflowResetConnectorMetadataCacheOptions : AwsOptions
     /// <summary>
     /// The API version that you specified in the connector profile that youre resetting cached metadata for. You must use this parameter only if the connector supports multiple API versions or if the con- nector type is CustomConnector. To look up how many versions a connector supports, use the De- scribeConnectors action. In the response, find the value that Amazon AppFlow returns for the connectorVersion parameter. To look up the connector type, use the DescribeConnectorProfiles ac- tion. In the response, find the value that Amazon AppFlow returns for the connectorType parameter. To look up the API version that you specified in a connector pro- file, use the DescribeConnectorProfiles action. Constraints: o max: 256 o pattern: \S+
     /// </summary>
-    [CliOption("--api-version", GroupValues = true)]
-    public IEnumerable<string>? ApiVersion { get; set; }
+    [CliOption("--api-version")]
+    public string? ApiVersion { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

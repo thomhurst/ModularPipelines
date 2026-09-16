@@ -48,12 +48,6 @@ public record AwsEc2CreateNetworkAclEntryOptions : AwsOptions, IValidatableObjec
         this.Protocol = Protocol;
         global::System.ArgumentNullException.ThrowIfNull(RuleAction);
         this.RuleAction = RuleAction;
-        if (!Egress)
-        {
-            throw new global::System.ArgumentException(
-                "Required flag must be enabled to emit its switch.",
-                nameof(Egress));
-        }
         this.Egress = Egress;
     }
 
@@ -103,7 +97,7 @@ public record AwsEc2CreateNetworkAclEntryOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Indicates whether this is an egress rule (rule is applied to traffic leaving the subnet).
     /// </summary>
-    [CliFlag("--egress")]
+    [CliFlag("--egress", NegatedName = "--ingress")]
     public bool? Egress { get; private init; }
 
     /// <summary>

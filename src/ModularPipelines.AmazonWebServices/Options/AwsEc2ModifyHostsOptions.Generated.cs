@@ -82,8 +82,8 @@ public record AwsEc2ModifyHostsOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Specifies the instance type to be supported by the Dedicated Host. Specify this parameter to modify a Dedicated Host to support only a specific instance type. If you want to modify a Dedicated Host to support multiple instance types in its current instance family, omit this parameter and spec- ify InstanceFamily instead. You cannot specify InstanceType and In- stanceFamily in the same request.
     /// </summary>
-    [CliOption("--instance-type", GroupValues = true)]
-    public IEnumerable<string>? InstanceType { get; set; }
+    [CliOption("--instance-type")]
+    public string? InstanceType { get; set; }
 
     /// <summary>
     /// Specifies the instance family to be supported by the Dedicated Host. Specify this parameter to modify a Dedicated Host to support multi- ple instance types within its current instance family. If you want to modify a Dedicated Host to support a specific in- stance type only, omit this parameter and specify InstanceType in- stead. You cannot specify InstanceFamily and InstanceType in the same request.

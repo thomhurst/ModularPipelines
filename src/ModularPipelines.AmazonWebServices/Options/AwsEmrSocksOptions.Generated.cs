@@ -49,7 +49,7 @@ public record AwsEmrSocksOptions : AwsOptions
     [CliOption("--key-pair-file")]
     public string KeyPairFile { get; private init; }
 
-    [CliOption("--ssh-options")]
-    public string? SshOptions { get; set; }
+    [CliOption("--ssh-options", GroupValues = true)]
+    public IEnumerable<string>? SshOptions { get; set; }
 
 }

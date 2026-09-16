@@ -30,7 +30,7 @@ public record AwsWorkspacesImportCustomWorkspaceImageOptions : AwsOptions, IVali
     /// </summary>
     /// <param name="ImageName">The name of the WorkSpace image. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_./()\\-]+$</param>
     /// <param name="ImageDescription">The description of the WorkSpace image. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9_./() -]+$</param>
-    /// <param name="ComputeType">The supported compute type for the WorkSpace image. Possible values: o BASE o GRAPHICS_G4DN o GRAPHICS_G6</param>
+    /// <param name="ComputeType">The supported compute type for the WorkSpace image. Possible values: o BASE o GRAPHICS_G4DN o GRAPHICS_G6 o GRAPHICS_G7</param>
     /// <param name="Protocol">The supported protocol for the WorkSpace image. Windows 11 does not support PCOIP protocol. Possible values: o PCOIP o DCV o BYOP</param>
     /// <param name="ImageSource">The options for image import source. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Ec2ImportTaskId, ImageBuildVersionArn, Ec2ImageId. Ec2ImportTaskId -&gt; (string) The EC2 import task ID to import the image from the Amazon EC2 VM import process. Constraints: o min: 19 o max: 28 o pattern: ^import-ami\-([a-zA-Z0-9]{8}|[a-zA-Z0-9]{17})$ ImageBuildVersionArn -&gt; (string) The ARN of the EC2 Image Builder image. Constraints: o min: 1 o max: 2048 o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):im- age/[a-z0-9-_]+/(?:(?:([0-9]+|x)\.([0-9]+|x)\.([0-9]+|x))|(?:[0-9]+\.[0-9]+\.[0-9]+/[0-9]+))$ Ec2ImageId -&gt; (string) The identifier of the EC2 image. Constraints: o pattern: ^ami\-([a-f0-9]{8}|[a-f0-9]{17})$ Shorthand Syntax: Ec2ImportTaskId=string,ImageBuildVersionArn=string,Ec2ImageId=string JSON Syntax: { "Ec2ImportTaskId": "string", "ImageBuildVersionArn": "string", "Ec2ImageId": "string" }</param>
     /// <param name="InfrastructureConfigurationArn">The infrastructure configuration ARN that specifies how the Work- Space image is built. Constraints: o min: 1 o max: 2048 o pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):infra- structure-configuration/[a-z0-9-_]+$</param>
@@ -97,7 +97,7 @@ public record AwsWorkspacesImportCustomWorkspaceImageOptions : AwsOptions, IVali
     public string? ImageDescription { get; private init; }
 
     /// <summary>
-    /// The supported compute type for the WorkSpace image. Possible values: o BASE o GRAPHICS_G4DN o GRAPHICS_G6
+    /// The supported compute type for the WorkSpace image. Possible values: o BASE o GRAPHICS_G4DN o GRAPHICS_G6 o GRAPHICS_G7
     /// </summary>
     [CliOption("--compute-type")]
     public AwsWorkspacesImportCustomWorkspaceImageComputeType? ComputeType { get; private init; }

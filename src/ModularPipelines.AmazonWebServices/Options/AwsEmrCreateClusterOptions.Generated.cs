@@ -23,23 +23,6 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsEmrCreateClusterOptions : AwsOptions
 {
     /// <summary>
-    /// Creates an Amazon EMR cluster with the specified configurations.
-    /// </summary>
-    /// <param name="Value">The &lt;value&gt; operand.</param>
-    public AwsEmrCreateClusterOptions(
-        string Value
-    )
-    {
-        global::System.ArgumentNullException.ThrowIfNull(Value);
-        this.Value = Value;
-    }
-
-    public void Deconstruct(out string Value)
-    {
-        Value = this.Value;
-    }
-
-    /// <summary>
     /// Specifies the Amazon EMR release version, which determines the ver- sions of application software that are installed on the cluster. For example, --release-label emr-5.15.0 installs the application ver- sions and features available in that version. For details about ap- plication versions and features available in each release, see the Amazon EMR Release Guide: https://docs.aws.amazon.com/emr/latest/ReleaseGuide Use --release-label only for Amazon EMR release version 4.0 and later. Use --ami-version for earlier versions. You cannot specify both a release label and AMI version.
     /// </summary>
     [CliOption("--release-label")]
@@ -293,11 +276,5 @@ public record AwsEmrCreateClusterOptions : AwsOptions
     /// </summary>
     [CliFlag("--session-enabled", NegatedName = "--no-session-enabled")]
     public bool? SessionEnabled { get; set; }
-
-    /// <summary>
-    /// The &lt;value&gt; operand.
-    /// </summary>
-    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
-    public string Value { get; private init; }
 
 }

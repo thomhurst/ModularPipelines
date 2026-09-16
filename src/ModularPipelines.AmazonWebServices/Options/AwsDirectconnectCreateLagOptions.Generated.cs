@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -119,6 +120,12 @@ public record AwsDirectconnectCreateLagOptions : AwsOptions, IValidatableObject
     /// </summary>
     [CliFlag("--request-mac-sec", NegatedName = "--no-request-mac-sec")]
     public bool? RequestMacSec { get; set; }
+
+    /// <summary>
+    /// The billing mode for the LAG. Possible values: o PayAsYouGo o FlatRateTier1 o FlatRateTier2 o FlatRateTier3 o FlatRateTier4 o FlatRateTier5
+    /// </summary>
+    [CliOption("--billing-mode")]
+    public AwsDirectconnectCreateLagBillingMode? BillingMode { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

@@ -65,8 +65,8 @@ public record AwsRekognitionListFacesOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// An array of user IDs to filter results with when listing faces in a collection. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.\-:]+
     /// </summary>
-    [CliOption("--user-id", GroupValues = true)]
-    public IEnumerable<string>? UserId { get; set; }
+    [CliOption("--user-id")]
+    public string? UserId { get; set; }
 
     /// <summary>
     /// An array of face IDs to filter results with when listing faces in a collection. Constraints: o min: 1 o max: 4096 (string) Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} Syntax: "string" "string" ...

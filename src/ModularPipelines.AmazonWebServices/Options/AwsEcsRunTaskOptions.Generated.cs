@@ -90,7 +90,7 @@ public record AwsEcsRunTaskOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Determines whether to use the execute command functionality for the containers in this task. If true , this enables execute command functionality on all containers in the task. If true , then the task definition must have a task role, or you must provide one as an override.
     /// </summary>
-    [CliFlag("--enable-execute-command")]
+    [CliFlag("--enable-execute-command", NegatedName = "--disable-execute-command")]
     public bool? EnableExecuteCommand { get; set; }
 
     /// <summary>

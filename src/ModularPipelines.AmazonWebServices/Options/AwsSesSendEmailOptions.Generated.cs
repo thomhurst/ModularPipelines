@@ -109,14 +109,14 @@ public record AwsSesSendEmailOptions : AwsOptions, IValidatableObject
     [CliOption("--configuration-set-name")]
     public string? ConfigurationSetName { get; set; }
 
-    [CliOption("--to", GroupValues = true)]
-    public IEnumerable<string>? To { get; set; }
+    [CliOption("--to")]
+    public string? To { get; set; }
 
-    [CliOption("--cc", GroupValues = true)]
-    public IEnumerable<string>? Cc { get; set; }
+    [CliOption("--cc")]
+    public string? Cc { get; set; }
 
-    [CliOption("--bcc", GroupValues = true)]
-    public IEnumerable<string>? Bcc { get; set; }
+    [CliOption("--bcc")]
+    public string? Bcc { get; set; }
 
     [CliOption("--subject")]
     public string? Subject { get; set; }
