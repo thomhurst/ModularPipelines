@@ -34,7 +34,9 @@ var aws = context.Tools.Aws;
 | `aws accessanalyzer check-no-new-access`                                             | `AwsAccessanalyzerCheckNoNewAccessOptions`                                          |
 | `aws accessanalyzer check-no-public-access`                                          | `AwsAccessanalyzerCheckNoPublicAccessOptions`                                       |
 | `aws accessanalyzer create-access-preview`                                           | `AwsAccessanalyzerCreateAccessPreviewOptions`                                       |
+| `aws accessanalyzer create-analyzer`                                                 | `AwsAccessanalyzerCreateAnalyzerOptions`                                            |
 | `aws accessanalyzer create-archive-rule`                                             | `AwsAccessanalyzerCreateArchiveRuleOptions`                                         |
+| `aws accessanalyzer create-service-linked-analyzer`                                  | `AwsAccessanalyzerCreateServiceLinkedAnalyzerOptions`                               |
 | `aws accessanalyzer delete-analyzer`                                                 | `AwsAccessanalyzerDeleteAnalyzerOptions`                                            |
 | `aws accessanalyzer delete-archive-rule`                                             | `AwsAccessanalyzerDeleteArchiveRuleOptions`                                         |
 | `aws accessanalyzer delete-service-linked-analyzer`                                  | `AwsAccessanalyzerDeleteServiceLinkedAnalyzerOptions`                               |
@@ -61,6 +63,7 @@ var aws = context.Tools.Aws;
 | `aws accessanalyzer start-resource-scan`                                             | `AwsAccessanalyzerStartResourceScanOptions`                                         |
 | `aws accessanalyzer tag-resource`                                                    | `AwsAccessanalyzerTagResourceOptions`                                               |
 | `aws accessanalyzer untag-resource`                                                  | `AwsAccessanalyzerUntagResourceOptions`                                             |
+| `aws accessanalyzer update-analyzer`                                                 | `AwsAccessanalyzerUpdateAnalyzerOptions`                                            |
 | `aws accessanalyzer update-archive-rule`                                             | `AwsAccessanalyzerUpdateArchiveRuleOptions`                                         |
 | `aws accessanalyzer update-findings`                                                 | `AwsAccessanalyzerUpdateFindingsOptions`                                            |
 | `aws accessanalyzer validate-policy`                                                 | `AwsAccessanalyzerValidatePolicyOptions`                                            |
@@ -115,6 +118,7 @@ var aws = context.Tools.Aws;
 | `aws acm list-acme-endpoints`                                                        | `AwsAcmListAcmeEndpointsOptions`                                                    |
 | `aws acm list-acme-external-account-bindings`                                        | `AwsAcmListAcmeExternalAccountBindingsOptions`                                      |
 | `aws acm list-certificate-domain-validations`                                        | `AwsAcmListCertificateDomainValidationsOptions`                                     |
+| `aws acm list-certificates`                                                          | `AwsAcmListCertificatesOptions`                                                     |
 | `aws acm list-tags-for-certificate`                                                  | `AwsAcmListTagsForCertificateOptions`                                               |
 | `aws acm list-tags-for-resource`                                                     | `AwsAcmListTagsForResourceOptions`                                                  |
 | `aws acm put-account-configuration`                                                  | `AwsAcmPutAccountConfigurationOptions`                                              |
@@ -165,6 +169,7 @@ var aws = context.Tools.Aws;
 | `aws agent-registry batch-get-discoverable-registry-record`                          | `AwsAgentRegistryBatchGetDiscoverableRegistryRecordOptions`                         |
 | `aws agent-registry list-discoverable-registry-records`                              | `AwsAgentRegistryListDiscoverableRegistryRecordsOptions`                            |
 | `aws agent-registry search-discoverable-registry-records`                            | `AwsAgentRegistrySearchDiscoverableRegistryRecordsOptions`                          |
+| `aws agent-registry-control create-registry`                                         | `AwsAgentRegistryControlCreateRegistryOptions`                                      |
 | `aws agent-registry-control create-registry-record`                                  | `AwsAgentRegistryControlCreateRegistryRecordOptions`                                |
 | `aws agent-registry-control delete-registry`                                         | `AwsAgentRegistryControlDeleteRegistryOptions`                                      |
 | `aws agent-registry-control delete-registry-record`                                  | `AwsAgentRegistryControlDeleteRegistryRecordOptions`                                |
@@ -176,6 +181,7 @@ var aws = context.Tools.Aws;
 | `aws agent-registry-control submit-registry-record-for-approval`                     | `AwsAgentRegistryControlSubmitRegistryRecordForApprovalOptions`                     |
 | `aws agent-registry-control tag-resource`                                            | `AwsAgentRegistryControlTagResourceOptions`                                         |
 | `aws agent-registry-control untag-resource`                                          | `AwsAgentRegistryControlUntagResourceOptions`                                       |
+| `aws agent-registry-control update-registry`                                         | `AwsAgentRegistryControlUpdateRegistryOptions`                                      |
 | `aws agent-registry-control update-registry-record`                                  | `AwsAgentRegistryControlUpdateRegistryRecordOptions`                                |
 | `aws agent-registry-control update-registry-record-status`                           | `AwsAgentRegistryControlUpdateRegistryRecordStatusOptions`                          |
 | `aws agent-registry-control wait registry-ready`                                     | `AwsAgentRegistryControlWaitRegistryReadyOptions`                                   |
@@ -188,6 +194,7 @@ var aws = context.Tools.Aws;
 | `aws agent-toolkit remove-skill`                                                     | `AwsAgentToolkitRemoveSkillOptions`                                                 |
 | `aws agent-toolkit search-skills`                                                    | `AwsAgentToolkitSearchSkillsOptions`                                                |
 | `aws agent-toolkit update-skill`                                                     | `AwsAgentToolkitUpdateSkillOptions`                                                 |
+| `aws aiops create-investigation-group`                                               | `AwsAiopsCreateInvestigationGroupOptions`                                           |
 | `aws aiops delete-investigation-group`                                               | `AwsAiopsDeleteInvestigationGroupOptions`                                           |
 | `aws aiops delete-investigation-group-policy`                                        | `AwsAiopsDeleteInvestigationGroupPolicyOptions`                                     |
 | `aws aiops get-investigation-group`                                                  | `AwsAiopsGetInvestigationGroupOptions`                                              |
@@ -197,6 +204,7 @@ var aws = context.Tools.Aws;
 | `aws aiops put-investigation-group-policy`                                           | `AwsAiopsPutInvestigationGroupPolicyOptions`                                        |
 | `aws aiops tag-resource`                                                             | `AwsAiopsTagResourceOptions`                                                        |
 | `aws aiops untag-resource`                                                           | `AwsAiopsUntagResourceOptions`                                                      |
+| `aws aiops update-investigation-group`                                               | `AwsAiopsUpdateInvestigationGroupOptions`                                           |
 | `aws amp create-alert-manager-definition`                                            | `AwsAmpCreateAlertManagerDefinitionOptions`                                         |
 | `aws amp create-anomaly-detector`                                                    | `AwsAmpCreateAnomalyDetectorOptions`                                                |
 | `aws amp create-logging-configuration`                                               | `AwsAmpCreateLoggingConfigurationOptions`                                           |
@@ -623,7 +631,9 @@ var aws = context.Tools.Aws;
 | `aws appconfig update-configuration-profile`                                         | `AwsAppConfigUpdateConfigurationProfileOptions`                                     |
 | `aws appconfig update-deployment-strategy`                                           | `AwsAppConfigUpdateDeploymentStrategyOptions`                                       |
 | `aws appconfig update-environment`                                                   | `AwsAppConfigUpdateEnvironmentOptions`                                              |
+| `aws appconfig update-experiment-definition`                                         | `AwsAppConfigUpdateExperimentDefinitionOptions`                                     |
 | `aws appconfig update-experiment-run`                                                | `AwsAppConfigUpdateExperimentRunOptions`                                            |
+| `aws appconfig update-extension`                                                     | `AwsAppConfigUpdateExtensionOptions`                                                |
 | `aws appconfig update-extension-association`                                         | `AwsAppConfigUpdateExtensionAssociationOptions`                                     |
 | `aws appconfig validate-configuration`                                               | `AwsAppConfigValidateConfigurationOptions`                                          |
 | `aws appconfig wait deployment-complete`                                             | `AwsAppConfigWaitDeploymentCompleteOptions`                                         |
@@ -667,10 +677,12 @@ var aws = context.Tools.Aws;
 | `aws appflow describe-connectors`                                                    | `AwsAppflowDescribeConnectorsOptions`                                               |
 | `aws appflow describe-flow`                                                          | `AwsAppflowDescribeFlowOptions`                                                     |
 | `aws appflow describe-flow-execution-records`                                        | `AwsAppflowDescribeFlowExecutionRecordsOptions`                                     |
+| `aws appflow list-connector-entities`                                                | `AwsAppflowListConnectorEntitiesOptions`                                            |
 | `aws appflow list-connectors`                                                        | `AwsAppflowListConnectorsOptions`                                                   |
 | `aws appflow list-flows`                                                             | `AwsAppflowListFlowsOptions`                                                        |
 | `aws appflow list-tags-for-resource`                                                 | `AwsAppflowListTagsForResourceOptions`                                              |
 | `aws appflow register-connector`                                                     | `AwsAppflowRegisterConnectorOptions`                                                |
+| `aws appflow reset-connector-metadata-cache`                                         | `AwsAppflowResetConnectorMetadataCacheOptions`                                      |
 | `aws appflow start-flow`                                                             | `AwsAppflowStartFlowOptions`                                                        |
 | `aws appflow stop-flow`                                                              | `AwsAppflowStopFlowOptions`                                                         |
 | `aws appflow tag-resource`                                                           | `AwsAppflowTagResourceOptions`                                                      |
@@ -753,6 +765,7 @@ var aws = context.Tools.Aws;
 | `aws application-signals batch-get-service-level-objective-budget-report`            | `AwsApplicationSignalsBatchGetServiceLevelObjectiveBudgetReportOptions`             |
 | `aws application-signals batch-update-exclusion-windows`                             | `AwsApplicationSignalsBatchUpdateExclusionWindowsOptions`                           |
 | `aws application-signals create-instrumentation-configuration`                       | `AwsApplicationSignalsCreateInstrumentationConfigurationOptions`                    |
+| `aws application-signals create-service-level-objective`                             | `AwsApplicationSignalsCreateServiceLevelObjectiveOptions`                           |
 | `aws application-signals delete-grouping-configuration`                              | `AwsApplicationSignalsDeleteGroupingConfigurationOptions`                           |
 | `aws application-signals delete-instrumentation-configuration`                       | `AwsApplicationSignalsDeleteInstrumentationConfigurationOptions`                    |
 | `aws application-signals delete-service-level-objective`                             | `AwsApplicationSignalsDeleteServiceLevelObjectiveOptions`                           |
@@ -777,6 +790,7 @@ var aws = context.Tools.Aws;
 | `aws application-signals start-discovery`                                            | `AwsApplicationSignalsStartDiscoveryOptions`                                        |
 | `aws application-signals tag-resource`                                               | `AwsApplicationSignalsTagResourceOptions`                                           |
 | `aws application-signals untag-resource`                                             | `AwsApplicationSignalsUntagResourceOptions`                                         |
+| `aws application-signals update-service-level-objective`                             | `AwsApplicationSignalsUpdateServiceLevelObjectiveOptions`                           |
 | `aws applicationcostprofiler delete-report-definition`                               | `AwsApplicationcostprofilerDeleteReportDefinitionOptions`                           |
 | `aws applicationcostprofiler get-report-definition`                                  | `AwsApplicationcostprofilerGetReportDefinitionOptions`                              |
 | `aws applicationcostprofiler import-application-usage`                               | `AwsApplicationcostprofilerImportApplicationUsageOptions`                           |
@@ -856,6 +870,7 @@ var aws = context.Tools.Aws;
 | `aws apprunner tag-resource`                                                         | `AwsApprunnerTagResourceOptions`                                                    |
 | `aws apprunner untag-resource`                                                       | `AwsApprunnerUntagResourceOptions`                                                  |
 | `aws apprunner update-default-auto-scaling-configuration`                            | `AwsApprunnerUpdateDefaultAutoScalingConfigurationOptions`                          |
+| `aws apprunner update-service`                                                       | `AwsApprunnerUpdateServiceOptions`                                                  |
 | `aws apprunner update-vpc-ingress-connection`                                        | `AwsApprunnerUpdateVpcIngressConnectionOptions`                                     |
 | `aws appstream associate-app-block-builder-app-block`                                | `AwsAppstreamAssociateAppBlockBuilderAppBlockOptions`                               |
 | `aws appstream associate-application-fleet`                                          | `AwsAppstreamAssociateApplicationFleetOptions`                                      |
@@ -872,6 +887,8 @@ var aws = context.Tools.Aws;
 | `aws appstream create-directory-config`                                              | `AwsAppstreamCreateDirectoryConfigOptions`                                          |
 | `aws appstream create-entitlement`                                                   | `AwsAppstreamCreateEntitlementOptions`                                              |
 | `aws appstream create-export-image-task`                                             | `AwsAppstreamCreateExportImageTaskOptions`                                          |
+| `aws appstream create-fleet`                                                         | `AwsAppstreamCreateFleetOptions`                                                    |
+| `aws appstream create-image-builder`                                                 | `AwsAppstreamCreateImageBuilderOptions`                                             |
 | `aws appstream create-image-builder-streaming-url`                                   | `AwsAppstreamCreateImageBuilderStreamingUrlOptions`                                 |
 | `aws appstream create-imported-image`                                                | `AwsAppstreamCreateImportedImageOptions`                                            |
 | `aws appstream create-stack`                                                         | `AwsAppstreamCreateStackOptions`                                                    |
@@ -936,9 +953,11 @@ var aws = context.Tools.Aws;
 | `aws appstream stop-image-builder`                                                   | `AwsAppstreamStopImageBuilderOptions`                                               |
 | `aws appstream tag-resource`                                                         | `AwsAppstreamTagResourceOptions`                                                    |
 | `aws appstream untag-resource`                                                       | `AwsAppstreamUntagResourceOptions`                                                  |
+| `aws appstream update-app-block-builder`                                             | `AwsAppstreamUpdateAppBlockBuilderOptions`                                          |
 | `aws appstream update-application`                                                   | `AwsAppstreamUpdateApplicationOptions`                                              |
 | `aws appstream update-directory-config`                                              | `AwsAppstreamUpdateDirectoryConfigOptions`                                          |
 | `aws appstream update-entitlement`                                                   | `AwsAppstreamUpdateEntitlementOptions`                                              |
+| `aws appstream update-fleet`                                                         | `AwsAppstreamUpdateFleetOptions`                                                    |
 | `aws appstream update-image-permissions`                                             | `AwsAppstreamUpdateImagePermissionsOptions`                                         |
 | `aws appstream update-stack`                                                         | `AwsAppstreamUpdateStackOptions`                                                    |
 | `aws appstream update-theme-for-stack`                                               | `AwsAppstreamUpdateThemeForStackOptions`                                            |
@@ -1213,6 +1232,7 @@ var aws = context.Tools.Aws;
 | `aws autoscaling batch-put-scheduled-update-group-action`                            | `AwsAutoscalingBatchPutScheduledUpdateGroupActionOptions`                           |
 | `aws autoscaling cancel-instance-refresh`                                            | `AwsAutoscalingCancelInstanceRefreshOptions`                                        |
 | `aws autoscaling complete-lifecycle-action`                                          | `AwsAutoscalingCompleteLifecycleActionOptions`                                      |
+| `aws autoscaling create-auto-scaling-group`                                          | `AwsAutoscalingCreateAutoScalingGroupOptions`                                       |
 | `aws autoscaling create-launch-configuration`                                        | `AwsAutoscalingCreateLaunchConfigurationOptions`                                    |
 | `aws autoscaling create-or-update-tags`                                              | `AwsAutoscalingCreateOrUpdateTagsOptions`                                           |
 | `aws autoscaling delete-auto-scaling-group`                                          | `AwsAutoscalingDeleteAutoScalingGroupOptions`                                       |
@@ -1257,6 +1277,7 @@ var aws = context.Tools.Aws;
 | `aws autoscaling launch-instances`                                                   | `AwsAutoscalingLaunchInstancesOptions`                                              |
 | `aws autoscaling put-lifecycle-hook`                                                 | `AwsAutoscalingPutLifecycleHookOptions`                                             |
 | `aws autoscaling put-notification-configuration`                                     | `AwsAutoscalingPutNotificationConfigurationOptions`                                 |
+| `aws autoscaling put-scaling-policy`                                                 | `AwsAutoscalingPutScalingPolicyOptions`                                             |
 | `aws autoscaling put-scheduled-update-group-action`                                  | `AwsAutoscalingPutScheduledUpdateGroupActionOptions`                                |
 | `aws autoscaling put-warm-pool`                                                      | `AwsAutoscalingPutWarmPoolOptions`                                                  |
 | `aws autoscaling record-lifecycle-action-heartbeat`                                  | `AwsAutoscalingRecordLifecycleActionHeartbeatOptions`                               |
@@ -1265,8 +1286,10 @@ var aws = context.Tools.Aws;
 | `aws autoscaling set-desired-capacity`                                               | `AwsAutoscalingSetDesiredCapacityOptions`                                           |
 | `aws autoscaling set-instance-health`                                                | `AwsAutoscalingSetInstanceHealthOptions`                                            |
 | `aws autoscaling set-instance-protection`                                            | `AwsAutoscalingSetInstanceProtectionOptions`                                        |
+| `aws autoscaling start-instance-refresh`                                             | `AwsAutoscalingStartInstanceRefreshOptions`                                         |
 | `aws autoscaling suspend-processes`                                                  | `AwsAutoscalingSuspendProcessesOptions`                                             |
 | `aws autoscaling terminate-instance-in-auto-scaling-group`                           | `AwsAutoscalingTerminateInstanceInAutoScalingGroupOptions`                          |
+| `aws autoscaling update-auto-scaling-group`                                          | `AwsAutoscalingUpdateAutoScalingGroupOptions`                                       |
 | `aws autoscaling-plans create-scaling-plan`                                          | `AwsAutoscalingPlansCreateScalingPlanOptions`                                       |
 | `aws autoscaling-plans delete-scaling-plan`                                          | `AwsAutoscalingPlansDeleteScalingPlanOptions`                                       |
 | `aws autoscaling-plans describe-scaling-plan-resources`                              | `AwsAutoscalingPlansDescribeScalingPlanResourcesOptions`                            |
@@ -1277,6 +1300,7 @@ var aws = context.Tools.Aws;
 | `aws b2bi create-partnership`                                                        | `AwsB2biCreatePartnershipOptions`                                                   |
 | `aws b2bi create-profile`                                                            | `AwsB2biCreateProfileOptions`                                                       |
 | `aws b2bi create-starter-mapping-template`                                           | `AwsB2biCreateStarterMappingTemplateOptions`                                        |
+| `aws b2bi create-transformer`                                                        | `AwsB2biCreateTransformerOptions`                                                   |
 | `aws b2bi delete-capability`                                                         | `AwsB2biDeleteCapabilityOptions`                                                    |
 | `aws b2bi delete-partnership`                                                        | `AwsB2biDeletePartnershipOptions`                                                   |
 | `aws b2bi delete-profile`                                                            | `AwsB2biDeleteProfileOptions`                                                       |
@@ -1301,6 +1325,7 @@ var aws = context.Tools.Aws;
 | `aws b2bi update-capability`                                                         | `AwsB2biUpdateCapabilityOptions`                                                    |
 | `aws b2bi update-partnership`                                                        | `AwsB2biUpdatePartnershipOptions`                                                   |
 | `aws b2bi update-profile`                                                            | `AwsB2biUpdateProfileOptions`                                                       |
+| `aws b2bi update-transformer`                                                        | `AwsB2biUpdateTransformerOptions`                                                   |
 | `aws b2bi wait transformer-job-succeeded`                                            | `AwsB2biWaitTransformerJobSucceededOptions`                                         |
 | `aws backup associate-backup-vault-mpa-approval-team`                                | `AwsBackupAssociateBackupVaultMpaApprovalTeamOptions`                               |
 | `aws backup cancel-legal-hold`                                                       | `AwsBackupCancelLegalHoldOptions`                                                   |
@@ -1449,15 +1474,18 @@ var aws = context.Tools.Aws;
 | `aws backupsearch list-search-jobs`                                                  | `AwsBackupsearchListSearchJobsOptions`                                              |
 | `aws backupsearch list-search-result-export-jobs`                                    | `AwsBackupsearchListSearchResultExportJobsOptions`                                  |
 | `aws backupsearch list-tags-for-resource`                                            | `AwsBackupsearchListTagsForResourceOptions`                                         |
+| `aws backupsearch start-search-job`                                                  | `AwsBackupsearchStartSearchJobOptions`                                              |
 | `aws backupsearch start-search-result-export-job`                                    | `AwsBackupsearchStartSearchResultExportJobOptions`                                  |
 | `aws backupsearch stop-search-job`                                                   | `AwsBackupsearchStopSearchJobOptions`                                               |
 | `aws backupsearch tag-resource`                                                      | `AwsBackupsearchTagResourceOptions`                                                 |
 | `aws backupsearch untag-resource`                                                    | `AwsBackupsearchUntagResourceOptions`                                               |
 | `aws batch cancel-job`                                                               | `AwsBatchCancelJobOptions`                                                          |
+| `aws batch cancel-jobs`                                                              | `AwsBatchCancelJobsOptions`                                                         |
 | `aws batch create-compute-environment`                                               | `AwsBatchCreateComputeEnvironmentOptions`                                           |
 | `aws batch create-consumable-resource`                                               | `AwsBatchCreateConsumableResourceOptions`                                           |
 | `aws batch create-job-queue`                                                         | `AwsBatchCreateJobQueueOptions`                                                     |
 | `aws batch create-quota-share`                                                       | `AwsBatchCreateQuotaShareOptions`                                                   |
+| `aws batch create-scheduling-policy`                                                 | `AwsBatchCreateSchedulingPolicyOptions`                                             |
 | `aws batch create-service-environment`                                               | `AwsBatchCreateServiceEnvironmentOptions`                                           |
 | `aws batch delete-compute-environment`                                               | `AwsBatchDeleteComputeEnvironmentOptions`                                           |
 | `aws batch delete-consumable-resource`                                               | `AwsBatchDeleteConsumableResourceOptions`                                           |
@@ -1483,14 +1511,20 @@ var aws = context.Tools.Aws;
 | `aws batch list-scheduling-policies`                                                 | `AwsBatchListSchedulingPoliciesOptions`                                             |
 | `aws batch list-service-jobs`                                                        | `AwsBatchListServiceJobsOptions`                                                    |
 | `aws batch list-tags-for-resource`                                                   | `AwsBatchListTagsForResourceOptions`                                                |
+| `aws batch register-job-definition`                                                  | `AwsBatchRegisterJobDefinitionOptions`                                              |
+| `aws batch submit-job`                                                               | `AwsBatchSubmitJobOptions`                                                          |
+| `aws batch submit-service-job`                                                       | `AwsBatchSubmitServiceJobOptions`                                                   |
 | `aws batch tag-resource`                                                             | `AwsBatchTagResourceOptions`                                                        |
 | `aws batch terminate-job`                                                            | `AwsBatchTerminateJobOptions`                                                       |
+| `aws batch terminate-jobs`                                                           | `AwsBatchTerminateJobsOptions`                                                      |
 | `aws batch terminate-service-job`                                                    | `AwsBatchTerminateServiceJobOptions`                                                |
+| `aws batch terminate-service-jobs`                                                   | `AwsBatchTerminateServiceJobsOptions`                                               |
 | `aws batch untag-resource`                                                           | `AwsBatchUntagResourceOptions`                                                      |
 | `aws batch update-compute-environment`                                               | `AwsBatchUpdateComputeEnvironmentOptions`                                           |
 | `aws batch update-consumable-resource`                                               | `AwsBatchUpdateConsumableResourceOptions`                                           |
 | `aws batch update-job-queue`                                                         | `AwsBatchUpdateJobQueueOptions`                                                     |
 | `aws batch update-quota-share`                                                       | `AwsBatchUpdateQuotaShareOptions`                                                   |
+| `aws batch update-scheduling-policy`                                                 | `AwsBatchUpdateSchedulingPolicyOptions`                                             |
 | `aws batch update-service-environment`                                               | `AwsBatchUpdateServiceEnvironmentOptions`                                           |
 | `aws batch update-service-job`                                                       | `AwsBatchUpdateServiceJobOptions`                                                   |
 | `aws bcm-dashboards create-dashboard`                                                | `AwsBcmDashboardsCreateDashboardOptions`                                            |
@@ -1573,6 +1607,9 @@ var aws = context.Tools.Aws;
 | `aws bedrock create-inference-profile`                                               | `AwsBedrockCreateInferenceProfileOptions`                                           |
 | `aws bedrock create-marketplace-model-endpoint`                                      | `AwsBedrockCreateMarketplaceModelEndpointOptions`                                   |
 | `aws bedrock create-model-copy-job`                                                  | `AwsBedrockCreateModelCopyJobOptions`                                               |
+| `aws bedrock create-model-customization-job`                                         | `AwsBedrockCreateModelCustomizationJobOptions`                                      |
+| `aws bedrock create-model-import-job`                                                | `AwsBedrockCreateModelImportJobOptions`                                             |
+| `aws bedrock create-model-invocation-job`                                            | `AwsBedrockCreateModelInvocationJobOptions`                                         |
 | `aws bedrock create-prompt-router`                                                   | `AwsBedrockCreatePromptRouterOptions`                                               |
 | `aws bedrock create-provisioned-model-throughput`                                    | `AwsBedrockCreateProvisionedModelThroughputOptions`                                 |
 | `aws bedrock delete-automated-reasoning-policy`                                      | `AwsBedrockDeleteAutomatedReasoningPolicyOptions`                                   |
@@ -1668,6 +1705,7 @@ var aws = context.Tools.Aws;
 | `aws bedrock-agent create-agent-action-group`                                        | `AwsBedrockAgentCreateAgentActionGroupOptions`                                      |
 | `aws bedrock-agent create-agent-alias`                                               | `AwsBedrockAgentCreateAgentAliasOptions`                                            |
 | `aws bedrock-agent create-data-source`                                               | `AwsBedrockAgentCreateDataSourceOptions`                                            |
+| `aws bedrock-agent create-flow`                                                      | `AwsBedrockAgentCreateFlowOptions`                                                  |
 | `aws bedrock-agent create-flow-alias`                                                | `AwsBedrockAgentCreateFlowAliasOptions`                                             |
 | `aws bedrock-agent create-flow-version`                                              | `AwsBedrockAgentCreateFlowVersionOptions`                                           |
 | `aws bedrock-agent create-knowledge-base`                                            | `AwsBedrockAgentCreateKnowledgeBaseOptions`                                         |
@@ -1731,6 +1769,7 @@ var aws = context.Tools.Aws;
 | `aws bedrock-agent update-agent-collaborator`                                        | `AwsBedrockAgentUpdateAgentCollaboratorOptions`                                     |
 | `aws bedrock-agent update-agent-knowledge-base`                                      | `AwsBedrockAgentUpdateAgentKnowledgeBaseOptions`                                    |
 | `aws bedrock-agent update-data-source`                                               | `AwsBedrockAgentUpdateDataSourceOptions`                                            |
+| `aws bedrock-agent update-flow`                                                      | `AwsBedrockAgentUpdateFlowOptions`                                                  |
 | `aws bedrock-agent update-flow-alias`                                                | `AwsBedrockAgentUpdateFlowAliasOptions`                                             |
 | `aws bedrock-agent update-knowledge-base`                                            | `AwsBedrockAgentUpdateKnowledgeBaseOptions`                                         |
 | `aws bedrock-agent update-prompt`                                                    | `AwsBedrockAgentUpdatePromptOptions`                                                |
@@ -1757,6 +1796,8 @@ var aws = context.Tools.Aws;
 | `aws bedrock-agent-runtime list-tags-for-resource`                                   | `AwsBedrockAgentRuntimeListTagsForResourceOptions`                                  |
 | `aws bedrock-agent-runtime put-invocation-step`                                      | `AwsBedrockAgentRuntimePutInvocationStepOptions`                                    |
 | `aws bedrock-agent-runtime rerank`                                                   | `AwsBedrockAgentRuntimeRerankOptions`                                               |
+| `aws bedrock-agent-runtime retrieve`                                                 | `AwsBedrockAgentRuntimeRetrieveOptions`                                             |
+| `aws bedrock-agent-runtime retrieve-and-generate`                                    | `AwsBedrockAgentRuntimeRetrieveAndGenerateOptions`                                  |
 | `aws bedrock-agent-runtime start-flow-execution`                                     | `AwsBedrockAgentRuntimeStartFlowExecutionOptions`                                   |
 | `aws bedrock-agent-runtime stop-flow-execution`                                      | `AwsBedrockAgentRuntimeStopFlowExecutionOptions`                                    |
 | `aws bedrock-agent-runtime tag-resource`                                             | `AwsBedrockAgentRuntimeTagResourceOptions`                                          |
@@ -1816,6 +1857,7 @@ var aws = context.Tools.Aws;
 | `aws bedrock-agentcore save-browser-session-profile`                                 | `AwsBedrockAgentcoreSaveBrowserSessionProfileOptions`                               |
 | `aws bedrock-agentcore search-registry-records`                                      | `AwsBedrockAgentcoreSearchRegistryRecordsOptions`                                   |
 | `aws bedrock-agentcore start-batch-evaluation`                                       | `AwsBedrockAgentcoreStartBatchEvaluationOptions`                                    |
+| `aws bedrock-agentcore start-browser-session`                                        | `AwsBedrockAgentcoreStartBrowserSessionOptions`                                     |
 | `aws bedrock-agentcore start-code-interpreter-session`                               | `AwsBedrockAgentcoreStartCodeInterpreterSessionOptions`                             |
 | `aws bedrock-agentcore start-memory-extraction-job`                                  | `AwsBedrockAgentcoreStartMemoryExtractionJobOptions`                                |
 | `aws bedrock-agentcore start-recommendation`                                         | `AwsBedrockAgentcoreStartRecommendationOptions`                                     |
@@ -1827,6 +1869,7 @@ var aws = context.Tools.Aws;
 | `aws bedrock-agentcore update-browser-stream`                                        | `AwsBedrockAgentcoreUpdateBrowserStreamOptions`                                     |
 | `aws bedrock-agentcore-control add-dataset-examples`                                 | `AwsBedrockAgentcoreControlAddDataSetExamplesOptions`                               |
 | `aws bedrock-agentcore-control batch-put-gateway-rate-limits`                        | `AwsBedrockAgentcoreControlBatchPutGatewayRateLimitsOptions`                        |
+| `aws bedrock-agentcore-control create-agent-runtime`                                 | `AwsBedrockAgentcoreControlCreateAgentRuntimeOptions`                               |
 | `aws bedrock-agentcore-control create-agent-runtime-endpoint`                        | `AwsBedrockAgentcoreControlCreateAgentRuntimeEndpointOptions`                       |
 | `aws bedrock-agentcore-control create-api-key-credential-provider`                   | `AwsBedrockAgentcoreControlCreateApiKeyCredentialProviderOptions`                   |
 | `aws bedrock-agentcore-control create-browser`                                       | `AwsBedrockAgentcoreControlCreateBrowserOptions`                                    |
@@ -1834,20 +1877,25 @@ var aws = context.Tools.Aws;
 | `aws bedrock-agentcore-control create-capacity-provider`                             | `AwsBedrockAgentcoreControlCreateCapacityProviderOptions`                           |
 | `aws bedrock-agentcore-control create-code-interpreter`                              | `AwsBedrockAgentcoreControlCreateCodeInterpreterOptions`                            |
 | `aws bedrock-agentcore-control create-configuration-bundle`                          | `AwsBedrockAgentcoreControlCreateConfigurationBundleOptions`                        |
+| `aws bedrock-agentcore-control create-consent-portal`                                | `AwsBedrockAgentcoreControlCreateConsentPortalOptions`                              |
 | `aws bedrock-agentcore-control create-dataset`                                       | `AwsBedrockAgentcoreControlCreateDataSetOptions`                                    |
 | `aws bedrock-agentcore-control create-dataset-version`                               | `AwsBedrockAgentcoreControlCreateDataSetVersionOptions`                             |
 | `aws bedrock-agentcore-control create-evaluator`                                     | `AwsBedrockAgentcoreControlCreateEvaluatorOptions`                                  |
+| `aws bedrock-agentcore-control create-gateway`                                       | `AwsBedrockAgentcoreControlCreateGatewayOptions`                                    |
 | `aws bedrock-agentcore-control create-gateway-rate-limit`                            | `AwsBedrockAgentcoreControlCreateGatewayRateLimitOptions`                           |
 | `aws bedrock-agentcore-control create-gateway-rule`                                  | `AwsBedrockAgentcoreControlCreateGatewayRuleOptions`                                |
 | `aws bedrock-agentcore-control create-gateway-target`                                | `AwsBedrockAgentcoreControlCreateGatewayTargetOptions`                              |
+| `aws bedrock-agentcore-control create-harness`                                       | `AwsBedrockAgentcoreControlCreateHarnessOptions`                                    |
 | `aws bedrock-agentcore-control create-harness-endpoint`                              | `AwsBedrockAgentcoreControlCreateHarnessEndpointOptions`                            |
 | `aws bedrock-agentcore-control create-memory`                                        | `AwsBedrockAgentcoreControlCreateMemoryOptions`                                     |
 | `aws bedrock-agentcore-control create-oauth2-credential-provider`                    | `AwsBedrockAgentcoreControlCreateOauth2CredentialProviderOptions`                   |
 | `aws bedrock-agentcore-control create-online-evaluation-config`                      | `AwsBedrockAgentcoreControlCreateOnlineEvaluationConfigOptions`                     |
 | `aws bedrock-agentcore-control create-payment-connector`                             | `AwsBedrockAgentcoreControlCreatePaymentConnectorOptions`                           |
 | `aws bedrock-agentcore-control create-payment-credential-provider`                   | `AwsBedrockAgentcoreControlCreatePaymentCredentialProviderOptions`                  |
+| `aws bedrock-agentcore-control create-payment-manager`                               | `AwsBedrockAgentcoreControlCreatePaymentManagerOptions`                             |
 | `aws bedrock-agentcore-control create-policy`                                        | `AwsBedrockAgentcoreControlCreatePolicyOptions`                                     |
 | `aws bedrock-agentcore-control create-policy-engine`                                 | `AwsBedrockAgentcoreControlCreatePolicyEngineOptions`                               |
+| `aws bedrock-agentcore-control create-registry`                                      | `AwsBedrockAgentcoreControlCreateRegistryOptions`                                   |
 | `aws bedrock-agentcore-control create-registry-record`                               | `AwsBedrockAgentcoreControlCreateRegistryRecordOptions`                             |
 | `aws bedrock-agentcore-control create-workload-identity`                             | `AwsBedrockAgentcoreControlCreateWorkloadIdentityOptions`                           |
 | `aws bedrock-agentcore-control delete-agent-runtime`                                 | `AwsBedrockAgentcoreControlDeleteAgentRuntimeOptions`                               |
@@ -1858,6 +1906,7 @@ var aws = context.Tools.Aws;
 | `aws bedrock-agentcore-control delete-capacity-provider`                             | `AwsBedrockAgentcoreControlDeleteCapacityProviderOptions`                           |
 | `aws bedrock-agentcore-control delete-code-interpreter`                              | `AwsBedrockAgentcoreControlDeleteCodeInterpreterOptions`                            |
 | `aws bedrock-agentcore-control delete-configuration-bundle`                          | `AwsBedrockAgentcoreControlDeleteConfigurationBundleOptions`                        |
+| `aws bedrock-agentcore-control delete-consent-portal`                                | `AwsBedrockAgentcoreControlDeleteConsentPortalOptions`                              |
 | `aws bedrock-agentcore-control delete-dataset`                                       | `AwsBedrockAgentcoreControlDeleteDataSetOptions`                                    |
 | `aws bedrock-agentcore-control delete-dataset-examples`                              | `AwsBedrockAgentcoreControlDeleteDataSetExamplesOptions`                            |
 | `aws bedrock-agentcore-control delete-evaluator`                                     | `AwsBedrockAgentcoreControlDeleteEvaluatorOptions`                                  |
@@ -1888,6 +1937,7 @@ var aws = context.Tools.Aws;
 | `aws bedrock-agentcore-control get-code-interpreter`                                 | `AwsBedrockAgentcoreControlGetCodeInterpreterOptions`                               |
 | `aws bedrock-agentcore-control get-configuration-bundle`                             | `AwsBedrockAgentcoreControlGetConfigurationBundleOptions`                           |
 | `aws bedrock-agentcore-control get-configuration-bundle-version`                     | `AwsBedrockAgentcoreControlGetConfigurationBundleVersionOptions`                    |
+| `aws bedrock-agentcore-control get-consent-portal`                                   | `AwsBedrockAgentcoreControlGetConsentPortalOptions`                                 |
 | `aws bedrock-agentcore-control get-dataset`                                          | `AwsBedrockAgentcoreControlGetDataSetOptions`                                       |
 | `aws bedrock-agentcore-control get-evaluator`                                        | `AwsBedrockAgentcoreControlGetEvaluatorOptions`                                     |
 | `aws bedrock-agentcore-control get-gateway`                                          | `AwsBedrockAgentcoreControlGetGatewayOptions`                                       |
@@ -1924,6 +1974,7 @@ var aws = context.Tools.Aws;
 | `aws bedrock-agentcore-control list-code-interpreters`                               | `AwsBedrockAgentcoreControlListCodeInterpretersOptions`                             |
 | `aws bedrock-agentcore-control list-configuration-bundle-versions`                   | `AwsBedrockAgentcoreControlListConfigurationBundleVersionsOptions`                  |
 | `aws bedrock-agentcore-control list-configuration-bundles`                           | `AwsBedrockAgentcoreControlListConfigurationBundlesOptions`                         |
+| `aws bedrock-agentcore-control list-consent-portals`                                 | `AwsBedrockAgentcoreControlListConsentPortalsOptions`                               |
 | `aws bedrock-agentcore-control list-dataset-examples`                                | `AwsBedrockAgentcoreControlListDataSetExamplesOptions`                              |
 | `aws bedrock-agentcore-control list-dataset-versions`                                | `AwsBedrockAgentcoreControlListDataSetVersionsOptions`                              |
 | `aws bedrock-agentcore-control list-datasets`                                        | `AwsBedrockAgentcoreControlListDatasetsOptions`                                     |
@@ -1959,24 +2010,30 @@ var aws = context.Tools.Aws;
 | `aws bedrock-agentcore-control synchronize-gateway-targets`                          | `AwsBedrockAgentcoreControlSynchronizeGatewayTargetsOptions`                        |
 | `aws bedrock-agentcore-control tag-resource`                                         | `AwsBedrockAgentcoreControlTagResourceOptions`                                      |
 | `aws bedrock-agentcore-control untag-resource`                                       | `AwsBedrockAgentcoreControlUntagResourceOptions`                                    |
+| `aws bedrock-agentcore-control update-agent-runtime`                                 | `AwsBedrockAgentcoreControlUpdateAgentRuntimeOptions`                               |
 | `aws bedrock-agentcore-control update-agent-runtime-endpoint`                        | `AwsBedrockAgentcoreControlUpdateAgentRuntimeEndpointOptions`                       |
 | `aws bedrock-agentcore-control update-api-key-credential-provider`                   | `AwsBedrockAgentcoreControlUpdateApiKeyCredentialProviderOptions`                   |
 | `aws bedrock-agentcore-control update-capacity-provider`                             | `AwsBedrockAgentcoreControlUpdateCapacityProviderOptions`                           |
 | `aws bedrock-agentcore-control update-configuration-bundle`                          | `AwsBedrockAgentcoreControlUpdateConfigurationBundleOptions`                        |
+| `aws bedrock-agentcore-control update-consent-portal`                                | `AwsBedrockAgentcoreControlUpdateConsentPortalOptions`                              |
 | `aws bedrock-agentcore-control update-dataset`                                       | `AwsBedrockAgentcoreControlUpdateDataSetOptions`                                    |
 | `aws bedrock-agentcore-control update-dataset-examples`                              | `AwsBedrockAgentcoreControlUpdateDataSetExamplesOptions`                            |
 | `aws bedrock-agentcore-control update-evaluator`                                     | `AwsBedrockAgentcoreControlUpdateEvaluatorOptions`                                  |
+| `aws bedrock-agentcore-control update-gateway`                                       | `AwsBedrockAgentcoreControlUpdateGatewayOptions`                                    |
 | `aws bedrock-agentcore-control update-gateway-rate-limit`                            | `AwsBedrockAgentcoreControlUpdateGatewayRateLimitOptions`                           |
 | `aws bedrock-agentcore-control update-gateway-rule`                                  | `AwsBedrockAgentcoreControlUpdateGatewayRuleOptions`                                |
 | `aws bedrock-agentcore-control update-gateway-target`                                | `AwsBedrockAgentcoreControlUpdateGatewayTargetOptions`                              |
+| `aws bedrock-agentcore-control update-harness`                                       | `AwsBedrockAgentcoreControlUpdateHarnessOptions`                                    |
 | `aws bedrock-agentcore-control update-harness-endpoint`                              | `AwsBedrockAgentcoreControlUpdateHarnessEndpointOptions`                            |
 | `aws bedrock-agentcore-control update-memory`                                        | `AwsBedrockAgentcoreControlUpdateMemoryOptions`                                     |
 | `aws bedrock-agentcore-control update-oauth2-credential-provider`                    | `AwsBedrockAgentcoreControlUpdateOauth2CredentialProviderOptions`                   |
 | `aws bedrock-agentcore-control update-online-evaluation-config`                      | `AwsBedrockAgentcoreControlUpdateOnlineEvaluationConfigOptions`                     |
 | `aws bedrock-agentcore-control update-payment-connector`                             | `AwsBedrockAgentcoreControlUpdatePaymentConnectorOptions`                           |
 | `aws bedrock-agentcore-control update-payment-credential-provider`                   | `AwsBedrockAgentcoreControlUpdatePaymentCredentialProviderOptions`                  |
+| `aws bedrock-agentcore-control update-payment-manager`                               | `AwsBedrockAgentcoreControlUpdatePaymentManagerOptions`                             |
 | `aws bedrock-agentcore-control update-policy`                                        | `AwsBedrockAgentcoreControlUpdatePolicyOptions`                                     |
 | `aws bedrock-agentcore-control update-policy-engine`                                 | `AwsBedrockAgentcoreControlUpdatePolicyEngineOptions`                               |
+| `aws bedrock-agentcore-control update-registry`                                      | `AwsBedrockAgentcoreControlUpdateRegistryOptions`                                   |
 | `aws bedrock-agentcore-control update-registry-record`                               | `AwsBedrockAgentcoreControlUpdateRegistryRecordOptions`                             |
 | `aws bedrock-agentcore-control update-registry-record-status`                        | `AwsBedrockAgentcoreControlUpdateRegistryRecordStatusOptions`                       |
 | `aws bedrock-agentcore-control update-workload-identity`                             | `AwsBedrockAgentcoreControlUpdateWorkloadIdentityOptions`                           |
@@ -2020,6 +2077,7 @@ var aws = context.Tools.Aws;
 | `aws bedrock-data-automation-runtime tag-resource`                                   | `AwsBedrockDataAutomationRuntimeTagResourceOptions`                                 |
 | `aws bedrock-data-automation-runtime untag-resource`                                 | `AwsBedrockDataAutomationRuntimeUntagResourceOptions`                               |
 | `aws bedrock-runtime apply-guardrail`                                                | `AwsBedrockRuntimeApplyGuardrailOptions`                                            |
+| `aws bedrock-runtime converse`                                                       | `AwsBedrockRuntimeConverseOptions`                                                  |
 | `aws bedrock-runtime count-tokens`                                                   | `AwsBedrockRuntimeCountTokensOptions`                                               |
 | `aws bedrock-runtime get-async-invoke`                                               | `AwsBedrockRuntimeGetAsyncInvokeOptions`                                            |
 | `aws bedrock-runtime invoke-guardrail-checks`                                        | `AwsBedrockRuntimeInvokeGuardrailChecksOptions`                                     |
@@ -2046,6 +2104,7 @@ var aws = context.Tools.Aws;
 | `aws billing untag-resource`                                                         | `AwsBillingUntagResourceOptions`                                                    |
 | `aws billing update-billing-preferences`                                             | `AwsBillingUpdateBillingPreferencesOptions`                                         |
 | `aws billing update-billing-view`                                                    | `AwsBillingUpdateBillingViewOptions`                                                |
+| `aws billingconductor associate-accounts`                                            | `AwsBillingconductorAssociateAccountsOptions`                                       |
 | `aws billingconductor associate-pricing-rules`                                       | `AwsBillingconductorAssociatePricingRulesOptions`                                   |
 | `aws billingconductor batch-associate-resources-to-custom-line-item`                 | `AwsBillingconductorBatchAssociateResourcesToCustomLineItemOptions`                 |
 | `aws billingconductor batch-disassociate-resources-from-custom-line-item`            | `AwsBillingconductorBatchDisassociateResourcesFromCustomLineItemOptions`            |
@@ -2057,6 +2116,7 @@ var aws = context.Tools.Aws;
 | `aws billingconductor delete-custom-line-item`                                       | `AwsBillingconductorDeleteCustomLineItemOptions`                                    |
 | `aws billingconductor delete-pricing-plan`                                           | `AwsBillingconductorDeletePricingPlanOptions`                                       |
 | `aws billingconductor delete-pricing-rule`                                           | `AwsBillingconductorDeletePricingRuleOptions`                                       |
+| `aws billingconductor disassociate-accounts`                                         | `AwsBillingconductorDisassociateAccountsOptions`                                    |
 | `aws billingconductor disassociate-pricing-rules`                                    | `AwsBillingconductorDisassociatePricingRulesOptions`                                |
 | `aws billingconductor get-billing-group-cost-report`                                 | `AwsBillingconductorGetBillingGroupCostReportOptions`                               |
 | `aws billingconductor list-account-associations`                                     | `AwsBillingconductorListAccountAssociationsOptions`                                 |
@@ -2131,11 +2191,24 @@ var aws = context.Tools.Aws;
 | `aws ce get-anomaly-subscriptions`                                                   | `AwsCeGetAnomalySubscriptionsOptions`                                               |
 | `aws ce get-approximate-usage-records`                                               | `AwsCeGetApproximateUsageRecordsOptions`                                            |
 | `aws ce get-commitment-purchase-analysis`                                            | `AwsCeGetCommitmentPurchaseAnalysisOptions`                                         |
+| `aws ce get-cost-and-usage`                                                          | `AwsCeGetCostAndUsageOptions`                                                       |
+| `aws ce get-cost-and-usage-comparisons`                                              | `AwsCeGetCostAndUsageComparisonsOptions`                                            |
 | `aws ce get-cost-and-usage-with-resources`                                           | `AwsCeGetCostAndUsageWithResourcesOptions`                                          |
+| `aws ce get-cost-categories`                                                         | `AwsCeGetCostCategoriesOptions`                                                     |
+| `aws ce get-cost-comparison-drivers`                                                 | `AwsCeGetCostComparisonDriversOptions`                                              |
+| `aws ce get-cost-forecast`                                                           | `AwsCeGetCostForecastOptions`                                                       |
+| `aws ce get-dimension-values`                                                        | `AwsCeGetDimensionValuesOptions`                                                    |
 | `aws ce get-reservation-coverage`                                                    | `AwsCeGetReservationCoverageOptions`                                                |
+| `aws ce get-reservation-purchase-recommendation`                                     | `AwsCeGetReservationPurchaseRecommendationOptions`                                  |
 | `aws ce get-reservation-utilization`                                                 | `AwsCeGetReservationUtilizationOptions`                                             |
+| `aws ce get-rightsizing-recommendation`                                              | `AwsCeGetRightsizingRecommendationOptions`                                          |
 | `aws ce get-savings-plan-purchase-recommendation-details`                            | `AwsCeGetSavingsPlanPurchaseRecommendationDetailsOptions`                           |
 | `aws ce get-savings-plans-coverage`                                                  | `AwsCeGetSavingsPlansCoverageOptions`                                               |
+| `aws ce get-savings-plans-purchase-recommendation`                                   | `AwsCeGetSavingsPlansPurchaseRecommendationOptions`                                 |
+| `aws ce get-savings-plans-utilization`                                               | `AwsCeGetSavingsPlansUtilizationOptions`                                            |
+| `aws ce get-savings-plans-utilization-details`                                       | `AwsCeGetSavingsPlansUtilizationDetailsOptions`                                     |
+| `aws ce get-tags`                                                                    | `AwsCeGetTagsOptions`                                                               |
+| `aws ce get-usage-forecast`                                                          | `AwsCeGetUsageForecastOptions`                                                      |
 | `aws ce list-commitment-purchase-analyses`                                           | `AwsCeListCommitmentPurchaseAnalysesOptions`                                        |
 | `aws ce list-cost-allocation-tag-backfill-history`                                   | `AwsCeListCostAllocationTagBackfillHistoryOptions`                                  |
 | `aws ce list-cost-allocation-tags`                                                   | `AwsCeListCostAllocationTagsOptions`                                                |
@@ -2150,6 +2223,7 @@ var aws = context.Tools.Aws;
 | `aws ce tag-resource`                                                                | `AwsCeTagResourceOptions`                                                           |
 | `aws ce untag-resource`                                                              | `AwsCeUntagResourceOptions`                                                         |
 | `aws ce update-anomaly-monitor`                                                      | `AwsCeUpdateAnomalyMonitorOptions`                                                  |
+| `aws ce update-anomaly-subscription`                                                 | `AwsCeUpdateAnomalySubscriptionOptions`                                             |
 | `aws ce update-cost-allocation-tags-status`                                          | `AwsCeUpdateCostAllocationTagsStatusOptions`                                        |
 | `aws ce update-cost-category-definition`                                             | `AwsCeUpdateCostCategoryDefinitionOptions`                                          |
 | `aws chatbot associate-to-configuration`                                             | `AwsChatbotAssociateToConfigurationOptions`                                         |
@@ -2562,11 +2636,13 @@ var aws = context.Tools.Aws;
 | `aws cleanrooms update-intermediate-table`                                           | `AwsCleanroomsUpdateIntermediateTableOptions`                                       |
 | `aws cleanrooms update-intermediate-table-analysis-rule`                             | `AwsCleanroomsUpdateIntermediateTableAnalysisRuleOptions`                           |
 | `aws cleanrooms update-membership`                                                   | `AwsCleanroomsUpdateMembershipOptions`                                              |
+| `aws cleanrooms update-privacy-budget-template`                                      | `AwsCleanroomsUpdatePrivacyBudgetTemplateOptions`                                   |
 | `aws cleanrooms update-protected-job`                                                | `AwsCleanroomsUpdateProtectedJobOptions`                                            |
 | `aws cleanrooms update-protected-query`                                              | `AwsCleanroomsUpdateProtectedQueryOptions`                                          |
 | `aws cleanroomsml cancel-trained-model`                                              | `AwsCleanroomsmlCancelTrainedModelOptions`                                          |
 | `aws cleanroomsml cancel-trained-model-inference-job`                                | `AwsCleanroomsmlCancelTrainedModelInferenceJobOptions`                              |
 | `aws cleanroomsml create-audience-model`                                             | `AwsCleanroomsmlCreateAudienceModelOptions`                                         |
+| `aws cleanroomsml create-configured-audience-model`                                  | `AwsCleanroomsmlCreateConfiguredAudienceModelOptions`                               |
 | `aws cleanroomsml create-configured-model-algorithm`                                 | `AwsCleanroomsmlCreateConfiguredModelAlgorithmOptions`                              |
 | `aws cleanroomsml create-configured-model-algorithm-association`                     | `AwsCleanroomsmlCreateConfiguredModelAlgorithmAssociationOptions`                   |
 | `aws cleanroomsml create-ml-input-channel`                                           | `AwsCleanroomsmlCreateMlInputChannelOptions`                                        |
@@ -2621,6 +2697,7 @@ var aws = context.Tools.Aws;
 | `aws cleanroomsml start-trained-model-inference-job`                                 | `AwsCleanroomsmlStartTrainedModelInferenceJobOptions`                               |
 | `aws cleanroomsml tag-resource`                                                      | `AwsCleanroomsmlTagResourceOptions`                                                 |
 | `aws cleanroomsml untag-resource`                                                    | `AwsCleanroomsmlUntagResourceOptions`                                               |
+| `aws cleanroomsml update-configured-audience-model`                                  | `AwsCleanroomsmlUpdateConfiguredAudienceModelOptions`                               |
 | `aws cloud9 create-environment-ec2`                                                  | `AwsCloud9CreateEnvironmentEc2Options`                                              |
 | `aws cloud9 create-environment-membership`                                           | `AwsCloud9CreateEnvironmentMembershipOptions`                                       |
 | `aws cloud9 delete-environment`                                                      | `AwsCloud9DeleteEnvironmentOptions`                                                 |
@@ -2815,15 +2892,22 @@ var aws = context.Tools.Aws;
 | `aws cloudfront associate-distribution-tenant-web-acl`                               | `AwsCloudfrontAssociateDistributionTenantWebAclOptions`                             |
 | `aws cloudfront associate-distribution-web-acl`                                      | `AwsCloudfrontAssociateDistributionWebAclOptions`                                   |
 | `aws cloudfront copy-distribution`                                                   | `AwsCloudfrontCopyDistributionOptions`                                              |
+| `aws cloudfront create-anycast-ip-list`                                              | `AwsCloudfrontCreateAnycastIpListOptions`                                           |
 | `aws cloudfront create-cache-policy`                                                 | `AwsCloudfrontCreateCachePolicyOptions`                                             |
 | `aws cloudfront create-cloud-front-origin-access-identity`                           | `AwsCloudfrontCreateCloudFrontOriginAccessIdentityOptions`                          |
+| `aws cloudfront create-connection-function`                                          | `AwsCloudfrontCreateConnectionFunctionOptions`                                      |
+| `aws cloudfront create-connection-group`                                             | `AwsCloudfrontCreateConnectionGroupOptions`                                         |
 | `aws cloudfront create-continuous-deployment-policy`                                 | `AwsCloudfrontCreateContinuousDeploymentPolicyOptions`                              |
+| `aws cloudfront create-distribution`                                                 | `AwsCloudfrontCreateDistributionOptions`                                            |
+| `aws cloudfront create-distribution-tenant`                                          | `AwsCloudfrontCreateDistributionTenantOptions`                                      |
 | `aws cloudfront create-distribution-with-tags`                                       | `AwsCloudfrontCreateDistributionWithTagsOptions`                                    |
 | `aws cloudfront create-field-level-encryption-config`                                | `AwsCloudfrontCreateFieldLevelEncryptionConfigOptions`                              |
 | `aws cloudfront create-field-level-encryption-profile`                               | `AwsCloudfrontCreateFieldLevelEncryptionProfileOptions`                             |
+| `aws cloudfront create-function`                                                     | `AwsCloudfrontCreateFunctionOptions`                                                |
 | `aws cloudfront create-invalidation`                                                 | `AwsCloudfrontCreateInvalidationOptions`                                            |
 | `aws cloudfront create-invalidation-for-distribution-tenant`                         | `AwsCloudfrontCreateInvalidationForDistributionTenantOptions`                       |
 | `aws cloudfront create-key-group`                                                    | `AwsCloudfrontCreateKeyGroupOptions`                                                |
+| `aws cloudfront create-key-value-store`                                              | `AwsCloudfrontCreateKeyValueStoreOptions`                                           |
 | `aws cloudfront create-monitoring-subscription`                                      | `AwsCloudfrontCreateMonitoringSubscriptionOptions`                                  |
 | `aws cloudfront create-origin-access-control`                                        | `AwsCloudfrontCreateOriginAccessControlOptions`                                     |
 | `aws cloudfront create-origin-request-policy`                                        | `AwsCloudfrontCreateOriginRequestPolicyOptions`                                     |
@@ -2832,6 +2916,8 @@ var aws = context.Tools.Aws;
 | `aws cloudfront create-response-headers-policy`                                      | `AwsCloudfrontCreateResponseHeadersPolicyOptions`                                   |
 | `aws cloudfront create-streaming-distribution`                                       | `AwsCloudfrontCreateStreamingDistributionOptions`                                   |
 | `aws cloudfront create-streaming-distribution-with-tags`                             | `AwsCloudfrontCreateStreamingDistributionWithTagsOptions`                           |
+| `aws cloudfront create-trust-store`                                                  | `AwsCloudfrontCreateTrustStoreOptions`                                              |
+| `aws cloudfront create-vpc-origin`                                                   | `AwsCloudfrontCreateVpcOriginOptions`                                               |
 | `aws cloudfront delete-anycast-ip-list`                                              | `AwsCloudfrontDeleteAnycastIpListOptions`                                           |
 | `aws cloudfront delete-cache-policy`                                                 | `AwsCloudfrontDeleteCachePolicyOptions`                                             |
 | `aws cloudfront delete-cloud-front-origin-access-identity`                           | `AwsCloudfrontDeleteCloudFrontOriginAccessIdentityOptions`                          |
@@ -2942,14 +3028,17 @@ var aws = context.Tools.Aws;
 | `aws cloudfront publish-function`                                                    | `AwsCloudfrontPublishFunctionOptions`                                               |
 | `aws cloudfront put-resource-policy`                                                 | `AwsCloudfrontPutResourcePolicyOptions`                                             |
 | `aws cloudfront sign`                                                                | `AwsCloudfrontSignOptions`                                                          |
+| `aws cloudfront tag-resource`                                                        | `AwsCloudfrontTagResourceOptions`                                                   |
 | `aws cloudfront test-connection-function`                                            | `AwsCloudfrontTestConnectionFunctionOptions`                                        |
 | `aws cloudfront test-function`                                                       | `AwsCloudfrontTestFunctionOptions`                                                  |
+| `aws cloudfront untag-resource`                                                      | `AwsCloudfrontUntagResourceOptions`                                                 |
 | `aws cloudfront update-anycast-ip-list`                                              | `AwsCloudfrontUpdateAnycastIpListOptions`                                           |
 | `aws cloudfront update-cache-policy`                                                 | `AwsCloudfrontUpdateCachePolicyOptions`                                             |
 | `aws cloudfront update-cloud-front-origin-access-identity`                           | `AwsCloudfrontUpdateCloudFrontOriginAccessIdentityOptions`                          |
 | `aws cloudfront update-connection-function`                                          | `AwsCloudfrontUpdateConnectionFunctionOptions`                                      |
 | `aws cloudfront update-connection-group`                                             | `AwsCloudfrontUpdateConnectionGroupOptions`                                         |
 | `aws cloudfront update-continuous-deployment-policy`                                 | `AwsCloudfrontUpdateContinuousDeploymentPolicyOptions`                              |
+| `aws cloudfront update-distribution`                                                 | `AwsCloudfrontUpdateDistributionOptions`                                            |
 | `aws cloudfront update-distribution-tenant`                                          | `AwsCloudfrontUpdateDistributionTenantOptions`                                      |
 | `aws cloudfront update-distribution-with-staging-config`                             | `AwsCloudfrontUpdateDistributionWithStagingConfigOptions`                           |
 | `aws cloudfront update-domain-association`                                           | `AwsCloudfrontUpdateDomainAssociationOptions`                                       |
@@ -2984,6 +3073,8 @@ var aws = context.Tools.Aws;
 | `aws cloudhsmv2 delete-cluster`                                                      | `AwsCloudhsmv2DeleteClusterOptions`                                                 |
 | `aws cloudhsmv2 delete-hsm`                                                          | `AwsCloudhsmv2DeleteHsmOptions`                                                     |
 | `aws cloudhsmv2 delete-resource-policy`                                              | `AwsCloudhsmv2DeleteResourcePolicyOptions`                                          |
+| `aws cloudhsmv2 describe-backups`                                                    | `AwsCloudhsmv2DescribeBackupsOptions`                                               |
+| `aws cloudhsmv2 describe-clusters`                                                   | `AwsCloudhsmv2DescribeClustersOptions`                                              |
 | `aws cloudhsmv2 get-resource-policy`                                                 | `AwsCloudhsmv2GetResourcePolicyOptions`                                             |
 | `aws cloudhsmv2 initialize-cluster`                                                  | `AwsCloudhsmv2InitializeClusterOptions`                                             |
 | `aws cloudhsmv2 list-tags`                                                           | `AwsCloudhsmv2ListTagsOptions`                                                      |
@@ -3019,6 +3110,7 @@ var aws = context.Tools.Aws;
 | `aws cloudsearch update-domain-endpoint-options`                                     | `AwsCloudsearchUpdateDomainEndpointOptionsOptions`                                  |
 | `aws cloudsearch update-scaling-parameters`                                          | `AwsCloudsearchUpdateScalingParametersOptions`                                      |
 | `aws cloudsearch update-service-access-policies`                                     | `AwsCloudsearchUpdateServiceAccessPoliciesOptions`                                  |
+| `aws cloudsearchdomain search`                                                       | `AwsCloudsearchdomainSearchOptions`                                                 |
 | `aws cloudsearchdomain suggest`                                                      | `AwsCloudsearchdomainSuggestOptions`                                                |
 | `aws cloudsearchdomain upload-documents`                                             | `AwsCloudsearchdomainUploadDocumentsOptions`                                        |
 | `aws cloudtrail add-tags`                                                            | `AwsCloudtrailAddTagsOptions`                                                       |
@@ -3087,6 +3179,7 @@ var aws = context.Tools.Aws;
 | `aws cloudwatch associate-dataset-kms-key`                                           | `AwsCloudwatchAssociateDataSetKmsKeyOptions`                                        |
 | `aws cloudwatch delete-alarm-mute-rule`                                              | `AwsCloudwatchDeleteAlarmMuteRuleOptions`                                           |
 | `aws cloudwatch delete-alarms`                                                       | `AwsCloudwatchDeleteAlarmsOptions`                                                  |
+| `aws cloudwatch delete-anomaly-detector`                                             | `AwsCloudwatchDeleteAnomalyDetectorOptions`                                         |
 | `aws cloudwatch delete-dashboards`                                                   | `AwsCloudwatchDeleteDashboardsOptions`                                              |
 | `aws cloudwatch delete-insight-rules`                                                | `AwsCloudwatchDeleteInsightRulesOptions`                                            |
 | `aws cloudwatch delete-metric-stream`                                                | `AwsCloudwatchDeleteMetricStreamOptions`                                            |
@@ -3117,6 +3210,7 @@ var aws = context.Tools.Aws;
 | `aws cloudwatch list-metrics`                                                        | `AwsCloudwatchListMetricsOptions`                                                   |
 | `aws cloudwatch list-tags-for-resource`                                              | `AwsCloudwatchListTagsForResourceOptions`                                           |
 | `aws cloudwatch put-alarm-mute-rule`                                                 | `AwsCloudwatchPutAlarmMuteRuleOptions`                                              |
+| `aws cloudwatch put-anomaly-detector`                                                | `AwsCloudwatchPutAnomalyDetectorOptions`                                            |
 | `aws cloudwatch put-composite-alarm`                                                 | `AwsCloudwatchPutCompositeAlarmOptions`                                             |
 | `aws cloudwatch put-dashboard`                                                       | `AwsCloudwatchPutDashboardOptions`                                                  |
 | `aws cloudwatch put-insight-rule`                                                    | `AwsCloudwatchPutInsightRuleOptions`                                                |
@@ -3194,6 +3288,8 @@ var aws = context.Tools.Aws;
 | `aws codebuild batch-get-report-groups`                                              | `AwsCodebuildBatchGetReportGroupsOptions`                                           |
 | `aws codebuild batch-get-reports`                                                    | `AwsCodebuildBatchGetReportsOptions`                                                |
 | `aws codebuild batch-get-sandboxes`                                                  | `AwsCodebuildBatchGetSandboxesOptions`                                              |
+| `aws codebuild create-fleet`                                                         | `AwsCodebuildCreateFleetOptions`                                                    |
+| `aws codebuild create-project`                                                       | `AwsCodebuildCreateProjectOptions`                                                  |
 | `aws codebuild create-report-group`                                                  | `AwsCodebuildCreateReportGroupOptions`                                              |
 | `aws codebuild create-webhook`                                                       | `AwsCodebuildCreateWebhookOptions`                                                  |
 | `aws codebuild delete-build-batch`                                                   | `AwsCodebuildDeleteBuildBatchOptions`                                               |
@@ -3229,12 +3325,16 @@ var aws = context.Tools.Aws;
 | `aws codebuild put-resource-policy`                                                  | `AwsCodebuildPutResourcePolicyOptions`                                              |
 | `aws codebuild retry-build`                                                          | `AwsCodebuildRetryBuildOptions`                                                     |
 | `aws codebuild retry-build-batch`                                                    | `AwsCodebuildRetryBuildBatchOptions`                                                |
+| `aws codebuild start-build`                                                          | `AwsCodebuildStartBuildOptions`                                                     |
+| `aws codebuild start-build-batch`                                                    | `AwsCodebuildStartBuildBatchOptions`                                                |
 | `aws codebuild start-command-execution`                                              | `AwsCodebuildStartCommandExecutionOptions`                                          |
 | `aws codebuild start-sandbox`                                                        | `AwsCodebuildStartSandboxOptions`                                                   |
 | `aws codebuild start-sandbox-connection`                                             | `AwsCodebuildStartSandboxConnectionOptions`                                         |
 | `aws codebuild stop-build`                                                           | `AwsCodebuildStopBuildOptions`                                                      |
 | `aws codebuild stop-build-batch`                                                     | `AwsCodebuildStopBuildBatchOptions`                                                 |
 | `aws codebuild stop-sandbox`                                                         | `AwsCodebuildStopSandboxOptions`                                                    |
+| `aws codebuild update-fleet`                                                         | `AwsCodebuildUpdateFleetOptions`                                                    |
+| `aws codebuild update-project`                                                       | `AwsCodebuildUpdateProjectOptions`                                                  |
 | `aws codebuild update-project-visibility`                                            | `AwsCodebuildUpdateProjectVisibilityOptions`                                        |
 | `aws codebuild update-report-group`                                                  | `AwsCodebuildUpdateReportGroupOptions`                                              |
 | `aws codebuild update-webhook`                                                       | `AwsCodebuildUpdateWebhookOptions`                                                  |
@@ -3282,10 +3382,12 @@ var aws = context.Tools.Aws;
 | `aws codecommit batch-disassociate-approval-rule-template-from-repositories`         | `AwsCodecommitBatchDisassociateApprovalRuleTemplateFromRepositoriesOptions`         |
 | `aws codecommit batch-get-commits`                                                   | `AwsCodecommitBatchGetCommitsOptions`                                               |
 | `aws codecommit batch-get-repositories`                                              | `AwsCodecommitBatchGetRepositoriesOptions`                                          |
+| `aws codecommit create-approval-rule-template`                                       | `AwsCodecommitCreateApprovalRuleTemplateOptions`                                    |
 | `aws codecommit create-branch`                                                       | `AwsCodecommitCreateBranchOptions`                                                  |
 | `aws codecommit create-commit`                                                       | `AwsCodecommitCreateCommitOptions`                                                  |
 | `aws codecommit create-pull-request`                                                 | `AwsCodecommitCreatePullRequestOptions`                                             |
 | `aws codecommit create-pull-request-approval-rule`                                   | `AwsCodecommitCreatePullRequestApprovalRuleOptions`                                 |
+| `aws codecommit create-repository`                                                   | `AwsCodecommitCreateRepositoryOptions`                                              |
 | `aws codecommit create-unreferenced-merge-commit`                                    | `AwsCodecommitCreateUnreferencedMergeCommitOptions`                                 |
 | `aws codecommit credential-helper`                                                   | `AwsCodecommitCredentialHelperOptions`                                              |
 | `aws codecommit credential-helper get`                                               | `AwsCodecommitCredentialHelperGetOptions`                                           |
@@ -3383,6 +3485,7 @@ var aws = context.Tools.Aws;
 | `aws codeconnections update-repository-link`                                         | `AwsCodeconnectionsUpdateRepositoryLinkOptions`                                     |
 | `aws codeconnections update-sync-blocker`                                            | `AwsCodeconnectionsUpdateSyncBlockerOptions`                                        |
 | `aws codeconnections update-sync-configuration`                                      | `AwsCodeconnectionsUpdateSyncConfigurationOptions`                                  |
+| `aws codeguru-reviewer associate-repository`                                         | `AwsCodeguruReviewerAssociateRepositoryOptions`                                     |
 | `aws codeguru-reviewer create-code-review`                                           | `AwsCodeguruReviewerCreateCodeReviewOptions`                                        |
 | `aws codeguru-reviewer describe-code-review`                                         | `AwsCodeguruReviewerDescribeCodeReviewOptions`                                      |
 | `aws codeguru-reviewer describe-recommendation-feedback`                             | `AwsCodeguruReviewerDescribeRecommendationFeedbackOptions`                          |
@@ -3394,10 +3497,12 @@ var aws = context.Tools.Aws;
 | `aws codeguru-reviewer list-repository-associations`                                 | `AwsCodeguruReviewerListRepositoryAssociationsOptions`                              |
 | `aws codeguru-reviewer list-tags-for-resource`                                       | `AwsCodeguruReviewerListTagsForResourceOptions`                                     |
 | `aws codeguru-reviewer put-recommendation-feedback`                                  | `AwsCodeguruReviewerPutRecommendationFeedbackOptions`                               |
+| `aws codeguru-reviewer tag-resource`                                                 | `AwsCodeguruReviewerTagResourceOptions`                                             |
 | `aws codeguru-reviewer untag-resource`                                               | `AwsCodeguruReviewerUntagResourceOptions`                                           |
 | `aws codeguru-reviewer wait code-review-completed`                                   | `AwsCodeguruReviewerWaitCodeReviewCompletedOptions`                                 |
 | `aws codeguru-reviewer wait repository-association-succeeded`                        | `AwsCodeguruReviewerWaitRepositoryAssociationSucceededOptions`                      |
 | `aws codeguru-security batch-get-findings`                                           | `AwsCodeguruSecurityBatchGetFindingsOptions`                                        |
+| `aws codeguru-security create-scan`                                                  | `AwsCodeguruSecurityCreateScanOptions`                                              |
 | `aws codeguru-security create-upload-url`                                            | `AwsCodeguruSecurityCreateUploadUrlOptions`                                         |
 | `aws codeguru-security get-account-configuration`                                    | `AwsCodeguruSecurityGetAccountConfigurationOptions`                                 |
 | `aws codeguru-security get-findings`                                                 | `AwsCodeguruSecurityGetFindingsOptions`                                             |
@@ -3406,6 +3511,7 @@ var aws = context.Tools.Aws;
 | `aws codeguru-security list-findings-metrics`                                        | `AwsCodeguruSecurityListFindingsMetricsOptions`                                     |
 | `aws codeguru-security list-scans`                                                   | `AwsCodeguruSecurityListScansOptions`                                               |
 | `aws codeguru-security list-tags-for-resource`                                       | `AwsCodeguruSecurityListTagsForResourceOptions`                                     |
+| `aws codeguru-security tag-resource`                                                 | `AwsCodeguruSecurityTagResourceOptions`                                             |
 | `aws codeguru-security untag-resource`                                               | `AwsCodeguruSecurityUntagResourceOptions`                                           |
 | `aws codeguru-security update-account-configuration`                                 | `AwsCodeguruSecurityUpdateAccountConfigurationOptions`                              |
 | `aws codeguruprofiler add-notification-channels`                                     | `AwsCodeguruprofilerAddNotificationChannelsOptions`                                 |
@@ -3531,6 +3637,7 @@ var aws = context.Tools.Aws;
 | `aws cognito-identity list-tags-for-resource`                                        | `AwsCognitoIdentityListTagsForResourceOptions`                                      |
 | `aws cognito-identity lookup-developer-identity`                                     | `AwsCognitoIdentityLookupDeveloperIdentityOptions`                                  |
 | `aws cognito-identity merge-developer-identities`                                    | `AwsCognitoIdentityMergeDeveloperIdentitiesOptions`                                 |
+| `aws cognito-identity set-identity-pool-roles`                                       | `AwsCognitoIdentitySetIdentityPoolRolesOptions`                                     |
 | `aws cognito-identity set-principal-tag-attribute-map`                               | `AwsCognitoIdentitySetPrincipalTagAttributeMapOptions`                              |
 | `aws cognito-identity tag-resource`                                                  | `AwsCognitoIdentityTagResourceOptions`                                              |
 | `aws cognito-identity unlink-developer-identity`                                     | `AwsCognitoIdentityUnlinkDeveloperIdentityOptions`                                  |
@@ -3579,6 +3686,7 @@ var aws = context.Tools.Aws;
 | `aws cognito-idp create-resource-server`                                             | `AwsCognitoIdpCreateResourceServerOptions`                                          |
 | `aws cognito-idp create-terms`                                                       | `AwsCognitoIdpCreateTermsOptions`                                                   |
 | `aws cognito-idp create-user-import-job`                                             | `AwsCognitoIdpCreateUserImportJobOptions`                                           |
+| `aws cognito-idp create-user-pool`                                                   | `AwsCognitoIdpCreateUserPoolOptions`                                                |
 | `aws cognito-idp create-user-pool-client`                                            | `AwsCognitoIdpCreateUserPoolClientOptions`                                          |
 | `aws cognito-idp create-user-pool-domain`                                            | `AwsCognitoIdpCreateUserPoolDomainOptions`                                          |
 | `aws cognito-idp create-user-pool-replica`                                           | `AwsCognitoIdpCreateUserPoolReplicaOptions`                                         |
@@ -3651,6 +3759,7 @@ var aws = context.Tools.Aws;
 | `aws cognito-idp start-user-import-job`                                              | `AwsCognitoIdpStartUserImportJobOptions`                                            |
 | `aws cognito-idp start-web-authn-registration`                                       | `AwsCognitoIdpStartWebAuthnRegistrationOptions`                                     |
 | `aws cognito-idp stop-user-import-job`                                               | `AwsCognitoIdpStopUserImportJobOptions`                                             |
+| `aws cognito-idp tag-resource`                                                       | `AwsCognitoIdpTagResourceOptions`                                                   |
 | `aws cognito-idp untag-resource`                                                     | `AwsCognitoIdpUntagResourceOptions`                                                 |
 | `aws cognito-idp update-auth-event-feedback`                                         | `AwsCognitoIdpUpdateAuthEventFeedbackOptions`                                       |
 | `aws cognito-idp update-device-status`                                               | `AwsCognitoIdpUpdateDeviceStatusOptions`                                            |
@@ -3661,6 +3770,7 @@ var aws = context.Tools.Aws;
 | `aws cognito-idp update-resource-server`                                             | `AwsCognitoIdpUpdateResourceServerOptions`                                          |
 | `aws cognito-idp update-terms`                                                       | `AwsCognitoIdpUpdateTermsOptions`                                                   |
 | `aws cognito-idp update-user-attributes`                                             | `AwsCognitoIdpUpdateUserAttributesOptions`                                          |
+| `aws cognito-idp update-user-pool`                                                   | `AwsCognitoIdpUpdateUserPoolOptions`                                                |
 | `aws cognito-idp update-user-pool-client`                                            | `AwsCognitoIdpUpdateUserPoolClientOptions`                                          |
 | `aws cognito-idp update-user-pool-domain`                                            | `AwsCognitoIdpUpdateUserPoolDomainOptions`                                          |
 | `aws cognito-idp update-user-pool-replica`                                           | `AwsCognitoIdpUpdateUserPoolReplicaOptions`                                         |
@@ -3751,6 +3861,7 @@ var aws = context.Tools.Aws;
 | `aws comprehend start-events-detection-job`                                          | `AwsComprehendStartEventsDetectionJobOptions`                                       |
 | `aws comprehend start-flywheel-iteration`                                            | `AwsComprehendStartFlywheelIterationOptions`                                        |
 | `aws comprehend start-key-phrases-detection-job`                                     | `AwsComprehendStartKeyPhrasesDetectionJobOptions`                                   |
+| `aws comprehend start-pii-entities-detection-job`                                    | `AwsComprehendStartPiiEntitiesDetectionJobOptions`                                  |
 | `aws comprehend start-sentiment-detection-job`                                       | `AwsComprehendStartSentimentDetectionJobOptions`                                    |
 | `aws comprehend start-targeted-sentiment-detection-job`                              | `AwsComprehendStartTargetedSentimentDetectionJobOptions`                            |
 | `aws comprehend start-topics-detection-job`                                          | `AwsComprehendStartTopicsDetectionJobOptions`                                       |
@@ -3913,6 +4024,7 @@ var aws = context.Tools.Aws;
 | `aws configservice get-stored-query`                                                 | `AwsConfigserviceGetStoredQueryOptions`                                             |
 | `aws configservice list-aggregate-discovered-resources`                              | `AwsConfigserviceListAggregateDiscoveredResourcesOptions`                           |
 | `aws configservice list-configuration-recorders`                                     | `AwsConfigserviceListConfigurationRecordersOptions`                                 |
+| `aws configservice list-conformance-pack-compliance-scores`                          | `AwsConfigserviceListConformancePackComplianceScoresOptions`                        |
 | `aws configservice list-connectors`                                                  | `AwsConfigserviceListConnectorsOptions`                                             |
 | `aws configservice list-discovered-resources`                                        | `AwsConfigserviceListDiscoveredResourcesOptions`                                    |
 | `aws configservice list-resource-evaluations`                                        | `AwsConfigserviceListResourceEvaluationsOptions`                                    |
@@ -4119,6 +4231,7 @@ var aws = context.Tools.Aws;
 | `aws connect get-attached-file`                                                      | `AwsConnectGetAttachedFileOptions`                                                  |
 | `aws connect get-contact-attributes`                                                 | `AwsConnectGetContactAttributesOptions`                                             |
 | `aws connect get-contact-metrics`                                                    | `AwsConnectGetContactMetricsOptions`                                                |
+| `aws connect get-cross-region-routing`                                               | `AwsConnectGetCrossRegionRoutingOptions`                                            |
 | `aws connect get-current-metric-data`                                                | `AwsConnectGetCurrentMetricDataOptions`                                             |
 | `aws connect get-current-user-data`                                                  | `AwsConnectGetCurrentUserDataOptions`                                               |
 | `aws connect get-effective-hours-of-operations`                                      | `AwsConnectGetEffectiveHoursOfOperationsOptions`                                    |
@@ -4155,6 +4268,7 @@ var aws = context.Tools.Aws;
 | `aws connect list-data-tables`                                                       | `AwsConnectListDataTablesOptions`                                                   |
 | `aws connect list-default-vocabularies`                                              | `AwsConnectListDefaultVocabulariesOptions`                                          |
 | `aws connect list-entity-security-profiles`                                          | `AwsConnectListEntitySecurityProfilesOptions`                                       |
+| `aws connect list-evaluation-form-ai-versions`                                       | `AwsConnectListEvaluationFormAiVersionsOptions`                                     |
 | `aws connect list-evaluation-form-versions`                                          | `AwsConnectListEvaluationFormVersionsOptions`                                       |
 | `aws connect list-evaluation-forms`                                                  | `AwsConnectListEvaluationFormsOptions`                                              |
 | `aws connect list-extraction-definitions`                                            | `AwsConnectListExtractionDefinitionsOptions`                                        |
@@ -4286,6 +4400,7 @@ var aws = context.Tools.Aws;
 | `aws connect update-contact-routing-data`                                            | `AwsConnectUpdateContactRoutingDataOptions`                                         |
 | `aws connect update-contact-schedule`                                                | `AwsConnectUpdateContactScheduleOptions`                                            |
 | `aws connect update-contact-task-template`                                           | `AwsConnectUpdateContactTaskTemplateOptions`                                        |
+| `aws connect update-cross-region-routing`                                            | `AwsConnectUpdateCrossRegionRoutingOptions`                                         |
 | `aws connect update-data-table-attribute`                                            | `AwsConnectUpdateDataTableAttributeOptions`                                         |
 | `aws connect update-data-table-metadata`                                             | `AwsConnectUpdateDataTableMetadataOptions`                                          |
 | `aws connect update-data-table-primary-values`                                       | `AwsConnectUpdateDataTablePrimaryValuesOptions`                                     |
@@ -4518,6 +4633,7 @@ var aws = context.Tools.Aws;
 | `aws cur tag-resource`                                                               | `AwsCurTagResourceOptions`                                                          |
 | `aws cur untag-resource`                                                             | `AwsCurUntagResourceOptions`                                                        |
 | `aws customer-profiles add-profile-key`                                              | `AwsCustomerProfilesAddProfileKeyOptions`                                           |
+| `aws customer-profiles associate-stream-for-segments`                                | `AwsCustomerProfilesAssociateStreamForSegmentsOptions`                              |
 | `aws customer-profiles batch-get-calculated-attribute-for-profile`                   | `AwsCustomerProfilesBatchGetCalculatedAttributeForProfileOptions`                   |
 | `aws customer-profiles batch-get-profile`                                            | `AwsCustomerProfilesBatchGetProfileOptions`                                         |
 | `aws customer-profiles batch-put-profile-object`                                     | `AwsCustomerProfilesBatchPutProfileObjectOptions`                                   |
@@ -4525,6 +4641,7 @@ var aws = context.Tools.Aws;
 | `aws customer-profiles create-domain`                                                | `AwsCustomerProfilesCreateDomainOptions`                                            |
 | `aws customer-profiles create-domain-layout`                                         | `AwsCustomerProfilesCreateDomainLayoutOptions`                                      |
 | `aws customer-profiles create-event-stream`                                          | `AwsCustomerProfilesCreateEventStreamOptions`                                       |
+| `aws customer-profiles create-event-trigger`                                         | `AwsCustomerProfilesCreateEventTriggerOptions`                                      |
 | `aws customer-profiles create-integration-workflow`                                  | `AwsCustomerProfilesCreateIntegrationWorkflowOptions`                               |
 | `aws customer-profiles create-profile`                                               | `AwsCustomerProfilesCreateProfileOptions`                                           |
 | `aws customer-profiles create-recommender`                                           | `AwsCustomerProfilesCreateRecommenderOptions`                                       |
@@ -4549,8 +4666,10 @@ var aws = context.Tools.Aws;
 | `aws customer-profiles delete-recommender-filter`                                    | `AwsCustomerProfilesDeleteRecommenderFilterOptions`                                 |
 | `aws customer-profiles delete-recommender-schema`                                    | `AwsCustomerProfilesDeleteRecommenderSchemaOptions`                                 |
 | `aws customer-profiles delete-segment-definition`                                    | `AwsCustomerProfilesDeleteSegmentDefinitionOptions`                                 |
+| `aws customer-profiles delete-segment-subscription`                                  | `AwsCustomerProfilesDeleteSegmentSubscriptionOptions`                               |
 | `aws customer-profiles delete-workflow`                                              | `AwsCustomerProfilesDeleteWorkflowOptions`                                          |
 | `aws customer-profiles detect-profile-object-type`                                   | `AwsCustomerProfilesDetectProfileObjectTypeOptions`                                 |
+| `aws customer-profiles disassociate-stream-for-segments`                             | `AwsCustomerProfilesDisassociateStreamForSegmentsOptions`                           |
 | `aws customer-profiles get-auto-merging-preview`                                     | `AwsCustomerProfilesGetAutoMergingPreviewOptions`                                   |
 | `aws customer-profiles get-calculated-attribute-definition`                          | `AwsCustomerProfilesGetCalculatedAttributeDefinitionOptions`                        |
 | `aws customer-profiles get-calculated-attribute-for-profile`                         | `AwsCustomerProfilesGetCalculatedAttributeForProfileOptions`                        |
@@ -4574,7 +4693,9 @@ var aws = context.Tools.Aws;
 | `aws customer-profiles get-segment-estimate`                                         | `AwsCustomerProfilesGetSegmentEstimateOptions`                                      |
 | `aws customer-profiles get-segment-membership`                                       | `AwsCustomerProfilesGetSegmentMembershipOptions`                                    |
 | `aws customer-profiles get-segment-snapshot`                                         | `AwsCustomerProfilesGetSegmentSnapshotOptions`                                      |
+| `aws customer-profiles get-segment-subscription`                                     | `AwsCustomerProfilesGetSegmentSubscriptionOptions`                                  |
 | `aws customer-profiles get-similar-profiles`                                         | `AwsCustomerProfilesGetSimilarProfilesOptions`                                      |
+| `aws customer-profiles get-stream-for-segments`                                      | `AwsCustomerProfilesGetStreamForSegmentsOptions`                                    |
 | `aws customer-profiles get-upload-job`                                               | `AwsCustomerProfilesGetUploadJobOptions`                                            |
 | `aws customer-profiles get-upload-job-path`                                          | `AwsCustomerProfilesGetUploadJobPathOptions`                                        |
 | `aws customer-profiles get-workflow`                                                 | `AwsCustomerProfilesGetWorkflowOptions`                                             |
@@ -4602,6 +4723,7 @@ var aws = context.Tools.Aws;
 | `aws customer-profiles list-recommenders`                                            | `AwsCustomerProfilesListRecommendersOptions`                                        |
 | `aws customer-profiles list-rule-based-matches`                                      | `AwsCustomerProfilesListRuleBasedMatchesOptions`                                    |
 | `aws customer-profiles list-segment-definitions`                                     | `AwsCustomerProfilesListSegmentDefinitionsOptions`                                  |
+| `aws customer-profiles list-segment-subscription-events`                             | `AwsCustomerProfilesListSegmentSubscriptionEventsOptions`                           |
 | `aws customer-profiles list-tags-for-resource`                                       | `AwsCustomerProfilesListTagsForResourceOptions`                                     |
 | `aws customer-profiles list-upload-jobs`                                             | `AwsCustomerProfilesListUploadJobsOptions`                                          |
 | `aws customer-profiles list-workflows`                                               | `AwsCustomerProfilesListWorkflowsOptions`                                           |
@@ -4610,6 +4732,7 @@ var aws = context.Tools.Aws;
 | `aws customer-profiles put-integration`                                              | `AwsCustomerProfilesPutIntegrationOptions`                                          |
 | `aws customer-profiles put-profile-object`                                           | `AwsCustomerProfilesPutProfileObjectOptions`                                        |
 | `aws customer-profiles put-profile-object-type`                                      | `AwsCustomerProfilesPutProfileObjectTypeOptions`                                    |
+| `aws customer-profiles put-segment-subscription`                                     | `AwsCustomerProfilesPutSegmentSubscriptionOptions`                                  |
 | `aws customer-profiles search-profiles`                                              | `AwsCustomerProfilesSearchProfilesOptions`                                          |
 | `aws customer-profiles start-recommender`                                            | `AwsCustomerProfilesStartRecommenderOptions`                                        |
 | `aws customer-profiles start-upload-job`                                             | `AwsCustomerProfilesStartUploadJobOptions`                                          |
@@ -4654,6 +4777,7 @@ var aws = context.Tools.Aws;
 | `aws databrew list-schedules`                                                        | `AwsDatabrewListSchedulesOptions`                                                   |
 | `aws databrew list-tags-for-resource`                                                | `AwsDatabrewListTagsForResourceOptions`                                             |
 | `aws databrew publish-recipe`                                                        | `AwsDatabrewPublishRecipeOptions`                                                   |
+| `aws databrew send-project-session-action`                                           | `AwsDatabrewSendProjectSessionActionOptions`                                        |
 | `aws databrew start-job-run`                                                         | `AwsDatabrewStartJobRunOptions`                                                     |
 | `aws databrew start-project-session`                                                 | `AwsDatabrewStartProjectSessionOptions`                                             |
 | `aws databrew stop-job-run`                                                          | `AwsDatabrewStopJobRunOptions`                                                      |
@@ -5136,6 +5260,7 @@ var aws = context.Tools.Aws;
 | `aws deploy create-application`                                                      | `AwsDeployCreateApplicationOptions`                                                 |
 | `aws deploy create-deployment`                                                       | `AwsDeployCreateDeploymentOptions`                                                  |
 | `aws deploy create-deployment-config`                                                | `AwsDeployCreateDeploymentConfigOptions`                                            |
+| `aws deploy create-deployment-group`                                                 | `AwsDeployCreateDeploymentGroupOptions`                                             |
 | `aws deploy delete-application`                                                      | `AwsDeployDeleteApplicationOptions`                                                 |
 | `aws deploy delete-deployment-config`                                                | `AwsDeployDeleteDeploymentConfigOptions`                                            |
 | `aws deploy delete-deployment-group`                                                 | `AwsDeployDeleteDeploymentGroupOptions`                                             |
@@ -5171,6 +5296,7 @@ var aws = context.Tools.Aws;
 | `aws deploy uninstall`                                                               | `AwsDeployUninstallOptions`                                                         |
 | `aws deploy untag-resource`                                                          | `AwsDeployUntagResourceOptions`                                                     |
 | `aws deploy update-application`                                                      | `AwsDeployUpdateApplicationOptions`                                                 |
+| `aws deploy update-deployment-group`                                                 | `AwsDeployUpdateDeploymentGroupOptions`                                             |
 | `aws deploy wait deployment-successful`                                              | `AwsDeployWaitDeploymentSuccessfulOptions`                                          |
 | `aws detective accept-invitation`                                                    | `AwsDetectiveAcceptInvitationOptions`                                               |
 | `aws detective batch-get-graph-member-datasources`                                   | `AwsDetectiveBatchGetGraphMemberDatasourcesOptions`                                 |
@@ -5204,6 +5330,8 @@ var aws = context.Tools.Aws;
 | `aws devicefarm create-device-pool`                                                  | `AwsDevicefarmCreateDevicePoolOptions`                                              |
 | `aws devicefarm create-instance-profile`                                             | `AwsDevicefarmCreateInstanceProfileOptions`                                         |
 | `aws devicefarm create-network-profile`                                              | `AwsDevicefarmCreateNetworkProfileOptions`                                          |
+| `aws devicefarm create-project`                                                      | `AwsDevicefarmCreateProjectOptions`                                                 |
+| `aws devicefarm create-remote-access-session`                                        | `AwsDevicefarmCreateRemoteAccessSessionOptions`                                     |
 | `aws devicefarm create-test-grid-project`                                            | `AwsDevicefarmCreateTestGridProjectOptions`                                         |
 | `aws devicefarm create-test-grid-url`                                                | `AwsDevicefarmCreateTestGridUrlOptions`                                             |
 | `aws devicefarm create-upload`                                                       | `AwsDevicefarmCreateUploadOptions`                                                  |
@@ -5221,6 +5349,7 @@ var aws = context.Tools.Aws;
 | `aws devicefarm get-device`                                                          | `AwsDevicefarmGetDeviceOptions`                                                     |
 | `aws devicefarm get-device-instance`                                                 | `AwsDevicefarmGetDeviceInstanceOptions`                                             |
 | `aws devicefarm get-device-pool`                                                     | `AwsDevicefarmGetDevicePoolOptions`                                                 |
+| `aws devicefarm get-device-pool-compatibility`                                       | `AwsDevicefarmGetDevicePoolCompatibilityOptions`                                    |
 | `aws devicefarm get-instance-profile`                                                | `AwsDevicefarmGetInstanceProfileOptions`                                            |
 | `aws devicefarm get-job`                                                             | `AwsDevicefarmGetJobOptions`                                                        |
 | `aws devicefarm get-network-profile`                                                 | `AwsDevicefarmGetNetworkProfileOptions`                                             |
@@ -5261,6 +5390,7 @@ var aws = context.Tools.Aws;
 | `aws devicefarm list-vpce-configurations`                                            | `AwsDevicefarmListVpceConfigurationsOptions`                                        |
 | `aws devicefarm purchase-offering`                                                   | `AwsDevicefarmPurchaseOfferingOptions`                                              |
 | `aws devicefarm renew-offering`                                                      | `AwsDevicefarmRenewOfferingOptions`                                                 |
+| `aws devicefarm schedule-run`                                                        | `AwsDevicefarmScheduleRunOptions`                                                   |
 | `aws devicefarm stop-job`                                                            | `AwsDevicefarmStopJobOptions`                                                       |
 | `aws devicefarm stop-remote-access-session`                                          | `AwsDevicefarmStopRemoteAccessSessionOptions`                                       |
 | `aws devicefarm stop-run`                                                            | `AwsDevicefarmStopRunOptions`                                                       |
@@ -5270,6 +5400,7 @@ var aws = context.Tools.Aws;
 | `aws devicefarm update-device-pool`                                                  | `AwsDevicefarmUpdateDevicePoolOptions`                                              |
 | `aws devicefarm update-instance-profile`                                             | `AwsDevicefarmUpdateInstanceProfileOptions`                                         |
 | `aws devicefarm update-network-profile`                                              | `AwsDevicefarmUpdateNetworkProfileOptions`                                          |
+| `aws devicefarm update-project`                                                      | `AwsDevicefarmUpdateProjectOptions`                                                 |
 | `aws devicefarm update-test-grid-project`                                            | `AwsDevicefarmUpdateTestGridProjectOptions`                                         |
 | `aws devicefarm update-upload`                                                       | `AwsDevicefarmUpdateUploadOptions`                                                  |
 | `aws devicefarm update-vpce-configuration`                                           | `AwsDevicefarmUpdateVpceConfigurationOptions`                                       |
@@ -5350,6 +5481,7 @@ var aws = context.Tools.Aws;
 | `aws devops-guru describe-service-integration`                                       | `AwsDevopsGuruDescribeServiceIntegrationOptions`                                    |
 | `aws devops-guru get-cost-estimation`                                                | `AwsDevopsGuruGetCostEstimationOptions`                                             |
 | `aws devops-guru get-resource-collection`                                            | `AwsDevopsGuruGetResourceCollectionOptions`                                         |
+| `aws devops-guru list-anomalies-for-insight`                                         | `AwsDevopsGuruListAnomaliesForInsightOptions`                                       |
 | `aws devops-guru list-anomalous-log-groups`                                          | `AwsDevopsGuruListAnomalousLogGroupsOptions`                                        |
 | `aws devops-guru list-events`                                                        | `AwsDevopsGuruListEventsOptions`                                                    |
 | `aws devops-guru list-insights`                                                      | `AwsDevopsGuruListInsightsOptions`                                                  |
@@ -5359,6 +5491,8 @@ var aws = context.Tools.Aws;
 | `aws devops-guru list-recommendations`                                               | `AwsDevopsGuruListRecommendationsOptions`                                           |
 | `aws devops-guru put-feedback`                                                       | `AwsDevopsGuruPutFeedbackOptions`                                                   |
 | `aws devops-guru remove-notification-channel`                                        | `AwsDevopsGuruRemoveNotificationChannelOptions`                                     |
+| `aws devops-guru search-insights`                                                    | `AwsDevopsGuruSearchInsightsOptions`                                                |
+| `aws devops-guru search-organization-insights`                                       | `AwsDevopsGuruSearchOrganizationInsightsOptions`                                    |
 | `aws devops-guru start-cost-estimation`                                              | `AwsDevopsGuruStartCostEstimationOptions`                                           |
 | `aws devops-guru update-event-sources-config`                                        | `AwsDevopsGuruUpdateEventSourcesConfigOptions`                                      |
 | `aws devops-guru update-resource-collection`                                         | `AwsDevopsGuruUpdateResourceCollectionOptions`                                      |
@@ -5369,6 +5503,7 @@ var aws = context.Tools.Aws;
 | `aws directconnect allocate-public-virtual-interface`                                | `AwsDirectconnectAllocatePublicVirtualInterfaceOptions`                             |
 | `aws directconnect allocate-transit-virtual-interface`                               | `AwsDirectconnectAllocateTransitVirtualInterfaceOptions`                            |
 | `aws directconnect associate-connection-with-lag`                                    | `AwsDirectconnectAssociateConnectionWithLagOptions`                                 |
+| `aws directconnect associate-connections-to-resiliency-group`                        | `AwsDirectconnectAssociateConnectionsToResiliencyGroupOptions`                      |
 | `aws directconnect associate-hosted-connection`                                      | `AwsDirectconnectAssociateHostedConnectionOptions`                                  |
 | `aws directconnect associate-mac-sec-key`                                            | `AwsDirectconnectAssociateMacSecKeyOptions`                                         |
 | `aws directconnect associate-virtual-interface`                                      | `AwsDirectconnectAssociateVirtualInterfaceOptions`                                  |
@@ -5386,6 +5521,7 @@ var aws = context.Tools.Aws;
 | `aws directconnect create-lag`                                                       | `AwsDirectconnectCreateLagOptions`                                                  |
 | `aws directconnect create-private-virtual-interface`                                 | `AwsDirectconnectCreatePrivateVirtualInterfaceOptions`                              |
 | `aws directconnect create-public-virtual-interface`                                  | `AwsDirectconnectCreatePublicVirtualInterfaceOptions`                               |
+| `aws directconnect create-resiliency-group`                                          | `AwsDirectconnectCreateResiliencyGroupOptions`                                      |
 | `aws directconnect create-transit-virtual-interface`                                 | `AwsDirectconnectCreateTransitVirtualInterfaceOptions`                              |
 | `aws directconnect delete-bgp-peer`                                                  | `AwsDirectconnectDeleteBgpPeerOptions`                                              |
 | `aws directconnect delete-connection`                                                | `AwsDirectconnectDeleteConnectionOptions`                                           |
@@ -5394,6 +5530,7 @@ var aws = context.Tools.Aws;
 | `aws directconnect delete-direct-connect-gateway-association-proposal`               | `AwsDirectconnectDeleteDirectConnectGatewayAssociationProposalOptions`              |
 | `aws directconnect delete-interconnect`                                              | `AwsDirectconnectDeleteInterconnectOptions`                                         |
 | `aws directconnect delete-lag`                                                       | `AwsDirectconnectDeleteLagOptions`                                                  |
+| `aws directconnect delete-resiliency-group`                                          | `AwsDirectconnectDeleteResiliencyGroupOptions`                                      |
 | `aws directconnect delete-virtual-interface`                                         | `AwsDirectconnectDeleteVirtualInterfaceOptions`                                     |
 | `aws directconnect describe-connections`                                             | `AwsDirectconnectDescribeConnectionsOptions`                                        |
 | `aws directconnect describe-customer-metadata`                                       | `AwsDirectconnectDescribeCustomerMetadataOptions`                                   |
@@ -5411,7 +5548,11 @@ var aws = context.Tools.Aws;
 | `aws directconnect describe-virtual-gateways`                                        | `AwsDirectconnectDescribeVirtualGatewaysOptions`                                    |
 | `aws directconnect describe-virtual-interfaces`                                      | `AwsDirectconnectDescribeVirtualInterfacesOptions`                                  |
 | `aws directconnect disassociate-connection-from-lag`                                 | `AwsDirectconnectDisassociateConnectionFromLagOptions`                              |
+| `aws directconnect disassociate-connections-from-resiliency-group`                   | `AwsDirectconnectDisassociateConnectionsFromResiliencyGroupOptions`                 |
 | `aws directconnect disassociate-mac-sec-key`                                         | `AwsDirectconnectDisassociateMacSecKeyOptions`                                      |
+| `aws directconnect get-resiliency-group`                                             | `AwsDirectconnectGetResiliencyGroupOptions`                                         |
+| `aws directconnect list-resiliency-group-associations`                               | `AwsDirectconnectListResiliencyGroupAssociationsOptions`                            |
+| `aws directconnect list-resiliency-groups`                                           | `AwsDirectconnectListResiliencyGroupsOptions`                                       |
 | `aws directconnect list-virtual-interface-routes`                                    | `AwsDirectconnectListVirtualInterfaceRoutesOptions`                                 |
 | `aws directconnect list-virtual-interface-test-history`                              | `AwsDirectconnectListVirtualInterfaceTestHistoryOptions`                            |
 | `aws directconnect start-bgp-failover-test`                                          | `AwsDirectconnectStartBgpFailoverTestOptions`                                       |
@@ -5419,9 +5560,11 @@ var aws = context.Tools.Aws;
 | `aws directconnect tag-resource`                                                     | `AwsDirectconnectTagResourceOptions`                                                |
 | `aws directconnect untag-resource`                                                   | `AwsDirectconnectUntagResourceOptions`                                              |
 | `aws directconnect update-connection`                                                | `AwsDirectconnectUpdateConnectionOptions`                                           |
+| `aws directconnect update-connections-billing-mode`                                  | `AwsDirectconnectUpdateConnectionsBillingModeOptions`                               |
 | `aws directconnect update-direct-connect-gateway`                                    | `AwsDirectconnectUpdateDirectConnectGatewayOptions`                                 |
 | `aws directconnect update-direct-connect-gateway-association`                        | `AwsDirectconnectUpdateDirectConnectGatewayAssociationOptions`                      |
 | `aws directconnect update-lag`                                                       | `AwsDirectconnectUpdateLagOptions`                                                  |
+| `aws directconnect update-resiliency-group`                                          | `AwsDirectconnectUpdateResiliencyGroupOptions`                                      |
 | `aws directconnect update-virtual-interface-attributes`                              | `AwsDirectconnectUpdateVirtualInterfaceAttributesOptions`                           |
 | `aws discovery associate-configuration-items-to-application`                         | `AwsDiscoveryAssociateConfigurationItemsToApplicationOptions`                       |
 | `aws discovery batch-delete-agents`                                                  | `AwsDiscoveryBatchDeleteAgentsOptions`                                              |
@@ -5444,6 +5587,7 @@ var aws = context.Tools.Aws;
 | `aws discovery start-batch-delete-configuration-task`                                | `AwsDiscoveryStartBatchDeleteConfigurationTaskOptions`                              |
 | `aws discovery start-continuous-export`                                              | `AwsDiscoveryStartContinuousExportOptions`                                          |
 | `aws discovery start-data-collection-by-agent-ids`                                   | `AwsDiscoveryStartDataCollectionByAgentIdsOptions`                                  |
+| `aws discovery start-export-task`                                                    | `AwsDiscoveryStartExportTaskOptions`                                                |
 | `aws discovery start-import-task`                                                    | `AwsDiscoveryStartImportTaskOptions`                                                |
 | `aws discovery stop-continuous-export`                                               | `AwsDiscoveryStopContinuousExportOptions`                                           |
 | `aws discovery stop-data-collection-by-agent-ids`                                    | `AwsDiscoveryStopDataCollectionByAgentIdsOptions`                                   |
@@ -5465,6 +5609,7 @@ var aws = context.Tools.Aws;
 | `aws dms cancel-replication-task-assessment-run`                                     | `AwsDmsCancelReplicationTaskAssessmentRunOptions`                                   |
 | `aws dms create-data-migration`                                                      | `AwsDmsCreateDataMigrationOptions`                                                  |
 | `aws dms create-data-provider`                                                       | `AwsDmsCreateDataProviderOptions`                                                   |
+| `aws dms create-endpoint`                                                            | `AwsDmsCreateEndpointOptions`                                                       |
 | `aws dms create-event-subscription`                                                  | `AwsDmsCreateEventSubscriptionOptions`                                              |
 | `aws dms create-fleet-advisor-collector`                                             | `AwsDmsCreateFleetAdvisorCollectorOptions`                                          |
 | `aws dms create-instance-profile`                                                    | `AwsDmsCreateInstanceProfileOptions`                                                |
@@ -5542,6 +5687,7 @@ var aws = context.Tools.Aws;
 | `aws dms modify-conversion-configuration`                                            | `AwsDmsModifyConversionConfigurationOptions`                                        |
 | `aws dms modify-data-migration`                                                      | `AwsDmsModifyDataMigrationOptions`                                                  |
 | `aws dms modify-data-provider`                                                       | `AwsDmsModifyDataProviderOptions`                                                   |
+| `aws dms modify-endpoint`                                                            | `AwsDmsModifyEndpointOptions`                                                       |
 | `aws dms modify-event-subscription`                                                  | `AwsDmsModifyEventSubscriptionOptions`                                              |
 | `aws dms modify-instance-profile`                                                    | `AwsDmsModifyInstanceProfileOptions`                                                |
 | `aws dms modify-migration-project`                                                   | `AwsDmsModifyMigrationProjectOptions`                                               |
@@ -5661,6 +5807,7 @@ var aws = context.Tools.Aws;
 | `aws docdb-elastic list-clusters`                                                    | `AwsDocdbElasticListClustersOptions`                                                |
 | `aws docdb-elastic list-pending-maintenance-actions`                                 | `AwsDocdbElasticListPendingMaintenanceActionsOptions`                               |
 | `aws docdb-elastic list-tags-for-resource`                                           | `AwsDocdbElasticListTagsForResourceOptions`                                         |
+| `aws docdb-elastic restore-cluster-from-snapshot`                                    | `AwsDocdbElasticRestoreClusterFromSnapshotOptions`                                  |
 | `aws docdb-elastic start-cluster`                                                    | `AwsDocdbElasticStartClusterOptions`                                                |
 | `aws docdb-elastic stop-cluster`                                                     | `AwsDocdbElasticStopClusterOptions`                                                 |
 | `aws docdb-elastic tag-resource`                                                     | `AwsDocdbElasticTagResourceOptions`                                                 |
@@ -5685,9 +5832,13 @@ var aws = context.Tools.Aws;
 | `aws drs delete-source-network`                                                      | `AwsDrsDeleteSourceNetworkOptions`                                                  |
 | `aws drs delete-source-server`                                                       | `AwsDrsDeleteSourceServerOptions`                                                   |
 | `aws drs describe-job-log-items`                                                     | `AwsDrsDescribeJobLogItemsOptions`                                                  |
+| `aws drs describe-jobs`                                                              | `AwsDrsDescribeJobsOptions`                                                         |
 | `aws drs describe-launch-configuration-templates`                                    | `AwsDrsDescribeLaunchConfigurationTemplatesOptions`                                 |
+| `aws drs describe-recovery-instances`                                                | `AwsDrsDescribeRecoveryInstancesOptions`                                            |
 | `aws drs describe-recovery-snapshots`                                                | `AwsDrsDescribeRecoverySnapshotsOptions`                                            |
 | `aws drs describe-replication-configuration-templates`                               | `AwsDrsDescribeReplicationConfigurationTemplatesOptions`                            |
+| `aws drs describe-source-networks`                                                   | `AwsDrsDescribeSourceNetworksOptions`                                               |
+| `aws drs describe-source-servers`                                                    | `AwsDrsDescribeSourceServersOptions`                                                |
 | `aws drs disconnect-recovery-instance`                                               | `AwsDrsDisconnectRecoveryInstanceOptions`                                           |
 | `aws drs disconnect-source-server`                                                   | `AwsDrsDisconnectSourceServerOptions`                                               |
 | `aws drs export-source-network-cfn-template`                                         | `AwsDrsExportSourceNetworkCfnTemplateOptions`                                       |
@@ -5720,6 +5871,7 @@ var aws = context.Tools.Aws;
 | `aws drs stop-failback`                                                              | `AwsDrsStopFailbackOptions`                                                         |
 | `aws drs stop-replication`                                                           | `AwsDrsStopReplicationOptions`                                                      |
 | `aws drs stop-source-network-replication`                                            | `AwsDrsStopSourceNetworkReplicationOptions`                                         |
+| `aws drs tag-resource`                                                               | `AwsDrsTagResourceOptions`                                                          |
 | `aws drs terminate-recovery-instances`                                               | `AwsDrsTerminateRecoveryInstancesOptions`                                           |
 | `aws drs untag-resource`                                                             | `AwsDrsUntagResourceOptions`                                                        |
 | `aws drs update-failback-replication-configuration`                                  | `AwsDrsUpdateFailbackReplicationConfigurationOptions`                               |
@@ -5857,6 +6009,7 @@ var aws = context.Tools.Aws;
 | `aws dynamodb create-global-table`                                                   | `AwsDynamodbCreateGlobalTableOptions`                                               |
 | `aws dynamodb create-table`                                                          | `AwsDynamodbCreateTableOptions`                                                     |
 | `aws dynamodb delete-backup`                                                         | `AwsDynamodbDeleteBackupOptions`                                                    |
+| `aws dynamodb delete-item`                                                           | `AwsDynamodbDeleteItemOptions`                                                      |
 | `aws dynamodb delete-resource-policy`                                                | `AwsDynamodbDeleteResourcePolicyOptions`                                            |
 | `aws dynamodb delete-table`                                                          | `AwsDynamodbDeleteTableOptions`                                                     |
 | `aws dynamodb describe-backup`                                                       | `AwsDynamodbDescribeBackupOptions`                                                  |
@@ -5877,6 +6030,7 @@ var aws = context.Tools.Aws;
 | `aws dynamodb execute-statement`                                                     | `AwsDynamodbExecuteStatementOptions`                                                |
 | `aws dynamodb execute-transaction`                                                   | `AwsDynamodbExecuteTransactionOptions`                                              |
 | `aws dynamodb export-table-to-point-in-time`                                         | `AwsDynamodbExportTableToPointInTimeOptions`                                        |
+| `aws dynamodb get-item`                                                              | `AwsDynamodbGetItemOptions`                                                         |
 | `aws dynamodb get-resource-policy`                                                   | `AwsDynamodbGetResourcePolicyOptions`                                               |
 | `aws dynamodb import-table`                                                          | `AwsDynamodbImportTableOptions`                                                     |
 | `aws dynamodb list-backups`                                                          | `AwsDynamodbListBackupsOptions`                                                     |
@@ -5886,9 +6040,13 @@ var aws = context.Tools.Aws;
 | `aws dynamodb list-imports`                                                          | `AwsDynamodbListImportsOptions`                                                     |
 | `aws dynamodb list-tables`                                                           | `AwsDynamodbListTablesOptions`                                                      |
 | `aws dynamodb list-tags-of-resource`                                                 | `AwsDynamodbListTagsOfResourceOptions`                                              |
+| `aws dynamodb put-item`                                                              | `AwsDynamodbPutItemOptions`                                                         |
 | `aws dynamodb put-resource-policy`                                                   | `AwsDynamodbPutResourcePolicyOptions`                                               |
+| `aws dynamodb query`                                                                 | `AwsDynamodbQueryOptions`                                                           |
 | `aws dynamodb restore-table-from-backup`                                             | `AwsDynamodbRestoreTableFromBackupOptions`                                          |
 | `aws dynamodb restore-table-to-point-in-time`                                        | `AwsDynamodbRestoreTableToPointInTimeOptions`                                       |
+| `aws dynamodb scan`                                                                  | `AwsDynamodbScanOptions`                                                            |
+| `aws dynamodb search-vectors`                                                        | `AwsDynamodbSearchVectorsOptions`                                                   |
 | `aws dynamodb tag-resource`                                                          | `AwsDynamodbTagResourceOptions`                                                     |
 | `aws dynamodb transact-get-items`                                                    | `AwsDynamodbTransactGetItemsOptions`                                                |
 | `aws dynamodb transact-write-items`                                                  | `AwsDynamodbTransactWriteItemsOptions`                                              |
@@ -5897,6 +6055,7 @@ var aws = context.Tools.Aws;
 | `aws dynamodb update-contributor-insights`                                           | `AwsDynamodbUpdateContributorInsightsOptions`                                       |
 | `aws dynamodb update-global-table`                                                   | `AwsDynamodbUpdateGlobalTableOptions`                                               |
 | `aws dynamodb update-global-table-settings`                                          | `AwsDynamodbUpdateGlobalTableSettingsOptions`                                       |
+| `aws dynamodb update-item`                                                           | `AwsDynamodbUpdateItemOptions`                                                      |
 | `aws dynamodb update-kinesis-streaming-destination`                                  | `AwsDynamodbUpdateKinesisStreamingDestinationOptions`                               |
 | `aws dynamodb update-table`                                                          | `AwsDynamodbUpdateTableOptions`                                                     |
 | `aws dynamodb update-table-replica-auto-scaling`                                     | `AwsDynamodbUpdateTableReplicaAutoScalingOptions`                                   |
@@ -5915,6 +6074,8 @@ var aws = context.Tools.Aws;
 | `aws dynamodbstreams list-streams`                                                   | `AwsDynamodbstreamsListStreamsOptions`                                              |
 | `aws ebs complete-snapshot`                                                          | `AwsEbsCompleteSnapshotOptions`                                                     |
 | `aws ebs get-snapshot-block`                                                         | `AwsEbsGetSnapshotBlockOptions`                                                     |
+| `aws ebs list-changed-blocks`                                                        | `AwsEbsListChangedBlocksOptions`                                                    |
+| `aws ebs list-snapshot-blocks`                                                       | `AwsEbsListSnapshotBlocksOptions`                                                   |
 | `aws ebs put-snapshot-block`                                                         | `AwsEbsPutSnapshotBlockOptions`                                                     |
 | `aws ebs start-snapshot`                                                             | `AwsEbsStartSnapshotOptions`                                                        |
 | `aws ec2 accept-address-transfer`                                                    | `AwsEc2AcceptAddressTransferOptions`                                                |
@@ -5928,6 +6089,7 @@ var aws = context.Tools.Aws;
 | `aws ec2 accept-vpc-peering-connection`                                              | `AwsEc2AcceptVpcPeeringConnectionOptions`                                           |
 | `aws ec2 advertise-byoip-cidr`                                                       | `AwsEc2AdvertiseByoipCidrOptions`                                                   |
 | `aws ec2 allocate-address`                                                           | `AwsEc2AllocateAddressOptions`                                                      |
+| `aws ec2 allocate-hosts`                                                             | `AwsEc2AllocateHostsOptions`                                                        |
 | `aws ec2 allocate-ipam-pool-cidr`                                                    | `AwsEc2AllocateIpamPoolCidrOptions`                                                 |
 | `aws ec2 apply-security-groups-to-client-vpn-target-network`                         | `AwsEc2ApplySecurityGroupsToClientVpnTargetNetworkOptions`                          |
 | `aws ec2 assign-ipv6-addresses`                                                      | `AwsEc2AssignIpv6AddressesOptions`                                                  |
@@ -5956,7 +6118,9 @@ var aws = context.Tools.Aws;
 | `aws ec2 attach-classic-link-vpc`                                                    | `AwsEc2AttachClassicLinkVpcOptions`                                                 |
 | `aws ec2 attach-image-watermark`                                                     | `AwsEc2AttachImageWatermarkOptions`                                                 |
 | `aws ec2 attach-internet-gateway`                                                    | `AwsEc2AttachInternetGatewayOptions`                                                |
+| `aws ec2 attach-network-interface`                                                   | `AwsEc2AttachNetworkInterfaceOptions`                                               |
 | `aws ec2 attach-verified-access-trust-provider`                                      | `AwsEc2AttachVerifiedAccessTrustProviderOptions`                                    |
+| `aws ec2 attach-volume`                                                              | `AwsEc2AttachVolumeOptions`                                                         |
 | `aws ec2 attach-vpn-gateway`                                                         | `AwsEc2AttachVpnGatewayOptions`                                                     |
 | `aws ec2 authorize-client-vpn-ingress`                                               | `AwsEc2AuthorizeClientVpnIngressOptions`                                            |
 | `aws ec2 authorize-security-group-egress`                                            | `AwsEc2AuthorizeSecurityGroupEgressOptions`                                         |
@@ -6311,6 +6475,7 @@ var aws = context.Tools.Aws;
 | `aws ec2 describe-regions`                                                           | `AwsEc2DescribeRegionsOptions`                                                      |
 | `aws ec2 describe-replace-root-volume-tasks`                                         | `AwsEc2DescribeReplaceRootVolumeTasksOptions`                                       |
 | `aws ec2 describe-reserved-instances`                                                | `AwsEc2DescribeReservedInstancesOptions`                                            |
+| `aws ec2 describe-reserved-instances-listings`                                       | `AwsEc2DescribeReservedInstancesListingsOptions`                                    |
 | `aws ec2 describe-reserved-instances-modifications`                                  | `AwsEc2DescribeReservedInstancesModificationsOptions`                               |
 | `aws ec2 describe-reserved-instances-offerings`                                      | `AwsEc2DescribeReservedInstancesOfferingsOptions`                                   |
 | `aws ec2 describe-route-server-endpoints`                                            | `AwsEc2DescribeRouteServerEndpointsOptions`                                         |
@@ -6557,6 +6722,7 @@ var aws = context.Tools.Aws;
 | `aws ec2 modify-ebs-default-kms-key-id`                                              | `AwsEc2ModifyEbsDefaultKmsKeyIdOptions`                                             |
 | `aws ec2 modify-fleet`                                                               | `AwsEc2ModifyFleetOptions`                                                          |
 | `aws ec2 modify-fpga-image-attribute`                                                | `AwsEc2ModifyFpgaImageAttributeOptions`                                             |
+| `aws ec2 modify-hosts`                                                               | `AwsEc2ModifyHostsOptions`                                                          |
 | `aws ec2 modify-id-format`                                                           | `AwsEc2ModifyIdFormatOptions`                                                       |
 | `aws ec2 modify-identity-id-format`                                                  | `AwsEc2ModifyIdentityIdFormatOptions`                                               |
 | `aws ec2 modify-image-attribute`                                                     | `AwsEc2ModifyImageAttributeOptions`                                                 |
@@ -6595,6 +6761,7 @@ var aws = context.Tools.Aws;
 | `aws ec2 modify-snapshot-attribute`                                                  | `AwsEc2ModifySnapshotAttributeOptions`                                              |
 | `aws ec2 modify-snapshot-tier`                                                       | `AwsEc2ModifySnapshotTierOptions`                                                   |
 | `aws ec2 modify-spot-fleet-request`                                                  | `AwsEc2ModifySpotFleetRequestOptions`                                               |
+| `aws ec2 modify-subnet-attribute`                                                    | `AwsEc2ModifySubnetAttributeOptions`                                                |
 | `aws ec2 modify-traffic-mirror-filter-network-services`                              | `AwsEc2ModifyTrafficMirrorFilterNetworkServicesOptions`                             |
 | `aws ec2 modify-traffic-mirror-filter-rule`                                          | `AwsEc2ModifyTrafficMirrorFilterRuleOptions`                                        |
 | `aws ec2 modify-traffic-mirror-session`                                              | `AwsEc2ModifyTrafficMirrorSessionOptions`                                           |
@@ -6667,6 +6834,7 @@ var aws = context.Tools.Aws;
 | `aws ec2 replace-vpn-tunnel`                                                         | `AwsEc2ReplaceVpnTunnelOptions`                                                     |
 | `aws ec2 report-instance-status`                                                     | `AwsEc2ReportInstanceStatusOptions`                                                 |
 | `aws ec2 request-spot-fleet`                                                         | `AwsEc2RequestSpotFleetOptions`                                                     |
+| `aws ec2 request-spot-instances`                                                     | `AwsEc2RequestSpotInstancesOptions`                                                 |
 | `aws ec2 reset-address-attribute`                                                    | `AwsEc2ResetAddressAttributeOptions`                                                |
 | `aws ec2 reset-ebs-default-kms-key-id`                                               | `AwsEc2ResetEbsDefaultKmsKeyIdOptions`                                              |
 | `aws ec2 reset-fpga-image-attribute`                                                 | `AwsEc2ResetFpgaImageAttributeOptions`                                              |
@@ -6707,6 +6875,7 @@ var aws = context.Tools.Aws;
 | `aws ec2 update-interruptible-capacity-reservation-allocation`                       | `AwsEc2UpdateInterruptibleCapacityReservationAllocationOptions`                     |
 | `aws ec2 update-security-group-rule-descriptions-egress`                             | `AwsEc2UpdateSecurityGroupRuleDescriptionsEgressOptions`                            |
 | `aws ec2 update-security-group-rule-descriptions-ingress`                            | `AwsEc2UpdateSecurityGroupRuleDescriptionsIngressOptions`                           |
+| `aws ec2 validate-security-group-quotas-for-interface`                               | `AwsEc2ValidateSecurityGroupQuotasForInterfaceOptions`                              |
 | `aws ec2 wait bundle-task-complete`                                                  | `AwsEc2WaitBundleTaskCompleteOptions`                                               |
 | `aws ec2 wait conversion-task-cancelled`                                             | `AwsEc2WaitConversionTaskCancelledOptions`                                          |
 | `aws ec2 wait conversion-task-completed`                                             | `AwsEc2WaitConversionTaskCompletedOptions`                                          |
@@ -6845,6 +7014,7 @@ var aws = context.Tools.Aws;
 | `aws ecs create-cluster`                                                             | `AwsEcsCreateClusterOptions`                                                        |
 | `aws ecs create-daemon`                                                              | `AwsEcsCreateDaemonOptions`                                                         |
 | `aws ecs create-express-gateway-service`                                             | `AwsEcsCreateExpressGatewayServiceOptions`                                          |
+| `aws ecs create-service`                                                             | `AwsEcsCreateServiceOptions`                                                        |
 | `aws ecs create-task-set`                                                            | `AwsEcsCreateTaskSetOptions`                                                        |
 | `aws ecs delete-account-setting`                                                     | `AwsEcsDeleteAccountSettingOptions`                                                 |
 | `aws ecs delete-attributes`                                                          | `AwsEcsDeleteAttributesOptions`                                                     |
@@ -6914,6 +7084,7 @@ var aws = context.Tools.Aws;
 | `aws ecs update-container-instances-state`                                           | `AwsEcsUpdateContainerInstancesStateOptions`                                        |
 | `aws ecs update-daemon`                                                              | `AwsEcsUpdateDaemonOptions`                                                         |
 | `aws ecs update-express-gateway-service`                                             | `AwsEcsUpdateExpressGatewayServiceOptions`                                          |
+| `aws ecs update-service`                                                             | `AwsEcsUpdateServiceOptions`                                                        |
 | `aws ecs update-service-primary-task-set`                                            | `AwsEcsUpdateServicePrimaryTaskSetOptions`                                          |
 | `aws ecs update-task-protection`                                                     | `AwsEcsUpdateTaskProtectionOptions`                                                 |
 | `aws ecs update-task-set`                                                            | `AwsEcsUpdateTaskSetOptions`                                                        |
@@ -6961,6 +7132,7 @@ var aws = context.Tools.Aws;
 | `aws eks cancel-update`                                                              | `AwsEksCancelUpdateOptions`                                                         |
 | `aws eks create-access-entry`                                                        | `AwsEksCreateAccessEntryOptions`                                                    |
 | `aws eks create-addon`                                                               | `AwsEksCreateAddonOptions`                                                          |
+| `aws eks create-capability`                                                          | `AwsEksCreateCapabilityOptions`                                                     |
 | `aws eks create-certificate-authority`                                               | `AwsEksCreateCertificateAuthorityOptions`                                           |
 | `aws eks create-cluster`                                                             | `AwsEksCreateClusterOptions`                                                        |
 | `aws eks create-eks-anywhere-subscription`                                           | `AwsEksCreateEksAnywhereSubscriptionOptions`                                        |
@@ -7017,6 +7189,8 @@ var aws = context.Tools.Aws;
 | `aws eks untag-resource`                                                             | `AwsEksUntagResourceOptions`                                                        |
 | `aws eks update-access-entry`                                                        | `AwsEksUpdateAccessEntryOptions`                                                    |
 | `aws eks update-addon`                                                               | `AwsEksUpdateAddonOptions`                                                          |
+| `aws eks update-capability`                                                          | `AwsEksUpdateCapabilityOptions`                                                     |
+| `aws eks update-cluster-config`                                                      | `AwsEksUpdateClusterConfigOptions`                                                  |
 | `aws eks update-cluster-version`                                                     | `AwsEksUpdateClusterVersionOptions`                                                 |
 | `aws eks update-eks-anywhere-subscription`                                           | `AwsEksUpdateEksAnywhereSubscriptionOptions`                                        |
 | `aws eks update-kubeconfig`                                                          | `AwsEksUpdateKubeConfigOptions`                                                     |
@@ -7256,14 +7430,17 @@ var aws = context.Tools.Aws;
 | `aws elementalinference create-feed`                                                 | `AwsElementalinferenceCreateFeedOptions`                                            |
 | `aws elementalinference delete-dictionary`                                           | `AwsElementalinferenceDeleteDictionaryOptions`                                      |
 | `aws elementalinference delete-feed`                                                 | `AwsElementalinferenceDeleteFeedOptions`                                            |
+| `aws elementalinference delete-feed-policy`                                          | `AwsElementalinferenceDeleteFeedPolicyOptions`                                      |
 | `aws elementalinference disassociate-feed`                                           | `AwsElementalinferenceDisassociateFeedOptions`                                      |
 | `aws elementalinference export-dictionary-entries`                                   | `AwsElementalinferenceExportDictionaryEntriesOptions`                               |
 | `aws elementalinference get-dictionary`                                              | `AwsElementalinferenceGetDictionaryOptions`                                         |
 | `aws elementalinference get-feed`                                                    | `AwsElementalinferenceGetFeedOptions`                                               |
+| `aws elementalinference get-feed-policy`                                             | `AwsElementalinferenceGetFeedPolicyOptions`                                         |
 | `aws elementalinference get-fixture`                                                 | `AwsElementalinferenceGetFixtureOptions`                                            |
 | `aws elementalinference list-dictionaries`                                           | `AwsElementalinferenceListDictionariesOptions`                                      |
 | `aws elementalinference list-feeds`                                                  | `AwsElementalinferenceListFeedsOptions`                                             |
 | `aws elementalinference list-tags-for-resource`                                      | `AwsElementalinferenceListTagsForResourceOptions`                                   |
+| `aws elementalinference put-feed-policy`                                             | `AwsElementalinferencePutFeedPolicyOptions`                                         |
 | `aws elementalinference search-fixtures`                                             | `AwsElementalinferenceSearchFixturesOptions`                                        |
 | `aws elementalinference tag-resource`                                                | `AwsElementalinferenceTagResourceOptions`                                           |
 | `aws elementalinference untag-resource`                                              | `AwsElementalinferenceUntagResourceOptions`                                         |
@@ -7372,6 +7549,7 @@ var aws = context.Tools.Aws;
 | `aws emr-containers update-role-trust-policy`                                        | `AwsEmrContainersUpdateRoleTrustPolicyOptions`                                      |
 | `aws emr-containers update-virtual-cluster`                                          | `AwsEmrContainersUpdateVirtualClusterOptions`                                       |
 | `aws emr-serverless cancel-job-run`                                                  | `AwsEmrServerlessCancelJobRunOptions`                                               |
+| `aws emr-serverless create-application`                                              | `AwsEmrServerlessCreateApplicationOptions`                                          |
 | `aws emr-serverless delete-application`                                              | `AwsEmrServerlessDeleteApplicationOptions`                                          |
 | `aws emr-serverless get-application`                                                 | `AwsEmrServerlessGetApplicationOptions`                                             |
 | `aws emr-serverless get-dashboard-for-job-run`                                       | `AwsEmrServerlessGetDashboardForJobRunOptions`                                      |
@@ -7388,8 +7566,10 @@ var aws = context.Tools.Aws;
 | `aws emr-serverless start-job-run`                                                   | `AwsEmrServerlessStartJobRunOptions`                                                |
 | `aws emr-serverless start-session`                                                   | `AwsEmrServerlessStartSessionOptions`                                               |
 | `aws emr-serverless stop-application`                                                | `AwsEmrServerlessStopApplicationOptions`                                            |
+| `aws emr-serverless tag-resource`                                                    | `AwsEmrServerlessTagResourceOptions`                                                |
 | `aws emr-serverless terminate-session`                                               | `AwsEmrServerlessTerminateSessionOptions`                                           |
 | `aws emr-serverless untag-resource`                                                  | `AwsEmrServerlessUntagResourceOptions`                                              |
+| `aws emr-serverless update-application`                                              | `AwsEmrServerlessUpdateApplicationOptions`                                          |
 | `aws entityresolution add-policy-statement`                                          | `AwsEntityresolutionAddPolicyStatementOptions`                                      |
 | `aws entityresolution batch-delete-unique-id`                                        | `AwsEntityresolutionBatchDeleteUniqueIdOptions`                                     |
 | `aws entityresolution create-id-mapping-workflow`                                    | `AwsEntityresolutionCreateIdMappingWorkflowOptions`                                 |
@@ -7548,6 +7728,7 @@ var aws = context.Tools.Aws;
 | `aws evs delete-environment-connector`                                               | `AwsEvsDeleteEnvironmentConnectorOptions`                                           |
 | `aws evs delete-environment-host`                                                    | `AwsEvsDeleteEnvironmentHostOptions`                                                |
 | `aws evs disassociate-eip-from-vlan`                                                 | `AwsEvsDisassociateEipFromVlanOptions`                                              |
+| `aws evs get-account-settings`                                                       | `AwsEvsGetAccountSettingsOptions`                                                   |
 | `aws evs get-depot-url`                                                              | `AwsEvsGetDepotUrlOptions`                                                          |
 | `aws evs get-environment`                                                            | `AwsEvsGetEnvironmentOptions`                                                       |
 | `aws evs get-versions`                                                               | `AwsEvsGetVersionsOptions`                                                          |
@@ -7557,6 +7738,7 @@ var aws = context.Tools.Aws;
 | `aws evs list-environments`                                                          | `AwsEvsListEnvironmentsOptions`                                                     |
 | `aws evs list-tags-for-resource`                                                     | `AwsEvsListTagsForResourceOptions`                                                  |
 | `aws evs list-vm-entitlements`                                                       | `AwsEvsListVmEntitlementsOptions`                                                   |
+| `aws evs put-account-settings`                                                       | `AwsEvsPutAccountSettingsOptions`                                                   |
 | `aws evs tag-resource`                                                               | `AwsEvsTagResourceOptions`                                                          |
 | `aws evs untag-resource`                                                             | `AwsEvsUntagResourceOptions`                                                        |
 | `aws evs update-environment-connector`                                               | `AwsEvsUpdateEnvironmentConnectorOptions`                                           |
@@ -7689,11 +7871,15 @@ var aws = context.Tools.Aws;
 | `aws forecast create-dataset`                                                        | `AwsForecastCreateDataSetOptions`                                                   |
 | `aws forecast create-dataset-group`                                                  | `AwsForecastCreateDataSetGroupOptions`                                              |
 | `aws forecast create-dataset-import-job`                                             | `AwsForecastCreateDataSetImportJobOptions`                                          |
+| `aws forecast create-explainability`                                                 | `AwsForecastCreateExplainabilityOptions`                                            |
 | `aws forecast create-explainability-export`                                          | `AwsForecastCreateExplainabilityExportOptions`                                      |
+| `aws forecast create-forecast`                                                       | `AwsForecastCreateForecastOptions`                                                  |
 | `aws forecast create-forecast-export-job`                                            | `AwsForecastCreateForecastExportJobOptions`                                         |
 | `aws forecast create-monitor`                                                        | `AwsForecastCreateMonitorOptions`                                                   |
 | `aws forecast create-predictor`                                                      | `AwsForecastCreatePredictorOptions`                                                 |
 | `aws forecast create-predictor-backtest-export-job`                                  | `AwsForecastCreatePredictorBacktestExportJobOptions`                                |
+| `aws forecast create-what-if-analysis`                                               | `AwsForecastCreateWhatIfAnalysisOptions`                                            |
+| `aws forecast create-what-if-forecast`                                               | `AwsForecastCreateWhatIfForecastOptions`                                            |
 | `aws forecast create-what-if-forecast-export`                                        | `AwsForecastCreateWhatIfForecastExportOptions`                                      |
 | `aws forecast delete-dataset`                                                        | `AwsForecastDeleteDataSetOptions`                                                   |
 | `aws forecast delete-dataset-group`                                                  | `AwsForecastDeleteDataSetGroupOptions`                                              |
@@ -7833,11 +8019,16 @@ var aws = context.Tools.Aws;
 | `aws fsx create-data-repository-association`                                         | `AwsFsxCreateDataRepositoryAssociationOptions`                                      |
 | `aws fsx create-data-repository-task`                                                | `AwsFsxCreateDataRepositoryTaskOptions`                                             |
 | `aws fsx create-file-cache`                                                          | `AwsFsxCreateFileCacheOptions`                                                      |
+| `aws fsx create-file-system`                                                         | `AwsFsxCreateFileSystemOptions`                                                     |
+| `aws fsx create-file-system-from-backup`                                             | `AwsFsxCreateFileSystemFromBackupOptions`                                           |
 | `aws fsx create-snapshot`                                                            | `AwsFsxCreateSnapshotOptions`                                                       |
 | `aws fsx create-storage-virtual-machine`                                             | `AwsFsxCreateStorageVirtualMachineOptions`                                          |
+| `aws fsx create-volume`                                                              | `AwsFsxCreateVolumeOptions`                                                         |
+| `aws fsx create-volume-from-backup`                                                  | `AwsFsxCreateVolumeFromBackupOptions`                                               |
 | `aws fsx delete-backup`                                                              | `AwsFsxDeleteBackupOptions`                                                         |
 | `aws fsx delete-data-repository-association`                                         | `AwsFsxDeleteDataRepositoryAssociationOptions`                                      |
 | `aws fsx delete-file-cache`                                                          | `AwsFsxDeleteFileCacheOptions`                                                      |
+| `aws fsx delete-file-system`                                                         | `AwsFsxDeleteFileSystemOptions`                                                     |
 | `aws fsx delete-snapshot`                                                            | `AwsFsxDeleteSnapshotOptions`                                                       |
 | `aws fsx delete-storage-virtual-machine`                                             | `AwsFsxDeleteStorageVirtualMachineOptions`                                          |
 | `aws fsx delete-volume`                                                              | `AwsFsxDeleteVolumeOptions`                                                         |
@@ -7862,12 +8053,15 @@ var aws = context.Tools.Aws;
 | `aws fsx untag-resource`                                                             | `AwsFsxUntagResourceOptions`                                                        |
 | `aws fsx update-data-repository-association`                                         | `AwsFsxUpdateDataRepositoryAssociationOptions`                                      |
 | `aws fsx update-file-cache`                                                          | `AwsFsxUpdateFileCacheOptions`                                                      |
+| `aws fsx update-file-system`                                                         | `AwsFsxUpdateFileSystemOptions`                                                     |
 | `aws fsx update-shared-vpc-configuration`                                            | `AwsFsxUpdateSharedVpcConfigurationOptions`                                         |
 | `aws fsx update-snapshot`                                                            | `AwsFsxUpdateSnapshotOptions`                                                       |
 | `aws fsx update-storage-virtual-machine`                                             | `AwsFsxUpdateStorageVirtualMachineOptions`                                          |
+| `aws fsx update-volume`                                                              | `AwsFsxUpdateVolumeOptions`                                                         |
 | `aws gamelift accept-match`                                                          | `AwsGameliftAcceptMatchOptions`                                                     |
 | `aws gamelift claim-game-server`                                                     | `AwsGameliftClaimGameServerOptions`                                                 |
 | `aws gamelift create-alias`                                                          | `AwsGameliftCreateAliasOptions`                                                     |
+| `aws gamelift create-build`                                                          | `AwsGameliftCreateBuildOptions`                                                     |
 | `aws gamelift create-container-fleet`                                                | `AwsGameliftCreateContainerFleetOptions`                                            |
 | `aws gamelift create-container-group-definition`                                     | `AwsGameliftCreateContainerGroupDefinitionOptions`                                  |
 | `aws gamelift create-fleet`                                                          | `AwsGameliftCreateFleetOptions`                                                     |
@@ -7988,6 +8182,7 @@ var aws = context.Tools.Aws;
 | `aws gamelift validate-matchmaking-rule-set`                                         | `AwsGameliftValidateMatchmakingRuleSetOptions`                                      |
 | `aws gameliftstreams add-stream-group-locations`                                     | `AwsGameliftstreamsAddStreamGroupLocationsOptions`                                  |
 | `aws gameliftstreams associate-applications`                                         | `AwsGameliftstreamsAssociateApplicationsOptions`                                    |
+| `aws gameliftstreams create-application`                                             | `AwsGameliftstreamsCreateApplicationOptions`                                        |
 | `aws gameliftstreams create-stream-group`                                            | `AwsGameliftstreamsCreateStreamGroupOptions`                                        |
 | `aws gameliftstreams create-stream-session-admin-shell`                              | `AwsGameliftstreamsCreateStreamSessionAdminShellOptions`                            |
 | `aws gameliftstreams create-stream-session-connection`                               | `AwsGameliftstreamsCreateStreamSessionConnectionOptions`                            |
@@ -8013,6 +8208,7 @@ var aws = context.Tools.Aws;
 | `aws gameliftstreams tag-resource`                                                   | `AwsGameliftstreamsTagResourceOptions`                                              |
 | `aws gameliftstreams terminate-stream-session`                                       | `AwsGameliftstreamsTerminateStreamSessionOptions`                                   |
 | `aws gameliftstreams untag-resource`                                                 | `AwsGameliftstreamsUntagResourceOptions`                                            |
+| `aws gameliftstreams update-application`                                             | `AwsGameliftstreamsUpdateApplicationOptions`                                        |
 | `aws gameliftstreams update-stream-group`                                            | `AwsGameliftstreamsUpdateStreamGroupOptions`                                        |
 | `aws gameliftstreams wait application-deleted`                                       | `AwsGameliftstreamsWaitApplicationDeletedOptions`                                   |
 | `aws gameliftstreams wait application-ready`                                         | `AwsGameliftstreamsWaitApplicationReadyOptions`                                     |
@@ -8032,7 +8228,9 @@ var aws = context.Tools.Aws;
 | `aws geo-places search-text`                                                         | `AwsGeoPlacesSearchTextOptions`                                                     |
 | `aws geo-places suggest`                                                             | `AwsGeoPlacesSuggestOptions`                                                        |
 | `aws geo-routes calculate-isolines`                                                  | `AwsGeoRoutesCalculateIsolinesOptions`                                              |
+| `aws geo-routes calculate-route-matrix`                                              | `AwsGeoRoutesCalculateRouteMatrixOptions`                                           |
 | `aws geo-routes calculate-routes`                                                    | `AwsGeoRoutesCalculateRoutesOptions`                                                |
+| `aws geo-routes optimize-waypoints`                                                  | `AwsGeoRoutesOptimizeWaypointsOptions`                                              |
 | `aws geo-routes snap-to-roads`                                                       | `AwsGeoRoutesSnapToRoadsOptions`                                                    |
 | `aws glacier abort-multipart-upload`                                                 | `AwsGlacierAbortMultipartUploadOptions`                                             |
 | `aws glacier abort-vault-lock`                                                       | `AwsGlacierAbortVaultLockOptions`                                                   |
@@ -8152,6 +8350,7 @@ var aws = context.Tools.Aws;
 | `aws glue cancel-statement`                                                          | `AwsGlueCancelStatementOptions`                                                     |
 | `aws glue check-schema-version-validity`                                             | `AwsGlueCheckSchemaVersionValidityOptions`                                          |
 | `aws glue create-blueprint`                                                          | `AwsGlueCreateBlueprintOptions`                                                     |
+| `aws glue create-catalog`                                                            | `AwsGlueCreateCatalogOptions`                                                       |
 | `aws glue create-classifier`                                                         | `AwsGlueCreateClassifierOptions`                                                    |
 | `aws glue create-column-statistics-task-settings`                                    | `AwsGlueCreateColumnStatisticsTaskSettingsOptions`                                  |
 | `aws glue create-connection`                                                         | `AwsGlueCreateConnectionOptions`                                                    |
@@ -8166,6 +8365,7 @@ var aws = context.Tools.Aws;
 | `aws glue create-integration`                                                        | `AwsGlueCreateIntegrationOptions`                                                   |
 | `aws glue create-integration-resource-property`                                      | `AwsGlueCreateIntegrationResourcePropertyOptions`                                   |
 | `aws glue create-integration-table-properties`                                       | `AwsGlueCreateIntegrationTablePropertiesOptions`                                    |
+| `aws glue create-job`                                                                | `AwsGlueCreateJobOptions`                                                           |
 | `aws glue create-ml-transform`                                                       | `AwsGlueCreateMlTransformOptions`                                                   |
 | `aws glue create-partition`                                                          | `AwsGlueCreatePartitionOptions`                                                     |
 | `aws glue create-partition-index`                                                    | `AwsGlueCreatePartitionIndexOptions`                                                |
@@ -8173,6 +8373,7 @@ var aws = context.Tools.Aws;
 | `aws glue create-schema`                                                             | `AwsGlueCreateSchemaOptions`                                                        |
 | `aws glue create-script`                                                             | `AwsGlueCreateScriptOptions`                                                        |
 | `aws glue create-security-configuration`                                             | `AwsGlueCreateSecurityConfigurationOptions`                                         |
+| `aws glue create-session`                                                            | `AwsGlueCreateSessionOptions`                                                       |
 | `aws glue create-table`                                                              | `AwsGlueCreateTableOptions`                                                         |
 | `aws glue create-table-optimizer`                                                    | `AwsGlueCreateTableOptimizerOptions`                                                |
 | `aws glue create-trigger`                                                            | `AwsGlueCreateTriggerOptions`                                                       |
@@ -8276,6 +8477,7 @@ var aws = context.Tools.Aws;
 | `aws glue get-ml-task-run`                                                           | `AwsGlueGetMlTaskRunOptions`                                                        |
 | `aws glue get-ml-task-runs`                                                          | `AwsGlueGetMlTaskRunsOptions`                                                       |
 | `aws glue get-ml-transform`                                                          | `AwsGlueGetMlTransformOptions`                                                      |
+| `aws glue get-ml-transforms`                                                         | `AwsGlueGetMlTransformsOptions`                                                     |
 | `aws glue get-partition`                                                             | `AwsGlueGetPartitionOptions`                                                        |
 | `aws glue get-partition-indexes`                                                     | `AwsGlueGetPartitionIndexesOptions`                                                 |
 | `aws glue get-partitions`                                                            | `AwsGlueGetPartitionsOptions`                                                       |
@@ -8330,9 +8532,11 @@ var aws = context.Tools.Aws;
 | `aws glue list-glossaries`                                                           | `AwsGlueListGlossariesOptions`                                                      |
 | `aws glue list-glossary-terms`                                                       | `AwsGlueListGlossaryTermsOptions`                                                   |
 | `aws glue list-integration-resource-properties`                                      | `AwsGlueListIntegrationResourcePropertiesOptions`                                   |
+| `aws glue list-integration-table-properties`                                         | `AwsGlueListIntegrationTablePropertiesOptions`                                      |
 | `aws glue list-iterable-forms`                                                       | `AwsGlueListIterableFormsOptions`                                                   |
 | `aws glue list-jobs`                                                                 | `AwsGlueListJobsOptions`                                                            |
 | `aws glue list-materialized-view-refresh-task-runs`                                  | `AwsGlueListMaterializedViewRefreshTaskRunsOptions`                                 |
+| `aws glue list-ml-transforms`                                                        | `AwsGlueListMlTransformsOptions`                                                    |
 | `aws glue list-registries`                                                           | `AwsGlueListRegistriesOptions`                                                      |
 | `aws glue list-schema-versions`                                                      | `AwsGlueListSchemaVersionsOptions`                                                  |
 | `aws glue list-schemas`                                                              | `AwsGlueListSchemasOptions`                                                         |
@@ -8396,6 +8600,7 @@ var aws = context.Tools.Aws;
 | `aws glue update-column-statistics-for-table`                                        | `AwsGlueUpdateColumnStatisticsForTableOptions`                                      |
 | `aws glue update-column-statistics-task-settings`                                    | `AwsGlueUpdateColumnStatisticsTaskSettingsOptions`                                  |
 | `aws glue update-connection`                                                         | `AwsGlueUpdateConnectionOptions`                                                    |
+| `aws glue update-crawler`                                                            | `AwsGlueUpdateCrawlerOptions`                                                       |
 | `aws glue update-crawler-schedule`                                                   | `AwsGlueUpdateCrawlerScheduleOptions`                                               |
 | `aws glue update-data-quality-ruleset`                                               | `AwsGlueUpdateDataQualityRulesetOptions`                                            |
 | `aws glue update-database`                                                           | `AwsGlueUpdateDatabaseOptions`                                                      |
@@ -8419,6 +8624,7 @@ var aws = context.Tools.Aws;
 | `aws glue update-user-defined-function`                                              | `AwsGlueUpdateUserDefinedFunctionOptions`                                           |
 | `aws glue update-workflow`                                                           | `AwsGlueUpdateWorkflowOptions`                                                      |
 | `aws grafana associate-license`                                                      | `AwsGrafanaAssociateLicenseOptions`                                                 |
+| `aws grafana create-workspace`                                                       | `AwsGrafanaCreateWorkspaceOptions`                                                  |
 | `aws grafana create-workspace-api-key`                                               | `AwsGrafanaCreateWorkspaceApiKeyOptions`                                            |
 | `aws grafana create-workspace-service-account`                                       | `AwsGrafanaCreateWorkspaceServiceAccountOptions`                                    |
 | `aws grafana create-workspace-service-account-token`                                 | `AwsGrafanaCreateWorkspaceServiceAccountTokenOptions`                               |
@@ -8439,6 +8645,7 @@ var aws = context.Tools.Aws;
 | `aws grafana tag-resource`                                                           | `AwsGrafanaTagResourceOptions`                                                      |
 | `aws grafana untag-resource`                                                         | `AwsGrafanaUntagResourceOptions`                                                    |
 | `aws grafana update-permissions`                                                     | `AwsGrafanaUpdatePermissionsOptions`                                                |
+| `aws grafana update-workspace`                                                       | `AwsGrafanaUpdateWorkspaceOptions`                                                  |
 | `aws grafana update-workspace-authentication`                                        | `AwsGrafanaUpdateWorkspaceAuthenticationOptions`                                    |
 | `aws grafana update-workspace-configuration`                                         | `AwsGrafanaUpdateWorkspaceConfigurationOptions`                                     |
 | `aws greengrass associate-role-to-group`                                             | `AwsGreengrassAssociateRoleToGroupOptions`                                          |
@@ -8606,6 +8813,8 @@ var aws = context.Tools.Aws;
 | `aws groundstation wait contact-updated`                                             | `AwsGroundstationWaitContactUpdatedOptions`                                         |
 | `aws guardduty accept-administrator-invitation`                                      | `AwsGuarddutyAcceptAdministratorInvitationOptions`                                  |
 | `aws guardduty archive-findings`                                                     | `AwsGuarddutyArchiveFindingsOptions`                                                |
+| `aws guardduty create-custom-detection-rule-association`                             | `AwsGuarddutyCreateCustomDetectionRuleAssociationOptions`                           |
+| `aws guardduty create-custom-detection-rule-org-configuration`                       | `AwsGuarddutyCreateCustomDetectionRuleOrgConfigurationOptions`                      |
 | `aws guardduty create-detector`                                                      | `AwsGuarddutyCreateDetectorOptions`                                                 |
 | `aws guardduty create-filter`                                                        | `AwsGuarddutyCreateFilterOptions`                                                   |
 | `aws guardduty create-investigation`                                                 | `AwsGuarddutyCreateInvestigationOptions`                                            |
@@ -8618,6 +8827,8 @@ var aws = context.Tools.Aws;
 | `aws guardduty create-threat-intel-set`                                              | `AwsGuarddutyCreateThreatIntelSetOptions`                                           |
 | `aws guardduty create-trusted-entity-set`                                            | `AwsGuarddutyCreateTrustedEntitySetOptions`                                         |
 | `aws guardduty decline-invitations`                                                  | `AwsGuarddutyDeclineInvitationsOptions`                                             |
+| `aws guardduty delete-custom-detection-rule-association`                             | `AwsGuarddutyDeleteCustomDetectionRuleAssociationOptions`                           |
+| `aws guardduty delete-custom-detection-rule-org-configuration`                       | `AwsGuarddutyDeleteCustomDetectionRuleOrgConfigurationOptions`                      |
 | `aws guardduty delete-detector`                                                      | `AwsGuarddutyDeleteDetectorOptions`                                                 |
 | `aws guardduty delete-filter`                                                        | `AwsGuarddutyDeleteFilterOptions`                                                   |
 | `aws guardduty delete-invitations`                                                   | `AwsGuarddutyDeleteInvitationsOptions`                                              |
@@ -8637,6 +8848,9 @@ var aws = context.Tools.Aws;
 | `aws guardduty enable-organization-admin-account`                                    | `AwsGuarddutyEnableOrganizationAdminAccountOptions`                                 |
 | `aws guardduty get-administrator-account`                                            | `AwsGuarddutyGetAdministratorAccountOptions`                                        |
 | `aws guardduty get-coverage-statistics`                                              | `AwsGuarddutyGetCoverageStatisticsOptions`                                          |
+| `aws guardduty get-custom-detection-rule`                                            | `AwsGuarddutyGetCustomDetectionRuleOptions`                                         |
+| `aws guardduty get-custom-detection-rule-association`                                | `AwsGuarddutyGetCustomDetectionRuleAssociationOptions`                              |
+| `aws guardduty get-custom-detection-rule-org-configuration`                          | `AwsGuarddutyGetCustomDetectionRuleOrgConfigurationOptions`                         |
 | `aws guardduty get-detector`                                                         | `AwsGuarddutyGetDetectorOptions`                                                    |
 | `aws guardduty get-filter`                                                           | `AwsGuarddutyGetFilterOptions`                                                      |
 | `aws guardduty get-findings`                                                         | `AwsGuarddutyGetFindingsOptions`                                                    |
@@ -8657,6 +8871,9 @@ var aws = context.Tools.Aws;
 | `aws guardduty get-usage-statistics`                                                 | `AwsGuarddutyGetUsageStatisticsOptions`                                             |
 | `aws guardduty invite-members`                                                       | `AwsGuarddutyInviteMembersOptions`                                                  |
 | `aws guardduty list-coverage`                                                        | `AwsGuarddutyListCoverageOptions`                                                   |
+| `aws guardduty list-custom-detection-rule-associations`                              | `AwsGuarddutyListCustomDetectionRuleAssociationsOptions`                            |
+| `aws guardduty list-custom-detection-rule-org-configurations`                        | `AwsGuarddutyListCustomDetectionRuleOrgConfigurationsOptions`                       |
+| `aws guardduty list-custom-detection-rules`                                          | `AwsGuarddutyListCustomDetectionRulesOptions`                                       |
 | `aws guardduty list-detectors`                                                       | `AwsGuarddutyListDetectorsOptions`                                                  |
 | `aws guardduty list-filters`                                                         | `AwsGuarddutyListFiltersOptions`                                                    |
 | `aws guardduty list-findings`                                                        | `AwsGuarddutyListFindingsOptions`                                                   |
@@ -8679,6 +8896,8 @@ var aws = context.Tools.Aws;
 | `aws guardduty tag-resource`                                                         | `AwsGuarddutyTagResourceOptions`                                                    |
 | `aws guardduty unarchive-findings`                                                   | `AwsGuarddutyUnarchiveFindingsOptions`                                              |
 | `aws guardduty untag-resource`                                                       | `AwsGuarddutyUntagResourceOptions`                                                  |
+| `aws guardduty update-custom-detection-rule-association`                             | `AwsGuarddutyUpdateCustomDetectionRuleAssociationOptions`                           |
+| `aws guardduty update-custom-detection-rule-org-configuration`                       | `AwsGuarddutyUpdateCustomDetectionRuleOrgConfigurationOptions`                      |
 | `aws guardduty update-detector`                                                      | `AwsGuarddutyUpdateDetectorOptions`                                                 |
 | `aws guardduty update-filter`                                                        | `AwsGuarddutyUpdateFilterOptions`                                                   |
 | `aws guardduty update-findings-feedback`                                             | `AwsGuarddutyUpdateFindingsFeedbackOptions`                                         |
@@ -8706,6 +8925,7 @@ var aws = context.Tools.Aws;
 | `aws health disable-health-service-access-for-organization`                          | `AwsHealthDisableHealthServiceAccessForOrganizationOptions`                         |
 | `aws health enable-health-service-access-for-organization`                           | `AwsHealthEnableHealthServiceAccessForOrganizationOptions`                          |
 | `aws healthlake create-data-transformation-profile`                                  | `AwsHealthlakeCreateDataTransformationProfileOptions`                               |
+| `aws healthlake create-fhir-datastore`                                               | `AwsHealthlakeCreateFhirDatastoreOptions`                                           |
 | `aws healthlake delete-data-transformation-profile`                                  | `AwsHealthlakeDeleteDataTransformationProfileOptions`                               |
 | `aws healthlake delete-fhir-datastore`                                               | `AwsHealthlakeDeleteFhirDatastoreOptions`                                           |
 | `aws healthlake describe-data-transformation-job`                                    | `AwsHealthlakeDescribeDataTransformationJobOptions`                                 |
@@ -8721,12 +8941,14 @@ var aws = context.Tools.Aws;
 | `aws healthlake list-fhir-import-jobs`                                               | `AwsHealthlakeListFhirImportJobsOptions`                                            |
 | `aws healthlake list-tags-for-resource`                                              | `AwsHealthlakeListTagsForResourceOptions`                                           |
 | `aws healthlake publish-data-transformation-profile`                                 | `AwsHealthlakePublishDataTransformationProfileOptions`                              |
+| `aws healthlake restore-fhir-datastore`                                              | `AwsHealthlakeRestoreFhirDatastoreOptions`                                          |
 | `aws healthlake start-data-transformation-job`                                       | `AwsHealthlakeStartDataTransformationJobOptions`                                    |
 | `aws healthlake start-fhir-export-job`                                               | `AwsHealthlakeStartFhirExportJobOptions`                                            |
 | `aws healthlake start-fhir-import-job`                                               | `AwsHealthlakeStartFhirImportJobOptions`                                            |
 | `aws healthlake tag-resource`                                                        | `AwsHealthlakeTagResourceOptions`                                                   |
 | `aws healthlake untag-resource`                                                      | `AwsHealthlakeUntagResourceOptions`                                                 |
 | `aws healthlake update-data-transformation-profile`                                  | `AwsHealthlakeUpdateDataTransformationProfileOptions`                               |
+| `aws healthlake update-fhir-datastore`                                               | `AwsHealthlakeUpdateFhirDatastoreOptions`                                           |
 | `aws healthlake update-profile-with-agent`                                           | `AwsHealthlakeUpdateProfileWithAgentOptions`                                        |
 | `aws healthlake wait data-transformation-job-completed`                              | `AwsHealthlakeWaitDataTransformationJobCompletedOptions`                            |
 | `aws healthlake wait fhir-datastore-active`                                          | `AwsHealthlakeWaitFhirDatastoreActiveOptions`                                       |
@@ -9112,6 +9334,8 @@ var aws = context.Tools.Aws;
 | `aws inspector2 list-code-security-scan-configurations`                              | `AwsInspector2ListCodeSecurityScanConfigurationsOptions`                            |
 | `aws inspector2 list-connector-scan-configurations`                                  | `AwsInspector2ListConnectorScanConfigurationsOptions`                               |
 | `aws inspector2 list-connectors`                                                     | `AwsInspector2ListConnectorsOptions`                                                |
+| `aws inspector2 list-coverage`                                                       | `AwsInspector2ListCoverageOptions`                                                  |
+| `aws inspector2 list-coverage-statistics`                                            | `AwsInspector2ListCoverageStatisticsOptions`                                        |
 | `aws inspector2 list-delegated-admin-accounts`                                       | `AwsInspector2ListDelegatedAdminAccountsOptions`                                    |
 | `aws inspector2 list-filters`                                                        | `AwsInspector2ListFiltersOptions`                                                   |
 | `aws inspector2 list-finding-aggregations`                                           | `AwsInspector2ListFindingAggregationsOptions`                                       |
@@ -9184,6 +9408,8 @@ var aws = context.Tools.Aws;
 | `aws invoicing list-invoice-summaries`                                               | `AwsInvoicingListInvoiceSummariesOptions`                                           |
 | `aws invoicing list-invoice-units`                                                   | `AwsInvoicingListInvoiceUnitsOptions`                                               |
 | `aws invoicing list-procurement-portal-preferences`                                  | `AwsInvoicingListProcurementPortalPreferencesOptions`                               |
+| `aws invoicing list-procurement-portal-suppliers`                                    | `AwsInvoicingListProcurementPortalSuppliersOptions`                                 |
+| `aws invoicing list-procurement-portals`                                             | `AwsInvoicingListProcurementPortalsOptions`                                         |
 | `aws invoicing list-tags-for-resource`                                               | `AwsInvoicingListTagsForResourceOptions`                                            |
 | `aws invoicing put-procurement-portal-preference`                                    | `AwsInvoicingPutProcurementPortalPreferenceOptions`                                 |
 | `aws invoicing send-procurement-portal-validation`                                   | `AwsInvoicingSendProcurementPortalValidationOptions`                                |
@@ -9468,6 +9694,8 @@ var aws = context.Tools.Aws;
 | `aws iot-data list-named-shadows-for-thing`                                          | `AwsIotDataListNamedShadowsForThingOptions`                                         |
 | `aws iot-data list-retained-messages`                                                | `AwsIotDataListRetainedMessagesOptions`                                             |
 | `aws iot-data list-subscriptions`                                                    | `AwsIotDataListSubscriptionsOptions`                                                |
+| `aws iot-data publish`                                                               | `AwsIotDataPublishOptions`                                                          |
+| `aws iot-data send-direct-message`                                                   | `AwsIotDataSendDirectMessageOptions`                                                |
 | `aws iot-data update-thing-shadow`                                                   | `AwsIotDataUpdateThingShadowOptions`                                                |
 | `aws iot-jobs-data describe-job-execution`                                           | `AwsIotJobsDataDescribeJobExecutionOptions`                                         |
 | `aws iot-jobs-data get-pending-job-executions`                                       | `AwsIotJobsDataGetPendingJobExecutionsOptions`                                      |
@@ -9663,6 +9891,7 @@ var aws = context.Tools.Aws;
 | `aws iotsitewise create-enrichment-job`                                              | `AwsIotsitewiseCreateEnrichmentJobOptions`                                          |
 | `aws iotsitewise create-gateway`                                                     | `AwsIotsitewiseCreateGatewayOptions`                                                |
 | `aws iotsitewise create-pipeline`                                                    | `AwsIotsitewiseCreatePipelineOptions`                                               |
+| `aws iotsitewise create-portal`                                                      | `AwsIotsitewiseCreatePortalOptions`                                                 |
 | `aws iotsitewise create-project`                                                     | `AwsIotsitewiseCreateProjectOptions`                                                |
 | `aws iotsitewise create-task`                                                        | `AwsIotsitewiseCreateTaskOptions`                                                   |
 | `aws iotsitewise create-workspace`                                                   | `AwsIotsitewiseCreateWorkspaceOptions`                                              |
@@ -9779,6 +10008,7 @@ var aws = context.Tools.Aws;
 | `aws iotsitewise update-gateway`                                                     | `AwsIotsitewiseUpdateGatewayOptions`                                                |
 | `aws iotsitewise update-gateway-capability-configuration`                            | `AwsIotsitewiseUpdateGatewayCapabilityConfigurationOptions`                         |
 | `aws iotsitewise update-pipeline`                                                    | `AwsIotsitewiseUpdatePipelineOptions`                                               |
+| `aws iotsitewise update-portal`                                                      | `AwsIotsitewiseUpdatePortalOptions`                                                 |
 | `aws iotsitewise update-project`                                                     | `AwsIotsitewiseUpdateProjectOptions`                                                |
 | `aws iotsitewise update-task`                                                        | `AwsIotsitewiseUpdateTaskOptions`                                                   |
 | `aws iotsitewise update-workspace`                                                   | `AwsIotsitewiseUpdateWorkspaceOptions`                                              |
@@ -9938,6 +10168,11 @@ var aws = context.Tools.Aws;
 | `aws ivs batch-get-channel`                                                          | `AwsIvsBatchGetChannelOptions`                                                      |
 | `aws ivs batch-get-stream-key`                                                       | `AwsIvsBatchGetStreamKeyOptions`                                                    |
 | `aws ivs batch-start-viewer-session-revocation`                                      | `AwsIvsBatchStartViewerSessionRevocationOptions`                                    |
+| `aws ivs create-ad-configuration`                                                    | `AwsIvsCreateAdConfigurationOptions`                                                |
+| `aws ivs create-channel`                                                             | `AwsIvsCreateChannelOptions`                                                        |
+| `aws ivs create-playback-restriction-policy`                                         | `AwsIvsCreatePlaybackRestrictionPolicyOptions`                                      |
+| `aws ivs create-recording-configuration`                                             | `AwsIvsCreateRecordingConfigurationOptions`                                         |
+| `aws ivs create-stream-key`                                                          | `AwsIvsCreateStreamKeyOptions`                                                      |
 | `aws ivs delete-ad-configuration`                                                    | `AwsIvsDeleteAdConfigurationOptions`                                                |
 | `aws ivs delete-channel`                                                             | `AwsIvsDeleteChannelOptions`                                                        |
 | `aws ivs delete-playback-key-pair`                                                   | `AwsIvsDeletePlaybackKeyPairOptions`                                                |
@@ -9966,11 +10201,16 @@ var aws = context.Tools.Aws;
 | `aws ivs put-metadata`                                                               | `AwsIvsPutMetadataOptions`                                                          |
 | `aws ivs start-viewer-session-revocation`                                            | `AwsIvsStartViewerSessionRevocationOptions`                                         |
 | `aws ivs stop-stream`                                                                | `AwsIvsStopStreamOptions`                                                           |
+| `aws ivs tag-resource`                                                               | `AwsIvsTagResourceOptions`                                                          |
 | `aws ivs untag-resource`                                                             | `AwsIvsUntagResourceOptions`                                                        |
 | `aws ivs update-ad-configuration`                                                    | `AwsIvsUpdateAdConfigurationOptions`                                                |
 | `aws ivs update-channel`                                                             | `AwsIvsUpdateChannelOptions`                                                        |
 | `aws ivs update-playback-restriction-policy`                                         | `AwsIvsUpdatePlaybackRestrictionPolicyOptions`                                      |
+| `aws ivs-realtime create-encoder-configuration`                                      | `AwsIvsRealtimeCreateEncoderConfigurationOptions`                                   |
+| `aws ivs-realtime create-ingest-configuration`                                       | `AwsIvsRealtimeCreateIngestConfigurationOptions`                                    |
 | `aws ivs-realtime create-participant-token`                                          | `AwsIvsRealtimeCreateParticipantTokenOptions`                                       |
+| `aws ivs-realtime create-stage`                                                      | `AwsIvsRealtimeCreateStageOptions`                                                  |
+| `aws ivs-realtime create-storage-configuration`                                      | `AwsIvsRealtimeCreateStorageConfigurationOptions`                                   |
 | `aws ivs-realtime delete-encoder-configuration`                                      | `AwsIvsRealtimeDeleteEncoderConfigurationOptions`                                   |
 | `aws ivs-realtime delete-ingest-configuration`                                       | `AwsIvsRealtimeDeleteIngestConfigurationOptions`                                    |
 | `aws ivs-realtime delete-public-key`                                                 | `AwsIvsRealtimeDeletePublicKeyOptions`                                              |
@@ -9985,6 +10225,7 @@ var aws = context.Tools.Aws;
 | `aws ivs-realtime get-stage`                                                         | `AwsIvsRealtimeGetStageOptions`                                                     |
 | `aws ivs-realtime get-stage-session`                                                 | `AwsIvsRealtimeGetStageSessionOptions`                                              |
 | `aws ivs-realtime get-storage-configuration`                                         | `AwsIvsRealtimeGetStorageConfigurationOptions`                                      |
+| `aws ivs-realtime import-public-key`                                                 | `AwsIvsRealtimeImportPublicKeyOptions`                                              |
 | `aws ivs-realtime list-compositions`                                                 | `AwsIvsRealtimeListCompositionsOptions`                                             |
 | `aws ivs-realtime list-encoder-configurations`                                       | `AwsIvsRealtimeListEncoderConfigurationsOptions`                                    |
 | `aws ivs-realtime list-ingest-configurations`                                        | `AwsIvsRealtimeListIngestConfigurationsOptions`                                     |
@@ -9996,13 +10237,17 @@ var aws = context.Tools.Aws;
 | `aws ivs-realtime list-stages`                                                       | `AwsIvsRealtimeListStagesOptions`                                                   |
 | `aws ivs-realtime list-storage-configurations`                                       | `AwsIvsRealtimeListStorageConfigurationsOptions`                                    |
 | `aws ivs-realtime list-tags-for-resource`                                            | `AwsIvsRealtimeListTagsForResourceOptions`                                          |
+| `aws ivs-realtime start-composition`                                                 | `AwsIvsRealtimeStartCompositionOptions`                                             |
 | `aws ivs-realtime start-participant-replication`                                     | `AwsIvsRealtimeStartParticipantReplicationOptions`                                  |
 | `aws ivs-realtime stop-composition`                                                  | `AwsIvsRealtimeStopCompositionOptions`                                              |
 | `aws ivs-realtime stop-participant-replication`                                      | `AwsIvsRealtimeStopParticipantReplicationOptions`                                   |
+| `aws ivs-realtime tag-resource`                                                      | `AwsIvsRealtimeTagResourceOptions`                                                  |
 | `aws ivs-realtime untag-resource`                                                    | `AwsIvsRealtimeUntagResourceOptions`                                                |
 | `aws ivs-realtime update-ingest-configuration`                                       | `AwsIvsRealtimeUpdateIngestConfigurationOptions`                                    |
 | `aws ivs-realtime update-stage`                                                      | `AwsIvsRealtimeUpdateStageOptions`                                                  |
 | `aws ivschat create-chat-token`                                                      | `AwsIvschatCreateChatTokenOptions`                                                  |
+| `aws ivschat create-logging-configuration`                                           | `AwsIvschatCreateLoggingConfigurationOptions`                                       |
+| `aws ivschat create-room`                                                            | `AwsIvschatCreateRoomOptions`                                                       |
 | `aws ivschat delete-logging-configuration`                                           | `AwsIvschatDeleteLoggingConfigurationOptions`                                       |
 | `aws ivschat delete-message`                                                         | `AwsIvschatDeleteMessageOptions`                                                    |
 | `aws ivschat delete-room`                                                            | `AwsIvschatDeleteRoomOptions`                                                       |
@@ -10013,6 +10258,7 @@ var aws = context.Tools.Aws;
 | `aws ivschat list-rooms`                                                             | `AwsIvschatListRoomsOptions`                                                        |
 | `aws ivschat list-tags-for-resource`                                                 | `AwsIvschatListTagsForResourceOptions`                                              |
 | `aws ivschat send-event`                                                             | `AwsIvschatSendEventOptions`                                                        |
+| `aws ivschat tag-resource`                                                           | `AwsIvschatTagResourceOptions`                                                      |
 | `aws ivschat untag-resource`                                                         | `AwsIvschatUntagResourceOptions`                                                    |
 | `aws ivschat update-logging-configuration`                                           | `AwsIvschatUpdateLoggingConfigurationOptions`                                       |
 | `aws ivschat update-room`                                                            | `AwsIvschatUpdateRoomOptions`                                                       |
@@ -10095,6 +10341,7 @@ var aws = context.Tools.Aws;
 | `aws kafkaconnect list-custom-plugins`                                               | `AwsKafkaconnectListCustomPluginsOptions`                                           |
 | `aws kafkaconnect list-tags-for-resource`                                            | `AwsKafkaconnectListTagsForResourceOptions`                                         |
 | `aws kafkaconnect list-worker-configurations`                                        | `AwsKafkaconnectListWorkerConfigurationsOptions`                                    |
+| `aws kafkaconnect restart-connector`                                                 | `AwsKafkaconnectRestartConnectorOptions`                                            |
 | `aws kafkaconnect tag-resource`                                                      | `AwsKafkaconnectTagResourceOptions`                                                 |
 | `aws kafkaconnect untag-resource`                                                    | `AwsKafkaconnectUntagResourceOptions`                                               |
 | `aws kafkaconnect update-connector`                                                  | `AwsKafkaconnectUpdateConnectorOptions`                                             |
@@ -10106,6 +10353,7 @@ var aws = context.Tools.Aws;
 | `aws kendra batch-put-document`                                                      | `AwsKendraBatchPutDocumentOptions`                                                  |
 | `aws kendra clear-query-suggestions`                                                 | `AwsKendraClearQuerySuggestionsOptions`                                             |
 | `aws kendra create-access-control-configuration`                                     | `AwsKendraCreateAccessControlConfigurationOptions`                                  |
+| `aws kendra create-data-source`                                                      | `AwsKendraCreateDataSourceOptions`                                                  |
 | `aws kendra create-experience`                                                       | `AwsKendraCreateExperienceOptions`                                                  |
 | `aws kendra create-faq`                                                              | `AwsKendraCreateFaqOptions`                                                         |
 | `aws kendra create-featured-results-set`                                             | `AwsKendraCreateFeaturedResultsSetOptions`                                          |
@@ -10156,6 +10404,7 @@ var aws = context.Tools.Aws;
 | `aws kendra tag-resource`                                                            | `AwsKendraTagResourceOptions`                                                       |
 | `aws kendra untag-resource`                                                          | `AwsKendraUntagResourceOptions`                                                     |
 | `aws kendra update-access-control-configuration`                                     | `AwsKendraUpdateAccessControlConfigurationOptions`                                  |
+| `aws kendra update-data-source`                                                      | `AwsKendraUpdateDataSourceOptions`                                                  |
 | `aws kendra update-experience`                                                       | `AwsKendraUpdateExperienceOptions`                                                  |
 | `aws kendra update-featured-results-set`                                             | `AwsKendraUpdateFeaturedResultsSetOptions`                                          |
 | `aws kendra update-index`                                                            | `AwsKendraUpdateIndexOptions`                                                       |
@@ -10195,12 +10444,15 @@ var aws = context.Tools.Aws;
 | `aws keyspacesstreams get-stream`                                                    | `AwsKeyspacesstreamsGetStreamOptions`                                               |
 | `aws keyspacesstreams list-streams`                                                  | `AwsKeyspacesstreamsListStreamsOptions`                                             |
 | `aws kinesis add-tags-to-stream`                                                     | `AwsKinesisAddTagsToStreamOptions`                                                  |
+| `aws kinesis create-channel`                                                         | `AwsKinesisCreateChannelOptions`                                                    |
 | `aws kinesis create-stream`                                                          | `AwsKinesisCreateStreamOptions`                                                     |
 | `aws kinesis decrease-stream-retention-period`                                       | `AwsKinesisDecreaseStreamRetentionPeriodOptions`                                    |
+| `aws kinesis delete-channel`                                                         | `AwsKinesisDeleteChannelOptions`                                                    |
 | `aws kinesis delete-resource-policy`                                                 | `AwsKinesisDeleteResourcePolicyOptions`                                             |
 | `aws kinesis delete-stream`                                                          | `AwsKinesisDeleteStreamOptions`                                                     |
 | `aws kinesis deregister-stream-consumer`                                             | `AwsKinesisDeregisterStreamConsumerOptions`                                         |
 | `aws kinesis describe-account-settings`                                              | `AwsKinesisDescribeAccountSettingsOptions`                                          |
+| `aws kinesis describe-channel`                                                       | `AwsKinesisDescribeChannelOptions`                                                  |
 | `aws kinesis describe-limits`                                                        | `AwsKinesisDescribeLimitsOptions`                                                   |
 | `aws kinesis describe-stream`                                                        | `AwsKinesisDescribeStreamOptions`                                                   |
 | `aws kinesis describe-stream-consumer`                                               | `AwsKinesisDescribeStreamConsumerOptions`                                           |
@@ -10211,6 +10463,7 @@ var aws = context.Tools.Aws;
 | `aws kinesis get-resource-policy`                                                    | `AwsKinesisGetResourcePolicyOptions`                                                |
 | `aws kinesis get-shard-iterator`                                                     | `AwsKinesisGetShardIteratorOptions`                                                 |
 | `aws kinesis increase-stream-retention-period`                                       | `AwsKinesisIncreaseStreamRetentionPeriodOptions`                                    |
+| `aws kinesis list-channels`                                                          | `AwsKinesisListChannelsOptions`                                                     |
 | `aws kinesis list-shards`                                                            | `AwsKinesisListShardsOptions`                                                       |
 | `aws kinesis list-stream-consumers`                                                  | `AwsKinesisListStreamConsumersOptions`                                              |
 | `aws kinesis list-streams`                                                           | `AwsKinesisListStreamsOptions`                                                      |
@@ -10225,12 +10478,15 @@ var aws = context.Tools.Aws;
 | `aws kinesis split-shard`                                                            | `AwsKinesisSplitShardOptions`                                                       |
 | `aws kinesis start-stream-encryption`                                                | `AwsKinesisStartStreamEncryptionOptions`                                            |
 | `aws kinesis stop-stream-encryption`                                                 | `AwsKinesisStopStreamEncryptionOptions`                                             |
+| `aws kinesis tag-resource`                                                           | `AwsKinesisTagResourceOptions`                                                      |
 | `aws kinesis untag-resource`                                                         | `AwsKinesisUntagResourceOptions`                                                    |
 | `aws kinesis update-account-settings`                                                | `AwsKinesisUpdateAccountSettingsOptions`                                            |
+| `aws kinesis update-channel`                                                         | `AwsKinesisUpdateChannelOptions`                                                    |
 | `aws kinesis update-max-record-size`                                                 | `AwsKinesisUpdateMaxRecordSizeOptions`                                              |
 | `aws kinesis update-shard-count`                                                     | `AwsKinesisUpdateShardCountOptions`                                                 |
 | `aws kinesis update-stream-mode`                                                     | `AwsKinesisUpdateStreamModeOptions`                                                 |
 | `aws kinesis update-stream-warm-throughput`                                          | `AwsKinesisUpdateStreamWarmThroughputOptions`                                       |
+| `aws kinesis wait channel-active`                                                    | `AwsKinesisWaitChannelActiveOptions`                                                |
 | `aws kinesis wait stream-exists`                                                     | `AwsKinesisWaitStreamExistsOptions`                                                 |
 | `aws kinesis wait stream-not-exists`                                                 | `AwsKinesisWaitStreamNotExistsOptions`                                              |
 | `aws kinesis-video-archived-media get-clip`                                          | `AwsKinesisVideoArchivedMediaGetClipOptions`                                        |
@@ -10247,7 +10503,9 @@ var aws = context.Tools.Aws;
 | `aws kinesisanalytics add-application-cloud-watch-logging-option`                    | `AwsKinesisanalyticsAddApplicationCloudWatchLoggingOptionOptions`                   |
 | `aws kinesisanalytics add-application-input`                                         | `AwsKinesisanalyticsAddApplicationInputOptions`                                     |
 | `aws kinesisanalytics add-application-input-processing-configuration`                | `AwsKinesisanalyticsAddApplicationInputProcessingConfigurationOptions`              |
+| `aws kinesisanalytics add-application-output`                                        | `AwsKinesisanalyticsAddApplicationOutputOptions`                                    |
 | `aws kinesisanalytics add-application-reference-data-source`                         | `AwsKinesisanalyticsAddApplicationReferenceDataSourceOptions`                       |
+| `aws kinesisanalytics create-application`                                            | `AwsKinesisanalyticsCreateApplicationOptions`                                       |
 | `aws kinesisanalytics delete-application`                                            | `AwsKinesisanalyticsDeleteApplicationOptions`                                       |
 | `aws kinesisanalytics delete-application-cloud-watch-logging-option`                 | `AwsKinesisanalyticsDeleteApplicationCloudWatchLoggingOptionOptions`                |
 | `aws kinesisanalytics delete-application-input-processing-configuration`             | `AwsKinesisanalyticsDeleteApplicationInputProcessingConfigurationOptions`           |
@@ -10265,8 +10523,10 @@ var aws = context.Tools.Aws;
 | `aws kinesisanalyticsv2 add-application-cloud-watch-logging-option`                  | `AwsKinesisanalyticsv2AddApplicationCloudWatchLoggingOptionOptions`                 |
 | `aws kinesisanalyticsv2 add-application-input`                                       | `AwsKinesisanalyticsv2AddApplicationInputOptions`                                   |
 | `aws kinesisanalyticsv2 add-application-input-processing-configuration`              | `AwsKinesisanalyticsv2AddApplicationInputProcessingConfigurationOptions`            |
+| `aws kinesisanalyticsv2 add-application-output`                                      | `AwsKinesisanalyticsv2AddApplicationOutputOptions`                                  |
 | `aws kinesisanalyticsv2 add-application-reference-data-source`                       | `AwsKinesisanalyticsv2AddApplicationReferenceDataSourceOptions`                     |
 | `aws kinesisanalyticsv2 add-application-vpc-configuration`                           | `AwsKinesisanalyticsv2AddApplicationVpcConfigurationOptions`                        |
+| `aws kinesisanalyticsv2 create-application`                                          | `AwsKinesisanalyticsv2CreateApplicationOptions`                                     |
 | `aws kinesisanalyticsv2 create-application-presigned-url`                            | `AwsKinesisanalyticsv2CreateApplicationPresignedUrlOptions`                         |
 | `aws kinesisanalyticsv2 create-application-snapshot`                                 | `AwsKinesisanalyticsv2CreateApplicationSnapshotOptions`                             |
 | `aws kinesisanalyticsv2 delete-application`                                          | `AwsKinesisanalyticsv2DeleteApplicationOptions`                                     |
@@ -10291,6 +10551,7 @@ var aws = context.Tools.Aws;
 | `aws kinesisanalyticsv2 stop-application`                                            | `AwsKinesisanalyticsv2StopApplicationOptions`                                       |
 | `aws kinesisanalyticsv2 tag-resource`                                                | `AwsKinesisanalyticsv2TagResourceOptions`                                           |
 | `aws kinesisanalyticsv2 untag-resource`                                              | `AwsKinesisanalyticsv2UntagResourceOptions`                                         |
+| `aws kinesisanalyticsv2 update-application`                                          | `AwsKinesisanalyticsv2UpdateApplicationOptions`                                     |
 | `aws kinesisanalyticsv2 update-application-maintenance-configuration`                | `AwsKinesisanalyticsv2UpdateApplicationMaintenanceConfigurationOptions`             |
 | `aws kinesisvideo create-signaling-channel`                                          | `AwsKinesisvideoCreateSignalingChannelOptions`                                      |
 | `aws kinesisvideo create-stream`                                                     | `AwsKinesisvideoCreateStreamOptions`                                                |
@@ -10329,6 +10590,7 @@ var aws = context.Tools.Aws;
 | `aws kms create-alias`                                                               | `AwsKmsCreateAliasOptions`                                                          |
 | `aws kms create-custom-key-store`                                                    | `AwsKmsCreateCustomKeyStoreOptions`                                                 |
 | `aws kms create-grant`                                                               | `AwsKmsCreateGrantOptions`                                                          |
+| `aws kms create-key`                                                                 | `AwsKmsCreateKeyOptions`                                                            |
 | `aws kms decrypt`                                                                    | `AwsKmsDecryptOptions`                                                              |
 | `aws kms delete-alias`                                                               | `AwsKmsDeleteAliasOptions`                                                          |
 | `aws kms delete-custom-key-store`                                                    | `AwsKmsDeleteCustomKeyStoreOptions`                                                 |
@@ -10363,6 +10625,7 @@ var aws = context.Tools.Aws;
 | `aws kms list-retirable-grants`                                                      | `AwsKmsListRetirableGrantsOptions`                                                  |
 | `aws kms put-key-policy`                                                             | `AwsKmsPutKeyPolicyOptions`                                                         |
 | `aws kms re-encrypt`                                                                 | `AwsKmsReEncryptOptions`                                                            |
+| `aws kms replicate-key`                                                              | `AwsKmsReplicateKeyOptions`                                                         |
 | `aws kms retire-grant`                                                               | `AwsKmsRetireGrantOptions`                                                          |
 | `aws kms revoke-grant`                                                               | `AwsKmsRevokeGrantOptions`                                                          |
 | `aws kms rotate-key-on-demand`                                                       | `AwsKmsRotateKeyOnDemandOptions`                                                    |
@@ -10415,8 +10678,10 @@ var aws = context.Tools.Aws;
 | `aws lakeformation get-work-units`                                                   | `AwsLakeformationGetWorkUnitsOptions`                                               |
 | `aws lakeformation grant-permissions`                                                | `AwsLakeformationGrantPermissionsOptions`                                           |
 | `aws lakeformation list-data-cells-filter`                                           | `AwsLakeformationListDataCellsFilterOptions`                                        |
+| `aws lakeformation list-lake-formation-opt-ins`                                      | `AwsLakeformationListLakeFormationOptInsOptions`                                    |
 | `aws lakeformation list-lf-tag-expressions`                                          | `AwsLakeformationListLfTagExpressionsOptions`                                       |
 | `aws lakeformation list-lf-tags`                                                     | `AwsLakeformationListLfTagsOptions`                                                 |
+| `aws lakeformation list-permissions`                                                 | `AwsLakeformationListPermissionsOptions`                                            |
 | `aws lakeformation list-resources`                                                   | `AwsLakeformationListResourcesOptions`                                              |
 | `aws lakeformation list-table-storage-optimizers`                                    | `AwsLakeformationListTableStorageOptimizersOptions`                                 |
 | `aws lakeformation list-transactions`                                                | `AwsLakeformationListTransactionsOptions`                                           |
@@ -10441,6 +10706,7 @@ var aws = context.Tools.Aws;
 | `aws lambda create-alias`                                                            | `AwsLambdaCreateAliasOptions`                                                       |
 | `aws lambda create-capacity-provider`                                                | `AwsLambdaCreateCapacityProviderOptions`                                            |
 | `aws lambda create-code-signing-config`                                              | `AwsLambdaCreateCodeSigningConfigOptions`                                           |
+| `aws lambda create-event-source-mapping`                                             | `AwsLambdaCreateEventSourceMappingOptions`                                          |
 | `aws lambda create-function`                                                         | `AwsLambdaCreateFunctionOptions`                                                    |
 | `aws lambda create-function-url-config`                                              | `AwsLambdaCreateFunctionUrlConfigOptions`                                           |
 | `aws lambda delete-alias`                                                            | `AwsLambdaDeleteAliasOptions`                                                       |
@@ -10515,6 +10781,7 @@ var aws = context.Tools.Aws;
 | `aws lambda update-alias`                                                            | `AwsLambdaUpdateAliasOptions`                                                       |
 | `aws lambda update-capacity-provider`                                                | `AwsLambdaUpdateCapacityProviderOptions`                                            |
 | `aws lambda update-code-signing-config`                                              | `AwsLambdaUpdateCodeSigningConfigOptions`                                           |
+| `aws lambda update-event-source-mapping`                                             | `AwsLambdaUpdateEventSourceMappingOptions`                                          |
 | `aws lambda update-function-code`                                                    | `AwsLambdaUpdateFunctionCodeOptions`                                                |
 | `aws lambda update-function-configuration`                                           | `AwsLambdaUpdateFunctionConfigurationOptions`                                       |
 | `aws lambda update-function-event-invoke-config`                                     | `AwsLambdaUpdateFunctionEventInvokeConfigOptions`                                   |
@@ -10586,6 +10853,8 @@ var aws = context.Tools.Aws;
 | `aws lexv2-models create-bot-replica`                                                | `AwsLexv2ModelsCreateBotReplicaOptions`                                             |
 | `aws lexv2-models create-bot-version`                                                | `AwsLexv2ModelsCreateBotVersionOptions`                                             |
 | `aws lexv2-models create-export`                                                     | `AwsLexv2ModelsCreateExportOptions`                                                 |
+| `aws lexv2-models create-intent`                                                     | `AwsLexv2ModelsCreateIntentOptions`                                                 |
+| `aws lexv2-models create-resource-policy`                                            | `AwsLexv2ModelsCreateResourcePolicyOptions`                                         |
 | `aws lexv2-models create-resource-policy-statement`                                  | `AwsLexv2ModelsCreateResourcePolicyStatementOptions`                                |
 | `aws lexv2-models create-slot`                                                       | `AwsLexv2ModelsCreateSlotOptions`                                                   |
 | `aws lexv2-models create-slot-type`                                                  | `AwsLexv2ModelsCreateSlotTypeOptions`                                               |
@@ -10676,6 +10945,8 @@ var aws = context.Tools.Aws;
 | `aws lexv2-models update-bot-locale`                                                 | `AwsLexv2ModelsUpdateBotLocaleOptions`                                              |
 | `aws lexv2-models update-bot-recommendation`                                         | `AwsLexv2ModelsUpdateBotRecommendationOptions`                                      |
 | `aws lexv2-models update-export`                                                     | `AwsLexv2ModelsUpdateExportOptions`                                                 |
+| `aws lexv2-models update-intent`                                                     | `AwsLexv2ModelsUpdateIntentOptions`                                                 |
+| `aws lexv2-models update-resource-policy`                                            | `AwsLexv2ModelsUpdateResourcePolicyOptions`                                         |
 | `aws lexv2-models update-slot`                                                       | `AwsLexv2ModelsUpdateSlotOptions`                                                   |
 | `aws lexv2-models update-slot-type`                                                  | `AwsLexv2ModelsUpdateSlotTypeOptions`                                               |
 | `aws lexv2-models update-test-set`                                                   | `AwsLexv2ModelsUpdateTestSetOptions`                                                |
@@ -10690,6 +10961,7 @@ var aws = context.Tools.Aws;
 | `aws lexv2-runtime delete-session`                                                   | `AwsLexv2RuntimeDeleteSessionOptions`                                               |
 | `aws lexv2-runtime get-session`                                                      | `AwsLexv2RuntimeGetSessionOptions`                                                  |
 | `aws lexv2-runtime put-session`                                                      | `AwsLexv2RuntimePutSessionOptions`                                                  |
+| `aws lexv2-runtime recognize-text`                                                   | `AwsLexv2RuntimeRecognizeTextOptions`                                               |
 | `aws lexv2-runtime recognize-utterance`                                              | `AwsLexv2RuntimeRecognizeUtteranceOptions`                                          |
 | `aws license-manager accept-grant`                                                   | `AwsLicenseManagerAcceptGrantOptions`                                               |
 | `aws license-manager check-in-license`                                               | `AwsLicenseManagerCheckInLicenseOptions`                                            |
@@ -10767,6 +11039,8 @@ var aws = context.Tools.Aws;
 | `aws license-manager-user-subscriptions associate-user`                              | `AwsLicenseManagerUserSubscriptionsAssociateUserOptions`                            |
 | `aws license-manager-user-subscriptions create-license-server-endpoint`              | `AwsLicenseManagerUserSubscriptionsCreateLicenseServerEndpointOptions`              |
 | `aws license-manager-user-subscriptions delete-license-server-endpoint`              | `AwsLicenseManagerUserSubscriptionsDeleteLicenseServerEndpointOptions`              |
+| `aws license-manager-user-subscriptions deregister-identity-provider`                | `AwsLicenseManagerUserSubscriptionsDeregisterIdentityProviderOptions`               |
+| `aws license-manager-user-subscriptions disassociate-user`                           | `AwsLicenseManagerUserSubscriptionsDisassociateUserOptions`                         |
 | `aws license-manager-user-subscriptions list-identity-providers`                     | `AwsLicenseManagerUserSubscriptionsListIdentityProvidersOptions`                    |
 | `aws license-manager-user-subscriptions list-instances`                              | `AwsLicenseManagerUserSubscriptionsListInstancesOptions`                            |
 | `aws license-manager-user-subscriptions list-license-server-endpoints`               | `AwsLicenseManagerUserSubscriptionsListLicenseServerEndpointsOptions`               |
@@ -10775,8 +11049,10 @@ var aws = context.Tools.Aws;
 | `aws license-manager-user-subscriptions list-user-associations`                      | `AwsLicenseManagerUserSubscriptionsListUserAssociationsOptions`                     |
 | `aws license-manager-user-subscriptions register-identity-provider`                  | `AwsLicenseManagerUserSubscriptionsRegisterIdentityProviderOptions`                 |
 | `aws license-manager-user-subscriptions start-product-subscription`                  | `AwsLicenseManagerUserSubscriptionsStartProductSubscriptionOptions`                 |
+| `aws license-manager-user-subscriptions stop-product-subscription`                   | `AwsLicenseManagerUserSubscriptionsStopProductSubscriptionOptions`                  |
 | `aws license-manager-user-subscriptions tag-resource`                                | `AwsLicenseManagerUserSubscriptionsTagResourceOptions`                              |
 | `aws license-manager-user-subscriptions untag-resource`                              | `AwsLicenseManagerUserSubscriptionsUntagResourceOptions`                            |
+| `aws license-manager-user-subscriptions update-identity-provider-settings`           | `AwsLicenseManagerUserSubscriptionsUpdateIdentityProviderSettingsOptions`           |
 | `aws lightsail allocate-static-ip`                                                   | `AwsLightsailAllocateStaticIpOptions`                                               |
 | `aws lightsail attach-certificate-to-distribution`                                   | `AwsLightsailAttachCertificateToDistributionOptions`                                |
 | `aws lightsail attach-disk`                                                          | `AwsLightsailAttachDiskOptions`                                                     |
@@ -10798,6 +11074,7 @@ var aws = context.Tools.Aws;
 | `aws lightsail create-disk-snapshot`                                                 | `AwsLightsailCreateDiskSnapshotOptions`                                             |
 | `aws lightsail create-distribution`                                                  | `AwsLightsailCreateDistributionOptions`                                             |
 | `aws lightsail create-domain`                                                        | `AwsLightsailCreateDomainOptions`                                                   |
+| `aws lightsail create-domain-entry`                                                  | `AwsLightsailCreateDomainEntryOptions`                                              |
 | `aws lightsail create-gui-session-access-details`                                    | `AwsLightsailCreateGuiSessionAccessDetailsOptions`                                  |
 | `aws lightsail create-instance-snapshot`                                             | `AwsLightsailCreateInstanceSnapshotOptions`                                         |
 | `aws lightsail create-instances`                                                     | `AwsLightsailCreateInstancesOptions`                                                |
@@ -10820,6 +11097,7 @@ var aws = context.Tools.Aws;
 | `aws lightsail delete-disk-snapshot`                                                 | `AwsLightsailDeleteDiskSnapshotOptions`                                             |
 | `aws lightsail delete-distribution`                                                  | `AwsLightsailDeleteDistributionOptions`                                             |
 | `aws lightsail delete-domain`                                                        | `AwsLightsailDeleteDomainOptions`                                                   |
+| `aws lightsail delete-domain-entry`                                                  | `AwsLightsailDeleteDomainEntryOptions`                                              |
 | `aws lightsail delete-instance`                                                      | `AwsLightsailDeleteInstanceOptions`                                                 |
 | `aws lightsail delete-instance-snapshot`                                             | `AwsLightsailDeleteInstanceSnapshotOptions`                                         |
 | `aws lightsail delete-key-pair`                                                      | `AwsLightsailDeleteKeyPairOptions`                                                  |
@@ -10834,6 +11112,7 @@ var aws = context.Tools.Aws;
 | `aws lightsail detach-static-ip`                                                     | `AwsLightsailDetachStaticIpOptions`                                                 |
 | `aws lightsail disable-add-on`                                                       | `AwsLightsailDisableAddOnOptions`                                                   |
 | `aws lightsail download-default-key-pair`                                            | `AwsLightsailDownloadDefaultKeyPairOptions`                                         |
+| `aws lightsail enable-add-on`                                                        | `AwsLightsailEnableAddOnOptions`                                                    |
 | `aws lightsail export-snapshot`                                                      | `AwsLightsailExportSnapshotOptions`                                                 |
 | `aws lightsail get-active-names`                                                     | `AwsLightsailGetActiveNamesOptions`                                                 |
 | `aws lightsail get-alarms`                                                           | `AwsLightsailGetAlarmsOptions`                                                      |
@@ -10884,6 +11163,7 @@ var aws = context.Tools.Aws;
 | `aws lightsail get-operation`                                                        | `AwsLightsailGetOperationOptions`                                                   |
 | `aws lightsail get-operations`                                                       | `AwsLightsailGetOperationsOptions`                                                  |
 | `aws lightsail get-operations-for-resource`                                          | `AwsLightsailGetOperationsForResourceOptions`                                       |
+| `aws lightsail get-profile`                                                          | `AwsLightsailGetProfileOptions`                                                     |
 | `aws lightsail get-regions`                                                          | `AwsLightsailGetRegionsOptions`                                                     |
 | `aws lightsail get-relational-database`                                              | `AwsLightsailGetRelationalDatabaseOptions`                                          |
 | `aws lightsail get-relational-database-blueprints`                                   | `AwsLightsailGetRelationalDatabaseBlueprintsOptions`                                |
@@ -10931,6 +11211,7 @@ var aws = context.Tools.Aws;
 | `aws lightsail update-container-service`                                             | `AwsLightsailUpdateContainerServiceOptions`                                         |
 | `aws lightsail update-distribution`                                                  | `AwsLightsailUpdateDistributionOptions`                                             |
 | `aws lightsail update-distribution-bundle`                                           | `AwsLightsailUpdateDistributionBundleOptions`                                       |
+| `aws lightsail update-domain-entry`                                                  | `AwsLightsailUpdateDomainEntryOptions`                                              |
 | `aws lightsail update-instance-metadata-options`                                     | `AwsLightsailUpdateInstanceMetadataOptionsOptions`                                  |
 | `aws lightsail update-load-balancer-attribute`                                       | `AwsLightsailUpdateLoadBalancerAttributeOptions`                                    |
 | `aws lightsail update-relational-database`                                           | `AwsLightsailUpdateRelationalDatabaseOptions`                                       |
@@ -11285,6 +11566,7 @@ var aws = context.Tools.Aws;
 | `aws macie2 get-usage-totals`                                                        | `AwsMacie2GetUsageTotalsOptions`                                                    |
 | `aws macie2 list-allow-lists`                                                        | `AwsMacie2ListAllowListsOptions`                                                    |
 | `aws macie2 list-automated-discovery-accounts`                                       | `AwsMacie2ListAutomatedDiscoveryAccountsOptions`                                    |
+| `aws macie2 list-classification-jobs`                                                | `AwsMacie2ListClassificationJobsOptions`                                            |
 | `aws macie2 list-classification-scopes`                                              | `AwsMacie2ListClassificationScopesOptions`                                          |
 | `aws macie2 list-custom-data-identifiers`                                            | `AwsMacie2ListCustomDataIdentifiersOptions`                                         |
 | `aws macie2 list-findings`                                                           | `AwsMacie2ListFindingsOptions`                                                      |
@@ -11306,6 +11588,7 @@ var aws = context.Tools.Aws;
 | `aws macie2 update-allow-list`                                                       | `AwsMacie2UpdateAllowListOptions`                                                   |
 | `aws macie2 update-automated-discovery-configuration`                                | `AwsMacie2UpdateAutomatedDiscoveryConfigurationOptions`                             |
 | `aws macie2 update-classification-job`                                               | `AwsMacie2UpdateClassificationJobOptions`                                           |
+| `aws macie2 update-classification-scope`                                             | `AwsMacie2UpdateClassificationScopeOptions`                                         |
 | `aws macie2 update-findings-filter`                                                  | `AwsMacie2UpdateFindingsFilterOptions`                                              |
 | `aws macie2 update-macie-session`                                                    | `AwsMacie2UpdateMacieSessionOptions`                                                |
 | `aws macie2 update-member-session`                                                   | `AwsMacie2UpdateMemberSessionOptions`                                               |
@@ -11313,6 +11596,7 @@ var aws = context.Tools.Aws;
 | `aws macie2 update-resource-profile`                                                 | `AwsMacie2UpdateResourceProfileOptions`                                             |
 | `aws macie2 update-resource-profile-detections`                                      | `AwsMacie2UpdateResourceProfileDetectionsOptions`                                   |
 | `aws macie2 update-reveal-configuration`                                             | `AwsMacie2UpdateRevealConfigurationOptions`                                         |
+| `aws macie2 update-sensitivity-inspection-template`                                  | `AwsMacie2UpdateSensitivityInspectionTemplateOptions`                               |
 | `aws macie2 wait finding-revealed`                                                   | `AwsMacie2WaitFindingRevealedOptions`                                               |
 | `aws mailmanager create-addon-instance`                                              | `AwsMailmanagerCreateAddonInstanceOptions`                                          |
 | `aws mailmanager create-addon-subscription`                                          | `AwsMailmanagerCreateAddonSubscriptionOptions`                                      |
@@ -11374,7 +11658,11 @@ var aws = context.Tools.Aws;
 | `aws mailmanager update-relay`                                                       | `AwsMailmanagerUpdateRelayOptions`                                                  |
 | `aws mailmanager update-rule-set`                                                    | `AwsMailmanagerUpdateRuleSetOptions`                                                |
 | `aws mailmanager update-traffic-policy`                                              | `AwsMailmanagerUpdateTrafficPolicyOptions`                                          |
+| `aws managedblockchain create-accessor`                                              | `AwsManagedblockchainCreateAccessorOptions`                                         |
 | `aws managedblockchain create-member`                                                | `AwsManagedblockchainCreateMemberOptions`                                           |
+| `aws managedblockchain create-network`                                               | `AwsManagedblockchainCreateNetworkOptions`                                          |
+| `aws managedblockchain create-node`                                                  | `AwsManagedblockchainCreateNodeOptions`                                             |
+| `aws managedblockchain create-proposal`                                              | `AwsManagedblockchainCreateProposalOptions`                                         |
 | `aws managedblockchain delete-accessor`                                              | `AwsManagedblockchainDeleteAccessorOptions`                                         |
 | `aws managedblockchain delete-member`                                                | `AwsManagedblockchainDeleteMemberOptions`                                           |
 | `aws managedblockchain delete-node`                                                  | `AwsManagedblockchainDeleteNodeOptions`                                             |
@@ -11392,6 +11680,7 @@ var aws = context.Tools.Aws;
 | `aws managedblockchain list-proposals`                                               | `AwsManagedblockchainListProposalsOptions`                                          |
 | `aws managedblockchain list-tags-for-resource`                                       | `AwsManagedblockchainListTagsForResourceOptions`                                    |
 | `aws managedblockchain reject-invitation`                                            | `AwsManagedblockchainRejectInvitationOptions`                                       |
+| `aws managedblockchain tag-resource`                                                 | `AwsManagedblockchainTagResourceOptions`                                            |
 | `aws managedblockchain untag-resource`                                               | `AwsManagedblockchainUntagResourceOptions`                                          |
 | `aws managedblockchain update-member`                                                | `AwsManagedblockchainUpdateMemberOptions`                                           |
 | `aws managedblockchain update-node`                                                  | `AwsManagedblockchainUpdateNodeOptions`                                             |
@@ -11439,6 +11728,7 @@ var aws = context.Tools.Aws;
 | `aws marketplace-catalog get-resource-policy`                                        | `AwsMarketplaceCatalogGetResourcePolicyOptions`                                     |
 | `aws marketplace-catalog list-assessments`                                           | `AwsMarketplaceCatalogListAssessmentsOptions`                                       |
 | `aws marketplace-catalog list-change-sets`                                           | `AwsMarketplaceCatalogListChangeSetsOptions`                                        |
+| `aws marketplace-catalog list-entities`                                              | `AwsMarketplaceCatalogListEntitiesOptions`                                          |
 | `aws marketplace-catalog list-tags-for-resource`                                     | `AwsMarketplaceCatalogListTagsForResourceOptions`                                   |
 | `aws marketplace-catalog put-resource-policy`                                        | `AwsMarketplaceCatalogPutResourcePolicyOptions`                                     |
 | `aws marketplace-catalog start-change-set`                                           | `AwsMarketplaceCatalogStartChangeSetOptions`                                        |
@@ -11555,6 +11845,9 @@ var aws = context.Tools.Aws;
 | `aws mediaconnect wait output-unrouted`                                              | `AwsMediaconnectWaitOutputUnroutedOptions`                                          |
 | `aws mediaconvert associate-certificate`                                             | `AwsMediaconvertAssociateCertificateOptions`                                        |
 | `aws mediaconvert cancel-job`                                                        | `AwsMediaconvertCancelJobOptions`                                                   |
+| `aws mediaconvert create-job`                                                        | `AwsMediaconvertCreateJobOptions`                                                   |
+| `aws mediaconvert create-job-template`                                               | `AwsMediaconvertCreateJobTemplateOptions`                                           |
+| `aws mediaconvert create-preset`                                                     | `AwsMediaconvertCreatePresetOptions`                                                |
 | `aws mediaconvert create-queue`                                                      | `AwsMediaconvertCreateQueueOptions`                                                 |
 | `aws mediaconvert create-resource-share`                                             | `AwsMediaconvertCreateResourceShareOptions`                                         |
 | `aws mediaconvert delete-job-template`                                               | `AwsMediaconvertDeleteJobTemplateOptions`                                           |
@@ -11580,6 +11873,8 @@ var aws = context.Tools.Aws;
 | `aws mediaconvert start-jobs-query`                                                  | `AwsMediaconvertStartJobsQueryOptions`                                              |
 | `aws mediaconvert tag-resource`                                                      | `AwsMediaconvertTagResourceOptions`                                                 |
 | `aws mediaconvert untag-resource`                                                    | `AwsMediaconvertUntagResourceOptions`                                               |
+| `aws mediaconvert update-job-template`                                               | `AwsMediaconvertUpdateJobTemplateOptions`                                           |
+| `aws mediaconvert update-preset`                                                     | `AwsMediaconvertUpdatePresetOptions`                                                |
 | `aws mediaconvert update-queue`                                                      | `AwsMediaconvertUpdateQueueOptions`                                                 |
 | `aws medialive accept-input-device-transfer`                                         | `AwsMedialiveAcceptInputDeviceTransferOptions`                                      |
 | `aws medialive batch-delete`                                                         | `AwsMedialiveBatchDeleteOptions`                                                    |
@@ -11822,6 +12117,7 @@ var aws = context.Tools.Aws;
 | `aws mediatailor configure-logs-for-playback-configuration`                          | `AwsMediatailorConfigureLogsForPlaybackConfigurationOptions`                        |
 | `aws mediatailor create-channel`                                                     | `AwsMediatailorCreateChannelOptions`                                                |
 | `aws mediatailor create-live-source`                                                 | `AwsMediatailorCreateLiveSourceOptions`                                             |
+| `aws mediatailor create-prefetch-schedule`                                           | `AwsMediatailorCreatePrefetchScheduleOptions`                                       |
 | `aws mediatailor create-program`                                                     | `AwsMediatailorCreateProgramOptions`                                                |
 | `aws mediatailor create-source-location`                                             | `AwsMediatailorCreateSourceLocationOptions`                                         |
 | `aws mediatailor create-vod-source`                                                  | `AwsMediatailorCreateVodSourceOptions`                                              |
@@ -12180,7 +12476,10 @@ var aws = context.Tools.Aws;
 | `aws mturk approve-assignment`                                                       | `AwsMturkApproveAssignmentOptions`                                                  |
 | `aws mturk associate-qualification-with-worker`                                      | `AwsMturkAssociateQualificationWithWorkerOptions`                                   |
 | `aws mturk create-additional-assignments-for-hit`                                    | `AwsMturkCreateAdditionalAssignmentsForHitOptions`                                  |
+| `aws mturk create-hit`                                                               | `AwsMturkCreateHitOptions`                                                          |
+| `aws mturk create-hit-type`                                                          | `AwsMturkCreateHitTypeOptions`                                                      |
 | `aws mturk create-hit-with-hit-type`                                                 | `AwsMturkCreateHitWithHitTypeOptions`                                               |
+| `aws mturk create-qualification-type`                                                | `AwsMturkCreateQualificationTypeOptions`                                            |
 | `aws mturk create-worker-block`                                                      | `AwsMturkCreateWorkerBlockOptions`                                                  |
 | `aws mturk delete-hit`                                                               | `AwsMturkDeleteHitOptions`                                                          |
 | `aws mturk delete-qualification-type`                                                | `AwsMturkDeleteQualificationTypeOptions`                                            |
@@ -12410,6 +12709,7 @@ var aws = context.Tools.Aws;
 | `aws network-firewall create-proxy-configuration`                                    | `AwsNetworkFirewallCreateProxyConfigurationOptions`                                 |
 | `aws network-firewall create-proxy-rule-group`                                       | `AwsNetworkFirewallCreateProxyRuleGroupOptions`                                     |
 | `aws network-firewall create-proxy-rules`                                            | `AwsNetworkFirewallCreateProxyRulesOptions`                                         |
+| `aws network-firewall create-rule-group`                                             | `AwsNetworkFirewallCreateRuleGroupOptions`                                          |
 | `aws network-firewall create-tls-inspection-configuration`                           | `AwsNetworkFirewallCreateTlsInspectionConfigurationOptions`                         |
 | `aws network-firewall create-vpc-endpoint-association`                               | `AwsNetworkFirewallCreateVpcEndpointAssociationOptions`                             |
 | `aws network-firewall delete-container-association`                                  | `AwsNetworkFirewallDeleteContainerAssociationOptions`                               |
@@ -12479,6 +12779,7 @@ var aws = context.Tools.Aws;
 | `aws network-firewall update-proxy-rule-group-priorities`                            | `AwsNetworkFirewallUpdateProxyRuleGroupPrioritiesOptions`                           |
 | `aws network-firewall update-proxy-rule-priorities`                                  | `AwsNetworkFirewallUpdateProxyRulePrioritiesOptions`                                |
 | `aws network-firewall update-proxy-settings`                                         | `AwsNetworkFirewallUpdateProxySettingsOptions`                                      |
+| `aws network-firewall update-rule-group`                                             | `AwsNetworkFirewallUpdateRuleGroupOptions`                                          |
 | `aws network-firewall update-subnet-change-protection`                               | `AwsNetworkFirewallUpdateSubnetChangeProtectionOptions`                             |
 | `aws network-firewall update-tls-inspection-configuration`                           | `AwsNetworkFirewallUpdateTlsInspectionConfigurationOptions`                         |
 | `aws networkflowmonitor create-monitor`                                              | `AwsNetworkflowmonitorCreateMonitorOptions`                                         |
@@ -12787,6 +13088,7 @@ var aws = context.Tools.Aws;
 | `aws odb list-db-system-shapes`                                                      | `AwsOdbListDbSystemShapesOptions`                                                   |
 | `aws odb list-exadb-vm-clusters`                                                     | `AwsOdbListExadbVmClustersOptions`                                                  |
 | `aws odb list-exascale-db-storage-vaults`                                            | `AwsOdbListExascaleDbStorageVaultsOptions`                                          |
+| `aws odb list-flex-components`                                                       | `AwsOdbListFlexComponentsOptions`                                                   |
 | `aws odb list-gi-minor-versions`                                                     | `AwsOdbListGiMinorVersionsOptions`                                                  |
 | `aws odb list-gi-versions`                                                           | `AwsOdbListGiVersionsOptions`                                                       |
 | `aws odb list-odb-networks`                                                          | `AwsOdbListOdbNetworksOptions`                                                      |
@@ -12824,6 +13126,7 @@ var aws = context.Tools.Aws;
 | `aws omics create-configuration`                                                     | `AwsOmicsCreateConfigurationOptions`                                                |
 | `aws omics create-multipart-read-set-upload`                                         | `AwsOmicsCreateMultipartReadSetUploadOptions`                                       |
 | `aws omics create-reference-store`                                                   | `AwsOmicsCreateReferenceStoreOptions`                                               |
+| `aws omics create-run-cache`                                                         | `AwsOmicsCreateRunCacheOptions`                                                     |
 | `aws omics create-run-group`                                                         | `AwsOmicsCreateRunGroupOptions`                                                     |
 | `aws omics create-sequence-store`                                                    | `AwsOmicsCreateSequenceStoreOptions`                                                |
 | `aws omics create-share`                                                             | `AwsOmicsCreateShareOptions`                                                        |
@@ -12891,6 +13194,7 @@ var aws = context.Tools.Aws;
 | `aws omics list-runs`                                                                | `AwsOmicsListRunsOptions`                                                           |
 | `aws omics list-runs-in-batch`                                                       | `AwsOmicsListRunsInBatchOptions`                                                    |
 | `aws omics list-sequence-stores`                                                     | `AwsOmicsListSequenceStoresOptions`                                                 |
+| `aws omics list-shares`                                                              | `AwsOmicsListSharesOptions`                                                         |
 | `aws omics list-tags-for-resource`                                                   | `AwsOmicsListTagsForResourceOptions`                                                |
 | `aws omics list-variant-import-jobs`                                                 | `AwsOmicsListVariantImportJobsOptions`                                              |
 | `aws omics list-variant-stores`                                                      | `AwsOmicsListVariantStoresOptions`                                                  |
@@ -13452,7 +13756,9 @@ var aws = context.Tools.Aws;
 | `aws personalize create-event-tracker`                                               | `AwsPersonalizeCreateEventTrackerOptions`                                           |
 | `aws personalize create-filter`                                                      | `AwsPersonalizeCreateFilterOptions`                                                 |
 | `aws personalize create-metric-attribution`                                          | `AwsPersonalizeCreateMetricAttributionOptions`                                      |
+| `aws personalize create-recommender`                                                 | `AwsPersonalizeCreateRecommenderOptions`                                            |
 | `aws personalize create-schema`                                                      | `AwsPersonalizeCreateSchemaOptions`                                                 |
+| `aws personalize create-solution`                                                    | `AwsPersonalizeCreateSolutionOptions`                                               |
 | `aws personalize create-solution-version`                                            | `AwsPersonalizeCreateSolutionVersionOptions`                                        |
 | `aws personalize delete-campaign`                                                    | `AwsPersonalizeDeleteCampaignOptions`                                               |
 | `aws personalize delete-dataset`                                                     | `AwsPersonalizeDeleteDataSetOptions`                                                |
@@ -13520,6 +13826,7 @@ var aws = context.Tools.Aws;
 | `aws personalize-runtime get-recommendations`                                        | `AwsPersonalizeRuntimeGetRecommendationsOptions`                                    |
 | `aws pi create-performance-analysis-report`                                          | `AwsPiCreatePerformanceAnalysisReportOptions`                                       |
 | `aws pi delete-performance-analysis-report`                                          | `AwsPiDeletePerformanceAnalysisReportOptions`                                       |
+| `aws pi describe-dimension-keys`                                                     | `AwsPiDescribeDimensionKeysOptions`                                                 |
 | `aws pi get-dimension-key-details`                                                   | `AwsPiGetDimensionKeyDetailsOptions`                                                |
 | `aws pi get-performance-analysis-report`                                             | `AwsPiGetPerformanceAnalysisReportOptions`                                          |
 | `aws pi get-resource-metadata`                                                       | `AwsPiGetResourceMetadataOptions`                                                   |
@@ -13769,6 +14076,7 @@ var aws = context.Tools.Aws;
 | `aws pinpoint-sms-voice-v2 discard-registration-version`                             | `AwsPinpointSmsVoiceV2DiscardRegistrationVersionOptions`                            |
 | `aws pinpoint-sms-voice-v2 get-protect-configuration-country-rule-set`               | `AwsPinpointSmsVoiceV2GetProtectConfigurationCountryRuleSetOptions`                 |
 | `aws pinpoint-sms-voice-v2 get-resource-policy`                                      | `AwsPinpointSmsVoiceV2GetResourcePolicyOptions`                                     |
+| `aws pinpoint-sms-voice-v2 list-available-phone-numbers`                             | `AwsPinpointSmsVoiceV2ListAvailablePhoneNumbersOptions`                             |
 | `aws pinpoint-sms-voice-v2 list-notify-countries`                                    | `AwsPinpointSmsVoiceV2ListNotifyCountriesOptions`                                   |
 | `aws pinpoint-sms-voice-v2 list-pool-origination-identities`                         | `AwsPinpointSmsVoiceV2ListPoolOriginationIdentitiesOptions`                         |
 | `aws pinpoint-sms-voice-v2 list-protect-configuration-rule-set-number-overrides`     | `AwsPinpointSmsVoiceV2ListProtectConfigurationRuleSetNumberOverridesOptions`        |
@@ -13788,6 +14096,7 @@ var aws = context.Tools.Aws;
 | `aws pinpoint-sms-voice-v2 send-media-message`                                       | `AwsPinpointSmsVoiceV2SendMediaMessageOptions`                                      |
 | `aws pinpoint-sms-voice-v2 send-notify-text-message`                                 | `AwsPinpointSmsVoiceV2SendNotifyTextMessageOptions`                                 |
 | `aws pinpoint-sms-voice-v2 send-notify-voice-message`                                | `AwsPinpointSmsVoiceV2SendNotifyVoiceMessageOptions`                                |
+| `aws pinpoint-sms-voice-v2 send-rcs-message`                                         | `AwsPinpointSmsVoiceV2SendRcsMessageOptions`                                        |
 | `aws pinpoint-sms-voice-v2 send-text-message`                                        | `AwsPinpointSmsVoiceV2SendTextMessageOptions`                                       |
 | `aws pinpoint-sms-voice-v2 send-voice-message`                                       | `AwsPinpointSmsVoiceV2SendVoiceMessageOptions`                                      |
 | `aws pinpoint-sms-voice-v2 set-account-default-protect-configuration`                | `AwsPinpointSmsVoiceV2SetAccountDefaultProtectConfigurationOptions`                 |
@@ -13811,6 +14120,7 @@ var aws = context.Tools.Aws;
 | `aws pinpoint-sms-voice-v2 update-rcs-agent`                                         | `AwsPinpointSmsVoiceV2UpdateRcsAgentOptions`                                        |
 | `aws pinpoint-sms-voice-v2 update-sender-id`                                         | `AwsPinpointSmsVoiceV2UpdateSenderIdOptions`                                        |
 | `aws pinpoint-sms-voice-v2 verify-destination-number`                                | `AwsPinpointSmsVoiceV2VerifyDestinationNumberOptions`                               |
+| `aws pipes create-pipe`                                                              | `AwsPipesCreatePipeOptions`                                                         |
 | `aws pipes delete-pipe`                                                              | `AwsPipesDeletePipeOptions`                                                         |
 | `aws pipes describe-pipe`                                                            | `AwsPipesDescribePipeOptions`                                                       |
 | `aws pipes list-pipes`                                                               | `AwsPipesListPipesOptions`                                                          |
@@ -13819,6 +14129,7 @@ var aws = context.Tools.Aws;
 | `aws pipes stop-pipe`                                                                | `AwsPipesStopPipeOptions`                                                           |
 | `aws pipes tag-resource`                                                             | `AwsPipesTagResourceOptions`                                                        |
 | `aws pipes untag-resource`                                                           | `AwsPipesUntagResourceOptions`                                                      |
+| `aws pipes update-pipe`                                                              | `AwsPipesUpdatePipeOptions`                                                         |
 | `aws polly delete-lexicon`                                                           | `AwsPollyDeleteLexiconOptions`                                                      |
 | `aws polly describe-voices`                                                          | `AwsPollyDescribeVoicesOptions`                                                     |
 | `aws polly get-lexicon`                                                              | `AwsPollyGetLexiconOptions`                                                         |
@@ -14060,9 +14371,11 @@ var aws = context.Tools.Aws;
 | `aws quicksight create-account-subscription`                                         | `AwsQuicksightCreateAccountSubscriptionOptions`                                     |
 | `aws quicksight create-action-connector`                                             | `AwsQuicksightCreateActionConnectorOptions`                                         |
 | `aws quicksight create-agent`                                                        | `AwsQuicksightCreateAgentOptions`                                                   |
+| `aws quicksight create-analysis`                                                     | `AwsQuicksightCreateAnalysisOptions`                                                |
 | `aws quicksight create-approval-policy`                                              | `AwsQuicksightCreateApprovalPolicyOptions`                                          |
 | `aws quicksight create-brand`                                                        | `AwsQuicksightCreateBrandOptions`                                                   |
 | `aws quicksight create-custom-permissions`                                           | `AwsQuicksightCreateCustomPermissionsOptions`                                       |
+| `aws quicksight create-dashboard`                                                    | `AwsQuicksightCreateDashboardOptions`                                               |
 | `aws quicksight create-data-set`                                                     | `AwsQuicksightCreateDataSetOptions`                                                 |
 | `aws quicksight create-data-source`                                                  | `AwsQuicksightCreateDataSourceOptions`                                              |
 | `aws quicksight create-dlp-setting`                                                  | `AwsQuicksightCreateDlpSettingOptions`                                              |
@@ -14080,6 +14393,7 @@ var aws = context.Tools.Aws;
 | `aws quicksight create-refresh-schedule`                                             | `AwsQuicksightCreateRefreshScheduleOptions`                                         |
 | `aws quicksight create-role-membership`                                              | `AwsQuicksightCreateRoleMembershipOptions`                                          |
 | `aws quicksight create-space`                                                        | `AwsQuicksightCreateSpaceOptions`                                                   |
+| `aws quicksight create-template`                                                     | `AwsQuicksightCreateTemplateOptions`                                                |
 | `aws quicksight create-template-alias`                                               | `AwsQuicksightCreateTemplateAliasOptions`                                           |
 | `aws quicksight create-theme`                                                        | `AwsQuicksightCreateThemeOptions`                                                   |
 | `aws quicksight create-theme-alias`                                                  | `AwsQuicksightCreateThemeAliasOptions`                                              |
@@ -14093,6 +14407,7 @@ var aws = context.Tools.Aws;
 | `aws quicksight delete-action-connector`                                             | `AwsQuicksightDeleteActionConnectorOptions`                                         |
 | `aws quicksight delete-agent`                                                        | `AwsQuicksightDeleteAgentOptions`                                                   |
 | `aws quicksight delete-analysis`                                                     | `AwsQuicksightDeleteAnalysisOptions`                                                |
+| `aws quicksight delete-app`                                                          | `AwsQuicksightDeleteAppOptions`                                                     |
 | `aws quicksight delete-approval-policy`                                              | `AwsQuicksightDeleteApprovalPolicyOptions`                                          |
 | `aws quicksight delete-brand`                                                        | `AwsQuicksightDeleteBrandOptions`                                                   |
 | `aws quicksight delete-brand-assignment`                                             | `AwsQuicksightDeleteBrandAssignmentOptions`                                         |
@@ -14138,7 +14453,10 @@ var aws = context.Tools.Aws;
 | `aws quicksight describe-agent`                                                      | `AwsQuicksightDescribeAgentOptions`                                                 |
 | `aws quicksight describe-agent-permissions`                                          | `AwsQuicksightDescribeAgentPermissionsOptions`                                      |
 | `aws quicksight describe-analysis`                                                   | `AwsQuicksightDescribeAnalysisOptions`                                              |
+| `aws quicksight describe-analysis-definition`                                        | `AwsQuicksightDescribeAnalysisDefinitionOptions`                                    |
 | `aws quicksight describe-analysis-permissions`                                       | `AwsQuicksightDescribeAnalysisPermissionsOptions`                                   |
+| `aws quicksight describe-app`                                                        | `AwsQuicksightDescribeAppOptions`                                                   |
+| `aws quicksight describe-app-permissions`                                            | `AwsQuicksightDescribeAppPermissionsOptions`                                        |
 | `aws quicksight describe-approval-policy`                                            | `AwsQuicksightDescribeApprovalPolicyOptions`                                        |
 | `aws quicksight describe-asset-bundle-export-job`                                    | `AwsQuicksightDescribeAssetBundleExportJobOptions`                                  |
 | `aws quicksight describe-asset-bundle-import-job`                                    | `AwsQuicksightDescribeAssetBundleImportJobOptions`                                  |
@@ -14148,6 +14466,7 @@ var aws = context.Tools.Aws;
 | `aws quicksight describe-brand-published-version`                                    | `AwsQuicksightDescribeBrandPublishedVersionOptions`                                 |
 | `aws quicksight describe-custom-permissions`                                         | `AwsQuicksightDescribeCustomPermissionsOptions`                                     |
 | `aws quicksight describe-dashboard`                                                  | `AwsQuicksightDescribeDashboardOptions`                                             |
+| `aws quicksight describe-dashboard-definition`                                       | `AwsQuicksightDescribeDashboardDefinitionOptions`                                   |
 | `aws quicksight describe-dashboard-permissions`                                      | `AwsQuicksightDescribeDashboardPermissionsOptions`                                  |
 | `aws quicksight describe-dashboard-snapshot-job`                                     | `AwsQuicksightDescribeDashboardSnapshotJobOptions`                                  |
 | `aws quicksight describe-dashboard-snapshot-job-result`                              | `AwsQuicksightDescribeDashboardSnapshotJobResultOptions`                            |
@@ -14183,6 +14502,7 @@ var aws = context.Tools.Aws;
 | `aws quicksight describe-space-permissions`                                          | `AwsQuicksightDescribeSpacePermissionsOptions`                                      |
 | `aws quicksight describe-template`                                                   | `AwsQuicksightDescribeTemplateOptions`                                              |
 | `aws quicksight describe-template-alias`                                             | `AwsQuicksightDescribeTemplateAliasOptions`                                         |
+| `aws quicksight describe-template-definition`                                        | `AwsQuicksightDescribeTemplateDefinitionOptions`                                    |
 | `aws quicksight describe-template-permissions`                                       | `AwsQuicksightDescribeTemplatePermissionsOptions`                                   |
 | `aws quicksight describe-theme`                                                      | `AwsQuicksightDescribeThemeOptions`                                                 |
 | `aws quicksight describe-theme-alias`                                                | `AwsQuicksightDescribeThemeAliasOptions`                                            |
@@ -14207,6 +14527,7 @@ var aws = context.Tools.Aws;
 | `aws quicksight list-agents`                                                         | `AwsQuicksightListAgentsOptions`                                                    |
 | `aws quicksight list-analyses`                                                       | `AwsQuicksightListAnalysesOptions`                                                  |
 | `aws quicksight list-approval-policies`                                              | `AwsQuicksightListApprovalPoliciesOptions`                                          |
+| `aws quicksight list-apps`                                                           | `AwsQuicksightListAppsOptions`                                                      |
 | `aws quicksight list-asset-bundle-export-jobs`                                       | `AwsQuicksightListAssetBundleExportJobsOptions`                                     |
 | `aws quicksight list-asset-bundle-import-jobs`                                       | `AwsQuicksightListAssetBundleImportJobsOptions`                                     |
 | `aws quicksight list-brands`                                                         | `AwsQuicksightListBrandsOptions`                                                    |
@@ -14257,6 +14578,7 @@ var aws = context.Tools.Aws;
 | `aws quicksight search-action-connectors`                                            | `AwsQuicksightSearchActionConnectorsOptions`                                        |
 | `aws quicksight search-agents`                                                       | `AwsQuicksightSearchAgentsOptions`                                                  |
 | `aws quicksight search-analyses`                                                     | `AwsQuicksightSearchAnalysesOptions`                                                |
+| `aws quicksight search-apps`                                                         | `AwsQuicksightSearchAppsOptions`                                                    |
 | `aws quicksight search-dashboards`                                                   | `AwsQuicksightSearchDashboardsOptions`                                              |
 | `aws quicksight search-data-sets`                                                    | `AwsQuicksightSearchDataSetsOptions`                                                |
 | `aws quicksight search-data-sources`                                                 | `AwsQuicksightSearchDataSourcesOptions`                                             |
@@ -14270,6 +14592,7 @@ var aws = context.Tools.Aws;
 | `aws quicksight start-asset-bundle-export-job`                                       | `AwsQuicksightStartAssetBundleExportJobOptions`                                     |
 | `aws quicksight start-asset-bundle-import-job`                                       | `AwsQuicksightStartAssetBundleImportJobOptions`                                     |
 | `aws quicksight start-automation-job`                                                | `AwsQuicksightStartAutomationJobOptions`                                            |
+| `aws quicksight start-dashboard-snapshot-job`                                        | `AwsQuicksightStartDashboardSnapshotJobOptions`                                     |
 | `aws quicksight start-dashboard-snapshot-job-schedule`                               | `AwsQuicksightStartDashboardSnapshotJobScheduleOptions`                             |
 | `aws quicksight tag-resource`                                                        | `AwsQuicksightTagResourceOptions`                                                   |
 | `aws quicksight untag-resource`                                                      | `AwsQuicksightUntagResourceOptions`                                                 |
@@ -14280,13 +14603,16 @@ var aws = context.Tools.Aws;
 | `aws quicksight update-action-connector-permissions`                                 | `AwsQuicksightUpdateActionConnectorPermissionsOptions`                              |
 | `aws quicksight update-agent`                                                        | `AwsQuicksightUpdateAgentOptions`                                                   |
 | `aws quicksight update-agent-permissions`                                            | `AwsQuicksightUpdateAgentPermissionsOptions`                                        |
+| `aws quicksight update-analysis`                                                     | `AwsQuicksightUpdateAnalysisOptions`                                                |
 | `aws quicksight update-analysis-permissions`                                         | `AwsQuicksightUpdateAnalysisPermissionsOptions`                                     |
+| `aws quicksight update-app-permissions`                                              | `AwsQuicksightUpdateAppPermissionsOptions`                                          |
 | `aws quicksight update-application-with-token-exchange-grant`                        | `AwsQuicksightUpdateApplicationWithTokenExchangeGrantOptions`                       |
 | `aws quicksight update-approval-policy`                                              | `AwsQuicksightUpdateApprovalPolicyOptions`                                          |
 | `aws quicksight update-brand`                                                        | `AwsQuicksightUpdateBrandOptions`                                                   |
 | `aws quicksight update-brand-assignment`                                             | `AwsQuicksightUpdateBrandAssignmentOptions`                                         |
 | `aws quicksight update-brand-published-version`                                      | `AwsQuicksightUpdateBrandPublishedVersionOptions`                                   |
 | `aws quicksight update-custom-permissions`                                           | `AwsQuicksightUpdateCustomPermissionsOptions`                                       |
+| `aws quicksight update-dashboard`                                                    | `AwsQuicksightUpdateDashboardOptions`                                               |
 | `aws quicksight update-dashboard-links`                                              | `AwsQuicksightUpdateDashboardLinksOptions`                                          |
 | `aws quicksight update-dashboard-permissions`                                        | `AwsQuicksightUpdateDashboardPermissionsOptions`                                    |
 | `aws quicksight update-dashboard-published-version`                                  | `AwsQuicksightUpdateDashboardPublishedVersionOptions`                               |
@@ -14321,6 +14647,7 @@ var aws = context.Tools.Aws;
 | `aws quicksight update-space-permissions`                                            | `AwsQuicksightUpdateSpacePermissionsOptions`                                        |
 | `aws quicksight update-space-resources`                                              | `AwsQuicksightUpdateSpaceResourcesOptions`                                          |
 | `aws quicksight update-spice-capacity-configuration`                                 | `AwsQuicksightUpdateSpiceCapacityConfigurationOptions`                              |
+| `aws quicksight update-template`                                                     | `AwsQuicksightUpdateTemplateOptions`                                                |
 | `aws quicksight update-template-alias`                                               | `AwsQuicksightUpdateTemplateAliasOptions`                                           |
 | `aws quicksight update-template-permissions`                                         | `AwsQuicksightUpdateTemplatePermissionsOptions`                                     |
 | `aws quicksight update-theme`                                                        | `AwsQuicksightUpdateThemeOptions`                                                   |
@@ -14501,6 +14828,7 @@ var aws = context.Tools.Aws;
 | `aws rds modify-db-parameter-group`                                                  | `AwsRdsModifyDbParameterGroupOptions`                                               |
 | `aws rds modify-db-proxy`                                                            | `AwsRdsModifyDbProxyOptions`                                                        |
 | `aws rds modify-db-proxy-endpoint`                                                   | `AwsRdsModifyDbProxyEndpointOptions`                                                |
+| `aws rds modify-db-proxy-target-group`                                               | `AwsRdsModifyDbProxyTargetGroupOptions`                                             |
 | `aws rds modify-db-recommendation`                                                   | `AwsRdsModifyDbRecommendationOptions`                                               |
 | `aws rds modify-db-shard-group`                                                      | `AwsRdsModifyDbShardGroupOptions`                                                   |
 | `aws rds modify-db-snapshot`                                                         | `AwsRdsModifyDbSnapshotOptions`                                                     |
@@ -14781,6 +15109,7 @@ var aws = context.Tools.Aws;
 | `aws redshift-serverless update-endpoint-access`                                     | `AwsRedshiftServerlessUpdateEndpointAccessOptions`                                  |
 | `aws redshift-serverless update-lakehouse-configuration`                             | `AwsRedshiftServerlessUpdateLakehouseConfigurationOptions`                          |
 | `aws redshift-serverless update-namespace`                                           | `AwsRedshiftServerlessUpdateNamespaceOptions`                                       |
+| `aws redshift-serverless update-scheduled-action`                                    | `AwsRedshiftServerlessUpdateScheduledActionOptions`                                 |
 | `aws redshift-serverless update-snapshot`                                            | `AwsRedshiftServerlessUpdateSnapshotOptions`                                        |
 | `aws redshift-serverless update-snapshot-copy-configuration`                         | `AwsRedshiftServerlessUpdateSnapshotCopyConfigurationOptions`                       |
 | `aws redshift-serverless update-usage-limit`                                         | `AwsRedshiftServerlessUpdateUsageLimitOptions`                                      |
@@ -14812,6 +15141,8 @@ var aws = context.Tools.Aws;
 | `aws rekognition detect-faces`                                                       | `AwsRekognitionDetectFacesOptions`                                                  |
 | `aws rekognition detect-labels`                                                      | `AwsRekognitionDetectLabelsOptions`                                                 |
 | `aws rekognition detect-moderation-labels`                                           | `AwsRekognitionDetectModerationLabelsOptions`                                       |
+| `aws rekognition detect-protective-equipment`                                        | `AwsRekognitionDetectProtectiveEquipmentOptions`                                    |
+| `aws rekognition detect-text`                                                        | `AwsRekognitionDetectTextOptions`                                                   |
 | `aws rekognition disassociate-faces`                                                 | `AwsRekognitionDisassociateFacesOptions`                                            |
 | `aws rekognition distribute-dataset-entries`                                         | `AwsRekognitionDistributeDataSetEntriesOptions`                                     |
 | `aws rekognition get-celebrity-info`                                                 | `AwsRekognitionGetCelebrityInfoOptions`                                             |
@@ -14829,11 +15160,13 @@ var aws = context.Tools.Aws;
 | `aws rekognition list-collections`                                                   | `AwsRekognitionListCollectionsOptions`                                              |
 | `aws rekognition list-dataset-entries`                                               | `AwsRekognitionListDataSetEntriesOptions`                                           |
 | `aws rekognition list-dataset-labels`                                                | `AwsRekognitionListDataSetLabelsOptions`                                            |
+| `aws rekognition list-faces`                                                         | `AwsRekognitionListFacesOptions`                                                    |
 | `aws rekognition list-media-analysis-jobs`                                           | `AwsRekognitionListMediaAnalysisJobsOptions`                                        |
 | `aws rekognition list-project-policies`                                              | `AwsRekognitionListProjectPoliciesOptions`                                          |
 | `aws rekognition list-stream-processors`                                             | `AwsRekognitionListStreamProcessorsOptions`                                         |
 | `aws rekognition list-tags-for-resource`                                             | `AwsRekognitionListTagsForResourceOptions`                                          |
 | `aws rekognition list-users`                                                         | `AwsRekognitionListUsersOptions`                                                    |
+| `aws rekognition put-project-policy`                                                 | `AwsRekognitionPutProjectPolicyOptions`                                             |
 | `aws rekognition recognize-celebrities`                                              | `AwsRekognitionRecognizeCelebritiesOptions`                                         |
 | `aws rekognition search-faces`                                                       | `AwsRekognitionSearchFacesOptions`                                                  |
 | `aws rekognition search-faces-by-image`                                              | `AwsRekognitionSearchFacesByImageOptions`                                           |
@@ -14849,6 +15182,7 @@ var aws = context.Tools.Aws;
 | `aws rekognition start-project-version`                                              | `AwsRekognitionStartProjectVersionOptions`                                          |
 | `aws rekognition start-segment-detection`                                            | `AwsRekognitionStartSegmentDetectionOptions`                                        |
 | `aws rekognition start-stream-processor`                                             | `AwsRekognitionStartStreamProcessorOptions`                                         |
+| `aws rekognition start-text-detection`                                               | `AwsRekognitionStartTextDetectionOptions`                                           |
 | `aws rekognition stop-project-version`                                               | `AwsRekognitionStopProjectVersionOptions`                                           |
 | `aws rekognition stop-stream-processor`                                              | `AwsRekognitionStopStreamProcessorOptions`                                          |
 | `aws rekognition tag-resource`                                                       | `AwsRekognitionTagResourceOptions`                                                  |
@@ -14989,7 +15323,9 @@ var aws = context.Tools.Aws;
 | `aws resiliencehubv2 list-system-events`                                             | `AwsResiliencehubv2ListSystemEventsOptions`                                         |
 | `aws resiliencehubv2 list-systems`                                                   | `AwsResiliencehubv2ListSystemsOptions`                                              |
 | `aws resiliencehubv2 list-tags-for-resource`                                         | `AwsResiliencehubv2ListTagsForResourceOptions`                                      |
+| `aws resiliencehubv2 list-test-run-dependencies`                                     | `AwsResiliencehubv2ListTestRunDependenciesOptions`                                  |
 | `aws resiliencehubv2 list-test-run-events`                                           | `AwsResiliencehubv2ListTestRunEventsOptions`                                        |
+| `aws resiliencehubv2 list-test-run-source-events`                                    | `AwsResiliencehubv2ListTestRunSourceEventsOptions`                                  |
 | `aws resiliencehubv2 list-test-run-sources`                                          | `AwsResiliencehubv2ListTestRunSourcesOptions`                                       |
 | `aws resiliencehubv2 list-test-runs`                                                 | `AwsResiliencehubv2ListTestRunsOptions`                                             |
 | `aws resiliencehubv2 list-test-sources`                                              | `AwsResiliencehubv2ListTestSourcesOptions`                                          |
@@ -15019,6 +15355,7 @@ var aws = context.Tools.Aws;
 | `aws resource-explorer-2 batch-get-view`                                             | `AwsResourceExplorer_2BatchGetViewOptions`                                          |
 | `aws resource-explorer-2 create-index`                                               | `AwsResourceExplorer_2CreateIndexOptions`                                           |
 | `aws resource-explorer-2 create-resource-explorer-setup`                             | `AwsResourceExplorer_2CreateResourceExplorerSetupOptions`                           |
+| `aws resource-explorer-2 create-view`                                                | `AwsResourceExplorer_2CreateViewOptions`                                            |
 | `aws resource-explorer-2 delete-index`                                               | `AwsResourceExplorer_2DeleteIndexOptions`                                           |
 | `aws resource-explorer-2 delete-resource-explorer-setup`                             | `AwsResourceExplorer_2DeleteResourceExplorerSetupOptions`                           |
 | `aws resource-explorer-2 delete-view`                                                | `AwsResourceExplorer_2DeleteViewOptions`                                            |
@@ -15034,6 +15371,7 @@ var aws = context.Tools.Aws;
 | `aws resource-explorer-2 list-indexes`                                               | `AwsResourceExplorer_2ListIndexesOptions`                                           |
 | `aws resource-explorer-2 list-indexes-for-members`                                   | `AwsResourceExplorer_2ListIndexesForMembersOptions`                                 |
 | `aws resource-explorer-2 list-managed-views`                                         | `AwsResourceExplorer_2ListManagedViewsOptions`                                      |
+| `aws resource-explorer-2 list-resources`                                             | `AwsResourceExplorer_2ListResourcesOptions`                                         |
 | `aws resource-explorer-2 list-service-indexes`                                       | `AwsResourceExplorer_2ListServiceIndexesOptions`                                    |
 | `aws resource-explorer-2 list-service-views`                                         | `AwsResourceExplorer_2ListServiceViewsOptions`                                      |
 | `aws resource-explorer-2 list-streaming-access-for-services`                         | `AwsResourceExplorer_2ListStreamingAccessForServicesOptions`                        |
@@ -15044,6 +15382,7 @@ var aws = context.Tools.Aws;
 | `aws resource-explorer-2 tag-resource`                                               | `AwsResourceExplorer_2TagResourceOptions`                                           |
 | `aws resource-explorer-2 untag-resource`                                             | `AwsResourceExplorer_2UntagResourceOptions`                                         |
 | `aws resource-explorer-2 update-index-type`                                          | `AwsResourceExplorer_2UpdateIndexTypeOptions`                                       |
+| `aws resource-explorer-2 update-view`                                                | `AwsResourceExplorer_2UpdateViewOptions`                                            |
 | `aws resource-groups cancel-tag-sync-task`                                           | `AwsResourceGroupsCancelTagSyncTaskOptions`                                         |
 | `aws resource-groups create-group`                                                   | `AwsResourceGroupsCreateGroupOptions`                                               |
 | `aws resource-groups delete-group`                                                   | `AwsResourceGroupsDeleteGroupOptions`                                               |
@@ -15113,6 +15452,7 @@ var aws = context.Tools.Aws;
 | `aws route53 change-tags-for-resource`                                               | `AwsRoute53ChangeTagsForResourceOptions`                                            |
 | `aws route53 create-cidr-collection`                                                 | `AwsRoute53CreateCidrCollectionOptions`                                             |
 | `aws route53 create-health-check`                                                    | `AwsRoute53CreateHealthCheckOptions`                                                |
+| `aws route53 create-hosted-zone`                                                     | `AwsRoute53CreateHostedZoneOptions`                                                 |
 | `aws route53 create-key-signing-key`                                                 | `AwsRoute53CreateKeySigningKeyOptions`                                              |
 | `aws route53 create-query-logging-config`                                            | `AwsRoute53CreateQueryLoggingConfigOptions`                                         |
 | `aws route53 create-reusable-delegation-set`                                         | `AwsRoute53CreateReusableDelegationSetOptions`                                      |
@@ -15283,7 +15623,9 @@ var aws = context.Tools.Aws;
 | `aws route53globalresolver batch-delete-firewall-rule`                               | `AwsRoute53globalresolverBatchDeleteFirewallRuleOptions`                            |
 | `aws route53globalresolver batch-update-firewall-rule`                               | `AwsRoute53globalresolverBatchUpdateFirewallRuleOptions`                            |
 | `aws route53globalresolver create-access-source`                                     | `AwsRoute53globalresolverCreateAccessSourceOptions`                                 |
+| `aws route53globalresolver create-access-token`                                      | `AwsRoute53globalresolverCreateAccessTokenOptions`                                  |
 | `aws route53globalresolver create-dns-view`                                          | `AwsRoute53globalresolverCreateDnsViewOptions`                                      |
+| `aws route53globalresolver create-firewall-domain-list`                              | `AwsRoute53globalresolverCreateFirewallDomainListOptions`                           |
 | `aws route53globalresolver create-firewall-rule`                                     | `AwsRoute53globalresolverCreateFirewallRuleOptions`                                 |
 | `aws route53globalresolver create-global-resolver`                                   | `AwsRoute53globalresolverCreateGlobalResolverOptions`                               |
 | `aws route53globalresolver delete-access-source`                                     | `AwsRoute53globalresolverDeleteAccessSourceOptions`                                 |
@@ -15315,6 +15657,7 @@ var aws = context.Tools.Aws;
 | `aws route53globalresolver list-managed-firewall-domain-lists`                       | `AwsRoute53globalresolverListManagedFirewallDomainListsOptions`                     |
 | `aws route53globalresolver list-shared-dns-views`                                    | `AwsRoute53globalresolverListSharedDnsViewsOptions`                                 |
 | `aws route53globalresolver list-tags-for-resource`                                   | `AwsRoute53globalresolverListTagsForResourceOptions`                                |
+| `aws route53globalresolver tag-resource`                                             | `AwsRoute53globalresolverTagResourceOptions`                                        |
 | `aws route53globalresolver untag-resource`                                           | `AwsRoute53globalresolverUntagResourceOptions`                                      |
 | `aws route53globalresolver update-access-source`                                     | `AwsRoute53globalresolverUpdateAccessSourceOptions`                                 |
 | `aws route53globalresolver update-access-token`                                      | `AwsRoute53globalresolverUpdateAccessTokenOptions`                                  |
@@ -15492,7 +15835,9 @@ var aws = context.Tools.Aws;
 | `aws s3 sync`                                                                        | `AwsS3SyncOptions`                                                                  |
 | `aws s3 website`                                                                     | `AwsS3WebsiteOptions`                                                               |
 | `aws s3api abort-multipart-upload`                                                   | `AwsS3apiAbortMultipartUploadOptions`                                               |
+| `aws s3api complete-multipart-upload`                                                | `AwsS3apiCompleteMultipartUploadOptions`                                            |
 | `aws s3api copy-object`                                                              | `AwsS3apiCopyObjectOptions`                                                         |
+| `aws s3api create-bucket`                                                            | `AwsS3apiCreateBucketOptions`                                                       |
 | `aws s3api create-bucket-metadata-configuration`                                     | `AwsS3apiCreateBucketMetadataConfigurationOptions`                                  |
 | `aws s3api create-bucket-metadata-table-configuration`                               | `AwsS3apiCreateBucketMetadataTableConfigurationOptions`                             |
 | `aws s3api create-multipart-upload`                                                  | `AwsS3apiCreateMultipartUploadOptions`                                              |
@@ -15604,6 +15949,7 @@ var aws = context.Tools.Aws;
 | `aws s3api wait bucket-not-exists`                                                   | `AwsS3apiWaitBucketNotExistsOptions`                                                |
 | `aws s3api wait object-exists`                                                       | `AwsS3apiWaitObjectExistsOptions`                                                   |
 | `aws s3api wait object-not-exists`                                                   | `AwsS3apiWaitObjectNotExistsOptions`                                                |
+| `aws s3api write-get-object-response`                                                | `AwsS3apiWriteGetObjectResponseOptions`                                             |
 | `aws s3control associate-access-grants-identity-center`                              | `AwsS3controlAssociateAccessGrantsIdentityCenterOptions`                            |
 | `aws s3control create-access-grant`                                                  | `AwsS3controlCreateAccessGrantOptions`                                              |
 | `aws s3control create-access-grants-instance`                                        | `AwsS3controlCreateAccessGrantsInstanceOptions`                                     |
@@ -15611,6 +15957,7 @@ var aws = context.Tools.Aws;
 | `aws s3control create-access-point`                                                  | `AwsS3controlCreateAccessPointOptions`                                              |
 | `aws s3control create-access-point-for-object-lambda`                                | `AwsS3controlCreateAccessPointForObjectLambdaOptions`                               |
 | `aws s3control create-bucket`                                                        | `AwsS3controlCreateBucketOptions`                                                   |
+| `aws s3control create-job`                                                           | `AwsS3controlCreateJobOptions`                                                      |
 | `aws s3control create-multi-region-access-point`                                     | `AwsS3controlCreateMultiRegionAccessPointOptions`                                   |
 | `aws s3control create-storage-lens-group`                                            | `AwsS3controlCreateStorageLensGroupOptions`                                         |
 | `aws s3control delete-access-grant`                                                  | `AwsS3controlDeleteAccessGrantOptions`                                              |
@@ -15700,6 +16047,7 @@ var aws = context.Tools.Aws;
 | `aws s3control update-job-priority`                                                  | `AwsS3controlUpdateJobPriorityOptions`                                              |
 | `aws s3control update-job-status`                                                    | `AwsS3controlUpdateJobStatusOptions`                                                |
 | `aws s3control update-storage-lens-group`                                            | `AwsS3controlUpdateStorageLensGroupOptions`                                         |
+| `aws s3files create-access-point`                                                    | `AwsS3filesCreateAccessPointOptions`                                                |
 | `aws s3files create-file-system`                                                     | `AwsS3filesCreateFileSystemOptions`                                                 |
 | `aws s3files create-mount-target`                                                    | `AwsS3filesCreateMountTargetOptions`                                                |
 | `aws s3files delete-access-point`                                                    | `AwsS3filesDeleteAccessPointOptions`                                                |
@@ -15774,6 +16122,8 @@ var aws = context.Tools.Aws;
 | `aws s3tables tag-resource`                                                          | `AwsS3tablesTagResourceOptions`                                                     |
 | `aws s3tables untag-resource`                                                        | `AwsS3tablesUntagResourceOptions`                                                   |
 | `aws s3tables update-table-metadata-location`                                        | `AwsS3tablesUpdateTableMetadataLocationOptions`                                     |
+| `aws s3vectors create-index`                                                         | `AwsS3vectorsCreateIndexOptions`                                                    |
+| `aws s3vectors create-vector-bucket`                                                 | `AwsS3vectorsCreateVectorBucketOptions`                                             |
 | `aws s3vectors delete-index`                                                         | `AwsS3vectorsDeleteIndexOptions`                                                    |
 | `aws s3vectors delete-vector-bucket`                                                 | `AwsS3vectorsDeleteVectorBucketOptions`                                             |
 | `aws s3vectors delete-vector-bucket-policy`                                          | `AwsS3vectorsDeleteVectorBucketPolicyOptions`                                       |
@@ -15794,6 +16144,7 @@ var aws = context.Tools.Aws;
 | `aws sagemaker add-association`                                                      | `AwsSagemakerAddAssociationOptions`                                                 |
 | `aws sagemaker add-tags`                                                             | `AwsSagemakerAddTagsOptions`                                                        |
 | `aws sagemaker associate-trial-component`                                            | `AwsSagemakerAssociateTrialComponentOptions`                                        |
+| `aws sagemaker attach-cluster-node-network-interface`                                | `AwsSagemakerAttachClusterNodeNetworkInterfaceOptions`                              |
 | `aws sagemaker attach-cluster-node-volume`                                           | `AwsSagemakerAttachClusterNodeVolumeOptions`                                        |
 | `aws sagemaker batch-add-cluster-nodes`                                              | `AwsSagemakerBatchAddClusterNodesOptions`                                           |
 | `aws sagemaker batch-delete-cluster-nodes`                                           | `AwsSagemakerBatchDeleteClusterNodesOptions`                                        |
@@ -15803,6 +16154,8 @@ var aws = context.Tools.Aws;
 | `aws sagemaker create-action`                                                        | `AwsSagemakerCreateActionOptions`                                                   |
 | `aws sagemaker create-ai-benchmark-job`                                              | `AwsSagemakerCreateAiBenchmarkJobOptions`                                           |
 | `aws sagemaker create-ai-recommendation-job`                                         | `AwsSagemakerCreateAiRecommendationJobOptions`                                      |
+| `aws sagemaker create-ai-workload-config`                                            | `AwsSagemakerCreateAiWorkloadConfigOptions`                                         |
+| `aws sagemaker create-algorithm`                                                     | `AwsSagemakerCreateAlgorithmOptions`                                                |
 | `aws sagemaker create-app`                                                           | `AwsSagemakerCreateAppOptions`                                                      |
 | `aws sagemaker create-app-image-config`                                              | `AwsSagemakerCreateAppImageConfigOptions`                                           |
 | `aws sagemaker create-artifact`                                                      | `AwsSagemakerCreateArtifactOptions`                                                 |
@@ -15816,6 +16169,7 @@ var aws = context.Tools.Aws;
 | `aws sagemaker create-context`                                                       | `AwsSagemakerCreateContextOptions`                                                  |
 | `aws sagemaker create-data-quality-job-definition`                                   | `AwsSagemakerCreateDataQualityJobDefinitionOptions`                                 |
 | `aws sagemaker create-device-fleet`                                                  | `AwsSagemakerCreateDeviceFleetOptions`                                              |
+| `aws sagemaker create-domain`                                                        | `AwsSagemakerCreateDomainOptions`                                                   |
 | `aws sagemaker create-edge-deployment-plan`                                          | `AwsSagemakerCreateEdgeDeploymentPlanOptions`                                       |
 | `aws sagemaker create-edge-deployment-stage`                                         | `AwsSagemakerCreateEdgeDeploymentStageOptions`                                      |
 | `aws sagemaker create-edge-packaging-job`                                            | `AwsSagemakerCreateEdgePackagingJobOptions`                                         |
@@ -15828,6 +16182,7 @@ var aws = context.Tools.Aws;
 | `aws sagemaker create-hub-content-presigned-urls`                                    | `AwsSagemakerCreateHubContentPresignedUrlsOptions`                                  |
 | `aws sagemaker create-hub-content-reference`                                         | `AwsSagemakerCreateHubContentReferenceOptions`                                      |
 | `aws sagemaker create-human-task-ui`                                                 | `AwsSagemakerCreateHumanTaskUiOptions`                                              |
+| `aws sagemaker create-hyper-parameter-tuning-job`                                    | `AwsSagemakerCreateHyperParameterTuningJobOptions`                                  |
 | `aws sagemaker create-image`                                                         | `AwsSagemakerCreateImageOptions`                                                    |
 | `aws sagemaker create-image-version`                                                 | `AwsSagemakerCreateImageVersionOptions`                                             |
 | `aws sagemaker create-inference-component`                                           | `AwsSagemakerCreateInferenceComponentOptions`                                       |
@@ -15837,10 +16192,12 @@ var aws = context.Tools.Aws;
 | `aws sagemaker create-labeling-job`                                                  | `AwsSagemakerCreateLabelingJobOptions`                                              |
 | `aws sagemaker create-mlflow-app`                                                    | `AwsSagemakerCreateMlflowAppOptions`                                                |
 | `aws sagemaker create-mlflow-tracking-server`                                        | `AwsSagemakerCreateMlflowTrackingServerOptions`                                     |
+| `aws sagemaker create-model`                                                         | `AwsSagemakerCreateModelOptions`                                                    |
 | `aws sagemaker create-model-bias-job-definition`                                     | `AwsSagemakerCreateModelBiasJobDefinitionOptions`                                   |
 | `aws sagemaker create-model-card`                                                    | `AwsSagemakerCreateModelCardOptions`                                                |
 | `aws sagemaker create-model-card-export-job`                                         | `AwsSagemakerCreateModelCardExportJobOptions`                                       |
 | `aws sagemaker create-model-explainability-job-definition`                           | `AwsSagemakerCreateModelExplainabilityJobDefinitionOptions`                         |
+| `aws sagemaker create-model-package`                                                 | `AwsSagemakerCreateModelPackageOptions`                                             |
 | `aws sagemaker create-model-package-group`                                           | `AwsSagemakerCreateModelPackageGroupOptions`                                        |
 | `aws sagemaker create-model-quality-job-definition`                                  | `AwsSagemakerCreateModelQualityJobDefinitionOptions`                                |
 | `aws sagemaker create-monitoring-schedule`                                           | `AwsSagemakerCreateMonitoringScheduleOptions`                                       |
@@ -15854,6 +16211,7 @@ var aws = context.Tools.Aws;
 | `aws sagemaker create-presigned-mlflow-app-url`                                      | `AwsSagemakerCreatePresignedMlflowAppUrlOptions`                                    |
 | `aws sagemaker create-presigned-mlflow-tracking-server-url`                          | `AwsSagemakerCreatePresignedMlflowTrackingServerUrlOptions`                         |
 | `aws sagemaker create-presigned-notebook-instance-url`                               | `AwsSagemakerCreatePresignedNotebookInstanceUrlOptions`                             |
+| `aws sagemaker create-processing-job`                                                | `AwsSagemakerCreateProcessingJobOptions`                                            |
 | `aws sagemaker create-project`                                                       | `AwsSagemakerCreateProjectOptions`                                                  |
 | `aws sagemaker create-space`                                                         | `AwsSagemakerCreateSpaceOptions`                                                    |
 | `aws sagemaker create-studio-lifecycle-config`                                       | `AwsSagemakerCreateStudioLifecycleConfigOptions`                                    |
@@ -15862,6 +16220,8 @@ var aws = context.Tools.Aws;
 | `aws sagemaker create-transform-job`                                                 | `AwsSagemakerCreateTransformJobOptions`                                             |
 | `aws sagemaker create-trial`                                                         | `AwsSagemakerCreateTrialOptions`                                                    |
 | `aws sagemaker create-trial-component`                                               | `AwsSagemakerCreateTrialComponentOptions`                                           |
+| `aws sagemaker create-user-profile`                                                  | `AwsSagemakerCreateUserProfileOptions`                                              |
+| `aws sagemaker create-workforce`                                                     | `AwsSagemakerCreateWorkforceOptions`                                                |
 | `aws sagemaker create-workteam`                                                      | `AwsSagemakerCreateWorkteamOptions`                                                 |
 | `aws sagemaker delete-action`                                                        | `AwsSagemakerDeleteActionOptions`                                                   |
 | `aws sagemaker delete-ai-benchmark-job`                                              | `AwsSagemakerDeleteAiBenchmarkJobOptions`                                           |
@@ -16068,6 +16428,7 @@ var aws = context.Tools.Aws;
 | `aws sagemaker list-model-card-versions`                                             | `AwsSagemakerListModelCardVersionsOptions`                                          |
 | `aws sagemaker list-model-cards`                                                     | `AwsSagemakerListModelCardsOptions`                                                 |
 | `aws sagemaker list-model-explainability-job-definitions`                            | `AwsSagemakerListModelExplainabilityJobDefinitionsOptions`                          |
+| `aws sagemaker list-model-metadata`                                                  | `AwsSagemakerListModelMetadataOptions`                                              |
 | `aws sagemaker list-model-package-groups`                                            | `AwsSagemakerListModelPackageGroupsOptions`                                         |
 | `aws sagemaker list-model-packages`                                                  | `AwsSagemakerListModelPackagesOptions`                                              |
 | `aws sagemaker list-model-quality-job-definitions`                                   | `AwsSagemakerListModelQualityJobDefinitionsOptions`                                 |
@@ -16127,6 +16488,7 @@ var aws = context.Tools.Aws;
 | `aws sagemaker stop-edge-deployment-stage`                                           | `AwsSagemakerStopEdgeDeploymentStageOptions`                                        |
 | `aws sagemaker stop-edge-packaging-job`                                              | `AwsSagemakerStopEdgePackagingJobOptions`                                           |
 | `aws sagemaker stop-hyper-parameter-tuning-job`                                      | `AwsSagemakerStopHyperParameterTuningJobOptions`                                    |
+| `aws sagemaker stop-inference-experiment`                                            | `AwsSagemakerStopInferenceExperimentOptions`                                        |
 | `aws sagemaker stop-inference-recommendations-job`                                   | `AwsSagemakerStopInferenceRecommendationsJobOptions`                                |
 | `aws sagemaker stop-job`                                                             | `AwsSagemakerStopJobOptions`                                                        |
 | `aws sagemaker stop-labeling-job`                                                    | `AwsSagemakerStopLabelingJobOptions`                                                |
@@ -16149,6 +16511,7 @@ var aws = context.Tools.Aws;
 | `aws sagemaker update-context`                                                       | `AwsSagemakerUpdateContextOptions`                                                  |
 | `aws sagemaker update-device-fleet`                                                  | `AwsSagemakerUpdateDeviceFleetOptions`                                              |
 | `aws sagemaker update-devices`                                                       | `AwsSagemakerUpdateDevicesOptions`                                                  |
+| `aws sagemaker update-domain`                                                        | `AwsSagemakerUpdateDomainOptions`                                                   |
 | `aws sagemaker update-endpoint`                                                      | `AwsSagemakerUpdateEndpointOptions`                                                 |
 | `aws sagemaker update-endpoint-weights-and-capacities`                               | `AwsSagemakerUpdateEndpointWeightsAndCapacitiesOptions`                             |
 | `aws sagemaker update-experiment`                                                    | `AwsSagemakerUpdateExperimentOptions`                                               |
@@ -16179,6 +16542,8 @@ var aws = context.Tools.Aws;
 | `aws sagemaker update-training-job`                                                  | `AwsSagemakerUpdateTrainingJobOptions`                                              |
 | `aws sagemaker update-trial`                                                         | `AwsSagemakerUpdateTrialOptions`                                                    |
 | `aws sagemaker update-trial-component`                                               | `AwsSagemakerUpdateTrialComponentOptions`                                           |
+| `aws sagemaker update-user-profile`                                                  | `AwsSagemakerUpdateUserProfileOptions`                                              |
+| `aws sagemaker update-workforce`                                                     | `AwsSagemakerUpdateWorkforceOptions`                                                |
 | `aws sagemaker update-workteam`                                                      | `AwsSagemakerUpdateWorkteamOptions`                                                 |
 | `aws sagemaker wait endpoint-deleted`                                                | `AwsSagemakerWaitEndpointDeletedOptions`                                            |
 | `aws sagemaker wait endpoint-in-service`                                             | `AwsSagemakerWaitEndpointInServiceOptions`                                          |
@@ -16207,6 +16572,7 @@ var aws = context.Tools.Aws;
 | `aws sagemaker-featurestore-runtime get-record`                                      | `AwsSagemakerFeaturestoreRuntimeGetRecordOptions`                                   |
 | `aws sagemaker-featurestore-runtime list-records`                                    | `AwsSagemakerFeaturestoreRuntimeListRecordsOptions`                                 |
 | `aws sagemaker-featurestore-runtime put-record`                                      | `AwsSagemakerFeaturestoreRuntimePutRecordOptions`                                   |
+| `aws sagemaker-featurestore-runtime update-record`                                   | `AwsSagemakerFeaturestoreRuntimeUpdateRecordOptions`                                |
 | `aws sagemaker-geospatial delete-earth-observation-job`                              | `AwsSagemakerGeospatialDeleteEarthObservationJobOptions`                            |
 | `aws sagemaker-geospatial delete-vector-enrichment-job`                              | `AwsSagemakerGeospatialDeleteVectorEnrichmentJobOptions`                            |
 | `aws sagemaker-geospatial export-earth-observation-job`                              | `AwsSagemakerGeospatialExportEarthObservationJobOptions`                            |
@@ -16234,6 +16600,7 @@ var aws = context.Tools.Aws;
 | `aws sagemakerjobruntime sample`                                                     | `AwsSagemakerjobruntimeSampleOptions`                                               |
 | `aws sagemakerjobruntime sample-with-response-stream`                                | `AwsSagemakerjobruntimeSampleWithResponseStreamOptions`                             |
 | `aws sagemakerjobruntime update-reward`                                              | `AwsSagemakerjobruntimeUpdateRewardOptions`                                         |
+| `aws savingsplans create-savings-plan`                                               | `AwsSavingsplansCreateSavingsPlanOptions`                                           |
 | `aws savingsplans delete-queued-savings-plan`                                        | `AwsSavingsplansDeleteQueuedSavingsPlanOptions`                                     |
 | `aws savingsplans describe-savings-plan-rates`                                       | `AwsSavingsplansDescribeSavingsPlanRatesOptions`                                    |
 | `aws savingsplans describe-savings-plans`                                            | `AwsSavingsplansDescribeSavingsPlansOptions`                                        |
@@ -16290,6 +16657,7 @@ var aws = context.Tools.Aws;
 | `aws sdb batch-delete-attributes`                                                    | `AwsSdbBatchDeleteAttributesOptions`                                                |
 | `aws sdb batch-put-attributes`                                                       | `AwsSdbBatchPutAttributesOptions`                                                   |
 | `aws sdb create-domain`                                                              | `AwsSdbCreateDomainOptions`                                                         |
+| `aws sdb delete-attributes`                                                          | `AwsSdbDeleteAttributesOptions`                                                     |
 | `aws sdb delete-domain`                                                              | `AwsSdbDeleteDomainOptions`                                                         |
 | `aws sdb domain-metadata`                                                            | `AwsSdbDomainMetadataOptions`                                                       |
 | `aws sdb get-attributes`                                                             | `AwsSdbGetAttributesOptions`                                                        |
@@ -16502,6 +16870,7 @@ var aws = context.Tools.Aws;
 | `aws securityhub get-finding-aggregator`                                             | `AwsSecurityhubGetFindingAggregatorOptions`                                         |
 | `aws securityhub get-finding-history`                                                | `AwsSecurityhubGetFindingHistoryOptions`                                            |
 | `aws securityhub get-finding-statistics-v2`                                          | `AwsSecurityhubGetFindingStatisticsV2Options`                                       |
+| `aws securityhub get-findings`                                                       | `AwsSecurityhubGetFindingsOptions`                                                  |
 | `aws securityhub get-findings-trends-v2`                                             | `AwsSecurityhubGetFindingsTrendsV2Options`                                          |
 | `aws securityhub get-findings-v2`                                                    | `AwsSecurityhubGetFindingsV2Options`                                                |
 | `aws securityhub get-insight-results`                                                | `AwsSecurityhubGetInsightResultsOptions`                                            |
@@ -16812,6 +17181,7 @@ var aws = context.Tools.Aws;
 | `aws ses send-bounce`                                                                | `AwsSesSendBounceOptions`                                                           |
 | `aws ses send-bulk-templated-email`                                                  | `AwsSesSendBulkTemplatedEmailOptions`                                               |
 | `aws ses send-custom-verification-email`                                             | `AwsSesSendCustomVerificationEmailOptions`                                          |
+| `aws ses send-email`                                                                 | `AwsSesSendEmailOptions`                                                            |
 | `aws ses send-raw-email`                                                             | `AwsSesSendRawEmailOptions`                                                         |
 | `aws ses send-templated-email`                                                       | `AwsSesSendTemplatedEmailOptions`                                                   |
 | `aws ses set-active-receipt-rule-set`                                                | `AwsSesSetActiveReceiptRuleSetOptions`                                              |
@@ -16834,6 +17204,7 @@ var aws = context.Tools.Aws;
 | `aws ses verify-domain-identity`                                                     | `AwsSesVerifyDomainIdentityOptions`                                                 |
 | `aws ses verify-email-identity`                                                      | `AwsSesVerifyEmailIdentityOptions`                                                  |
 | `aws ses wait identity-exists`                                                       | `AwsSesWaitIdentityExistsOptions`                                                   |
+| `aws sesv2 associate-email-identity-certificate`                                     | `AwsSesv2AssociateEmailIdentityCertificateOptions`                                  |
 | `aws sesv2 batch-get-metric-data`                                                    | `AwsSesv2BatchGetMetricDataOptions`                                                 |
 | `aws sesv2 cancel-export-job`                                                        | `AwsSesv2CancelExportJobOptions`                                                    |
 | `aws sesv2 create-configuration-set`                                                 | `AwsSesv2CreateConfigurationSetOptions`                                             |
@@ -16864,6 +17235,7 @@ var aws = context.Tools.Aws;
 | `aws sesv2 delete-suppressed-destination`                                            | `AwsSesv2DeleteSuppressedDestinationOptions`                                        |
 | `aws sesv2 delete-tenant`                                                            | `AwsSesv2DeleteTenantOptions`                                                       |
 | `aws sesv2 delete-tenant-resource-association`                                       | `AwsSesv2DeleteTenantResourceAssociationOptions`                                    |
+| `aws sesv2 disassociate-email-identity-certificate`                                  | `AwsSesv2DisassociateEmailIdentityCertificateOptions`                               |
 | `aws sesv2 get-account`                                                              | `AwsSesv2GetAccountOptions`                                                         |
 | `aws sesv2 get-blacklist-reports`                                                    | `AwsSesv2GetBlacklistReportsOptions`                                                |
 | `aws sesv2 get-configuration-set`                                                    | `AwsSesv2GetConfigurationSetOptions`                                                |
@@ -16897,6 +17269,7 @@ var aws = context.Tools.Aws;
 | `aws sesv2 list-deliverability-test-reports`                                         | `AwsSesv2ListDeliverabilityTestReportsOptions`                                      |
 | `aws sesv2 list-domain-deliverability-campaigns`                                     | `AwsSesv2ListDomainDeliverabilityCampaignsOptions`                                  |
 | `aws sesv2 list-email-identities`                                                    | `AwsSesv2ListEmailIdentitiesOptions`                                                |
+| `aws sesv2 list-email-identity-certificates`                                         | `AwsSesv2ListEmailIdentityCertificatesOptions`                                      |
 | `aws sesv2 list-email-templates`                                                     | `AwsSesv2ListEmailTemplatesOptions`                                                 |
 | `aws sesv2 list-export-jobs`                                                         | `AwsSesv2ListExportJobsOptions`                                                     |
 | `aws sesv2 list-import-jobs`                                                         | `AwsSesv2ListImportJobsOptions`                                                     |
@@ -16938,6 +17311,7 @@ var aws = context.Tools.Aws;
 | `aws sesv2 tag-resource`                                                             | `AwsSesv2TagResourceOptions`                                                        |
 | `aws sesv2 test-render-email-template`                                               | `AwsSesv2TestRenderEmailTemplateOptions`                                            |
 | `aws sesv2 untag-resource`                                                           | `AwsSesv2UntagResourceOptions`                                                      |
+| `aws sesv2 update-configuration-set`                                                 | `AwsSesv2UpdateConfigurationSetOptions`                                             |
 | `aws sesv2 update-configuration-set-event-destination`                               | `AwsSesv2UpdateConfigurationSetEventDestinationOptions`                             |
 | `aws sesv2 update-contact`                                                           | `AwsSesv2UpdateContactOptions`                                                      |
 | `aws sesv2 update-contact-list`                                                      | `AwsSesv2UpdateContactListOptions`                                                  |
@@ -17033,6 +17407,8 @@ var aws = context.Tools.Aws;
 | `aws snowball cancel-cluster`                                                        | `AwsSnowballCancelClusterOptions`                                                   |
 | `aws snowball cancel-job`                                                            | `AwsSnowballCancelJobOptions`                                                       |
 | `aws snowball create-address`                                                        | `AwsSnowballCreateAddressOptions`                                                   |
+| `aws snowball create-cluster`                                                        | `AwsSnowballCreateClusterOptions`                                                   |
+| `aws snowball create-job`                                                            | `AwsSnowballCreateJobOptions`                                                       |
 | `aws snowball create-long-term-pricing`                                              | `AwsSnowballCreateLongTermPricingOptions`                                           |
 | `aws snowball create-return-shipping-label`                                          | `AwsSnowballCreateReturnShippingLabelOptions`                                       |
 | `aws snowball describe-address`                                                      | `AwsSnowballDescribeAddressOptions`                                                 |
@@ -17051,6 +17427,8 @@ var aws = context.Tools.Aws;
 | `aws snowball list-long-term-pricing`                                                | `AwsSnowballListLongTermPricingOptions`                                             |
 | `aws snowball list-pickup-locations`                                                 | `AwsSnowballListPickupLocationsOptions`                                             |
 | `aws snowball list-service-versions`                                                 | `AwsSnowballListServiceVersionsOptions`                                             |
+| `aws snowball update-cluster`                                                        | `AwsSnowballUpdateClusterOptions`                                                   |
+| `aws snowball update-job`                                                            | `AwsSnowballUpdateJobOptions`                                                       |
 | `aws snowball update-job-shipment-state`                                             | `AwsSnowballUpdateJobShipmentStateOptions`                                          |
 | `aws snowball update-long-term-pricing`                                              | `AwsSnowballUpdateLongTermPricingOptions`                                           |
 | `aws sns add-permission`                                                             | `AwsSnsAddPermissionOptions`                                                        |
@@ -17095,6 +17473,7 @@ var aws = context.Tools.Aws;
 | `aws sns unsubscribe`                                                                | `AwsSnsUnsubscribeOptions`                                                          |
 | `aws sns untag-resource`                                                             | `AwsSnsUntagResourceOptions`                                                        |
 | `aws sns verify-sms-sandbox-phone-number`                                            | `AwsSnsVerifySmsSandboxPhoneNumberOptions`                                          |
+| `aws socialmessaging associate-whatsapp-business-account`                            | `AwsSocialmessagingAssociateWhatsappBusinessAccountOptions`                         |
 | `aws socialmessaging create-whatsapp-dataset`                                        | `AwsSocialmessagingCreateWhatsappDataSetOptions`                                    |
 | `aws socialmessaging create-whatsapp-flow`                                           | `AwsSocialmessagingCreateWhatsappFlowOptions`                                       |
 | `aws socialmessaging create-whatsapp-message-template`                               | `AwsSocialmessagingCreateWhatsappMessageTemplateOptions`                            |
@@ -17107,6 +17486,7 @@ var aws = context.Tools.Aws;
 | `aws socialmessaging disassociate-whatsapp-business-account`                         | `AwsSocialmessagingDisassociateWhatsappBusinessAccountOptions`                      |
 | `aws socialmessaging get-linked-whatsapp-business-account`                           | `AwsSocialmessagingGetLinkedWhatsappBusinessAccountOptions`                         |
 | `aws socialmessaging get-linked-whatsapp-business-account-phone-number`              | `AwsSocialmessagingGetLinkedWhatsappBusinessAccountPhoneNumberOptions`              |
+| `aws socialmessaging get-whatsapp-business-public-key`                               | `AwsSocialmessagingGetWhatsappBusinessPublicKeyOptions`                             |
 | `aws socialmessaging get-whatsapp-flow`                                              | `AwsSocialmessagingGetWhatsappFlowOptions`                                          |
 | `aws socialmessaging get-whatsapp-flow-preview`                                      | `AwsSocialmessagingGetWhatsappFlowPreviewOptions`                                   |
 | `aws socialmessaging get-whatsapp-message-media`                                     | `AwsSocialmessagingGetWhatsappMessageMediaOptions`                                  |
@@ -17120,6 +17500,7 @@ var aws = context.Tools.Aws;
 | `aws socialmessaging post-whatsapp-message-media`                                    | `AwsSocialmessagingPostWhatsappMessageMediaOptions`                                 |
 | `aws socialmessaging publish-whatsapp-flow`                                          | `AwsSocialmessagingPublishWhatsappFlowOptions`                                      |
 | `aws socialmessaging put-whatsapp-business-account-event-destinations`               | `AwsSocialmessagingPutWhatsappBusinessAccountEventDestinationsOptions`              |
+| `aws socialmessaging put-whatsapp-business-public-key`                               | `AwsSocialmessagingPutWhatsappBusinessPublicKeyOptions`                             |
 | `aws socialmessaging send-whatsapp-conversion-event`                                 | `AwsSocialmessagingSendWhatsappConversionEventOptions`                              |
 | `aws socialmessaging send-whatsapp-message`                                          | `AwsSocialmessagingSendWhatsappMessageOptions`                                      |
 | `aws socialmessaging tag-resource`                                                   | `AwsSocialmessagingTagResourceOptions`                                              |
@@ -17266,10 +17647,12 @@ var aws = context.Tools.Aws;
 | `aws ssm modify-document-permission`                                                 | `AwsSsmModifyDocumentPermissionOptions`                                             |
 | `aws ssm put-compliance-items`                                                       | `AwsSsmPutComplianceItemsOptions`                                                   |
 | `aws ssm put-inventory`                                                              | `AwsSsmPutInventoryOptions`                                                         |
+| `aws ssm put-parameter`                                                              | `AwsSsmPutParameterOptions`                                                         |
 | `aws ssm put-resource-policy`                                                        | `AwsSsmPutResourcePolicyOptions`                                                    |
 | `aws ssm register-default-patch-baseline`                                            | `AwsSsmRegisterDefaultPatchBaselineOptions`                                         |
 | `aws ssm register-patch-baseline-for-patch-group`                                    | `AwsSsmRegisterPatchBaselineForPatchGroupOptions`                                   |
 | `aws ssm register-target-with-maintenance-window`                                    | `AwsSsmRegisterTargetWithMaintenanceWindowOptions`                                  |
+| `aws ssm register-task-with-maintenance-window`                                      | `AwsSsmRegisterTaskWithMaintenanceWindowOptions`                                    |
 | `aws ssm remove-tags-from-resource`                                                  | `AwsSsmRemoveTagsFromResourceOptions`                                               |
 | `aws ssm reset-service-setting`                                                      | `AwsSsmResetServiceSettingOptions`                                                  |
 | `aws ssm resume-session`                                                             | `AwsSsmResumeSessionOptions`                                                        |
@@ -17279,6 +17662,7 @@ var aws = context.Tools.Aws;
 | `aws ssm start-associations-once`                                                    | `AwsSsmStartAssociationsOnceOptions`                                                |
 | `aws ssm start-automation-execution`                                                 | `AwsSsmStartAutomationExecutionOptions`                                             |
 | `aws ssm start-change-request-execution`                                             | `AwsSsmStartChangeRequestExecutionOptions`                                          |
+| `aws ssm start-execution-preview`                                                    | `AwsSsmStartExecutionPreviewOptions`                                                |
 | `aws ssm start-session`                                                              | `AwsSsmStartSessionOptions`                                                         |
 | `aws ssm stop-automation-execution`                                                  | `AwsSsmStopAutomationExecutionOptions`                                              |
 | `aws ssm terminate-session`                                                          | `AwsSsmTerminateSessionOptions`                                                     |
@@ -17291,6 +17675,7 @@ var aws = context.Tools.Aws;
 | `aws ssm update-document-metadata`                                                   | `AwsSsmUpdateDocumentMetadataOptions`                                               |
 | `aws ssm update-maintenance-window`                                                  | `AwsSsmUpdateMaintenanceWindowOptions`                                              |
 | `aws ssm update-maintenance-window-target`                                           | `AwsSsmUpdateMaintenanceWindowTargetOptions`                                        |
+| `aws ssm update-maintenance-window-task`                                             | `AwsSsmUpdateMaintenanceWindowTaskOptions`                                          |
 | `aws ssm update-managed-instance-role`                                               | `AwsSsmUpdateManagedInstanceRoleOptions`                                            |
 | `aws ssm update-ops-item`                                                            | `AwsSsmUpdateOpsItemOptions`                                                        |
 | `aws ssm update-ops-metadata`                                                        | `AwsSsmUpdateOpsMetadataOptions`                                                    |
@@ -17504,6 +17889,7 @@ var aws = context.Tools.Aws;
 | `aws sso-oidc register-client`                                                       | `AwsSsoOidcRegisterClientOptions`                                                   |
 | `aws sso-oidc start-device-authorization`                                            | `AwsSsoOidcStartDeviceAuthorizationOptions`                                         |
 | `aws stepfunctions create-activity`                                                  | `AwsStepfunctionsCreateActivityOptions`                                             |
+| `aws stepfunctions create-state-machine`                                             | `AwsStepfunctionsCreateStateMachineOptions`                                         |
 | `aws stepfunctions create-state-machine-alias`                                       | `AwsStepfunctionsCreateStateMachineAliasOptions`                                    |
 | `aws stepfunctions delete-activity`                                                  | `AwsStepfunctionsDeleteActivityOptions`                                             |
 | `aws stepfunctions delete-state-machine`                                             | `AwsStepfunctionsDeleteStateMachineOptions`                                         |
@@ -17536,6 +17922,7 @@ var aws = context.Tools.Aws;
 | `aws stepfunctions test-state`                                                       | `AwsStepfunctionsTestStateOptions`                                                  |
 | `aws stepfunctions untag-resource`                                                   | `AwsStepfunctionsUntagResourceOptions`                                              |
 | `aws stepfunctions update-map-run`                                                   | `AwsStepfunctionsUpdateMapRunOptions`                                               |
+| `aws stepfunctions update-state-machine`                                             | `AwsStepfunctionsUpdateStateMachineOptions`                                         |
 | `aws stepfunctions update-state-machine-alias`                                       | `AwsStepfunctionsUpdateStateMachineAliasOptions`                                    |
 | `aws stepfunctions validate-state-machine-definition`                                | `AwsStepfunctionsValidateStateMachineDefinitionOptions`                             |
 | `aws storagegateway activate-gateway`                                                | `AwsStoragegatewayActivateGatewayOptions`                                           |
@@ -17677,8 +18064,10 @@ var aws = context.Tools.Aws;
 | `aws supplychain update-instance`                                                    | `AwsSupplychainUpdateInstanceOptions`                                               |
 | `aws support add-attachments-to-set`                                                 | `AwsSupportAddAttachmentsToSetOptions`                                              |
 | `aws support add-communication-to-case`                                              | `AwsSupportAddCommunicationToCaseOptions`                                           |
+| `aws support complete-attachment-upload`                                             | `AwsSupportCompleteAttachmentUploadOptions`                                         |
 | `aws support create-case`                                                            | `AwsSupportCreateCaseOptions`                                                       |
 | `aws support describe-attachment`                                                    | `AwsSupportDescribeAttachmentOptions`                                               |
+| `aws support describe-attachment-upload-status`                                      | `AwsSupportDescribeAttachmentUploadStatusOptions`                                   |
 | `aws support describe-cases`                                                         | `AwsSupportDescribeCasesOptions`                                                    |
 | `aws support describe-communications`                                                | `AwsSupportDescribeCommunicationsOptions`                                           |
 | `aws support describe-create-case-options`                                           | `AwsSupportDescribeCreateCaseOptionsOptions`                                        |
@@ -17689,6 +18078,8 @@ var aws = context.Tools.Aws;
 | `aws support describe-trusted-advisor-check-result`                                  | `AwsSupportDescribeTrustedAdvisorCheckResultOptions`                                |
 | `aws support describe-trusted-advisor-check-summaries`                               | `AwsSupportDescribeTrustedAdvisorCheckSummariesOptions`                             |
 | `aws support describe-trusted-advisor-checks`                                        | `AwsSupportDescribeTrustedAdvisorChecksOptions`                                     |
+| `aws support get-attachment-download-link`                                           | `AwsSupportGetAttachmentDownloadLinkOptions`                                        |
+| `aws support get-attachment-upload-links`                                            | `AwsSupportGetAttachmentUploadLinksOptions`                                         |
 | `aws support refresh-trusted-advisor-check`                                          | `AwsSupportRefreshTrustedAdvisorCheckOptions`                                       |
 | `aws support resolve-case`                                                           | `AwsSupportResolveCaseOptions`                                                      |
 | `aws support-app create-slack-channel-configuration`                                 | `AwsSupportAppCreateSlackChannelConfigurationOptions`                               |
@@ -17772,9 +18163,11 @@ var aws = context.Tools.Aws;
 | `aws synthetics list-groups`                                                         | `AwsSyntheticsListGroupsOptions`                                                    |
 | `aws synthetics list-tags-for-resource`                                              | `AwsSyntheticsListTagsForResourceOptions`                                           |
 | `aws synthetics start-canary`                                                        | `AwsSyntheticsStartCanaryOptions`                                                   |
+| `aws synthetics start-canary-dry-run`                                                | `AwsSyntheticsStartCanaryDryRunOptions`                                             |
 | `aws synthetics stop-canary`                                                         | `AwsSyntheticsStopCanaryOptions`                                                    |
 | `aws synthetics tag-resource`                                                        | `AwsSyntheticsTagResourceOptions`                                                   |
 | `aws synthetics untag-resource`                                                      | `AwsSyntheticsUntagResourceOptions`                                                 |
+| `aws synthetics update-canary`                                                       | `AwsSyntheticsUpdateCanaryOptions`                                                  |
 | `aws taxsettings batch-delete-tax-registration`                                      | `AwsTaxsettingsBatchDeleteTaxRegistrationOptions`                                   |
 | `aws taxsettings batch-get-tax-exemptions`                                           | `AwsTaxsettingsBatchGetTaxExemptionsOptions`                                        |
 | `aws taxsettings batch-put-tax-registration`                                         | `AwsTaxsettingsBatchPutTaxRegistrationOptions`                                      |
@@ -17873,6 +18266,7 @@ var aws = context.Tools.Aws;
 | `aws timestream-write untag-resource`                                                | `AwsTimestreamWriteUntagResourceOptions`                                            |
 | `aws timestream-write update-database`                                               | `AwsTimestreamWriteUpdateDatabaseOptions`                                           |
 | `aws timestream-write update-table`                                                  | `AwsTimestreamWriteUpdateTableOptions`                                              |
+| `aws timestream-write write-records`                                                 | `AwsTimestreamWriteWriteRecordsOptions`                                             |
 | `aws tnb cancel-sol-network-operation`                                               | `AwsTnbCancelSolNetworkOperationOptions`                                            |
 | `aws tnb create-sol-function-package`                                                | `AwsTnbCreateSolFunctionPackageOptions`                                             |
 | `aws tnb create-sol-network-instance`                                                | `AwsTnbCreateSolNetworkInstanceOptions`                                             |
@@ -17978,6 +18372,7 @@ var aws = context.Tools.Aws;
 | `aws transfer delete-workflow`                                                       | `AwsTransferDeleteWorkflowOptions`                                                  |
 | `aws transfer describe-access`                                                       | `AwsTransferDescribeAccessOptions`                                                  |
 | `aws transfer describe-agreement`                                                    | `AwsTransferDescribeAgreementOptions`                                               |
+| `aws transfer describe-certificate`                                                  | `AwsTransferDescribeCertificateOptions`                                             |
 | `aws transfer describe-connector`                                                    | `AwsTransferDescribeConnectorOptions`                                               |
 | `aws transfer describe-execution`                                                    | `AwsTransferDescribeExecutionOptions`                                               |
 | `aws transfer describe-host-key`                                                     | `AwsTransferDescribeHostKeyOptions`                                                 |
@@ -18040,8 +18435,11 @@ var aws = context.Tools.Aws;
 | `aws translate list-tags-for-resource`                                               | `AwsTranslateListTagsForResourceOptions`                                            |
 | `aws translate list-terminologies`                                                   | `AwsTranslateListTerminologiesOptions`                                              |
 | `aws translate list-text-translation-jobs`                                           | `AwsTranslateListTextTranslationJobsOptions`                                        |
+| `aws translate start-text-translation-job`                                           | `AwsTranslateStartTextTranslationJobOptions`                                        |
 | `aws translate stop-text-translation-job`                                            | `AwsTranslateStopTextTranslationJobOptions`                                         |
 | `aws translate tag-resource`                                                         | `AwsTranslateTagResourceOptions`                                                    |
+| `aws translate translate-document`                                                   | `AwsTranslateTranslateDocumentOptions`                                              |
+| `aws translate translate-text`                                                       | `AwsTranslateTranslateTextOptions`                                                  |
 | `aws translate untag-resource`                                                       | `AwsTranslateUntagResourceOptions`                                                  |
 | `aws translate update-parallel-data`                                                 | `AwsTranslateUpdateParallelDataOptions`                                             |
 | `aws trustedadvisor batch-update-recommendation-resource-exclusion`                  | `AwsTrustedadvisorBatchUpdateRecommendationResourceExclusionOptions`                |
@@ -18061,6 +18459,8 @@ var aws = context.Tools.Aws;
 | `aws uxc list-services`                                                              | `AwsUxcListServicesOptions`                                                         |
 | `aws uxc update-account-customizations`                                              | `AwsUxcUpdateAccountCustomizationsOptions`                                          |
 | `aws verifiedpermissions batch-get-policy`                                           | `AwsVerifiedpermissionsBatchGetPolicyOptions`                                       |
+| `aws verifiedpermissions batch-is-authorized`                                        | `AwsVerifiedpermissionsBatchIsAuthorizedOptions`                                    |
+| `aws verifiedpermissions batch-is-authorized-with-token`                             | `AwsVerifiedpermissionsBatchIsAuthorizedWithTokenOptions`                           |
 | `aws verifiedpermissions create-identity-source`                                     | `AwsVerifiedpermissionsCreateIdentitySourceOptions`                                 |
 | `aws verifiedpermissions create-policy`                                              | `AwsVerifiedpermissionsCreatePolicyOptions`                                         |
 | `aws verifiedpermissions create-policy-store`                                        | `AwsVerifiedpermissionsCreatePolicyStoreOptions`                                    |
@@ -18077,6 +18477,8 @@ var aws = context.Tools.Aws;
 | `aws verifiedpermissions get-policy-store-alias`                                     | `AwsVerifiedpermissionsGetPolicyStoreAliasOptions`                                  |
 | `aws verifiedpermissions get-policy-template`                                        | `AwsVerifiedpermissionsGetPolicyTemplateOptions`                                    |
 | `aws verifiedpermissions get-schema`                                                 | `AwsVerifiedpermissionsGetSchemaOptions`                                            |
+| `aws verifiedpermissions is-authorized`                                              | `AwsVerifiedpermissionsIsAuthorizedOptions`                                         |
+| `aws verifiedpermissions is-authorized-with-token`                                   | `AwsVerifiedpermissionsIsAuthorizedWithTokenOptions`                                |
 | `aws verifiedpermissions list-identity-sources`                                      | `AwsVerifiedpermissionsListIdentitySourcesOptions`                                  |
 | `aws verifiedpermissions list-policies`                                              | `AwsVerifiedpermissionsListPoliciesOptions`                                         |
 | `aws verifiedpermissions list-policy-store-aliases`                                  | `AwsVerifiedpermissionsListPolicyStoreAliasesOptions`                               |
@@ -18187,6 +18589,7 @@ var aws = context.Tools.Aws;
 | `aws vpc-lattice update-listener`                                                    | `AwsVpcLatticeUpdateListenerOptions`                                                |
 | `aws vpc-lattice update-resource-configuration`                                      | `AwsVpcLatticeUpdateResourceConfigurationOptions`                                   |
 | `aws vpc-lattice update-resource-gateway`                                            | `AwsVpcLatticeUpdateResourceGatewayOptions`                                         |
+| `aws vpc-lattice update-rule`                                                        | `AwsVpcLatticeUpdateRuleOptions`                                                    |
 | `aws vpc-lattice update-service`                                                     | `AwsVpcLatticeUpdateServiceOptions`                                                 |
 | `aws vpc-lattice update-service-network`                                             | `AwsVpcLatticeUpdateServiceNetworkOptions`                                          |
 | `aws vpc-lattice update-service-network-vpc-association`                             | `AwsVpcLatticeUpdateServiceNetworkVpcAssociationOptions`                            |
@@ -18350,9 +18753,12 @@ var aws = context.Tools.Aws;
 | `aws waf-regional update-web-acl`                                                    | `AwsWafRegionalUpdateWebAclOptions`                                                 |
 | `aws waf-regional update-xss-match-set`                                              | `AwsWafRegionalUpdateXssMatchSetOptions`                                            |
 | `aws wafv2 associate-web-acl`                                                        | `AwsWafv2AssociateWebAclOptions`                                                    |
+| `aws wafv2 check-capacity`                                                           | `AwsWafv2CheckCapacityOptions`                                                      |
 | `aws wafv2 create-api-key`                                                           | `AwsWafv2CreateApiKeyOptions`                                                       |
 | `aws wafv2 create-ip-set`                                                            | `AwsWafv2CreateIpSetOptions`                                                        |
 | `aws wafv2 create-regex-pattern-set`                                                 | `AwsWafv2CreateRegexPatternSetOptions`                                              |
+| `aws wafv2 create-rule-group`                                                        | `AwsWafv2CreateRuleGroupOptions`                                                    |
+| `aws wafv2 create-web-acl`                                                           | `AwsWafv2CreateWebAclOptions`                                                       |
 | `aws wafv2 delete-api-key`                                                           | `AwsWafv2DeleteApiKeyOptions`                                                       |
 | `aws wafv2 delete-firewall-manager-rule-groups`                                      | `AwsWafv2DeleteFirewallManagerRuleGroupsOptions`                                    |
 | `aws wafv2 delete-ip-set`                                                            | `AwsWafv2DeleteIpSetOptions`                                                        |
@@ -18377,8 +18783,11 @@ var aws = context.Tools.Aws;
 | `aws wafv2 get-revenue-statistics`                                                   | `AwsWafv2GetRevenueStatisticsOptions`                                               |
 | `aws wafv2 get-revenue-statistics-summary`                                           | `AwsWafv2GetRevenueStatisticsSummaryOptions`                                        |
 | `aws wafv2 get-revenue-statistics-time-series`                                       | `AwsWafv2GetRevenueStatisticsTimeSeriesOptions`                                     |
+| `aws wafv2 get-rule-group`                                                           | `AwsWafv2GetRuleGroupOptions`                                                       |
 | `aws wafv2 get-sampled-requests`                                                     | `AwsWafv2GetSampledRequestsOptions`                                                 |
 | `aws wafv2 get-top-path-statistics-by-traffic`                                       | `AwsWafv2GetTopPathStatisticsByTrafficOptions`                                      |
+| `aws wafv2 get-web-acl`                                                              | `AwsWafv2GetWebAclOptions`                                                          |
+| `aws wafv2 get-web-acl-for-resource`                                                 | `AwsWafv2GetWebAclForResourceOptions`                                               |
 | `aws wafv2 list-api-keys`                                                            | `AwsWafv2ListApiKeysOptions`                                                        |
 | `aws wafv2 list-available-managed-rule-group-versions`                               | `AwsWafv2ListAvailableManagedRuleGroupVersionsOptions`                              |
 | `aws wafv2 list-available-managed-rule-groups`                                       | `AwsWafv2ListAvailableManagedRuleGroupsOptions`                                     |
@@ -18400,6 +18809,8 @@ var aws = context.Tools.Aws;
 | `aws wafv2 update-ip-set`                                                            | `AwsWafv2UpdateIpSetOptions`                                                        |
 | `aws wafv2 update-managed-rule-set-version-expiry-date`                              | `AwsWafv2UpdateManagedRuleSetVersionExpiryDateOptions`                              |
 | `aws wafv2 update-regex-pattern-set`                                                 | `AwsWafv2UpdateRegexPatternSetOptions`                                              |
+| `aws wafv2 update-rule-group`                                                        | `AwsWafv2UpdateRuleGroupOptions`                                                    |
+| `aws wafv2 update-web-acl`                                                           | `AwsWafv2UpdateWebAclOptions`                                                       |
 | `aws wellarchitected associate-lenses`                                               | `AwsWellarchitectedAssociateLensesOptions`                                          |
 | `aws wellarchitected associate-profiles`                                             | `AwsWellarchitectedAssociateProfilesOptions`                                        |
 | `aws wellarchitected create-agent-context`                                           | `AwsWellarchitectedCreateAgentContextOptions`                                       |
@@ -18605,6 +19016,7 @@ var aws = context.Tools.Aws;
 | `aws workdocs describe-notification-subscriptions`                                   | `AwsWorkdocsDescribeNotificationSubscriptionsOptions`                               |
 | `aws workdocs describe-resource-permissions`                                         | `AwsWorkdocsDescribeResourcePermissionsOptions`                                     |
 | `aws workdocs describe-root-folders`                                                 | `AwsWorkdocsDescribeRootFoldersOptions`                                             |
+| `aws workdocs describe-users`                                                        | `AwsWorkdocsDescribeUsersOptions`                                                   |
 | `aws workdocs get-current-user`                                                      | `AwsWorkdocsGetCurrentUserOptions`                                                  |
 | `aws workdocs get-document`                                                          | `AwsWorkdocsGetDocumentOptions`                                                     |
 | `aws workdocs get-document-path`                                                     | `AwsWorkdocsGetDocumentPathOptions`                                                 |
