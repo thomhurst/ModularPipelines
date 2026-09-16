@@ -1,0 +1,36 @@
+NAME
+    gcloud dns record-sets transaction start - start a transaction
+
+SYNOPSIS
+    gcloud dns record-sets transaction start --zone=ZONE, -z ZONE
+        [--skip-soa-update]
+        [--transaction-file=TRANSACTION_FILE; default="transaction.yaml"]
+        [GCLOUD_WIDE_FLAG ...]
+
+DESCRIPTION
+    This command starts a transaction.
+
+EXAMPLES
+    To start a transaction, run:
+
+        $ gcloud dns record-sets transaction start --zone=MANAGED_ZONE
+
+REQUIRED FLAGS
+     --zone=ZONE, -z ZONE
+        Name of the managed zone whose record sets you want to manage.
+
+OPTIONAL FLAGS
+     --skip-soa-update
+        Skip incrementing the serial number of the SOA record when making
+        changes to the record-sets.
+
+     --transaction-file=TRANSACTION_FILE; default="transaction.yaml"
+        Path of the file which contains the transaction.
+
+GCLOUD WIDE FLAGS
+    These flags are available to all commands: --access-token-file, --account,
+    --billing-project, --configuration, --flags-file, --flatten, --format,
+    --help, --impersonate-service-account, --log-http, --project, --quiet,
+    --trace-token, --user-output-enabled, --verbosity.
+
+    Run $ gcloud help for details.
