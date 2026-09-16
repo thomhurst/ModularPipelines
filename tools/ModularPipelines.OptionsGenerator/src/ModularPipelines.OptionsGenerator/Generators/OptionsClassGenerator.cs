@@ -509,7 +509,7 @@ public class OptionsClassGenerator : ICodeGenerator
         GenerateGroupPresenceValidation(sb, group, required, activation, propertyNames, presence, Presence, GroupPresence);
 
         var activeGroup = activation is null ? presence : $"{activation} && {presence}";
-        if (!group.IsChoice)
+        if (!group.IsChoice && propertyNames.Length > 1)
         {
             foreach (var member in group.Members.Where(member => member.IsRequired))
             {
@@ -599,7 +599,8 @@ public class OptionsClassGenerator : ICodeGenerator
 
         if (!CliOptionDefinition.IsCollectionType(csharpType, option?.IsCollection ?? positional?.IsVariadic))
         {
-            return $"{propertyName} is not null";
+            // Required constructors can unwrap nullable value types; boxing keeps presence checks valid.
+            return $"(object?){propertyName} is not null";
         }
 
         if (option?.ValueArity == CliOptionValueArity.Optional)
