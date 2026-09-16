@@ -3,19 +3,19 @@ import test from 'node:test';
 import { buildReview, publishReview, runGitHub } from './post-claude-review.mjs';
 
 const headSha = 'a'.repeat(40);
-const rawReview = JSON.stringify({ summary: 'Reviewed the current diff.', findings: [] });
+const rawReview = JSON.stringify({ summary: 'Reviewed the current diff and its relevant repository guidance.', findings: [] });
 const options = { rawReview, headSha, prNumber: '5183', repository: 'owner/repo' };
 const currentHead = JSON.stringify({ state: 'OPEN', headRefOid: headSha });
 
 test('only an empty findings array produces CLEAR', () => {
   assert.match(buildReview(rawReview, headSha), /REVIEW_VERDICT: CLEAR HEAD: a{40}/);
-  const blocking = JSON.stringify({ summary: 'One defect.', findings: ['file.cs:5 loses cancellation.'] });
+  const blocking = JSON.stringify({ summary: 'Reviewed the current diff and found one correctness defect.', findings: ['file.cs:5 loses cancellation.'] });
   assert.match(buildReview(blocking, headSha), /REVIEW_VERDICT: BLOCKING HEAD: a{40}/);
 });
 
 test('optional notes stay visible without being classified as required corrections', () => {
   const body = buildReview(JSON.stringify({
-    summary: 'No correctness issues.', findings: [], notes: ['Consider a separate follow-up refactor.'],
+    summary: 'Reviewed the current diff and found no correctness issues.', findings: [], notes: ['Consider a separate follow-up refactor.'],
   }), headSha);
   assert.ok(body.includes('### Optional follow-up notes\n\nConsider a separate follow-up refactor.'));
   assert.match(body, /REVIEW_VERDICT: CLEAR HEAD: a{40}/);
@@ -24,6 +24,7 @@ test('optional notes stay visible without being classified as required correctio
 
 test('missing and malformed review output fails before any GitHub call', () => {
   for (const invalid of [undefined, '', 'not json', 'null', '{}',
+    '{"summary":"test","findings":["test finding"]}',
     '{"summary":"ok","findings":null}', '{"summary":" ","findings":[]}',
     '{"summary":"ok","findings":[""]}', '{"summary":"ok","findings":[{}]}']) {
     assert.throws(() => publishReview({ ...options, rawReview: invalid }, () => {

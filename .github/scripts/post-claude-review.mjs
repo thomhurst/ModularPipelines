@@ -13,11 +13,12 @@ export function buildReview(rawReview, headSha) {
     throw new Error('Claude did not return a valid structured review.');
   }
 
-  const validText = value => typeof value === 'string' && value.trim().length > 0;
+  const validText = (value, minimumLength = 1) => typeof value === 'string' && value.trim().length >= minimumLength;
   const notes = review?.notes ?? [];
-  if (!review || !validText(review.summary) || !Array.isArray(review.findings)
-    || !review.findings.every(validText) || !Array.isArray(notes) || !notes.every(validText)) {
-    throw new Error('The review requires a summary and arrays of nonempty findings and notes.');
+  if (!review || !validText(review.summary, 40) || !Array.isArray(review.findings)
+    || !review.findings.every(finding => validText(finding, 20))
+    || !Array.isArray(notes) || !notes.every(note => validText(note))) {
+    throw new Error('A review needs a descriptive summary (40 characters), findings (20 characters each), and nonempty notes.');
   }
 
   // Reviews may discuss the verdict format. Render model-supplied HTML comments
