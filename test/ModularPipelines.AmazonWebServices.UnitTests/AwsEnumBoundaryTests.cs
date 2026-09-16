@@ -18,7 +18,7 @@ public class AwsEnumBoundaryTests
     }
 
     [Test]
-    public async Task Single_Vpn_Type_Renders_Without_A_Bullet_Marker()
+    public async Task Single_Vpn_Type_Renders_As_String()
     {
         var arguments = BuildArguments(new AwsEc2CreateVpnGatewayOptions("ipsec.1"));
 
