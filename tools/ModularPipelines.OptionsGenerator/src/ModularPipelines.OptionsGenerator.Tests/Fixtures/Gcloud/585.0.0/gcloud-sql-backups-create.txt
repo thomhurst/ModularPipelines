@@ -1,0 +1,34 @@
+NAME
+    gcloud sql backups create - creates a backup of a Cloud SQL instance
+
+SYNOPSIS
+    gcloud sql backups create --instance=INSTANCE, -i INSTANCE [--async]
+        [--description=DESCRIPTION] [--location=LOCATION]
+        [GCLOUD_WIDE_FLAG ...]
+
+DESCRIPTION
+    Creates a backup of a Cloud SQL instance.
+
+REQUIRED FLAGS
+     --instance=INSTANCE, -i INSTANCE
+        Cloud SQL instance ID.
+
+OPTIONAL FLAGS
+     --async
+        Return immediately, without waiting for the operation in progress to
+        complete.
+
+     --description=DESCRIPTION
+        A friendly description of the backup.
+
+     --location=LOCATION
+        Choose where to store your backup. Backups are stored in the closest
+        multi-region location to you by default. Only customize if needed.
+
+GCLOUD WIDE FLAGS
+    These flags are available to all commands: --access-token-file, --account,
+    --billing-project, --configuration, --flags-file, --flatten, --format,
+    --help, --impersonate-service-account, --log-http, --project, --quiet,
+    --trace-token, --user-output-enabled, --verbosity.
+
+    Run $ gcloud help for details.
