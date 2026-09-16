@@ -8,6 +8,7 @@ ModularPipelines.Attributes.CommandLinePhase.LateOperand = 5 -> ModularPipelines
 *REMOVED*static ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageSynopsisParser.Parse(string! helpText, System.Collections.Generic.IReadOnlyList<string!>! commandPath, System.Collections.Generic.IEnumerable<string!>? additionalSynopses = null) -> ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageSynopsisParseResult!
 ModularPipelines.OptionsGenerator.Models.CliArgumentDefinition.IsPositional.get -> bool
 ModularPipelines.OptionsGenerator.Models.CliArgumentDefinition.IsPositional.init -> void
+ModularPipelines.OptionsGenerator.Models.CliArgumentGroupKind.Optional = 16 -> ModularPipelines.OptionsGenerator.Models.CliArgumentGroupKind
 ModularPipelines.OptionsGenerator.Models.CliRequiredAlternativeGroup.IsMutuallyExclusive.get -> bool
 ModularPipelines.OptionsGenerator.Models.CliRequiredAlternativeGroup.IsMutuallyExclusive.init -> void
 ModularPipelines.OptionsGenerator.Models.CliCommandCoveragePolicy.ConditionallyAvailableCommands.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableCommand!>!
