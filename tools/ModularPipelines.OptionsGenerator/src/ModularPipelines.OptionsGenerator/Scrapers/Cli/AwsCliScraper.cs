@@ -694,11 +694,12 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
         }
 
         var tokens = choices.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-        if (tokens.Length >= 2 && tokens.Length % 2 == 0
-                               && tokens[0] is "o" or "*"
-                               && tokens.Where((_, index) => index % 2 == 0).All(token => token == tokens[0]))
+        if (tokens.Length > 0 && tokens[0] is "o" or "*")
         {
-            return [.. tokens.Where((_, index) => index % 2 != 0)];
+            return tokens.Length % 2 == 0
+                   && tokens.Where((_, index) => index % 2 == 0).All(token => token == tokens[0])
+                ? [.. tokens.Where((_, index) => index % 2 != 0)]
+                : [];
         }
 
         // Without commas or repeated bullet markers, conjunction prose is ambiguous.

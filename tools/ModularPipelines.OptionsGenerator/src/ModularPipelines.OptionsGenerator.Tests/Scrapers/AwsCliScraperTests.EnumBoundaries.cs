@@ -26,6 +26,15 @@ public partial class AwsCliScraperTests
     }
 
     [Test]
+    [Arguments("Possible values: o Topic The scope of message deduplication is across the entire topic.")]
+    [Arguments("Possible values: o Topic o MessageGroup The scope is per group.")]
+    [Arguments("Possible values: * Topic The scope is across the topic.")]
+    public async Task Bullet_Descriptions_Are_Not_Closed_Enum_Choices(string description)
+    {
+        await Assert.That(AwsCliScraper.TryDetectEnum("Mode", "AwsExampleOptions", description)).IsNull();
+    }
+
+    [Test]
     [Arguments("The option mode. Possible values: active inactive")]
     [Arguments("The option mode.\nPossible values: active inactive")]
     [Arguments("        The option mode.\n\n        Possible values: active inactive")]
