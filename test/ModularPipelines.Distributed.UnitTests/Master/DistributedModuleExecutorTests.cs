@@ -740,7 +740,8 @@ public class DistributedModuleExecutorTests
     }
 
     [Test]
-    [Timeout(5_000)]
+    // Cover the 5-second overlap, 30-second completion, and 30-second cleanup budgets.
+    [Timeout(70_000)]
     // Exercise the ordering repeatedly under the same parallel CI load as #5101.
     [Repeat(49)]
     public async Task Cache_Lookups_For_Ready_Modules_Run_Concurrently(
@@ -749,6 +750,7 @@ public class DistributedModuleExecutorTests
         var elapsed = System.Diagnostics.Stopwatch.StartNew();
         var progress = new ConcurrentQueue<string>();
         void Record(string stage) => progress.Enqueue($"{elapsed.Elapsed.TotalMilliseconds:F1} ms: {stage}");
+        using var overlapDeadline = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
         Record("fixture setup");
         var first = new CachedDistributedModule();
         var second = new AnotherCachedDistributedModule();
@@ -757,6 +759,20 @@ public class DistributedModuleExecutorTests
             new ModuleState(second, typeof(AnotherCachedDistributedModule)));
         var firstStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var secondStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        scheduler.Setup(instance => instance.MarkModuleCompleted(
+                It.IsAny<Type>(), It.IsAny<bool>(), It.IsAny<Exception?>(), It.IsAny<ModuleStatus?>()))
+            .Callback<Type, bool, Exception?, ModuleStatus?>((type, _, _, _) => Record($"completed {type.Name}"));
+        scheduler.Setup(instance => instance.RunSchedulerAsync(It.IsAny<CancellationToken>()))
+            .Returns<CancellationToken>(token =>
+            {
+                var completion = new TaskCompletionSource();
+                token.Register(() =>
+                {
+                    Record("scheduler cancellation");
+                    completion.TrySetCanceled(token);
+                });
+                return completion.Task;
+            });
         // Both lookups must start before release. Resume the held lookup inline so this
         // ordering assertion does not also depend on a thread-pool slot under CI load.
         var releaseFirst = new TaskCompletionSource();
@@ -791,19 +807,23 @@ public class DistributedModuleExecutorTests
             applicationStopping: cancellationToken);
 
         Record("execute called");
+        overlapDeadline.CancelAfter(TimeSpan.FromSeconds(5));
         var execution = executor.ExecuteAsync([first, second]);
         Record("execute returned task");
         Exception? failure = null;
         try
         {
-            await firstStarted.Task.WaitAsync(cancellationToken);
+            await firstStarted.Task.WaitAsync(overlapDeadline.Token);
             Record("first start observed");
-            await secondStarted.Task.WaitAsync(cancellationToken);
+            await secondStarted.Task.WaitAsync(overlapDeadline.Token);
             Record("second start observed");
             await Assert.That(execution.IsCompleted).IsFalse();
             releaseFirst.TrySetResult();
             Record("release signaled");
-            await execution.WaitAsync(cancellationToken);
+            // The overlap assertion keeps its five-second deadline. Normal completion also
+            // drains the worker and scheduler via CancelAsync, which queues thread-pool work.
+            // Give that separate shutdown phase the standard test budget under parallel CI load.
+            await execution.WaitAsync(TestHostSettings.DefaultTestTimeout, cancellationToken);
             Record("execution completed");
 
             scheduler.Verify(instance => instance.MarkModuleCompleted(
@@ -814,6 +834,7 @@ public class DistributedModuleExecutorTests
         }
         catch (Exception exception)
         {
+            Record($"execution {execution.Status}; thread-pool threads {ThreadPool.ThreadCount}; pending work {ThreadPool.PendingWorkItemCount}");
             failure = exception;
         }
         finally
@@ -823,6 +844,7 @@ public class DistributedModuleExecutorTests
             {
                 // Observe completion even when the test's timeout token has already fired.
                 await execution.WaitAsync(TestHostSettings.DefaultTestTimeout, CancellationToken.None);
+                Record("cleanup completed");
             }
             catch (Exception cleanupException)
             {
