@@ -94,7 +94,10 @@ function Get-GeneratedOptionsPackageFingerprint {
 
     $centralPackages = Get-GeneratedOptionsXmlAtRevision -RepositoryRoot $RepositoryRoot `
         -Revision $Revision -Path 'Directory.Packages.props'
-    $packageNames = [Collections.Generic.HashSet[string]]::new([StringComparer]::OrdinalIgnoreCase)
+    $referenceNames = @{
+        PackageReference = [Collections.Generic.HashSet[string]]::new([StringComparer]::OrdinalIgnoreCase)
+        GlobalPackageReference = [Collections.Generic.HashSet[string]]::new([StringComparer]::OrdinalIgnoreCase)
+    }
     $referencePaths = @(
         'Directory.Build.props',
         'tools/Directory.Build.props',
@@ -119,11 +122,12 @@ function Get-GeneratedOptionsPackageFingerprint {
             $name = if ($isInclude) { $reference.GetAttribute('Include') }
                 else { $reference.GetAttribute('Remove') }
             if ($name -notmatch '^[A-Za-z0-9_.-]+$') { $filterVersions = $false }
+            $names = $referenceNames[$reference.LocalName]
             if ($isInclude) {
-                [void]$packageNames.Add($name)
+                [void]$names.Add($name)
             } elseif (-not $reference.SelectSingleNode(
                 'ancestor-or-self::*[@Condition or local-name()="When" or local-name()="Otherwise"]')) {
-                [void]$packageNames.Remove($name)
+                [void]$names.Remove($name)
             }
         }
 
@@ -141,6 +145,8 @@ function Get-GeneratedOptionsPackageFingerprint {
         if ($name -notmatch '^[A-Za-z0-9_.-]+$') { $filterVersions = $false }
     }
     if ($filterVersions) {
+        $packageNames = $referenceNames.PackageReference
+        $packageNames.UnionWith($referenceNames.GlobalPackageReference)
         foreach ($version in $versions) {
             $name = if ($version.HasAttribute('Include')) { $version.GetAttribute('Include') }
                 else { $version.GetAttribute('Update') }

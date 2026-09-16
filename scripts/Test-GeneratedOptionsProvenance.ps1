@@ -526,6 +526,25 @@ try {
     }
     Set-Content -LiteralPath $generatorProject `
         -Value '<Project><ItemGroup><PackageReference Include="AngleSharp" /></ItemGroup></Project>'
+    foreach ($includedType in @('PackageReference', 'GlobalPackageReference')) {
+        $removedType = if ($includedType -eq 'PackageReference') { 'GlobalPackageReference' } else { 'PackageReference' }
+        Set-Content -LiteralPath (Join-Path $tempRoot 'Directory.Build.props') `
+            -Value ('<Project><ItemGroup><{0} Include="Build.Package" /></ItemGroup></Project>' -f $includedType)
+        Set-Content -LiteralPath (Join-Path $tempRoot 'tools/Directory.Build.props') `
+            -Value ('<Project><ItemGroup><{0} Remove="Build.Package" /></ItemGroup></Project>' -f $removedType)
+        Set-TestCentralPackageVersions
+        Invoke-Git $tempRoot add .
+        Invoke-Git $tempRoot commit -m "remove $removedType while $includedType remains"
+        $beforeCrossTypeUpdate = Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot
+        Set-TestCentralPackageVersions -BuildPackage '2.0.0'
+        Invoke-Git $tempRoot add Directory.Packages.props
+        Invoke-Git $tempRoot commit -m 'update dependency retained by another item type'
+        if ((Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot) -eq $beforeCrossTypeUpdate) {
+            throw "$removedType removal discarded an active $includedType dependency."
+        }
+    }
+    Set-Content -LiteralPath (Join-Path $tempRoot 'Directory.Build.props') `
+        -Value '<Project><ItemGroup><PackageReference Include="Build.Package" /></ItemGroup></Project>'
     Set-Content -LiteralPath (Join-Path $tempRoot 'tools/Directory.Build.props') -Value '<Project />'
     Set-TestCentralPackageVersions
     Invoke-Git $tempRoot add .
