@@ -105,6 +105,33 @@ function Test-StaleBotReviewCanBeIgnored {
     return Test-StatusCheckCompletedAfterInstant -Checks $Checks -Name 'claude-review' -InstantUtc $HeadCommitCommittedAt
 }
 
+# Dispatch checks belong to the dispatch ref, which may be main rather than the PR.
+# Normalize only jobs returned by this repository's trusted review workflow.
+function ConvertTo-DispatchedReviewChecks {
+    [CmdletBinding()]
+    param(
+        [AllowNull()]$Run,
+        [AllowNull()]$Jobs
+    )
+
+    if ($Run.path -ne '.github/workflows/claude-code-review.yml' -or
+        $Run.name -ne 'Claude Code Review' -or $Run.event -ne 'workflow_dispatch' -or
+        $Run.status -ne 'completed' -or $Run.conclusion -ne 'success' -or
+        [string]$Run.id -notmatch '^[1-9]\d*$') { return }
+
+    foreach ($job in @($Jobs | Where-Object { $null -ne $_ })) {
+        if ([string]$job.run_id -ne [string]$Run.id -or $job.name -ne 'claude-review') { continue }
+        [pscustomobject]@{
+            name = $job.name
+            workflowName = $Run.name
+            status = $job.status
+            conclusion = $job.conclusion
+            startedAt = $job.started_at
+            completedAt = $job.completed_at
+        }
+    }
+}
+
 function Test-TrustedBotClearVerdict {
     [CmdletBinding()]
     param(
