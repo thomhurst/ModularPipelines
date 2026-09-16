@@ -130,4 +130,5 @@ public enum CliArgumentGroupKind
     AtMostOne = 2,
     AtLeastOne = 4,
     Resource = 8,
+    Optional = 16,
 }

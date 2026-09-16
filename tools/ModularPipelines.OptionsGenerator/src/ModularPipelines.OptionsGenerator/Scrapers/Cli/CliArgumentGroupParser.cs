@@ -52,6 +52,7 @@ internal static partial class CliArgumentGroupParser
                 lines[(declaration.LineIndex + 1)..descriptionEnd]);
             var preludeStart = index == 0 ? 0 : previousDescriptionEnd;
             var preludeLines = lines[preludeStart..declaration.LineIndex];
+            BeginNamedBundle(stack, ref preludeLines);
             var prelude = NormalizeDocumentation(preludeLines);
             var preludeIndentation = GetMinimumContentIndentation(preludeLines);
             previousDescriptionEnd = descriptionEnd;
@@ -92,6 +93,13 @@ internal static partial class CliArgumentGroupParser
         for (var index = 0; index < lines.Length; index++)
         {
             if (parseArgument(lines[index]) is not { } argument)
+            {
+                continue;
+            }
+
+            // Long switch names wrap onto their own line in resource-help bullets.
+            // They refer to a later declaration; they do not declare boolean flags.
+            if (index > 0 && WrappedArgumentReferencePattern().IsMatch(lines[index - 1]))
             {
                 continue;
             }
@@ -140,6 +148,42 @@ internal static partial class CliArgumentGroupParser
         }
     }
 
+    private static void BeginNamedBundle(Stack<ArgumentGroupBuilder> stack, ref string[] preludeLines)
+    {
+        var heading = Array.FindIndex(preludeLines, line => NamedBundleHeadingPattern().IsMatch(line.Trim()));
+        if (heading < 0)
+        {
+            return;
+        }
+
+        var prefix = preludeLines[..heading];
+        var prefixDescription = NormalizeDocumentation(prefix);
+        var prefixKind = Classify(prefixDescription);
+        const CliArgumentGroupKind choiceKinds = CliArgumentGroupKind.AtLeastOne | CliArgumentGroupKind.AtMostOne;
+        if ((prefixKind & choiceKinds) == 0 && !stack.Any(group => (Classify(group.Description) & choiceKinds) != 0))
+        {
+            return;
+        }
+        var indentation = CliScraperBase.GetIndentation(preludeLines[heading]);
+        MoveToContainingGroup(stack, indentation, GetMinimumContentIndentation(prefix));
+        if ((prefixKind & choiceKinds) != 0)
+        {
+            BeginArgumentGroup(stack, GetMinimumContentIndentation(prefix) + 1, prefixDescription, true);
+        }
+
+        var end = heading + 1;
+        while (end < preludeLines.Length && !string.IsNullOrWhiteSpace(preludeLines[end]))
+        {
+            end++;
+        }
+
+        // Named configurations are whole branches. Their resource groups and
+        // direct flags may share the heading's indentation in gcloud help.
+        BeginArgumentGroup(stack, indentation, NormalizeDocumentation(preludeLines[heading..end]), true, namedBundle: true);
+        stack.Peek().IsNamedBundle = true;
+        preludeLines = preludeLines[end..];
+    }
+
     private static void AddArgument(
         Stack<ArgumentGroupBuilder> stack,
         CliArgumentDefinition argument,
@@ -183,9 +227,15 @@ internal static partial class CliArgumentGroupParser
     }
 
     private static void BeginArgumentGroup(
-        Stack<ArgumentGroupBuilder> stack, int indentation, string? prelude, bool preludeStartsGroup)
+        Stack<ArgumentGroupBuilder> stack, int indentation, string? prelude, bool preludeStartsGroup, bool namedBundle = false)
     {
         var current = stack.Peek();
+        if (indentation == current.Indentation && current.IsNamedBundle && preludeStartsGroup && !namedBundle)
+        {
+            // Resource prose can sit at the same depth as its provider heading.
+            // End this resource before the next peer flag, while retaining the provider.
+            indentation++;
+        }
         if (indentation > current.Indentation)
         {
             var child = new ArgumentGroupBuilder(indentation, prelude);
@@ -306,6 +356,8 @@ internal static partial class CliArgumentGroupParser
     {
         public int Indentation { get; } = indentation;
 
+        public bool IsNamedBundle { get; set; }
+
         public string? Description { get; private set; } = description;
 
         public List<CliArgumentDefinition> Arguments { get; } = [];
@@ -331,6 +383,12 @@ internal static partial class CliArgumentGroupParser
     private sealed record ParsedArgumentLine(
         int LineIndex,
         CliArgumentDefinition Argument);
+
+    [GeneratedRegex(@"^\s*[-+*o]\s+provide the argument\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    private static partial Regex WrappedArgumentReferencePattern();
+
+    [GeneratedRegex(@"^(?:(?:Defines the )?configuration for|(?:Bearer token|Basic) authentication with)\b", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    private static partial Regex NamedBundleHeadingPattern();
 
     [GeneratedRegex(@"\s+", RegexOptions.CultureInvariant)]
     private static partial Regex WhitespacePattern();

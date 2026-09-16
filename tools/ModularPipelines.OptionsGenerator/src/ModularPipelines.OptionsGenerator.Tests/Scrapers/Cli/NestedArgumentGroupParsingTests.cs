@@ -732,7 +732,7 @@ public partial class NestedArgumentGroupParsingTests
                     + "public sealed class CliOptionAttribute(string name) : Attribute { public OptionFormat Format { get; set; } public string? CollectionSeparator { get; set; } } "
                     + "public sealed class EnumValueAttribute(string name) : Attribute; "
                     + "public sealed class CliFlagAttribute(string name) : Attribute; "
-                    + "public sealed class CliArgumentAttribute(int position) : Attribute { public CommandLinePhase Phase { get; set; } } "
+                    + "public sealed class CliArgumentAttribute(int position) : Attribute { public CommandLinePhase Phase { get; set; } public bool Required { get; set; } } "
                     + "public sealed class CliSubCommandAttribute(params string[] parts) : Attribute; }", parseOptions),
                 CSharpSyntaxTree.ParseText(generatedOptions, parseOptions),
                 .. (additionalSources ?? []).Select(source => CSharpSyntaxTree.ParseText(source, parseOptions)),

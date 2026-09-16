@@ -962,7 +962,8 @@ public static partial class GeneratorUtils
         if (isFlag
             || propertyName.EndsWith("SecretsProvider", StringComparison.OrdinalIgnoreCase)
             || propertyName.EndsWith("Name", StringComparison.OrdinalIgnoreCase)
-            || IsFilePathOption(propertyName, description))
+            || IsFilePathOption(propertyName, description)
+            || IsResourceIdentifierOption(description))
         {
             return false;
         }
@@ -1044,8 +1045,21 @@ public static partial class GeneratorUtils
     {
         return FilePathPropertySuffixes.Any(suffix =>
                    propertyName.EndsWith(suffix, StringComparison.OrdinalIgnoreCase))
-               || description?.Contains("path to", StringComparison.OrdinalIgnoreCase) == true;
+               || (description is not null && FilePathDescriptionPattern().IsMatch(
+                   NegatedFilePathPattern().Replace(description, string.Empty)));
     }
+
+    internal static bool IsResourceIdentifierOption(string? description) =>
+        description is not null && ResourceIdentifierDescriptionPattern().IsMatch(description);
+
+    [GeneratedRegex(@"\bnot\s+(?:the\s+|a\s+)?path\s+to\b", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    private static partial Regex NegatedFilePathPattern();
+
+    [GeneratedRegex(@"\bpath\s+to\b", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    private static partial Regex FilePathDescriptionPattern();
+
+    [GeneratedRegex(@"\bID of the \w+ or fully qualified identifier\b|\bthe \w+ id of the \w+ resource\b", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    private static partial Regex ResourceIdentifierDescriptionPattern();
 
     private static bool ContainsIdentifierSegment(string propertyName, string segment)
     {

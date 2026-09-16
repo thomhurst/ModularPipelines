@@ -307,9 +307,10 @@ public partial class GcloudCliScraper : CliScraperBase
         var argumentGroups = new List<CliArgumentGroup>();
         var sections = new List<(string Name, CliArgumentGroup Group)>();
         var requiredAlternativeGroups = new List<CliRequiredAlternativeGroup>();
+        var optionalResourceGroups = UsageSynopsisParser.GetOptionalResourceOptionGroups(usage.Synopsis).ToArray();
         foreach (var (name, content) in ExtractSections(helpText, "FLAGS", "REQUIRED FLAGS", "OPTIONAL FLAGS", "POSITIONAL ARGUMENTS"))
         {
-            var argumentGroup = ParseSectionArgumentGroup(name, content);
+            var argumentGroup = MarkOptionalResourceGroups(ParseSectionArgumentGroup(name, content), optionalResourceGroups);
             argumentGroups.Add(argumentGroup);
             sections.Add((name, argumentGroup));
             foreach (var argument in argumentGroup.FlattenArguments().Where(argument => !argument.IsPositional))
@@ -342,6 +343,18 @@ public partial class GcloudCliScraper : CliScraperBase
         return (options, argumentGroups, requiredAlternativeGroups, positionalArguments);
     }
 
+    private static CliArgumentGroup MarkOptionalResourceGroups(CliArgumentGroup group, IReadOnlyList<IReadOnlySet<string>> optionalGroups)
+    {
+        var arguments = group.FlattenArguments().ToArray();
+        var optional = arguments.Length > 0 && arguments.All(argument => !argument.IsPositional)
+            && optionalGroups.Any(switches => switches.SetEquals(arguments.Select(argument => argument.SwitchName)));
+        return group with
+        {
+            Kind = optional ? group.Kind | CliArgumentGroupKind.Optional : group.Kind,
+            Groups = [.. group.Groups.Select(nested => MarkOptionalResourceGroups(nested, optionalGroups))],
+        };
+    }
+
     private static void ApplyRequiredGroups(
         CliArgumentGroup group,
         List<CliOptionDefinition> options,
@@ -369,6 +382,7 @@ public partial class GcloudCliScraper : CliScraperBase
         }
 
         if (allowPresenceRequirements
+            && !group.Kind.HasFlag(CliArgumentGroupKind.Optional)
             && (required || DescribesRequiredBundle(group)))
         {
             if (ApplyMandatoryGroup(group, options, positionalArguments, requiredAlternativeGroups, required))
@@ -378,11 +392,9 @@ public partial class GcloudCliScraper : CliScraperBase
         }
         else if (group.Arguments.Any(ArgumentIsConditionallyRequired))
         {
-            // Optional bundles still require their mandatory members when any member is supplied.
             requiredAlternativeGroups.Add(CreateAlternativeConstraint(group, options, positionalArguments) with { IsRequired = false });
             return;
         }
-
         foreach (var nested in group.Groups)
         {
             var inheritsRequiredness = required && IsOrdinaryArgumentBundle(nested);
@@ -448,8 +460,8 @@ public partial class GcloudCliScraper : CliScraperBase
 
         return new CliRequiredAlternativeGroup
         {
-            IsRequired = group.Kind.HasFlag(CliArgumentGroupKind.AtLeastOne)
-                         || DescribesRequiredBundle(group),
+            IsRequired = !group.Kind.HasFlag(CliArgumentGroupKind.Optional)
+                         && (group.Kind.HasFlag(CliArgumentGroupKind.AtLeastOne) || DescribesRequiredBundle(group)),
             IsChoice = isChoice,
             IsMutuallyExclusive = group.Kind.HasFlag(CliArgumentGroupKind.AtMostOne),
             Members = members,
@@ -618,7 +630,8 @@ public partial class GcloudCliScraper : CliScraperBase
             argument, commandParts, helpText, isFlag, hasCompositeSyntax, isStructuredValue, isKeyValue);
         var isNumeric = IsNumericValue(longForm, valueHint, description, isStructuredValue)
                         && !DurationDescriptionPattern().IsMatch(argument.Description ?? string.Empty);
-        var enumDefinition = isStructuredValue ? null : TryDetectEnum(propertyName, description);
+        var enumDefinition = isStructuredValue ? null : TryDetectEnum(
+            GenerateClassName([ToolName, .. commandParts]), propertyName, longForm, description);
 
         return new CliOptionDefinition
         {
@@ -848,7 +861,10 @@ public partial class GcloudCliScraper : CliScraperBase
                     IsRequired = required,
                     IsVariadic = variadic,
                 }) with
-                { Description = argument.Documentation };
+                {
+                    Description = argument.Documentation,
+                    IsSecret = GeneratorUtils.IsSecretOption(propertyName, false, argument.Documentation),
+                };
             })
             .OrderBy(argument => argument.PositionIndex);
         return CliPositionalArgument.MergeDuplicates(arguments);
@@ -914,7 +930,7 @@ public partial class GcloudCliScraper : CliScraperBase
     private static bool DescriptionDeclaresValueList(string? description)
         => description?.StartsWith("List of ", StringComparison.OrdinalIgnoreCase) is true;
 
-    private static CliEnumDefinition? TryDetectEnum(string propertyName, string? description)
+    private static CliEnumDefinition? TryDetectEnum(string className, string propertyName, string switchName, string? description)
     {
         if (string.IsNullOrEmpty(description))
         {
@@ -934,7 +950,7 @@ public partial class GcloudCliScraper : CliScraperBase
 
             if (values.Length >= 2 && values.Length <= 12)
             {
-                return CreateEnumDefinition(propertyName, values);
+                return OptionEnumFactory.TryCreate(className, propertyName, switchName, values);
             }
         }
 
@@ -951,28 +967,11 @@ public partial class GcloudCliScraper : CliScraperBase
 
             if (values.Length >= 2 && values.Length <= 12)
             {
-                return CreateEnumDefinition(propertyName, values);
+                return OptionEnumFactory.TryCreate(className, propertyName, switchName, values);
             }
         }
 
         return null;
-    }
-
-    private static CliEnumDefinition CreateEnumDefinition(string propertyName, string[] values)
-    {
-        // Use just the namespace prefix + property name for shorter enum names
-        var enumName = $"Gcloud{propertyName}";
-
-        return new CliEnumDefinition
-        {
-            EnumName = enumName,
-            Values = [.. values.Select(v => new CliEnumValue
-            {
-                MemberName = string.Join("", v.Split(['-', '_'], StringSplitOptions.RemoveEmptyEntries).Select(ToPascalCase)),
-                CliValue = v
-            })],
-            Description = $"Allowed values for --{propertyName.ToLowerInvariant()}."
-        };
     }
 
     private static string DetermineCSharpType(

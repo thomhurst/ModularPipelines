@@ -498,6 +498,29 @@ public class OptionTypeEnhancerTests
         }
     }
 
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Resource_Identifiers_Clear_Inferred_Secrets_But_Respect_Overrides(bool explicitSecret)
+    {
+        var pipeline = new OptionTypeDetectorPipeline(
+            explicitSecret ? [new FixedDetector(new OptionTypeDetectionResult
+            {
+                Type = CliOptionType.Unknown, Confidence = 100, Source = "ManualOverride", IsSecret = true,
+            })] : [], NullLogger<OptionTypeDetectorPipeline>.Instance);
+        var enhancer = new OptionTypeEnhancer(pipeline, NullLogger<OptionTypeEnhancer>.Instance);
+        var tool = CreateTool(new CliOptionDefinition
+        {
+            SwitchName = "--token-auth-user",
+            PropertyName = "TokenAuthUser",
+            CSharpType = "string?",
+            Description = "The tokenAuthUser id of the authToken resource.",
+            IsSecret = true,
+        });
+        var enhanced = await enhancer.EnhanceAsync(tool);
+        await Assert.That(enhanced.Commands.Single().Options.Single().IsSecret).IsEqualTo(explicitSecret);
+    }
+
     private static CliToolDefinition CreateTool(
         CliOptionDefinition option,
         string toolName = "docker",

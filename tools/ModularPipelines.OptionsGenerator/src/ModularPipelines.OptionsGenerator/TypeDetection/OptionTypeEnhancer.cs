@@ -181,15 +181,18 @@ public class OptionTypeEnhancer
                     || enumDef is not null
                     || description != option.Description)
                 {
-                    _logger.LogInformation(
-                        "Enhanced {Command} {Option}: {OldType} -> {NewType} (confidence: {Confidence}, source: {Source}){EnumInfo}",
-                        command.FullCommand,
-                        option.SwitchName,
-                        option.CSharpType,
-                        newCSharpType,
-                        result.Confidence,
-                        result.Source,
-                        enumDef is not null ? $" [Enum: {enumDef.EnumName}]" : "");
+                    if (_logger.IsEnabled(LogLevel.Information))
+                    {
+                        _logger.LogInformation(
+                            "Enhanced {Command} {Option}: {OldType} -> {NewType} (confidence: {Confidence}, source: {Source}){EnumInfo}",
+                            command.FullCommand,
+                            option.SwitchName,
+                            option.CSharpType,
+                            newCSharpType,
+                            result.Confidence,
+                            result.Source,
+                            enumDef is not null ? $" [Enum: {enumDef.EnumName}]" : "");
+                    }
 
                     enhancedOption = option with
                     {
@@ -235,7 +238,8 @@ public class OptionTypeEnhancer
                                       option.Description)
                                   && !GeneratorUtils.IsSecretMetadataOption(
                                       option.PropertyName,
-                                      option.Description))
+                                      option.Description)
+                                  && !GeneratorUtils.IsResourceIdentifierOption(option.Description))
                                  || hasSecretKeyword);
         var requestsSecret = secretValueKeys.Count > 0
                              || (explicitlySecret ?? inferredSecret);
