@@ -5,6 +5,34 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers.Cli;
 public partial class NestedArgumentGroupParsingTests
 {
     [Test]
+    public async Task Classifiable_Sibling_Headings_Preserve_The_Outer_Choice()
+    {
+        const string section = """
+            Exactly one of these must be specified:
+              First branch settings.
+              --first=FIRST
+                 The first branch value.
+
+              At least one of these must be specified:
+              --second=SECOND
+                 The second branch value.
+
+              At most one of these may be specified:
+              --third=THIRD
+                 The third branch value.
+            """;
+        var root = TestArgumentGroupScraper.ParseGroups(section);
+        var choice = root.Groups.Single();
+        await Assert.That(choice.Kind.HasFlag(CliArgumentGroupKind.AtLeastOne | CliArgumentGroupKind.AtMostOne)).IsTrue();
+        await Assert.That(choice.Arguments).IsEmpty();
+        await Assert.That(choice.Groups).Count().IsEqualTo(3);
+        await Assert.That(choice.Groups.Select(group => group.Arguments.Single().SwitchName))
+            .IsEquivalentTo(["--first", "--second", "--third"]);
+        await Assert.That(choice.Groups[1].Kind).IsEqualTo(CliArgumentGroupKind.AtLeastOne);
+        await Assert.That(choice.Groups[2].Kind).IsEqualTo(CliArgumentGroupKind.AtMostOne);
+    }
+
+    [Test]
     [Arguments("At most one of these can be specified:", CliArgumentGroupKind.AtMostOne)]
     [Arguments("At least one of these must be specified:", CliArgumentGroupKind.AtLeastOne)]
     [Arguments("Or use these options:", CliArgumentGroupKind.Alternative)]

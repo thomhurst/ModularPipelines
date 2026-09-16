@@ -162,6 +162,7 @@ public class UsageSynopsisParserTests
 
     [Test]
     [Arguments(CliArgumentGroupKind.None, false, false)]
+    [Arguments(CliArgumentGroupKind.AtMostOne, false, false)]
     [Arguments(CliArgumentGroupKind.AtLeastOne, true, false)]
     [Arguments(CliArgumentGroupKind.AtLeastOne, false, true)]
     public async Task Undocumented_Or_Mixed_Option_Groups_Are_Not_Deferred(
@@ -181,6 +182,22 @@ public class UsageSynopsisParserTests
                 ],
             },
         ]);
+        await Assert.That(normalized).IsEqualTo(synopsis);
+        await Assert.That(() => UsageSynopsisParser.Parse("Usage: " + normalized, ["tool", "run"]))
+            .Throws<InvalidOperationException>();
+    }
+
+    [Test]
+    public async Task Duplicate_Documented_Option_Sets_Are_Not_Deferred()
+    {
+        const string synopsis = "tool run ((--a=A --x=X) : --b=B)";
+        var group = new CliArgumentGroup
+        {
+            Kind = CliArgumentGroupKind.AtLeastOne,
+            Arguments = [new() { SwitchName = "--a" }, new() { SwitchName = "--x" }, new() { SwitchName = "--b" }],
+        };
+        var normalized = UsageSynopsisParser.DeferDocumentedOptionGroups(synopsis,
+            [group, group with { Kind = CliArgumentGroupKind.AtLeastOne | CliArgumentGroupKind.AtMostOne }]);
         await Assert.That(normalized).IsEqualTo(synopsis);
         await Assert.That(() => UsageSynopsisParser.Parse("Usage: " + normalized, ["tool", "run"]))
             .Throws<InvalidOperationException>();

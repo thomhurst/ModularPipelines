@@ -1353,7 +1353,7 @@ public static class UsageSynopsisParser
     internal static string DeferDocumentedOptionGroups(string synopsis, IReadOnlyList<CliArgumentGroup> groups)
     {
         // A colon can encode nested option cardinality that cannot be inferred from usage alone.
-        // Defer only complete, option-only groups with an exact documented constraint counterpart.
+        // Defer only complete, option-only groups with one exact documented constraint counterpart.
         foreach (var token in Tokenize(synopsis).Where(token => IsDocumentedOptionGroup(token, groups)))
         {
             synopsis = synopsis.Replace(token, " ", StringComparison.Ordinal);
@@ -1369,7 +1369,19 @@ public static class UsageSynopsisParser
         }
 
         var switches = EnumerateInlineOptionSwitches(TokenizeOptionGroup(TrimWrapper(token))).ToHashSet(StringComparer.Ordinal);
-        return groups.Any(group => MatchesDocumentedOptionGroup(group, switches));
+        return EnumerateArgumentGroups(groups).Count(group => MatchesDocumentedOptionGroup(group, switches)) == 1;
+    }
+
+    private static IEnumerable<CliArgumentGroup> EnumerateArgumentGroups(IEnumerable<CliArgumentGroup> groups)
+    {
+        foreach (var group in groups)
+        {
+            yield return group;
+            foreach (var nested in EnumerateArgumentGroups(group.Groups))
+            {
+                yield return nested;
+            }
+        }
     }
 
     private static IEnumerable<string> EnumerateInlineOptionSwitches(IEnumerable<string> tokens) =>
@@ -1391,10 +1403,10 @@ public static class UsageSynopsisParser
     private static bool MatchesDocumentedOptionGroup(CliArgumentGroup group, HashSet<string> switches)
     {
         var arguments = group.FlattenArguments().ToArray();
-        return (group.Kind.HasFlag(CliArgumentGroupKind.AtLeastOne)
-                && arguments.All(static argument => !argument.IsPositional)
-                && switches.SetEquals(arguments.Select(static argument => argument.SwitchName)))
-            || group.Groups.Any(nested => MatchesDocumentedOptionGroup(nested, switches));
+        // An at-most-one rule alone cannot preserve a required synopsis group's minimum cardinality.
+        return group.Kind.HasFlag(CliArgumentGroupKind.AtLeastOne)
+            && arguments.All(static argument => !argument.IsPositional)
+            && switches.SetEquals(arguments.Select(static argument => argument.SwitchName));
     }
 
     private static bool ContainsOnlyInlineOptions(IEnumerable<string> tokens)
