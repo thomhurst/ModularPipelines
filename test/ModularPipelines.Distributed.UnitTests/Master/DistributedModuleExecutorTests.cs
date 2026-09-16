@@ -757,7 +757,9 @@ public class DistributedModuleExecutorTests
             new ModuleState(second, typeof(AnotherCachedDistributedModule)));
         var firstStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var secondStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        var releaseFirst = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        // Both lookups must start before release. Resume the held lookup inline so this
+        // ordering assertion does not also depend on a thread-pool slot under CI load.
+        var releaseFirst = new TaskCompletionSource();
         var cache = new Mock<IModuleCacheResultRepository>();
         cache.Setup(repository => repository.GetResultAsync(
                 It.IsAny<Module<SimpleResult>>(),
@@ -798,6 +800,7 @@ public class DistributedModuleExecutorTests
             Record("first start observed");
             await secondStarted.Task.WaitAsync(cancellationToken);
             Record("second start observed");
+            await Assert.That(execution.IsCompleted).IsFalse();
             releaseFirst.TrySetResult();
             Record("release signaled");
             await execution.WaitAsync(cancellationToken);
