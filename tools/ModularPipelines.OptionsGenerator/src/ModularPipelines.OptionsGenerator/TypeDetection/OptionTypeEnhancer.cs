@@ -225,24 +225,9 @@ public class OptionTypeEnhancer
         OptionTypeDetectionResult? detectionResult)
     {
         var secretValueKeys = detectionResult?.SecretValueKeys ?? option.SecretValueKeys;
-        var hasSecretKeyword = GeneratorUtils.IsSecretOption(
-            option.PropertyName,
-            isFlag: false,
-            option.Description);
         var explicitlySecret = detectionResult?.IsSecret;
-        // Documented enum choices are public metadata, not credential material.
-        var inferredSecret = option.EnumDefinition is null
-                             && ((option.IsSecret
-                                  && !GeneratorUtils.IsFilePathOption(
-                                      option.PropertyName,
-                                      option.Description)
-                                  && !GeneratorUtils.IsSecretMetadataOption(
-                                      option.PropertyName,
-                                      option.Description)
-                                  && !GeneratorUtils.IsResourceIdentifierOption(option.Description))
-                                 || hasSecretKeyword);
         var requestsSecret = secretValueKeys.Count > 0
-                             || (explicitlySecret ?? inferredSecret);
+                             || (explicitlySecret ?? IsInferredSecret(option));
         var isBoolean = option.IsFlag
                         || string.Equals(
                             option.CSharpType.TrimEnd('?'),
@@ -262,6 +247,21 @@ public class OptionTypeEnhancer
             IsSecret = !isBoolean && requestsSecret,
             SecretValueKeys = isBoolean ? [] : secretValueKeys,
         };
+    }
+
+    private static bool IsInferredSecret(CliOptionDefinition option)
+    {
+        // Documented enum choices are public metadata, not credential material.
+        if (option.EnumDefinition is not null)
+        {
+            return false;
+        }
+
+        return GeneratorUtils.IsSecretOption(option.PropertyName, false, option.Description)
+               || (option.IsSecret
+                   && !GeneratorUtils.IsFilePathOption(option.PropertyName, option.Description)
+                   && !GeneratorUtils.IsSecretMetadataOption(option.PropertyName, option.Description)
+                   && !GeneratorUtils.IsResourceIdentifierOption(option.Description));
     }
 
     /// <summary>
