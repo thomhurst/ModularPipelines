@@ -55,6 +55,7 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha || format('refs/pull/{0}/head', inputs.pr_number) }}
           path: pr-head
           fetch-depth: 1
+          filter: blob:none
           persist-credentials: false
           # actions/checkout blocks fork checkouts under pull_request_target because
           # fetching AND EXECUTING fork code in the trusted context is a pwn request.
@@ -74,10 +75,19 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
           PR_NUMBER: ${{ github.event.pull_request.number || inputs.pr_number }}
+          REVIEW_HEAD_SHA: ${{ steps.pull_request.outputs.head_sha }}
         run: |
           mkdir -p review-context
           gh pr view "$PR_NUMBER" --repo "$GH_REPO" --json number,title,body,headRefOid,baseRefOid > review-context/pull-request.json
-          gh pr diff "$PR_NUMBER" --repo "$GH_REPO" --color never > review-context/diff.patch
+          BASE_SHA=$(jq -r '.baseRefOid' review-context/pull-request.json)
+          history_args=()
+          if [ "$(git -C pr-head rev-parse --is-shallow-repository)" = true ]; then
+            history_args=(--unshallow)
+          fi
+          # Fetch commit history without historical blobs, then diff immutable SHAs.
+          # The credential helper reads GH_TOKEN without persisting it in git config.
+          git -C pr-head -c credential.helper= -c 'credential.helper=!gh auth git-credential' fetch --no-tags --filter=blob:none "${history_args[@]}" origin "$BASE_SHA" "$REVIEW_HEAD_SHA"
+          git -C pr-head -c credential.helper= -c 'credential.helper=!gh auth git-credential' diff --no-ext-diff --no-textconv "$BASE_SHA...$REVIEW_HEAD_SHA" > review-context/diff.patch
           gh api --paginate --slurp "repos/$GH_REPO/pulls/$PR_NUMBER/reviews" > review-context/reviews.json
           gh api --paginate --slurp "repos/$GH_REPO/pulls/$PR_NUMBER/comments" > review-context/inline-comments.json
           gh api --paginate --slurp "repos/$GH_REPO/issues/$PR_NUMBER/comments" > review-context/conversation.json

@@ -1251,7 +1251,9 @@ $workflowCheck = @{
     startedAt = '2026-07-06T01:40:00Z'
     completedAt = '2026-07-06T01:42:00Z'
 }
+$workflowProvenanceCaseCount = 0
 foreach ($case in $verdictCases) {
+    $workflowProvenanceCaseCount++
     $review = [pscustomobject]@{
         author = [pscustomobject]@{ login = if ($case.Review.author.login -eq 'claude') { 'github-actions' } else { $case.Review.author.login } }
         commit = [pscustomobject]@{ oid = $verdictHead }
@@ -1264,6 +1266,7 @@ foreach ($case in $verdictCases) {
     }
 }
 foreach ($login in @('github-actions', 'github-actions[bot]')) {
+    $workflowProvenanceCaseCount++
     $workflowReview.author.login = $login
     if (-not (Test-TrustedBotClearVerdict -Review $workflowReview -HeadSha $verdictHead -Checks @([pscustomobject]$workflowCheck))) {
         throw "The authenticated workflow publisher '$login' should clear its exact-head review."
@@ -1280,6 +1283,7 @@ foreach ($changedCheck in @(
     @{ startedAt = $null },
     @{ completedAt = $null }
 )) {
+    $workflowProvenanceCaseCount++
     $check = $workflowCheck.Clone()
     foreach ($key in $changedCheck.Keys) { $check[$key] = $changedCheck[$key] }
     if (Test-TrustedBotClearVerdict -Review $workflowReview -HeadSha $verdictHead -Checks @([pscustomobject]$check)) {
@@ -1289,13 +1293,16 @@ foreach ($changedCheck in @(
 if (Test-TrustedBotClearVerdict -Review $workflowReview -HeadSha $verdictHead) {
     throw 'A workflow review without check provenance must not clear.'
 }
+$workflowProvenanceCaseCount++
 $workflowReview.commit.oid = 'b' * 40
 if (Test-TrustedBotClearVerdict -Review $workflowReview -HeadSha $verdictHead -Checks @([pscustomobject]$workflowCheck)) {
     throw 'The structured review commit must match even when its body names the current head.'
 }
+$workflowProvenanceCaseCount++
 $workflowReview.commit = $null
 if (Test-TrustedBotClearVerdict -Review $workflowReview -HeadSha $verdictHead -Checks @([pscustomobject]$workflowCheck)) {
     throw 'A workflow review without a structured commit must not clear.'
 }
+$workflowProvenanceCaseCount++
 
-Write-Host "OK review heuristic tests passed ($($cases.Count) body cases, $($staleReviewCases.Count) stale review cases, $($verdictCases.Count) verdict cases, 21 workflow provenance cases)."
+Write-Host "OK review heuristic tests passed ($($cases.Count) body cases, $($staleReviewCases.Count) stale review cases, $($verdictCases.Count) verdict cases, $workflowProvenanceCaseCount workflow provenance cases)."
