@@ -161,7 +161,8 @@ public partial class GcloudCliScraper : CliScraperBase
     {
         var groups = ExtractSections(helpText, "FLAGS", "REQUIRED FLAGS", "OPTIONAL FLAGS", "POSITIONAL ARGUMENTS")
             .Select(section => ParseSectionArgumentGroup(section.Name, section.Content)).ToArray();
-        var arguments = groups.SelectMany(group => group.FlattenArguments())
+        var declaredArguments = groups.SelectMany(group => group.FlattenArguments()).ToArray();
+        var arguments = declaredArguments
             .Where(argument => !argument.IsPositional && !string.IsNullOrEmpty(argument.ValueHint))
             .DistinctBy(argument => (argument.SwitchName, argument.ValueHint))
             .OrderByDescending(argument => argument.ValueHint!.Length)
@@ -187,7 +188,7 @@ public partial class GcloudCliScraper : CliScraperBase
             helpText = helpText.Replace(synopsis, normalized, StringComparison.Ordinal);
         }
         var dispatchPlaceholders = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { "Group", "Command" };
-        dispatchPlaceholders.ExceptWith(groups.SelectMany(group => group.FlattenArguments())
+        dispatchPlaceholders.ExceptWith(declaredArguments
             .Where(argument => argument.IsPositional)
             .Select(argument => NormalizePropertyName(argument.SwitchName)!));
         return UsageSynopsisParser.RemoveCommandGroupPlaceholders(
