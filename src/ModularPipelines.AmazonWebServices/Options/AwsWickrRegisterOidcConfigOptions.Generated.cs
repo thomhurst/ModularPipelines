@@ -114,7 +114,6 @@ public record AwsWickrRegisterOidcConfigOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// The buffer time in minutes before the SSO token expires to refresh it (optional).
     /// </summary>
-    [SecretValue]
     [CliOption("--sso-token-buffer-minutes")]
     public int? SsoTokenBufferMinutes { get; set; }
 

@@ -6,7 +6,6 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -60,7 +59,6 @@ public record AwsIamSetSecurityTokenServicePreferencesOptions : AwsOptions, IVal
     /// <summary>
     /// The version of the global endpoint token. Version 1 tokens are valid only in Amazon Web Services Regions that are available by default. These tokens do not work in manually enabled Regions, such as Asia Pacific (Hong Kong). Version 2 tokens are valid in all Regions. How- ever, version 2 tokens are longer and might affect systems where you temporarily store tokens. For information, see Activating and deactivating STS in an Amazon Web Services Region in the IAM User Guide . Possible values: o v1Token o v2Token
     /// </summary>
-    [SecretValue]
     [CliOption("--global-endpoint-token-version")]
     public AwsIamSetSecurityTokenServicePreferencesGlobalEndpointTokenVersion? GlobalEndpointTokenVersion { get; private init; }
 

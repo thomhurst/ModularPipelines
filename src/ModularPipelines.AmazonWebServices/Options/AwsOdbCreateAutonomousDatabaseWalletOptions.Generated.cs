@@ -79,7 +79,6 @@ public record AwsOdbCreateAutonomousDatabaseWalletOptions : AwsOptions, IValidat
     /// <summary>
     /// The source of the password for encrypting the wallet. When set to CUSTOMER_MANAGED_AWS_SECRET , the password is retrieved from an Ama- zon Web Services Secrets Manager secret. Possible values: o CUSTOMER_MANAGED_AWS_SECRET o API_REQUEST_PARAMETER
     /// </summary>
-    [SecretValue]
     [CliOption("--password-source")]
     public AwsOdbCreateAutonomousDatabaseWalletPasswordSource? PasswordSource { get; set; }
 

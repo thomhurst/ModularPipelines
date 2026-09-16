@@ -6,7 +6,6 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -86,7 +85,6 @@ public record AwsStsGetFederationTokenOptions : AwsOptions, IValidatableObject
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
-    [SecretValue]
     [CliOption("--minimum-session-token-size")]
     public int? MinimumSessionTokenSize { get; set; }
 

@@ -6,7 +6,6 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -78,7 +77,6 @@ public record AwsCloud9UpdateEnvironmentOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Allows the environment owner to turn on or turn off the Amazon Web Services managed temporary credentials for an Cloud9 environment by using one of the following values: o ENABLE o DISABLE NOTE: Only the environment owner can change the status of managed tem- porary credentials. An AccessDeniedException is thrown if an at- tempt to turn on or turn off managed temporary credentials is made by an account that's not the environment owner. Possible values: o ENABLE o DISABLE
     /// </summary>
-    [SecretValue]
     [CliOption("--managed-credentials-action")]
     public AwsCloud9UpdateEnvironmentManagedCredentialsAction? ManagedCredentialsAction { get; set; }
 

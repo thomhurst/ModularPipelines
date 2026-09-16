@@ -6,7 +6,6 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -32,7 +31,6 @@ public record AwsOdbInitializeServiceOptions : AwsOptions
     /// <summary>
     /// Specifies whether to enable or disable the OCI service-account role for Amazon Web Services Secrets Manager integration with Autonomous Database. Possible values: o ENABLED o DISABLED
     /// </summary>
-    [SecretValue]
     [CliOption("--autonomous-database-oci-aws-secrets-manager-integration")]
     public AwsOdbInitializeServiceAutonomousDatabaseOciAwsSecretsManagerIntegration? AutonomousDatabaseOciAwsSecretsManagerIntegration { get; set; }
 

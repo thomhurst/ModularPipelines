@@ -89,21 +89,18 @@ public record AwsCognitoIdpCreateUserPoolClientOptions : AwsOptions, IValidatabl
     /// <summary>
     /// The refresh token time limit. After this limit expires, your user can't use their refresh token. To specify the time unit for Refresh- TokenValidity as seconds , minutes , hours , or days , set a Token- ValidityUnits value in your API request. For example, when you set RefreshTokenValidity as 10 and TokenValid- ityUnits as days , your user can refresh their session and retrieve new access and ID tokens for 10 days. The default time unit for RefreshTokenValidity in an API request is days. You can't set RefreshTokenValidity to 0. If you do, Amazon Cognito overrides the value with the default value of 30 days. Valid range is displayed below in seconds. If you don't specify otherwise in the configuration of your app client, your refresh tokens are valid for 30 days. Constraints: o min: 0 o max: 315360000
     /// </summary>
-    [SecretValue]
     [CliOption("--refresh-token-validity")]
     public int? RefreshTokenValidity { get; set; }
 
     /// <summary>
     /// The access token time limit. After this limit expires, your user can't use their access token. To specify the time unit for AccessTo- kenValidity as seconds , minutes , hours , or days , set a TokenVa- lidityUnits value in your API request. For example, when you set AccessTokenValidity to 10 and TokenValidi- tyUnits to hours , your user can authorize access with their access token for 10 hours. The default time unit for AccessTokenValidity in an API request is hours. Valid range is displayed below in seconds. If you don't specify otherwise in the configuration of your app client, your access tokens are valid for one hour. Constraints: o min: 1 o max: 86400
     /// </summary>
-    [SecretValue]
     [CliOption("--access-token-validity")]
     public int? AccessTokenValidity { get; set; }
 
     /// <summary>
     /// The ID token time limit. After this limit expires, your user can't use their ID token. To specify the time unit for IdTokenValidity as seconds , minutes , hours , or days , set a TokenValidityUnits value in your API request. For example, when you set IdTokenValidity as 10 and TokenValidityU- nits as hours , your user can authenticate their session with their ID token for 10 hours. The default time unit for IdTokenValidity in an API request is hours. Valid range is displayed below in seconds. If you don't specify otherwise in the configuration of your app client, your ID tokens are valid for one hour. Constraints: o min: 1 o max: 86400
     /// </summary>
-    [SecretValue]
     [CliOption("--id-token-validity")]
     public int? IdTokenValidity { get; set; }
 

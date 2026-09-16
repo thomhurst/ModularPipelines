@@ -133,7 +133,6 @@ public record AwsStsAssumeRoleOptions : AwsOptions, IValidatableObject
     [CliOption("--provided-contexts", GroupValues = true)]
     public IEnumerable<string>? ProvidedContexts { get; set; }
 
-    [SecretValue]
     [CliOption("--minimum-session-token-size")]
     public int? MinimumSessionTokenSize { get; set; }
 

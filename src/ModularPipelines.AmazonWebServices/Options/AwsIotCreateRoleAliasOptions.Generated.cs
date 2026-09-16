@@ -6,7 +6,6 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -75,7 +74,6 @@ public record AwsIotCreateRoleAliasOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// How long (in seconds) the credentials will be valid. The default value is 3,600 seconds. This value must be less than or equal to the maximum session dura- tion of the IAM role that the role alias references. Constraints: o min: 900 o max: 43200
     /// </summary>
-    [SecretValue]
     [CliOption("--credential-duration-seconds")]
     public int? CredentialDurationSeconds { get; set; }
 

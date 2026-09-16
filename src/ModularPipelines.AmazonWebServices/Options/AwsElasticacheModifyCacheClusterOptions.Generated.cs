@@ -175,7 +175,6 @@ public record AwsElasticacheModifyCacheClusterOptions : AwsOptions, IValidatable
     /// <summary>
     /// Specifies the strategy to use to update the AUTH token. This parame- ter must be specified with the auth-token parameter. Possible val- ues: o ROTATE - default, if no update strategy is provided o SET - allowed only after ROTATE o DELETE - allowed only when transitioning to RBAC For more information, see Authenticating Users with AUTH Possible values: o SET o ROTATE o DELETE
     /// </summary>
-    [SecretValue]
     [CliOption("--auth-token-update-strategy")]
     public AwsElasticacheModifyCacheClusterAuthTokenUpdateStrategy? AuthTokenUpdateStrategy { get; set; }
 

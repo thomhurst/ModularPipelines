@@ -6,7 +6,6 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -78,7 +77,6 @@ public record AwsStsAssumeRootOptions : AwsOptions, IValidatableObject
     [CliOption("--duration-seconds")]
     public int? DurationSeconds { get; set; }
 
-    [SecretValue]
     [CliOption("--minimum-session-token-size")]
     public int? MinimumSessionTokenSize { get; set; }
 

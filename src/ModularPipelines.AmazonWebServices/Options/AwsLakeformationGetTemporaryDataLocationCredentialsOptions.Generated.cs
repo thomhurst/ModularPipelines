@@ -6,7 +6,6 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -44,7 +43,6 @@ public record AwsLakeformationGetTemporaryDataLocationCredentialsOptions : AwsOp
     /// <summary>
     /// The credential scope is determined by the caller's Lake Formation permission on the associated table. Credential scope can be either: o READ - Provides read-only access to the data location. o READ_WRITE - Provides both read and write access to the data loca- tion. Possible values: o READ o READWRITE
     /// </summary>
-    [SecretValue]
     [CliOption("--credentials-scope")]
     public AwsLakeformationGetTemporaryDataLocationCredentialsCredentialsScope? CredentialsScope { get; set; }
 

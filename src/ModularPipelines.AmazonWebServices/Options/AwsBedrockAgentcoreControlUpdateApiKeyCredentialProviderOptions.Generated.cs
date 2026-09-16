@@ -80,7 +80,6 @@ public record AwsBedrockAgentcoreControlUpdateApiKeyCredentialProviderOptions : 
     /// <summary>
     /// The source type of the API key secret. Use MANAGED if the secret is managed by the service, or EXTERNAL if you manage the secret your- self in Amazon Web Services Secrets Manager. Possible values: o MANAGED o EXTERNAL
     /// </summary>
-    [SecretValue]
     [CliOption("--api-key-secret-source")]
     public AwsBedrockAgentcoreControlUpdateApiKeyCredentialProviderApiKeySecretSource? ApiKeySecretSource { get; set; }
 

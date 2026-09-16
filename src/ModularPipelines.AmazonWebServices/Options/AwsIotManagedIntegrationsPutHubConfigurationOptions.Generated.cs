@@ -6,7 +6,6 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -58,7 +57,6 @@ public record AwsIotManagedIntegrationsPutHubConfigurationOptions : AwsOptions, 
     /// <summary>
     /// A user-defined integer value that represents the hub token timer ex- piry setting in seconds. Constraints: o min: 1
     /// </summary>
-    [SecretValue]
     [CliOption("--hub-token-timer-expiry-setting-in-seconds")]
     public int? HubTokenTimerExpirySettingInSeconds { get; private init; }
 

@@ -78,7 +78,6 @@ public record AwsSavingsplansDescribeSavingsPlanRatesOptions : AwsOptions, IVali
     /// <summary>
     /// The maximum number of results to return with a single call. To re- trieve additional results, make another call with the returned token value. Constraints: o min: 1 o max: 1000
     /// </summary>
-    [SecretValue]
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 

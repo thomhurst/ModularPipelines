@@ -25,7 +25,6 @@ public record AwsEcrListPullTimeUpdateExclusionsOptions : AwsOptions
     /// <summary>
     /// The maximum number of pull time update exclusion results returned by ListPullTimeUpdateExclusions in paginated output. When this parame- ter is used, ListPullTimeUpdateExclusions only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListPullTimeUpdateExclusions request with the returned next- Token value. This value can be between 1 and 1000. If this parameter is not used, then ListPullTimeUpdateExclusions returns up to 100 re- sults and a nextToken value, if applicable. Constraints: o min: 1 o max: 1000
     /// </summary>
-    [SecretValue]
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 

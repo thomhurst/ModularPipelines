@@ -6,7 +6,6 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -75,7 +74,6 @@ public record AwsIamCreateServiceSpecificCredentialOptions : AwsOptions, IValida
     /// <summary>
     /// The number of days until the service specific credential expires. This field is only valid for services that support long-term API keys and must be a positive integer. When not specified, the creden- tial will not expire. To see which services support long-term API keys, refer to API keys for Amazon Web Services services in the IAM User Guide . Constraints: o min: 1 o max: 36600
     /// </summary>
-    [SecretValue]
     [CliOption("--credential-age-days")]
     public int? CredentialAgeDays { get; set; }
 

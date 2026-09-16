@@ -107,7 +107,6 @@ public record AwsStsAssumeRoleWithWebIdentityOptions : AwsOptions, IValidatableO
     [CliOption("--duration-seconds")]
     public int? DurationSeconds { get; set; }
 
-    [SecretValue]
     [CliOption("--minimum-session-token-size")]
     public int? MinimumSessionTokenSize { get; set; }
 

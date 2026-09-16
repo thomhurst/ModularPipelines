@@ -155,7 +155,6 @@ public record AwsBedrockAgentcoreControlCreateHarnessOptions : AwsOptions, IVali
     /// <summary>
     /// The maximum total number of output tokens the agent can generate across all model calls within a single invocation.
     /// </summary>
-    [SecretValue]
     [CliOption("--max-tokens")]
     public int? MaxTokens { get; set; }
 

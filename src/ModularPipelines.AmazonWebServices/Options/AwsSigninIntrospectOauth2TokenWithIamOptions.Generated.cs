@@ -67,7 +67,6 @@ public record AwsSigninIntrospectOauth2TokenWithIamOptions : AwsOptions, IValida
     /// <summary>
     /// Optional hint about the type of the token submitted for introspec- tion. The server uses this hint to optimize lookup, but still falls back to the other token type on miss. Allowed values: access_token, refresh_token. Constraints: o pattern: (access_token|refresh_token)
     /// </summary>
-    [SecretValue]
     [CliOption("--token-type-hint")]
     public AwsSigninIntrospectOauth2TokenWithIamTokenTypeHint? TokenTypeHint { get; set; }
 

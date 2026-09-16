@@ -6,7 +6,6 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -66,7 +65,6 @@ public record AwsLightsailUpdateInstanceMetadataOptionsOptions : AwsOptions, IVa
     /// <summary>
     /// The state of token usage for your instance metadata requests. If the parameter is not specified in the request, the default state is op- tional . If the state is optional , you can choose whether to retrieve in- stance metadata with a signed token header on your request. If you retrieve the IAM role credentials without a token, the version 1.0 role credentials are returned. If you retrieve the IAM role creden- tials by using a valid signed token, the version 2.0 role creden- tials are returned. If the state is required , you must send a signed token header with all instance metadata retrieval requests. In this state, retrieving the IAM role credential always returns the version 2.0 credentials. The version 1.0 credentials are not available. Possible values: o optional o required
     /// </summary>
-    [SecretValue]
     [CliOption("--http-tokens")]
     public AwsLightsailUpdateInstanceMetadataOptionsHttpTokens? HttpTokens { get; set; }
 

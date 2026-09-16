@@ -75,7 +75,6 @@ public record AwsBedrockAgentcoreControlCreatePaymentCredentialProviderOptions :
     /// <summary>
     /// The vendor type for the payment credential provider (e.g., Coin- baseCDP, StripePrivy). Possible values: o CoinbaseCDP o StripePrivy
     /// </summary>
-    [SecretValue]
     [CliOption("--credential-provider-vendor")]
     public AwsBedrockAgentcoreControlCreatePaymentCredentialProviderCredentialProviderVendor? CredentialProviderVendor { get; private init; }
 

@@ -41,7 +41,6 @@ public record AwsStsGetSessionTokenOptions : AwsOptions
     [CliOption("--token-code")]
     public string? TokenCode { get; set; }
 
-    [SecretValue]
     [CliOption("--minimum-session-token-size")]
     public int? MinimumSessionTokenSize { get; set; }
 

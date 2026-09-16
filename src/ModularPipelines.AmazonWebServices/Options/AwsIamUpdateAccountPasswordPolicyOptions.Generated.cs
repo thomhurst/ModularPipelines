@@ -6,7 +6,6 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -25,7 +24,6 @@ public record AwsIamUpdateAccountPasswordPolicyOptions : AwsOptions
     /// <summary>
     /// The minimum number of characters allowed in an IAM user password. If you do not specify a value for this parameter, then the operation uses the default value of 6 . Constraints: o min: 6 o max: 128
     /// </summary>
-    [SecretValue]
     [CliOption("--minimum-password-length")]
     public int? MinimumPasswordLength { get; set; }
 
@@ -62,14 +60,12 @@ public record AwsIamUpdateAccountPasswordPolicyOptions : AwsOptions
     /// <summary>
     /// The number of days that an IAM user password is valid. If you do not specify a value for this parameter, then the operation uses the default value of 0 . The result is that IAM user passwords never expire. Constraints: o min: 1 o max: 1095
     /// </summary>
-    [SecretValue]
     [CliOption("--max-password-age")]
     public int? MaxPasswordAge { get; set; }
 
     /// <summary>
     /// Specifies the number of previous passwords that IAM users are pre- vented from reusing. If you do not specify a value for this parameter, then the operation uses the default value of 0 . The result is that IAM users are not prevented from reusing previous passwords. Constraints: o min: 1 o max: 24
     /// </summary>
-    [SecretValue]
     [CliOption("--password-reuse-prevention")]
     public int? PasswordReusePrevention { get; set; }
 

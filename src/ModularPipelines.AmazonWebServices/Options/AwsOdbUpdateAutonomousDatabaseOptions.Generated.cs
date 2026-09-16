@@ -319,7 +319,6 @@ public record AwsOdbUpdateAutonomousDatabaseOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// The source of the admin password for the Autonomous Database. When set to CUSTOMER_MANAGED_AWS_SECRET , the admin password is retrieved from an Amazon Web Services Secrets Manager secret. Possible values: o CUSTOMER_MANAGED_AWS_SECRET o API_REQUEST_PARAMETER
     /// </summary>
-    [SecretValue]
     [CliOption("--admin-password-source")]
     public AwsOdbUpdateAutonomousDatabaseAdminPasswordSource? AdminPasswordSource { get; set; }
 

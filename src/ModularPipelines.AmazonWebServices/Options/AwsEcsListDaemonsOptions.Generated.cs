@@ -37,7 +37,6 @@ public record AwsEcsListDaemonsOptions : AwsOptions
     /// <summary>
     /// The maximum number of daemon results that ListDaemons returned in paginated output. When this parameter is used, ListDaemons only re- turns maxResults results in a single page along with a nextToken re- sponse element. The remaining results of the initial request can be seen by sending another ListDaemons request with the returned next- Token value. This value can be between 1 and 100. If this parameter isn't used, then ListDaemons returns up to 100 results and a nextTo- ken value if applicable.
     /// </summary>
-    [SecretValue]
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 

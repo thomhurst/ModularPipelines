@@ -6,7 +6,6 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -91,7 +90,6 @@ public record AwsApigatewayCreateRestApiOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// The source of the API key for metering requests according to a usage plan. Valid values are: HEADER to read the API key from the X-API-Key header of a request. AUTHORIZER to read the API key from the UsageIdentifierKey from a custom authorizer. Possible values: o HEADER o AUTHORIZER
     /// </summary>
-    [SecretValue]
     [CliOption("--api-key-source")]
     public AwsApigatewayCreateRestApiApiKeySource? ApiKeySource { get; set; }
 

@@ -6,7 +6,6 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -66,7 +65,6 @@ public record AwsEc2ModifyInstanceMetadataOptionsOptions : AwsOptions, IValidata
     /// <summary>
     /// Indicates whether IMDSv2 is required. o optional - IMDSv2 is optional. You can choose whether to send a session token in your instance metadata retrieval requests. If you retrieve IAM role credentials without a session token, you receive the IMDSv1 role credentials. If you retrieve IAM role credentials using a valid session token, you receive the IMDSv2 role creden- tials. o required - IMDSv2 is required. You must send a session token in your instance metadata retrieval requests. With this option, re- trieving the IAM role credentials always returns IMDSv2 creden- tials; IMDSv1 credentials are not available. Default: o If the value of ImdsSupport for the Amazon Machine Image (AMI) for your instance is v2.0 and the account level default is set to no-preference , the default is required . o If the value of ImdsSupport for the Amazon Machine Image (AMI) for your instance is v2.0 , but the account level default is set to V1 or V2 , the default is optional . The default value can also be affected by other combinations of pa- rameters. For more information, see Order of precedence for instance metadata options in the Amazon EC2 User Guide . Possible values: o optional o required
     /// </summary>
-    [SecretValue]
     [CliOption("--http-tokens")]
     public AwsEc2ModifyInstanceMetadataOptionsHttpTokens? HttpTokens { get; set; }
 

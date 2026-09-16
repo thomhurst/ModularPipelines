@@ -6,7 +6,6 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -66,7 +65,6 @@ public record AwsLightsailGetRelationalDatabaseMasterUserPasswordOptions : AwsOp
     /// <summary>
     /// The password version to return. Specifying CURRENT or PREVIOUS returns the current or previous pass- words respectively. Specifying PENDING returns the newest version of the password that will rotate to CURRENT . After the PENDING pass- word rotates to CURRENT , the PENDING password is no longer avail- able. Default: CURRENT Possible values: o CURRENT o PREVIOUS o PENDING
     /// </summary>
-    [SecretValue]
     [CliOption("--password-version")]
     public AwsLightsailGetRelationalDatabaseMasterUserPasswordPasswordVersion? PasswordVersion { get; set; }
 

@@ -6,7 +6,6 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -25,7 +24,6 @@ public record AwsSecretsmanagerGetRandomPasswordOptions : AwsOptions
     /// <summary>
     /// The length of the password. If you don't include this parameter, the default length is 32 characters. Constraints: o min: 1 o max: 4096
     /// </summary>
-    [SecretValue]
     [CliOption("--password-length")]
     public int? PasswordLength { get; set; }
 
