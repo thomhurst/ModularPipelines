@@ -428,6 +428,7 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
                 optionsSection[optionEnd..],
                 """^\s{8,}(.+?)(?=\n\s{7}"?--|\n\n\s{7}"?--|\z)""",
                 RegexOptions.Singleline);
+            var rawDescription = descMatch.Success ? descMatch.Value : null;
             var description = descMatch.Success
                 ? Regex.Replace(descMatch.Groups[1].Value.Trim(), @"\s+", " ")
                 : null;
@@ -461,7 +462,7 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
 
             var enumDef = isStructure || isKeyValue || isArray || isNumeric
                 ? null
-                : TryDetectEnum(propertyName, className, description, longForm);
+                : TryDetectEnum(propertyName, className, rawDescription, longForm);
             var csharpType = DetermineCSharpType(
                 isFlag || isBooleanValue,
                 isArray,
@@ -660,7 +661,7 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
 
         // Pattern: "Possible values: value1, value2, value3" or "Valid values: ..."
         var match = EnumValuesPattern().Match(description);
-        if (!match.Success)
+        if (!match.Success || !IsOptionLevelEnumHeading(description, match.Index))
         {
             return null;
         }
@@ -693,8 +694,9 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
         }
 
         var tokens = choices.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-        if (tokens.Length >= 4 && tokens.Length % 2 == 0
-                               && tokens.Where((_, index) => index % 2 == 0).All(token => token == "o"))
+        if (tokens.Length >= 2 && tokens.Length % 2 == 0
+                               && tokens[0] is "o" or "*"
+                               && tokens.Where((_, index) => index % 2 == 0).All(token => token == tokens[0]))
         {
             return [.. tokens.Where((_, index) => index % 2 != 0)];
         }
@@ -703,6 +705,26 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
         return tokens.Length > 2 && tokens.Any(token =>
             token.Equals("and", StringComparison.OrdinalIgnoreCase)
             || token.Equals("or", StringComparison.OrdinalIgnoreCase)) ? [] : tokens;
+    }
+
+    private static bool IsOptionLevelEnumHeading(string description, int headingIndex)
+    {
+        // Keep indentation until enum detection: nested attribute documentation can
+        // contain its own closed set without restricting the option's actual values.
+        var firstLine = description.Split('\n').First(line => !string.IsNullOrWhiteSpace(line));
+        var descriptionIndent = firstLine.Length - firstLine.TrimStart().Length;
+        var lineStart = description.LastIndexOf('\n', headingIndex) + 1;
+        var prefix = description[lineStart..headingIndex];
+        var trimmedPrefix = prefix.TrimStart();
+        if (prefix.Length - trimmedPrefix.Length != descriptionIndent)
+        {
+            return false;
+        }
+
+        return trimmedPrefix.Length == 0
+               || (!trimmedPrefix.StartsWith("o ", StringComparison.Ordinal)
+                   && !trimmedPrefix.StartsWith("* ", StringComparison.Ordinal)
+                   && trimmedPrefix.TrimEnd()[^1] is '.' or '!' or '?');
     }
 
     private IReadOnlyList<CliPositionalArgument> GetAwsPositionalArguments(
