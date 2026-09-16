@@ -278,6 +278,66 @@ public class OptionTypeEnhancerTests
     }
 
     [Test]
+    public async Task Explicit_Secret_Override_Takes_Precedence_Over_Metadata_Inference()
+    {
+        var pipeline = new OptionTypeDetectorPipeline(
+            [new FixedDetector(new OptionTypeDetectionResult
+            {
+                Type = CliOptionType.Unknown,
+                Confidence = 100,
+                Source = "ManualOverride",
+                IsSecret = true,
+            })],
+            NullLogger<OptionTypeDetectorPipeline>.Instance);
+        var enhancer = new OptionTypeEnhancer(pipeline, NullLogger<OptionTypeEnhancer>.Instance);
+        var tool = CreateTool(new CliOptionDefinition
+        {
+            SwitchName = "--token-size",
+            PropertyName = "TokenSize",
+            CSharpType = "int?",
+        });
+
+        var enhanced = await enhancer.EnhanceAsync(tool);
+        await Assert.That(enhanced.Commands.Single().Options.Single().IsSecret).IsTrue();
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Documented_Enum_Choices_Require_An_Explicit_Secret_Override(bool explicitlySecret)
+    {
+        var pipeline = new OptionTypeDetectorPipeline(
+            [new FixedDetector(new OptionTypeDetectionResult
+            {
+                Type = CliOptionType.Unknown,
+                Confidence = 100,
+                Source = "ManualOverride",
+                IsSecret = explicitlySecret ? true : null,
+            })],
+            NullLogger<OptionTypeDetectorPipeline>.Instance);
+        var enhancer = new OptionTypeEnhancer(pipeline, NullLogger<OptionTypeEnhancer>.Instance);
+        var tool = CreateTool(new CliOptionDefinition
+        {
+            SwitchName = "--http-tokens",
+            PropertyName = "HttpTokens",
+            CSharpType = "HttpTokens?",
+            IsSecret = true,
+            EnumDefinition = new CliEnumDefinition
+            {
+                EnumName = "HttpTokens",
+                Values =
+                [
+                    new CliEnumValue { MemberName = "Required", CliValue = "required" },
+                    new CliEnumValue { MemberName = "Optional", CliValue = "optional" },
+                ],
+            },
+        });
+
+        var enhanced = await enhancer.EnhanceAsync(tool);
+        await Assert.That(enhanced.Commands.Single().Options.Single().IsSecret).IsEqualTo(explicitlySecret);
+    }
+
+    [Test]
     public async Task Docker_Override_Seeds_Build_Argument_Secret_Keys()
     {
         var detector = new ManualOverrideDetector(

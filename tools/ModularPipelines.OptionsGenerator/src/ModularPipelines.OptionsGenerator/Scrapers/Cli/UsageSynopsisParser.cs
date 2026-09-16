@@ -137,10 +137,12 @@ public static class UsageSynopsisParser
     }
 
     internal static UsageSynopsisParseResult RemoveCommandGroupPlaceholders(
-        UsageSynopsisParseResult result)
+        UsageSynopsisParseResult result,
+        IReadOnlySet<string>? placeholderNames = null)
     {
+        placeholderNames ??= CommandGroupPlaceholderNames;
         var commandGroupPlaceholders = result.PositionalArguments
-            .Where(IsCommandGroupPlaceholder)
+            .Where(argument => placeholderNames.Contains(argument.PropertyName))
             .Select(static argument => argument.PropertyName)
             .ToHashSet(StringComparer.Ordinal);
         var positionalArguments = result.PositionalArguments
@@ -151,7 +153,7 @@ public static class UsageSynopsisParser
         {
             HasOperandTokens = positionalArguments.Count > 0 || result.UnparsedOperandTokens.Count > 0,
             PositionalArguments = positionalArguments,
-            RequirednessCandidates = [.. result.RequirednessCandidates.Select(RemoveCommandGroupPlaceholders)],
+            RequirednessCandidates = [.. result.RequirednessCandidates.Select(candidate => RemoveCommandGroupPlaceholders(candidate, placeholderNames))],
             RequiredAlternativeGroups =
             [
                 .. result.RequiredAlternativeGroups.Where(group => group.EnumerateMembers().All(member =>

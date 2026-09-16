@@ -36,6 +36,10 @@ public partial class GcloudCliScraper : CliScraperBase
 
     protected override IReadOnlyList<string> UsageSynopsisHeadings => GcloudUsageSynopsisHeadings;
 
+    // ParseUsageSynopsis distinguishes documented operands from dispatch selectors,
+    // including SDK command groups that currently expose no child commands.
+    protected override bool PreserveCommandGroupPlaceholders => true;
+
     #endregion
 
     public GcloudCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<GcloudCliScraper> logger)
@@ -157,7 +161,8 @@ public partial class GcloudCliScraper : CliScraperBase
     {
         var groups = ExtractSections(helpText, "FLAGS", "REQUIRED FLAGS", "OPTIONAL FLAGS", "POSITIONAL ARGUMENTS")
             .Select(section => ParseSectionArgumentGroup(section.Name, section.Content)).ToArray();
-        var arguments = groups.SelectMany(group => group.FlattenArguments())
+        var declaredArguments = groups.SelectMany(group => group.FlattenArguments()).ToArray();
+        var arguments = declaredArguments
             .Where(argument => !argument.IsPositional && !string.IsNullOrEmpty(argument.ValueHint))
             .DistinctBy(argument => (argument.SwitchName, argument.ValueHint))
             .OrderByDescending(argument => argument.ValueHint!.Length)
@@ -182,7 +187,12 @@ public partial class GcloudCliScraper : CliScraperBase
             normalized = UsageSynopsisParser.DeferDocumentedOptionGroups(normalized, groups);
             helpText = helpText.Replace(synopsis, normalized, StringComparison.Ordinal);
         }
-        return base.ParseUsageSynopsis(commandPath, helpText);
+        var dispatchPlaceholders = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { "Group", "Command" };
+        dispatchPlaceholders.ExceptWith(declaredArguments
+            .Where(argument => argument.IsPositional)
+            .Select(argument => NormalizePropertyName(argument.SwitchName)!));
+        return UsageSynopsisParser.RemoveCommandGroupPlaceholders(
+            base.ParseUsageSynopsis(commandPath, helpText), dispatchPlaceholders);
     }
 
     protected override UsageSynopsisParseResult NormalizeUsageSynopsis(
