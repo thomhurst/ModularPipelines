@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,8 +20,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift-serverless", "create-workgroup")]
-public record AwsRedshiftServerlessCreateWorkgroupOptions : AwsOptions
+public record AwsRedshiftServerlessCreateWorkgroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an workgroup in Amazon Redshift Serverless. VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you own in a Region from reaching or being reached from the internet through internet gateways and egress-only internet gateways. If a workgroup is in an account with VPC BPA turned on, the following capabilities are blocked: o Creating a public access workgroup o Modifying a private workgroup to public o Adding a subnet with VPC BPA turned on to the workgroup...
+    /// </summary>
+    /// <param name="NamespaceName">The name of the namespace to associate with the workgroup. Constraints: o min: 3 o max: 64 o pattern: ^[a-z0-9-]+$</param>
+    /// <param name="WorkgroupName">The name of the created workgroup. Constraints: o min: 3 o max: 64 o pattern: ^[a-z0-9-]+$</param>
+    public AwsRedshiftServerlessCreateWorkgroupOptions(
+        string NamespaceName,
+        string WorkgroupName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NamespaceName);
+        this.NamespaceName = NamespaceName;
+        global::System.ArgumentNullException.ThrowIfNull(WorkgroupName);
+        this.WorkgroupName = WorkgroupName;
+    }
+
+    private AwsRedshiftServerlessCreateWorkgroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftServerlessCreateWorkgroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftServerlessCreateWorkgroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the namespace to associate with the workgroup. Constraints: o min: 3 o max: 64 o pattern: ^[a-z0-9-]+$
+    /// </summary>
+    [CliOption("--namespace-name")]
+    public string? NamespaceName { get; private init; }
+
+    /// <summary>
+    /// The name of the created workgroup. Constraints: o min: 3 o max: 64 o pattern: ^[a-z0-9-]+$
+    /// </summary>
+    [CliOption("--workgroup-name")]
+    public string? WorkgroupName { get; private init; }
+
     /// <summary>
     /// The base data warehouse capacity of the workgroup in Redshift Pro- cessing Units (RPUs).
     /// </summary>
@@ -33,10 +83,16 @@ public record AwsRedshiftServerlessCreateWorkgroupOptions : AwsOptions
     [CliOption("--config-parameters", GroupValues = true)]
     public IEnumerable<string>? ConfigParameters { get; set; }
 
-    [CliFlag("--enhanced-vpc-routing")]
+    /// <summary>
+    /// The value that specifies whether to turn on enhanced virtual private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic through your VPC instead of over the internet.
+    /// </summary>
+    [CliFlag("--enhanced-vpc-routing", NegatedName = "--no-enhanced-vpc-routing")]
     public bool? EnhancedVpcRouting { get; set; }
 
-    [CliFlag("--extra-compute-for-automatic-optimization")]
+    /// <summary>
+    /// tomatic-optimization (boolean) If true , allocates additional compute resources for running auto- matic optimization operations. Default: false
+    /// </summary>
+    [CliFlag("--extra-compute-for-automatic-optimization", NegatedName = "--no-extra-compute-for-automatic-optimization")]
     public bool? ExtraComputeForAutomaticOptimization { get; set; }
 
     /// <summary>
@@ -51,9 +107,6 @@ public record AwsRedshiftServerlessCreateWorkgroupOptions : AwsOptions
     [CliOption("--max-capacity")]
     public int? MaxCapacity { get; set; }
 
-    [CliOption("--namespace-name")]
-    public string? NamespaceName { get; set; }
-
     /// <summary>
     /// The custom port to use when connecting to a workgroup. Valid port ranges are 5431-5455 and 8191-8215. The default is 5439.
     /// </summary>
@@ -66,7 +119,10 @@ public record AwsRedshiftServerlessCreateWorkgroupOptions : AwsOptions
     [CliOption("--price-performance-target")]
     public string? PricePerformanceTarget { get; set; }
 
-    [CliFlag("--publicly-accessible")]
+    /// <summary>
+    /// A value that specifies whether the workgroup can be accessed from a public network.
+    /// </summary>
+    [CliFlag("--publicly-accessible", NegatedName = "--no-publicly-accessible")]
     public bool? PubliclyAccessible { get; set; }
 
     /// <summary>
@@ -93,13 +149,27 @@ public record AwsRedshiftServerlessCreateWorkgroupOptions : AwsOptions
     [CliOption("--track-name")]
     public string? TrackName { get; set; }
 
-    [CliOption("--workgroup-name")]
-    public string? WorkgroupName { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appflow", "cancel-flow-executions")]
-public record AwsAppflowCancelFlowExecutionsOptions : AwsOptions
+public record AwsAppflowCancelFlowExecutionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Cancels active runs for a flow. You can cancel all of the active runs for a flow, or you can cancel specific runs by providing their IDs. You can cancel a flow run only when the run is in progress. You can't cancel a run that has already completed or failed. You also can't can- cel a run that's scheduled to occur but hasn't started yet. To prevent a scheduled run, you can deactivate the flow with the StopFlow action. You cannot resume a run after you cancel it. When you send your request, the st...
+    /// </summary>
+    /// <param name="FlowName">The name of a flow with active runs that you want to cancel. Constraints: o max: 256 o pattern: [a-zA-Z0-9][\w!@#.-]+</param>
+    public AwsAppflowCancelFlowExecutionsOptions(
+        string FlowName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FlowName);
+        this.FlowName = FlowName;
+    }
+
+    private AwsAppflowCancelFlowExecutionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppflowCancelFlowExecutionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppflowCancelFlowExecutionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of a flow with active runs that you want to cancel. Constraints: o max: 256 o pattern: [a-zA-Z0-9][\w!@#.-]+
+    /// </summary>
     [CliOption("--flow-name")]
-    public string? FlowName { get; set; }
+    public string? FlowName { get; private init; }
 
     /// <summary>
     /// The ID of each active run to cancel. These runs must belong to the flow you specify in your request. If you omit this parameter, your request ends all active runs that belong to the flow. Constraints: o min: 0 o max: 100 (string) Constraints: o max: 256 o pattern: \S+ Syntax: "string" "string" ...
@@ -35,5 +72,22 @@ public record AwsAppflowCancelFlowExecutionsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

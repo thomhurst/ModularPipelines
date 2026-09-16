@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --lakehouseidcregistration.
+/// Allowed values for --lakehouse-idc-registration.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsRedshiftServerlessUpdateLakehouseConfigurationLakehouseIdcRegistration
 {
     [EnumValue("Associate")]
-    Associate = 1,
+    Associate,
 
     [EnumValue("Disassociate")]
-    Disassociate = 2
+    Disassociate
 }

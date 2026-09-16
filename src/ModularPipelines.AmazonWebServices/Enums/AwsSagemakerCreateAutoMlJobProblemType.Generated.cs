@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --problemtype.
+/// Allowed values for --problem-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSagemakerCreateAutoMlJobProblemType
 {
     [EnumValue("BinaryClassification")]
-    BinaryClassification = 1,
+    BinaryClassification,
 
     [EnumValue("MulticlassClassification")]
-    MulticlassClassification = 2,
+    MulticlassClassification,
 
     [EnumValue("Regression")]
-    Regression = 3
+    Regression
 }

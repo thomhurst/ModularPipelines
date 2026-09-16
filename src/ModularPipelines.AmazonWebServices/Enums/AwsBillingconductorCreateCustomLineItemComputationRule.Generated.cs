@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --computationrule.
+/// Allowed values for --computation-rule.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsBillingconductorCreateCustomLineItemComputationRule
 {
-    [EnumValue("ITEMIZED")]
-    Itemized = 1,
-
     [EnumValue("CONSOLIDATED")]
-    Consolidated = 2
+    Consolidated,
+
+    [EnumValue("ITEMIZED")]
+    Itemized
 }

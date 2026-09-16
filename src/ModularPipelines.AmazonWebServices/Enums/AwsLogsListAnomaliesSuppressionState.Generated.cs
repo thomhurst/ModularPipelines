@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --suppressionstate.
+/// Allowed values for --suppression-state.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsLogsListAnomaliesSuppressionState
 {
     [EnumValue("SUPPRESSED")]
-    Suppressed = 1,
+    Suppressed,
 
     [EnumValue("UNSUPPRESSED")]
-    Unsuppressed = 2
+    Unsuppressed
 }

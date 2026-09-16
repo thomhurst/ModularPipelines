@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("voice-id", "start-fraudster-registration-job")]
-public record AwsVoiceIdStartFraudsterRegistrationJobOptions : AwsOptions
+public record AwsVoiceIdStartFraudsterRegistrationJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts a new batch fraudster registration job using provided details. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DataAccessRoleArn">The IAM role Amazon Resource Name (ARN) that grants Voice ID permis- sions to access customer's buckets to read the input manifest file and write the Job output file. Refer to the Create and edit a fraud- ster watchlist documentation for the permissions needed in this role. Constraints: o min: 20 o max: 2048 o pattern: ^arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+$</param>
+    /// <param name="DomainId">The identifier of the domain that contains the fraudster registra- tion job and in which the fraudsters are registered. Constraints: o min: 22 o max: 22 o pattern: ^[a-zA-Z0-9]{22}$</param>
+    /// <param name="InputDataConfig">The input data config containing an S3 URI for the input manifest file that contains the list of fraudster registration requests. S3Uri -&gt; (string) [required] The S3 location for the input manifest file that contains the list of individual enrollment or registration job requests. Constraints: o min: 0 o max: 1024 o pattern: ^s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)?$ Shorthand Syntax: S3Uri=string JSON Syntax: { "S3Uri": "string" }</param>
+    /// <param name="OutputDataConfig">The output data config containing the S3 location where Voice ID writes the job output file; you must also include a KMS key ID to encrypt the file. KmsKeyId -&gt; (string) The identifier of the KMS key you want Voice ID to use to en- crypt the output file of a speaker enrollment job/fraudster reg- istration job. Constraints: o min: 1 o max: 2048 S3Uri -&gt; (string) [required] The S3 path of the folder where Voice ID writes the job output file. It has a *.out extension. For example, if the input file name is input-file.json and the output folder path is s3://out- put-bucket/output-folder , the full output file path is s3://output-bucket/output-folder/job-Id/input-file.json.out . Constraints: o min: 0 o max: 1024 o pattern: ^s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)?$ Shorthand Syntax: KmsKeyId=string,S3Uri=string JSON Syntax: { "KmsKeyId": "string", "S3Uri": "string" }</param>
+    public AwsVoiceIdStartFraudsterRegistrationJobOptions(
+        string DataAccessRoleArn,
+        string DomainId,
+        string InputDataConfig,
+        string OutputDataConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataAccessRoleArn);
+        this.DataAccessRoleArn = DataAccessRoleArn;
+        global::System.ArgumentNullException.ThrowIfNull(DomainId);
+        this.DomainId = DomainId;
+        global::System.ArgumentNullException.ThrowIfNull(InputDataConfig);
+        this.InputDataConfig = InputDataConfig;
+        global::System.ArgumentNullException.ThrowIfNull(OutputDataConfig);
+        this.OutputDataConfig = OutputDataConfig;
+    }
+
+    private AwsVoiceIdStartFraudsterRegistrationJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsVoiceIdStartFraudsterRegistrationJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsVoiceIdStartFraudsterRegistrationJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The IAM role Amazon Resource Name (ARN) that grants Voice ID permis- sions to access customer's buckets to read the input manifest file and write the Job output file. Refer to the Create and edit a fraud- ster watchlist documentation for the permissions needed in this role. Constraints: o min: 20 o max: 2048 o pattern: ^arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+$
+    /// </summary>
+    [CliOption("--data-access-role-arn")]
+    public string? DataAccessRoleArn { get; private init; }
+
+    /// <summary>
+    /// The identifier of the domain that contains the fraudster registra- tion job and in which the fraudsters are registered. Constraints: o min: 22 o max: 22 o pattern: ^[a-zA-Z0-9]{22}$
+    /// </summary>
+    [CliOption("--domain-id")]
+    public string? DomainId { get; private init; }
+
+    /// <summary>
+    /// The input data config containing an S3 URI for the input manifest file that contains the list of fraudster registration requests. S3Uri -&gt; (string) [required] The S3 location for the input manifest file that contains the list of individual enrollment or registration job requests. Constraints: o min: 0 o max: 1024 o pattern: ^s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)?$ Shorthand Syntax: S3Uri=string JSON Syntax: { "S3Uri": "string" }
+    /// </summary>
+    [CliOption("--input-data-config")]
+    public string? InputDataConfig { get; private init; }
+
+    /// <summary>
+    /// The output data config containing the S3 location where Voice ID writes the job output file; you must also include a KMS key ID to encrypt the file. KmsKeyId -&gt; (string) The identifier of the KMS key you want Voice ID to use to en- crypt the output file of a speaker enrollment job/fraudster reg- istration job. Constraints: o min: 1 o max: 2048 S3Uri -&gt; (string) [required] The S3 path of the folder where Voice ID writes the job output file. It has a *.out extension. For example, if the input file name is input-file.json and the output folder path is s3://out- put-bucket/output-folder , the full output file path is s3://output-bucket/output-folder/job-Id/input-file.json.out . Constraints: o min: 0 o max: 1024 o pattern: ^s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)?$ Shorthand Syntax: KmsKeyId=string,S3Uri=string JSON Syntax: { "KmsKeyId": "string", "S3Uri": "string" }
+    /// </summary>
+    [CliOption("--output-data-config")]
+    public string? OutputDataConfig { get; private init; }
+
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-_]+$
     /// </summary>
@@ -29,23 +99,11 @@ public record AwsVoiceIdStartFraudsterRegistrationJobOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--data-access-role-arn")]
-    public string? DataAccessRoleArn { get; set; }
-
-    [CliOption("--domain-id")]
-    public string? DomainId { get; set; }
-
-    [CliOption("--input-data-config")]
-    public string? InputDataConfig { get; set; }
-
     /// <summary>
     /// The name of the new fraudster registration job. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_-]*$
     /// </summary>
     [CliOption("--job-name")]
     public string? JobName { get; set; }
-
-    [CliOption("--output-data-config")]
-    public string? OutputDataConfig { get; set; }
 
     /// <summary>
     /// The registration config containing details such as the action to take when a duplicate fraudster is detected, and the similarity threshold to use for detecting a duplicate fraudster. DuplicateRegistrationAction -&gt; (string) The action to take when a fraudster is identified as a dupli- cate. The default action is SKIP , which skips registering the duplicate fraudster. Setting the value to REGISTER_AS_NEW always registers a new fraudster into the specified domain. Possible values: o SKIP o REGISTER_AS_NEW FraudsterSimilarityThreshold -&gt; (integer) The minimum similarity score between the new and old fraudsters in order to consider the new fraudster a duplicate. Constraints: o min: 0 o max: 100 WatchlistIds -&gt; (list) The identifiers of watchlists that a fraudster is registered to. If a watchlist isn't provided, the fraudsters are registered to the default watchlist. Constraints: o min: 1 o max: 1 (string) Constraints: o min: 22 o max: 22 o pattern: ^[a-zA-Z0-9]{22}$ Shorthand Syntax: DuplicateRegistrationAction=string,FraudsterSimilarityThreshold=integer,WatchlistIds=string,string JSON Syntax: { "DuplicateRegistrationAction": "SKIP"|"REGISTER_AS_NEW", "FraudsterSimilarityThreshold": integer, "WatchlistIds": ["string", ...] }
@@ -58,5 +116,22 @@ public record AwsVoiceIdStartFraudsterRegistrationJobOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

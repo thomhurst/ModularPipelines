@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --authenticationstrategy.
+/// Allowed values for --authentication-strategy.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsMqCreateBrokerAuthenticationStrategy
 {
-    [EnumValue("SIMPLE")]
-    Simple = 1,
+    [EnumValue("CONFIG_MANAGED")]
+    ConfigManaged,
 
     [EnumValue("LDAP")]
-    Ldap = 2,
+    Ldap,
 
-    [EnumValue("CONFIG_MANAGED")]
-    ConfigManaged = 3
+    [EnumValue("SIMPLE")]
+    Simple
 }

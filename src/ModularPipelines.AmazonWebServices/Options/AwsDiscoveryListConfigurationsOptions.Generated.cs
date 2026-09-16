@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("discovery", "list-configurations")]
-public record AwsDiscoveryListConfigurationsOptions : AwsOptions
+public record AwsDiscoveryListConfigurationsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves a list of configuration items as specified by the value passed to the required parameter configurationType . Optional filtering may be applied to refine search results. See also: AWS API Documentation list-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query ar...
+    /// </summary>
+    /// <param name="ConfigurationType">A valid configuration identified by Application Discovery Service. Possible values: o SERVER o PROCESS o CONNECTION o APPLICATION</param>
+    public AwsDiscoveryListConfigurationsOptions(
+        AwsDiscoveryListConfigurationsConfigurationType ConfigurationType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConfigurationType);
+        this.ConfigurationType = ConfigurationType;
+    }
+
+    private AwsDiscoveryListConfigurationsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDiscoveryListConfigurationsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDiscoveryListConfigurationsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A valid configuration identified by Application Discovery Service. Possible values: o SERVER o PROCESS o CONNECTION o APPLICATION
+    /// </summary>
     [CliOption("--configuration-type")]
-    public string? ConfigurationType { get; set; }
+    public AwsDiscoveryListConfigurationsConfigurationType? ConfigurationType { get; private init; }
 
     /// <summary>
     /// You can filter the request using various logical operators and a key -value format. For example: {"key": "serverType", "value": "webServer"} For a complete list of filter options and guidance about using them with this action, see Using the ListConfigurations Action in the Amazon Web Services Application Discovery Service User Guide . (structure) A filter that can use conditional operators. For more information about filters, see Querying Discovered Con- figuration Items in the Amazon Web Services Application Discov- ery Service User Guide . name -&gt; (string) [required] The name of the filter. Constraints: o max: 10000 o pattern: [\s\S]* values -&gt; (list) [required] A string value on which to filter. For example, if you choose the destinationServer.osVersion filter name, you could spec- ify Ubuntu for the value. (string) Constraints: o max: 1000 o pattern: (^$|[\s\S]*\S[\s\S]*) condition -&gt; (string) [required] A conditional operator. The following operators are valid: EQUALS, NOT_EQUALS, CONTAINS, NOT_CONTAINS. If you specify multiple filters, the system utilizes all filters as though concatenated by AND . If you specify multiple values for a particular filter, the system differentiates the values using OR . Calling either DescribeConfigurations or ListConfigura- tions returns attributes of matching configuration items. Constraints: o max: 200 o pattern: \S+ Shorthand Syntax: name=string,values=string,string,condition=string ... JSON Syntax: [ { "name": "string", "values": ["string", ...], "condition": "string" } ... ]
@@ -61,5 +99,22 @@ public record AwsDiscoveryListConfigurationsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bcm-data-exports", "tag-resource")]
-public record AwsBcmDataExportsTagResourceOptions : AwsOptions
+public record AwsBcmDataExportsTagResourceOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--resource-arn")]
-    public string? ResourceArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Adds tags for an existing data export definition. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceArn">The unique identifier for the resource. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z0-9]*:(bcm-data-ex- ports):[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+</param>
+    /// <param name="ResourceTags">The tags to associate with the resource. Each tag consists of a key and a value, and each key must be unique for the resource. Constraints: o min: 0 o max: 200 (structure) The tag structure that contains a tag key and value. Key -&gt; (string) [required] The key that's associated with the tag. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value that's associated with the tag. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
+    public AwsBcmDataExportsTagResourceOptions(
+        string ResourceArn,
+        IEnumerable<string> ResourceTags
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
+        this.ResourceArn = ResourceArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ResourceTags);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ResourceTags));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ResourceTags));
+            }
+
+            ResourceTags = materialized;
+        }
+        this.ResourceTags = ResourceTags;
+    }
+
+    private AwsBcmDataExportsTagResourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBcmDataExportsTagResourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBcmDataExportsTagResourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for the resource. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z0-9]*:(bcm-data-ex- ports):[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+
+    /// </summary>
+    [CliOption("--resource-arn")]
+    public string? ResourceArn { get; private init; }
+
+    /// <summary>
+    /// The tags to associate with the resource. Each tag consists of a key and a value, and each key must be unique for the resource. Constraints: o min: 0 o max: 200 (structure) The tag structure that contains a tag key and value. Key -&gt; (string) [required] The key that's associated with the tag. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value that's associated with the tag. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// </summary>
     [CliOption("--resource-tags", GroupValues = true)]
-    public IEnumerable<string>? ResourceTags { get; set; }
+    public IEnumerable<string>? ResourceTags { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

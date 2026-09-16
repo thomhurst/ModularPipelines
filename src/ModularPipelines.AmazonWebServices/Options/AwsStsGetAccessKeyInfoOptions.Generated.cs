@@ -6,11 +6,11 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sts", "get-access-key-info")]
-public record AwsStsGetAccessKeyInfoOptions : AwsOptions
+public record AwsStsGetAccessKeyInfoOptions : AwsOptions, IValidatableObject
 {
-    [SecretValue]
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns the account identifier for the specified access key ID. Access keys consist of two parts: an access key ID (for example, AKI- AIOSFODNN7EXAMPLE ) and a secret access key (for example, wJalrXUtn- FEMI/K7MDENG/bPxRfiCYEXAMPLEKEY ). For more information about access keys, see Managing Access Keys for IAM Users in the IAM User Guide . When you pass an access key ID to this operation, it returns the ID of the Amazon Web Services account to which the keys belong. Access key IDs beginning with ...
+    /// </summary>
+    /// <param name="AccessKeyId">The identifier of an access key. This parameter allows (through its regex pattern) a string of char- acters that can consist of any upper- or lowercase letter or digit. Constraints: o min: 16 o max: 128 o pattern: [\w]*</param>
+    public AwsStsGetAccessKeyInfoOptions(
+        string AccessKeyId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccessKeyId);
+        this.AccessKeyId = AccessKeyId;
+    }
+
+    private AwsStsGetAccessKeyInfoOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsStsGetAccessKeyInfoOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsStsGetAccessKeyInfoOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of an access key. This parameter allows (through its regex pattern) a string of char- acters that can consist of any upper- or lowercase letter or digit. Constraints: o min: 16 o max: 128 o pattern: [\w]*
+    /// </summary>
     [CliOption("--access-key-id")]
-    public string? AccessKeyId { get; set; }
+    public string? AccessKeyId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,8 +22,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "claim-phone-number")]
-public record AwsConnectClaimPhoneNumberOptions : AwsOptions
+public record AwsConnectClaimPhoneNumberOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Claims an available phone number to your Connect Customer instance or traffic distribution group. You can call this API only in the same Ama- zon Web Services Region where the Connect Customer instance or traffic distribution group was created. For more information about how to use this operation, see Claim a phone number in your country and Claim phone numbers to traffic distribution groups in the Connect Customer Administrator Guide . WARNING: You can call the SearchAvailablePhoneNumbers API f...
+    /// </summary>
+    /// <param name="PhoneNumber">The phone number you want to claim. Phone numbers are formatted [+] [country code] [subscriber number including area code] . Constraints: o pattern: \\+[1-9]\\d{1,14}$</param>
+    public AwsConnectClaimPhoneNumberOptions(
+        string PhoneNumber
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PhoneNumber);
+        this.PhoneNumber = PhoneNumber;
+    }
+
+    private AwsConnectClaimPhoneNumberOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectClaimPhoneNumberOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectClaimPhoneNumberOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The phone number you want to claim. Phone numbers are formatted [+] [country code] [subscriber number including area code] . Constraints: o pattern: \\+[1-9]\\d{1,14}$
+    /// </summary>
+    [CliOption("--phone-number")]
+    public string? PhoneNumber { get; private init; }
+
     /// <summary>
     /// The Amazon Resource Name (ARN) for Connect Customer instances or traffic distribution groups that phone number inbound traffic is routed through. You must enter InstanceId or TargetArn .
     /// </summary>
@@ -34,9 +74,6 @@ public record AwsConnectClaimPhoneNumberOptions : AwsOptions
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; set; }
-
-    [CliOption("--phone-number")]
-    public string? PhoneNumber { get; set; }
 
     /// <summary>
     /// The description of the phone number. Constraints: o min: 0 o max: 500 o pattern: ^[\W\S_]*
@@ -62,5 +99,22 @@ public record AwsConnectClaimPhoneNumberOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

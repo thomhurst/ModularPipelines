@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("odb", "update-autonomous-database-backup")]
-public record AwsOdbUpdateAutonomousDatabaseBackupOptions : AwsOptions
+public record AwsOdbUpdateAutonomousDatabaseBackupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the properties of an Autonomous Database backup. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AutonomousDatabaseBackupId">The unique identifier of the Autonomous Database backup to update. Constraints: o min: 6 o max: 64 o pattern: [a-zA-Z0-9_~.-]+</param>
+    public AwsOdbUpdateAutonomousDatabaseBackupOptions(
+        string AutonomousDatabaseBackupId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AutonomousDatabaseBackupId);
+        this.AutonomousDatabaseBackupId = AutonomousDatabaseBackupId;
+    }
+
+    private AwsOdbUpdateAutonomousDatabaseBackupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOdbUpdateAutonomousDatabaseBackupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOdbUpdateAutonomousDatabaseBackupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the Autonomous Database backup to update. Constraints: o min: 6 o max: 64 o pattern: [a-zA-Z0-9_~.-]+
+    /// </summary>
     [CliOption("--autonomous-database-backup-id")]
-    public string? AutonomousDatabaseBackupId { get; set; }
+    public string? AutonomousDatabaseBackupId { get; private init; }
 
     /// <summary>
     /// The retention period, in days, for the Autonomous Database backup. Constraints: o min: 90 o max: 3650
@@ -35,5 +72,22 @@ public record AwsOdbUpdateAutonomousDatabaseBackupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,99 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyspaces", "create-type")]
-public record AwsKeyspacesCreateTypeOptions : AwsOptions
+public record AwsKeyspacesCreateTypeOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// The CreateType operation creates a new user-defined type in the speci- fied keyspace. To configure the required permissions, see Permissions to create a UDT in the Amazon Keyspaces Developer Guide . For more information, see User-defined types (UDTs) in the Amazon Key- spaces Developer Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="KeyspaceName">The name of the keyspace. Constraints: o min: 1 o max: 48 o pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}</param>
+    /// <param name="TypeName">The name of the user-defined type. UDT names must contain 48 characters or less, must begin with an al- phabetic character, and can only contain alpha-numeric characters and underscores. Amazon Keyspaces converts upper case characters au- tomatically into lower case characters. Alternatively, you can declare a UDT name in double quotes. When de- claring a UDT name inside double quotes, Amazon Keyspaces preserves upper casing and allows special characters. You can also use double quotes as part of the name when you create the UDT, but you must escape each double quote character with an ad- ditional double quote character. Constraints: o min: 1 o max: 48</param>
+    /// <param name="FieldDefinitions">The field definitions, consisting of names and types, that define this type. Constraints: o min: 1 (structure) A field definition consists out of a name and a type. name -&gt; (string) [required] The identifier. Constraints: o min: 1 o max: 128 type -&gt; (string) [required] Any supported Cassandra data type, including collections and other user-defined types that are contained in the same key- space. For more information, see Cassandra data type support in the Amazon Keyspaces Developer Guide . Shorthand Syntax: name=string,type=string ... JSON Syntax: [ { "name": "string", "type": "string" } ... ]</param>
+    public AwsKeyspacesCreateTypeOptions(
+        string KeyspaceName,
+        string TypeName,
+        IEnumerable<string> FieldDefinitions
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KeyspaceName);
+        this.KeyspaceName = KeyspaceName;
+        global::System.ArgumentNullException.ThrowIfNull(TypeName);
+        this.TypeName = TypeName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(FieldDefinitions);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(FieldDefinitions));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(FieldDefinitions));
+            }
+
+            FieldDefinitions = materialized;
+        }
+        this.FieldDefinitions = FieldDefinitions;
+    }
+
+    private AwsKeyspacesCreateTypeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKeyspacesCreateTypeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKeyspacesCreateTypeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the keyspace. Constraints: o min: 1 o max: 48 o pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}
+    /// </summary>
     [CliOption("--keyspace-name")]
-    public string? KeyspaceName { get; set; }
+    public string? KeyspaceName { get; private init; }
 
+    /// <summary>
+    /// The name of the user-defined type. UDT names must contain 48 characters or less, must begin with an al- phabetic character, and can only contain alpha-numeric characters and underscores. Amazon Keyspaces converts upper case characters au- tomatically into lower case characters. Alternatively, you can declare a UDT name in double quotes. When de- claring a UDT name inside double quotes, Amazon Keyspaces preserves upper casing and allows special characters. You can also use double quotes as part of the name when you create the UDT, but you must escape each double quote character with an ad- ditional double quote character. Constraints: o min: 1 o max: 48
+    /// </summary>
     [CliOption("--type-name")]
-    public string? TypeName { get; set; }
+    public string? TypeName { get; private init; }
 
+    /// <summary>
+    /// The field definitions, consisting of names and types, that define this type. Constraints: o min: 1 (structure) A field definition consists out of a name and a type. name -&gt; (string) [required] The identifier. Constraints: o min: 1 o max: 128 type -&gt; (string) [required] Any supported Cassandra data type, including collections and other user-defined types that are contained in the same key- space. For more information, see Cassandra data type support in the Amazon Keyspaces Developer Guide . Shorthand Syntax: name=string,type=string ... JSON Syntax: [ { "name": "string", "type": "string" } ... ]
+    /// </summary>
     [CliOption("--field-definitions", GroupValues = true)]
-    public IEnumerable<string>? FieldDefinitions { get; set; }
+    public IEnumerable<string>? FieldDefinitions { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ds-data", "list-groups-for-member")]
-public record AwsDsDataListGroupsForMemberOptions : AwsOptions
+public record AwsDsDataListGroupsForMemberOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns group information for the specified member. This operation supports pagination with the use of the NextToken re- quest and response parameters. If more results are available, the List- GroupsForMember.NextToken member contains a token that you pass in the next call to ListGroupsForMember . This retrieves the next set of items. You can also specify a maximum number of return results with the MaxRe- sults parameter. See also: AWS API Documentation list-groups-for-member is a paginated oper...
+    /// </summary>
+    /// <param name="DirectoryId">The identifier (ID) of the directory that's associated with the mem- ber. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="SamAccountName">The SAMAccountName of the user, group, or computer that's a member of the group. Constraints: o min: 1 o max: 63 o pattern: ^[^:;|=+"*?&lt;&gt;/\\,\[\]@]+$</param>
+    public AwsDsDataListGroupsForMemberOptions(
+        string DirectoryId,
+        string SamAccountName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DirectoryId);
+        this.DirectoryId = DirectoryId;
+        global::System.ArgumentNullException.ThrowIfNull(SamAccountName);
+        this.SamAccountName = SamAccountName;
+    }
+
+    private AwsDsDataListGroupsForMemberOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDsDataListGroupsForMemberOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDsDataListGroupsForMemberOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier (ID) of the directory that's associated with the mem- ber. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// </summary>
     [CliOption("--directory-id")]
-    public string? DirectoryId { get; set; }
+    public string? DirectoryId { get; private init; }
+
+    /// <summary>
+    /// The SAMAccountName of the user, group, or computer that's a member of the group. Constraints: o min: 1 o max: 63 o pattern: ^[^:;|=+"*?&lt;&gt;/\\,\[\]@]+$
+    /// </summary>
+    [CliOption("--sam-account-name")]
+    public string? SamAccountName { get; private init; }
 
     /// <summary>
     /// The domain name that's associated with the group member. NOTE: This parameter is optional, so you can limit your results to the group members in a specific domain. This parameter is case insensitive and defaults to Realm Constraints: o min: 1 o max: 255 o pattern: ^([a-zA-Z0-9]+[\\.-])+([a-zA-Z0-9])+[.]?$
@@ -36,9 +83,6 @@ public record AwsDsDataListGroupsForMemberOptions : AwsOptions
     /// </summary>
     [CliOption("--realm")]
     public string? Realm { get; set; }
-
-    [CliOption("--sam-account-name")]
-    public string? SamAccountName { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -64,5 +108,22 @@ public record AwsDsDataListGroupsForMemberOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("fms", "list-third-party-firewall-firewall-policies")]
-public record AwsFmsListThirdPartyFirewallFirewallPoliciesOptions : AwsOptions
+public record AwsFmsListThirdPartyFirewallFirewallPoliciesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves a list of all of the third-party firewall policies that are associated with the third-party firewall administrator's account. See also: AWS API Documentation list-third-party-firewall-firewall-policies is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extra...
+    /// </summary>
+    /// <param name="ThirdPartyFirewall">The name of the third-party firewall vendor. Possible values: o PALO_ALTO_NETWORKS_CLOUD_NGFW o FORTIGATE_CLOUD_NATIVE_FIREWALL</param>
+    public AwsFmsListThirdPartyFirewallFirewallPoliciesOptions(
+        AwsFmsListThirdPartyFirewallFirewallPoliciesThirdPartyFirewall ThirdPartyFirewall
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ThirdPartyFirewall);
+        this.ThirdPartyFirewall = ThirdPartyFirewall;
+    }
+
+    private AwsFmsListThirdPartyFirewallFirewallPoliciesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFmsListThirdPartyFirewallFirewallPoliciesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFmsListThirdPartyFirewallFirewallPoliciesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the third-party firewall vendor. Possible values: o PALO_ALTO_NETWORKS_CLOUD_NGFW o FORTIGATE_CLOUD_NATIVE_FIREWALL
+    /// </summary>
     [CliOption("--third-party-firewall")]
-    public string? ThirdPartyFirewall { get; set; }
+    public AwsFmsListThirdPartyFirewallFirewallPoliciesThirdPartyFirewall? ThirdPartyFirewall { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -49,5 +87,22 @@ public record AwsFmsListThirdPartyFirewallFirewallPoliciesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

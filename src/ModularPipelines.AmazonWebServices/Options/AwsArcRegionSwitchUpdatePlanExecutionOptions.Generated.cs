@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("arc-region-switch", "update-plan-execution")]
-public record AwsArcRegionSwitchUpdatePlanExecutionOptions : AwsOptions
+public record AwsArcRegionSwitchUpdatePlanExecutionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an in-progress plan execution. This operation allows you to modify certain aspects of the execution, such as adding a comment or changing the action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PlanArn">The Amazon Resource Name (ARN) of the plan with the execution to up- date. Constraints: o pattern: arn:aws[a-zA-Z-]*:arc-re- gion-switch::[0-9]{12}:plan/([a-zA-Z0-9](?:[a-zA-Z0-9-]{0,30}[a-zA-Z0-9])?):([a-z0-9]{6})</param>
+    /// <param name="ExecutionId">The execution identifier of a plan execution.</param>
+    /// <param name="Action">The action specified for a plan execution, for example, Switch to Graceful or Pause. Possible values: o switchToGraceful o switchToUngraceful o pause o resume</param>
+    public AwsArcRegionSwitchUpdatePlanExecutionOptions(
+        string PlanArn,
+        string ExecutionId,
+        AwsArcRegionSwitchUpdatePlanExecutionAction Action
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PlanArn);
+        this.PlanArn = PlanArn;
+        global::System.ArgumentNullException.ThrowIfNull(ExecutionId);
+        this.ExecutionId = ExecutionId;
+        global::System.ArgumentNullException.ThrowIfNull(Action);
+        this.Action = Action;
+    }
+
+    private AwsArcRegionSwitchUpdatePlanExecutionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsArcRegionSwitchUpdatePlanExecutionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsArcRegionSwitchUpdatePlanExecutionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the plan with the execution to up- date. Constraints: o pattern: arn:aws[a-zA-Z-]*:arc-re- gion-switch::[0-9]{12}:plan/([a-zA-Z0-9](?:[a-zA-Z0-9-]{0,30}[a-zA-Z0-9])?):([a-z0-9]{6})
+    /// </summary>
     [CliOption("--plan-arn")]
-    public string? PlanArn { get; set; }
+    public string? PlanArn { get; private init; }
 
+    /// <summary>
+    /// The execution identifier of a plan execution.
+    /// </summary>
     [CliOption("--execution-id")]
-    public string? ExecutionId { get; set; }
+    public string? ExecutionId { get; private init; }
 
+    /// <summary>
+    /// The action specified for a plan execution, for example, Switch to Graceful or Pause. Possible values: o switchToGraceful o switchToUngraceful o pause o resume
+    /// </summary>
     [CliOption("--action")]
-    public string? Action { get; set; }
+    public AwsArcRegionSwitchUpdatePlanExecutionAction? Action { get; private init; }
 
     /// <summary>
     /// An optional comment about the plan execution. Constraints: o min: 0 o max: 1024
@@ -41,5 +93,22 @@ public record AwsArcRegionSwitchUpdatePlanExecutionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

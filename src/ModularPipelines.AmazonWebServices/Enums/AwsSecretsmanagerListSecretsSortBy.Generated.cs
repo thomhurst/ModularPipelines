@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --sortby.
+/// Allowed values for --sort-by.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSecretsmanagerListSecretsSortBy
 {
     [EnumValue("created-date")]
-    CreatedDate = 1,
+    CreatedDate,
 
     [EnumValue("last-accessed-date")]
-    LastAccessedDate = 2,
+    LastAccessedDate,
 
     [EnumValue("last-changed-date")]
-    LastChangedDate = 3,
+    LastChangedDate,
 
     [EnumValue("name")]
-    Name = 4
+    Name
 }

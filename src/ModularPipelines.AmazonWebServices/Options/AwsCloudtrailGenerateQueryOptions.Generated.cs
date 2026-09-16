@@ -10,27 +10,99 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Generates a query from a natural language prompt. This operation uses generative artificial intelligence (generative AI) to produce a ready-to-use SQL query from the prompt. The prompt can be a question or a statement about the event data in your event data store. For example, you can enter prompts like "What are my top errors in the past month?" and Give me a list of users that used SNS. The prompt must be in English. For information about limitations, per- missions, and supported Regions, see ...
+/// WARNING: CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see CloudTrail Lake availability change . Generates a query from a natural language prompt. This operation uses generative artificial intelligence (generative AI) to produce a ready-to-use SQL query from the prompt. The prompt can be a question or a statemen...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudtrail", "generate-query")]
-public record AwsCloudtrailGenerateQueryOptions : AwsOptions
+public record AwsCloudtrailGenerateQueryOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--event-data-stores", GroupValues = true)]
-    public IEnumerable<string>? EventDataStores { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// WARNING: CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see CloudTrail Lake availability change . Generates a query from a natural language prompt. This operation uses generative artificial intelligence (generative AI) to produce a ready-to-use SQL query from the prompt. The prompt can be a question or a statemen...
+    /// </summary>
+    /// <param name="EventDataStores">The ARN (or ID suffix of the ARN) of the event data store that you want to query. You can only specify one event data store. Constraints: o min: 1 o max: 1 (string) Constraints: o min: 3 o max: 256 o pattern: ^[a-zA-Z0-9._/\-:]+$ Syntax: "string" "string" ...</param>
+    /// <param name="Prompt">The prompt that you want to use to generate the query. The prompt must be in English. For example prompts, see Example prompts in the CloudTrail user guide. Constraints: o min: 3 o max: 500 o pattern: ^[ -~\n]*$</param>
+    public AwsCloudtrailGenerateQueryOptions(
+        IEnumerable<string> EventDataStores,
+        string Prompt
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(EventDataStores);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(EventDataStores));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(EventDataStores));
+            }
+
+            EventDataStores = materialized;
+        }
+        this.EventDataStores = EventDataStores;
+        global::System.ArgumentNullException.ThrowIfNull(Prompt);
+        this.Prompt = Prompt;
+    }
+
+    private AwsCloudtrailGenerateQueryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudtrailGenerateQueryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudtrailGenerateQueryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN (or ID suffix of the ARN) of the event data store that you want to query. You can only specify one event data store. Constraints: o min: 1 o max: 1 (string) Constraints: o min: 3 o max: 256 o pattern: ^[a-zA-Z0-9._/\-:]+$ Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--event-data-stores", GroupValues = true)]
+    public IEnumerable<string>? EventDataStores { get; private init; }
+
+    /// <summary>
+    /// The prompt that you want to use to generate the query. The prompt must be in English. For example prompts, see Example prompts in the CloudTrail user guide. Constraints: o min: 3 o max: 500 o pattern: ^[ -~\n]*$
+    /// </summary>
     [CliOption("--prompt")]
-    public string? Prompt { get; set; }
+    public string? Prompt { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

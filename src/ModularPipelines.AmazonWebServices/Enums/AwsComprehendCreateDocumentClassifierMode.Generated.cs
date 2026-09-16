@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsComprehendCreateDocumentClassifierMode
 {
     [EnumValue("MULTI_CLASS")]
-    MultiClass = 1,
+    MultiClass,
 
     [EnumValue("MULTI_LABEL")]
-    MultiLabel = 2
+    MultiLabel
 }

@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --datareplicationmode.
+/// Allowed values for --data-replication-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsMqCreateBrokerDataReplicationMode
 {
-    [EnumValue("NONE")]
-    None = 1,
-
     [EnumValue("CRDR")]
-    Crdr = 2
+    Crdr,
+
+    [EnumValue("NONE")]
+    None
 }

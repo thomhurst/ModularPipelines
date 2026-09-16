@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,12 +21,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "modify-verified-access-group-policy")]
-public record AwsEc2ModifyVerifiedAccessGroupPolicyOptions : AwsOptions
+public record AwsEc2ModifyVerifiedAccessGroupPolicyOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--verified-access-group-id")]
-    public string? VerifiedAccessGroupId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--policy-enabled")]
+    /// <summary>
+    /// Modifies the specified Amazon Web Services Verified Access group pol- icy. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="VerifiedAccessGroupId">The ID of the Verified Access group.</param>
+    public AwsEc2ModifyVerifiedAccessGroupPolicyOptions(
+        string VerifiedAccessGroupId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VerifiedAccessGroupId);
+        this.VerifiedAccessGroupId = VerifiedAccessGroupId;
+    }
+
+    private AwsEc2ModifyVerifiedAccessGroupPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2ModifyVerifiedAccessGroupPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2ModifyVerifiedAccessGroupPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Verified Access group.
+    /// </summary>
+    [CliOption("--verified-access-group-id")]
+    public string? VerifiedAccessGroupId { get; private init; }
+
+    /// <summary>
+    /// The status of the Verified Access policy.
+    /// </summary>
+    [CliFlag("--policy-enabled", NegatedName = "--no-policy-enabled")]
     public bool? PolicyEnabled { get; set; }
 
     /// <summary>
@@ -41,7 +81,10 @@ public record AwsEc2ModifyVerifiedAccessGroupPolicyOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -55,5 +98,22 @@ public record AwsEc2ModifyVerifiedAccessGroupPolicyOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

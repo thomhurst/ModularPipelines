@@ -21,10 +21,49 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("tnb", "get-sol-function-package-descriptor")]
 public record AwsTnbGetSolFunctionPackageDescriptorOptions : AwsOptions
 {
-    [CliOption("--accept")]
-    public string? Accept { get; set; }
+    /// <summary>
+    /// Gets a function package descriptor in a function package. A function package descriptor is a .yaml file in a function package that uses the TOSCA standard to describe how the network function in the function package should run on your network. A function package is a .zip file in CSAR (Cloud Service Archive) for- mat that contains a network function (an ETSI standard telecommunica- tion application) and function package descriptor that uses the TOSCA standard to describe how the network function...
+    /// </summary>
+    /// <param name="Accept">Indicates which content types, expressed as MIME types, the client is able to understand. Possible values: o text/plain</param>
+    /// <param name="VnfPkgId">ID of the function package. Constraints: o pattern: ^fp-[a-f0-9]{17}$ outfile (string) [required] Filename where the content will be saved</param>
+    /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
+    public AwsTnbGetSolFunctionPackageDescriptorOptions(
+        string Accept,
+        string VnfPkgId,
+        string Outfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Accept);
+        this.Accept = Accept;
+        global::System.ArgumentNullException.ThrowIfNull(VnfPkgId);
+        this.VnfPkgId = VnfPkgId;
+        global::System.ArgumentNullException.ThrowIfNull(Outfile);
+        this.Outfile = Outfile;
+    }
 
+    public void Deconstruct(out string Accept, out string VnfPkgId, out string Outfile)
+    {
+        Accept = this.Accept;
+        VnfPkgId = this.VnfPkgId;
+        Outfile = this.Outfile;
+    }
+
+    /// <summary>
+    /// Indicates which content types, expressed as MIME types, the client is able to understand. Possible values: o text/plain
+    /// </summary>
+    [CliOption("--accept")]
+    public string Accept { get; private init; }
+
+    /// <summary>
+    /// ID of the function package. Constraints: o pattern: ^fp-[a-f0-9]{17}$ outfile (string) [required] Filename where the content will be saved
+    /// </summary>
     [CliOption("--vnf-pkg-id")]
-    public string? VnfPkgId { get; set; }
+    public string VnfPkgId { get; private init; }
+
+    /// <summary>
+    /// The &lt;outfile&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Outfile { get; private init; }
 
 }

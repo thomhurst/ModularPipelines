@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsGlueListIntegrationResourcePropertiesOptions : AwsOptions
 {
     /// <summary>
-    /// This is the pagination token for next page, initial value is null . Constraints: o min: 1 o max: 1024
+    /// This is the pagination token for next page, initial value is null . Constraints: o min: 1 o max: 4096
     /// </summary>
     [CliOption("--marker")]
     public string? Marker { get; set; }

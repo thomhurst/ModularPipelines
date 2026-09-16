@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --travelmode.
+/// Allowed values for --travel-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGeoPlacesSuggestTravelMode
 {
     [EnumValue("Car")]
-    Car = 1,
+    Car,
 
     [EnumValue("Scooter")]
-    Scooter = 2,
+    Scooter,
 
     [EnumValue("Truck")]
-    Truck = 3
+    Truck
 }

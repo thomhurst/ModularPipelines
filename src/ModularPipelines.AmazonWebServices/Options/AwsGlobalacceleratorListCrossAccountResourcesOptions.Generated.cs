@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("globalaccelerator", "list-cross-account-resources")]
-public record AwsGlobalacceleratorListCrossAccountResourcesOptions : AwsOptions
+public record AwsGlobalacceleratorListCrossAccountResourcesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// List the cross-account resources available to work with. See also: AWS API Documentation list-cross-account-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: CrossAccountResources
+    /// </summary>
+    /// <param name="ResourceOwnerAwsAccountId">The account ID of a resource owner in a cross-account attachment. Constraints: o min: 12 o max: 12 o pattern: ^\d{12}$</param>
+    public AwsGlobalacceleratorListCrossAccountResourcesOptions(
+        string ResourceOwnerAwsAccountId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceOwnerAwsAccountId);
+        this.ResourceOwnerAwsAccountId = ResourceOwnerAwsAccountId;
+    }
+
+    private AwsGlobalacceleratorListCrossAccountResourcesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlobalacceleratorListCrossAccountResourcesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlobalacceleratorListCrossAccountResourcesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The account ID of a resource owner in a cross-account attachment. Constraints: o min: 12 o max: 12 o pattern: ^\d{12}$
+    /// </summary>
+    [CliOption("--resource-owner-aws-account-id")]
+    public string? ResourceOwnerAwsAccountId { get; private init; }
+
     /// <summary>
     /// The Amazon Resource Name (ARN) of an accelerator in a cross-account attachment. Constraints: o max: 255
     /// </summary>
     [CliOption("--accelerator-arn")]
     public string? AcceleratorArn { get; set; }
-
-    [CliOption("--resource-owner-aws-account-id")]
-    public string? ResourceOwnerAwsAccountId { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -55,5 +92,22 @@ public record AwsGlobalacceleratorListCrossAccountResourcesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

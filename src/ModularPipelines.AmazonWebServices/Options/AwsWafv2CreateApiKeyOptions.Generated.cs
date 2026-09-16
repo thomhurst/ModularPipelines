@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +22,90 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("wafv2", "create-api-key")]
-public record AwsWafv2CreateApiKeyOptions : AwsOptions
+public record AwsWafv2CreateApiKeyOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--scope")]
-    public string? Scope { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an API key that contains a set of token domains. API keys are required for the integration of the CAPTCHA API in your JavaScript client applications. The API lets you customize the place- ment and characteristics of the CAPTCHA puzzle for your end users. For more information about the CAPTCHA JavaScript integration, see WAF client application integration in the WAF Developer Guide . You can use a single key for up to 5 domains. After you generate a key, you can copy it for use in your Ja...
+    /// </summary>
+    /// <param name="Scope">Specifies whether this is for a global resource type, such as a Ama- zon CloudFront distribution. For an Amplify application, use CLOUD- FRONT . To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows: o CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1 . o API and SDKs - For all calls, use the Region endpoint us-east-1. Possible values: o CLOUDFRONT o REGIONAL</param>
+    /// <param name="TokenDomains">The client application domains that you want to use this API key for. Example JSON: "TokenDomains": ["abc.com", "store.abc.com"] Public suffixes aren't allowed. For example, you can't use gov.au or co.uk as token domains. Constraints: o min: 1 (string) Constraints: o min: 1 o max: 253 o pattern: ^[\w\.\-/]+$ Syntax: "string" "string" ...</param>
+    public AwsWafv2CreateApiKeyOptions(
+        AwsWafv2CreateApiKeyScope Scope,
+        IEnumerable<string> TokenDomains
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Scope);
+        this.Scope = Scope;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(TokenDomains);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(TokenDomains));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(TokenDomains));
+            }
+
+            TokenDomains = materialized;
+        }
+        this.TokenDomains = TokenDomains;
+    }
+
+    private AwsWafv2CreateApiKeyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWafv2CreateApiKeyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWafv2CreateApiKeyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies whether this is for a global resource type, such as a Ama- zon CloudFront distribution. For an Amplify application, use CLOUD- FRONT . To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows: o CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1 . o API and SDKs - For all calls, use the Region endpoint us-east-1. Possible values: o CLOUDFRONT o REGIONAL
+    /// </summary>
+    [CliOption("--scope")]
+    public AwsWafv2CreateApiKeyScope? Scope { get; private init; }
+
+    /// <summary>
+    /// The client application domains that you want to use this API key for. Example JSON: "TokenDomains": ["abc.com", "store.abc.com"] Public suffixes aren't allowed. For example, you can't use gov.au or co.uk as token domains. Constraints: o min: 1 (string) Constraints: o min: 1 o max: 253 o pattern: ^[\w\.\-/]+$ Syntax: "string" "string" ...
+    /// </summary>
     [SecretValue]
     [CliOption("--token-domains", GroupValues = true)]
-    public IEnumerable<string>? TokenDomains { get; set; }
+    public IEnumerable<string>? TokenDomains { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sesv2", "delete-tenant-resource-association")]
-public record AwsSesv2DeleteTenantResourceAssociationOptions : AwsOptions
+public record AwsSesv2DeleteTenantResourceAssociationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--tenant-name")]
-    public string? TenantName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Delete an association between a tenant and a resource. When you delete a tenant-resource association, the resource itself is not deleted, only its association with the specific tenant is removed. After removal, the resource will no longer be available for use with that tenant's email sending operations. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TenantName">The name of the tenant to remove the resource association from. Constraints: o min: 1</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource to remove from the tenant association. Constraints: o min: 1</param>
+    public AwsSesv2DeleteTenantResourceAssociationOptions(
+        string TenantName,
+        string ResourceArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TenantName);
+        this.TenantName = TenantName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
+        this.ResourceArn = ResourceArn;
+    }
+
+    private AwsSesv2DeleteTenantResourceAssociationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSesv2DeleteTenantResourceAssociationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSesv2DeleteTenantResourceAssociationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the tenant to remove the resource association from. Constraints: o min: 1
+    /// </summary>
+    [CliOption("--tenant-name")]
+    public string? TenantName { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the resource to remove from the tenant association. Constraints: o min: 1
+    /// </summary>
     [CliOption("--resource-arn")]
-    public string? ResourceArn { get; set; }
+    public string? ResourceArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

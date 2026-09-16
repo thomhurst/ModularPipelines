@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "create-local-gateway-route-table")]
-public record AwsEc2CreateLocalGatewayRouteTableOptions : AwsOptions
+public record AwsEc2CreateLocalGatewayRouteTableOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a local gateway route table. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LocalGatewayId">The ID of the local gateway.</param>
+    public AwsEc2CreateLocalGatewayRouteTableOptions(
+        string LocalGatewayId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LocalGatewayId);
+        this.LocalGatewayId = LocalGatewayId;
+    }
+
+    private AwsEc2CreateLocalGatewayRouteTableOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2CreateLocalGatewayRouteTableOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2CreateLocalGatewayRouteTableOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the local gateway.
+    /// </summary>
     [CliOption("--local-gateway-id")]
-    public string? LocalGatewayId { get; set; }
+    public string? LocalGatewayId { get; private init; }
 
     /// <summary>
     /// The mode of the local gateway route table. Possible values: o direct-vpc-routing o coip
@@ -37,7 +74,10 @@ public record AwsEc2CreateLocalGatewayRouteTableOptions : AwsOptions
     [CliOption("--tag-specifications", GroupValues = true)]
     public IEnumerable<string>? TagSpecifications { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -45,5 +85,22 @@ public record AwsEc2CreateLocalGatewayRouteTableOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,8 +22,55 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("apigatewayv2", "export-api")]
 public record AwsApigatewayv2ExportApiOptions : AwsOptions
 {
+    /// <summary>
+    /// See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApiId">The API identifier.</param>
+    /// <param name="OutputType">The output type of the exported definition file. Valid values are JSON and YAML. Possible values: o YAML o JSON</param>
+    /// <param name="Specification">The version of the API specification to use. OAS30, for OpenAPI 3.0, is the only supported value. Possible values: o OAS30</param>
+    /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
+    public AwsApigatewayv2ExportApiOptions(
+        string ApiId,
+        AwsApigatewayv2ExportApiOutputType OutputType,
+        string Specification,
+        string Outfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApiId);
+        this.ApiId = ApiId;
+        global::System.ArgumentNullException.ThrowIfNull(OutputType);
+        this.OutputType = OutputType;
+        global::System.ArgumentNullException.ThrowIfNull(Specification);
+        this.Specification = Specification;
+        global::System.ArgumentNullException.ThrowIfNull(Outfile);
+        this.Outfile = Outfile;
+    }
+
+    public void Deconstruct(out string ApiId, out AwsApigatewayv2ExportApiOutputType OutputType, out string Specification, out string Outfile)
+    {
+        ApiId = this.ApiId;
+        OutputType = this.OutputType;
+        Specification = this.Specification;
+        Outfile = this.Outfile;
+    }
+
+    /// <summary>
+    /// The API identifier.
+    /// </summary>
     [CliOption("--api-id")]
-    public string? ApiId { get; set; }
+    public string ApiId { get; private init; }
+
+    /// <summary>
+    /// The output type of the exported definition file. Valid values are JSON and YAML. Possible values: o YAML o JSON
+    /// </summary>
+    [CliOption("--output-type")]
+    public AwsApigatewayv2ExportApiOutputType OutputType { get; private init; }
+
+    /// <summary>
+    /// The version of the API specification to use. OAS30, for OpenAPI 3.0, is the only supported value. Possible values: o OAS30
+    /// </summary>
+    [CliOption("--specification")]
+    public string Specification { get; private init; }
 
     /// <summary>
     /// The version of the API Gateway export algorithm. API Gateway uses the latest version by default. Currently, the only supported version is 1.0.
@@ -30,19 +78,22 @@ public record AwsApigatewayv2ExportApiOptions : AwsOptions
     [CliOption("--export-version")]
     public string? ExportVersion { get; set; }
 
-    [CliFlag("--include-extensions")]
+    /// <summary>
+    /// Specifies whether to include API Gateway extensions in the exported API definition. API Gateway extensions are included by default.
+    /// </summary>
+    [CliFlag("--include-extensions", NegatedName = "--no-include-extensions")]
     public bool? IncludeExtensions { get; set; }
-
-    [CliOption("--output-type")]
-    public string? OutputType { get; set; }
-
-    [CliOption("--specification")]
-    public string? Specification { get; set; }
 
     /// <summary>
     /// The name of the API stage to export. If you don't specify this prop- erty, a representation of the latest API configuration is exported. outfile (string) [required] Filename where the content will be saved
     /// </summary>
     [CliOption("--stage-name")]
     public string? StageName { get; set; }
+
+    /// <summary>
+    /// The &lt;outfile&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Outfile { get; private init; }
 
 }

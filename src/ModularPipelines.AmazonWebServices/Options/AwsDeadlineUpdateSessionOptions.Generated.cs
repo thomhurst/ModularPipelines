@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deadline", "update-session")]
-public record AwsDeadlineUpdateSessionOptions : AwsOptions
+public record AwsDeadlineUpdateSessionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a session. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FarmId">The farm ID to update in the session. Constraints: o pattern: farm-[0-9a-f]{32}</param>
+    /// <param name="QueueId">The queue ID to update in the session. Constraints: o pattern: queue-[0-9a-f]{32}</param>
+    /// <param name="JobId">The job ID to update in the session. Constraints: o pattern: job-[0-9a-f]{32}</param>
+    /// <param name="SessionId">The session ID to update. Constraints: o pattern: session-[0-9a-f]{32}</param>
+    /// <param name="TargetLifecycleStatus">The life cycle status to update in the session. Possible values: o ENDED</param>
+    public AwsDeadlineUpdateSessionOptions(
+        string FarmId,
+        string QueueId,
+        string JobId,
+        string SessionId,
+        string TargetLifecycleStatus
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FarmId);
+        this.FarmId = FarmId;
+        global::System.ArgumentNullException.ThrowIfNull(QueueId);
+        this.QueueId = QueueId;
+        global::System.ArgumentNullException.ThrowIfNull(JobId);
+        this.JobId = JobId;
+        global::System.ArgumentNullException.ThrowIfNull(SessionId);
+        this.SessionId = SessionId;
+        global::System.ArgumentNullException.ThrowIfNull(TargetLifecycleStatus);
+        this.TargetLifecycleStatus = TargetLifecycleStatus;
+    }
+
+    private AwsDeadlineUpdateSessionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDeadlineUpdateSessionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDeadlineUpdateSessionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The farm ID to update in the session. Constraints: o pattern: farm-[0-9a-f]{32}
+    /// </summary>
     [CliOption("--farm-id")]
-    public string? FarmId { get; set; }
+    public string? FarmId { get; private init; }
 
+    /// <summary>
+    /// The queue ID to update in the session. Constraints: o pattern: queue-[0-9a-f]{32}
+    /// </summary>
     [CliOption("--queue-id")]
-    public string? QueueId { get; set; }
+    public string? QueueId { get; private init; }
 
+    /// <summary>
+    /// The job ID to update in the session. Constraints: o pattern: job-[0-9a-f]{32}
+    /// </summary>
     [CliOption("--job-id")]
-    public string? JobId { get; set; }
+    public string? JobId { get; private init; }
 
+    /// <summary>
+    /// The session ID to update. Constraints: o pattern: session-[0-9a-f]{32}
+    /// </summary>
     [CliOption("--session-id")]
-    public string? SessionId { get; set; }
+    public string? SessionId { get; private init; }
+
+    /// <summary>
+    /// The life cycle status to update in the session. Possible values: o ENDED
+    /// </summary>
+    [CliOption("--target-lifecycle-status")]
+    public string? TargetLifecycleStatus { get; private init; }
 
     /// <summary>
     /// The unique token which the server uses to recognize retries of the same request. Constraints: o min: 1 o max: 64
@@ -41,13 +109,27 @@ public record AwsDeadlineUpdateSessionOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--target-lifecycle-status")]
-    public string? TargetLifecycleStatus { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

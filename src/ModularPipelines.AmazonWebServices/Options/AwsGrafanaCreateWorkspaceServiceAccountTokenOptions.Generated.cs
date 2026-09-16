@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,97 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("grafana", "create-workspace-service-account-token")]
-public record AwsGrafanaCreateWorkspaceServiceAccountTokenOptions : AwsOptions
+public record AwsGrafanaCreateWorkspaceServiceAccountTokenOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a token that can be used to authenticate and authorize Grafana HTTP API operations for the given workspace service account . The ser- vice account acts as a user for the API operations, and defines the permissions that are used by the API. WARNING: When you create the service account token, you will receive a key that is used when calling Grafana APIs. Do not lose this key, as it will not be retrievable again. If you do lose the key, you can delete the token and recreate it to receive a ...
+    /// </summary>
+    /// <param name="Name">A name for the token to create. Constraints: o min: 1 o max: 128</param>
+    /// <param name="SecondsToLive">Sets how long the token will be valid, in seconds. You can set the time up to 30 days in the future. Constraints: o min: 1 o max: 2592000</param>
+    /// <param name="ServiceAccountId">The ID of the service account for which to create a token.</param>
+    /// <param name="WorkspaceId">The ID of the workspace the service account resides within. Constraints: o pattern: g-[0-9a-f]{10}</param>
+    public AwsGrafanaCreateWorkspaceServiceAccountTokenOptions(
+        string Name,
+        int SecondsToLive,
+        string ServiceAccountId,
+        string WorkspaceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        this.SecondsToLive = SecondsToLive;
+        global::System.ArgumentNullException.ThrowIfNull(ServiceAccountId);
+        this.ServiceAccountId = ServiceAccountId;
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceId);
+        this.WorkspaceId = WorkspaceId;
+    }
+
+    private AwsGrafanaCreateWorkspaceServiceAccountTokenOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGrafanaCreateWorkspaceServiceAccountTokenOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGrafanaCreateWorkspaceServiceAccountTokenOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A name for the token to create. Constraints: o min: 1 o max: 128
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// Sets how long the token will be valid, in seconds. You can set the time up to 30 days in the future. Constraints: o min: 1 o max: 2592000
+    /// </summary>
     [CliOption("--seconds-to-live")]
-    public int? SecondsToLive { get; set; }
+    public int? SecondsToLive { get; private init; }
 
+    /// <summary>
+    /// The ID of the service account for which to create a token.
+    /// </summary>
     [CliOption("--service-account-id")]
-    public string? ServiceAccountId { get; set; }
+    public string? ServiceAccountId { get; private init; }
 
+    /// <summary>
+    /// The ID of the workspace the service account resides within. Constraints: o pattern: g-[0-9a-f]{10}
+    /// </summary>
     [CliOption("--workspace-id")]
-    public string? WorkspaceId { get; set; }
+    public string? WorkspaceId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

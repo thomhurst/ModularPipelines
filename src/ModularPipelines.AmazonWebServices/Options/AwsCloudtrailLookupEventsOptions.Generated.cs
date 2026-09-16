@@ -11,7 +11,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -45,7 +44,7 @@ public record AwsCloudtrailLookupEventsOptions : AwsOptions
     /// Specifies the event category. If you do not specify an event cate- gory, events of the category are not returned in the response. For example, if you do not specify insight as the value of EventCategory , no Insights events are returned. Possible values: o insight
     /// </summary>
     [CliOption("--event-category")]
-    public AwsCloudtrailLookupEventsEventCategory? EventCategory { get; set; }
+    public string? EventCategory { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

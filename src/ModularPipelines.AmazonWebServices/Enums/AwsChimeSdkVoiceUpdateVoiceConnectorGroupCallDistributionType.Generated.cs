@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --calldistributiontype.
+/// Allowed values for --call-distribution-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsChimeSdkVoiceUpdateVoiceConnectorGroupCallDistributionType
 {
-    [EnumValue("PriorityWeightedDistribution")]
-    PriorityWeightedDistribution = 1,
-
     [EnumValue("LoadBalancedDistribution")]
-    LoadBalancedDistribution = 2
+    LoadBalancedDistribution,
+
+    [EnumValue("PriorityWeightedDistribution")]
+    PriorityWeightedDistribution
 }

@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --defaultloglevel.
+/// Allowed values for --default-log-level.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotwirelessUpdateLogLevelsByResourceTypesDefaultLogLevel
 {
-    [EnumValue("INFO")]
-    Info = 1,
+    [EnumValue("DISABLED")]
+    Disabled,
 
     [EnumValue("ERROR")]
-    Error = 2,
+    Error,
 
-    [EnumValue("DISABLED")]
-    Disabled = 3
+    [EnumValue("INFO")]
+    Info
 }

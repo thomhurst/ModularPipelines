@@ -22,24 +22,54 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsIamCreateVirtualMfaDeviceOptions : AwsOptions
 {
     /// <summary>
+    /// Creates a new virtual MFA device for the Amazon Web Services account. After creating the virtual MFA, use EnableMFADevice to attach the MFA device to an IAM user. For more information about creating and working with virtual MFA devices, see Using a virtual MFA device in the IAM User Guide . For information about the maximum number of MFA devices you can create, see IAM and STS quotas in the IAM User Guide . WARNING: The seed information contained in the QR code and the Base32 string should be tr...
+    /// </summary>
+    /// <param name="VirtualMfaDeviceName">The name of the virtual MFA device, which must be unique. Use with path to uniquely identify a virtual MFA device. This parameter allows (through its regex pattern ) a string of char- acters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following charac- ters: _+=,.@- Constraints: o min: 1 o pattern: [\w+=,.@-]+</param>
+    /// <param name="Outfile"></param>
+    /// <param name="BootstrapMethod"></param>
+    public AwsIamCreateVirtualMfaDeviceOptions(
+        string VirtualMfaDeviceName,
+        string Outfile,
+        string BootstrapMethod
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VirtualMfaDeviceName);
+        this.VirtualMfaDeviceName = VirtualMfaDeviceName;
+        global::System.ArgumentNullException.ThrowIfNull(Outfile);
+        this.Outfile = Outfile;
+        global::System.ArgumentNullException.ThrowIfNull(BootstrapMethod);
+        this.BootstrapMethod = BootstrapMethod;
+    }
+
+    public void Deconstruct(out string VirtualMfaDeviceName, out string Outfile, out string BootstrapMethod)
+    {
+        VirtualMfaDeviceName = this.VirtualMfaDeviceName;
+        Outfile = this.Outfile;
+        BootstrapMethod = this.BootstrapMethod;
+    }
+
+    /// <summary>
+    /// The name of the virtual MFA device, which must be unique. Use with path to uniquely identify a virtual MFA device. This parameter allows (through its regex pattern ) a string of char- acters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following charac- ters: _+=,.@- Constraints: o min: 1 o pattern: [\w+=,.@-]+
+    /// </summary>
+    [CliOption("--virtual-mfa-device-name")]
+    public string VirtualMfaDeviceName { get; private init; }
+
+    [CliOption("--outfile")]
+    public string Outfile { get; private init; }
+
+    [CliOption("--bootstrap-method")]
+    public string BootstrapMethod { get; private init; }
+
+    /// <summary>
     /// The path for the virtual MFA device. For more information about paths, see IAM identifiers in the IAM User Guide . This parameter is optional. If it is not included, it defaults to a slash (/). This parameter allows (through its regex pattern ) a string of char- acters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (\u0021 ) through the DEL character (\u007F ), including most punctuation characters, digits, and upper and lowercased letters. Constraints: o min: 1 o max: 512 o pattern: (\u002F)|(\u002F[\u0021-\u007E]+\u002F)
     /// </summary>
     [CliOption("--path")]
     public string? Path { get; set; }
-
-    [CliOption("--virtual-mfa-device-name")]
-    public string? VirtualMfaDeviceName { get; set; }
 
     /// <summary>
     /// A list of tags that you want to attach to the new IAM virtual MFA device. Each tag consists of a key name and an associated value. For more information about tagging, see Tagging IAM resources in the IAM User Guide . NOTE: If any one of the tags is invalid or if you exceed the allowed maximum number of tags, then the entire request fails and the resource is not created. Constraints: o max: 50 (structure) A structure that represents user-provided metadata that can be associated with an IAM resource. For more information about tag- ging, see Tagging IAM resources in the IAM User Guide . Key -&gt; (string) [required] The key name that can be used to look up or retrieve the as- sociated value. For example, Department or Cost Center are common choices. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]+ Value -&gt; (string) [required] The value associated with this tag. For example, tags with a key name of Department could have values such as Human Re- sources , Accounting , and Support . Tags with a key name of Cost Center might have values that consist of the number as- sociated with the different cost centers in your company. Typically, many resources have tags with the same key name but with different values. Constraints: o min: 0 o max: 256 o pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
-
-    [CliOption("--outfile")]
-    public string? Outfile { get; set; }
-
-    [CliOption("--bootstrap-method")]
-    public string? BootstrapMethod { get; set; }
 
 }

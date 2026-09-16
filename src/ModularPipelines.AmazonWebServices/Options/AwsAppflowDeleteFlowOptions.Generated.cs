@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appflow", "delete-flow")]
-public record AwsAppflowDeleteFlowOptions : AwsOptions
+public record AwsAppflowDeleteFlowOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--flow-name")]
-    public string? FlowName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--force-delete")]
+    /// <summary>
+    /// Enables your application to delete an existing flow. Before deleting the flow, Amazon AppFlow validates the request by checking the flow configuration and status. You can delete flows one at a time. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FlowName">The specified name of the flow. Spaces are not allowed. Use under- scores (_) or hyphens (-) only. Constraints: o max: 256 o pattern: [a-zA-Z0-9][\w!@#.-]+</param>
+    public AwsAppflowDeleteFlowOptions(
+        string FlowName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FlowName);
+        this.FlowName = FlowName;
+    }
+
+    private AwsAppflowDeleteFlowOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppflowDeleteFlowOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppflowDeleteFlowOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The specified name of the flow. Spaces are not allowed. Use under- scores (_) or hyphens (-) only. Constraints: o max: 256 o pattern: [a-zA-Z0-9][\w!@#.-]+
+    /// </summary>
+    [CliOption("--flow-name")]
+    public string? FlowName { get; private init; }
+
+    /// <summary>
+    /// Indicates whether Amazon AppFlow should delete the flow, even if it is currently in use.
+    /// </summary>
+    [CliFlag("--force-delete", NegatedName = "--no-force-delete")]
     public bool? ForceDelete { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -32,5 +72,22 @@ public record AwsAppflowDeleteFlowOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

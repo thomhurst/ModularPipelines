@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,16 +22,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("guardduty", "create-publishing-destination")]
-public record AwsGuarddutyCreatePublishingDestinationOptions : AwsOptions
+public record AwsGuarddutyCreatePublishingDestinationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a publishing destination where you can export your GuardDuty findings. Before you start exporting the findings, the destination re- source must exist. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DetectorId">The ID of the GuardDuty detector associated with the publishing des- tination. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300</param>
+    /// <param name="DestinationType">The type of resource for the publishing destination. Currently only Amazon S3 buckets are supported. Possible values: o S3 Constraints: o min: 1 o max: 300</param>
+    /// <param name="DestinationProperties">The properties of the publishing destination, including the ARNs for the destination and the KMS key used for encryption. DestinationArn -&gt; (string) The ARN of the resource to publish to. To specify an S3 bucket folder use the following format: arn:aws:s3:::DOC-EXAMPLE-BUCKET/myFolder/ KmsKeyArn -&gt; (string) The ARN of the KMS key to use for encryption. Shorthand Syntax: DestinationArn=string,KmsKeyArn=string JSON Syntax: { "DestinationArn": "string", "KmsKeyArn": "string" }</param>
+    public AwsGuarddutyCreatePublishingDestinationOptions(
+        string DetectorId,
+        string DestinationType,
+        string DestinationProperties
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DetectorId);
+        this.DetectorId = DetectorId;
+        global::System.ArgumentNullException.ThrowIfNull(DestinationType);
+        this.DestinationType = DestinationType;
+        global::System.ArgumentNullException.ThrowIfNull(DestinationProperties);
+        this.DestinationProperties = DestinationProperties;
+    }
+
+    private AwsGuarddutyCreatePublishingDestinationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGuarddutyCreatePublishingDestinationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGuarddutyCreatePublishingDestinationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the GuardDuty detector associated with the publishing des- tination. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300
+    /// </summary>
     [CliOption("--detector-id")]
-    public string? DetectorId { get; set; }
+    public string? DetectorId { get; private init; }
 
+    /// <summary>
+    /// The type of resource for the publishing destination. Currently only Amazon S3 buckets are supported. Possible values: o S3 Constraints: o min: 1 o max: 300
+    /// </summary>
     [CliOption("--destination-type")]
-    public string? DestinationType { get; set; }
+    public string? DestinationType { get; private init; }
 
+    /// <summary>
+    /// The properties of the publishing destination, including the ARNs for the destination and the KMS key used for encryption. DestinationArn -&gt; (string) The ARN of the resource to publish to. To specify an S3 bucket folder use the following format: arn:aws:s3:::DOC-EXAMPLE-BUCKET/myFolder/ KmsKeyArn -&gt; (string) The ARN of the KMS key to use for encryption. Shorthand Syntax: DestinationArn=string,KmsKeyArn=string JSON Syntax: { "DestinationArn": "string", "KmsKeyArn": "string" }
+    /// </summary>
     [CliOption("--destination-properties")]
-    public string? DestinationProperties { get; set; }
+    public string? DestinationProperties { get; private init; }
 
     /// <summary>
     /// The idempotency token for the request. Constraints: o min: 0 o max: 64
@@ -50,5 +101,22 @@ public record AwsGuarddutyCreatePublishingDestinationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

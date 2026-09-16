@@ -11,23 +11,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --jobstatus.
+/// Allowed values for --job-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSesv2ListExportJobsJobStatus
 {
-    [EnumValue("CREATED")]
-    Created = 1,
-
-    [EnumValue("PROCESSING")]
-    Processing = 2,
+    [EnumValue("CANCELLED")]
+    Cancelled,
 
     [EnumValue("COMPLETED")]
-    Completed = 3,
+    Completed,
+
+    [EnumValue("CREATED")]
+    Created,
 
     [EnumValue("FAILED")]
-    Failed = 4,
+    Failed,
 
-    [EnumValue("CANCELLED")]
-    Cancelled = 5
+    [EnumValue("PROCESSING")]
+    Processing
 }

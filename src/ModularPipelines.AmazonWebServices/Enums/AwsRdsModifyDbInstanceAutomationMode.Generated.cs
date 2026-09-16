@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --automationmode.
+/// Allowed values for --automation-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsRdsModifyDbInstanceAutomationMode
 {
-    [EnumValue("full")]
-    Full = 1,
-
     [EnumValue("all-paused")]
-    AllPaused = 2
+    AllPaused,
+
+    [EnumValue("full")]
+    Full
 }

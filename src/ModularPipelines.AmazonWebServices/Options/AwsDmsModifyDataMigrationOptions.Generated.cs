@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dms", "modify-data-migration")]
-public record AwsDmsModifyDataMigrationOptions : AwsOptions
+public record AwsDmsModifyDataMigrationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies an existing DMS data migration. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DataMigrationIdentifier">The identifier (name or ARN) of the data migration to modify.</param>
+    public AwsDmsModifyDataMigrationOptions(
+        string DataMigrationIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataMigrationIdentifier);
+        this.DataMigrationIdentifier = DataMigrationIdentifier;
+    }
+
+    private AwsDmsModifyDataMigrationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDmsModifyDataMigrationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDmsModifyDataMigrationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier (name or ARN) of the data migration to modify.
+    /// </summary>
     [CliOption("--data-migration-identifier")]
-    public string? DataMigrationIdentifier { get; set; }
+    public string? DataMigrationIdentifier { get; private init; }
 
     /// <summary>
     /// The new name for the data migration.
@@ -31,7 +68,10 @@ public record AwsDmsModifyDataMigrationOptions : AwsOptions
     [CliOption("--data-migration-name")]
     public string? DataMigrationName { get; set; }
 
-    [CliFlag("--enable-cloudwatch-logs")]
+    /// <summary>
+    /// Whether to enable Cloudwatch logs for the data migration.
+    /// </summary>
+    [CliFlag("--enable-cloudwatch-logs", NegatedName = "--no-enable-cloudwatch-logs")]
     public bool? EnableCloudwatchLogs { get; set; }
 
     /// <summary>
@@ -75,5 +115,22 @@ public record AwsDmsModifyDataMigrationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

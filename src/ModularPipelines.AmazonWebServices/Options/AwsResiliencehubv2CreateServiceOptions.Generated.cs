@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -22,10 +23,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resiliencehubv2", "create-service")]
-public record AwsResiliencehubv2CreateServiceOptions : AwsOptions
+public record AwsResiliencehubv2CreateServiceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a service. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">Resource name (used in ARN no spaces allowed). Constraints: o min: 2 o max: 60 o pattern: [A-Za-z0-9][A-Za-z0-9_\-]{1,59}</param>
+    /// <param name="Regions">The Regions where the service operates. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 6 o pattern: [a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9] Syntax: "string" "string" ...</param>
+    /// <param name="PermissionModel">The permission model for the service. invokerRoleName -&gt; (string) [required] IAM role name (supports up to 64 characters per IAM limits). Constraints: o min: 1 o max: 576 o pattern: ([A-Za-z0-9_+=,.@\-]+/)*[A-Za-z0-9_+=,.@\-]+ crossAccountRoles -&gt; (list) The list of cross-account IAM role ARNs. Constraints: o min: 0 o max: 5 (structure) Specifies a cross-account IAM role ARN and optional external ID. crossAccountRoleArn -&gt; (string) [required] ARN of the IAM Role for the profile. Null if the permis- sion profile is the 'Admin' profile. Constraints: o min: 32 o pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):iam::[0-9]{12}:role/(([^/][!-~]+/){1,511})?[A-Za-z0-9_+=,.@-]{1,64} externalId -&gt; (string) The external ID used for assuming the cross-account role. Constraints: o min: 2 o max: 1224 Shorthand Syntax: invokerRoleName=string,crossAccountRoles=[{crossAccountRoleArn=string,externalId=string},{crossAccountRoleArn=string,externalId=string}] JSON Syntax: { "invokerRoleName": "string", "crossAccountRoles": [ { "crossAccountRoleArn": "string", "externalId": "string" } ... ] }</param>
+    public AwsResiliencehubv2CreateServiceOptions(
+        string Name,
+        IEnumerable<string> Regions,
+        string PermissionModel
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Regions);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Regions));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Regions));
+            }
+
+            Regions = materialized;
+        }
+        this.Regions = Regions;
+        global::System.ArgumentNullException.ThrowIfNull(PermissionModel);
+        this.PermissionModel = PermissionModel;
+    }
+
+    private AwsResiliencehubv2CreateServiceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsResiliencehubv2CreateServiceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsResiliencehubv2CreateServiceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Resource name (used in ARN no spaces allowed). Constraints: o min: 2 o max: 60 o pattern: [A-Za-z0-9][A-Za-z0-9_\-]{1,59}
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The Regions where the service operates. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 6 o pattern: [a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9] Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--regions", GroupValues = true)]
+    public IEnumerable<string>? Regions { get; private init; }
+
+    /// <summary>
+    /// The permission model for the service. invokerRoleName -&gt; (string) [required] IAM role name (supports up to 64 characters per IAM limits). Constraints: o min: 1 o max: 576 o pattern: ([A-Za-z0-9_+=,.@\-]+/)*[A-Za-z0-9_+=,.@\-]+ crossAccountRoles -&gt; (list) The list of cross-account IAM role ARNs. Constraints: o min: 0 o max: 5 (structure) Specifies a cross-account IAM role ARN and optional external ID. crossAccountRoleArn -&gt; (string) [required] ARN of the IAM Role for the profile. Null if the permis- sion profile is the 'Admin' profile. Constraints: o min: 32 o pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):iam::[0-9]{12}:role/(([^/][!-~]+/){1,511})?[A-Za-z0-9_+=,.@-]{1,64} externalId -&gt; (string) The external ID used for assuming the cross-account role. Constraints: o min: 2 o max: 1224 Shorthand Syntax: invokerRoleName=string,crossAccountRoles=[{crossAccountRoleArn=string,externalId=string},{crossAccountRoleArn=string,externalId=string}] JSON Syntax: { "invokerRoleName": "string", "crossAccountRoles": [ { "crossAccountRoleArn": "string", "externalId": "string" } ... ] }
+    /// </summary>
+    [CliOption("--permission-model")]
+    public string? PermissionModel { get; private init; }
 
     /// <summary>
     /// Resource description for services and policies. Constraints: o min: 0 o max: 615
@@ -44,12 +112,6 @@ public record AwsResiliencehubv2CreateServiceOptions : AwsOptions
     /// </summary>
     [CliOption("--policy-arn")]
     public string? PolicyArn { get; set; }
-
-    [CliOption("--regions", GroupValues = true)]
-    public IEnumerable<string>? Regions { get; set; }
-
-    [CliOption("--permission-model")]
-    public string? PermissionModel { get; set; }
 
     /// <summary>
     /// Caller-settable values for dependency discovery. INITIALIZING is system-managed. Possible values: o ENABLED o DISABLED
@@ -87,5 +149,22 @@ public record AwsResiliencehubv2CreateServiceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

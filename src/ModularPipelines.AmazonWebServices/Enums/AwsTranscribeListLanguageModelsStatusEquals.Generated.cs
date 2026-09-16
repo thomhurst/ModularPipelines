@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --statusequals.
+/// Allowed values for --status-equals.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsTranscribeListLanguageModelsStatusEquals
 {
-    [EnumValue("IN_PROGRESS")]
-    InProgress = 1,
+    [EnumValue("COMPLETED")]
+    Completed,
 
     [EnumValue("FAILED")]
-    Failed = 2,
+    Failed,
 
-    [EnumValue("COMPLETED")]
-    Completed = 3
+    [EnumValue("IN_PROGRESS")]
+    InProgress
 }

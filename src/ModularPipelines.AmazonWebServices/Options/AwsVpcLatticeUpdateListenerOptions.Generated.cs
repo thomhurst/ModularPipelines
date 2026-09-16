@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vpc-lattice", "update-listener")]
-public record AwsVpcLatticeUpdateListenerOptions : AwsOptions
+public record AwsVpcLatticeUpdateListenerOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the specified listener for the specified service. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ServiceIdentifier">The ID or ARN of the service. Constraints: o min: 17 o max: 2048 o pattern: ((svc-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:service/svc-[0-9a-z]{17}))</param>
+    /// <param name="ListenerIdentifier">The ID or ARN of the listener. Constraints: o min: 20 o max: 2048 o pattern: ((listener-[0-9a-z]{17})|(^arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:service/svc-[0-9a-z]{17}/listener/lis- tener-[0-9a-z]{17}$))</param>
+    /// <param name="DefaultAction">The action for the default rule. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: forward, fixedResponse. forward -&gt; (structure) The forward action. Traffic that matches the rule is forwarded to the specified target groups. targetGroups -&gt; (list) [required] The target groups. Traffic matching the rule is forwarded to the specified target groups. With forward actions, you can assign a weight that controls the prioritization and selec- tion of each target group. This means that requests are dis- tributed to individual target groups based on their weights. For example, if two target groups have the same weight, each target group receives half of the traffic. The default value is 1. This means that if only one target group is provided, there is no need to set the weight; 100% of the traffic goes to that target group. Constraints: o min: 1 o max: 10 (structure) Describes the weight of a target group. targetGroupIdentifier -&gt; (string) [required] The ID or ARN of the target group. Constraints: o min: 17 o max: 2048 o pattern: ((tg-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:target- group/tg-[0-9a-z]{17})) weight -&gt; (integer) Only required if you specify multiple target groups for a forward action. The weight determines how re- quests are distributed to the target group. For exam- ple, if you specify two target groups, each with a weight of 10, each target group receives half the re- quests. If you specify two target groups, one with a weight of 10 and the other with a weight of 20, the target group with a weight of 20 receives twice as many requests as the other target group. If there's only one target group specified, then the default value is 100. Constraints: o min: 0 o max: 999 fixedResponse -&gt; (structure) The fixed response action. The rule returns a custom HTTP re- sponse. statusCode -&gt; (integer) [required] The HTTP response code. Only 404 and 500 status codes are supported. Constraints: o min: 100 o max: 599 JSON Syntax: { "forward": { "targetGroups": [ { "targetGroupIdentifier": "string", "weight": integer } ... ] }, "fixedResponse": { "statusCode": integer } }</param>
+    public AwsVpcLatticeUpdateListenerOptions(
+        string ServiceIdentifier,
+        string ListenerIdentifier,
+        string DefaultAction
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceIdentifier);
+        this.ServiceIdentifier = ServiceIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(ListenerIdentifier);
+        this.ListenerIdentifier = ListenerIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(DefaultAction);
+        this.DefaultAction = DefaultAction;
+    }
+
+    private AwsVpcLatticeUpdateListenerOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsVpcLatticeUpdateListenerOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsVpcLatticeUpdateListenerOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID or ARN of the service. Constraints: o min: 17 o max: 2048 o pattern: ((svc-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:service/svc-[0-9a-z]{17}))
+    /// </summary>
     [CliOption("--service-identifier")]
-    public string? ServiceIdentifier { get; set; }
+    public string? ServiceIdentifier { get; private init; }
 
+    /// <summary>
+    /// The ID or ARN of the listener. Constraints: o min: 20 o max: 2048 o pattern: ((listener-[0-9a-z]{17})|(^arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:service/svc-[0-9a-z]{17}/listener/lis- tener-[0-9a-z]{17}$))
+    /// </summary>
     [CliOption("--listener-identifier")]
-    public string? ListenerIdentifier { get; set; }
+    public string? ListenerIdentifier { get; private init; }
 
+    /// <summary>
+    /// The action for the default rule. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: forward, fixedResponse. forward -&gt; (structure) The forward action. Traffic that matches the rule is forwarded to the specified target groups. targetGroups -&gt; (list) [required] The target groups. Traffic matching the rule is forwarded to the specified target groups. With forward actions, you can assign a weight that controls the prioritization and selec- tion of each target group. This means that requests are dis- tributed to individual target groups based on their weights. For example, if two target groups have the same weight, each target group receives half of the traffic. The default value is 1. This means that if only one target group is provided, there is no need to set the weight; 100% of the traffic goes to that target group. Constraints: o min: 1 o max: 10 (structure) Describes the weight of a target group. targetGroupIdentifier -&gt; (string) [required] The ID or ARN of the target group. Constraints: o min: 17 o max: 2048 o pattern: ((tg-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:target- group/tg-[0-9a-z]{17})) weight -&gt; (integer) Only required if you specify multiple target groups for a forward action. The weight determines how re- quests are distributed to the target group. For exam- ple, if you specify two target groups, each with a weight of 10, each target group receives half the re- quests. If you specify two target groups, one with a weight of 10 and the other with a weight of 20, the target group with a weight of 20 receives twice as many requests as the other target group. If there's only one target group specified, then the default value is 100. Constraints: o min: 0 o max: 999 fixedResponse -&gt; (structure) The fixed response action. The rule returns a custom HTTP re- sponse. statusCode -&gt; (integer) [required] The HTTP response code. Only 404 and 500 status codes are supported. Constraints: o min: 100 o max: 599 JSON Syntax: { "forward": { "targetGroups": [ { "targetGroupIdentifier": "string", "weight": integer } ... ] }, "fixedResponse": { "statusCode": integer } }
+    /// </summary>
     [CliOption("--default-action")]
-    public string? DefaultAction { get; set; }
+    public string? DefaultAction { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

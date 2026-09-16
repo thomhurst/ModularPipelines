@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,20 +21,63 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acm", "create-acme-external-account-binding")]
-public record AwsAcmCreateAcmeExternalAccountBindingOptions : AwsOptions
+public record AwsAcmCreateAcmeExternalAccountBindingOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an external account binding (EAB) for an ACME endpoint. An EAB provides credentials that authorize an ACME client to register an ac- count with the endpoint. Each EAB is associated with an IAM role that controls what certificate operations the ACME client can perform. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AcmeEndpointArn">The Amazon Resource Name (ARN) of the ACME endpoint. Constraints: o min: 1 o max: 200 o pattern: arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-end- point/[a-zA-Z0-9-]+</param>
+    /// <param name="RoleArn">The Amazon Resource Name (ARN) of the IAM role to associate with the external account binding. Constraints: o min: 1 o max: 2048 o pattern: arn:aws[a-z-]*:iam::[0-9]{12}:role/.+</param>
+    public AwsAcmCreateAcmeExternalAccountBindingOptions(
+        string AcmeEndpointArn,
+        string RoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AcmeEndpointArn);
+        this.AcmeEndpointArn = AcmeEndpointArn;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+    }
+
+    private AwsAcmCreateAcmeExternalAccountBindingOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAcmCreateAcmeExternalAccountBindingOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAcmCreateAcmeExternalAccountBindingOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the ACME endpoint. Constraints: o min: 1 o max: 200 o pattern: arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-end- point/[a-zA-Z0-9-]+
+    /// </summary>
+    [CliOption("--acme-endpoint-arn")]
+    public string? AcmeEndpointArn { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the IAM role to associate with the external account binding. Constraints: o min: 1 o max: 2048 o pattern: arn:aws[a-z-]*:iam::[0-9]{12}:role/.+
+    /// </summary>
+    [CliOption("--role-arn")]
+    public string? RoleArn { get; private init; }
+
     /// <summary>
     /// A unique, case-sensitive identifier to ensure idempotency of the re- quest.
     /// </summary>
     [SecretValue]
     [CliOption("--idempotency-token")]
     public string? IdempotencyToken { get; set; }
-
-    [CliOption("--acme-endpoint-arn")]
-    public string? AcmeEndpointArn { get; set; }
-
-    [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
 
     /// <summary>
     /// The expiration configuration for the external account binding. Value -&gt; (long) [required] The numeric value of the expiration. Constraints: o min: 1 Type -&gt; (string) [required] The time unit for the expiration value. Possible values: o MINUTES o HOURS o DAYS Shorthand Syntax: Value=long,Type=string JSON Syntax: { "Value": long, "Type": "MINUTES"|"HOURS"|"DAYS" }
@@ -52,5 +96,22 @@ public record AwsAcmCreateAcmeExternalAccountBindingOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

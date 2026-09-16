@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("devicefarm", "list-uploads")]
-public record AwsDevicefarmListUploadsOptions : AwsOptions
+public record AwsDevicefarmListUploadsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Gets information about uploads, given an AWS Device Farm project ARN. See also: AWS API Documentation list-uploads is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: uploads
+    /// </summary>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the project for which you want to list uploads. Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+</param>
+    public AwsDevicefarmListUploadsOptions(
+        string Arn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Arn);
+        this.Arn = Arn;
+    }
+
+    private AwsDevicefarmListUploadsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDevicefarmListUploadsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDevicefarmListUploadsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the project for which you want to list uploads. Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+
+    /// </summary>
     [CliOption("--arn")]
-    public string? Arn { get; set; }
+    public string? Arn { get; private init; }
 
     /// <summary>
     /// The type of upload. Must be one of the following values: o ANDROID_APP o IOS_APP o WEB_APP o EXTERNAL_DATA o APPIUM_JAVA_JUNIT_TEST_PACKAGE o APPIUM_JAVA_TESTNG_TEST_PACKAGE o APPIUM_PYTHON_TEST_PACKAGE o APPIUM_NODE_TEST_PACKAGE o APPIUM_RUBY_TEST_PACKAGE o APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE o APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE o APPIUM_WEB_PYTHON_TEST_PACKAGE o APPIUM_WEB_NODE_TEST_PACKAGE o APPIUM_WEB_RUBY_TEST_PACKAGE o INSTRUMENTATION_TEST_PACKAGE o XCTEST_TEST_PACKAGE o XCTEST_UI_TEST_PACKAGE o APPIUM_JAVA_JUNIT_TEST_SPEC o APPIUM_JAVA_TESTNG_TEST_SPEC o APPIUM_PYTHON_TEST_SPEC o APPIUM_NODE_TEST_SPEC o APPIUM_RUBY_TEST_SPEC o APPIUM_WEB_JAVA_JUNIT_TEST_SPEC o APPIUM_WEB_JAVA_TESTNG_TEST_SPEC o APPIUM_WEB_PYTHON_TEST_SPEC o APPIUM_WEB_NODE_TEST_SPEC o APPIUM_WEB_RUBY_TEST_SPEC o INSTRUMENTATION_TEST_SPEC o XCTEST_UI_TEST_SPEC Possible values: o ANDROID_APP o IOS_APP o WEB_APP o EXTERNAL_DATA o APPIUM_JAVA_JUNIT_TEST_PACKAGE o APPIUM_JAVA_TESTNG_TEST_PACKAGE o APPIUM_PYTHON_TEST_PACKAGE o APPIUM_NODE_TEST_PACKAGE o APPIUM_RUBY_TEST_PACKAGE o APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE o APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE o APPIUM_WEB_PYTHON_TEST_PACKAGE o APPIUM_WEB_NODE_TEST_PACKAGE o APPIUM_WEB_RUBY_TEST_PACKAGE o CALABASH_TEST_PACKAGE o INSTRUMENTATION_TEST_PACKAGE o UIAUTOMATION_TEST_PACKAGE o UIAUTOMATOR_TEST_PACKAGE o XCTEST_TEST_PACKAGE o XCTEST_UI_TEST_PACKAGE o APPIUM_JAVA_JUNIT_TEST_SPEC o APPIUM_JAVA_TESTNG_TEST_SPEC o APPIUM_PYTHON_TEST_SPEC o APPIUM_NODE_TEST_SPEC o APPIUM_RUBY_TEST_SPEC o APPIUM_WEB_JAVA_JUNIT_TEST_SPEC o APPIUM_WEB_JAVA_TESTNG_TEST_SPEC o APPIUM_WEB_PYTHON_TEST_SPEC o APPIUM_WEB_NODE_TEST_SPEC o APPIUM_WEB_RUBY_TEST_SPEC o INSTRUMENTATION_TEST_SPEC o XCTEST_UI_TEST_SPEC
@@ -49,5 +86,22 @@ public record AwsDevicefarmListUploadsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

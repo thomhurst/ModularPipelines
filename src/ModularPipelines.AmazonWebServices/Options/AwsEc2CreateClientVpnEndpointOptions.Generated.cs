@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,22 +22,83 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "create-client-vpn-endpoint")]
-public record AwsEc2CreateClientVpnEndpointOptions : AwsOptions
+public record AwsEc2CreateClientVpnEndpointOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a Client VPN endpoint. A Client VPN endpoint is the resource you create and configure to enable and manage client VPN sessions. It is the destination endpoint at which all client VPN sessions are termi- nated. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ServerCertificateArn">The ARN of the server certificate. For more information, see the Certificate Manager User Guide .</param>
+    /// <param name="AuthenticationOptions">Information about the authentication method to be used to authenti- cate clients. (structure) Describes the authentication method to be used by a Client VPN endpoint. For more information, see Authentication in the Client VPN Administrator Guide . Type -&gt; (string) The type of client authentication to be used. Possible values: o certificate-authentication o directory-service-authentication o federated-authentication ActiveDirectory -&gt; (structure) Information about the Active Directory to be used, if applic- able. You must provide this information if Type is direc- tory-service-authentication . DirectoryId -&gt; (string) The ID of the Active Directory to be used for authentica- tion. MutualAuthentication -&gt; (structure) Information about the authentication certificates to be used, if applicable. You must provide this information if Type is certificate-authentication . ClientRootCertificateChainArn -&gt; (string) The ARN of the client certificate. The certificate must be signed by a certificate authority (CA) and it must be provisioned in Certificate Manager (ACM). FederatedAuthentication -&gt; (structure) Information about the IAM SAML identity provider to be used, if applicable. You must provide this information if Type is federated-authentication . SAMLProviderArn -&gt; (string) The Amazon Resource Name (ARN) of the IAM SAML identity provider. SelfServiceSAMLProviderArn -&gt; (string) The Amazon Resource Name (ARN) of the IAM SAML identity provider for the self-service portal. Shorthand Syntax: Type=string,ActiveDirectory={DirectoryId=string},MutualAuthentication={ClientRootCertificateChainArn=string},FederatedAuthentication={SAMLProviderArn=string,SelfServiceSAMLProviderArn=string} ... JSON Syntax: [ { "Type": "certificate-authentication"|"directory-service-authentication"|"federated-authentication", "ActiveDirectory": { "DirectoryId": "string" }, "MutualAuthentication": { "ClientRootCertificateChainArn": "string" }, "FederatedAuthentication": { "SAMLProviderArn": "string", "SelfServiceSAMLProviderArn": "string" } } ... ]</param>
+    /// <param name="ConnectionLogOptions">Information about the client connection logging options. If you enable client connection logging, data about client connec- tions is sent to a Cloudwatch Logs log stream. The following infor- mation is logged: o Client connection requests o Client connection results (successful and unsuccessful) o Reasons for unsuccessful client connection requests o Client connection termination time Enabled -&gt; (boolean) Indicates whether connection logging is enabled. CloudwatchLogGroup -&gt; (string) The name of the CloudWatch Logs log group. Required if connec- tion logging is enabled. CloudwatchLogStream -&gt; (string) The name of the CloudWatch Logs log stream to which the connec- tion data is published. Shorthand Syntax: Enabled=boolean,CloudwatchLogGroup=string,CloudwatchLogStream=string JSON Syntax: { "Enabled": true|false, "CloudwatchLogGroup": "string", "CloudwatchLogStream": "string" }</param>
+    public AwsEc2CreateClientVpnEndpointOptions(
+        string ServerCertificateArn,
+        IEnumerable<string> AuthenticationOptions,
+        string ConnectionLogOptions
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServerCertificateArn);
+        this.ServerCertificateArn = ServerCertificateArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(AuthenticationOptions);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(AuthenticationOptions));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(AuthenticationOptions));
+            }
+
+            AuthenticationOptions = materialized;
+        }
+        this.AuthenticationOptions = AuthenticationOptions;
+        global::System.ArgumentNullException.ThrowIfNull(ConnectionLogOptions);
+        this.ConnectionLogOptions = ConnectionLogOptions;
+    }
+
+    private AwsEc2CreateClientVpnEndpointOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2CreateClientVpnEndpointOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2CreateClientVpnEndpointOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the server certificate. For more information, see the Certificate Manager User Guide .
+    /// </summary>
+    [CliOption("--server-certificate-arn")]
+    public string? ServerCertificateArn { get; private init; }
+
+    /// <summary>
+    /// Information about the authentication method to be used to authenti- cate clients. (structure) Describes the authentication method to be used by a Client VPN endpoint. For more information, see Authentication in the Client VPN Administrator Guide . Type -&gt; (string) The type of client authentication to be used. Possible values: o certificate-authentication o directory-service-authentication o federated-authentication ActiveDirectory -&gt; (structure) Information about the Active Directory to be used, if applic- able. You must provide this information if Type is direc- tory-service-authentication . DirectoryId -&gt; (string) The ID of the Active Directory to be used for authentica- tion. MutualAuthentication -&gt; (structure) Information about the authentication certificates to be used, if applicable. You must provide this information if Type is certificate-authentication . ClientRootCertificateChainArn -&gt; (string) The ARN of the client certificate. The certificate must be signed by a certificate authority (CA) and it must be provisioned in Certificate Manager (ACM). FederatedAuthentication -&gt; (structure) Information about the IAM SAML identity provider to be used, if applicable. You must provide this information if Type is federated-authentication . SAMLProviderArn -&gt; (string) The Amazon Resource Name (ARN) of the IAM SAML identity provider. SelfServiceSAMLProviderArn -&gt; (string) The Amazon Resource Name (ARN) of the IAM SAML identity provider for the self-service portal. Shorthand Syntax: Type=string,ActiveDirectory={DirectoryId=string},MutualAuthentication={ClientRootCertificateChainArn=string},FederatedAuthentication={SAMLProviderArn=string,SelfServiceSAMLProviderArn=string} ... JSON Syntax: [ { "Type": "certificate-authentication"|"directory-service-authentication"|"federated-authentication", "ActiveDirectory": { "DirectoryId": "string" }, "MutualAuthentication": { "ClientRootCertificateChainArn": "string" }, "FederatedAuthentication": { "SAMLProviderArn": "string", "SelfServiceSAMLProviderArn": "string" } } ... ]
+    /// </summary>
+    [CliOption("--authentication-options", GroupValues = true)]
+    public IEnumerable<string>? AuthenticationOptions { get; private init; }
+
+    /// <summary>
+    /// Information about the client connection logging options. If you enable client connection logging, data about client connec- tions is sent to a Cloudwatch Logs log stream. The following infor- mation is logged: o Client connection requests o Client connection results (successful and unsuccessful) o Reasons for unsuccessful client connection requests o Client connection termination time Enabled -&gt; (boolean) Indicates whether connection logging is enabled. CloudwatchLogGroup -&gt; (string) The name of the CloudWatch Logs log group. Required if connec- tion logging is enabled. CloudwatchLogStream -&gt; (string) The name of the CloudWatch Logs log stream to which the connec- tion data is published. Shorthand Syntax: Enabled=boolean,CloudwatchLogGroup=string,CloudwatchLogStream=string JSON Syntax: { "Enabled": true|false, "CloudwatchLogGroup": "string", "CloudwatchLogStream": "string" }
+    /// </summary>
+    [CliOption("--connection-log-options")]
+    public string? ConnectionLogOptions { get; private init; }
+
     /// <summary>
     /// The IPv4 address range, in CIDR notation, from which to assign client IP addresses. The address range cannot overlap with the local CIDR of the VPC in which the associated subnet is located, or the routes that you add manually. The address range cannot be changed after the Client VPN endpoint has been created. Client CIDR range must have a size of at least /22 and must not be greater than /12.
     /// </summary>
     [CliOption("--client-cidr-block")]
     public string? ClientCidrBlock { get; set; }
-
-    [CliOption("--server-certificate-arn")]
-    public string? ServerCertificateArn { get; set; }
-
-    [CliOption("--authentication-options", GroupValues = true)]
-    public IEnumerable<string>? AuthenticationOptions { get; set; }
-
-    [CliOption("--connection-log-options")]
-    public string? ConnectionLogOptions { get; set; }
 
     /// <summary>
     /// Information about the DNS servers to be used for DNS resolution. A Client VPN endpoint can have up to two DNS servers. If no DNS server is specified, the DNS address configured on the device is used for the DNS server. (string) Syntax: "string" "string" ...
@@ -62,10 +124,16 @@ public record AwsEc2CreateClientVpnEndpointOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliFlag("--split-tunnel")]
+    /// <summary>
+    /// Indicates whether split-tunnel is enabled on the Client VPN end- point. By default, split-tunnel on a VPN endpoint is disabled. For information about split-tunnel VPN endpoints, see Split-tunnel Client VPN endpoint in the Client VPN Administrator Guide .
+    /// </summary>
+    [CliFlag("--split-tunnel", NegatedName = "--no-split-tunnel")]
     public bool? SplitTunnel { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -123,7 +191,10 @@ public record AwsEc2CreateClientVpnEndpointOptions : AwsOptions
     [CliOption("--client-route-enforcement-options")]
     public string? ClientRouteEnforcementOptions { get; set; }
 
-    [CliFlag("--disconnect-on-session-timeout")]
+    /// <summary>
+    /// Indicates whether the client VPN session is disconnected after the maximum timeout specified in SessionTimeoutHours is reached. If true , users are prompted to reconnect client VPN. If false , client VPN attempts to reconnect automatically. The default value is true .
+    /// </summary>
+    [CliFlag("--disconnect-on-session-timeout", NegatedName = "--no-disconnect-on-session-timeout")]
     public bool? DisconnectOnSessionTimeout { get; set; }
 
     /// <summary>
@@ -149,5 +220,22 @@ public record AwsEc2CreateClientVpnEndpointOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

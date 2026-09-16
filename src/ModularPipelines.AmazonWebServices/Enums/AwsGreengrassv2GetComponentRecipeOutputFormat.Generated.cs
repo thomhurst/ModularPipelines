@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --recipeoutputformat.
+/// Allowed values for --recipe-output-format.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGreengrassv2GetComponentRecipeOutputFormat
 {
     [EnumValue("JSON")]
-    Json = 1,
+    Json,
 
     [EnumValue("YAML")]
-    Yaml = 2
+    Yaml
 }

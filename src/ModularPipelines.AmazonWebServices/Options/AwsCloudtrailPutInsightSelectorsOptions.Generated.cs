@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,63 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudtrail", "put-insight-selectors")]
-public record AwsCloudtrailPutInsightSelectorsOptions : AwsOptions
+public record AwsCloudtrailPutInsightSelectorsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lets you enable Insights event logging on specific event categories by specifying the Insights selectors that you want to enable on an exist- ing trail or event data store. You also use PutInsightSelectors to turn off Insights event logging, by passing an empty list of Insights types. The valid Insights event types are ApiErrorRateInsight and ApiCall- RateInsight , and valid EventCategories are Management and Data . NOTE: Insights on data events are not supported on event data stores. For event ...
+    /// </summary>
+    /// <param name="InsightSelectors">Contains the Insights types you want to log on a specific category of events on a trail or event data store. ApiCallRateInsight and ApiErrorRateInsight are valid Insight types.The EventCategory field can specify Management or Data events or both. For event data store, you can log Insights for management events only. The ApiCallRateInsight Insights type analyzes write-only management API calls or read and write data API calls that are aggregated per minute against a baseline API call volume. The ApiErrorRateInsight Insights type analyzes management and data API calls that result in error codes. The error is shown if the API call is unsuccessful. (structure) A JSON string that contains a list of Insights types that are logged on a trail or event data store. InsightType -&gt; (string) The type of Insights events to log on a trail or event data store. ApiCallRateInsight and ApiErrorRateInsight are valid Insight types. The ApiCallRateInsight Insights type analyzes write-only man- agement API calls or read and write data API calls that are aggregated per minute against a baseline API call volume. The ApiErrorRateInsight Insights type analyzes management and data API calls that result in error codes. The error is shown if the API call is unsuccessful. Possible values: o ApiCallRateInsight o ApiErrorRateInsight EventCategories -&gt; (list) Select the event category on which Insights should be en- abled. o If EventCategories is not provided, the specified Insights types are enabled on management API calls by default. o If EventCategories is provided, the given event categories will overwrite the existing ones. For example, if a trail already has Insights enabled on management events, and then a PutInsightSelectors request is made with only data events specified in EventCategories, Insights on management events will be disabled. (string) Possible values: o Management o Data Shorthand Syntax: InsightType=string,EventCategories=string,string ... JSON Syntax: [ { "InsightType": "ApiCallRateInsight"|"ApiErrorRateInsight", "EventCategories": ["Management"|"Data", ...] } ... ]</param>
+    public AwsCloudtrailPutInsightSelectorsOptions(
+        IEnumerable<string> InsightSelectors
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(InsightSelectors);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(InsightSelectors));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(InsightSelectors));
+            }
+
+            InsightSelectors = materialized;
+        }
+        this.InsightSelectors = InsightSelectors;
+    }
+
+    private AwsCloudtrailPutInsightSelectorsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudtrailPutInsightSelectorsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudtrailPutInsightSelectorsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Contains the Insights types you want to log on a specific category of events on a trail or event data store. ApiCallRateInsight and ApiErrorRateInsight are valid Insight types.The EventCategory field can specify Management or Data events or both. For event data store, you can log Insights for management events only. The ApiCallRateInsight Insights type analyzes write-only management API calls or read and write data API calls that are aggregated per minute against a baseline API call volume. The ApiErrorRateInsight Insights type analyzes management and data API calls that result in error codes. The error is shown if the API call is unsuccessful. (structure) A JSON string that contains a list of Insights types that are logged on a trail or event data store. InsightType -&gt; (string) The type of Insights events to log on a trail or event data store. ApiCallRateInsight and ApiErrorRateInsight are valid Insight types. The ApiCallRateInsight Insights type analyzes write-only man- agement API calls or read and write data API calls that are aggregated per minute against a baseline API call volume. The ApiErrorRateInsight Insights type analyzes management and data API calls that result in error codes. The error is shown if the API call is unsuccessful. Possible values: o ApiCallRateInsight o ApiErrorRateInsight EventCategories -&gt; (list) Select the event category on which Insights should be en- abled. o If EventCategories is not provided, the specified Insights types are enabled on management API calls by default. o If EventCategories is provided, the given event categories will overwrite the existing ones. For example, if a trail already has Insights enabled on management events, and then a PutInsightSelectors request is made with only data events specified in EventCategories, Insights on management events will be disabled. (string) Possible values: o Management o Data Shorthand Syntax: InsightType=string,EventCategories=string,string ... JSON Syntax: [ { "InsightType": "ApiCallRateInsight"|"ApiErrorRateInsight", "EventCategories": ["Management"|"Data", ...] } ... ]
+    /// </summary>
+    [CliOption("--insight-selectors", GroupValues = true)]
+    public IEnumerable<string>? InsightSelectors { get; private init; }
+
     /// <summary>
     /// The name of the CloudTrail trail for which you want to change or add Insights selectors. You cannot use this parameter with the EventDataStore and Insights- Destination parameters.
     /// </summary>
     [CliOption("--trail-name")]
     public string? TrailName { get; set; }
-
-    [CliOption("--insight-selectors", GroupValues = true)]
-    public IEnumerable<string>? InsightSelectors { get; set; }
 
     /// <summary>
     /// The ARN (or ID suffix of the ARN) of the source event data store for which you want to change or add Insights selectors. To enable In- sights on an event data store, you must provide both the EventDataS- tore and InsightsDestination parameters. You cannot use this parameter with the TrailName parameter. Constraints: o min: 3 o max: 256 o pattern: ^[a-zA-Z0-9._/\-:]+$
@@ -47,5 +95,22 @@ public record AwsCloudtrailPutInsightSelectorsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

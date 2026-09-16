@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logs", "describe-account-policies")]
-public record AwsLogsDescribeAccountPoliciesOptions : AwsOptions
+public record AwsLogsDescribeAccountPoliciesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a list of all CloudWatch Logs account policies in the account. To use this operation, you must be signed on with the correct permis- sions depending on the type of policy that you are retrieving informa- tion for. o To see data protection policies, you must have the logs:GetDataPro- tectionPolicy and logs:DescribeAccountPolicies permissions. o To see subscription filter policies, you must have the logs:De- scribeSubscriptionFilters and logs:DescribeAccountPolicies permis- sions. o To see...
+    /// </summary>
+    /// <param name="PolicyType">Use this parameter to limit the returned policies to only the poli- cies that match the policy type that you specify. Possible values: o DATA_PROTECTION_POLICY o SUBSCRIPTION_FILTER_POLICY o FIELD_INDEX_POLICY o TRANSFORMER_POLICY o METRIC_EXTRACTION_POLICY</param>
+    public AwsLogsDescribeAccountPoliciesOptions(
+        AwsLogsDescribeAccountPoliciesPolicyType PolicyType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyType);
+        this.PolicyType = PolicyType;
+    }
+
+    private AwsLogsDescribeAccountPoliciesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLogsDescribeAccountPoliciesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLogsDescribeAccountPoliciesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Use this parameter to limit the returned policies to only the poli- cies that match the policy type that you specify. Possible values: o DATA_PROTECTION_POLICY o SUBSCRIPTION_FILTER_POLICY o FIELD_INDEX_POLICY o TRANSFORMER_POLICY o METRIC_EXTRACTION_POLICY
+    /// </summary>
     [CliOption("--policy-type")]
-    public string? PolicyType { get; set; }
+    public AwsLogsDescribeAccountPoliciesPolicyType? PolicyType { get; private init; }
 
     /// <summary>
     /// Use this parameter to limit the returned policies to only the policy with the name that you specify.
@@ -49,5 +87,22 @@ public record AwsLogsDescribeAccountPoliciesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

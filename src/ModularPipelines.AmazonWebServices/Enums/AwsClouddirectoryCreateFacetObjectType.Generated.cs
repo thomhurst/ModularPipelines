@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --objecttype.
+/// Allowed values for --object-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsClouddirectoryCreateFacetObjectType
 {
-    [EnumValue("NODE")]
-    Node = 1,
+    [EnumValue("INDEX")]
+    Index,
 
     [EnumValue("LEAF_NODE")]
-    LeafNode = 2,
+    LeafNode,
+
+    [EnumValue("NODE")]
+    Node,
 
     [EnumValue("POLICY")]
-    Policy = 3,
-
-    [EnumValue("INDEX")]
-    Index = 4
+    Policy
 }

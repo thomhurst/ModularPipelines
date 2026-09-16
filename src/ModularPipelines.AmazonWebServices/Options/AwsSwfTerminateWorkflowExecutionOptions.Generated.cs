@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("swf", "terminate-workflow-execution")]
-public record AwsSwfTerminateWorkflowExecutionOptions : AwsOptions
+public record AwsSwfTerminateWorkflowExecutionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--domain")]
-    public string? Domain { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Records a WorkflowExecutionTerminated event and forces closure of the workflow execution identified by the given domain, runId, and work- flowId. The child policy, registered with the workflow type or speci- fied when starting this execution, is applied to any open child work- flow executions of this workflow execution. WARNING: If the identified workflow execution was in progress, it is termi- nated immediately. NOTE: If a runId isn't specified, then the WorkflowExecutionTerminated event is rec...
+    /// </summary>
+    /// <param name="Domain">The domain of the workflow execution to terminate. Constraints: o min: 1 o max: 256</param>
+    /// <param name="WorkflowId">The workflowId of the workflow execution to terminate. Constraints: o min: 1 o max: 256</param>
+    public AwsSwfTerminateWorkflowExecutionOptions(
+        string Domain,
+        string WorkflowId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Domain);
+        this.Domain = Domain;
+        global::System.ArgumentNullException.ThrowIfNull(WorkflowId);
+        this.WorkflowId = WorkflowId;
+    }
+
+    private AwsSwfTerminateWorkflowExecutionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSwfTerminateWorkflowExecutionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSwfTerminateWorkflowExecutionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The domain of the workflow execution to terminate. Constraints: o min: 1 o max: 256
+    /// </summary>
+    [CliOption("--domain")]
+    public string? Domain { get; private init; }
+
+    /// <summary>
+    /// The workflowId of the workflow execution to terminate. Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--workflow-id")]
-    public string? WorkflowId { get; set; }
+    public string? WorkflowId { get; private init; }
 
     /// <summary>
     /// The runId of the workflow execution to terminate. Constraints: o max: 64
@@ -57,5 +101,22 @@ public record AwsSwfTerminateWorkflowExecutionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

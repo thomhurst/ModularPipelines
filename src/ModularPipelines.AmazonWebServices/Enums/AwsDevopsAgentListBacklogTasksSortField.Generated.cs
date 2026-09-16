@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --sortfield.
+/// Allowed values for --sort-field.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDevopsAgentListBacklogTasksSortField
 {
     [EnumValue("CREATED_AT")]
-    CreatedAt = 1,
+    CreatedAt,
 
     [EnumValue("PRIORITY")]
-    Priority = 2
+    Priority
 }

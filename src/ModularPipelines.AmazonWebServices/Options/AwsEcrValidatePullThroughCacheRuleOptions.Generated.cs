@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ecr", "validate-pull-through-cache-rule")]
-public record AwsEcrValidatePullThroughCacheRuleOptions : AwsOptions
+public record AwsEcrValidatePullThroughCacheRuleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Validates an existing pull through cache rule for an upstream registry that requires authentication. This will retrieve the contents of the Amazon Web Services Secrets Manager secret, verify the syntax, and then validate that authentication to the upstream registry is successful. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EcrRepositoryPrefix">The repository name prefix associated with the pull through cache rule. Constraints: o min: 2 o max: 30 o pattern: ^([a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*\/?|ROOT)$</param>
+    public AwsEcrValidatePullThroughCacheRuleOptions(
+        string EcrRepositoryPrefix
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EcrRepositoryPrefix);
+        this.EcrRepositoryPrefix = EcrRepositoryPrefix;
+    }
+
+    private AwsEcrValidatePullThroughCacheRuleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEcrValidatePullThroughCacheRuleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEcrValidatePullThroughCacheRuleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The repository name prefix associated with the pull through cache rule. Constraints: o min: 2 o max: 30 o pattern: ^([a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*\/?|ROOT)$
+    /// </summary>
     [CliOption("--ecr-repository-prefix")]
-    public string? EcrRepositoryPrefix { get; set; }
+    public string? EcrRepositoryPrefix { get; private init; }
 
     /// <summary>
     /// The registry ID associated with the pull through cache rule. If you do not specify a registry, the default registry is assumed. Constraints: o pattern: [0-9]{12}
@@ -35,5 +72,22 @@ public record AwsEcrValidatePullThroughCacheRuleOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

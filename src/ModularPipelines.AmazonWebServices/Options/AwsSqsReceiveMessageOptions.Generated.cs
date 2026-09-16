@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sqs", "receive-message")]
-public record AwsSqsReceiveMessageOptions : AwsOptions
+public record AwsSqsReceiveMessageOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves one or more messages (up to 10), from the specified queue. Using the WaitTimeSeconds parameter enables long-poll support. For more information, see Amazon SQS Long Polling in the Amazon SQS Developer Guide . Short poll is the default behavior where a weighted random set of ma- chines is sampled on a ReceiveMessage call. Therefore, only the mes- sages on the sampled machines are returned. If the number of messages in the queue is small (fewer than 1,000), you most likely get fewer messa...
+    /// </summary>
+    /// <param name="QueueUrl">The URL of the Amazon SQS queue from which messages are received. Queue URLs and names are case-sensitive.</param>
+    public AwsSqsReceiveMessageOptions(
+        string QueueUrl
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(QueueUrl);
+        this.QueueUrl = QueueUrl;
+    }
+
+    private AwsSqsReceiveMessageOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSqsReceiveMessageOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSqsReceiveMessageOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The URL of the Amazon SQS queue from which messages are received. Queue URLs and names are case-sensitive.
+    /// </summary>
     [CliOption("--queue-url")]
-    public string? QueueUrl { get; set; }
+    public string? QueueUrl { get; private init; }
 
     /// <summary>
     /// WARNING: This parameter has been discontinued but will be supported for backward compatibility. To provide attribute names, you are en- couraged to use MessageSystemAttributeNames . A list of attributes that need to be returned along with each mes- sage. These attributes include: o All Returns all values. o ApproximateFirstReceiveTimestamp Returns the time the message was first received from the queue (epoch time in milliseconds). o ApproximateReceiveCount Returns the number of times a message has been received across all queues but not deleted. o AWSTraceHeader Returns the X-Ray trace header string. o SenderId o For a user, returns the user ID, for example ABCDE- FGHI1JKLMNOPQ23R . o For an IAM role, returns the IAM role ID, for example ABCDE1F2GH3I4JK5LMNOP:i-a123b456 . o SentTimestamp Returns the time the message was sent to the queue (epoch time in milliseconds). o SqsManagedSseEnabled Enables server-side queue encryption using SQS owned encryption keys. Only one server-side encryption option is supported per queue (for example, SSE-KMS or SSE-SQS ). o MessageDeduplicationId Returns the value provided by the producer that calls the `` SendMessage `` action. o MessageGroupId Returns the value provided by the producer that calls the `` SendMessage `` action. o SequenceNumber Returns the value provided by Amazon SQS. (string) Possible values: o All o Policy o VisibilityTimeout o MaximumMessageSize o MessageRetentionPeriod o ApproximateNumberOfMessages o ApproximateNumberOfMessagesNotVisible o CreatedTimestamp o LastModifiedTimestamp o QueueArn o ApproximateNumberOfMessagesDelayed o DelaySeconds o ReceiveMessageWaitTimeSeconds o RedrivePolicy o FifoQueue o ContentBasedDeduplication o KmsMasterKeyId o KmsDataKeyReusePeriodSeconds o DeduplicationScope o FifoThroughputLimit o RedriveAllowPolicy o SqsManagedSseEnabled Syntax: "string" "string" ...
@@ -71,5 +108,22 @@ public record AwsSqsReceiveMessageOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

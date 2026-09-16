@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,63 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("inspector2", "enable")]
-public record AwsInspector2EnableOptions : AwsOptions
+public record AwsInspector2EnableOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Enables Amazon Inspector scans for one or more Amazon Web Services ac- counts. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceTypes">The resource scan types you want to enable. Constraints: o min: 1 o max: 5 (string) Possible values: o EC2 o ECR o LAMBDA o LAMBDA_CODE o CODE_REPOSITORY Syntax: "string" "string" ...</param>
+    public AwsInspector2EnableOptions(
+        IEnumerable<string> ResourceTypes
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ResourceTypes);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ResourceTypes));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ResourceTypes));
+            }
+
+            ResourceTypes = materialized;
+        }
+        this.ResourceTypes = ResourceTypes;
+    }
+
+    private AwsInspector2EnableOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsInspector2EnableOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsInspector2EnableOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The resource scan types you want to enable. Constraints: o min: 1 o max: 5 (string) Possible values: o EC2 o ECR o LAMBDA o LAMBDA_CODE o CODE_REPOSITORY Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--resource-types", GroupValues = true)]
+    public IEnumerable<string>? ResourceTypes { get; private init; }
+
     /// <summary>
     /// A list of account IDs you want to enable Amazon Inspector scans for. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 12 o max: 12 o pattern: \d{12} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--account-ids", GroupValues = true)]
     public IEnumerable<string>? AccountIds { get; set; }
-
-    [CliOption("--resource-types", GroupValues = true)]
-    public IEnumerable<string>? ResourceTypes { get; set; }
 
     /// <summary>
     /// The idempotency token for the request. Constraints: o min: 1 o max: 64
@@ -43,5 +91,22 @@ public record AwsInspector2EnableOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

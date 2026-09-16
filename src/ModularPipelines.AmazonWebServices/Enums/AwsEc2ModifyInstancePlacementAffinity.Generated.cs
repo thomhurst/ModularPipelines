@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEc2ModifyInstancePlacementAffinity
 {
     [EnumValue("default")]
-    Default = 1,
+    Default,
 
     [EnumValue("host")]
-    Host = 2
+    Host
 }

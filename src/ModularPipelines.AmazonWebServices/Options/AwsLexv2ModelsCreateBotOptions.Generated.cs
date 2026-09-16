@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,25 +22,81 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lexv2-models", "create-bot")]
-public record AwsLexv2ModelsCreateBotOptions : AwsOptions
+public record AwsLexv2ModelsCreateBotOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an Amazon Lex conversational bot. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BotName">The name of the bot. The bot name must be unique in the account that creates the bot. Constraints: o min: 1 o max: 100 o pattern: ^([0-9a-zA-Z][_-]?){1,100}$</param>
+    /// <param name="RoleArn">The Amazon Resource Name (ARN) of an IAM role that has permission to access the bot. Constraints: o min: 32 o max: 2048 o pattern: ^arn:aws:iam::[0-9]{12}:role/.*$</param>
+    /// <param name="DataPrivacy">Provides information on additional privacy protections Amazon Lex should use with the bot's data. childDirected -&gt; (boolean) [required] For each Amazon Lex bot created with the Amazon Lex Model Build- ing Service, you must specify whether your use of Amazon Lex is related to a website, program, or other application that is di- rected or targeted, in whole or in part, to children under age 13 and subject to the Children's Online Privacy Protection Act (COPPA) by specifying true or false in the childDirected field. By specifying true in the childDirected field, you confirm that your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. By specify- ing false in the childDirected field, you confirm that your use of Amazon Lex is not related to a website, program, or other ap- plication that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. You may not specify a default value for the childDirected field that does not accu- rately reflect whether your use of Amazon Lex is related to a website, program, or other application that is directed or tar- geted, in whole or in part, to children under age 13 and subject to COPPA. If your use of Amazon Lex relates to a website, pro- gram, or other application that is directed in whole or in part, to children under age 13, you must obtain any required verifi- able parental consent under COPPA. For information regarding the use of Amazon Lex in connection with websites, programs, or other applications that are directed or targeted, in whole or in part, to children under age 13, see the Amazon Lex FAQ . Shorthand Syntax: childDirected=boolean JSON Syntax: { "childDirected": true|false }</param>
+    /// <param name="IdleSessionTtlInSeconds">The time, in seconds, that Amazon Lex should keep information about a user's conversation with the bot. A user interaction remains active for the amount of time specified. If no conversation occurs during this time, the session expires and Amazon Lex deletes any data provided before the timeout. You can specify between 60 (1 minute) and 86,400 (24 hours) seconds. Constraints: o min: 60 o max: 86400</param>
+    public AwsLexv2ModelsCreateBotOptions(
+        string BotName,
+        string RoleArn,
+        string DataPrivacy,
+        int IdleSessionTtlInSeconds
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BotName);
+        this.BotName = BotName;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+        global::System.ArgumentNullException.ThrowIfNull(DataPrivacy);
+        this.DataPrivacy = DataPrivacy;
+        this.IdleSessionTtlInSeconds = IdleSessionTtlInSeconds;
+    }
+
+    private AwsLexv2ModelsCreateBotOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLexv2ModelsCreateBotOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLexv2ModelsCreateBotOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the bot. The bot name must be unique in the account that creates the bot. Constraints: o min: 1 o max: 100 o pattern: ^([0-9a-zA-Z][_-]?){1,100}$
+    /// </summary>
     [CliOption("--bot-name")]
-    public string? BotName { get; set; }
+    public string? BotName { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of an IAM role that has permission to access the bot. Constraints: o min: 32 o max: 2048 o pattern: ^arn:aws:iam::[0-9]{12}:role/.*$
+    /// </summary>
+    [CliOption("--role-arn")]
+    public string? RoleArn { get; private init; }
+
+    /// <summary>
+    /// Provides information on additional privacy protections Amazon Lex should use with the bot's data. childDirected -&gt; (boolean) [required] For each Amazon Lex bot created with the Amazon Lex Model Build- ing Service, you must specify whether your use of Amazon Lex is related to a website, program, or other application that is di- rected or targeted, in whole or in part, to children under age 13 and subject to the Children's Online Privacy Protection Act (COPPA) by specifying true or false in the childDirected field. By specifying true in the childDirected field, you confirm that your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. By specify- ing false in the childDirected field, you confirm that your use of Amazon Lex is not related to a website, program, or other ap- plication that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. You may not specify a default value for the childDirected field that does not accu- rately reflect whether your use of Amazon Lex is related to a website, program, or other application that is directed or tar- geted, in whole or in part, to children under age 13 and subject to COPPA. If your use of Amazon Lex relates to a website, pro- gram, or other application that is directed in whole or in part, to children under age 13, you must obtain any required verifi- able parental consent under COPPA. For information regarding the use of Amazon Lex in connection with websites, programs, or other applications that are directed or targeted, in whole or in part, to children under age 13, see the Amazon Lex FAQ . Shorthand Syntax: childDirected=boolean JSON Syntax: { "childDirected": true|false }
+    /// </summary>
+    [CliOption("--data-privacy")]
+    public string? DataPrivacy { get; private init; }
+
+    /// <summary>
+    /// The time, in seconds, that Amazon Lex should keep information about a user's conversation with the bot. A user interaction remains active for the amount of time specified. If no conversation occurs during this time, the session expires and Amazon Lex deletes any data provided before the timeout. You can specify between 60 (1 minute) and 86,400 (24 hours) seconds. Constraints: o min: 60 o max: 86400
+    /// </summary>
+    [CliOption("--idle-session-ttl-in-seconds")]
+    public int? IdleSessionTtlInSeconds { get; private init; }
 
     /// <summary>
     /// A description of the bot. It appears in lists to help you identify a particular bot. Constraints: o min: 0 o max: 2000
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
-
-    [CliOption("--data-privacy")]
-    public string? DataPrivacy { get; set; }
-
-    [CliOption("--idle-session-ttl-in-seconds")]
-    public int? IdleSessionTtlInSeconds { get; set; }
 
     /// <summary>
     /// A list of tags to add to the bot. You can only add tags when you create a bot. You can't use the UpdateBot operation to update tags. To update tags, use the TagResource operation. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -76,5 +133,22 @@ public record AwsLexv2ModelsCreateBotOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

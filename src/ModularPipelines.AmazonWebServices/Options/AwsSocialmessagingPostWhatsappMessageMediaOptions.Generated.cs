@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("socialmessaging", "post-whatsapp-message-media")]
-public record AwsSocialmessagingPostWhatsappMessageMediaOptions : AwsOptions
+public record AwsSocialmessagingPostWhatsappMessageMediaOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Upload a media file to the WhatsApp service. Only the specified origi- nationPhoneNumberId has the permissions to send the media file when us- ing SendWhatsAppMessage . You must use either sourceS3File or sourceS3PresignedUrl for the source. If both or neither are specified then an InvalidParameterException is returned. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="OriginationPhoneNumberId">The ID of the phone number to associate with the WhatsApp media file. The phone number identifiers are formatted as phone-num- ber-id-01234567890123456789012345678901 . Use GetLinkedWhatsAppBusinessAccount to find a phone number's id. Constraints: o min: 1 o max: 115 o pattern: .*(^phone-number-id-.*$)|(^arn:.*:phone-num- ber-id/[0-9a-zA-Z]+$).*</param>
+    public AwsSocialmessagingPostWhatsappMessageMediaOptions(
+        string OriginationPhoneNumberId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OriginationPhoneNumberId);
+        this.OriginationPhoneNumberId = OriginationPhoneNumberId;
+    }
+
+    private AwsSocialmessagingPostWhatsappMessageMediaOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSocialmessagingPostWhatsappMessageMediaOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSocialmessagingPostWhatsappMessageMediaOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the phone number to associate with the WhatsApp media file. The phone number identifiers are formatted as phone-num- ber-id-01234567890123456789012345678901 . Use GetLinkedWhatsAppBusinessAccount to find a phone number's id. Constraints: o min: 1 o max: 115 o pattern: .*(^phone-number-id-.*$)|(^arn:.*:phone-num- ber-id/[0-9a-zA-Z]+$).*
+    /// </summary>
     [CliOption("--origination-phone-number-id")]
-    public string? OriginationPhoneNumberId { get; set; }
+    public string? OriginationPhoneNumberId { get; private init; }
 
     /// <summary>
     /// The source presign url of the media file. url -&gt; (string) [required] The presign url to the object. Constraints: o min: 1 o max: 2000 o pattern: https://(.*)s3(.*).amazonaws.com/(.*) headers -&gt; (map) [required] A map of headers and their values. You must specify the Con- tent-Type header when using PostWhatsAppMessageMedia . For a list of common headers, see Common Request Headers in the Amazon S3 API Reference key -&gt; (string) value -&gt; (string) Shorthand Syntax: url=string,headers={KeyName1=string,KeyName2=string} JSON Syntax: { "url": "string", "headers": {"string": "string" ...} }
@@ -41,5 +78,22 @@ public record AwsSocialmessagingPostWhatsappMessageMediaOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

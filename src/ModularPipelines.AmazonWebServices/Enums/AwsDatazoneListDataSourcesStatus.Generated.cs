@@ -17,26 +17,26 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDatazoneListDataSourcesStatus
 {
     [EnumValue("CREATING")]
-    Creating = 1,
-
-    [EnumValue("FAILED_CREATION")]
-    FailedCreation = 2,
-
-    [EnumValue("READY")]
-    Ready = 3,
-
-    [EnumValue("UPDATING")]
-    Updating = 4,
-
-    [EnumValue("FAILED_UPDATE")]
-    FailedUpdate = 5,
-
-    [EnumValue("RUNNING")]
-    Running = 6,
+    Creating,
 
     [EnumValue("DELETING")]
-    Deleting = 7,
+    Deleting,
+
+    [EnumValue("FAILED_CREATION")]
+    FailedCreation,
 
     [EnumValue("FAILED_DELETION")]
-    FailedDeletion = 8
+    FailedDeletion,
+
+    [EnumValue("FAILED_UPDATE")]
+    FailedUpdate,
+
+    [EnumValue("READY")]
+    Ready,
+
+    [EnumValue("RUNNING")]
+    Running,
+
+    [EnumValue("UPDATING")]
+    Updating
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("location", "verify-device-position")]
-public record AwsLocationVerifyDevicePositionOptions : AwsOptions
+public record AwsLocationVerifyDevicePositionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--tracker-name")]
-    public string? TrackerName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Verifies the integrity of the device's position by determining if it was reported behind a proxy, and by comparing it to an inferred posi- tion estimated based on the device's state. NOTE: The Location Integrity SDK provides enhanced features related to de- vice verification, and it is available for use by request. To get access to the SDK, contact Sales Support . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TrackerName">The name of the tracker resource to be associated with verification request. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+</param>
+    /// <param name="DeviceState">The device's state, including position, IP address, cell signals and Wi-Fi access points. DeviceId -&gt; (string) [required] The device identifier. Constraints: o min: 1 o max: 100 o pattern: [-._\p{L}\p{N}]+ SampleTime -&gt; (timestamp) [required] The timestamp at which the device's position was determined. Uses ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ . Position -&gt; (list) [required] The last known device position. Constraints: o min: 2 o max: 2 (double) Accuracy -&gt; (structure) Defines the level of certainty of the position. Horizontal -&gt; (double) [required] Estimated maximum distance, in meters, between the measured position and the true position of a device, along the Earth's surface. Constraints: o min: 0 o max: 10000000 Ipv4Address -&gt; (string) The device's Ipv4 address. Constraints: o pattern: (?:(?:25[0-5]|(?:2[0-4]|1\d|[0-9]|)\d)\.?\b){4} WiFiAccessPoints -&gt; (list) The Wi-Fi access points the device is using. (structure) Wi-Fi access point. MacAddress -&gt; (string) [required] Medium access control address (Mac). Constraints: o min: 12 o max: 17 o pattern: ([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2}) Rss -&gt; (integer) [required] Received signal strength (dBm) of the WLAN measurement data. Constraints: o min: -128 o max: 0 CellSignals -&gt; (structure) The cellular network infrastructure that the device is connected to. LteCellDetails -&gt; (list) [required] Information about the Long-Term Evolution (LTE) network the device is connected to. Constraints: o min: 1 o max: 16 (structure) Details about the Long-Term Evolution (LTE) network. CellId -&gt; (integer) [required] The E-UTRAN Cell Identifier (ECI). Constraints: o min: 0 o max: 268435455 Mcc -&gt; (integer) [required] The Mobile Country Code (MCC). Constraints: o min: 200 o max: 999 Mnc -&gt; (integer) [required] The Mobile Network Code (MNC) Constraints: o min: 0 o max: 999 LocalId -&gt; (structure) The LTE local identification information (local ID). Earfcn -&gt; (integer) [required] E-UTRA (Evolved Universal Terrestrial Radio Ac- cess) absolute radio frequency channel number (EARFCN). Constraints: o min: 0 o max: 262143 Pci -&gt; (integer) [required] Physical Cell ID (PCI). Constraints: o min: 0 o max: 503 NetworkMeasurements -&gt; (list) The network measurements. Constraints: o min: 1 o max: 32 (structure) LTE network measurements. Earfcn -&gt; (integer) [required] E-UTRA (Evolved Universal Terrestrial Radio Ac- cess) absolute radio frequency channel number (EARFCN). Constraints: o min: 0 o max: 262143 CellId -&gt; (integer) [required] E-UTRAN Cell Identifier (ECI). Constraints: o min: 0 o max: 268435455 Pci -&gt; (integer) [required] Physical Cell ID (PCI). Constraints: o min: 0 o max: 503 Rsrp -&gt; (integer) Signal power of the reference signal received, measured in dBm (decibel-milliwatts). Constraints: o min: -140 o max: -44 Rsrq -&gt; (float) Signal quality of the reference Signal re- ceived, measured in decibels (dB). Constraints: o min: -19.5 o max: -3 TimingAdvance -&gt; (integer) Timing Advance (TA). Constraints: o min: 0 o max: 1282 NrCapable -&gt; (boolean) Indicates whether the LTE object is capable of sup- porting NR (new radio). Rsrp -&gt; (integer) Signal power of the reference signal received, mea- sured in decibel-milliwatts (dBm). Constraints: o min: -140 o max: -44 Rsrq -&gt; (float) Signal quality of the reference Signal received, mea- sured in decibels (dB). Constraints: o min: -19.5 o max: -3 Tac -&gt; (integer) LTE Tracking Area Code (TAC). Constraints: o min: 0 o max: 65535 JSON Syntax: { "DeviceId": "string", "SampleTime": timestamp, "Position": [double, ...], "Accuracy": { "Horizontal": double }, "Ipv4Address": "string", "WiFiAccessPoints": [ { "MacAddress": "string", "Rss": integer } ... ], "CellSignals": { "LteCellDetails": [ { "CellId": integer, "Mcc": integer, "Mnc": integer, "LocalId": { "Earfcn": integer, "Pci": integer }, "NetworkMeasurements": [ { "Earfcn": integer, "CellId": integer, "Pci": integer, "Rsrp": integer, "Rsrq": float } ... ], "TimingAdvance": integer, "NrCapable": true|false, "Rsrp": integer, "Rsrq": float, "Tac": integer } ... ] } }</param>
+    public AwsLocationVerifyDevicePositionOptions(
+        string TrackerName,
+        string DeviceState
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TrackerName);
+        this.TrackerName = TrackerName;
+        global::System.ArgumentNullException.ThrowIfNull(DeviceState);
+        this.DeviceState = DeviceState;
+    }
+
+    private AwsLocationVerifyDevicePositionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLocationVerifyDevicePositionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLocationVerifyDevicePositionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the tracker resource to be associated with verification request. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+
+    /// </summary>
+    [CliOption("--tracker-name")]
+    public string? TrackerName { get; private init; }
+
+    /// <summary>
+    /// The device's state, including position, IP address, cell signals and Wi-Fi access points. DeviceId -&gt; (string) [required] The device identifier. Constraints: o min: 1 o max: 100 o pattern: [-._\p{L}\p{N}]+ SampleTime -&gt; (timestamp) [required] The timestamp at which the device's position was determined. Uses ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ . Position -&gt; (list) [required] The last known device position. Constraints: o min: 2 o max: 2 (double) Accuracy -&gt; (structure) Defines the level of certainty of the position. Horizontal -&gt; (double) [required] Estimated maximum distance, in meters, between the measured position and the true position of a device, along the Earth's surface. Constraints: o min: 0 o max: 10000000 Ipv4Address -&gt; (string) The device's Ipv4 address. Constraints: o pattern: (?:(?:25[0-5]|(?:2[0-4]|1\d|[0-9]|)\d)\.?\b){4} WiFiAccessPoints -&gt; (list) The Wi-Fi access points the device is using. (structure) Wi-Fi access point. MacAddress -&gt; (string) [required] Medium access control address (Mac). Constraints: o min: 12 o max: 17 o pattern: ([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2}) Rss -&gt; (integer) [required] Received signal strength (dBm) of the WLAN measurement data. Constraints: o min: -128 o max: 0 CellSignals -&gt; (structure) The cellular network infrastructure that the device is connected to. LteCellDetails -&gt; (list) [required] Information about the Long-Term Evolution (LTE) network the device is connected to. Constraints: o min: 1 o max: 16 (structure) Details about the Long-Term Evolution (LTE) network. CellId -&gt; (integer) [required] The E-UTRAN Cell Identifier (ECI). Constraints: o min: 0 o max: 268435455 Mcc -&gt; (integer) [required] The Mobile Country Code (MCC). Constraints: o min: 200 o max: 999 Mnc -&gt; (integer) [required] The Mobile Network Code (MNC) Constraints: o min: 0 o max: 999 LocalId -&gt; (structure) The LTE local identification information (local ID). Earfcn -&gt; (integer) [required] E-UTRA (Evolved Universal Terrestrial Radio Ac- cess) absolute radio frequency channel number (EARFCN). Constraints: o min: 0 o max: 262143 Pci -&gt; (integer) [required] Physical Cell ID (PCI). Constraints: o min: 0 o max: 503 NetworkMeasurements -&gt; (list) The network measurements. Constraints: o min: 1 o max: 32 (structure) LTE network measurements. Earfcn -&gt; (integer) [required] E-UTRA (Evolved Universal Terrestrial Radio Ac- cess) absolute radio frequency channel number (EARFCN). Constraints: o min: 0 o max: 262143 CellId -&gt; (integer) [required] E-UTRAN Cell Identifier (ECI). Constraints: o min: 0 o max: 268435455 Pci -&gt; (integer) [required] Physical Cell ID (PCI). Constraints: o min: 0 o max: 503 Rsrp -&gt; (integer) Signal power of the reference signal received, measured in dBm (decibel-milliwatts). Constraints: o min: -140 o max: -44 Rsrq -&gt; (float) Signal quality of the reference Signal re- ceived, measured in decibels (dB). Constraints: o min: -19.5 o max: -3 TimingAdvance -&gt; (integer) Timing Advance (TA). Constraints: o min: 0 o max: 1282 NrCapable -&gt; (boolean) Indicates whether the LTE object is capable of sup- porting NR (new radio). Rsrp -&gt; (integer) Signal power of the reference signal received, mea- sured in decibel-milliwatts (dBm). Constraints: o min: -140 o max: -44 Rsrq -&gt; (float) Signal quality of the reference Signal received, mea- sured in decibels (dB). Constraints: o min: -19.5 o max: -3 Tac -&gt; (integer) LTE Tracking Area Code (TAC). Constraints: o min: 0 o max: 65535 JSON Syntax: { "DeviceId": "string", "SampleTime": timestamp, "Position": [double, ...], "Accuracy": { "Horizontal": double }, "Ipv4Address": "string", "WiFiAccessPoints": [ { "MacAddress": "string", "Rss": integer } ... ], "CellSignals": { "LteCellDetails": [ { "CellId": integer, "Mcc": integer, "Mnc": integer, "LocalId": { "Earfcn": integer, "Pci": integer }, "NetworkMeasurements": [ { "Earfcn": integer, "CellId": integer, "Pci": integer, "Rsrp": integer, "Rsrq": float } ... ], "TimingAdvance": integer, "NrCapable": true|false, "Rsrp": integer, "Rsrq": float, "Tac": integer } ... ] } }
+    /// </summary>
     [CliOption("--device-state")]
-    public string? DeviceState { get; set; }
+    public string? DeviceState { get; private init; }
 
     /// <summary>
     /// The distance unit for the verification request. Default Value: Kilometers Possible values: o Kilometers o Miles
@@ -39,5 +83,22 @@ public record AwsLocationVerifyDevicePositionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --encryptionmode.
+/// Allowed values for --encryption-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDatabrewUpdateRecipeJobEncryptionMode
 {
     [EnumValue("SSE-KMS")]
-    SseKms = 1,
+    SseKms,
 
     [EnumValue("SSE-S3")]
-    SseS3 = 2
+    SseS3
 }

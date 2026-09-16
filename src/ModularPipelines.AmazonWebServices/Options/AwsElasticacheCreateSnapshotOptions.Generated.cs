@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,8 +20,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elasticache", "create-snapshot")]
-public record AwsElasticacheCreateSnapshotOptions : AwsOptions
+public record AwsElasticacheCreateSnapshotOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a copy of an entire cluster or replication group at a specific moment in time. NOTE: This operation is valid for Valkey or Redis OSS only. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SnapshotName">A name for the snapshot being created. This value is stored as a lowercase string.</param>
+    public AwsElasticacheCreateSnapshotOptions(
+        string SnapshotName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SnapshotName);
+        this.SnapshotName = SnapshotName;
+    }
+
+    private AwsElasticacheCreateSnapshotOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElasticacheCreateSnapshotOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElasticacheCreateSnapshotOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A name for the snapshot being created. This value is stored as a lowercase string.
+    /// </summary>
+    [CliOption("--snapshot-name")]
+    public string? SnapshotName { get; private init; }
+
     /// <summary>
     /// The identifier of an existing replication group. The snapshot is created from this replication group.
     /// </summary>
@@ -32,9 +72,6 @@ public record AwsElasticacheCreateSnapshotOptions : AwsOptions
     /// </summary>
     [CliOption("--cache-cluster-id")]
     public string? CacheClusterId { get; set; }
-
-    [CliOption("--snapshot-name")]
-    public string? SnapshotName { get; set; }
 
     /// <summary>
     /// The ID of the KMS key used to encrypt the snapshot.
@@ -53,5 +90,22 @@ public record AwsElasticacheCreateSnapshotOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

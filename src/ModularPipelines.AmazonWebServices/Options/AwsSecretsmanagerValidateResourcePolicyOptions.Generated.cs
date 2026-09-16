@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("secretsmanager", "validate-resource-policy")]
-public record AwsSecretsmanagerValidateResourcePolicyOptions : AwsOptions
+public record AwsSecretsmanagerValidateResourcePolicyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Validates that a resource policy does not grant a wide range of princi- pals access to your secret. A resource-based policy is optional for se- crets. The API performs three checks when validating the policy: o Sends a call to Zelkova , an automated reasoning engine, to ensure your resource policy does not allow broad access to your secret, for example policies that use a wildcard for the principal. o Checks for correct syntax in a policy. o Verifies the policy does not lock out a caller. Secret...
+    /// </summary>
+    /// <param name="ResourcePolicy">A JSON-formatted string that contains an Amazon Web Services re- source-based policy. The policy in the string identifies who can ac- cess or manage this secret and its versions. For example policies, see Permissions policy examples . Constraints: o min: 1 o max: 20480</param>
+    public AwsSecretsmanagerValidateResourcePolicyOptions(
+        string ResourcePolicy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourcePolicy);
+        this.ResourcePolicy = ResourcePolicy;
+    }
+
+    private AwsSecretsmanagerValidateResourcePolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSecretsmanagerValidateResourcePolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSecretsmanagerValidateResourcePolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A JSON-formatted string that contains an Amazon Web Services re- source-based policy. The policy in the string identifies who can ac- cess or manage this secret and its versions. For example policies, see Permissions policy examples . Constraints: o min: 1 o max: 20480
+    /// </summary>
+    [CliOption("--resource-policy")]
+    public string? ResourcePolicy { get; private init; }
+
     /// <summary>
     /// The ARN or name of the secret with the resource-based policy you want to validate. Constraints: o min: 1 o max: 2048
     /// </summary>
@@ -29,13 +69,27 @@ public record AwsSecretsmanagerValidateResourcePolicyOptions : AwsOptions
     [CliOption("--secret-id")]
     public string? SecretId { get; set; }
 
-    [CliOption("--resource-policy")]
-    public string? ResourcePolicy { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

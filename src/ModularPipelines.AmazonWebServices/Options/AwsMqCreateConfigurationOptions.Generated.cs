@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,25 +22,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mq", "create-configuration")]
-public record AwsMqCreateConfigurationOptions : AwsOptions
+public record AwsMqCreateConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new configuration for the specified configuration name. Ama- zon MQ uses the default configuration (the engine type and version). See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EngineType">Required. The type of broker engine. Currently, Amazon MQ supports ACTIVEMQ and RABBITMQ. Possible values: o ACTIVEMQ o RABBITMQ</param>
+    /// <param name="Name">Required. The name of the configuration. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 1-150 characters long.</param>
+    public AwsMqCreateConfigurationOptions(
+        AwsMqCreateConfigurationEngineType EngineType,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EngineType);
+        this.EngineType = EngineType;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsMqCreateConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMqCreateConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMqCreateConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Required. The type of broker engine. Currently, Amazon MQ supports ACTIVEMQ and RABBITMQ. Possible values: o ACTIVEMQ o RABBITMQ
+    /// </summary>
+    [CliOption("--engine-type")]
+    public AwsMqCreateConfigurationEngineType? EngineType { get; private init; }
+
+    /// <summary>
+    /// Required. The name of the configuration. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 1-150 characters long.
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
     /// <summary>
     /// Optional. The authentication strategy associated with the configura- tion. The default is SIMPLE. Possible values: o SIMPLE o LDAP o CONFIG_MANAGED
     /// </summary>
     [CliOption("--authentication-strategy")]
     public AwsMqCreateConfigurationAuthenticationStrategy? AuthenticationStrategy { get; set; }
 
-    [CliOption("--engine-type")]
-    public string? EngineType { get; set; }
-
     /// <summary>
     /// The broker engine version. Defaults to the latest available version for the specified broker engine type. For more information, see the ActiveMQ version management and the RabbitMQ version management sec- tions in the Amazon MQ Developer Guide.
     /// </summary>
     [CliOption("--engine-version")]
     public string? EngineVersion { get; set; }
-
-    [CliOption("--name")]
-    public string? Name { get; set; }
 
     /// <summary>
     /// Create tags when creating the configuration. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -52,5 +96,22 @@ public record AwsMqCreateConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

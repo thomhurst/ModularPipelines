@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --taggingdirective.
+/// Allowed values for --tagging-directive.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsS3apiCopyObjectTaggingDirective
 {
     [EnumValue("COPY")]
-    Copy = 1,
+    Copy,
 
     [EnumValue("REPLACE")]
-    Replace = 2
+    Replace
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +20,75 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudwatch", "get-insight-rule-report")]
-public record AwsCloudwatchGetInsightRuleReportOptions : AwsOptions
+public record AwsCloudwatchGetInsightRuleReportOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This operation returns the time series data collected by a Contributor Insights rule. The data includes the identity and number of contribu- tors to the log group. You can also optionally return one or more statistics about each data point in the time series. These statistics can include the following: o UniqueContributors -- the number of unique contributors for each data point. o MaxContributorValue -- the value of the top contributor for each data point. The identity of the contributor might ...
+    /// </summary>
+    /// <param name="RuleName">The name of the rule that you want to see data from. Constraints: o min: 1 o max: 128 o pattern: [\x20-\x7E]+</param>
+    /// <param name="StartTime">The start time of the data to use in the report. When used in a raw HTTP Query API, it is formatted as yyyy-MM-dd'T'HH:mm:ss . For exam- ple, 2019-07-01T23:59:59 .</param>
+    /// <param name="EndTime">The end time of the data to use in the report. When used in a raw HTTP Query API, it is formatted as yyyy-MM-dd'T'HH:mm:ss . For exam- ple, 2019-07-01T23:59:59 .</param>
+    /// <param name="Period">The period, in seconds, to use for the statistics in the In- sightRuleMetricDatapoint results. Constraints: o min: 1</param>
+    public AwsCloudwatchGetInsightRuleReportOptions(
+        string RuleName,
+        string StartTime,
+        string EndTime,
+        int Period
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RuleName);
+        this.RuleName = RuleName;
+        global::System.ArgumentNullException.ThrowIfNull(StartTime);
+        this.StartTime = StartTime;
+        global::System.ArgumentNullException.ThrowIfNull(EndTime);
+        this.EndTime = EndTime;
+        this.Period = Period;
+    }
+
+    private AwsCloudwatchGetInsightRuleReportOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudwatchGetInsightRuleReportOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudwatchGetInsightRuleReportOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the rule that you want to see data from. Constraints: o min: 1 o max: 128 o pattern: [\x20-\x7E]+
+    /// </summary>
     [CliOption("--rule-name")]
-    public string? RuleName { get; set; }
+    public string? RuleName { get; private init; }
 
+    /// <summary>
+    /// The start time of the data to use in the report. When used in a raw HTTP Query API, it is formatted as yyyy-MM-dd'T'HH:mm:ss . For exam- ple, 2019-07-01T23:59:59 .
+    /// </summary>
     [CliOption("--start-time")]
-    public string? StartTime { get; set; }
+    public string? StartTime { get; private init; }
 
+    /// <summary>
+    /// The end time of the data to use in the report. When used in a raw HTTP Query API, it is formatted as yyyy-MM-dd'T'HH:mm:ss . For exam- ple, 2019-07-01T23:59:59 .
+    /// </summary>
     [CliOption("--end-time")]
-    public string? EndTime { get; set; }
+    public string? EndTime { get; private init; }
 
+    /// <summary>
+    /// The period, in seconds, to use for the statistics in the In- sightRuleMetricDatapoint results. Constraints: o min: 1
+    /// </summary>
     [CliOption("--period")]
-    public int? Period { get; set; }
+    public int? Period { get; private init; }
 
     /// <summary>
     /// The maximum number of contributors to include in the report. The range is 1 to 100. If you omit this, the default of 10 is used.
@@ -56,5 +113,22 @@ public record AwsCloudwatchGetInsightRuleReportOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -29,7 +29,10 @@ public record AwsMgnCreateLaunchConfigurationTemplateOptions : AwsOptions
     [CliOption("--post-launch-actions")]
     public string? PostLaunchActions { get; set; }
 
-    [CliFlag("--enable-map-auto-tagging")]
+    /// <summary>
+    /// Enable map auto tagging.
+    /// </summary>
+    [CliFlag("--enable-map-auto-tagging", NegatedName = "--no-enable-map-auto-tagging")]
     public bool? EnableMapAutoTagging { get; set; }
 
     /// <summary>
@@ -56,13 +59,22 @@ public record AwsMgnCreateLaunchConfigurationTemplateOptions : AwsOptions
     [CliOption("--target-instance-type-right-sizing-method")]
     public AwsMgnCreateLaunchConfigurationTemplateTargetInstanceTypeRightSizingMethod? TargetInstanceTypeRightSizingMethod { get; set; }
 
-    [CliFlag("--copy-private-ip")]
+    /// <summary>
+    /// Copy private Ip.
+    /// </summary>
+    [CliFlag("--copy-private-ip", NegatedName = "--no-copy-private-ip")]
     public bool? CopyPrivateIp { get; set; }
 
-    [CliFlag("--associate-public-ip-address")]
+    /// <summary>
+    /// Associate public Ip address.
+    /// </summary>
+    [CliFlag("--associate-public-ip-address", NegatedName = "--no-associate-public-ip-address")]
     public bool? AssociatePublicIpAddress { get; set; }
 
-    [CliFlag("--copy-tags")]
+    /// <summary>
+    /// Copy tags.
+    /// </summary>
+    [CliFlag("--copy-tags", NegatedName = "--no-copy-tags")]
     public bool? CopyTags { get; set; }
 
     /// <summary>
@@ -84,18 +96,21 @@ public record AwsMgnCreateLaunchConfigurationTemplateOptions : AwsOptions
     public int? SmallVolumeMaxSize { get; set; }
 
     /// <summary>
-    /// Small volume config. volumeType -&gt; (string) Launch template disk volume type configuration. Possible values: o io1 o io2 o gp3 o gp2 o st1 o sc1 o standard iops -&gt; (long) Launch template disk iops configuration. Constraints: o min: 100 o max: 64000 throughput -&gt; (long) Launch template disk throughput configuration. Constraints: o min: 125 o max: 1000 Shorthand Syntax: volumeType=string,iops=long,throughput=long JSON Syntax: { "volumeType": "io1"|"io2"|"gp3"|"gp2"|"st1"|"sc1"|"standard", "iops": long, "throughput": long }
+    /// Small volume config. volumeType -&gt; (string) Launch template disk volume type configuration. Possible values: o io1 o io2 o gp3 o gp2 o st1 o sc1 o standard iops -&gt; (long) Launch template disk iops configuration. Constraints: o min: 100 o max: 64000 throughput -&gt; (long) Launch template disk throughput configuration. Constraints: o min: 125 o max: 2000 volumeInitializationRate -&gt; (long) Launch template disk volume initialization rate configuration. Constraints: o min: 100 o max: 300 deleteOnTermination -&gt; (boolean) Launch template disk delete on termination configuration. Shorthand Syntax: volumeType=string,iops=long,throughput=long,volumeInitializationRate=long,deleteOnTermination=boolean JSON Syntax: { "volumeType": "io1"|"io2"|"gp3"|"gp2"|"st1"|"sc1"|"standard", "iops": long, "throughput": long, "volumeInitializationRate": long, "deleteOnTermination": true|false }
     /// </summary>
     [CliOption("--small-volume-conf")]
     public string? SmallVolumeConf { get; set; }
 
     /// <summary>
-    /// Large volume config. volumeType -&gt; (string) Launch template disk volume type configuration. Possible values: o io1 o io2 o gp3 o gp2 o st1 o sc1 o standard iops -&gt; (long) Launch template disk iops configuration. Constraints: o min: 100 o max: 64000 throughput -&gt; (long) Launch template disk throughput configuration. Constraints: o min: 125 o max: 1000 Shorthand Syntax: volumeType=string,iops=long,throughput=long JSON Syntax: { "volumeType": "io1"|"io2"|"gp3"|"gp2"|"st1"|"sc1"|"standard", "iops": long, "throughput": long }
+    /// Large volume config. volumeType -&gt; (string) Launch template disk volume type configuration. Possible values: o io1 o io2 o gp3 o gp2 o st1 o sc1 o standard iops -&gt; (long) Launch template disk iops configuration. Constraints: o min: 100 o max: 64000 throughput -&gt; (long) Launch template disk throughput configuration. Constraints: o min: 125 o max: 2000 volumeInitializationRate -&gt; (long) Launch template disk volume initialization rate configuration. Constraints: o min: 100 o max: 300 deleteOnTermination -&gt; (boolean) Launch template disk delete on termination configuration. Shorthand Syntax: volumeType=string,iops=long,throughput=long,volumeInitializationRate=long,deleteOnTermination=boolean JSON Syntax: { "volumeType": "io1"|"io2"|"gp3"|"gp2"|"st1"|"sc1"|"standard", "iops": long, "throughput": long, "volumeInitializationRate": long, "deleteOnTermination": true|false }
     /// </summary>
     [CliOption("--large-volume-conf")]
     public string? LargeVolumeConf { get; set; }
 
-    [CliFlag("--enable-parameters-encryption")]
+    /// <summary>
+    /// Enable parameters encryption.
+    /// </summary>
+    [CliFlag("--enable-parameters-encryption", NegatedName = "--no-enable-parameters-encryption")]
     public bool? EnableParametersEncryption { get; set; }
 
     /// <summary>

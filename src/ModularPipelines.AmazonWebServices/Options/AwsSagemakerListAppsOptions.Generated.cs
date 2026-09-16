@@ -33,7 +33,7 @@ public record AwsSagemakerListAppsOptions : AwsOptions
     /// The parameter by which to sort the results. The default is Creation- Time. Possible values: o CreationTime
     /// </summary>
     [CliOption("--sort-by")]
-    public AwsSagemakerListAppsSortBy? SortBy { get; set; }
+    public string? SortBy { get; set; }
 
     /// <summary>
     /// A parameter to search for the domain ID. Constraints: o min: 0 o max: 63 o pattern: d-(-*[a-z0-9]){1,61}

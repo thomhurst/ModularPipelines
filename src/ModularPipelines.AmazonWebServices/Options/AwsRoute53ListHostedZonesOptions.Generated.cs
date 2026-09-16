@@ -11,7 +11,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -39,7 +38,7 @@ public record AwsRoute53ListHostedZonesOptions : AwsOptions
     /// (Optional) Specifies if the hosted zone is private. Possible values: o PrivateHostedZone
     /// </summary>
     [CliOption("--hosted-zone-type")]
-    public AwsRoute53ListHostedZonesHostedZoneType? HostedZoneType { get; set; }
+    public string? HostedZoneType { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

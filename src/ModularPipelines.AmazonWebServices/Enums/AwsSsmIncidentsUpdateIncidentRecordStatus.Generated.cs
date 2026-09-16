@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSsmIncidentsUpdateIncidentRecordStatus
 {
     [EnumValue("OPEN")]
-    Open = 1,
+    Open,
 
     [EnumValue("RESOLVED")]
-    Resolved = 2
+    Resolved
 }

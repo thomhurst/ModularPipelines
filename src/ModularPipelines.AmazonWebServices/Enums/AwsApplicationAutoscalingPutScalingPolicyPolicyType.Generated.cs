@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --policytype.
+/// Allowed values for --policy-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsApplicationAutoscalingPutScalingPolicyPolicyType
 {
+    [EnumValue("PredictiveScaling")]
+    PredictiveScaling,
+
     [EnumValue("StepScaling")]
-    StepScaling = 1,
+    StepScaling,
 
     [EnumValue("TargetTrackingScaling")]
-    TargetTrackingScaling = 2,
-
-    [EnumValue("PredictiveScaling")]
-    PredictiveScaling = 3
+    TargetTrackingScaling
 }

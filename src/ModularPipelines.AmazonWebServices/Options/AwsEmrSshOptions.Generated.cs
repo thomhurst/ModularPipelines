@@ -21,16 +21,38 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("emr", "ssh")]
 public record AwsEmrSshOptions : AwsOptions
 {
+    /// <summary>
+    /// SSH into master node of the cluster. A value for the variable Key Pair File can be set in the AWS CLI config file using the "aws configure set emr.key_pair_file &lt;value&gt;" command.
+    /// </summary>
+    /// <param name="ClusterId"></param>
+    /// <param name="KeyPairFile"></param>
+    public AwsEmrSshOptions(
+        string ClusterId,
+        string KeyPairFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterId);
+        this.ClusterId = ClusterId;
+        global::System.ArgumentNullException.ThrowIfNull(KeyPairFile);
+        this.KeyPairFile = KeyPairFile;
+    }
+
+    public void Deconstruct(out string ClusterId, out string KeyPairFile)
+    {
+        ClusterId = this.ClusterId;
+        KeyPairFile = this.KeyPairFile;
+    }
+
     [CliOption("--cluster-id")]
-    public string? ClusterId { get; set; }
+    public string ClusterId { get; private init; }
 
     [CliOption("--key-pair-file")]
-    public string? KeyPairFile { get; set; }
+    public string KeyPairFile { get; private init; }
 
     [CliOption("--command")]
     public string? Command { get; set; }
 
-    [CliOption("--ssh-options")]
-    public string? SshOptions { get; set; }
+    [CliOption("--ssh-options", GroupValues = true)]
+    public IEnumerable<string>? SshOptions { get; set; }
 
 }

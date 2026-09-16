@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,22 +20,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("quicksight", "create-knowledge-base")]
-public record AwsQuicksightCreateKnowledgeBaseOptions : AwsOptions
+public record AwsQuicksightCreateKnowledgeBaseOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a knowledge base from a specified data source. Supported data source connector types include: o S3_KNOWLEDGE_BASE Uses an Amazon S3 bucket as the data source. o WEB_CRAWLER Uses web pages indexed by the built-in web crawler as the data source. o GOOGLE_DRIVE Uses Google Drive as the data source. Supports service account authentication only. o SHAREPOINT Uses SharePoint as the data source. Supports two-legged OAuth only. o ONE_DRIVE Uses OneDrive as the data source. Supports two-legged OA...
+    /// </summary>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the knowl- edge base. Constraints: o min: 12 o max: 12 o pattern: [0-9]*</param>
+    /// <param name="KnowledgeBaseId">The unique identifier for the knowledge base. Constraints: o min: 1 o max: 1024 o pattern: [0-9a-zA-Z-_=.+]+</param>
+    /// <param name="Name">The name of the knowledge base. Constraints: o min: 0 o max: 128 o pattern: [\p{L}\p{N}][\p{L}\p{N} _\-\.]*</param>
+    /// <param name="DataSourceArn">The Amazon Resource Name (ARN) of the data source for the knowledge base. Constraints: o min: 0 o max: 1284 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
+    /// <param name="KnowledgeBaseConfiguration">The configuration settings for a knowledge base. templateConfiguration -&gt; (structure) The template configuration that defines how the data source con- nector crawls and indexes data for the knowledge base. The tem- plate structure varies by connector type. See KbTemplateConfigu- ration for connector-specific details. template -&gt; (document) The connector configuration for the knowledge base data source. The structure depends on the connector type of the data source referenced by DataSourceArn . The template must be a JSON object. All connector types share the following top-level keys. The value of type and the con- tents of connectionConfiguration vary by connector type. o type (Required) The connector type of the data source. This value identifies the connector. Valid values: S3V2 , WEBCRAWLERV3 , GOOGLEDRIVEV3 , ONEDRIVEV3 , SHAREPOINTV3 . For the fields required by each connector, see the connec- tor-specific list that follows. o connectionConfiguration (Required) The connection details for the data source. The keys in this object vary by con- nector type; see the connector-specific list that follows. o filterConfiguration (Optional) Rules that determine which content is crawled, such as inclusion and exclusion pre- fixes, patterns, or file-size limits. o accessControlConfiguration (Optional) Document-level ac- cess control (ACL) settings. Supported by all connector types except Web Crawler (WEBCRAWLERV3 ). The available fields depend on the connector type. o deletionProtectionConfiguration (Optional) Deletion-pro- tection settings, supported by all connector types. Con- tains enableDeletionProtection (Boolean) and deletionPro- tectionThreshold (String; a value from 1 to 100). The following list describes the valid type value, the con- nectionConfiguration contents, and any connector-specific fields for each connector type: o Amazon S3 (type : S3V2 ) The type value must be S3V2 . connectionConfiguration is required and contains: o bucketName (Required) The name of the Amazon S3 bucket to crawl. Type: String. Length: 363 characters. Pattern: ^[a-z0-9][.\-a-z0-9]{1,61}[a-z0-9]$ . o bucketOwnerAccountId (Required) The ID of the AWS ac- count that owns the bucket. Type: String. Pattern: ^\d{12}$ . Amazon S3 supports the following optional filterConfiguration fields: o inclusionPrefixes or exclusionPrefixes Amazon S3 key prefixes to include or exclude. Type: Array of String. Up to 350 items, each 11,024 characters. o inclusionPatterns or exclusionPatterns Patterns to in- clude or exclude objects. Type: Array of String. Up to 350 items, each 11,024 characters. o maxFileSizeInMegaBytes The maximum size, in MB, of a file to ingest. Type: String. Pattern: ^\d+$ . For Amazon S3, accessControlConfiguration supports the fol- lowing fields: o crawlAcl Specifies whether the connector crawls and enforces document access control lists (ACLs). Type: Boolean. When set to true , provide ACLs either in a global ACL configuration file (aclConfigura- tionFilePath ) or in per-document metadata files. o aclConfigurationFilePath The Amazon S3 URI of the global ACL configuration file. Type: String. Length: 11,024 characters. Optional. If you don't provide a global ACL configuration file, define ACLs in per-document metadata files. o defaultAccessType The access behavior applied to Amazon S3 prefixes that are not listed in the ACL configuration. Type: String. The only supported value is ALLOW . metadataFilesPrefix (Optional) The Amazon S3 prefix un- der which per-document metadata files are stored. Each metadata file describes a single source document and its indexable attributes. This is not the global ACL configu- ration file. For a single global ACL file, use accessCon- trolConfiguration.aclConfigurationFilePath . Type: String. Length: 11,024 characters. o Google Drive (type : GOOGLEDRIVEV3 ) Requires connection- Configuration with authType set to SERVICE_ACCOUNT . Sup- ports dataEntityConfiguration with crawlMyDrive , crawl- SharedWithMe , and crawlSharedDrives . o OneDrive (type : ONEDRIVEV3 ) Requires authType at the template root level set to TWO_LEGGED_OAUTH . Requires con- nectionConfiguration with tenantId in UUID format. Supports dataEntityConfiguration with crawlPersonalDrives and crawl- SharedWithMe . o SharePoint (type : SHAREPOINTV3 ) Requires connectionCon- figuration with tenantId in UUID format. Supports dataEnti- tyConfiguration with siteUrls , crawlFiles , and crawlPages . o Web Crawler (type : WEBCRAWLERV3 ) Requires connectionCon- figuration with seedUrls or siteMapUrls (mutually exclu- sive) and authType . Supports crawlConfiguration for crawl depth, rate limits, and scope. Supports filterConfiguration for file size limits and URL patterns. Valid values for au- thType : NO_AUTH , BASIC_AUTH , FORM , SAML . Enabling document-level access control for Amazon S3 For an Amazon S3 (S3V2 ) knowledge base, document-level ac- cess control is governed by two settings that must both be enabled: o In this template, set accessControlConfiguration.crawlAcl to true . Define ACLs either in a global ACL configuration file, referenced by accessControlConfiguration.aclConfigu- rationFilePath , or in per-document metadata files. To con- trol access for prefixes that are not listed in the ACL file, you can also set accessControlConfiguration.default- AccessType . o In the CreateKnowledgeBase or UpdateKnowledgeBase request, set the top-level AccessControlConfiguration.isACLEnabled to true . Shorthand Syntax: templateConfiguration={} JSON Syntax: { "templateConfiguration": { "template": {...} } }</param>
+    public AwsQuicksightCreateKnowledgeBaseOptions(
+        string AwsAccountId,
+        string KnowledgeBaseId,
+        string Name,
+        string DataSourceArn,
+        string KnowledgeBaseConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
+        this.AwsAccountId = AwsAccountId;
+        global::System.ArgumentNullException.ThrowIfNull(KnowledgeBaseId);
+        this.KnowledgeBaseId = KnowledgeBaseId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(DataSourceArn);
+        this.DataSourceArn = DataSourceArn;
+        global::System.ArgumentNullException.ThrowIfNull(KnowledgeBaseConfiguration);
+        this.KnowledgeBaseConfiguration = KnowledgeBaseConfiguration;
+    }
+
+    private AwsQuicksightCreateKnowledgeBaseOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQuicksightCreateKnowledgeBaseOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQuicksightCreateKnowledgeBaseOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Amazon Web Services account that contains the knowl- edge base. Constraints: o min: 12 o max: 12 o pattern: [0-9]*
+    /// </summary>
     [CliOption("--aws-account-id")]
-    public string? AwsAccountId { get; set; }
+    public string? AwsAccountId { get; private init; }
 
+    /// <summary>
+    /// The unique identifier for the knowledge base. Constraints: o min: 1 o max: 1024 o pattern: [0-9a-zA-Z-_=.+]+
+    /// </summary>
     [CliOption("--knowledge-base-id")]
-    public string? KnowledgeBaseId { get; set; }
+    public string? KnowledgeBaseId { get; private init; }
 
+    /// <summary>
+    /// The name of the knowledge base. Constraints: o min: 0 o max: 128 o pattern: [\p{L}\p{N}][\p{L}\p{N} _\-\.]*
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the data source for the knowledge base. Constraints: o min: 0 o max: 1284 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
+    /// </summary>
     [CliOption("--data-source-arn")]
-    public string? DataSourceArn { get; set; }
+    public string? DataSourceArn { get; private init; }
 
+    /// <summary>
+    /// The configuration settings for a knowledge base. templateConfiguration -&gt; (structure) The template configuration that defines how the data source con- nector crawls and indexes data for the knowledge base. The tem- plate structure varies by connector type. See KbTemplateConfigu- ration for connector-specific details. template -&gt; (document) The connector configuration for the knowledge base data source. The structure depends on the connector type of the data source referenced by DataSourceArn . The template must be a JSON object. All connector types share the following top-level keys. The value of type and the con- tents of connectionConfiguration vary by connector type. o type (Required) The connector type of the data source. This value identifies the connector. Valid values: S3V2 , WEBCRAWLERV3 , GOOGLEDRIVEV3 , ONEDRIVEV3 , SHAREPOINTV3 . For the fields required by each connector, see the connec- tor-specific list that follows. o connectionConfiguration (Required) The connection details for the data source. The keys in this object vary by con- nector type; see the connector-specific list that follows. o filterConfiguration (Optional) Rules that determine which content is crawled, such as inclusion and exclusion pre- fixes, patterns, or file-size limits. o accessControlConfiguration (Optional) Document-level ac- cess control (ACL) settings. Supported by all connector types except Web Crawler (WEBCRAWLERV3 ). The available fields depend on the connector type. o deletionProtectionConfiguration (Optional) Deletion-pro- tection settings, supported by all connector types. Con- tains enableDeletionProtection (Boolean) and deletionPro- tectionThreshold (String; a value from 1 to 100). The following list describes the valid type value, the con- nectionConfiguration contents, and any connector-specific fields for each connector type: o Amazon S3 (type : S3V2 ) The type value must be S3V2 . connectionConfiguration is required and contains: o bucketName (Required) The name of the Amazon S3 bucket to crawl. Type: String. Length: 363 characters. Pattern: ^[a-z0-9][.\-a-z0-9]{1,61}[a-z0-9]$ . o bucketOwnerAccountId (Required) The ID of the AWS ac- count that owns the bucket. Type: String. Pattern: ^\d{12}$ . Amazon S3 supports the following optional filterConfiguration fields: o inclusionPrefixes or exclusionPrefixes Amazon S3 key prefixes to include or exclude. Type: Array of String. Up to 350 items, each 11,024 characters. o inclusionPatterns or exclusionPatterns Patterns to in- clude or exclude objects. Type: Array of String. Up to 350 items, each 11,024 characters. o maxFileSizeInMegaBytes The maximum size, in MB, of a file to ingest. Type: String. Pattern: ^\d+$ . For Amazon S3, accessControlConfiguration supports the fol- lowing fields: o crawlAcl Specifies whether the connector crawls and enforces document access control lists (ACLs). Type: Boolean. When set to true , provide ACLs either in a global ACL configuration file (aclConfigura- tionFilePath ) or in per-document metadata files. o aclConfigurationFilePath The Amazon S3 URI of the global ACL configuration file. Type: String. Length: 11,024 characters. Optional. If you don't provide a global ACL configuration file, define ACLs in per-document metadata files. o defaultAccessType The access behavior applied to Amazon S3 prefixes that are not listed in the ACL configuration. Type: String. The only supported value is ALLOW . metadataFilesPrefix (Optional) The Amazon S3 prefix un- der which per-document metadata files are stored. Each metadata file describes a single source document and its indexable attributes. This is not the global ACL configu- ration file. For a single global ACL file, use accessCon- trolConfiguration.aclConfigurationFilePath . Type: String. Length: 11,024 characters. o Google Drive (type : GOOGLEDRIVEV3 ) Requires connection- Configuration with authType set to SERVICE_ACCOUNT . Sup- ports dataEntityConfiguration with crawlMyDrive , crawl- SharedWithMe , and crawlSharedDrives . o OneDrive (type : ONEDRIVEV3 ) Requires authType at the template root level set to TWO_LEGGED_OAUTH . Requires con- nectionConfiguration with tenantId in UUID format. Supports dataEntityConfiguration with crawlPersonalDrives and crawl- SharedWithMe . o SharePoint (type : SHAREPOINTV3 ) Requires connectionCon- figuration with tenantId in UUID format. Supports dataEnti- tyConfiguration with siteUrls , crawlFiles , and crawlPages . o Web Crawler (type : WEBCRAWLERV3 ) Requires connectionCon- figuration with seedUrls or siteMapUrls (mutually exclu- sive) and authType . Supports crawlConfiguration for crawl depth, rate limits, and scope. Supports filterConfiguration for file size limits and URL patterns. Valid values for au- thType : NO_AUTH , BASIC_AUTH , FORM , SAML . Enabling document-level access control for Amazon S3 For an Amazon S3 (S3V2 ) knowledge base, document-level ac- cess control is governed by two settings that must both be enabled: o In this template, set accessControlConfiguration.crawlAcl to true . Define ACLs either in a global ACL configuration file, referenced by accessControlConfiguration.aclConfigu- rationFilePath , or in per-document metadata files. To con- trol access for prefixes that are not listed in the ACL file, you can also set accessControlConfiguration.default- AccessType . o In the CreateKnowledgeBase or UpdateKnowledgeBase request, set the top-level AccessControlConfiguration.isACLEnabled to true . Shorthand Syntax: templateConfiguration={} JSON Syntax: { "templateConfiguration": { "template": {...} } }
+    /// </summary>
     [CliOption("--knowledge-base-configuration")]
-    public string? KnowledgeBaseConfiguration { get; set; }
+    public string? KnowledgeBaseConfiguration { get; private init; }
 
     /// <summary>
     /// A description for the knowledge base. If you don't specify a de- scription, the knowledge base is created without one. Constraints: o min: 0 o max: 1000 o pattern: \P{C}*
@@ -55,13 +120,13 @@ public record AwsQuicksightCreateKnowledgeBaseOptions : AwsOptions
     public string? MediaExtractionConfiguration { get; set; }
 
     /// <summary>
-    /// The access control configuration for the knowledge base. If you don't specify this parameter, document-level ACLs are disabled. isACLEnabled -&gt; (boolean) Specifies whether ACLs are enabled for the knowledge base. Shorthand Syntax: isACLEnabled=boolean JSON Syntax: { "isACLEnabled": true|false }
+    /// The access control configuration for the knowledge base. If you don't specify this parameter, document-level ACLs are disabled. isACLEnabled -&gt; (boolean) Specifies whether ACLs are enabled for the knowledge base. This setting works together with the data source connector's ACL crawling. To enforce document-level access control end to end, set isACLEnabled to true and enable ACL crawling on the connec- tor. For example, for an Amazon S3 data source, set accessCon- trolConfiguration.crawlAcl to true in the connector template. For more information, see KbTemplateConfiguration . Enabling only one of the two settings does not produce a fully ACL-en- forced knowledge base. Shorthand Syntax: isACLEnabled=boolean JSON Syntax: { "isACLEnabled": true|false }
     /// </summary>
     [CliOption("--access-control-configuration")]
     public string? AccessControlConfiguration { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the primary owner for the knowl- edge base. The specified user is always granted owner access, re- gardless of what is specified in the Permissions field. If you don't specify a primary owner, the knowledge base is created without one.
+    /// The Amazon Resource Name (ARN) of the Amazon QuickSight user or group to set as the primary owner of the knowledge base. The speci- fied principal is always granted owner access, regardless of what is specified in the Permissions field. This must be an Amazon QuickSight principal ARN, not an IAM user or role ARN. The API caller is never assigned as the owner automati- cally. If you don't specify a primary owner and don't grant owner access in Permissions , the knowledge base is created without an owner, even when you call the operation as an Amazon QuickSight user. When you call CreateKnowledgeBase as an IAM user or an assumed IAM role, specify PrimaryOwnerArn (as an Amazon QuickSight principal ARN) or an owner entry in Permissions so that the knowledge base has an owner. Although optional, specifying a primary owner is recom- mended.
     /// </summary>
     [CliOption("--primary-owner-arn")]
     public string? PrimaryOwnerArn { get; set; }
@@ -77,5 +142,22 @@ public record AwsQuicksightCreateKnowledgeBaseOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

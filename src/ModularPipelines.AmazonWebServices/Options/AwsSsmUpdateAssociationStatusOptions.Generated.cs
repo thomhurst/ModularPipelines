@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "update-association-status")]
-public record AwsSsmUpdateAssociationStatusOptions : AwsOptions
+public record AwsSsmUpdateAssociationStatusOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the status of the Amazon Web Services Systems Manager document (SSM document) associated with the specified managed node. UpdateAssociationStatus is primarily used by the Amazon Web Services Systems Manager Agent (SSM Agent) to report status updates about your associations and is only used for associations created with the InstanceId legacy parameter. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the SSM document. Constraints: o pattern: ^[a-zA-Z0-9_\-.:/]{3,128}$</param>
+    /// <param name="InstanceId">The managed node ID. Constraints: o pattern: (^i-(\w{8}|\w{17})$)|(^mi-\w{17}$)</param>
+    /// <param name="AssociationStatus">The association status. Date -&gt; (timestamp) [required] The date when the status changed. Name -&gt; (string) [required] The status. Possible values: o Pending o Success o Failed Message -&gt; (string) [required] The reason for the status. Constraints: o min: 1 o max: 1024 AdditionalInfo -&gt; (string) A user-defined string. Constraints: o max: 1024 Shorthand Syntax: Date=timestamp,Name=string,Message=string,AdditionalInfo=string JSON Syntax: { "Date": timestamp, "Name": "Pending"|"Success"|"Failed", "Message": "string", "AdditionalInfo": "string" }</param>
+    public AwsSsmUpdateAssociationStatusOptions(
+        string Name,
+        string InstanceId,
+        string AssociationStatus
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(AssociationStatus);
+        this.AssociationStatus = AssociationStatus;
+    }
+
+    private AwsSsmUpdateAssociationStatusOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmUpdateAssociationStatusOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmUpdateAssociationStatusOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the SSM document. Constraints: o pattern: ^[a-zA-Z0-9_\-.:/]{3,128}$
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The managed node ID. Constraints: o pattern: (^i-(\w{8}|\w{17})$)|(^mi-\w{17}$)
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
+    /// <summary>
+    /// The association status. Date -&gt; (timestamp) [required] The date when the status changed. Name -&gt; (string) [required] The status. Possible values: o Pending o Success o Failed Message -&gt; (string) [required] The reason for the status. Constraints: o min: 1 o max: 1024 AdditionalInfo -&gt; (string) A user-defined string. Constraints: o max: 1024 Shorthand Syntax: Date=timestamp,Name=string,Message=string,AdditionalInfo=string JSON Syntax: { "Date": timestamp, "Name": "Pending"|"Success"|"Failed", "Message": "string", "AdditionalInfo": "string" }
+    /// </summary>
     [CliOption("--association-status")]
-    public string? AssociationStatus { get; set; }
+    public string? AssociationStatus { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

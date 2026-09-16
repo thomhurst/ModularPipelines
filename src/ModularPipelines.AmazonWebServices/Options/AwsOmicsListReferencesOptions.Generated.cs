@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("omics", "list-references")]
-public record AwsOmicsListReferencesOptions : AwsOptions
+public record AwsOmicsListReferencesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves the metadata of one or more reference genomes in a reference store. For more information, see Creating a reference store in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation list-references is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --quer...
+    /// </summary>
+    /// <param name="ReferenceStoreId">The references' reference store ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+</param>
+    public AwsOmicsListReferencesOptions(
+        string ReferenceStoreId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReferenceStoreId);
+        this.ReferenceStoreId = ReferenceStoreId;
+    }
+
+    private AwsOmicsListReferencesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOmicsListReferencesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOmicsListReferencesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The references' reference store ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+
+    /// </summary>
     [CliOption("--reference-store-id")]
-    public string? ReferenceStoreId { get; set; }
+    public string? ReferenceStoreId { get; private init; }
 
     /// <summary>
     /// A filter to apply to the list. name -&gt; (string) A name to filter on. Constraints: o min: 3 o max: 255 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+ md5 -&gt; (string) An MD5 checksum to filter on. Constraints: o min: 1 o max: 255 o pattern: [\p{L}||\p{N}]+ createdAfter -&gt; (timestamp) The filter's start date. createdBefore -&gt; (timestamp) The filter's end date. Shorthand Syntax: name=string,md5=string,createdAfter=timestamp,createdBefore=timestamp JSON Syntax: { "name": "string", "md5": "string", "createdAfter": timestamp, "createdBefore": timestamp }
@@ -55,5 +92,22 @@ public record AwsOmicsListReferencesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

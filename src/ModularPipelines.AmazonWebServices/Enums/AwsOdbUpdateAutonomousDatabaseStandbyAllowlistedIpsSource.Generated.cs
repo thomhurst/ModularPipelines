@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --standbyallowlistedipssource.
+/// Allowed values for --standby-allowlisted-ips-source.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsOdbUpdateAutonomousDatabaseStandbyAllowlistedIpsSource
 {
+    [EnumValue("NOT_APPLICABLE")]
+    NotApplicable,
+
     [EnumValue("PRIMARY")]
-    Primary = 1,
+    Primary,
 
     [EnumValue("SEPARATE")]
-    Separate = 2,
-
-    [EnumValue("NOT_APPLICABLE")]
-    NotApplicable = 3
+    Separate
 }

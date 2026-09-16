@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --invokemode.
+/// Allowed values for --invoke-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsLambdaUpdateFunctionUrlConfigInvokeMode
 {
     [EnumValue("BUFFERED")]
-    Buffered = 1,
+    Buffered,
 
     [EnumValue("RESPONSE_STREAM")]
-    ResponseStream = 2
+    ResponseStream
 }

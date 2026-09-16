@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("translate", "import-terminology")]
-public record AwsTranslateImportTerminologyOptions : AwsOptions
+public record AwsTranslateImportTerminologyOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--name")]
-    public string? Name { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates or updates a custom terminology, depending on whether one al- ready exists for the given terminology name. Importing a terminology with the same name as an existing one will merge the terminologies based on the chosen merge strategy. The only supported merge strategy is OVERWRITE, where the imported terminology overwrites the existing terminology of the same name. If you import a terminology that overwrites an existing one, the new terminology takes up to 10 minutes to fully propagate. A...
+    /// </summary>
+    /// <param name="Name">The name of the custom terminology being imported. Constraints: o min: 1 o max: 256 o pattern: ^([A-Za-z0-9-]_?)+$</param>
+    /// <param name="MergeStrategy">The merge strategy of the custom terminology being imported. Cur- rently, only the OVERWRITE merge strategy is supported. In this case, the imported terminology will overwrite an existing terminol- ogy of the same name. Possible values: o OVERWRITE</param>
+    /// <param name="DataFile">The path to the file of the code you are uploading. Example: fileb://data.csv</param>
+    public AwsTranslateImportTerminologyOptions(
+        string Name,
+        string MergeStrategy,
+        string DataFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(MergeStrategy);
+        this.MergeStrategy = MergeStrategy;
+        global::System.ArgumentNullException.ThrowIfNull(DataFile);
+        this.DataFile = DataFile;
+    }
+
+    private AwsTranslateImportTerminologyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTranslateImportTerminologyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTranslateImportTerminologyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the custom terminology being imported. Constraints: o min: 1 o max: 256 o pattern: ^([A-Za-z0-9-]_?)+$
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The merge strategy of the custom terminology being imported. Cur- rently, only the OVERWRITE merge strategy is supported. In this case, the imported terminology will overwrite an existing terminol- ogy of the same name. Possible values: o OVERWRITE
+    /// </summary>
     [CliOption("--merge-strategy")]
-    public string? MergeStrategy { get; set; }
+    public string? MergeStrategy { get; private init; }
+
+    /// <summary>
+    /// The path to the file of the code you are uploading. Example: fileb://data.csv
+    /// </summary>
+    [CliOption("--data-file")]
+    public string? DataFile { get; private init; }
 
     /// <summary>
     /// The description of the custom terminology being imported. Constraints: o max: 256 o pattern: [\P{M}\p{M}]{0,256}
@@ -51,13 +105,27 @@ public record AwsTranslateImportTerminologyOptions : AwsOptions
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
-    [CliOption("--data-file")]
-    public string? DataFile { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

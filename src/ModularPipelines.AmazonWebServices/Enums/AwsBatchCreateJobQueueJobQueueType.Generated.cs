@@ -11,23 +11,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --jobqueuetype.
+/// Allowed values for --job-queue-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsBatchCreateJobQueueJobQueueType
 {
-    [EnumValue("EKS")]
-    Eks = 1,
-
     [EnumValue("ECS")]
-    Ecs = 2,
+    Ecs,
 
     [EnumValue("ECS_FARGATE")]
-    EcsFargate = 3,
-
-    [EnumValue("SAGEMAKER_TRAINING")]
-    SagemakerTraining = 4,
+    EcsFargate,
 
     [EnumValue("ECS_MANAGED_INSTANCES")]
-    EcsManagedInstances = 5
+    EcsManagedInstances,
+
+    [EnumValue("EKS")]
+    Eks,
+
+    [EnumValue("SAGEMAKER_TRAINING")]
+    SagemakerTraining
 }

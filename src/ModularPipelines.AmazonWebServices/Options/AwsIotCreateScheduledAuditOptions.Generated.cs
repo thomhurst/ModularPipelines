@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "create-scheduled-audit")]
-public record AwsIotCreateScheduledAuditOptions : AwsOptions
+public record AwsIotCreateScheduledAuditOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a scheduled audit that is run at a specified time interval. Requires permission to access the CreateScheduledAudit action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Frequency">How often the scheduled audit takes place, either DAILY , WEEKLY , BIWEEKLY or MONTHLY . The start time of each audit is determined by the system. Possible values: o DAILY o WEEKLY o BIWEEKLY o MONTHLY</param>
+    /// <param name="TargetCheckNames">Which checks are performed during the scheduled audit. Checks must be enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are enabled or use UpdateAccountAuditConfiguration to select which checks are en- abled.) (string) An audit check name. Checks must be enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are enabled or use UpdateAccountAu- ditConfiguration to select which checks are enabled.) Syntax: "string" "string" ...</param>
+    /// <param name="ScheduledAuditName">The name you want to give to the scheduled audit. (Max. 128 chars) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_-]+</param>
+    public AwsIotCreateScheduledAuditOptions(
+        AwsIotCreateScheduledAuditFrequency Frequency,
+        IEnumerable<string> TargetCheckNames,
+        string ScheduledAuditName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Frequency);
+        this.Frequency = Frequency;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(TargetCheckNames);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(TargetCheckNames));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(TargetCheckNames));
+            }
+
+            TargetCheckNames = materialized;
+        }
+        this.TargetCheckNames = TargetCheckNames;
+        global::System.ArgumentNullException.ThrowIfNull(ScheduledAuditName);
+        this.ScheduledAuditName = ScheduledAuditName;
+    }
+
+    private AwsIotCreateScheduledAuditOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotCreateScheduledAuditOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotCreateScheduledAuditOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// How often the scheduled audit takes place, either DAILY , WEEKLY , BIWEEKLY or MONTHLY . The start time of each audit is determined by the system. Possible values: o DAILY o WEEKLY o BIWEEKLY o MONTHLY
+    /// </summary>
     [CliOption("--frequency")]
-    public string? Frequency { get; set; }
+    public AwsIotCreateScheduledAuditFrequency? Frequency { get; private init; }
+
+    /// <summary>
+    /// Which checks are performed during the scheduled audit. Checks must be enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are enabled or use UpdateAccountAuditConfiguration to select which checks are en- abled.) (string) An audit check name. Checks must be enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are enabled or use UpdateAccountAu- ditConfiguration to select which checks are enabled.) Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--target-check-names", GroupValues = true)]
+    public IEnumerable<string>? TargetCheckNames { get; private init; }
+
+    /// <summary>
+    /// The name you want to give to the scheduled audit. (Max. 128 chars) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_-]+
+    /// </summary>
+    [CliOption("--scheduled-audit-name")]
+    public string? ScheduledAuditName { get; private init; }
 
     /// <summary>
     /// The day of the month on which the scheduled audit takes place. This can be "1" through "31" or "LAST". This field is required if the "frequency" parameter is set to MONTHLY . If days 29 to 31 are spec- ified, and the month doesn't have that many days, the audit takes place on the LAST day of the month. Constraints: o pattern: ^([1-9]|[12][0-9]|3[01])$|^LAST$
@@ -37,12 +105,6 @@ public record AwsIotCreateScheduledAuditOptions : AwsOptions
     [CliOption("--day-of-week")]
     public AwsIotCreateScheduledAuditDayOfWeek? DayOfWeek { get; set; }
 
-    [CliOption("--target-check-names", GroupValues = true)]
-    public IEnumerable<string>? TargetCheckNames { get; set; }
-
-    [CliOption("--scheduled-audit-name")]
-    public string? ScheduledAuditName { get; set; }
-
     /// <summary>
     /// Metadata that can be used to manage the scheduled audit. (structure) A set of key/value pairs that are used to manage the resource. Key -&gt; (string) [required] The tag's key. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) The tag's value. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
@@ -54,5 +116,22 @@ public record AwsIotCreateScheduledAuditOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

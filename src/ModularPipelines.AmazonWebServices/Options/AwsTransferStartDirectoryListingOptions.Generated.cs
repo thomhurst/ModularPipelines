@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("transfer", "start-directory-listing")]
-public record AwsTransferStartDirectoryListingOptions : AwsOptions
+public record AwsTransferStartDirectoryListingOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--connector-id")]
-    public string? ConnectorId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Retrieves a list of the contents of a directory from a remote SFTP server. You specify the connector ID, the output path, and the remote directory path. You can also specify the optional MaxItems value to control the maximum number of items that are listed from the remote di- rectory. This API returns a list of all files and directories in the remote directory (up to the maximum value), but does not return files or folders in sub-directories. That is, it only returns a list of files and director...
+    /// </summary>
+    /// <param name="ConnectorId">The unique identifier for the connector. Constraints: o min: 19 o max: 19 o pattern: c-([0-9a-f]{17})</param>
+    /// <param name="RemoteDirectoryPath">Specifies the directory on the remote SFTP server for which you want to list its contents. Constraints: o min: 1 o max: 1024 o pattern: (.)+</param>
+    /// <param name="OutputDirectoryPath">Specifies the path (bucket and prefix) in Amazon S3 storage to store the results of the directory listing. Constraints: o min: 1 o max: 1024 o pattern: (.)+</param>
+    public AwsTransferStartDirectoryListingOptions(
+        string ConnectorId,
+        string RemoteDirectoryPath,
+        string OutputDirectoryPath
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConnectorId);
+        this.ConnectorId = ConnectorId;
+        global::System.ArgumentNullException.ThrowIfNull(RemoteDirectoryPath);
+        this.RemoteDirectoryPath = RemoteDirectoryPath;
+        global::System.ArgumentNullException.ThrowIfNull(OutputDirectoryPath);
+        this.OutputDirectoryPath = OutputDirectoryPath;
+    }
+
+    private AwsTransferStartDirectoryListingOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTransferStartDirectoryListingOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTransferStartDirectoryListingOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for the connector. Constraints: o min: 19 o max: 19 o pattern: c-([0-9a-f]{17})
+    /// </summary>
+    [CliOption("--connector-id")]
+    public string? ConnectorId { get; private init; }
+
+    /// <summary>
+    /// Specifies the directory on the remote SFTP server for which you want to list its contents. Constraints: o min: 1 o max: 1024 o pattern: (.)+
+    /// </summary>
     [CliOption("--remote-directory-path")]
-    public string? RemoteDirectoryPath { get; set; }
+    public string? RemoteDirectoryPath { get; private init; }
+
+    /// <summary>
+    /// Specifies the path (bucket and prefix) in Amazon S3 storage to store the results of the directory listing. Constraints: o min: 1 o max: 1024 o pattern: (.)+
+    /// </summary>
+    [CliOption("--output-directory-path")]
+    public string? OutputDirectoryPath { get; private init; }
 
     /// <summary>
     /// An optional parameter where you can specify the maximum number of file/directory names to retrieve. The default value is 1,000. Constraints: o min: 1
@@ -33,13 +87,27 @@ public record AwsTransferStartDirectoryListingOptions : AwsOptions
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CliOption("--output-directory-path")]
-    public string? OutputDirectoryPath { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

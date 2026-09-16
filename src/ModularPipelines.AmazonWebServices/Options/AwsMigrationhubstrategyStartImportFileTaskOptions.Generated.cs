@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("migrationhubstrategy", "start-import-file-task")]
-public record AwsMigrationhubstrategyStartImportFileTaskOptions : AwsOptions
+public record AwsMigrationhubstrategyStartImportFileTaskOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts a file import. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="S3Bucket">The S3 bucket where the import file is located. The bucket name is required to begin with migrationhub-strategy- . Constraints: o min: 0 o max: 63 o pattern: [0-9a-z]+[0-9a-z\.\-]*[0-9a-z]+</param>
+    /// <param name="Name">A descriptive name for the request. Constraints: o min: 1 o max: 50 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="S3key">The Amazon S3 key name of the import file. Constraints: o min: 0 o max: 1024 o pattern: .*\S.*</param>
+    public AwsMigrationhubstrategyStartImportFileTaskOptions(
+        string S3Bucket,
+        string Name,
+        string S3key
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(S3Bucket);
+        this.S3Bucket = S3Bucket;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(S3key);
+        this.S3key = S3key;
+    }
+
+    private AwsMigrationhubstrategyStartImportFileTaskOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMigrationhubstrategyStartImportFileTaskOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMigrationhubstrategyStartImportFileTaskOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The S3 bucket where the import file is located. The bucket name is required to begin with migrationhub-strategy- . Constraints: o min: 0 o max: 63 o pattern: [0-9a-z]+[0-9a-z\.\-]*[0-9a-z]+
+    /// </summary>
     [CliOption("--s3-bucket")]
-    public string? S3Bucket { get; set; }
+    public string? S3Bucket { get; private init; }
+
+    /// <summary>
+    /// A descriptive name for the request. Constraints: o min: 1 o max: 50 o pattern: [a-zA-Z0-9_-]+
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The Amazon S3 key name of the import file. Constraints: o min: 0 o max: 1024 o pattern: .*\S.*
+    /// </summary>
+    [CliOption("--s3key")]
+    public string? S3key { get; private init; }
 
     /// <summary>
     /// Specifies the source that the servers are coming from. By default, Strategy Recommendations assumes that the servers specified in the import file are available in AWS Application Discovery Service. Possible values: o ApplicationDiscoveryService o MPA o Import o StrategyRecommendationsApplicationDataCollector
@@ -37,22 +94,33 @@ public record AwsMigrationhubstrategyStartImportFileTaskOptions : AwsOptions
     [CliOption("--group-id", GroupValues = true)]
     public IEnumerable<string>? GroupId { get; set; }
 
-    [CliOption("--name")]
-    public string? Name { get; set; }
-
     /// <summary>
     /// The S3 bucket where Strategy Recommendations uploads import results. The bucket name is required to begin with migrationhub-strategy-. Constraints: o min: 0 o max: 63 o pattern: [0-9a-z]+[0-9a-z\.\-]*[0-9a-z]+
     /// </summary>
     [CliOption("--s3bucket-for-report-data")]
     public string? S3bucketForReportData { get; set; }
 
-    [CliOption("--s3key")]
-    public string? S3key { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

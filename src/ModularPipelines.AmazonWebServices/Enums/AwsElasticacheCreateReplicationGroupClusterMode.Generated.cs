@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --clustermode.
+/// Allowed values for --cluster-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsElasticacheCreateReplicationGroupClusterMode
 {
-    [EnumValue("enabled")]
-    Enabled = 1,
+    [EnumValue("compatible")]
+    Compatible,
 
     [EnumValue("disabled")]
-    Disabled = 2,
+    Disabled,
 
-    [EnumValue("compatible")]
-    Compatible = 3
+    [EnumValue("enabled")]
+    Enabled
 }

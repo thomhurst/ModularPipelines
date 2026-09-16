@@ -11,26 +11,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --sourcetype.
+/// Allowed values for --source-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsMemorydbDescribeEventsSourceType
 {
-    [EnumValue("node")]
-    Node = 1,
-
-    [EnumValue("parameter-group")]
-    ParameterGroup = 2,
-
-    [EnumValue("subnet-group")]
-    SubnetGroup = 3,
+    [EnumValue("acl")]
+    Acl,
 
     [EnumValue("cluster")]
-    Cluster = 4,
+    Cluster,
+
+    [EnumValue("node")]
+    Node,
+
+    [EnumValue("parameter-group")]
+    ParameterGroup,
+
+    [EnumValue("subnet-group")]
+    SubnetGroup,
 
     [EnumValue("user")]
-    User = 5,
-
-    [EnumValue("acl")]
-    Acl = 6
+    User
 }

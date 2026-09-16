@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("support-app", "put-account-alias")]
-public record AwsSupportAppPutAccountAliasOptions : AwsOptions
+public record AwsSupportAppPutAccountAliasOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates or updates an individual alias for each Amazon Web Services ac- count ID. The alias appears in the Amazon Web Services Support App page of the Amazon Web Services Support Center. The alias also appears in Slack messages from the Amazon Web Services Support App. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AccountAlias">An alias or short name for an Amazon Web Services account. Constraints: o min: 1 o max: 30 o pattern: ^[\w\- ]+$</param>
+    public AwsSupportAppPutAccountAliasOptions(
+        string AccountAlias
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountAlias);
+        this.AccountAlias = AccountAlias;
+    }
+
+    private AwsSupportAppPutAccountAliasOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSupportAppPutAccountAliasOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSupportAppPutAccountAliasOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// An alias or short name for an Amazon Web Services account. Constraints: o min: 1 o max: 30 o pattern: ^[\w\- ]+$
+    /// </summary>
     [CliOption("--account-alias")]
-    public string? AccountAlias { get; set; }
+    public string? AccountAlias { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

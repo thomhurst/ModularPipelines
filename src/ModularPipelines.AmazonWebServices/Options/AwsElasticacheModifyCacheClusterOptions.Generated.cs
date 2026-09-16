@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elasticache", "modify-cache-cluster")]
-public record AwsElasticacheModifyCacheClusterOptions : AwsOptions
+public record AwsElasticacheModifyCacheClusterOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies the settings for a cluster. You can use this operation to change one or more cluster configuration parameters by specifying the parameters and the new values. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CacheClusterId">The cluster identifier. This value is stored as a lowercase string.</param>
+    public AwsElasticacheModifyCacheClusterOptions(
+        string CacheClusterId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CacheClusterId);
+        this.CacheClusterId = CacheClusterId;
+    }
+
+    private AwsElasticacheModifyCacheClusterOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElasticacheModifyCacheClusterOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElasticacheModifyCacheClusterOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The cluster identifier. This value is stored as a lowercase string.
+    /// </summary>
     [CliOption("--cache-cluster-id")]
-    public string? CacheClusterId { get; set; }
+    public string? CacheClusterId { get; private init; }
 
     /// <summary>
     /// The number of cache nodes that the cluster should have. If the value for NumCacheNodes is greater than the sum of the number of current cache nodes and the number of cache nodes pending creation (which may be zero), more nodes are added. If the value is less than the number of existing cache nodes, nodes are removed. If the value is equal to the number of current cache nodes, any pending add or re- move requests are canceled. If you are removing cache nodes, you must use the CacheNodeIdsToRe- move parameter to provide the IDs of the specific cache nodes to re- move. For clusters running Valkey or Redis OSS, this value must be 1. For clusters running Memcached, this value must be between 1 and 40. NOTE: Adding or removing Memcached cache nodes can be applied immedi- ately or as a pending operation (see ApplyImmediately ). A pending operation to modify the number of cache nodes in a cluster during its maintenance window, whether by adding or re- moving nodes in accordance with the scale out architecture, is not queued. The customer's latest request to add or remove nodes to the cluster overrides any previous pending operations to mod- ify the number of cache nodes in the cluster. For example, a re- quest to remove 2 nodes would override a previous pending opera- tion to remove 3 nodes. Similarly, a request to add 2 nodes would override a previous pending operation to remove 3 nodes and vice versa. As Memcached cache nodes may now be provisioned in different Availability Zones with flexible cache node place- ment, a request to add nodes does not automatically override a previous pending operation to add nodes. The customer can modify the previous pending operation to add more nodes or explicitly cancel the pending request and retry the new request. To cancel pending operations to modify the number of cache nodes in a cluster, use the ModifyCacheCluster request and set NumCacheN- odes equal to the number of cache nodes currently in the clus- ter.
@@ -86,7 +123,10 @@ public record AwsElasticacheModifyCacheClusterOptions : AwsOptions
     [CliOption("--notification-topic-status")]
     public string? NotificationTopicStatus { get; set; }
 
-    [CliFlag("--apply-immediately")]
+    /// <summary>
+    /// If true , this parameter causes the modifications in this request and any pending modifications to be applied, asynchronously and as soon as possible, regardless of the PreferredMaintenanceWindow set- ting for the cluster. If false , changes to the cluster are applied on the next mainte- nance reboot, or the next failure reboot, whichever occurs first. WARNING: If you perform a ModifyCacheCluster before a pending modifica- tion is applied, the pending modification is replaced by the newer modification. However, a pending node-count increase on Memcached clusters cannot be superseded by a request to add fewer nodes. To change a pending node addition, first cancel it by setting NumCacheNodes equal to the current number of nodes in the cluster, then submit the new request. See the NumCacheNodes parameter for details on node scaling behavior. Valid values: true | false Default: false
+    /// </summary>
+    [CliFlag("--apply-immediately", NegatedName = "--no-apply-immediately")]
     public bool? ApplyImmediately { get; set; }
 
     /// <summary>
@@ -101,7 +141,10 @@ public record AwsElasticacheModifyCacheClusterOptions : AwsOptions
     [CliOption("--engine-version")]
     public string? EngineVersion { get; set; }
 
-    [CliFlag("--auto-minor-version-upgrade")]
+    /// <summary>
+    /// If you are running Valkey 7.2 or Redis OSS engine version 6.0 or later, set this parameter to yes to opt-in to the next auto minor version upgrade campaign. This parameter is disabled for previous versions.
+    /// </summary>
+    [CliFlag("--auto-minor-version-upgrade", NegatedName = "--no-auto-minor-version-upgrade")]
     public bool? AutoMinorVersionUpgrade { get; set; }
 
     /// <summary>
@@ -132,7 +175,6 @@ public record AwsElasticacheModifyCacheClusterOptions : AwsOptions
     /// <summary>
     /// Specifies the strategy to use to update the AUTH token. This parame- ter must be specified with the auth-token parameter. Possible val- ues: o ROTATE - default, if no update strategy is provided o SET - allowed only after ROTATE o DELETE - allowed only when transitioning to RBAC For more information, see Authenticating Users with AUTH Possible values: o SET o ROTATE o DELETE
     /// </summary>
-    [SecretValue]
     [CliOption("--auth-token-update-strategy")]
     public AwsElasticacheModifyCacheClusterAuthTokenUpdateStrategy? AuthTokenUpdateStrategy { get; set; }
 
@@ -159,5 +201,22 @@ public record AwsElasticacheModifyCacheClusterOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

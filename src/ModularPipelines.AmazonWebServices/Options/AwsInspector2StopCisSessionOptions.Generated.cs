@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,22 +21,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("inspector2", "stop-cis-session")]
-public record AwsInspector2StopCisSessionOptions : AwsOptions
+public record AwsInspector2StopCisSessionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--scan-job-id")]
-    public string? ScanJobId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Stops a CIS session. This API is used by the Amazon Inspector SSM plu- gin to communicate with the Amazon Inspector service. The Amazon In- spector SSM plugin calls this API to stop a CIS scan session for the scan ID supplied by the service. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ScanJobId">A unique identifier for the scan job. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="SessionToken">The unique token that identifies the CIS session. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="Message">The stop CIS session message. status -&gt; (string) [required] The status of the message. Possible values: o SUCCESS o FAILED o INTERRUPTED o UNSUPPORTED_OS reason -&gt; (string) The reason for the message. Constraints: o min: 0 o max: 1024 progress -&gt; (structure) [required] The progress of the message. totalChecks -&gt; (integer) The progress' total checks. Constraints: o min: 0 o max: 65536 successfulChecks -&gt; (integer) The progress' successful checks. Constraints: o min: 0 o max: 65536 failedChecks -&gt; (integer) The progress' failed checks. Constraints: o min: 0 o max: 65536 notEvaluatedChecks -&gt; (integer) The progress' not evaluated checks. Constraints: o min: 0 o max: 65536 unknownChecks -&gt; (integer) The progress' unknown checks. Constraints: o min: 0 o max: 65536 notApplicableChecks -&gt; (integer) The progress' not applicable checks. Constraints: o min: 0 o max: 65536 informationalChecks -&gt; (integer) The progress' informational checks. Constraints: o min: 0 o max: 65536 errorChecks -&gt; (integer) The progress' error checks. Constraints: o min: 0 o max: 65536 computePlatform -&gt; (structure) The message compute platform. vendor -&gt; (string) The compute platform vendor. Constraints: o min: 0 o max: 16 product -&gt; (string) The compute platform product. Constraints: o min: 0 o max: 32 version -&gt; (string) The compute platform version. Constraints: o min: 0 o max: 8 benchmarkVersion -&gt; (string) The message benchmark version. Constraints: o min: 0 o max: 8 benchmarkProfile -&gt; (string) The message benchmark profile. Constraints: o min: 0 o max: 128 Shorthand Syntax: status=string,reason=string,progress={totalChecks=integer,successfulChecks=integer,failedChecks=integer,notEvaluatedChecks=integer,unknownChecks=integer,notApplicableChecks=integer,informationalChecks=integer,errorChecks=integer},computePlatform={vendor=string,product=string,version=string},benchmarkVersion=string,benchmarkProfile=string JSON Syntax: { "status": "SUCCESS"|"FAILED"|"INTERRUPTED"|"UNSUPPORTED_OS", "reason": "string", "progress": { "totalChecks": integer, "successfulChecks": integer, "failedChecks": integer, "notEvaluatedChecks": integer, "unknownChecks": integer, "notApplicableChecks": integer, "informationalChecks": integer, "errorChecks": integer }, "computePlatform": { "vendor": "string", "product": "string", "version": "string" }, "benchmarkVersion": "string", "benchmarkProfile": "string" }</param>
+    public AwsInspector2StopCisSessionOptions(
+        string ScanJobId,
+        string SessionToken,
+        string Message
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ScanJobId);
+        this.ScanJobId = ScanJobId;
+        global::System.ArgumentNullException.ThrowIfNull(SessionToken);
+        this.SessionToken = SessionToken;
+        global::System.ArgumentNullException.ThrowIfNull(Message);
+        this.Message = Message;
+    }
+
+    private AwsInspector2StopCisSessionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsInspector2StopCisSessionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsInspector2StopCisSessionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier for the scan job. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// </summary>
+    [CliOption("--scan-job-id")]
+    public string? ScanJobId { get; private init; }
+
+    /// <summary>
+    /// The unique token that identifies the CIS session. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// </summary>
     [SecretValue]
     [CliOption("--session-token")]
-    public string? SessionToken { get; set; }
+    public string? SessionToken { get; private init; }
 
+    /// <summary>
+    /// The stop CIS session message. status -&gt; (string) [required] The status of the message. Possible values: o SUCCESS o FAILED o INTERRUPTED o UNSUPPORTED_OS reason -&gt; (string) The reason for the message. Constraints: o min: 0 o max: 1024 progress -&gt; (structure) [required] The progress of the message. totalChecks -&gt; (integer) The progress' total checks. Constraints: o min: 0 o max: 65536 successfulChecks -&gt; (integer) The progress' successful checks. Constraints: o min: 0 o max: 65536 failedChecks -&gt; (integer) The progress' failed checks. Constraints: o min: 0 o max: 65536 notEvaluatedChecks -&gt; (integer) The progress' not evaluated checks. Constraints: o min: 0 o max: 65536 unknownChecks -&gt; (integer) The progress' unknown checks. Constraints: o min: 0 o max: 65536 notApplicableChecks -&gt; (integer) The progress' not applicable checks. Constraints: o min: 0 o max: 65536 informationalChecks -&gt; (integer) The progress' informational checks. Constraints: o min: 0 o max: 65536 errorChecks -&gt; (integer) The progress' error checks. Constraints: o min: 0 o max: 65536 computePlatform -&gt; (structure) The message compute platform. vendor -&gt; (string) The compute platform vendor. Constraints: o min: 0 o max: 16 product -&gt; (string) The compute platform product. Constraints: o min: 0 o max: 32 version -&gt; (string) The compute platform version. Constraints: o min: 0 o max: 8 benchmarkVersion -&gt; (string) The message benchmark version. Constraints: o min: 0 o max: 8 benchmarkProfile -&gt; (string) The message benchmark profile. Constraints: o min: 0 o max: 128 Shorthand Syntax: status=string,reason=string,progress={totalChecks=integer,successfulChecks=integer,failedChecks=integer,notEvaluatedChecks=integer,unknownChecks=integer,notApplicableChecks=integer,informationalChecks=integer,errorChecks=integer},computePlatform={vendor=string,product=string,version=string},benchmarkVersion=string,benchmarkProfile=string JSON Syntax: { "status": "SUCCESS"|"FAILED"|"INTERRUPTED"|"UNSUPPORTED_OS", "reason": "string", "progress": { "totalChecks": integer, "successfulChecks": integer, "failedChecks": integer, "notEvaluatedChecks": integer, "unknownChecks": integer, "notApplicableChecks": integer, "informationalChecks": integer, "errorChecks": integer }, "computePlatform": { "vendor": "string", "product": "string", "version": "string" }, "benchmarkVersion": "string", "benchmarkProfile": "string" }
+    /// </summary>
     [CliOption("--message")]
-    public string? Message { get; set; }
+    public string? Message { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

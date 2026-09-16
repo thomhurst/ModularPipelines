@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --approvalmode.
+/// Allowed values for --approval-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsPricingPlanManagerCreateSubscriptionApprovalMode
 {
-    [EnumValue("MANUAL")]
-    Manual = 1,
-
     [EnumValue("IMMEDIATE")]
-    Immediate = 2
+    Immediate,
+
+    [EnumValue("MANUAL")]
+    Manual
 }

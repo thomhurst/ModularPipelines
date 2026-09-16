@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("artifact", "get-report")]
-public record AwsArtifactGetReportOptions : AwsOptions
+public record AwsArtifactGetReportOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Get the content for a single report. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ReportId">Unique resource ID for the report resource. Constraints: o pattern: report-[a-zA-Z0-9]{16}</param>
+    /// <param name="TermToken">Unique download token provided by GetTermForReport API. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_\-\s]*</param>
+    public AwsArtifactGetReportOptions(
+        string ReportId,
+        string TermToken
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReportId);
+        this.ReportId = ReportId;
+        global::System.ArgumentNullException.ThrowIfNull(TermToken);
+        this.TermToken = TermToken;
+    }
+
+    private AwsArtifactGetReportOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsArtifactGetReportOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsArtifactGetReportOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Unique resource ID for the report resource. Constraints: o pattern: report-[a-zA-Z0-9]{16}
+    /// </summary>
     [CliOption("--report-id")]
-    public string? ReportId { get; set; }
+    public string? ReportId { get; private init; }
+
+    /// <summary>
+    /// Unique download token provided by GetTermForReport API. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_\-\s]*
+    /// </summary>
+    [SecretValue]
+    [CliOption("--term-token")]
+    public string? TermToken { get; private init; }
 
     /// <summary>
     /// Version for the report resource. Constraints: o min: 1
@@ -31,14 +79,27 @@ public record AwsArtifactGetReportOptions : AwsOptions
     [CliOption("--report-version")]
     public int? ReportVersion { get; set; }
 
-    [SecretValue]
-    [CliOption("--term-token")]
-    public string? TermToken { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

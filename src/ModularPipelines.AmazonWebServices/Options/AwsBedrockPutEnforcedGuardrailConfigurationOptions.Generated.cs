@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,74 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock", "put-enforced-guardrail-configuration")]
-public record AwsBedrockPutEnforcedGuardrailConfigurationOptions : AwsOptions
+public record AwsBedrockPutEnforcedGuardrailConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Sets the account-level enforced guardrail configuration. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="GuardrailInferenceConfig">Account-level enforced guardrail input configuration. guardrailIdentifier -&gt; (string) [required] Identifier for the guardrail, could be the ID or the ARN. Constraints: o min: 0 o max: 2048 o pattern: (([a-z0-9]+)|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:guardrail/[a-z0-9]+)) guardrailVersion -&gt; (string) [required] Numerical guardrail version. Constraints: o pattern: [1-9][0-9]{0,7} selectiveContentGuarding -&gt; (structure) Selective content guarding controls for enforced guardrails. system -&gt; (string) Selective guarding mode for system prompts." Possible values: o SELECTIVE o COMPREHENSIVE messages -&gt; (string) Selective guarding mode for user messages. Possible values: o SELECTIVE o COMPREHENSIVE modelEnforcement -&gt; (structure) Model-specific information for the enforced guardrail configura- tion. If not present, the configuration is enforced on all mod- els includedModels -&gt; (list) [required] Models to enforce the guardrail on. Constraints: o min: 1 (string) Constraints: o pattern: (ALL|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12}){0,1}) excludedModels -&gt; (list) [required] Models to exclude from enforcement of the guardrail. Constraints: o min: 0 (string) Constraints: o pattern: ([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12}){0,1} Shorthand Syntax: guardrailIdentifier=string,guardrailVersion=string,selectiveContentGuarding={system=string,messages=string},modelEnforcement={includedModels=[string,string],excludedModels=[string,string]} JSON Syntax: { "guardrailIdentifier": "string", "guardrailVersion": "string", "selectiveContentGuarding": { "system": "SELECTIVE"|"COMPREHENSIVE", "messages": "SELECTIVE"|"COMPREHENSIVE" }, "modelEnforcement": { "includedModels": ["string", ...], "excludedModels": ["string", ...] } }</param>
+    public AwsBedrockPutEnforcedGuardrailConfigurationOptions(
+        string GuardrailInferenceConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GuardrailInferenceConfig);
+        this.GuardrailInferenceConfig = GuardrailInferenceConfig;
+    }
+
+    private AwsBedrockPutEnforcedGuardrailConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockPutEnforcedGuardrailConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockPutEnforcedGuardrailConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Account-level enforced guardrail input configuration. guardrailIdentifier -&gt; (string) [required] Identifier for the guardrail, could be the ID or the ARN. Constraints: o min: 0 o max: 2048 o pattern: (([a-z0-9]+)|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:guardrail/[a-z0-9]+)) guardrailVersion -&gt; (string) [required] Numerical guardrail version. Constraints: o pattern: [1-9][0-9]{0,7} selectiveContentGuarding -&gt; (structure) Selective content guarding controls for enforced guardrails. system -&gt; (string) Selective guarding mode for system prompts." Possible values: o SELECTIVE o COMPREHENSIVE messages -&gt; (string) Selective guarding mode for user messages. Possible values: o SELECTIVE o COMPREHENSIVE modelEnforcement -&gt; (structure) Model-specific information for the enforced guardrail configura- tion. If not present, the configuration is enforced on all mod- els includedModels -&gt; (list) [required] Models to enforce the guardrail on. Constraints: o min: 1 (string) Constraints: o pattern: (ALL|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12}){0,1}) excludedModels -&gt; (list) [required] Models to exclude from enforcement of the guardrail. Constraints: o min: 0 (string) Constraints: o pattern: ([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12}){0,1} Shorthand Syntax: guardrailIdentifier=string,guardrailVersion=string,selectiveContentGuarding={system=string,messages=string},modelEnforcement={includedModels=[string,string],excludedModels=[string,string]} JSON Syntax: { "guardrailIdentifier": "string", "guardrailVersion": "string", "selectiveContentGuarding": { "system": "SELECTIVE"|"COMPREHENSIVE", "messages": "SELECTIVE"|"COMPREHENSIVE" }, "modelEnforcement": { "includedModels": ["string", ...], "excludedModels": ["string", ...] } }
+    /// </summary>
+    [CliOption("--guardrail-inference-config")]
+    public string? GuardrailInferenceConfig { get; private init; }
+
     /// <summary>
     /// Unique ID for the account enforced configuration. Constraints: o pattern: [a-z0-9]+
     /// </summary>
     [CliOption("--config-id")]
     public string? ConfigId { get; set; }
 
-    [CliOption("--guardrail-inference-config")]
-    public string? GuardrailInferenceConfig { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

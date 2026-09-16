@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore", "batch-delete-memory-records")]
-public record AwsBedrockAgentcoreBatchDeleteMemoryRecordsOptions : AwsOptions
+public record AwsBedrockAgentcoreBatchDeleteMemoryRecordsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--memory-id")]
-    public string? MemoryId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deletes multiple memory records in a single batch operation from the specified memory. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="MemoryId">The unique ID of the memory resource where records will be deleted. Constraints: o min: 12 o pattern: (arn:(aws|aws-cn|aws-us-gov):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:mem- ory/)?[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}</param>
+    /// <param name="Records">A list of memory record deletion inputs to be processed in the batch operation. Constraints: o min: 0 o max: 100 (structure) Input structure to delete an existing memory record. memoryRecordId -&gt; (string) [required] The unique ID of the memory record to be deleted. Constraints: o min: 40 o max: 50 o pattern: mem-[a-zA-Z0-9-_]* namespace -&gt; (string) The namespace of the memory record being deleted. This value is used for IAM condition key authorization. Constraints: o min: 1 o max: 1024 o pattern: [a-zA-Z0-9/*][a-zA-Z0-9-_/*]*(?::[a-zA-Z0-9-_/*]+)*[a-zA-Z0-9-_/*]* Shorthand Syntax: memoryRecordId=string,namespace=string ... JSON Syntax: [ { "memoryRecordId": "string", "namespace": "string" } ... ]</param>
+    public AwsBedrockAgentcoreBatchDeleteMemoryRecordsOptions(
+        string MemoryId,
+        IEnumerable<string> Records
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MemoryId);
+        this.MemoryId = MemoryId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Records);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Records));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Records));
+            }
+
+            Records = materialized;
+        }
+        this.Records = Records;
+    }
+
+    private AwsBedrockAgentcoreBatchDeleteMemoryRecordsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreBatchDeleteMemoryRecordsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreBatchDeleteMemoryRecordsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique ID of the memory resource where records will be deleted. Constraints: o min: 12 o pattern: (arn:(aws|aws-cn|aws-us-gov):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:mem- ory/)?[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}
+    /// </summary>
+    [CliOption("--memory-id")]
+    public string? MemoryId { get; private init; }
+
+    /// <summary>
+    /// A list of memory record deletion inputs to be processed in the batch operation. Constraints: o min: 0 o max: 100 (structure) Input structure to delete an existing memory record. memoryRecordId -&gt; (string) [required] The unique ID of the memory record to be deleted. Constraints: o min: 40 o max: 50 o pattern: mem-[a-zA-Z0-9-_]* namespace -&gt; (string) The namespace of the memory record being deleted. This value is used for IAM condition key authorization. Constraints: o min: 1 o max: 1024 o pattern: [a-zA-Z0-9/*][a-zA-Z0-9-_/*]*(?::[a-zA-Z0-9-_/*]+)*[a-zA-Z0-9-_/*]* Shorthand Syntax: memoryRecordId=string,namespace=string ... JSON Syntax: [ { "memoryRecordId": "string", "namespace": "string" } ... ]
+    /// </summary>
     [CliOption("--records", GroupValues = true)]
-    public IEnumerable<string>? Records { get; set; }
+    public IEnumerable<string>? Records { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

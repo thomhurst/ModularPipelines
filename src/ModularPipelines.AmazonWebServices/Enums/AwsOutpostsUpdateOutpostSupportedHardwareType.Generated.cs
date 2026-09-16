@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --supportedhardwaretype.
+/// Allowed values for --supported-hardware-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsOutpostsUpdateOutpostSupportedHardwareType
 {
     [EnumValue("RACK")]
-    Rack = 1,
+    Rack,
 
     [EnumValue("SERVER")]
-    Server = 2
+    Server
 }

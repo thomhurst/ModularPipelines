@@ -27,7 +27,7 @@ public record AwsBedrockListAdvancedPromptOptimizationJobsOptions : AwsOptions
     /// The field to sort the results by. Possible values: o CreationTime
     /// </summary>
     [CliOption("--sort-by")]
-    public AwsBedrockListAdvancedPromptOptimizationJobsSortBy? SortBy { get; set; }
+    public string? SortBy { get; set; }
 
     /// <summary>
     /// The sort order for the results. Possible values: o Ascending o Descending

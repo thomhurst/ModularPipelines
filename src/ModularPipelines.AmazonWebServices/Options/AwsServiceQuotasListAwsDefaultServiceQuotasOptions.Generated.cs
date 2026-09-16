@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("service-quotas", "list-aws-default-service-quotas")]
-public record AwsServiceQuotasListAwsDefaultServiceQuotasOptions : AwsOptions
+public record AwsServiceQuotasListAwsDefaultServiceQuotasOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists the default values for the quotas for the specified Amazon Web Services service. A default value does not reflect any quota increases. See also: AWS API Documentation list-aws-default-service-quotas is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract da...
+    /// </summary>
+    /// <param name="ServiceCode">Specifies the service identifier. To find the service code value for an Amazon Web Services service, use the ListServices operation. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z][a-zA-Z0-9-]{1,63}</param>
+    public AwsServiceQuotasListAwsDefaultServiceQuotasOptions(
+        string ServiceCode
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceCode);
+        this.ServiceCode = ServiceCode;
+    }
+
+    private AwsServiceQuotasListAwsDefaultServiceQuotasOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsServiceQuotasListAwsDefaultServiceQuotasOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsServiceQuotasListAwsDefaultServiceQuotasOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the service identifier. To find the service code value for an Amazon Web Services service, use the ListServices operation. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z][a-zA-Z0-9-]{1,63}
+    /// </summary>
     [CliOption("--service-code")]
-    public string? ServiceCode { get; set; }
+    public string? ServiceCode { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -49,5 +86,22 @@ public record AwsServiceQuotasListAwsDefaultServiceQuotasOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

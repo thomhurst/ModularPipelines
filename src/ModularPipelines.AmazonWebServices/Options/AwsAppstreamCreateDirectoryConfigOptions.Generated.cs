@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appstream", "create-directory-config")]
-public record AwsAppstreamCreateDirectoryConfigOptions : AwsOptions
+public record AwsAppstreamCreateDirectoryConfigOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--directory-name")]
-    public string? DirectoryName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a Directory Config object in WorkSpaces Applications. This ob- ject includes the configuration information required to join fleets and image builders to Microsoft Active Directory domains. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DirectoryName">The fully qualified name of the directory (for example, corp.exam- ple.com).</param>
+    /// <param name="OrganizationalUnitDistinguishedNames">The distinguished names of the organizational units for computer ac- counts. (string) Constraints: o max: 2000 Syntax: "string" "string" ...</param>
+    public AwsAppstreamCreateDirectoryConfigOptions(
+        string DirectoryName,
+        IEnumerable<string> OrganizationalUnitDistinguishedNames
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DirectoryName);
+        this.DirectoryName = DirectoryName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(OrganizationalUnitDistinguishedNames);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(OrganizationalUnitDistinguishedNames));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(OrganizationalUnitDistinguishedNames));
+            }
+
+            OrganizationalUnitDistinguishedNames = materialized;
+        }
+        this.OrganizationalUnitDistinguishedNames = OrganizationalUnitDistinguishedNames;
+    }
+
+    private AwsAppstreamCreateDirectoryConfigOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppstreamCreateDirectoryConfigOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppstreamCreateDirectoryConfigOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The fully qualified name of the directory (for example, corp.exam- ple.com).
+    /// </summary>
+    [CliOption("--directory-name")]
+    public string? DirectoryName { get; private init; }
+
+    /// <summary>
+    /// The distinguished names of the organizational units for computer ac- counts. (string) Constraints: o max: 2000 Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--organizational-unit-distinguished-names", GroupValues = true)]
-    public IEnumerable<string>? OrganizationalUnitDistinguishedNames { get; set; }
+    public IEnumerable<string>? OrganizationalUnitDistinguishedNames { get; private init; }
 
     /// <summary>
     /// The credentials for the service account used by the fleet or image builder to connect to the directory. AccountName -&gt; (string) [required] The user name of the account. This account must have the follow- ing privileges: create computer objects, join computers to the domain, and change/reset the password on descendant computer ob- jects for the organizational units specified. Constraints: o min: 1 AccountPassword -&gt; (string) [required] The password for the account. Constraints: o min: 1 o max: 127 Shorthand Syntax: AccountName=string,AccountPassword=string JSON Syntax: { "AccountName": "string", "AccountPassword": "string" }
@@ -46,5 +101,22 @@ public record AwsAppstreamCreateDirectoryConfigOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

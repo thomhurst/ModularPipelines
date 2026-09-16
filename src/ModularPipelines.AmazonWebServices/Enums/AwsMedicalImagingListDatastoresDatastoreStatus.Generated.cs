@@ -11,23 +11,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --datastorestatus.
+/// Allowed values for --datastore-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsMedicalImagingListDatastoresDatastoreStatus
 {
-    [EnumValue("CREATING")]
-    Creating = 1,
+    [EnumValue("ACTIVE")]
+    Active,
 
     [EnumValue("CREATE_FAILED")]
-    CreateFailed = 2,
+    CreateFailed,
 
-    [EnumValue("ACTIVE")]
-    Active = 3,
-
-    [EnumValue("DELETING")]
-    Deleting = 4,
+    [EnumValue("CREATING")]
+    Creating,
 
     [EnumValue("DELETED")]
-    Deleted = 5
+    Deleted,
+
+    [EnumValue("DELETING")]
+    Deleting
 }

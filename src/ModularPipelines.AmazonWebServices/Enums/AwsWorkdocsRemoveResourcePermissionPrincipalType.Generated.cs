@@ -11,23 +11,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --principaltype.
+/// Allowed values for --principal-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsWorkdocsRemoveResourcePermissionPrincipalType
 {
-    [EnumValue("USER")]
-    User = 1,
+    [EnumValue("ANONYMOUS")]
+    Anonymous,
 
     [EnumValue("GROUP")]
-    Group = 2,
+    Group,
 
     [EnumValue("INVITE")]
-    Invite = 3,
-
-    [EnumValue("ANONYMOUS")]
-    Anonymous = 4,
+    Invite,
 
     [EnumValue("ORGANIZATION")]
-    Organization = 5
+    Organization,
+
+    [EnumValue("USER")]
+    User
 }

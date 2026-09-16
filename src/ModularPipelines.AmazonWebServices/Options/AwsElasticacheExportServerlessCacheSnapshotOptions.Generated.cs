@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elasticache", "export-serverless-cache-snapshot")]
-public record AwsElasticacheExportServerlessCacheSnapshotOptions : AwsOptions
+public record AwsElasticacheExportServerlessCacheSnapshotOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--serverless-cache-snapshot-name")]
-    public string? ServerlessCacheSnapshotName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Provides the functionality to export the serverless cache snapshot data to Amazon S3. Available for Valkey and Redis OSS only. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ServerlessCacheSnapshotName">The identifier of the serverless cache snapshot to be exported to S3. Available for Valkey and Redis OSS only.</param>
+    /// <param name="S3BucketName">Name of the Amazon S3 bucket to export the snapshot to. The Amazon S3 bucket must also be in same region as the snapshot. Available for Valkey and Redis OSS only.</param>
+    public AwsElasticacheExportServerlessCacheSnapshotOptions(
+        string ServerlessCacheSnapshotName,
+        string S3BucketName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServerlessCacheSnapshotName);
+        this.ServerlessCacheSnapshotName = ServerlessCacheSnapshotName;
+        global::System.ArgumentNullException.ThrowIfNull(S3BucketName);
+        this.S3BucketName = S3BucketName;
+    }
+
+    private AwsElasticacheExportServerlessCacheSnapshotOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElasticacheExportServerlessCacheSnapshotOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElasticacheExportServerlessCacheSnapshotOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the serverless cache snapshot to be exported to S3. Available for Valkey and Redis OSS only.
+    /// </summary>
+    [CliOption("--serverless-cache-snapshot-name")]
+    public string? ServerlessCacheSnapshotName { get; private init; }
+
+    /// <summary>
+    /// Name of the Amazon S3 bucket to export the snapshot to. The Amazon S3 bucket must also be in same region as the snapshot. Available for Valkey and Redis OSS only.
+    /// </summary>
     [CliOption("--s3-bucket-name")]
-    public string? S3BucketName { get; set; }
+    public string? S3BucketName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

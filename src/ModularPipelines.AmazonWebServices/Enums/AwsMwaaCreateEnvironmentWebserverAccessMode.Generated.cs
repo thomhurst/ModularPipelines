@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --webserveraccessmode.
+/// Allowed values for --webserver-access-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsMwaaCreateEnvironmentWebserverAccessMode
 {
     [EnumValue("PRIVATE_ONLY")]
-    PrivateOnly = 1,
-
-    [EnumValue("PUBLIC_ONLY")]
-    PublicOnly = 2,
+    PrivateOnly,
 
     [EnumValue("PUBLIC_AND_PRIVATE")]
-    PublicAndPrivate = 3
+    PublicAndPrivate,
+
+    [EnumValue("PUBLIC_ONLY")]
+    PublicOnly
 }

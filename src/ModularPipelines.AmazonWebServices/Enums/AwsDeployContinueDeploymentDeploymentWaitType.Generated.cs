@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --deploymentwaittype.
+/// Allowed values for --deployment-wait-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDeployContinueDeploymentDeploymentWaitType
 {
     [EnumValue("READY_WAIT")]
-    ReadyWait = 1,
+    ReadyWait,
 
     [EnumValue("TERMINATION_WAIT")]
-    TerminationWait = 2
+    TerminationWait
 }

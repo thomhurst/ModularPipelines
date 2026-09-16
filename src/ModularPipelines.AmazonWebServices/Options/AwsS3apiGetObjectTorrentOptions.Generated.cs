@@ -10,7 +10,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -22,22 +21,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("s3api", "get-object-torrent")]
 public record AwsS3apiGetObjectTorrentOptions : AwsOptions
 {
-    [CliOption("--bucket")]
-    public string? Bucket { get; set; }
+    /// <summary>
+    /// NOTE: This operation is not supported for directory buckets. Returns torrent files from a bucket. BitTorrent can save you bandwidth when you're distributing large files. NOTE: You can get torrent only for objects that are less than 5 GB in size, and that are not encrypted using server-side encryption with a customer-provided encryption key. To use GET, you must have READ access to the object. This functionality is not supported for Amazon S3 on Outposts. The following action is related to GetObj...
+    /// </summary>
+    /// <param name="Bucket">The name of the bucket containing the object for which to get the torrent files.</param>
+    /// <param name="Key">The object key for which to get the information. Constraints: o min: 1</param>
+    /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
+    public AwsS3apiGetObjectTorrentOptions(
+        string Bucket,
+        string Key,
+        string Outfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Bucket);
+        this.Bucket = Bucket;
+        global::System.ArgumentNullException.ThrowIfNull(Key);
+        this.Key = Key;
+        global::System.ArgumentNullException.ThrowIfNull(Outfile);
+        this.Outfile = Outfile;
+    }
 
+    public void Deconstruct(out string Bucket, out string Key, out string Outfile)
+    {
+        Bucket = this.Bucket;
+        Key = this.Key;
+        Outfile = this.Outfile;
+    }
+
+    /// <summary>
+    /// The name of the bucket containing the object for which to get the torrent files.
+    /// </summary>
+    [CliOption("--bucket")]
+    public string Bucket { get; private init; }
+
+    /// <summary>
+    /// The object key for which to get the information. Constraints: o min: 1
+    /// </summary>
     [CliOption("--key")]
-    public string? Key { get; set; }
+    public string Key { get; private init; }
 
     /// <summary>
     /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their re- quests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buck- ets, see Downloading Objects in Requester Pays Buckets in the Amazon S3 User Guide . NOTE: This functionality is not supported for directory buckets. Possible values: o requester
     /// </summary>
     [CliOption("--request-payer")]
-    public AwsS3apiGetObjectTorrentRequestPayer? RequestPayer { get; set; }
+    public string? RequestPayer { get; set; }
 
     /// <summary>
     /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the re- quest fails with the HTTP status code 403 Forbidden (access denied). outfile (string) [required] Filename where the content will be saved
     /// </summary>
     [CliOption("--expected-bucket-owner")]
     public string? ExpectedBucketOwner { get; set; }
+
+    /// <summary>
+    /// The &lt;outfile&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Outfile { get; private init; }
 
 }

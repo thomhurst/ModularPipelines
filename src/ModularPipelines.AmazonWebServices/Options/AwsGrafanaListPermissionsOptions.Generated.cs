@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,8 +22,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("grafana", "list-permissions")]
-public record AwsGrafanaListPermissionsOptions : AwsOptions
+public record AwsGrafanaListPermissionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists the users and groups who have the Grafana Admin and Editor roles in this workspace. If you use this operation without specifying userId or groupId , the operation returns the roles of all users and groups. If you specify a userId or a groupId , only the roles for that user or group are returned. If you do this, you can specify only one userId or one groupId . See also: AWS API Documentation list-permissions is a paginated operation. Multiple API calls may be issued in order to retrieve the...
+    /// </summary>
+    /// <param name="WorkspaceId">The ID of the workspace to list permissions for. This parameter is required. Constraints: o pattern: g-[0-9a-f]{10}</param>
+    public AwsGrafanaListPermissionsOptions(
+        string WorkspaceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceId);
+        this.WorkspaceId = WorkspaceId;
+    }
+
+    private AwsGrafanaListPermissionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGrafanaListPermissionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGrafanaListPermissionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the workspace to list permissions for. This parameter is required. Constraints: o pattern: g-[0-9a-f]{10}
+    /// </summary>
+    [CliOption("--workspace-id")]
+    public string? WorkspaceId { get; private init; }
+
     /// <summary>
     /// (Optional) If you specify SSO_USER , then only the permissions of IAM Identity Center users are returned. If you specify SSO_GROUP , only the permissions of IAM Identity Center groups are returned. Possible values: o SSO_USER o SSO_GROUP
     /// </summary>
@@ -40,9 +80,6 @@ public record AwsGrafanaListPermissionsOptions : AwsOptions
     /// </summary>
     [CliOption("--group-id")]
     public string? GroupId { get; set; }
-
-    [CliOption("--workspace-id")]
-    public string? WorkspaceId { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -68,5 +105,22 @@ public record AwsGrafanaListPermissionsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --byscanresultstatus.
+/// Allowed values for --by-scan-result-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsBackupListScanJobsByScanResultStatus
 {
     [EnumValue("NO_THREATS_FOUND")]
-    NoThreatsFound = 1,
+    NoThreatsFound,
 
     [EnumValue("THREATS_FOUND")]
-    ThreatsFound = 2,
+    ThreatsFound,
 
     [EnumValue("UNKNOWN")]
-    Unknown = 3
+    Unknown
 }

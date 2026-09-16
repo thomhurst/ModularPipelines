@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --trackingserversize.
+/// Allowed values for --tracking-server-size.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSagemakerUpdateMlflowTrackingServerTrackingServerSize
 {
-    [EnumValue("Small")]
-    Small = 1,
+    [EnumValue("Large")]
+    Large,
 
     [EnumValue("Medium")]
-    Medium = 2,
+    Medium,
 
-    [EnumValue("Large")]
-    Large = 3
+    [EnumValue("Small")]
+    Small
 }

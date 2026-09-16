@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,16 +22,97 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cleanroomsml", "create-trained-model")]
-public record AwsCleanroomsmlCreateTrainedModelOptions : AwsOptions
+public record AwsCleanroomsmlCreateTrainedModelOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a trained model from an associated configured model algorithm using data from any member of the collaboration. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="MembershipIdentifier">The membership ID of the member that is creating the trained model. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="Name">The name of the trained model. Constraints: o min: 1 o max: 63 o pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]*</param>
+    /// <param name="ConfiguredModelAlgorithmAssociationArn">The associated configured model algorithm used to train this model. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:member- ship/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/con- figured-model-algorithm-association/[-a-zA-Z0-9_/.]+</param>
+    /// <param name="ResourceConfig">Information about the EC2 resources that are used to train this model. instanceCount -&gt; (integer) The number of resources that are used to train the model. Constraints: o min: 1 o max: 5 instanceType -&gt; (string) [required] The instance type that is used to train the model. Possible values: o ml.m4.xlarge o ml.m4.2xlarge o ml.m4.4xlarge o ml.m4.10xlarge o ml.m4.16xlarge o ml.g4dn.xlarge o ml.g4dn.2xlarge o ml.g4dn.4xlarge o ml.g4dn.8xlarge o ml.g4dn.12xlarge o ml.g4dn.16xlarge o ml.m5.large o ml.m5.xlarge o ml.m5.2xlarge o ml.m5.4xlarge o ml.m5.12xlarge o ml.m5.24xlarge o ml.c4.xlarge o ml.c4.2xlarge o ml.c4.4xlarge o ml.c4.8xlarge o ml.p2.xlarge o ml.p2.8xlarge o ml.p2.16xlarge o ml.p4d.24xlarge o ml.p4de.24xlarge o ml.p5.48xlarge o ml.c5.xlarge o ml.c5.2xlarge o ml.c5.4xlarge o ml.c5.9xlarge o ml.c5.18xlarge o ml.c5n.xlarge o ml.c5n.2xlarge o ml.c5n.4xlarge o ml.c5n.9xlarge o ml.c5n.18xlarge o ml.g5.xlarge o ml.g5.2xlarge o ml.g5.4xlarge o ml.g5.8xlarge o ml.g5.16xlarge o ml.g5.12xlarge o ml.g5.24xlarge o ml.g5.48xlarge o ml.trn1.2xlarge o ml.trn1.32xlarge o ml.trn1n.32xlarge o ml.m6i.large o ml.m6i.xlarge o ml.m6i.2xlarge o ml.m6i.4xlarge o ml.m6i.8xlarge o ml.m6i.12xlarge o ml.m6i.16xlarge o ml.m6i.24xlarge o ml.m6i.32xlarge o ml.c6i.xlarge o ml.c6i.2xlarge o ml.c6i.8xlarge o ml.c6i.4xlarge o ml.c6i.12xlarge o ml.c6i.16xlarge o ml.c6i.24xlarge o ml.c6i.32xlarge o ml.r5d.large o ml.r5d.xlarge o ml.r5d.2xlarge o ml.r5d.4xlarge o ml.r5d.8xlarge o ml.r5d.12xlarge o ml.r5d.16xlarge o ml.r5d.24xlarge o ml.t3.medium o ml.t3.large o ml.t3.xlarge o ml.t3.2xlarge o ml.r5.large o ml.r5.xlarge o ml.r5.2xlarge o ml.r5.4xlarge o ml.r5.8xlarge o ml.r5.12xlarge o ml.r5.16xlarge o ml.r5.24xlarge o ml.c7i.large o ml.c7i.xlarge o ml.c7i.2xlarge o ml.c7i.4xlarge o ml.c7i.8xlarge o ml.c7i.12xlarge o ml.c7i.16xlarge o ml.c7i.24xlarge o ml.c7i.48xlarge o ml.m7i.large o ml.m7i.xlarge o ml.m7i.2xlarge o ml.m7i.4xlarge o ml.m7i.8xlarge o ml.m7i.12xlarge o ml.m7i.16xlarge o ml.m7i.24xlarge o ml.m7i.48xlarge o ml.r7i.large o ml.r7i.xlarge o ml.r7i.2xlarge o ml.r7i.4xlarge o ml.r7i.8xlarge o ml.r7i.12xlarge o ml.r7i.16xlarge o ml.r7i.24xlarge o ml.r7i.48xlarge o ml.g6.xlarge o ml.g6.2xlarge o ml.g6.4xlarge o ml.g6.8xlarge o ml.g6.12xlarge o ml.g6.16xlarge o ml.g6.24xlarge o ml.g6.48xlarge o ml.g6e.xlarge o ml.g6e.2xlarge o ml.g6e.4xlarge o ml.g6e.8xlarge o ml.g6e.12xlarge o ml.g6e.16xlarge o ml.g6e.24xlarge o ml.g6e.48xlarge o ml.p5en.48xlarge o ml.p3.2xlarge o ml.p3.8xlarge o ml.p3.16xlarge o ml.p3dn.24xlarge volumeSizeInGB -&gt; (integer) [required] The volume size of the instance that is used to train the model. Please see EC2 volume limit for volume size limitations on dif- ferent instance types. Constraints: o min: 1 o max: 8192 Shorthand Syntax: instanceCount=integer,instanceType=string,volumeSizeInGB=integer JSON Syntax: { "instanceCount": integer, "instanceType": "ml.m4.xlarge"|"ml.m4.2xlarge"|"ml.m4.4xlarge"|"ml.m4.10xlarge"|"ml.m4.16xlarge"|"ml.g4dn.xlarge"|"ml.g4dn.2xlarge"|"ml.g4dn.4xlarge"|"ml.g4dn.8xlarge"|"ml.g4dn.12xlarge"|"ml.g4dn.16xlarge"|"ml.m5.large"|"ml.m5.xlarge"|"ml.m5.2xlarge"|"ml.m5.4xlarge"|"ml.m5.12xlarge"|"ml.m5.24xlarge"|"ml.c4.xlarge"|"ml.c4.2xlarge"|"ml.c4.4xlarge"|"ml.c4.8xlarge"|"ml.p2.xlarge"|"ml.p2.8xlarge"|"ml.p2.16xlarge"|"ml.p4d.24xlarge"|"ml.p4de.24xlarge"|"ml.p5.48xlarge"|"ml.c5.xlarge"|"ml.c5.2xlarge"|"ml.c5.4xlarge"|"ml.c5.9xlarge"|"ml.c5.18xlarge"|"ml.c5n.xlarge"|"ml.c5n.2xlarge"|"ml.c5n.4xlarge"|"ml.c5n.9xlarge"|"ml.c5n.18xlarge"|"ml.g5.xlarge"|"ml.g5.2xlarge"|"ml.g5.4xlarge"|"ml.g5.8xlarge"|"ml.g5.16xlarge"|"ml.g5.12xlarge"|"ml.g5.24xlarge"|"ml.g5.48xlarge"|"ml.trn1.2xlarge"|"ml.trn1.32xlarge"|"ml.trn1n.32xlarge"|"ml.m6i.large"|"ml.m6i.xlarge"|"ml.m6i.2xlarge"|"ml.m6i.4xlarge"|"ml.m6i.8xlarge"|"ml.m6i.12xlarge"|"ml.m6i.16xlarge"|"ml.m6i.24xlarge"|"ml.m6i.32xlarge"|"ml.c6i.xlarge"|"ml.c6i.2xlarge"|"ml.c6i.8xlarge"|"ml.c6i.4xlarge"|"ml.c6i.12xlarge"|"ml.c6i.16xlarge"|"ml.c6i.24xlarge"|"ml.c6i.32xlarge"|"ml.r5d.large"|"ml.r5d.xlarge"|"ml.r5d.2xlarge"|"ml.r5d.4xlarge"|"ml.r5d.8xlarge"|"ml.r5d.12xlarge"|"ml.r5d.16xlarge"|"ml.r5d.24xlarge"|"ml.t3.medium"|"ml.t3.large"|"ml.t3.xlarge"|"ml.t3.2xlarge"|"ml.r5.large"|"ml.r5.xlarge"|"ml.r5.2xlarge"|"ml.r5.4xlarge"|"ml.r5.8xlarge"|"ml.r5.12xlarge"|"ml.r5.16xlarge"|"ml.r5.24xlarge"|"ml.c7i.large"|"ml.c7i.xlarge"|"ml.c7i.2xlarge"|"ml.c7i.4xlarge"|"ml.c7i.8xlarge"|"ml.c7i.12xlarge"|"ml.c7i.16xlarge"|"ml.c7i.24xlarge"|"ml.c7i.48xlarge"|"ml.m7i.large"|"ml.m7i.xlarge"|"ml.m7i.2xlarge"|"ml.m7i.4xlarge"|"ml.m7i.8xlarge"|"ml.m7i.12xlarge"|"ml.m7i.16xlarge"|"ml.m7i.24xlarge"|"ml.m7i.48xlarge"|"ml.r7i.large"|"ml.r7i.xlarge"|"ml.r7i.2xlarge"|"ml.r7i.4xlarge"|"ml.r7i.8xlarge"|"ml.r7i.12xlarge"|"ml.r7i.16xlarge"|"ml.r7i.24xlarge"|"ml.r7i.48xlarge"|"ml.g6.xlarge"|"ml.g6.2xlarge"|"ml.g6.4xlarge"|"ml.g6.8xlarge"|"ml.g6.12xlarge"|"ml.g6.16xlarge"|"ml.g6.24xlarge"|"ml.g6.48xlarge"|"ml.g6e.xlarge"|"ml.g6e.2xlarge"|"ml.g6e.4xlarge"|"ml.g6e.8xlarge"|"ml.g6e.12xlarge"|"ml.g6e.16xlarge"|"ml.g6e.24xlarge"|"ml.g6e.48xlarge"|"ml.p5en.48xlarge"|"ml.p3.2xlarge"|"ml.p3.8xlarge"|"ml.p3.16xlarge"|"ml.p3dn.24xlarge", "volumeSizeInGB": integer }</param>
+    /// <param name="DataChannels">Defines the data channels that are used as input for the trained model request. Limit: Maximum of 20 channels total (including both dataChannels and incrementalTrainingDataChannels ). Constraints: o min: 1 o max: 20 (structure) Information about the model training data channel. A training data channel is a named data source that the training algorithms can consume. mlInputChannelArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the ML input channel for this model training data channel. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:clean- rooms-ml:[-a-z0-9]+:[0-9]{12}:member- ship/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/ml-in- put-channel/[-a-zA-Z0-9_/.]+ channelName -&gt; (string) [required] The name of the training data channel. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9\.\-_]+ s3DataDistributionType -&gt; (string) Specifies how the training data stored in Amazon S3 should be distributed to training instances. This parameter controls the data distribution strategy for the training job: o FullyReplicated - The entire dataset is replicated on each training instance. This is suitable for smaller datasets and algorithms that require access to the complete dataset. o ShardedByS3Key - The dataset is distributed across training instances based on Amazon S3 key names. This is suitable for larger datasets and distributed training scenarios where each instance processes a subset of the data. Possible values: o FullyReplicated o ShardedByS3Key Shorthand Syntax: mlInputChannelArn=string,channelName=string,s3DataDistributionType=string ... JSON Syntax: [ { "mlInputChannelArn": "string", "channelName": "string", "s3DataDistributionType": "FullyReplicated"|"ShardedByS3Key" } ... ]</param>
+    public AwsCleanroomsmlCreateTrainedModelOptions(
+        string MembershipIdentifier,
+        string Name,
+        string ConfiguredModelAlgorithmAssociationArn,
+        string ResourceConfig,
+        IEnumerable<string> DataChannels
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MembershipIdentifier);
+        this.MembershipIdentifier = MembershipIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ConfiguredModelAlgorithmAssociationArn);
+        this.ConfiguredModelAlgorithmAssociationArn = ConfiguredModelAlgorithmAssociationArn;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceConfig);
+        this.ResourceConfig = ResourceConfig;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(DataChannels);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(DataChannels));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(DataChannels));
+            }
+
+            DataChannels = materialized;
+        }
+        this.DataChannels = DataChannels;
+    }
+
+    private AwsCleanroomsmlCreateTrainedModelOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCleanroomsmlCreateTrainedModelOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCleanroomsmlCreateTrainedModelOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The membership ID of the member that is creating the trained model. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// </summary>
     [CliOption("--membership-identifier")]
-    public string? MembershipIdentifier { get; set; }
+    public string? MembershipIdentifier { get; private init; }
 
+    /// <summary>
+    /// The name of the trained model. Constraints: o min: 1 o max: 63 o pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]*
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The associated configured model algorithm used to train this model. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:member- ship/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/con- figured-model-algorithm-association/[-a-zA-Z0-9_/.]+
+    /// </summary>
     [CliOption("--configured-model-algorithm-association-arn")]
-    public string? ConfiguredModelAlgorithmAssociationArn { get; set; }
+    public string? ConfiguredModelAlgorithmAssociationArn { get; private init; }
+
+    /// <summary>
+    /// Information about the EC2 resources that are used to train this model. instanceCount -&gt; (integer) The number of resources that are used to train the model. Constraints: o min: 1 o max: 5 instanceType -&gt; (string) [required] The instance type that is used to train the model. Possible values: o ml.m4.xlarge o ml.m4.2xlarge o ml.m4.4xlarge o ml.m4.10xlarge o ml.m4.16xlarge o ml.g4dn.xlarge o ml.g4dn.2xlarge o ml.g4dn.4xlarge o ml.g4dn.8xlarge o ml.g4dn.12xlarge o ml.g4dn.16xlarge o ml.m5.large o ml.m5.xlarge o ml.m5.2xlarge o ml.m5.4xlarge o ml.m5.12xlarge o ml.m5.24xlarge o ml.c4.xlarge o ml.c4.2xlarge o ml.c4.4xlarge o ml.c4.8xlarge o ml.p2.xlarge o ml.p2.8xlarge o ml.p2.16xlarge o ml.p4d.24xlarge o ml.p4de.24xlarge o ml.p5.48xlarge o ml.c5.xlarge o ml.c5.2xlarge o ml.c5.4xlarge o ml.c5.9xlarge o ml.c5.18xlarge o ml.c5n.xlarge o ml.c5n.2xlarge o ml.c5n.4xlarge o ml.c5n.9xlarge o ml.c5n.18xlarge o ml.g5.xlarge o ml.g5.2xlarge o ml.g5.4xlarge o ml.g5.8xlarge o ml.g5.16xlarge o ml.g5.12xlarge o ml.g5.24xlarge o ml.g5.48xlarge o ml.trn1.2xlarge o ml.trn1.32xlarge o ml.trn1n.32xlarge o ml.m6i.large o ml.m6i.xlarge o ml.m6i.2xlarge o ml.m6i.4xlarge o ml.m6i.8xlarge o ml.m6i.12xlarge o ml.m6i.16xlarge o ml.m6i.24xlarge o ml.m6i.32xlarge o ml.c6i.xlarge o ml.c6i.2xlarge o ml.c6i.8xlarge o ml.c6i.4xlarge o ml.c6i.12xlarge o ml.c6i.16xlarge o ml.c6i.24xlarge o ml.c6i.32xlarge o ml.r5d.large o ml.r5d.xlarge o ml.r5d.2xlarge o ml.r5d.4xlarge o ml.r5d.8xlarge o ml.r5d.12xlarge o ml.r5d.16xlarge o ml.r5d.24xlarge o ml.t3.medium o ml.t3.large o ml.t3.xlarge o ml.t3.2xlarge o ml.r5.large o ml.r5.xlarge o ml.r5.2xlarge o ml.r5.4xlarge o ml.r5.8xlarge o ml.r5.12xlarge o ml.r5.16xlarge o ml.r5.24xlarge o ml.c7i.large o ml.c7i.xlarge o ml.c7i.2xlarge o ml.c7i.4xlarge o ml.c7i.8xlarge o ml.c7i.12xlarge o ml.c7i.16xlarge o ml.c7i.24xlarge o ml.c7i.48xlarge o ml.m7i.large o ml.m7i.xlarge o ml.m7i.2xlarge o ml.m7i.4xlarge o ml.m7i.8xlarge o ml.m7i.12xlarge o ml.m7i.16xlarge o ml.m7i.24xlarge o ml.m7i.48xlarge o ml.r7i.large o ml.r7i.xlarge o ml.r7i.2xlarge o ml.r7i.4xlarge o ml.r7i.8xlarge o ml.r7i.12xlarge o ml.r7i.16xlarge o ml.r7i.24xlarge o ml.r7i.48xlarge o ml.g6.xlarge o ml.g6.2xlarge o ml.g6.4xlarge o ml.g6.8xlarge o ml.g6.12xlarge o ml.g6.16xlarge o ml.g6.24xlarge o ml.g6.48xlarge o ml.g6e.xlarge o ml.g6e.2xlarge o ml.g6e.4xlarge o ml.g6e.8xlarge o ml.g6e.12xlarge o ml.g6e.16xlarge o ml.g6e.24xlarge o ml.g6e.48xlarge o ml.p5en.48xlarge o ml.p3.2xlarge o ml.p3.8xlarge o ml.p3.16xlarge o ml.p3dn.24xlarge volumeSizeInGB -&gt; (integer) [required] The volume size of the instance that is used to train the model. Please see EC2 volume limit for volume size limitations on dif- ferent instance types. Constraints: o min: 1 o max: 8192 Shorthand Syntax: instanceCount=integer,instanceType=string,volumeSizeInGB=integer JSON Syntax: { "instanceCount": integer, "instanceType": "ml.m4.xlarge"|"ml.m4.2xlarge"|"ml.m4.4xlarge"|"ml.m4.10xlarge"|"ml.m4.16xlarge"|"ml.g4dn.xlarge"|"ml.g4dn.2xlarge"|"ml.g4dn.4xlarge"|"ml.g4dn.8xlarge"|"ml.g4dn.12xlarge"|"ml.g4dn.16xlarge"|"ml.m5.large"|"ml.m5.xlarge"|"ml.m5.2xlarge"|"ml.m5.4xlarge"|"ml.m5.12xlarge"|"ml.m5.24xlarge"|"ml.c4.xlarge"|"ml.c4.2xlarge"|"ml.c4.4xlarge"|"ml.c4.8xlarge"|"ml.p2.xlarge"|"ml.p2.8xlarge"|"ml.p2.16xlarge"|"ml.p4d.24xlarge"|"ml.p4de.24xlarge"|"ml.p5.48xlarge"|"ml.c5.xlarge"|"ml.c5.2xlarge"|"ml.c5.4xlarge"|"ml.c5.9xlarge"|"ml.c5.18xlarge"|"ml.c5n.xlarge"|"ml.c5n.2xlarge"|"ml.c5n.4xlarge"|"ml.c5n.9xlarge"|"ml.c5n.18xlarge"|"ml.g5.xlarge"|"ml.g5.2xlarge"|"ml.g5.4xlarge"|"ml.g5.8xlarge"|"ml.g5.16xlarge"|"ml.g5.12xlarge"|"ml.g5.24xlarge"|"ml.g5.48xlarge"|"ml.trn1.2xlarge"|"ml.trn1.32xlarge"|"ml.trn1n.32xlarge"|"ml.m6i.large"|"ml.m6i.xlarge"|"ml.m6i.2xlarge"|"ml.m6i.4xlarge"|"ml.m6i.8xlarge"|"ml.m6i.12xlarge"|"ml.m6i.16xlarge"|"ml.m6i.24xlarge"|"ml.m6i.32xlarge"|"ml.c6i.xlarge"|"ml.c6i.2xlarge"|"ml.c6i.8xlarge"|"ml.c6i.4xlarge"|"ml.c6i.12xlarge"|"ml.c6i.16xlarge"|"ml.c6i.24xlarge"|"ml.c6i.32xlarge"|"ml.r5d.large"|"ml.r5d.xlarge"|"ml.r5d.2xlarge"|"ml.r5d.4xlarge"|"ml.r5d.8xlarge"|"ml.r5d.12xlarge"|"ml.r5d.16xlarge"|"ml.r5d.24xlarge"|"ml.t3.medium"|"ml.t3.large"|"ml.t3.xlarge"|"ml.t3.2xlarge"|"ml.r5.large"|"ml.r5.xlarge"|"ml.r5.2xlarge"|"ml.r5.4xlarge"|"ml.r5.8xlarge"|"ml.r5.12xlarge"|"ml.r5.16xlarge"|"ml.r5.24xlarge"|"ml.c7i.large"|"ml.c7i.xlarge"|"ml.c7i.2xlarge"|"ml.c7i.4xlarge"|"ml.c7i.8xlarge"|"ml.c7i.12xlarge"|"ml.c7i.16xlarge"|"ml.c7i.24xlarge"|"ml.c7i.48xlarge"|"ml.m7i.large"|"ml.m7i.xlarge"|"ml.m7i.2xlarge"|"ml.m7i.4xlarge"|"ml.m7i.8xlarge"|"ml.m7i.12xlarge"|"ml.m7i.16xlarge"|"ml.m7i.24xlarge"|"ml.m7i.48xlarge"|"ml.r7i.large"|"ml.r7i.xlarge"|"ml.r7i.2xlarge"|"ml.r7i.4xlarge"|"ml.r7i.8xlarge"|"ml.r7i.12xlarge"|"ml.r7i.16xlarge"|"ml.r7i.24xlarge"|"ml.r7i.48xlarge"|"ml.g6.xlarge"|"ml.g6.2xlarge"|"ml.g6.4xlarge"|"ml.g6.8xlarge"|"ml.g6.12xlarge"|"ml.g6.16xlarge"|"ml.g6.24xlarge"|"ml.g6.48xlarge"|"ml.g6e.xlarge"|"ml.g6e.2xlarge"|"ml.g6e.4xlarge"|"ml.g6e.8xlarge"|"ml.g6e.12xlarge"|"ml.g6e.16xlarge"|"ml.g6e.24xlarge"|"ml.g6e.48xlarge"|"ml.p5en.48xlarge"|"ml.p3.2xlarge"|"ml.p3.8xlarge"|"ml.p3.16xlarge"|"ml.p3dn.24xlarge", "volumeSizeInGB": integer }
+    /// </summary>
+    [CliOption("--resource-config")]
+    public string? ResourceConfig { get; private init; }
+
+    /// <summary>
+    /// Defines the data channels that are used as input for the trained model request. Limit: Maximum of 20 channels total (including both dataChannels and incrementalTrainingDataChannels ). Constraints: o min: 1 o max: 20 (structure) Information about the model training data channel. A training data channel is a named data source that the training algorithms can consume. mlInputChannelArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the ML input channel for this model training data channel. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:clean- rooms-ml:[-a-z0-9]+:[0-9]{12}:member- ship/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/ml-in- put-channel/[-a-zA-Z0-9_/.]+ channelName -&gt; (string) [required] The name of the training data channel. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9\.\-_]+ s3DataDistributionType -&gt; (string) Specifies how the training data stored in Amazon S3 should be distributed to training instances. This parameter controls the data distribution strategy for the training job: o FullyReplicated - The entire dataset is replicated on each training instance. This is suitable for smaller datasets and algorithms that require access to the complete dataset. o ShardedByS3Key - The dataset is distributed across training instances based on Amazon S3 key names. This is suitable for larger datasets and distributed training scenarios where each instance processes a subset of the data. Possible values: o FullyReplicated o ShardedByS3Key Shorthand Syntax: mlInputChannelArn=string,channelName=string,s3DataDistributionType=string ... JSON Syntax: [ { "mlInputChannelArn": "string", "channelName": "string", "s3DataDistributionType": "FullyReplicated"|"ShardedByS3Key" } ... ]
+    /// </summary>
+    [CliOption("--data-channels", GroupValues = true)]
+    public IEnumerable<string>? DataChannels { get; private init; }
 
     /// <summary>
     /// Algorithm-specific parameters that influence the quality of the model. You set hyperparameters before you start the learning process. Constraints: o min: 0 o max: 100 key -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: .* value -&gt; (string) Constraints: o min: 1 o max: 2500 o pattern: .* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -44,9 +126,6 @@ public record AwsCleanroomsmlCreateTrainedModelOptions : AwsOptions
     [CliOption("--environment", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Environment { get; set; }
 
-    [CliOption("--resource-config")]
-    public string? ResourceConfig { get; set; }
-
     /// <summary>
     /// The criteria that is used to stop model training. maxRuntimeInSeconds -&gt; (integer) The maximum amount of time, in seconds, that model training can run before it is terminated. Constraints: o min: 1 o max: 2419200 Shorthand Syntax: maxRuntimeInSeconds=integer JSON Syntax: { "maxRuntimeInSeconds": integer }
     /// </summary>
@@ -58,9 +137,6 @@ public record AwsCleanroomsmlCreateTrainedModelOptions : AwsOptions
     /// </summary>
     [CliOption("--incremental-training-data-channels", GroupValues = true)]
     public IEnumerable<string>? IncrementalTrainingDataChannels { get; set; }
-
-    [CliOption("--data-channels", GroupValues = true)]
-    public IEnumerable<string>? DataChannels { get; set; }
 
     /// <summary>
     /// The input mode for accessing the training data. This parameter de- termines how the training data is made available to the training al- gorithm. Valid values are: o File - The training data is downloaded to the training instance and made available as files. o FastFile - The training data is streamed directly from Amazon S3 to the training algorithm, providing faster access for large datasets. o Pipe - The training data is streamed to the training algorithm us- ing named pipes, which can improve performance for certain algo- rithms. Possible values: o File o FastFile o Pipe
@@ -97,5 +173,22 @@ public record AwsCleanroomsmlCreateTrainedModelOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --thingprincipaltype.
+/// Allowed values for --thing-principal-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotAttachThingPrincipalThingPrincipalType
 {
     [EnumValue("EXCLUSIVE_THING")]
-    ExclusiveThing = 1,
+    ExclusiveThing,
 
     [EnumValue("NON_EXCLUSIVE_THING")]
-    NonExclusiveThing = 2
+    NonExclusiveThing
 }

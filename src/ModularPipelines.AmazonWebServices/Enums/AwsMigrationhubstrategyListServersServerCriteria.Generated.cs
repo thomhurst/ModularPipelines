@@ -11,29 +11,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --servercriteria.
+/// Allowed values for --server-criteria.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsMigrationhubstrategyListServersServerCriteria
 {
-    [EnumValue("NOT_DEFINED")]
-    NotDefined = 1,
-
-    [EnumValue("OS_NAME")]
-    OsName = 2,
-
-    [EnumValue("STRATEGY")]
-    Strategy = 3,
+    [EnumValue("ANALYSIS_STATUS")]
+    AnalysisStatus,
 
     [EnumValue("DESTINATION")]
-    Destination = 4,
-
-    [EnumValue("SERVER_ID")]
-    ServerId = 5,
-
-    [EnumValue("ANALYSIS_STATUS")]
-    AnalysisStatus = 6,
+    Destination,
 
     [EnumValue("ERROR_CATEGORY")]
-    ErrorCategory = 7
+    ErrorCategory,
+
+    [EnumValue("NOT_DEFINED")]
+    NotDefined,
+
+    [EnumValue("OS_NAME")]
+    OsName,
+
+    [EnumValue("SERVER_ID")]
+    ServerId,
+
+    [EnumValue("STRATEGY")]
+    Strategy
 }

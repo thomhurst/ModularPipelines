@@ -37,7 +37,7 @@ public record AwsOmicsListBatchOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// Filter batches by status. Possible values: o CREATING o PENDING o SUBMITTING o INPROGRESS o STOPPING o CANCELLED o FAILED o PROCESSED o RUNS_DELETING o RUNS_DELETED Constraints: o min: 1 o max: 64
+    /// Filter batches by status. Possible values: o CREATING o PENDING o SUBMITTING o INPROGRESS o STOPPING o CANCELLED o FAILED o PROCESSED o RUNS_DELETING o RUNS_DELETE_FAILED o RUNS_DELETED Constraints: o min: 1 o max: 64
     /// </summary>
     [CliOption("--status")]
     public AwsOmicsListBatchStatus? Status { get; set; }

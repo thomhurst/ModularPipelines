@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,99 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kafka", "update-broker-storage")]
-public record AwsKafkaUpdateBrokerStorageOptions : AwsOptions
+public record AwsKafkaUpdateBrokerStorageOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the EBS storage associated with MSK brokers. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ClusterArn">The Amazon Resource Name (ARN) that uniquely identifies the cluster.</param>
+    /// <param name="CurrentVersion">The version of cluster to update from. A successful operation will then generate a new version.</param>
+    /// <param name="TargetBrokerEbsVolumeInfo">Describes the target volume size and the ID of the broker to apply the update to. (structure) Specifies the EBS volume upgrade information. The broker identifier must be set to the keyword ALL. This means the changes apply to all the brokers in the cluster. KafkaBrokerNodeId -&gt; (string) [required] The ID of the broker to update. ProvisionedThroughput -&gt; (structure) EBS volume provisioned throughput information. Enabled -&gt; (boolean) Provisioned throughput is enabled or not. VolumeThroughput -&gt; (integer) Throughput value of the EBS volumes for the data drive on each kafka broker node in MiB per second. VolumeSizeGB -&gt; (integer) Size of the EBS volume to update. Shorthand Syntax: KafkaBrokerNodeId=string,ProvisionedThroughput={Enabled=boolean,VolumeThroughput=integer},VolumeSizeGB=integer ... JSON Syntax: [ { "KafkaBrokerNodeId": "string", "ProvisionedThroughput": { "Enabled": true|false, "VolumeThroughput": integer }, "VolumeSizeGB": integer } ... ]</param>
+    public AwsKafkaUpdateBrokerStorageOptions(
+        string ClusterArn,
+        string CurrentVersion,
+        IEnumerable<string> TargetBrokerEbsVolumeInfo
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterArn);
+        this.ClusterArn = ClusterArn;
+        global::System.ArgumentNullException.ThrowIfNull(CurrentVersion);
+        this.CurrentVersion = CurrentVersion;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(TargetBrokerEbsVolumeInfo);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(TargetBrokerEbsVolumeInfo));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(TargetBrokerEbsVolumeInfo));
+            }
+
+            TargetBrokerEbsVolumeInfo = materialized;
+        }
+        this.TargetBrokerEbsVolumeInfo = TargetBrokerEbsVolumeInfo;
+    }
+
+    private AwsKafkaUpdateBrokerStorageOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKafkaUpdateBrokerStorageOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKafkaUpdateBrokerStorageOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+    /// </summary>
     [CliOption("--cluster-arn")]
-    public string? ClusterArn { get; set; }
+    public string? ClusterArn { get; private init; }
 
+    /// <summary>
+    /// The version of cluster to update from. A successful operation will then generate a new version.
+    /// </summary>
     [CliOption("--current-version")]
-    public string? CurrentVersion { get; set; }
+    public string? CurrentVersion { get; private init; }
 
+    /// <summary>
+    /// Describes the target volume size and the ID of the broker to apply the update to. (structure) Specifies the EBS volume upgrade information. The broker identifier must be set to the keyword ALL. This means the changes apply to all the brokers in the cluster. KafkaBrokerNodeId -&gt; (string) [required] The ID of the broker to update. ProvisionedThroughput -&gt; (structure) EBS volume provisioned throughput information. Enabled -&gt; (boolean) Provisioned throughput is enabled or not. VolumeThroughput -&gt; (integer) Throughput value of the EBS volumes for the data drive on each kafka broker node in MiB per second. VolumeSizeGB -&gt; (integer) Size of the EBS volume to update. Shorthand Syntax: KafkaBrokerNodeId=string,ProvisionedThroughput={Enabled=boolean,VolumeThroughput=integer},VolumeSizeGB=integer ... JSON Syntax: [ { "KafkaBrokerNodeId": "string", "ProvisionedThroughput": { "Enabled": true|false, "VolumeThroughput": integer }, "VolumeSizeGB": integer } ... ]
+    /// </summary>
     [CliOption("--target-broker-ebs-volume-info", GroupValues = true)]
-    public IEnumerable<string>? TargetBrokerEbsVolumeInfo { get; set; }
+    public IEnumerable<string>? TargetBrokerEbsVolumeInfo { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

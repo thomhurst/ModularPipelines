@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("customer-profiles", "merge-profiles")]
-public record AwsCustomerProfilesMergeProfilesOptions : AwsOptions
+public record AwsCustomerProfilesMergeProfilesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Runs an AWS Lambda job that does the following: o All the profileKeys in the ProfileToBeMerged will be moved to the main profile. o All the objects in the ProfileToBeMerged will be moved to the main profile. o All the ProfileToBeMerged will be deleted at the end. o All the profileKeys in the ProfileIdsToBeMerged will be moved to the main profile. o Standard fields are merged as follows: o Fields are always "union"-ed if there are no conflicts in standard fields or attributeKeys. o When there are...
+    /// </summary>
+    /// <param name="DomainName">The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="MainProfileId">The identifier of the profile to be taken. Constraints: o pattern: [a-f0-9]{32}</param>
+    /// <param name="ProfileIdsToBeMerged">The identifier of the profile to be merged into MainProfileId. Constraints: o min: 1 o max: 20 (string) Constraints: o pattern: [a-f0-9]{32} Syntax: "string" "string" ...</param>
+    public AwsCustomerProfilesMergeProfilesOptions(
+        string DomainName,
+        string MainProfileId,
+        IEnumerable<string> ProfileIdsToBeMerged
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainName);
+        this.DomainName = DomainName;
+        global::System.ArgumentNullException.ThrowIfNull(MainProfileId);
+        this.MainProfileId = MainProfileId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ProfileIdsToBeMerged);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ProfileIdsToBeMerged));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ProfileIdsToBeMerged));
+            }
+
+            ProfileIdsToBeMerged = materialized;
+        }
+        this.ProfileIdsToBeMerged = ProfileIdsToBeMerged;
+    }
+
+    private AwsCustomerProfilesMergeProfilesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCustomerProfilesMergeProfilesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCustomerProfilesMergeProfilesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// </summary>
     [CliOption("--domain-name")]
-    public string? DomainName { get; set; }
+    public string? DomainName { get; private init; }
 
+    /// <summary>
+    /// The identifier of the profile to be taken. Constraints: o pattern: [a-f0-9]{32}
+    /// </summary>
     [CliOption("--main-profile-id")]
-    public string? MainProfileId { get; set; }
+    public string? MainProfileId { get; private init; }
 
+    /// <summary>
+    /// The identifier of the profile to be merged into MainProfileId. Constraints: o min: 1 o max: 20 (string) Constraints: o pattern: [a-f0-9]{32} Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--profile-ids-to-be-merged", GroupValues = true)]
-    public IEnumerable<string>? ProfileIdsToBeMerged { get; set; }
+    public IEnumerable<string>? ProfileIdsToBeMerged { get; private init; }
 
     /// <summary>
     /// The identifiers of the fields in the profile that has the informa- tion you want to apply to the merge. For example, say you want to merge EmailAddress from Profile1 into MainProfile. This would be the identifier of the EmailAddress field in Profile1. AccountNumber -&gt; (string) A unique identifier for the account number field to be merged. Constraints: o pattern: [a-f0-9]{32} AdditionalInformation -&gt; (string) A unique identifier for the additional information field to be merged. Constraints: o pattern: [a-f0-9]{32} PartyType -&gt; (string) A unique identifier for the party type field to be merged. Constraints: o pattern: [a-f0-9]{32} BusinessName -&gt; (string) A unique identifier for the business name field to be merged. Constraints: o pattern: [a-f0-9]{32} FirstName -&gt; (string) A unique identifier for the first name field to be merged. Constraints: o pattern: [a-f0-9]{32} MiddleName -&gt; (string) A unique identifier for the middle name field to be merged. Constraints: o pattern: [a-f0-9]{32} LastName -&gt; (string) A unique identifier for the last name field to be merged. Constraints: o pattern: [a-f0-9]{32} BirthDate -&gt; (string) A unique identifier for the birthdate field to be merged. Constraints: o pattern: [a-f0-9]{32} Gender -&gt; (string) A unique identifier for the gender field to be merged. Constraints: o pattern: [a-f0-9]{32} PhoneNumber -&gt; (string) A unique identifier for the phone number field to be merged. Constraints: o pattern: [a-f0-9]{32} MobilePhoneNumber -&gt; (string) A unique identifier for the mobile phone number field to be merged. Constraints: o pattern: [a-f0-9]{32} HomePhoneNumber -&gt; (string) A unique identifier for the home phone number field to be merged. Constraints: o pattern: [a-f0-9]{32} BusinessPhoneNumber -&gt; (string) A unique identifier for the business phone number field to be merged. Constraints: o pattern: [a-f0-9]{32} EmailAddress -&gt; (string) A unique identifier for the email address field to be merged. Constraints: o pattern: [a-f0-9]{32} PersonalEmailAddress -&gt; (string) A unique identifier for the personal email address field to be merged. Constraints: o pattern: [a-f0-9]{32} BusinessEmailAddress -&gt; (string) A unique identifier for the party type field to be merged. Constraints: o pattern: [a-f0-9]{32} Address -&gt; (string) A unique identifier for the party type field to be merged. Constraints: o pattern: [a-f0-9]{32} ShippingAddress -&gt; (string) A unique identifier for the shipping address field to be merged. Constraints: o pattern: [a-f0-9]{32} MailingAddress -&gt; (string) A unique identifier for the mailing address field to be merged. Constraints: o pattern: [a-f0-9]{32} BillingAddress -&gt; (string) A unique identifier for the billing type field to be merged. Constraints: o pattern: [a-f0-9]{32} Attributes -&gt; (map) A unique identifier for the attributes field to be merged. key -&gt; (string) Constraints: o min: 1 o max: 255 value -&gt; (string) Constraints: o pattern: [a-f0-9]{32} ProfileType -&gt; (string) A unique identifier for the profile type field to be merged. Constraints: o pattern: [a-f0-9]{32} EngagementPreferences -&gt; (string) A unique identifier for the engagement preferences field to be merged. Constraints: o pattern: [a-f0-9]{32} Shorthand Syntax: AccountNumber=string,AdditionalInformation=string,PartyType=string,BusinessName=string,FirstName=string,MiddleName=string,LastName=string,BirthDate=string,Gender=string,PhoneNumber=string,MobilePhoneNumber=string,HomePhoneNumber=string,BusinessPhoneNumber=string,EmailAddress=string,PersonalEmailAddress=string,BusinessEmailAddress=string,Address=string,ShippingAddress=string,MailingAddress=string,BillingAddress=string,Attributes={KeyName1=string,KeyName2=string},ProfileType=string,EngagementPreferences=string JSON Syntax: { "AccountNumber": "string", "AdditionalInformation": "string", "PartyType": "string", "BusinessName": "string", "FirstName": "string", "MiddleName": "string", "LastName": "string", "BirthDate": "string", "Gender": "string", "PhoneNumber": "string", "MobilePhoneNumber": "string", "HomePhoneNumber": "string", "BusinessPhoneNumber": "string", "EmailAddress": "string", "PersonalEmailAddress": "string", "BusinessEmailAddress": "string", "Address": "string", "ShippingAddress": "string", "MailingAddress": "string", "BillingAddress": "string", "Attributes": {"string": "string" ...}, "ProfileType": "string", "EngagementPreferences": "string" }
@@ -41,5 +103,22 @@ public record AwsCustomerProfilesMergeProfilesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

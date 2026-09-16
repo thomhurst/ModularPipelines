@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cleanrooms", "create-membership")]
-public record AwsCleanroomsCreateMembershipOptions : AwsOptions
+public record AwsCleanroomsCreateMembershipOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--collaboration-identifier")]
-    public string? CollaborationIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a membership for a specific collaboration identifier and joins the collaboration. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CollaborationIdentifier">The unique ID for the associated collaboration. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="QueryLogStatus">An indicator as to whether query logging has been enabled or dis- abled for the membership. When ENABLED , Clean Rooms logs details about queries run within this collaboration and those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED . Possible values: o ENABLED o DISABLED</param>
+    public AwsCleanroomsCreateMembershipOptions(
+        string CollaborationIdentifier,
+        AwsCleanroomsCreateMembershipQueryLogStatus QueryLogStatus
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CollaborationIdentifier);
+        this.CollaborationIdentifier = CollaborationIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(QueryLogStatus);
+        this.QueryLogStatus = QueryLogStatus;
+    }
+
+    private AwsCleanroomsCreateMembershipOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCleanroomsCreateMembershipOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCleanroomsCreateMembershipOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique ID for the associated collaboration. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// </summary>
+    [CliOption("--collaboration-identifier")]
+    public string? CollaborationIdentifier { get; private init; }
+
+    /// <summary>
+    /// An indicator as to whether query logging has been enabled or dis- abled for the membership. When ENABLED , Clean Rooms logs details about queries run within this collaboration and those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED . Possible values: o ENABLED o DISABLED
+    /// </summary>
     [CliOption("--query-log-status")]
-    public string? QueryLogStatus { get; set; }
+    public AwsCleanroomsCreateMembershipQueryLogStatus? QueryLogStatus { get; private init; }
 
     /// <summary>
     /// An indicator as to whether job logging has been enabled or disabled for the collaboration. When ENABLED , Clean Rooms logs details about jobs run within this collaboration and those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED . Possible values: o ENABLED o DISABLED
@@ -59,7 +103,10 @@ public record AwsCleanroomsCreateMembershipOptions : AwsOptions
     [CliOption("--payment-configuration")]
     public string? PaymentConfiguration { get; set; }
 
-    [CliFlag("--is-metrics-enabled")]
+    /// <summary>
+    /// An indicator as to whether Amazon CloudWatch metrics have been en- abled or disabled for the membership. Amazon CloudWatch metrics are only available when the collaboration has metrics enabled. This option can be set by collaboration members who have the ability to run queries (analysis runners) or by members who are configured as payers. When true , metrics about query execution are collected in Amazon CloudWatch. The default value is false .
+    /// </summary>
+    [CliFlag("--is-metrics-enabled", NegatedName = "--no-is-metrics-enabled")]
     public bool? IsMetricsEnabled { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -67,5 +114,22 @@ public record AwsCleanroomsCreateMembershipOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

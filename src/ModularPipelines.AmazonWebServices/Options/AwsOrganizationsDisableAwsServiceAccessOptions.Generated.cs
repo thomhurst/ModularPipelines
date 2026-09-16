@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("organizations", "disable-aws-service-access")]
-public record AwsOrganizationsDisableAwsServiceAccessOptions : AwsOptions
+public record AwsOrganizationsDisableAwsServiceAccessOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Disables the integration of an Amazon Web Services service (the service that is specified by ServicePrincipal ) with Organizations. When you disable integration, the specified service no longer can create a service-linked role in new accounts in your organization. This means the service can't perform operations on your behalf on any new accounts in your organization. The service can still perform operations in older accounts until the service completes its clean-up from Organizations. WARNING: W...
+    /// </summary>
+    /// <param name="ServicePrincipal">The service principal name of the Amazon Web Services service for which you want to disable integration with your organization. This is typically in the form of a URL, such as `` service-abbreviation .amazonaws.com`` . Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]*</param>
+    public AwsOrganizationsDisableAwsServiceAccessOptions(
+        string ServicePrincipal
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServicePrincipal);
+        this.ServicePrincipal = ServicePrincipal;
+    }
+
+    private AwsOrganizationsDisableAwsServiceAccessOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOrganizationsDisableAwsServiceAccessOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOrganizationsDisableAwsServiceAccessOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The service principal name of the Amazon Web Services service for which you want to disable integration with your organization. This is typically in the form of a URL, such as `` service-abbreviation .amazonaws.com`` . Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]*
+    /// </summary>
     [CliOption("--service-principal")]
-    public string? ServicePrincipal { get; set; }
+    public string? ServicePrincipal { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

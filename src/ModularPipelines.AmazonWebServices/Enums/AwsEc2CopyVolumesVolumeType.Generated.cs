@@ -11,29 +11,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --volumetype.
+/// Allowed values for --volume-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEc2CopyVolumesVolumeType
 {
-    [EnumValue("standard")]
-    Standard = 1,
-
-    [EnumValue("io1")]
-    Io1 = 2,
-
-    [EnumValue("io2")]
-    Io2 = 3,
-
     [EnumValue("gp2")]
-    Gp2 = 4,
-
-    [EnumValue("sc1")]
-    Sc1 = 5,
-
-    [EnumValue("st1")]
-    St1 = 6,
+    Gp2,
 
     [EnumValue("gp3")]
-    Gp3 = 7
+    Gp3,
+
+    [EnumValue("io1")]
+    Io1,
+
+    [EnumValue("io2")]
+    Io2,
+
+    [EnumValue("sc1")]
+    Sc1,
+
+    [EnumValue("st1")]
+    St1,
+
+    [EnumValue("standard")]
+    Standard
 }

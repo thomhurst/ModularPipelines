@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --enginemode.
+/// Allowed values for --engine-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsOpensearchUpdateDomainConfigEngineMode
 {
     [EnumValue("GENERAL")]
-    General = 1,
+    General,
 
     [EnumValue("OPTIMIZED")]
-    Optimized = 2
+    Optimized
 }

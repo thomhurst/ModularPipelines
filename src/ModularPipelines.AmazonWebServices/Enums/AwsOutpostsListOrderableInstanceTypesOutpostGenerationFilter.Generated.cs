@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --outpostgenerationfilter.
+/// Allowed values for --outpost-generation-filter.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsOutpostsListOrderableInstanceTypesOutpostGenerationFilter
 {
-    [EnumValue("GENERATION_2")]
-    Generation_2 = 1,
-
     [EnumValue("GENERATION_1")]
-    Generation_1 = 2
+    Generation1,
+
+    [EnumValue("GENERATION_2")]
+    Generation2
 }

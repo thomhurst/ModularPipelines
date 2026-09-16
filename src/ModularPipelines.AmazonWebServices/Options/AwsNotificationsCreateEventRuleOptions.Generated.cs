@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("notifications", "create-event-rule")]
-public record AwsNotificationsCreateEventRuleOptions : AwsOptions
+public record AwsNotificationsCreateEventRuleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an ` EventRule https://docs.aws.amazon.com/notifications/latest/userguide/glossary.html`__ that is associated with a specified NotificationConfiguration . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="NotificationConfigurationArn">The Amazon Resource Name (ARN) of the NotificationConfiguration as- sociated with this EventRule . Constraints: o pattern: arn:aws:notifications::[0-9]{12}:configura- tion/[a-z0-9]{27}</param>
+    /// <param name="Source">The matched event source. Must match one of the valid EventBridge sources. Only Amazon Web Services service sourced events are supported. For example, aws.ec2 and aws.cloudwatch . For more information, see Event delivery from Amazon Web Services services in the Amazon EventBridge User Guide . Constraints: o min: 1 o max: 36 o pattern: aws.([a-z0-9\-])+</param>
+    /// <param name="EventType">The event type to match. Must match one of the valid Amazon EventBridge event types. For ex- ample, EC2 Instance State-change Notification and Amazon CloudWatch Alarm State Change. For more information, see Event delivery from Amazon Web Services services in the Amazon EventBridge User Guide . Constraints: o min: 1 o max: 128 o pattern: ([a-zA-Z0-9 \-\(\)])+</param>
+    /// <param name="Regions">A list of Amazon Web Services Regions that send events to this Even- tRule . Constraints: o min: 1 (string) Constraints: o min: 2 o max: 25 o pattern: ([a-z]{1,2})-([a-z]{1,15}-)+([0-9]) Syntax: "string" "string" ...</param>
+    public AwsNotificationsCreateEventRuleOptions(
+        string NotificationConfigurationArn,
+        string Source,
+        string EventType,
+        IEnumerable<string> Regions
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NotificationConfigurationArn);
+        this.NotificationConfigurationArn = NotificationConfigurationArn;
+        global::System.ArgumentNullException.ThrowIfNull(Source);
+        this.Source = Source;
+        global::System.ArgumentNullException.ThrowIfNull(EventType);
+        this.EventType = EventType;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Regions);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Regions));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Regions));
+            }
+
+            Regions = materialized;
+        }
+        this.Regions = Regions;
+    }
+
+    private AwsNotificationsCreateEventRuleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNotificationsCreateEventRuleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNotificationsCreateEventRuleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the NotificationConfiguration as- sociated with this EventRule . Constraints: o pattern: arn:aws:notifications::[0-9]{12}:configura- tion/[a-z0-9]{27}
+    /// </summary>
     [CliOption("--notification-configuration-arn")]
-    public string? NotificationConfigurationArn { get; set; }
+    public string? NotificationConfigurationArn { get; private init; }
 
+    /// <summary>
+    /// The matched event source. Must match one of the valid EventBridge sources. Only Amazon Web Services service sourced events are supported. For example, aws.ec2 and aws.cloudwatch . For more information, see Event delivery from Amazon Web Services services in the Amazon EventBridge User Guide . Constraints: o min: 1 o max: 36 o pattern: aws.([a-z0-9\-])+
+    /// </summary>
     [CliOption("--source")]
-    public string? Source { get; set; }
+    public string? Source { get; private init; }
 
+    /// <summary>
+    /// The event type to match. Must match one of the valid Amazon EventBridge event types. For ex- ample, EC2 Instance State-change Notification and Amazon CloudWatch Alarm State Change. For more information, see Event delivery from Amazon Web Services services in the Amazon EventBridge User Guide . Constraints: o min: 1 o max: 128 o pattern: ([a-zA-Z0-9 \-\(\)])+
+    /// </summary>
     [CliOption("--event-type")]
-    public string? EventType { get; set; }
+    public string? EventType { get; private init; }
+
+    /// <summary>
+    /// A list of Amazon Web Services Regions that send events to this Even- tRule . Constraints: o min: 1 (string) Constraints: o min: 2 o max: 25 o pattern: ([a-z]{1,2})-([a-z]{1,15}-)+([0-9]) Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--regions", GroupValues = true)]
+    public IEnumerable<string>? Regions { get; private init; }
 
     /// <summary>
     /// An additional event pattern used to further filter the events this EventRule receives. For more information, see Amazon EventBridge event patterns in the Amazon EventBridge User Guide. Constraints: o min: 0 o max: 4096
@@ -36,13 +108,27 @@ public record AwsNotificationsCreateEventRuleOptions : AwsOptions
     [CliOption("--event-pattern")]
     public string? EventPattern { get; set; }
 
-    [CliOption("--regions", GroupValues = true)]
-    public IEnumerable<string>? Regions { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

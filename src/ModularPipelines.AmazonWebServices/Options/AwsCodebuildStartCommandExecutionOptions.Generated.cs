@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,24 +20,84 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codebuild", "start-command-execution")]
-public record AwsCodebuildStartCommandExecutionOptions : AwsOptions
+public record AwsCodebuildStartCommandExecutionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--sandbox-id")]
-    public string? SandboxId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Starts a command execution. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SandboxId">A sandboxId or sandboxArn . Constraints: o min: 1</param>
+    /// <param name="Command">The command that needs to be executed. Constraints: o min: 1</param>
+    public AwsCodebuildStartCommandExecutionOptions(
+        string SandboxId,
+        string Command
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SandboxId);
+        this.SandboxId = SandboxId;
+        global::System.ArgumentNullException.ThrowIfNull(Command);
+        this.Command = Command;
+    }
+
+    private AwsCodebuildStartCommandExecutionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodebuildStartCommandExecutionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodebuildStartCommandExecutionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A sandboxId or sandboxArn . Constraints: o min: 1
+    /// </summary>
+    [CliOption("--sandbox-id")]
+    public string? SandboxId { get; private init; }
+
+    /// <summary>
+    /// The command that needs to be executed. Constraints: o min: 1
+    /// </summary>
     [CliOption("--command")]
-    public string? Command { get; set; }
+    public string? Command { get; private init; }
 
     /// <summary>
     /// The command type. Possible values: o SHELL
     /// </summary>
     [CliOption("--type")]
-    public AwsCodebuildStartCommandExecutionType? Type { get; set; }
+    public string? Type { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

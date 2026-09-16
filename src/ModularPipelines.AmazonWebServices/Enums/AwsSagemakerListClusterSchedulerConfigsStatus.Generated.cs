@@ -16,39 +16,39 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSagemakerListClusterSchedulerConfigsStatus
 {
-    [EnumValue("Creating")]
-    Creating = 1,
+    [EnumValue("Created")]
+    Created,
 
     [EnumValue("CreateFailed")]
-    CreateFailed = 2,
+    CreateFailed,
 
     [EnumValue("CreateRollbackFailed")]
-    CreateRollbackFailed = 3,
+    CreateRollbackFailed,
 
-    [EnumValue("Created")]
-    Created = 4,
-
-    [EnumValue("Updating")]
-    Updating = 5,
-
-    [EnumValue("UpdateFailed")]
-    UpdateFailed = 6,
-
-    [EnumValue("UpdateRollbackFailed")]
-    UpdateRollbackFailed = 7,
-
-    [EnumValue("Updated")]
-    Updated = 8,
-
-    [EnumValue("Deleting")]
-    Deleting = 9,
-
-    [EnumValue("DeleteFailed")]
-    DeleteFailed = 10,
-
-    [EnumValue("DeleteRollbackFailed")]
-    DeleteRollbackFailed = 11,
+    [EnumValue("Creating")]
+    Creating,
 
     [EnumValue("Deleted")]
-    Deleted = 12
+    Deleted,
+
+    [EnumValue("DeleteFailed")]
+    DeleteFailed,
+
+    [EnumValue("DeleteRollbackFailed")]
+    DeleteRollbackFailed,
+
+    [EnumValue("Deleting")]
+    Deleting,
+
+    [EnumValue("Updated")]
+    Updated,
+
+    [EnumValue("UpdateFailed")]
+    UpdateFailed,
+
+    [EnumValue("UpdateRollbackFailed")]
+    UpdateRollbackFailed,
+
+    [EnumValue("Updating")]
+    Updating
 }

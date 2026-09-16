@@ -6,11 +6,11 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,18 +20,60 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "create-role-alias")]
-public record AwsIotCreateRoleAliasOptions : AwsOptions
+public record AwsIotCreateRoleAliasOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--role-alias")]
-    public string? RoleAlias { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a role alias. Requires permission to access the CreateRoleAlias action. WARNING: The value of ` credentialDurationSeconds https://docs.aws.amazon.com/iot/latest/apireference/API_CreateRoleAlias.html#iot-CreateRoleAlias-request-credentialDurationSeconds`__ must be less than or equal to the maximum session duration of the IAM role that the role alias references. For more information, see Modifying a role maximum session duration (Amazon Web Services API) from the Amazon Web Services Identi...
+    /// </summary>
+    /// <param name="RoleAlias">The role alias that points to a role ARN. This allows you to change the role without having to update the device. Constraints: o min: 1 o max: 128 o pattern: [\w=,@-]+</param>
+    /// <param name="RoleArn">The role ARN. Constraints: o min: 20 o max: 2048</param>
+    public AwsIotCreateRoleAliasOptions(
+        string RoleAlias,
+        string RoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RoleAlias);
+        this.RoleAlias = RoleAlias;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+    }
+
+    private AwsIotCreateRoleAliasOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotCreateRoleAliasOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotCreateRoleAliasOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The role alias that points to a role ARN. This allows you to change the role without having to update the device. Constraints: o min: 1 o max: 128 o pattern: [\w=,@-]+
+    /// </summary>
+    [CliOption("--role-alias")]
+    public string? RoleAlias { get; private init; }
+
+    /// <summary>
+    /// The role ARN. Constraints: o min: 20 o max: 2048
+    /// </summary>
     [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
+    public string? RoleArn { get; private init; }
 
     /// <summary>
     /// How long (in seconds) the credentials will be valid. The default value is 3,600 seconds. This value must be less than or equal to the maximum session dura- tion of the IAM role that the role alias references. Constraints: o min: 900 o max: 43200
     /// </summary>
-    [SecretValue]
     [CliOption("--credential-duration-seconds")]
     public int? CredentialDurationSeconds { get; set; }
 
@@ -46,5 +88,22 @@ public record AwsIotCreateRoleAliasOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -26,7 +27,7 @@ public record AwsRdsDescribeDbMajorEngineVersionsOptions : AwsOptions
     /// The database engine to return major version details for. Valid Values: o aurora-mysql o aurora-postgresql o custom-sqlserver-ee o custom-sqlserver-se o custom-sqlserver-web o db2-ae o db2-ce o db2-se o mariadb o mysql o oracle-ee o oracle-ee-cdb o oracle-se2 o oracle-se2-cdb o postgres o sqlserver-ee o sqlserver-se o sqlserver-ex o sqlserver-web Constraints: o min: 1 o max: 50
     /// </summary>
     [CliOption("--engine")]
-    public string? Engine { get; set; }
+    public AwsRdsDescribeDbMajorEngineVersionsEngine? Engine { get; set; }
 
     /// <summary>
     /// A specific database major engine version to return details for. Example: 8.4 Constraints: o min: 1 o max: 50

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resource-explorer-2", "create-resource-explorer-setup")]
-public record AwsResourceExplorer_2CreateResourceExplorerSetupOptions : AwsOptions
+public record AwsResourceExplorer_2CreateResourceExplorerSetupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a Resource Explorer setup configuration across multiple Amazon Web Services Regions. This operation sets up indexes and views in the specified Regions. This operation can also be used to set an aggregator Region for cross-Region resource search. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RegionList">A list of Amazon Web Services Regions where Resource Explorer should be configured. Each Region in the list will have a user-owned index created. Constraints: o min: 1 (string) Constraints: o pattern: [a-z-]+-[a-z]+-[0-9] Syntax: "string" "string" ...</param>
+    /// <param name="ViewName">The name for the view to be created as part of the Resource Explorer setup. The view name must be unique within the Amazon Web Services account and Region. Constraints: o pattern: [a-zA-Z0-9-]{1,64}</param>
+    public AwsResourceExplorer_2CreateResourceExplorerSetupOptions(
+        IEnumerable<string> RegionList,
+        string ViewName
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(RegionList);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(RegionList));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(RegionList));
+            }
+
+            RegionList = materialized;
+        }
+        this.RegionList = RegionList;
+        global::System.ArgumentNullException.ThrowIfNull(ViewName);
+        this.ViewName = ViewName;
+    }
+
+    private AwsResourceExplorer_2CreateResourceExplorerSetupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsResourceExplorer_2CreateResourceExplorerSetupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsResourceExplorer_2CreateResourceExplorerSetupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A list of Amazon Web Services Regions where Resource Explorer should be configured. Each Region in the list will have a user-owned index created. Constraints: o min: 1 (string) Constraints: o pattern: [a-z-]+-[a-z]+-[0-9] Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--region-list", GroupValues = true)]
-    public IEnumerable<string>? RegionList { get; set; }
+    public IEnumerable<string>? RegionList { get; private init; }
+
+    /// <summary>
+    /// The name for the view to be created as part of the Resource Explorer setup. The view name must be unique within the Amazon Web Services account and Region. Constraints: o pattern: [a-zA-Z0-9-]{1,64}
+    /// </summary>
+    [CliOption("--view-name")]
+    public string? ViewName { get; private init; }
 
     /// <summary>
     /// A list of Amazon Web Services Regions that should be configured as aggregator Regions. Aggregator Regions receive replicated index in- formation from all other Regions where there is a user-owned index. Constraints: o min: 0 o max: 1 (string) Constraints: o pattern: [a-z-]+-[a-z]+-[0-9] Syntax: "string" "string" ...
@@ -30,13 +88,27 @@ public record AwsResourceExplorer_2CreateResourceExplorerSetupOptions : AwsOptio
     [CliOption("--aggregator-regions", GroupValues = true)]
     public IEnumerable<string>? AggregatorRegions { get; set; }
 
-    [CliOption("--view-name")]
-    public string? ViewName { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

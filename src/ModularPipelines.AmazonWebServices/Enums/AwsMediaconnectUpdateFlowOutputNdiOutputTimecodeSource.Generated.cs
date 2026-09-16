@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --ndioutputtimecodesource.
+/// Allowed values for --ndi-output-timecode-source.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsMediaconnectUpdateFlowOutputNdiOutputTimecodeSource
 {
     [EnumValue("EMBEDDED_TIMECODE")]
-    EmbeddedTimecode = 1,
+    EmbeddedTimecode,
 
     [EnumValue("UTC_SYSTEM_TIME")]
-    UtcSystemTime = 2
+    UtcSystemTime
 }

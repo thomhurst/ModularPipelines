@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --importdestinationtype.
+/// Allowed values for --import-destination-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSesv2ListImportJobsImportDestinationType
 {
-    [EnumValue("SUPPRESSION_LIST")]
-    SuppressionList = 1,
-
     [EnumValue("CONTACT_LIST")]
-    ContactList = 2
+    ContactList,
+
+    [EnumValue("SUPPRESSION_LIST")]
+    SuppressionList
 }

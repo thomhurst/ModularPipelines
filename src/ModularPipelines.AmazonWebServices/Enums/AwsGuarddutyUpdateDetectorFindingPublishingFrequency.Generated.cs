@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --findingpublishingfrequency.
+/// Allowed values for --finding-publishing-frequency.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGuarddutyUpdateDetectorFindingPublishingFrequency
 {
     [EnumValue("FIFTEEN_MINUTES")]
-    FifteenMinutes = 1,
+    FifteenMinutes,
 
     [EnumValue("ONE_HOUR")]
-    OneHour = 2,
+    OneHour,
 
     [EnumValue("SIX_HOURS")]
-    SixHours = 3
+    SixHours
 }

@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --globaltablesettingsreplicationmode.
+/// Allowed values for --global-table-settings-replication-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDynamodbCreateTableGlobalTableSettingsReplicationMode
 {
-    [EnumValue("ENABLED")]
-    Enabled = 1,
-
     [EnumValue("DISABLED")]
-    Disabled = 2,
+    Disabled,
+
+    [EnumValue("ENABLED")]
+    Enabled,
 
     [EnumValue("ENABLED_WITH_OVERRIDES")]
-    EnabledWithOverrides = 3
+    EnabledWithOverrides
 }

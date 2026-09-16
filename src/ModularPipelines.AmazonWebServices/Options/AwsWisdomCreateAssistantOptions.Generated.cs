@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,8 +22,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("wisdom", "create-assistant")]
-public record AwsWisdomCreateAssistantOptions : AwsOptions
+public record AwsWisdomCreateAssistantOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an Amazon Connect Wisdom assistant. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the assistant. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9\s_.,-]+</param>
+    /// <param name="Type">The type of assistant. Possible values: o AGENT</param>
+    public AwsWisdomCreateAssistantOptions(
+        string Name,
+        string Type
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+    }
+
+    private AwsWisdomCreateAssistantOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWisdomCreateAssistantOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWisdomCreateAssistantOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the assistant. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9\s_.,-]+
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The type of assistant. Possible values: o AGENT
+    /// </summary>
+    [CliOption("--type")]
+    public string? Type { get; private init; }
+
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o min: 1 o max: 4096
     /// </summary>
@@ -36,9 +86,6 @@ public record AwsWisdomCreateAssistantOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--name")]
-    public string? Name { get; set; }
-
     /// <summary>
     /// The configuration information for the customer managed key used for encryption. The customer managed key must have a policy that allows kms:Create- Grant , kms:DescribeKey , and kms:Decrypt/kms:GenerateDataKey per- missions to the IAM identity using the key to invoke Wisdom. To use Wisdom with chat, the key policy must also allow kms:Decrypt , kms:GenerateDataKey* , and kms:DescribeKey permissions to the con- nect.amazonaws.com service principal. For more information about setting up a customer managed key for Wisdom, see Enable Amazon Connect Wisdom for your instance . kmsKeyId -&gt; (string) The customer managed key used for encryption. For more informa- tion about setting up a customer managed key for Wisdom, see Enable Amazon Connect Wisdom for your instance . For information about valid ID values, see Key identifiers (KeyId) . Constraints: o min: 1 o max: 4096 Shorthand Syntax: kmsKeyId=string JSON Syntax: { "kmsKeyId": "string" }
     /// </summary>
@@ -51,13 +98,27 @@ public record AwsWisdomCreateAssistantOptions : AwsOptions
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
-    [CliOption("--type")]
-    public string? Type { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

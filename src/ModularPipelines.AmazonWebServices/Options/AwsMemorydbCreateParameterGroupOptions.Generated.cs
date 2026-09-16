@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("memorydb", "create-parameter-group")]
-public record AwsMemorydbCreateParameterGroupOptions : AwsOptions
+public record AwsMemorydbCreateParameterGroupOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--parameter-group-name")]
-    public string? ParameterGroupName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a new MemoryDB parameter group. A parameter group is a collec- tion of parameters and their values that are applied to all of the nodes in any cluster. For more information, see Configuring engine pa- rameters using parameter groups . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ParameterGroupName">The name of the parameter group.</param>
+    /// <param name="Family">The name of the parameter group family that the parameter group can be used with.</param>
+    public AwsMemorydbCreateParameterGroupOptions(
+        string ParameterGroupName,
+        string Family
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ParameterGroupName);
+        this.ParameterGroupName = ParameterGroupName;
+        global::System.ArgumentNullException.ThrowIfNull(Family);
+        this.Family = Family;
+    }
+
+    private AwsMemorydbCreateParameterGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMemorydbCreateParameterGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMemorydbCreateParameterGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the parameter group.
+    /// </summary>
+    [CliOption("--parameter-group-name")]
+    public string? ParameterGroupName { get; private init; }
+
+    /// <summary>
+    /// The name of the parameter group family that the parameter group can be used with.
+    /// </summary>
     [CliOption("--family")]
-    public string? Family { get; set; }
+    public string? Family { get; private init; }
 
     /// <summary>
     /// An optional description of the parameter group.
@@ -44,5 +88,22 @@ public record AwsMemorydbCreateParameterGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

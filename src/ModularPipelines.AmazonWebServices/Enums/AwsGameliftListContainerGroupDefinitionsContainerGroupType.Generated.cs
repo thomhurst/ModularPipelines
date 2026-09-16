@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --containergrouptype.
+/// Allowed values for --container-group-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGameliftListContainerGroupDefinitionsContainerGroupType
 {
     [EnumValue("GAME_SERVER")]
-    GameServer = 1,
+    GameServer,
 
     [EnumValue("PER_INSTANCE")]
-    PerInstance = 2
+    PerInstance
 }

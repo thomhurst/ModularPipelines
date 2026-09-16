@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,25 +21,82 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agent-runtime", "get-agent-memory")]
-public record AwsBedrockAgentRuntimeGetAgentMemoryOptions : AwsOptions
+public record AwsBedrockAgentRuntimeGetAgentMemoryOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--agent-alias-id")]
-    public string? AgentAliasId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Gets the sessions stored in the memory of the agent. See also: AWS API Documentation get-agent-memory is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: memoryContents
+    /// </summary>
+    /// <param name="AgentAliasId">The unique identifier of an alias of an agent. Constraints: o min: 0 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="AgentId">The unique identifier of the agent to which the alias belongs. Constraints: o min: 0 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="MemoryId">The unique identifier of the memory. Constraints: o min: 2 o max: 100 o pattern: ^[0-9a-zA-Z._:-]+$</param>
+    /// <param name="MemoryType">The type of memory. Possible values: o SESSION_SUMMARY</param>
+    public AwsBedrockAgentRuntimeGetAgentMemoryOptions(
+        string AgentAliasId,
+        string AgentId,
+        string MemoryId,
+        string MemoryType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AgentAliasId);
+        this.AgentAliasId = AgentAliasId;
+        global::System.ArgumentNullException.ThrowIfNull(AgentId);
+        this.AgentId = AgentId;
+        global::System.ArgumentNullException.ThrowIfNull(MemoryId);
+        this.MemoryId = MemoryId;
+        global::System.ArgumentNullException.ThrowIfNull(MemoryType);
+        this.MemoryType = MemoryType;
+    }
+
+    private AwsBedrockAgentRuntimeGetAgentMemoryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentRuntimeGetAgentMemoryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentRuntimeGetAgentMemoryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of an alias of an agent. Constraints: o min: 0 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// </summary>
+    [CliOption("--agent-alias-id")]
+    public string? AgentAliasId { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the agent to which the alias belongs. Constraints: o min: 0 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// </summary>
     [CliOption("--agent-id")]
-    public string? AgentId { get; set; }
+    public string? AgentId { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the memory. Constraints: o min: 2 o max: 100 o pattern: ^[0-9a-zA-Z._:-]+$
+    /// </summary>
+    [CliOption("--memory-id")]
+    public string? MemoryId { get; private init; }
+
+    /// <summary>
+    /// The type of memory. Possible values: o SESSION_SUMMARY
+    /// </summary>
+    [CliOption("--memory-type")]
+    public string? MemoryType { get; private init; }
 
     /// <summary>
     /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
-
-    [CliOption("--memory-id")]
-    public string? MemoryId { get; set; }
-
-    [CliOption("--memory-type")]
-    public string? MemoryType { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -58,5 +116,22 @@ public record AwsBedrockAgentRuntimeGetAgentMemoryOptions : AwsOptions
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

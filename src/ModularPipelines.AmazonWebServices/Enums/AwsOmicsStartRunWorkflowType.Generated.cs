@@ -11,17 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --workflowtype.
+/// Allowed values for --workflow-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsOmicsStartRunWorkflowType
 {
     [EnumValue("PRIVATE")]
-    Private = 1,
+    Private,
 
     [EnumValue("READY2RUN")]
-    Ready2Run = 2,
-
-    [EnumValue("Constraints")]
-    Constraints = 3
+    Ready2Run
 }

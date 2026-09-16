@@ -11,14 +11,44 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --securitypolicy.
+/// Allowed values for --security-policy.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsApigatewayCreateDomainNameSecurityPolicy
 {
+    [EnumValue("SecurityPolicy_TLS12_2018_EDGE")]
+    SecurityPolicyTls122018Edge,
+
+    [EnumValue("SecurityPolicy_TLS12_PFS_2025_EDGE")]
+    SecurityPolicyTls12Pfs2025Edge,
+
+    [EnumValue("SecurityPolicy_TLS13_1_2_2021_06")]
+    SecurityPolicyTls1312202106,
+
+    [EnumValue("SecurityPolicy_TLS13_1_2_FIPS_PFS_PQ_2025_09")]
+    SecurityPolicyTls1312FipsPfsPq202509,
+
+    [EnumValue("SecurityPolicy_TLS13_1_2_FIPS_PQ_2025_09")]
+    SecurityPolicyTls1312FipsPq202509,
+
+    [EnumValue("SecurityPolicy_TLS13_1_2_PFS_PQ_2025_09")]
+    SecurityPolicyTls1312PfsPq202509,
+
+    [EnumValue("SecurityPolicy_TLS13_1_2_PQ_2025_09")]
+    SecurityPolicyTls1312Pq202509,
+
+    [EnumValue("SecurityPolicy_TLS13_1_3_2025_09")]
+    SecurityPolicyTls1313202509,
+
+    [EnumValue("SecurityPolicy_TLS13_1_3_FIPS_2025_09")]
+    SecurityPolicyTls1313Fips202509,
+
+    [EnumValue("SecurityPolicy_TLS13_2025_EDGE")]
+    SecurityPolicyTls132025Edge,
+
     [EnumValue("TLS_1_0")]
-    Tls_1_0 = 1,
+    Tls10,
 
     [EnumValue("TLS_1_2")]
-    Tls_1_2 = 2
+    Tls12
 }

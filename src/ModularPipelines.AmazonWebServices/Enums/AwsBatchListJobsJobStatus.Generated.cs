@@ -11,29 +11,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --jobstatus.
+/// Allowed values for --job-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsBatchListJobsJobStatus
 {
-    [EnumValue("SUBMITTED")]
-    Submitted = 1,
+    [EnumValue("FAILED")]
+    Failed,
 
     [EnumValue("PENDING")]
-    Pending = 2,
+    Pending,
 
     [EnumValue("RUNNABLE")]
-    Runnable = 3,
-
-    [EnumValue("STARTING")]
-    Starting = 4,
+    Runnable,
 
     [EnumValue("RUNNING")]
-    Running = 5,
+    Running,
+
+    [EnumValue("STARTING")]
+    Starting,
+
+    [EnumValue("SUBMITTED")]
+    Submitted,
 
     [EnumValue("SUCCEEDED")]
-    Succeeded = 6,
-
-    [EnumValue("FAILED")]
-    Failed = 7
+    Succeeded
 }

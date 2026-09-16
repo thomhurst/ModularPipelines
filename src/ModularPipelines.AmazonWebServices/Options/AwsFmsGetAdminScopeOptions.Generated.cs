@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("fms", "get-admin-scope")]
-public record AwsFmsGetAdminScopeOptions : AwsOptions
+public record AwsFmsGetAdminScopeOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns information about the specified account's administrative scope. The administrative scope defines the resources that an Firewall Manager administrator can manage. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AdminAccount">The administrator account that you want to get the details for. Constraints: o min: 1 o max: 1024 o pattern: ^[0-9]+$</param>
+    public AwsFmsGetAdminScopeOptions(
+        string AdminAccount
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AdminAccount);
+        this.AdminAccount = AdminAccount;
+    }
+
+    private AwsFmsGetAdminScopeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFmsGetAdminScopeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFmsGetAdminScopeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The administrator account that you want to get the details for. Constraints: o min: 1 o max: 1024 o pattern: ^[0-9]+$
+    /// </summary>
     [CliOption("--admin-account")]
-    public string? AdminAccount { get; set; }
+    public string? AdminAccount { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

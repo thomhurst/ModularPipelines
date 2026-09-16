@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --apptypeequals.
+/// Allowed values for --app-type-equals.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSagemakerListStudioLifecycleConfigsAppTypeEquals
 {
-    [EnumValue("JupyterServer")]
-    JupyterServer = 1,
-
-    [EnumValue("KernelGateway")]
-    KernelGateway = 2,
-
     [EnumValue("CodeEditor")]
-    CodeEditor = 3,
+    CodeEditor,
 
     [EnumValue("JupyterLab")]
-    JupyterLab = 4
+    JupyterLab,
+
+    [EnumValue("JupyterServer")]
+    JupyterServer,
+
+    [EnumValue("KernelGateway")]
+    KernelGateway
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("servicecatalog-appregistry", "associate-resource")]
-public record AwsServicecatalogAppregistryAssociateResourceOptions : AwsOptions
+public record AwsServicecatalogAppregistryAssociateResourceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Associates a resource with an application. The resource can be speci- fied by its ARN or name. The application can be specified by ARN, ID, or name. Minimum permissions You must have the following permissions to associate a resource using the OPTIONS parameter set to APPLY_APPLICATION_TAG . o tag:GetResources o tag:TagResources You must also have these additional permissions if you don't use the AWSServiceCatalogAppRegistryFullAccess policy. For more information, see AWSServiceCatalogAppRegistry...
+    /// </summary>
+    /// <param name="Application">The name, ID, or ARN of the application. Constraints: o min: 1 o max: 256 o pattern: ([-.\w]+)|(arn:aws[-a-z]*:servicecata- log:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:/applications/[-.\w]+)</param>
+    /// <param name="ResourceType">The type of resource of which the application will be associated. Possible values: o CFN_STACK o RESOURCE_TAG_VALUE</param>
+    /// <param name="Resource">The name or ID of the resource of which the application will be as- sociated. Constraints: o min: 1 o max: 256 o pattern: \S+</param>
+    public AwsServicecatalogAppregistryAssociateResourceOptions(
+        string Application,
+        AwsServicecatalogAppregistryAssociateResourceResourceType ResourceType,
+        string Resource
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Application);
+        this.Application = Application;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
+        this.ResourceType = ResourceType;
+        global::System.ArgumentNullException.ThrowIfNull(Resource);
+        this.Resource = Resource;
+    }
+
+    private AwsServicecatalogAppregistryAssociateResourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsServicecatalogAppregistryAssociateResourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsServicecatalogAppregistryAssociateResourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name, ID, or ARN of the application. Constraints: o min: 1 o max: 256 o pattern: ([-.\w]+)|(arn:aws[-a-z]*:servicecata- log:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:/applications/[-.\w]+)
+    /// </summary>
     [CliOption("--application")]
-    public string? Application { get; set; }
+    public string? Application { get; private init; }
 
+    /// <summary>
+    /// The type of resource of which the application will be associated. Possible values: o CFN_STACK o RESOURCE_TAG_VALUE
+    /// </summary>
     [CliOption("--resource-type")]
-    public string? ResourceType { get; set; }
+    public AwsServicecatalogAppregistryAssociateResourceResourceType? ResourceType { get; private init; }
 
+    /// <summary>
+    /// The name or ID of the resource of which the application will be as- sociated. Constraints: o min: 1 o max: 256 o pattern: \S+
+    /// </summary>
     [CliOption("--resource")]
-    public string? Resource { get; set; }
+    public string? Resource { get; private init; }
 
     /// <summary>
     /// Determines whether an application tag is applied or skipped. (string) Possible values: o APPLY_APPLICATION_TAG o SKIP_APPLICATION_TAG Syntax: "string" "string" ...
@@ -41,5 +93,22 @@ public record AwsServicecatalogAppregistryAssociateResourceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

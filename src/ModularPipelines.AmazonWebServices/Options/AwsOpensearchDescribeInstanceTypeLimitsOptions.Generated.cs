@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,84 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("opensearch", "describe-instance-type-limits")]
-public record AwsOpensearchDescribeInstanceTypeLimitsOptions : AwsOptions
+public record AwsOpensearchDescribeInstanceTypeLimitsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Describes the instance count, storage, and master node limits for a given OpenSearch or Elasticsearch version and instance type. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceType">The OpenSearch Service instance type for which you need limit infor- mation. Possible values: o m3.medium.search o m3.large.search o m3.xlarge.search o m3.2xlarge.search o m4.large.search o m4.xlarge.search o m4.2xlarge.search o m4.4xlarge.search o m4.10xlarge.search o m5.large.search o m5.xlarge.search o m5.2xlarge.search o m5.4xlarge.search o m5.12xlarge.search o m5.24xlarge.search o r5.large.search o r5.xlarge.search o r5.2xlarge.search o r5.4xlarge.search o r5.12xlarge.search o r5.24xlarge.search o c5.large.search o c5.xlarge.search o c5.2xlarge.search o c5.4xlarge.search o c5.9xlarge.search o c5.18xlarge.search o t3.nano.search o t3.micro.search o t3.small.search o t3.medium.search o t3.large.search o t3.xlarge.search o t3.2xlarge.search o or1.medium.search o or1.large.search o or1.xlarge.search o or1.2xlarge.search o or1.4xlarge.search o or1.8xlarge.search o or1.12xlarge.search o or1.16xlarge.search o ultrawarm1.medium.search o ultrawarm1.large.search o ultrawarm1.xlarge.search o t2.micro.search o t2.small.search o t2.medium.search o r3.large.search o r3.xlarge.search o r3.2xlarge.search o r3.4xlarge.search o r3.8xlarge.search o i2.xlarge.search o i2.2xlarge.search o d2.xlarge.search o d2.2xlarge.search o d2.4xlarge.search o d2.8xlarge.search o c4.large.search o c4.xlarge.search o c4.2xlarge.search o c4.4xlarge.search o c4.8xlarge.search o r4.large.search o r4.xlarge.search o r4.2xlarge.search o r4.4xlarge.search o r4.8xlarge.search o r4.16xlarge.search o i3.large.search o i3.xlarge.search o i3.2xlarge.search o i3.4xlarge.search o i3.8xlarge.search o i3.16xlarge.search o r6g.large.search o r6g.xlarge.search o r6g.2xlarge.search o r6g.4xlarge.search o r6g.8xlarge.search o r6g.12xlarge.search o m6g.large.search o m6g.xlarge.search o m6g.2xlarge.search o m6g.4xlarge.search o m6g.8xlarge.search o m6g.12xlarge.search o c6g.large.search o c6g.xlarge.search o c6g.2xlarge.search o c6g.4xlarge.search o c6g.8xlarge.search o c6g.12xlarge.search o r6gd.large.search o r6gd.xlarge.search o r6gd.2xlarge.search o r6gd.4xlarge.search o r6gd.8xlarge.search o r6gd.12xlarge.search o r6gd.16xlarge.search o t4g.small.search o t4g.medium.search</param>
+    /// <param name="EngineVersion">Version of OpenSearch or Elasticsearch, in the format Elastic- search_X.Y or OpenSearch_X.Y. Defaults to the latest version of OpenSearch. Constraints: o min: 14 o max: 18 o pattern: ^Elastic- search_[0-9]{1}\.[0-9]{1,2}$|^OpenSearch_[0-9]{1,2}\.[0-9]{1,2}$</param>
+    public AwsOpensearchDescribeInstanceTypeLimitsOptions(
+        string InstanceType,
+        string EngineVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceType);
+        this.InstanceType = InstanceType;
+        global::System.ArgumentNullException.ThrowIfNull(EngineVersion);
+        this.EngineVersion = EngineVersion;
+    }
+
+    private AwsOpensearchDescribeInstanceTypeLimitsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOpensearchDescribeInstanceTypeLimitsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOpensearchDescribeInstanceTypeLimitsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The OpenSearch Service instance type for which you need limit infor- mation. Possible values: o m3.medium.search o m3.large.search o m3.xlarge.search o m3.2xlarge.search o m4.large.search o m4.xlarge.search o m4.2xlarge.search o m4.4xlarge.search o m4.10xlarge.search o m5.large.search o m5.xlarge.search o m5.2xlarge.search o m5.4xlarge.search o m5.12xlarge.search o m5.24xlarge.search o r5.large.search o r5.xlarge.search o r5.2xlarge.search o r5.4xlarge.search o r5.12xlarge.search o r5.24xlarge.search o c5.large.search o c5.xlarge.search o c5.2xlarge.search o c5.4xlarge.search o c5.9xlarge.search o c5.18xlarge.search o t3.nano.search o t3.micro.search o t3.small.search o t3.medium.search o t3.large.search o t3.xlarge.search o t3.2xlarge.search o or1.medium.search o or1.large.search o or1.xlarge.search o or1.2xlarge.search o or1.4xlarge.search o or1.8xlarge.search o or1.12xlarge.search o or1.16xlarge.search o ultrawarm1.medium.search o ultrawarm1.large.search o ultrawarm1.xlarge.search o t2.micro.search o t2.small.search o t2.medium.search o r3.large.search o r3.xlarge.search o r3.2xlarge.search o r3.4xlarge.search o r3.8xlarge.search o i2.xlarge.search o i2.2xlarge.search o d2.xlarge.search o d2.2xlarge.search o d2.4xlarge.search o d2.8xlarge.search o c4.large.search o c4.xlarge.search o c4.2xlarge.search o c4.4xlarge.search o c4.8xlarge.search o r4.large.search o r4.xlarge.search o r4.2xlarge.search o r4.4xlarge.search o r4.8xlarge.search o r4.16xlarge.search o i3.large.search o i3.xlarge.search o i3.2xlarge.search o i3.4xlarge.search o i3.8xlarge.search o i3.16xlarge.search o r6g.large.search o r6g.xlarge.search o r6g.2xlarge.search o r6g.4xlarge.search o r6g.8xlarge.search o r6g.12xlarge.search o m6g.large.search o m6g.xlarge.search o m6g.2xlarge.search o m6g.4xlarge.search o m6g.8xlarge.search o m6g.12xlarge.search o c6g.large.search o c6g.xlarge.search o c6g.2xlarge.search o c6g.4xlarge.search o c6g.8xlarge.search o c6g.12xlarge.search o r6gd.large.search o r6gd.xlarge.search o r6gd.2xlarge.search o r6gd.4xlarge.search o r6gd.8xlarge.search o r6gd.12xlarge.search o r6gd.16xlarge.search o t4g.small.search o t4g.medium.search
+    /// </summary>
+    [CliOption("--instance-type")]
+    public string? InstanceType { get; private init; }
+
+    /// <summary>
+    /// Version of OpenSearch or Elasticsearch, in the format Elastic- search_X.Y or OpenSearch_X.Y. Defaults to the latest version of OpenSearch. Constraints: o min: 14 o max: 18 o pattern: ^Elastic- search_[0-9]{1}\.[0-9]{1,2}$|^OpenSearch_[0-9]{1,2}\.[0-9]{1,2}$
+    /// </summary>
+    [CliOption("--engine-version")]
+    public string? EngineVersion { get; private init; }
+
     /// <summary>
     /// The name of the domain. Only specify if you need the limits for an existing domain. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; set; }
 
-    [CliOption("--instance-type")]
-    public string? InstanceType { get; set; }
-
-    [CliOption("--engine-version")]
-    public string? EngineVersion { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsNeptuneGraphCreateGraphUsingImportTaskFormat
 {
     [EnumValue("CSV")]
-    Csv = 1,
-
-    [EnumValue("OPEN_CYPHER")]
-    OpenCypher = 2,
-
-    [EnumValue("PARQUET")]
-    Parquet = 3,
+    Csv,
 
     [EnumValue("NTRIPLES")]
-    Ntriples = 4
+    Ntriples,
+
+    [EnumValue("OPEN_CYPHER")]
+    OpenCypher,
+
+    [EnumValue("PARQUET")]
+    Parquet
 }

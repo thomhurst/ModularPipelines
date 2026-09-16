@@ -11,23 +11,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --monitorstatus.
+/// Allowed values for --monitor-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsNetworkflowmonitorListMonitorsMonitorStatus
 {
-    [EnumValue("PENDING")]
-    Pending = 1,
-
     [EnumValue("ACTIVE")]
-    Active = 2,
-
-    [EnumValue("INACTIVE")]
-    Inactive = 3,
-
-    [EnumValue("ERROR")]
-    Error = 4,
+    Active,
 
     [EnumValue("DELETING")]
-    Deleting = 5
+    Deleting,
+
+    [EnumValue("ERROR")]
+    Error,
+
+    [EnumValue("INACTIVE")]
+    Inactive,
+
+    [EnumValue("PENDING")]
+    Pending
 }

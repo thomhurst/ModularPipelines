@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codecommit", "list-repositories-for-approval-rule-template")]
-public record AwsCodecommitListRepositoriesForApprovalRuleTemplateOptions : AwsOptions
+public record AwsCodecommitListRepositoriesForApprovalRuleTemplateOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists all repositories associated with the specified approval rule tem- plate. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApprovalRuleTemplateName">The name of the approval rule template for which you want to list repositories that are associated with that template. Constraints: o min: 1 o max: 100</param>
+    public AwsCodecommitListRepositoriesForApprovalRuleTemplateOptions(
+        string ApprovalRuleTemplateName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApprovalRuleTemplateName);
+        this.ApprovalRuleTemplateName = ApprovalRuleTemplateName;
+    }
+
+    private AwsCodecommitListRepositoriesForApprovalRuleTemplateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodecommitListRepositoriesForApprovalRuleTemplateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodecommitListRepositoriesForApprovalRuleTemplateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the approval rule template for which you want to list repositories that are associated with that template. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--approval-rule-template-name")]
-    public string? ApprovalRuleTemplateName { get; set; }
+    public string? ApprovalRuleTemplateName { get; private init; }
 
     /// <summary>
     /// An enumeration token that, when provided in a request, returns the next batch of the results.
@@ -43,5 +80,22 @@ public record AwsCodecommitListRepositoriesForApprovalRuleTemplateOptions : AwsO
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

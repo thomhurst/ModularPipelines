@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rekognition", "associate-faces")]
-public record AwsRekognitionAssociateFacesOptions : AwsOptions
+public record AwsRekognitionAssociateFacesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Associates one or more faces with an existing UserID. Takes an array of FaceIds . Each FaceId that are present in the FaceIds list is associ- ated with the provided UserID. The number of FaceIds that can be used as input in a single request is limited to 100. Note that the total number of faces that can be associated with a sin- gle UserID is also limited to 100. Once a UserID has 100 faces associ- ated with it, no additional faces can be added. If more API calls are made after the limit is reac...
+    /// </summary>
+    /// <param name="CollectionId">The ID of an existing collection containing the UserID. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.\-]+</param>
+    /// <param name="UserId">The ID for the existing UserID. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.\-:]+</param>
+    /// <param name="FaceIds">An array of FaceIDs to associate with the UserID. Constraints: o min: 1 o max: 100 (string) Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} Syntax: "string" "string" ...</param>
+    public AwsRekognitionAssociateFacesOptions(
+        string CollectionId,
+        string UserId,
+        IEnumerable<string> FaceIds
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CollectionId);
+        this.CollectionId = CollectionId;
+        global::System.ArgumentNullException.ThrowIfNull(UserId);
+        this.UserId = UserId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(FaceIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(FaceIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(FaceIds));
+            }
+
+            FaceIds = materialized;
+        }
+        this.FaceIds = FaceIds;
+    }
+
+    private AwsRekognitionAssociateFacesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRekognitionAssociateFacesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRekognitionAssociateFacesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of an existing collection containing the UserID. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.\-]+
+    /// </summary>
     [CliOption("--collection-id")]
-    public string? CollectionId { get; set; }
+    public string? CollectionId { get; private init; }
 
+    /// <summary>
+    /// The ID for the existing UserID. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.\-:]+
+    /// </summary>
     [CliOption("--user-id")]
-    public string? UserId { get; set; }
+    public string? UserId { get; private init; }
 
+    /// <summary>
+    /// An array of FaceIDs to associate with the UserID. Constraints: o min: 1 o max: 100 (string) Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--face-ids", GroupValues = true)]
-    public IEnumerable<string>? FaceIds { get; set; }
+    public IEnumerable<string>? FaceIds { get; private init; }
 
     /// <summary>
     /// An optional value specifying the minimum confidence in the UserID match to return. The default value is 75. Constraints: o min: 0 o max: 100
@@ -49,5 +111,22 @@ public record AwsRekognitionAssociateFacesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

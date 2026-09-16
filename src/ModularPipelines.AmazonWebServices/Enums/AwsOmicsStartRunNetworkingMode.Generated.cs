@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --networkingmode.
+/// Allowed values for --networking-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsOmicsStartRunNetworkingMode
 {
     [EnumValue("RESTRICTED")]
-    Restricted = 1,
+    Restricted,
 
     [EnumValue("VPC")]
-    Vpc = 2
+    Vpc
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3control", "put-bucket-lifecycle-configuration")]
-public record AwsS3controlPutBucketLifecycleConfigurationOptions : AwsOptions
+public record AwsS3controlPutBucketLifecycleConfigurationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--account-id")]
-    public string? AccountId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// NOTE: This action puts a lifecycle configuration to an Amazon S3 on Out- posts bucket. To put a lifecycle configuration to an S3 bucket, see PutBucketLifecycleConfiguration in the Amazon S3 API Reference . Creates a new lifecycle configuration for the S3 on Outposts bucket or replaces an existing lifecycle configuration. Outposts buckets only support lifecycle configurations that delete/expire objects after a certain period of time and abort incomplete multipart uploads. All Amazon S3 on Outpost...
+    /// </summary>
+    /// <param name="AccountId">The Amazon Web Services account ID of the Outposts bucket. Constraints: o max: 64 o pattern: ^\d{12}$</param>
+    /// <param name="Bucket">The name of the bucket for which to set the configuration. Constraints: o min: 3 o max: 255</param>
+    public AwsS3controlPutBucketLifecycleConfigurationOptions(
+        string AccountId,
+        string Bucket
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountId);
+        this.AccountId = AccountId;
+        global::System.ArgumentNullException.ThrowIfNull(Bucket);
+        this.Bucket = Bucket;
+    }
+
+    private AwsS3controlPutBucketLifecycleConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3controlPutBucketLifecycleConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3controlPutBucketLifecycleConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Web Services account ID of the Outposts bucket. Constraints: o max: 64 o pattern: ^\d{12}$
+    /// </summary>
+    [CliOption("--account-id")]
+    public string? AccountId { get; private init; }
+
+    /// <summary>
+    /// The name of the bucket for which to set the configuration. Constraints: o min: 3 o max: 255
+    /// </summary>
     [CliOption("--bucket")]
-    public string? Bucket { get; set; }
+    public string? Bucket { get; private init; }
 
     /// <summary>
     /// Container for lifecycle rules. You can add as many as 1,000 rules. Rules -&gt; (list) A lifecycle rule for individual objects in an Outposts bucket. (structure) The container for the Outposts bucket lifecycle rule. Expiration -&gt; (structure) Specifies the expiration for the lifecycle of the object in the form of date, days and, whether the object has a delete marker. Date -&gt; (timestamp) Indicates at what date the object is to be deleted. Should be in GMT ISO 8601 format. Days -&gt; (integer) Indicates the lifetime, in days, of the objects that are subject to the rule. The value must be a non-zero positive integer. ExpiredObjectDeleteMarker -&gt; (boolean) Indicates whether Amazon S3 will remove a delete marker with no noncurrent versions. If set to true, the delete marker will be expired. If set to false, the policy takes no action. This cannot be specified with Days or Date in a Lifecycle Expiration Policy. To learn more about delete markers, see Working with delete markers . ID -&gt; (string) Unique identifier for the rule. The value cannot be longer than 255 characters. Filter -&gt; (structure) The container for the filter of lifecycle rule. Prefix -&gt; (string) Prefix identifying one or more objects to which the rule applies. WARNING: When you're using XML requests, you must replace special characters (such as carriage returns) in object keys with their equivalent XML entity codes. For more information, see XML-related ob- ject key constraints in the Amazon S3 User Guide . Tag -&gt; (structure) A container for a key-value name pair. Key -&gt; (string) [required] Key of the tag Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] Value of the tag Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ And -&gt; (structure) The container for the AND condition for the lifecycle rule. Prefix -&gt; (string) Prefix identifying one or more objects to which the rule applies. Tags -&gt; (list) All of these tags must exist in the object's tag set in order for the rule to apply. (structure) A container for a key-value name pair. Key -&gt; (string) [required] Key of the tag Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] Value of the tag Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ ObjectSizeGreaterThan -&gt; (long) The non-inclusive minimum object size for the lifecycle rule. Setting this property to 7 means the rule applies to objects with a size that is greater than 7. ObjectSizeLessThan -&gt; (long) The non-inclusive maximum object size for the lifecycle rule. Setting this property to 77 means the rule applies to objects with a size that is less than 77. ObjectSizeGreaterThan -&gt; (long) Minimum object size to which the rule applies. ObjectSizeLessThan -&gt; (long) Maximum object size to which the rule applies. Status -&gt; (string) [required] If 'Enabled', the rule is currently being applied. If 'Disabled', the rule is not currently being applied. Possible values: o Enabled o Disabled Transitions -&gt; (list) Specifies when an Amazon S3 object transitions to a spec- ified storage class. NOTE: This is not supported by Amazon S3 on Outposts buck- ets. (structure) Specifies when an object transitions to a specified storage class. For more information about Amazon S3 Lifecycle configuration rules, see Transitioning ob- jects using Amazon S3 Lifecycle in the Amazon S3 User Guide . Date -&gt; (timestamp) Indicates when objects are transitioned to the specified storage class. The date value must be in ISO 8601 format. The time is always midnight UTC. Days -&gt; (integer) Indicates the number of days after creation when objects are transitioned to the specified storage class. The value must be a positive integer. StorageClass -&gt; (string) The storage class to which you want the object to transition. Possible values: o GLACIER o STANDARD_IA o ONEZONE_IA o INTELLIGENT_TIERING o DEEP_ARCHIVE NoncurrentVersionTransitions -&gt; (list) Specifies the transition rule for the lifecycle rule that describes when noncurrent objects transition to a spe- cific storage class. If your bucket is versioning-enabled (or versioning is suspended), you can set this action to request that Amazon S3 transition noncurrent object ver- sions to a specific storage class at a set period in the object's lifetime. NOTE: This is not supported by Amazon S3 on Outposts buck- ets. (structure) The container for the noncurrent version transition. NoncurrentDays -&gt; (integer) Specifies the number of days an object is noncur- rent before Amazon S3 can perform the associated action. For information about the noncurrent days calculations, see How Amazon S3 Calculates How Long an Object Has Been Noncurrent in the Amazon S3 User Guide . StorageClass -&gt; (string) The class of storage used to store the object. Possible values: o GLACIER o STANDARD_IA o ONEZONE_IA o INTELLIGENT_TIERING o DEEP_ARCHIVE NoncurrentVersionExpiration -&gt; (structure) The noncurrent version expiration of the lifecycle rule. NoncurrentDays -&gt; (integer) Specifies the number of days an object is noncurrent before Amazon S3 can perform the associated action. For information about the noncurrent days calcula- tions, see How Amazon S3 Calculates When an Object Be- came Noncurrent in the Amazon S3 User Guide . NewerNoncurrentVersions -&gt; (integer) Specifies how many noncurrent versions S3 on Outposts will retain. If there are this many more recent non- current versions, S3 on Outposts will take the associ- ated action. For more information about noncurrent versions, see Lifecycle configuration elements in the Amazon S3 User Guide . AbortIncompleteMultipartUpload -&gt; (structure) Specifies the days since the initiation of an incomplete multipart upload that Amazon S3 waits before permanently removing all parts of the upload. For more information, see Aborting Incomplete Multipart Uploads Using a Bucket Lifecycle Configuration in the Amazon S3 User Guide . DaysAfterInitiation -&gt; (integer) Specifies the number of days after which Amazon S3 aborts an incomplete multipart upload to the Outposts bucket. JSON Syntax: { "Rules": [ { "Expiration": { "Date": timestamp, "Days": integer, "ExpiredObjectDeleteMarker": true|false }, "ID": "string", "Filter": { "Prefix": "string", "Tag": { "Key": "string", "Value": "string" }, "And": { "Prefix": "string", "Tags": [ { "Key": "string", "Value": "string" } ... ], "ObjectSizeGreaterThan": long, "ObjectSizeLessThan": long }, "ObjectSizeGreaterThan": long, "ObjectSizeLessThan": long }, "Status": "Enabled"|"Disabled", "Transitions": [ { "Date": timestamp, "Days": integer, "StorageClass": "GLACIER"|"STANDARD_IA"|"ONEZONE_IA"|"INTELLIGENT_TIERING"|"DEEP_ARCHIVE" } ... ], "NoncurrentVersionTransitions": [ { "NoncurrentDays": integer, "StorageClass": "GLACIER"|"STANDARD_IA"|"ONEZONE_IA"|"INTELLIGENT_TIERING"|"DEEP_ARCHIVE" } ... ], "NoncurrentVersionExpiration": { "NoncurrentDays": integer, "NewerNoncurrentVersions": integer }, "AbortIncompleteMultipartUpload": { "DaysAfterInitiation": integer } } ... ] }
@@ -38,5 +82,22 @@ public record AwsS3controlPutBucketLifecycleConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

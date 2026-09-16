@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workspaces", "accept-account-link-invitation")]
-public record AwsWorkspacesAcceptAccountLinkInvitationOptions : AwsOptions
+public record AwsWorkspacesAcceptAccountLinkInvitationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Accepts the account link invitation. WARNING: There's currently no unlinking capability after you accept the ac- count linking invitation. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LinkId">The identifier of the account link. Constraints: o pattern: ^link-.{8,24}$</param>
+    public AwsWorkspacesAcceptAccountLinkInvitationOptions(
+        string LinkId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LinkId);
+        this.LinkId = LinkId;
+    }
+
+    private AwsWorkspacesAcceptAccountLinkInvitationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkspacesAcceptAccountLinkInvitationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkspacesAcceptAccountLinkInvitationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the account link. Constraints: o pattern: ^link-.{8,24}$
+    /// </summary>
     [CliOption("--link-id")]
-    public string? LinkId { get; set; }
+    public string? LinkId { get; private init; }
 
     /// <summary>
     /// A string of up to 64 ASCII characters that Amazon WorkSpaces uses to ensure idempotent creation. Constraints: o pattern: ^.{1,64}$
@@ -37,5 +74,22 @@ public record AwsWorkspacesAcceptAccountLinkInvitationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

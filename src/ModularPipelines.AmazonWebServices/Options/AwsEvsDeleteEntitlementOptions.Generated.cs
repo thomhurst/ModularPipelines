@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("evs", "delete-entitlement")]
-public record AwsEvsDeleteEntitlementOptions : AwsOptions
+public record AwsEvsDeleteEntitlementOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes a Windows Server License entitlement for virtual machines in an Amazon EVS environment. Deleting an entitlement stops usage tracking for the specified virtual machines. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EnvironmentId">A unique ID for the environment that the entitlement belongs to. Constraints: o pattern: (env-[a-zA-Z0-9]{10})</param>
+    /// <param name="ConnectorId">A unique ID for the connector associated with the entitlement. Constraints: o pattern: (cnctr-[a-zA-Z0-9]{10})</param>
+    /// <param name="EntitlementType">The type of entitlement to delete. Possible values: o WINDOWS_SERVER</param>
+    /// <param name="VmIds">The list of VMware vSphere virtual machine managed object IDs to delete entitlements for. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 4 o max: 1024 o pattern: vm-[0-9]+ Syntax: "string" "string" ...</param>
+    public AwsEvsDeleteEntitlementOptions(
+        string EnvironmentId,
+        string ConnectorId,
+        string EntitlementType,
+        IEnumerable<string> VmIds
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentId);
+        this.EnvironmentId = EnvironmentId;
+        global::System.ArgumentNullException.ThrowIfNull(ConnectorId);
+        this.ConnectorId = ConnectorId;
+        global::System.ArgumentNullException.ThrowIfNull(EntitlementType);
+        this.EntitlementType = EntitlementType;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(VmIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(VmIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(VmIds));
+            }
+
+            VmIds = materialized;
+        }
+        this.VmIds = VmIds;
+    }
+
+    private AwsEvsDeleteEntitlementOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEvsDeleteEntitlementOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEvsDeleteEntitlementOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique ID for the environment that the entitlement belongs to. Constraints: o pattern: (env-[a-zA-Z0-9]{10})
+    /// </summary>
+    [CliOption("--environment-id")]
+    public string? EnvironmentId { get; private init; }
+
+    /// <summary>
+    /// A unique ID for the connector associated with the entitlement. Constraints: o pattern: (cnctr-[a-zA-Z0-9]{10})
+    /// </summary>
+    [CliOption("--connector-id")]
+    public string? ConnectorId { get; private init; }
+
+    /// <summary>
+    /// The type of entitlement to delete. Possible values: o WINDOWS_SERVER
+    /// </summary>
+    [CliOption("--entitlement-type")]
+    public string? EntitlementType { get; private init; }
+
+    /// <summary>
+    /// The list of VMware vSphere virtual machine managed object IDs to delete entitlements for. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 4 o max: 1024 o pattern: vm-[0-9]+ Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--vm-ids", GroupValues = true)]
+    public IEnumerable<string>? VmIds { get; private init; }
+
     /// <summary>
     /// NOTE: This parameter is not used in Amazon EVS currently. If you sup- ply input for this parameter, it will have no effect. A unique, case-sensitive identifier that you provide to ensure the idempotency of the entitlement deletion request. If you do not spec- ify a client token, a randomly generated token is used for the re- quest to ensure idempotency. Constraints: o min: 1 o max: 100 o pattern: [!-~]+
     /// </summary>
@@ -29,22 +110,27 @@ public record AwsEvsDeleteEntitlementOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--environment-id")]
-    public string? EnvironmentId { get; set; }
-
-    [CliOption("--connector-id")]
-    public string? ConnectorId { get; set; }
-
-    [CliOption("--entitlement-type")]
-    public string? EntitlementType { get; set; }
-
-    [CliOption("--vm-ids", GroupValues = true)]
-    public IEnumerable<string>? VmIds { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

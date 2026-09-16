@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,25 +21,82 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3api", "put-object-annotation")]
-public record AwsS3apiPutObjectAnnotationOptions : AwsOptions
+public record AwsS3apiPutObjectAnnotationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--bucket")]
-    public string? Bucket { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Attaches an annotation to an Amazon S3 object. An annotation is a named payload of 1 byte to 1 MiB that you can associate with a specific ob- ject or object version. Each object can have up to 1,000 annotations. For annotation naming rules and restrictions, see Annotation naming guidelines in the Amazon S3 User Guide . Annotations inherit the encryption of their parent object. For objects without server-side encryption, annotations are encrypted with SSE-S3 (the default for new objects). Objects...
+    /// </summary>
+    /// <param name="Bucket">The name of the bucket that contains the object.</param>
+    /// <param name="Key">The object key. Constraints: o min: 1</param>
+    /// <param name="AnnotationName">The name of the annotation. Length Constraints: Minimum length of 1. Maximum length of 512 bytes.</param>
+    /// <param name="AnnotationPayload">The annotation payload. Must be between 1 byte and 1 MiB in size, and must be valid UTF-8 encoded text. If the payload contains in- valid UTF-8 bytes, the request fails with HTTP 415 (Unsupported Me- dia Type). To store binary data, encode the payload using Base64 be- fore uploading. NOTE: This argument is of type: streaming blob. Its value must be the path to a file (e.g. path/to/file) and must not be prefixed with file:// or fileb://</param>
+    public AwsS3apiPutObjectAnnotationOptions(
+        string Bucket,
+        string Key,
+        string AnnotationName,
+        string AnnotationPayload
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Bucket);
+        this.Bucket = Bucket;
+        global::System.ArgumentNullException.ThrowIfNull(Key);
+        this.Key = Key;
+        global::System.ArgumentNullException.ThrowIfNull(AnnotationName);
+        this.AnnotationName = AnnotationName;
+        global::System.ArgumentNullException.ThrowIfNull(AnnotationPayload);
+        this.AnnotationPayload = AnnotationPayload;
+    }
+
+    private AwsS3apiPutObjectAnnotationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3apiPutObjectAnnotationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3apiPutObjectAnnotationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the bucket that contains the object.
+    /// </summary>
+    [CliOption("--bucket")]
+    public string? Bucket { get; private init; }
+
+    /// <summary>
+    /// The object key. Constraints: o min: 1
+    /// </summary>
     [CliOption("--key")]
-    public string? Key { get; set; }
+    public string? Key { get; private init; }
+
+    /// <summary>
+    /// The name of the annotation. Length Constraints: Minimum length of 1. Maximum length of 512 bytes.
+    /// </summary>
+    [CliOption("--annotation-name")]
+    public string? AnnotationName { get; private init; }
+
+    /// <summary>
+    /// The annotation payload. Must be between 1 byte and 1 MiB in size, and must be valid UTF-8 encoded text. If the payload contains in- valid UTF-8 bytes, the request fails with HTTP 415 (Unsupported Me- dia Type). To store binary data, encode the payload using Base64 be- fore uploading. NOTE: This argument is of type: streaming blob. Its value must be the path to a file (e.g. path/to/file) and must not be prefixed with file:// or fileb://
+    /// </summary>
+    [CliOption("--annotation-payload")]
+    public string? AnnotationPayload { get; private init; }
 
     /// <summary>
     /// The version ID of the object to attach the annotation to.
     /// </summary>
     [CliOption("--version-id")]
     public string? VersionId { get; set; }
-
-    [CliOption("--annotation-name")]
-    public string? AnnotationName { get; set; }
-
-    [CliOption("--annotation-payload")]
-    public string? AnnotationPayload { get; set; }
 
     /// <summary>
     /// If specified, the operation only succeeds if the object's ETag matches the provided value.
@@ -122,7 +180,7 @@ public record AwsS3apiPutObjectAnnotationOptions : AwsOptions
     /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their re- quests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buck- ets, see Downloading Objects in Requester Pays Buckets in the Amazon S3 User Guide . NOTE: This functionality is not supported for directory buckets. Possible values: o requester
     /// </summary>
     [CliOption("--request-payer")]
-    public AwsS3apiPutObjectAnnotationRequestPayer? RequestPayer { get; set; }
+    public string? RequestPayer { get; set; }
 
     /// <summary>
     /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with an HTTP 403 (Access Denied) error.
@@ -135,5 +193,22 @@ public record AwsS3apiPutObjectAnnotationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kms", "get-parameters-for-import")]
-public record AwsKmsGetParametersForImportOptions : AwsOptions
+public record AwsKmsGetParametersForImportOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns the public key and an import token you need to import or reim- port key material for a KMS key. By default, KMS keys are created with key material that KMS generates. This operation supports Importing key material , an advanced feature that lets you generate and import the cryptographic key material for a KMS key. Before calling GetParametersForImport , use the CreateKey operation with an Origin value of EXTERNAL to create a KMS key with no key mater- ial. You can import key material for...
+    /// </summary>
+    /// <param name="KeyId">The identifier of the KMS key that will be associated with the im- ported key material. The Origin of the KMS key must be EXTERNAL . All KMS key types are supported, including multi-Region keys. How- ever, you cannot import key material into a KMS key in a custom key store. Specify the key ID or key ARN of the KMS key. For example: o Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab o Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab To get the key ID and key ARN for a KMS key, use ListKeys or De- scribeKey . Constraints: o min: 1 o max: 2048</param>
+    /// <param name="WrappingAlgorithm">The algorithm you will use with the RSA public key (PublicKey ) in the response to protect your key material during import. For more information, see Select a wrapping algorithm in the Key Management Service Developer Guide . For RSA_AES wrapping algorithms, you encrypt your key material with an AES key that you generate, then encrypt your AES key with the RSA public key from KMS. For RSAES wrapping algorithms, you encrypt your key material directly with the RSA public key from KMS. The wrapping algorithms that you can use depend on the type of key material that you are importing. To import an RSA private key, you must use an RSA_AES wrapping algorithm. o RSA_AES_KEY_WRAP_SHA_256 Supported for wrapping RSA and ECC key material. o RSA_AES_KEY_WRAP_SHA_1 Supported for wrapping RSA and ECC key ma- terial. o RSAES_OAEP_SHA_256 Supported for all types of key material, ex- cept RSA key material (private key). You cannot use the RSAES_OAEP_SHA_256 wrapping algorithm with the RSA_2048 wrapping key spec to wrap ECC_NIST_P521 key material. o RSAES_OAEP_SHA_1 Supported for all types of key material, except RSA key material (private key). You cannot use the RSAES_OAEP_SHA_1 wrapping algorithm with the RSA_2048 wrapping key spec to wrap ECC_NIST_P521 key material. o RSAES_PKCS1_V1_5 (Deprecated) As of October 10, 2023, KMS does not support the RSAES_PKCS1_V1_5 wrapping algorithm. Possible values: o RSAES_PKCS1_V1_5 o RSAES_OAEP_SHA_1 o RSAES_OAEP_SHA_256 o RSA_AES_KEY_WRAP_SHA_1 o RSA_AES_KEY_WRAP_SHA_256 o SM2PKE</param>
+    /// <param name="WrappingKeySpec">The type of RSA public key to return in the response. You will use this wrapping key with the specified wrapping algorithm to protect your key material during import. Use the longest RSA wrapping key that is practical. You cannot use an RSA_2048 public key to directly wrap an ECC_NIST_P521 private key. Instead, use an RSA_AES wrapping algo- rithm or choose a longer RSA public key. Possible values: o RSA_2048 o RSA_3072 o RSA_4096 o SM2</param>
+    public AwsKmsGetParametersForImportOptions(
+        string KeyId,
+        AwsKmsGetParametersForImportWrappingAlgorithm WrappingAlgorithm,
+        AwsKmsGetParametersForImportWrappingKeySpec WrappingKeySpec
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KeyId);
+        this.KeyId = KeyId;
+        global::System.ArgumentNullException.ThrowIfNull(WrappingAlgorithm);
+        this.WrappingAlgorithm = WrappingAlgorithm;
+        global::System.ArgumentNullException.ThrowIfNull(WrappingKeySpec);
+        this.WrappingKeySpec = WrappingKeySpec;
+    }
+
+    private AwsKmsGetParametersForImportOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKmsGetParametersForImportOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKmsGetParametersForImportOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the KMS key that will be associated with the im- ported key material. The Origin of the KMS key must be EXTERNAL . All KMS key types are supported, including multi-Region keys. How- ever, you cannot import key material into a KMS key in a custom key store. Specify the key ID or key ARN of the KMS key. For example: o Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab o Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab To get the key ID and key ARN for a KMS key, use ListKeys or De- scribeKey . Constraints: o min: 1 o max: 2048
+    /// </summary>
     [CliOption("--key-id")]
-    public string? KeyId { get; set; }
+    public string? KeyId { get; private init; }
 
+    /// <summary>
+    /// The algorithm you will use with the RSA public key (PublicKey ) in the response to protect your key material during import. For more information, see Select a wrapping algorithm in the Key Management Service Developer Guide . For RSA_AES wrapping algorithms, you encrypt your key material with an AES key that you generate, then encrypt your AES key with the RSA public key from KMS. For RSAES wrapping algorithms, you encrypt your key material directly with the RSA public key from KMS. The wrapping algorithms that you can use depend on the type of key material that you are importing. To import an RSA private key, you must use an RSA_AES wrapping algorithm. o RSA_AES_KEY_WRAP_SHA_256 Supported for wrapping RSA and ECC key material. o RSA_AES_KEY_WRAP_SHA_1 Supported for wrapping RSA and ECC key ma- terial. o RSAES_OAEP_SHA_256 Supported for all types of key material, ex- cept RSA key material (private key). You cannot use the RSAES_OAEP_SHA_256 wrapping algorithm with the RSA_2048 wrapping key spec to wrap ECC_NIST_P521 key material. o RSAES_OAEP_SHA_1 Supported for all types of key material, except RSA key material (private key). You cannot use the RSAES_OAEP_SHA_1 wrapping algorithm with the RSA_2048 wrapping key spec to wrap ECC_NIST_P521 key material. o RSAES_PKCS1_V1_5 (Deprecated) As of October 10, 2023, KMS does not support the RSAES_PKCS1_V1_5 wrapping algorithm. Possible values: o RSAES_PKCS1_V1_5 o RSAES_OAEP_SHA_1 o RSAES_OAEP_SHA_256 o RSA_AES_KEY_WRAP_SHA_1 o RSA_AES_KEY_WRAP_SHA_256 o SM2PKE
+    /// </summary>
     [CliOption("--wrapping-algorithm")]
-    public string? WrappingAlgorithm { get; set; }
+    public AwsKmsGetParametersForImportWrappingAlgorithm? WrappingAlgorithm { get; private init; }
 
+    /// <summary>
+    /// The type of RSA public key to return in the response. You will use this wrapping key with the specified wrapping algorithm to protect your key material during import. Use the longest RSA wrapping key that is practical. You cannot use an RSA_2048 public key to directly wrap an ECC_NIST_P521 private key. Instead, use an RSA_AES wrapping algo- rithm or choose a longer RSA public key. Possible values: o RSA_2048 o RSA_3072 o RSA_4096 o SM2
+    /// </summary>
     [CliOption("--wrapping-key-spec")]
-    public string? WrappingKeySpec { get; set; }
+    public AwsKmsGetParametersForImportWrappingKeySpec? WrappingKeySpec { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

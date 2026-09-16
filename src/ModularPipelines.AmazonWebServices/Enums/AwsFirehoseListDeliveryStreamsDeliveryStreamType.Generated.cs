@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --deliverystreamtype.
+/// Allowed values for --delivery-stream-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsFirehoseListDeliveryStreamsDeliveryStreamType
 {
+    [EnumValue("DatabaseAsSource")]
+    DatabaseAsSource,
+
     [EnumValue("DirectPut")]
-    DirectPut = 1,
+    DirectPut,
 
     [EnumValue("KinesisStreamAsSource")]
-    KinesisStreamAsSource = 2,
+    KinesisStreamAsSource,
 
     [EnumValue("MSKAsSource")]
-    MskAsSource = 3,
-
-    [EnumValue("DatabaseAsSource")]
-    DatabaseAsSource = 4
+    MskAsSource
 }

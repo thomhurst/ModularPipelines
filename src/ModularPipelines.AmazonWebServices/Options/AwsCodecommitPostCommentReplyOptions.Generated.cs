@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codecommit", "post-comment-reply")]
-public record AwsCodecommitPostCommentReplyOptions : AwsOptions
+public record AwsCodecommitPostCommentReplyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Posts a comment in reply to an existing comment on a comparison between commits or a pull request. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InReplyTo">The system-generated ID of the comment to which you want to reply. To get this ID, use GetCommentsForComparedCommit or GetComments- ForPullRequest .</param>
+    /// <param name="Content">The contents of your reply to a comment.</param>
+    public AwsCodecommitPostCommentReplyOptions(
+        string InReplyTo,
+        string Content
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InReplyTo);
+        this.InReplyTo = InReplyTo;
+        global::System.ArgumentNullException.ThrowIfNull(Content);
+        this.Content = Content;
+    }
+
+    private AwsCodecommitPostCommentReplyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodecommitPostCommentReplyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodecommitPostCommentReplyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The system-generated ID of the comment to which you want to reply. To get this ID, use GetCommentsForComparedCommit or GetComments- ForPullRequest .
+    /// </summary>
     [CliOption("--in-reply-to")]
-    public string? InReplyTo { get; set; }
+    public string? InReplyTo { get; private init; }
+
+    /// <summary>
+    /// The contents of your reply to a comment.
+    /// </summary>
+    [CliOption("--content")]
+    public string? Content { get; private init; }
 
     /// <summary>
     /// A unique, client-generated idempotency token that, when provided in a request, ensures the request cannot be repeated with a changed pa- rameter. If a request is received with the same parameters and a to- ken is included, the request returns information about the initial request that used that token.
@@ -32,13 +79,27 @@ public record AwsCodecommitPostCommentReplyOptions : AwsOptions
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CliOption("--content")]
-    public string? Content { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

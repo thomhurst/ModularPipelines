@@ -22,6 +22,23 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsIotwirelessGetPositionEstimateOptions : AwsOptions
 {
     /// <summary>
+    /// Get estimated position information as a payload in GeoJSON format. The payload measurement data is resolved using solvers that are provided by third-party vendors. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
+    public AwsIotwirelessGetPositionEstimateOptions(
+        string Outfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Outfile);
+        this.Outfile = Outfile;
+    }
+
+    public void Deconstruct(out string Outfile)
+    {
+        Outfile = this.Outfile;
+    }
+
+    /// <summary>
     /// Retrieves an estimated device position by resolving WLAN measurement data. The position is resolved using HERE's Wi-Fi based solver. (structure) Wi-Fi access point. MacAddress -&gt; (string) [required] Wi-Fi MAC Address. Constraints: o min: 12 o max: 17 o pattern: ^([0-9A-Fa-f]{2}[:-]?){5}([0-9A-Fa-f]{2})$ Rss -&gt; (integer) [required] Received signal strength (dBm) of the WLAN measurement data. Constraints: o min: -128 o max: 0 Shorthand Syntax: MacAddress=string,Rss=integer ... JSON Syntax: [ { "MacAddress": "string", "Rss": integer } ... ]
     /// </summary>
     [CliOption("--wi-fi-access-points", GroupValues = true)]
@@ -53,5 +70,11 @@ public record AwsIotwirelessGetPositionEstimateOptions : AwsOptions
 
     [CliOption("--advanced-configuration")]
     public string? AdvancedConfiguration { get; set; }
+
+    /// <summary>
+    /// The &lt;outfile&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Outfile { get; private init; }
 
 }

@@ -16,30 +16,30 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsManagedblockchainListNodesStatus
 {
-    [EnumValue("CREATING")]
-    Creating = 1,
-
     [EnumValue("AVAILABLE")]
-    Available = 2,
-
-    [EnumValue("UNHEALTHY")]
-    Unhealthy = 3,
+    Available,
 
     [EnumValue("CREATE_FAILED")]
-    CreateFailed = 4,
+    CreateFailed,
 
-    [EnumValue("UPDATING")]
-    Updating = 5,
-
-    [EnumValue("DELETING")]
-    Deleting = 6,
+    [EnumValue("CREATING")]
+    Creating,
 
     [EnumValue("DELETED")]
-    Deleted = 7,
+    Deleted,
+
+    [EnumValue("DELETING")]
+    Deleting,
 
     [EnumValue("FAILED")]
-    Failed = 8,
+    Failed,
 
     [EnumValue("INACCESSIBLE_ENCRYPTION_KEY")]
-    InaccessibleEncryptionKey = 9
+    InaccessibleEncryptionKey,
+
+    [EnumValue("UNHEALTHY")]
+    Unhealthy,
+
+    [EnumValue("UPDATING")]
+    Updating
 }

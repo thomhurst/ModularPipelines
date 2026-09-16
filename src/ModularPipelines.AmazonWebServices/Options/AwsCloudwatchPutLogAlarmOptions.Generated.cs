@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +21,99 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudwatch", "put-log-alarm")]
-public record AwsCloudwatchPutLogAlarmOptions : AwsOptions
+public record AwsCloudwatchPutLogAlarmOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates or updates a log alarm. A log alarm evaluates the results of a CloudWatch Logs scheduled query against the configured threshold and comparison operator to determine its state. When you create a log alarm, the operation creates a service-managed CloudWatch Logs scheduled query that runs the query string you provide on the schedule you configure. Each scheduled query execution returns one or more aggregated values determined by the AggregationExpression , and each aggregated value is compa...
+    /// </summary>
+    /// <param name="AlarmName">The name for the alarm. This name must be unique within the Amazon Web Services account and Region. Constraints: o min: 1 o max: 255</param>
+    /// <param name="ScheduledQueryConfiguration">The configuration of the underlying CloudWatch Logs scheduled query that this alarm evaluates, including the query string, log groups, schedule, and aggregation expression. QueryString -&gt; (string) [required] The CloudWatch Logs query to execute on each scheduled run. Length constraints: maximum of 10,000 characters. Constraints: o min: 0 o max: 10000 LogGroupIdentifiers -&gt; (list) The log groups to query. Each entry can be a log group name or ARN. Use the ARN form when querying log groups in a different account (for example, when running cross-account queries from a monitoring account). The list must contain between 1 and 50 en- tries. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 1024 QueryARN -&gt; (string) The Amazon Resource Name (ARN) of the CloudWatch Logs scheduled query that the alarm uses. This field is populated in De- scribeAlarms responses. Constraints: o min: 1 o max: 1024 ScheduledQueryRoleARN -&gt; (string) [required] The Amazon Resource Name (ARN) of the IAM role that CloudWatch assumes when executing the scheduled query against the config- ured log groups. Constraints: o min: 1 o max: 1024 ScheduleConfiguration -&gt; (structure) [required] The schedule and time-range offset configuration for the under- lying scheduled query. ScheduleExpression -&gt; (string) [required] The schedule expression that defines how often the underlying CloudWatch Logs scheduled query runs. Specify a rate() ex- pression, for example rate(5 minutes) . Constraints: o min: 1 o max: 256 StartTimeOffset -&gt; (long) [required] The offset, in seconds, before the scheduled execution time at which the query time range begins. For example, an offset of 360 (6 minutes) on a query running at 12:05:00 starts the query time range at 11:59:00. Constraints: o min: 1 o max: 2592000 EndTimeOffset -&gt; (long) The offset, in seconds, before the scheduled execution time at which the query time range ends. Must be non-negative and less than StartTimeOffset . The default is 0. Constraints: o min: 0 o max: 2592000 AggregationExpression -&gt; (string) [required] The expression that defines how to aggregate query results into one or more scalar values for alarm evaluation. For example, count(*) or avg(latency) by host | sort desc . Length con- straints: minimum 1 character, maximum 2048 characters. Constraints: o min: 1 o max: 2048 Tags -&gt; (list) A list of key-value pairs to associate with the underlying scheduled query resource. (structure) A key-value pair associated with a CloudWatch resource. Key -&gt; (string) [required] A string that you can use to assign a value. The combina- tion of tag keys and values can help you organize and categorize your resources. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value for the specified tag key. Constraints: o min: 0 o max: 256 Shorthand Syntax: QueryString=string,LogGroupIdentifiers=string,string,QueryARN=string,ScheduledQueryRoleARN=string,ScheduleConfiguration={ScheduleExpression=string,StartTimeOffset=long,EndTimeOffset=long},AggregationExpression=string,Tags=[{Key=string,Value=string},{Key=string,Value=string}] JSON Syntax: { "QueryString": "string", "LogGroupIdentifiers": ["string", ...], "QueryARN": "string", "ScheduledQueryRoleARN": "string", "ScheduleConfiguration": { "ScheduleExpression": "string", "StartTimeOffset": long, "EndTimeOffset": long }, "AggregationExpression": "string", "Tags": [ { "Key": "string", "Value": "string" } ... ] }</param>
+    /// <param name="QueryResultsToEvaluate">The number of most recent scheduled query results to evaluate against the threshold (the N in M-of-N evaluation). Valid range is 1 through 100. Constraints: o min: 1</param>
+    /// <param name="QueryResultsToAlarm">The number of query results, out of the most recent QueryResultsToE- valuate results, that must breach the threshold to trigger the alarm to transition to ALARM (the M in M-of-N evaluation). Must be less than or equal to QueryResultsToEvaluate . Constraints: o min: 1</param>
+    /// <param name="Threshold">The value to compare with the aggregated query result.</param>
+    /// <param name="ComparisonOperator">The arithmetic operation to use when comparing the aggregated query result and the threshold. The aggregated query result is used as the first operand. Valid values are GreaterThanThreshold , GreaterThanOrEqualToThreshold , LessThanThreshold , and LessThanOrE- qualToThreshold . Possible values: o GreaterThanOrEqualToThreshold o GreaterThanThreshold o LessThanThreshold o LessThanOrEqualToThreshold o LessThanLowerOrGreaterThanUpperThreshold o LessThanLowerThreshold o GreaterThanUpperThreshold</param>
+    public AwsCloudwatchPutLogAlarmOptions(
+        string AlarmName,
+        string ScheduledQueryConfiguration,
+        int QueryResultsToEvaluate,
+        int QueryResultsToAlarm,
+        int Threshold,
+        AwsCloudwatchPutLogAlarmComparisonOperator ComparisonOperator
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AlarmName);
+        this.AlarmName = AlarmName;
+        global::System.ArgumentNullException.ThrowIfNull(ScheduledQueryConfiguration);
+        this.ScheduledQueryConfiguration = ScheduledQueryConfiguration;
+        this.QueryResultsToEvaluate = QueryResultsToEvaluate;
+        this.QueryResultsToAlarm = QueryResultsToAlarm;
+        this.Threshold = Threshold;
+        global::System.ArgumentNullException.ThrowIfNull(ComparisonOperator);
+        this.ComparisonOperator = ComparisonOperator;
+    }
+
+    private AwsCloudwatchPutLogAlarmOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudwatchPutLogAlarmOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudwatchPutLogAlarmOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name for the alarm. This name must be unique within the Amazon Web Services account and Region. Constraints: o min: 1 o max: 255
+    /// </summary>
     [CliOption("--alarm-name")]
-    public string? AlarmName { get; set; }
+    public string? AlarmName { get; private init; }
+
+    /// <summary>
+    /// The configuration of the underlying CloudWatch Logs scheduled query that this alarm evaluates, including the query string, log groups, schedule, and aggregation expression. QueryString -&gt; (string) [required] The CloudWatch Logs query to execute on each scheduled run. Length constraints: maximum of 10,000 characters. Constraints: o min: 0 o max: 10000 LogGroupIdentifiers -&gt; (list) The log groups to query. Each entry can be a log group name or ARN. Use the ARN form when querying log groups in a different account (for example, when running cross-account queries from a monitoring account). The list must contain between 1 and 50 en- tries. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 1024 QueryARN -&gt; (string) The Amazon Resource Name (ARN) of the CloudWatch Logs scheduled query that the alarm uses. This field is populated in De- scribeAlarms responses. Constraints: o min: 1 o max: 1024 ScheduledQueryRoleARN -&gt; (string) [required] The Amazon Resource Name (ARN) of the IAM role that CloudWatch assumes when executing the scheduled query against the config- ured log groups. Constraints: o min: 1 o max: 1024 ScheduleConfiguration -&gt; (structure) [required] The schedule and time-range offset configuration for the under- lying scheduled query. ScheduleExpression -&gt; (string) [required] The schedule expression that defines how often the underlying CloudWatch Logs scheduled query runs. Specify a rate() ex- pression, for example rate(5 minutes) . Constraints: o min: 1 o max: 256 StartTimeOffset -&gt; (long) [required] The offset, in seconds, before the scheduled execution time at which the query time range begins. For example, an offset of 360 (6 minutes) on a query running at 12:05:00 starts the query time range at 11:59:00. Constraints: o min: 1 o max: 2592000 EndTimeOffset -&gt; (long) The offset, in seconds, before the scheduled execution time at which the query time range ends. Must be non-negative and less than StartTimeOffset . The default is 0. Constraints: o min: 0 o max: 2592000 AggregationExpression -&gt; (string) [required] The expression that defines how to aggregate query results into one or more scalar values for alarm evaluation. For example, count(*) or avg(latency) by host | sort desc . Length con- straints: minimum 1 character, maximum 2048 characters. Constraints: o min: 1 o max: 2048 Tags -&gt; (list) A list of key-value pairs to associate with the underlying scheduled query resource. (structure) A key-value pair associated with a CloudWatch resource. Key -&gt; (string) [required] A string that you can use to assign a value. The combina- tion of tag keys and values can help you organize and categorize your resources. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value for the specified tag key. Constraints: o min: 0 o max: 256 Shorthand Syntax: QueryString=string,LogGroupIdentifiers=string,string,QueryARN=string,ScheduledQueryRoleARN=string,ScheduleConfiguration={ScheduleExpression=string,StartTimeOffset=long,EndTimeOffset=long},AggregationExpression=string,Tags=[{Key=string,Value=string},{Key=string,Value=string}] JSON Syntax: { "QueryString": "string", "LogGroupIdentifiers": ["string", ...], "QueryARN": "string", "ScheduledQueryRoleARN": "string", "ScheduleConfiguration": { "ScheduleExpression": "string", "StartTimeOffset": long, "EndTimeOffset": long }, "AggregationExpression": "string", "Tags": [ { "Key": "string", "Value": "string" } ... ] }
+    /// </summary>
+    [CliOption("--scheduled-query-configuration")]
+    public string? ScheduledQueryConfiguration { get; private init; }
+
+    /// <summary>
+    /// The number of most recent scheduled query results to evaluate against the threshold (the N in M-of-N evaluation). Valid range is 1 through 100. Constraints: o min: 1
+    /// </summary>
+    [CliOption("--query-results-to-evaluate")]
+    public int? QueryResultsToEvaluate { get; private init; }
+
+    /// <summary>
+    /// The number of query results, out of the most recent QueryResultsToE- valuate results, that must breach the threshold to trigger the alarm to transition to ALARM (the M in M-of-N evaluation). Must be less than or equal to QueryResultsToEvaluate . Constraints: o min: 1
+    /// </summary>
+    [CliOption("--query-results-to-alarm")]
+    public int? QueryResultsToAlarm { get; private init; }
+
+    /// <summary>
+    /// The value to compare with the aggregated query result.
+    /// </summary>
+    [CliOption("--threshold")]
+    public int? Threshold { get; private init; }
+
+    /// <summary>
+    /// The arithmetic operation to use when comparing the aggregated query result and the threshold. The aggregated query result is used as the first operand. Valid values are GreaterThanThreshold , GreaterThanOrEqualToThreshold , LessThanThreshold , and LessThanOrE- qualToThreshold . Possible values: o GreaterThanOrEqualToThreshold o GreaterThanThreshold o LessThanThreshold o LessThanOrEqualToThreshold o LessThanLowerOrGreaterThanUpperThreshold o LessThanLowerThreshold o GreaterThanUpperThreshold
+    /// </summary>
+    [CliOption("--comparison-operator")]
+    public AwsCloudwatchPutLogAlarmComparisonOperator? ComparisonOperator { get; private init; }
 
     /// <summary>
     /// The description for the alarm. Constraints: o min: 0 o max: 1024
     /// </summary>
     [CliOption("--alarm-description")]
     public string? AlarmDescription { get; set; }
-
-    [CliOption("--scheduled-query-configuration")]
-    public string? ScheduledQueryConfiguration { get; set; }
 
     /// <summary>
     /// The number of log lines from the most recent scheduled query execu- tion to include in alarm action notifications. Valid range is 0 through 50. The default is 0, which means no log lines are included.
@@ -45,7 +127,10 @@ public record AwsCloudwatchPutLogAlarmOptions : AwsOptions
     [CliOption("--action-log-line-role-arn")]
     public string? ActionLogLineRoleArn { get; set; }
 
-    [CliFlag("--actions-enabled")]
+    /// <summary>
+    /// Indicates whether actions should be executed during any changes to the alarm state. The default is true .
+    /// </summary>
+    [CliFlag("--actions-enabled", NegatedName = "--no-actions-enabled")]
     public bool? ActionsEnabled { get; set; }
 
     /// <summary>
@@ -65,18 +150,6 @@ public record AwsCloudwatchPutLogAlarmOptions : AwsOptions
     /// </summary>
     [CliOption("--insufficient-data-actions", GroupValues = true)]
     public IEnumerable<string>? InsufficientDataActions { get; set; }
-
-    [CliOption("--query-results-to-evaluate")]
-    public int? QueryResultsToEvaluate { get; set; }
-
-    [CliOption("--query-results-to-alarm")]
-    public int? QueryResultsToAlarm { get; set; }
-
-    [CliOption("--threshold")]
-    public int? Threshold { get; set; }
-
-    [CliOption("--comparison-operator")]
-    public string? ComparisonOperator { get; set; }
 
     /// <summary>
     /// Sets how this alarm is to handle missing data points. Valid values are breaching , notBreaching , ignore , and missing . If this para- meter is omitted, the default behavior of missing is used. Constraints: o min: 1 o max: 255
@@ -101,5 +174,22 @@ public record AwsCloudwatchPutLogAlarmOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

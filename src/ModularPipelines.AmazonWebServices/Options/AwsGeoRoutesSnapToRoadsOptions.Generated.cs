@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,8 +21,58 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("geo-routes", "snap-to-roads")]
-public record AwsGeoRoutesSnapToRoadsOptions : AwsOptions
+public record AwsGeoRoutesSnapToRoadsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// SnapToRoads matches GPS trace to roads most likely traveled on. For more information, see Snap to Roads in the Amazon Location Service Developer Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TracePoints">List of trace points to be snapped onto the road network. Constraints: o min: 2 o max: 5000 (structure) TracePoint indices for which the provided notice code corre- sponds to. Heading -&gt; (double) GPS Heading at the position. Constraints: o min: 0.0 o max: 360.0 Position -&gt; (list) [required] Position in World Geodetic System (WGS 84) format: [longi- tude, latitude]. Constraints: o min: 2 o max: 2 (double) Speed -&gt; (double) Speed at the specified trace point . Unit : kilometers per hour Constraints: o min: 0.0 Timestamp -&gt; (string) Timestamp of the event. Constraints: o pattern: ([1-2][0-9]{3})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9]|60)(\.[0-9]{0,9})?(Z|[+-]([01][0-9]|2[0-3]):[0-5][0-9]) Shorthand Syntax: Heading=double,Position=double,double,Speed=double,Timestamp=string ... JSON Syntax: [ { "Heading": double, "Position": [double, ...], "Speed": double, "Timestamp": "string" } ... ]</param>
+    public AwsGeoRoutesSnapToRoadsOptions(
+        IEnumerable<string> TracePoints
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(TracePoints);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(TracePoints));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(TracePoints));
+            }
+
+            TracePoints = materialized;
+        }
+        this.TracePoints = TracePoints;
+    }
+
+    private AwsGeoRoutesSnapToRoadsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGeoRoutesSnapToRoadsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGeoRoutesSnapToRoadsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// List of trace points to be snapped onto the road network. Constraints: o min: 2 o max: 5000 (structure) TracePoint indices for which the provided notice code corre- sponds to. Heading -&gt; (double) GPS Heading at the position. Constraints: o min: 0.0 o max: 360.0 Position -&gt; (list) [required] Position in World Geodetic System (WGS 84) format: [longi- tude, latitude]. Constraints: o min: 2 o max: 2 (double) Speed -&gt; (double) Speed at the specified trace point . Unit : kilometers per hour Constraints: o min: 0.0 Timestamp -&gt; (string) Timestamp of the event. Constraints: o pattern: ([1-2][0-9]{3})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9]|60)(\.[0-9]{0,9})?(Z|[+-]([01][0-9]|2[0-3]):[0-5][0-9]) Shorthand Syntax: Heading=double,Position=double,double,Speed=double,Timestamp=string ... JSON Syntax: [ { "Heading": double, "Position": [double, ...], "Speed": double, "Timestamp": "string" } ... ]
+    /// </summary>
+    [CliOption("--trace-points", GroupValues = true)]
+    public IEnumerable<string>? TracePoints { get; private init; }
+
     /// <summary>
     /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request. Constraints: o min: 0 o max: 1000
     /// </summary>
@@ -40,9 +91,6 @@ public record AwsGeoRoutesSnapToRoadsOptions : AwsOptions
     [CliOption("--snap-radius")]
     public int? SnapRadius { get; set; }
 
-    [CliOption("--trace-points", GroupValues = true)]
-    public IEnumerable<string>? TracePoints { get; set; }
-
     /// <summary>
     /// Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. Default value: Car Possible values: o Car o Pedestrian o Scooter o Truck
     /// </summary>
@@ -60,5 +108,22 @@ public record AwsGeoRoutesSnapToRoadsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,9 +21,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "modify-instance-credit-specification")]
-public record AwsEc2ModifyInstanceCreditSpecificationOptions : AwsOptions
+public record AwsEc2ModifyInstanceCreditSpecificationOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--dry-run")]
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies the credit option for CPU usage on a running or stopped burstable performance instance. The credit options are standard and un- limited . For more information, see Burstable performance instances in the Amazon EC2 User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceCreditSpecifications">Information about the credit option for CPU usage. (structure) Describes the credit option for CPU usage of a burstable perfor- mance instance. InstanceId -&gt; (string) [required] The ID of the instance. CpuCredits -&gt; (string) The credit option for CPU usage of the instance. Valid values: standard | unlimited T3 instances with host tenancy do not support the unlimited CPU credit option. Shorthand Syntax: InstanceId=string,CpuCredits=string ... JSON Syntax: [ { "InstanceId": "string", "CpuCredits": "string" } ... ]</param>
+    public AwsEc2ModifyInstanceCreditSpecificationOptions(
+        IEnumerable<string> InstanceCreditSpecifications
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(InstanceCreditSpecifications);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(InstanceCreditSpecifications));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(InstanceCreditSpecifications));
+            }
+
+            InstanceCreditSpecifications = materialized;
+        }
+        this.InstanceCreditSpecifications = InstanceCreditSpecifications;
+    }
+
+    private AwsEc2ModifyInstanceCreditSpecificationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2ModifyInstanceCreditSpecificationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2ModifyInstanceCreditSpecificationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Information about the credit option for CPU usage. (structure) Describes the credit option for CPU usage of a burstable perfor- mance instance. InstanceId -&gt; (string) [required] The ID of the instance. CpuCredits -&gt; (string) The credit option for CPU usage of the instance. Valid values: standard | unlimited T3 instances with host tenancy do not support the unlimited CPU credit option. Shorthand Syntax: InstanceId=string,CpuCredits=string ... JSON Syntax: [ { "InstanceId": "string", "CpuCredits": "string" } ... ]
+    /// </summary>
+    [CliOption("--instance-credit-specifications", GroupValues = true)]
+    public IEnumerable<string>? InstanceCreditSpecifications { get; private init; }
+
+    /// <summary>
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -32,13 +86,27 @@ public record AwsEc2ModifyInstanceCreditSpecificationOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--instance-credit-specifications", GroupValues = true)]
-    public IEnumerable<string>? InstanceCreditSpecifications { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mediaconnect", "remove-flow-output")]
-public record AwsMediaconnectRemoveFlowOutputOptions : AwsOptions
+public record AwsMediaconnectRemoveFlowOutputOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--flow-arn")]
-    public string? FlowArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Removes an output from an existing flow. This request can be made only on an output that does not have an entitlement associated with it. If the output has an entitlement, you must revoke the entitlement instead. When an entitlement is revoked from a flow, the service automatically removes the associated output. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FlowArn">The Amazon Resource Name (ARN) of the flow that you want to remove an output from. Constraints: o pattern: arn:.+:mediaconnect.+:flow:.+</param>
+    /// <param name="OutputArn">The ARN of the output that you want to remove. Constraints: o pattern: arn:.+:mediaconnect.+:output:.+</param>
+    public AwsMediaconnectRemoveFlowOutputOptions(
+        string FlowArn,
+        string OutputArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FlowArn);
+        this.FlowArn = FlowArn;
+        global::System.ArgumentNullException.ThrowIfNull(OutputArn);
+        this.OutputArn = OutputArn;
+    }
+
+    private AwsMediaconnectRemoveFlowOutputOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMediaconnectRemoveFlowOutputOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMediaconnectRemoveFlowOutputOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the flow that you want to remove an output from. Constraints: o pattern: arn:.+:mediaconnect.+:flow:.+
+    /// </summary>
+    [CliOption("--flow-arn")]
+    public string? FlowArn { get; private init; }
+
+    /// <summary>
+    /// The ARN of the output that you want to remove. Constraints: o pattern: arn:.+:mediaconnect.+:output:.+
+    /// </summary>
     [CliOption("--output-arn")]
-    public string? OutputArn { get; set; }
+    public string? OutputArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

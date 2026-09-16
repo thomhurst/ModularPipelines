@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codestar-connections", "get-sync-blocker-summary")]
-public record AwsCodestarConnectionsGetSyncBlockerSummaryOptions : AwsOptions
+public record AwsCodestarConnectionsGetSyncBlockerSummaryOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--sync-type")]
-    public string? SyncType { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Returns a list of the most recent sync blockers. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SyncType">The sync type for the sync blocker summary. Possible values: o CFN_STACK_SYNC</param>
+    /// <param name="ResourceName">The name of the Amazon Web Services resource currently blocked from automatically being synced from a Git repository. Constraints: o min: 1 o max: 100 o pattern: ^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$</param>
+    public AwsCodestarConnectionsGetSyncBlockerSummaryOptions(
+        string SyncType,
+        string ResourceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SyncType);
+        this.SyncType = SyncType;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceName);
+        this.ResourceName = ResourceName;
+    }
+
+    private AwsCodestarConnectionsGetSyncBlockerSummaryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodestarConnectionsGetSyncBlockerSummaryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodestarConnectionsGetSyncBlockerSummaryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The sync type for the sync blocker summary. Possible values: o CFN_STACK_SYNC
+    /// </summary>
+    [CliOption("--sync-type")]
+    public string? SyncType { get; private init; }
+
+    /// <summary>
+    /// The name of the Amazon Web Services resource currently blocked from automatically being synced from a Git repository. Constraints: o min: 1 o max: 100 o pattern: ^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$
+    /// </summary>
     [CliOption("--resource-name")]
-    public string? ResourceName { get; set; }
+    public string? ResourceName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

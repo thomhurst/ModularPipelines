@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,22 +21,100 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("waf-regional", "update-rule-group")]
-public record AwsWafRegionalUpdateRuleGroupOptions : AwsOptions
+public record AwsWafRegionalUpdateRuleGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. Inserts or deletes ActivatedRule objects in a RuleGroup . You can only insert REGULAR rules into a rule group. You can have a maximum of ten rules per rule group. To create and configure a RuleGroup , ...
+    /// </summary>
+    /// <param name="RuleGroupId">The RuleGroupId of the RuleGroup that you want to update. Rule- GroupId is returned by CreateRuleGroup and by ListRuleGroups . Constraints: o min: 1 o max: 128 o pattern: .*\S.*</param>
+    /// <param name="Updates">An array of RuleGroupUpdate objects that you want to insert into or delete from a RuleGroup . You can only insert REGULAR rules into a rule group. ActivatedRule|OverrideAction applies only when updating or adding a RuleGroup to a WebACL . In this case you do not use Ac- tivatedRule|Action . For all other update requests, Activate- dRule|Action is used instead of ActivatedRule|OverrideAction . Constraints: o min: 1 (structure) NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for re- gional and global use. Specifies an ActivatedRule and indicates whether you want to add it to a RuleGroup or delete it from a RuleGroup . Action -&gt; (string) [required] Specify INSERT to add an ActivatedRule to a RuleGroup . Use DELETE to remove an ActivatedRule from a RuleGroup . Possible values: o INSERT o DELETE ActivatedRule -&gt; (structure) [required] The ActivatedRule object specifies a Rule that you want to insert or delete, the priority of the Rule in the WebACL , and the action that you want AWS WAF to take when a web re- quest matches the Rule (ALLOW , BLOCK , or COUNT ). Priority -&gt; (integer) [required] Specifies the order in which the Rules in a WebACL are evaluated. Rules with a lower value for Priority are evaluated before Rules with a higher value. The value must be a unique integer. If you add multiple Rules to a WebACL , the values don't need to be consecutive. RuleId -&gt; (string) [required] The RuleId for a Rule . You use RuleId to get more infor- mation about a Rule (see GetRule ), update a Rule (see UpdateRule ), insert a Rule into a WebACL or delete a one from a WebACL (see UpdateWebACL ), or delete a Rule from AWS WAF (see DeleteRule ). RuleId is returned by CreateRule and by ListRules . Constraints: o min: 1 o max: 128 o pattern: .*\S.* Action -&gt; (structure) Specifies the action that CloudFront or AWS WAF takes when a web request matches the conditions in the Rule . Valid values for Action include the following: o ALLOW : CloudFront responds with the requested object. o BLOCK : CloudFront responds with an HTTP 403 (Forbid- den) status code. o COUNT : AWS WAF increments a counter of requests that match the conditions in the rule and then continues to inspect the web request based on the remaining rules in the web ACL. ActivatedRule|OverrideAction applies only when updat- ing or adding a RuleGroup to a WebACL . In this case, you do not use ActivatedRule|Action . For all other update requests, ActivatedRule|Action is used instead of ActivatedRule|OverrideAction . Type -&gt; (string) [required] Specifies how you want AWS WAF to respond to requests that match the settings in a Rule . Valid settings in- clude the following: o ALLOW : AWS WAF allows requests o BLOCK : AWS WAF blocks requests o COUNT : AWS WAF increments a counter of the requests that match all of the conditions in the rule. AWS WAF then continues to inspect the web request based on the remaining rules in the web ACL. You can't specify COUNT for the default action for a WebACL . Possible values: o BLOCK o ALLOW o COUNT OverrideAction -&gt; (structure) Use the OverrideAction to test your RuleGroup . Any rule in a RuleGroup can potentially block a request. If you set the OverrideAction to None , the RuleGroup will block a request if any individual rule in the Rule- Group matches the request and is configured to block that request. However if you first want to test the RuleGroup , set the OverrideAction to Count . The RuleGroup will then override any block action specified by individual rules contained within the group. Instead of blocking matching requests, those requests will be counted. You can view a record of counted requests using GetSample- dRequests . ActivatedRule|OverrideAction applies only when updat- ing or adding a RuleGroup to a WebACL . In this case you do not use ActivatedRule|Action . For all other update requests, ActivatedRule|Action is used instead of ActivatedRule|OverrideAction . Type -&gt; (string) [required] COUNT overrides the action specified by the indi- vidual rule within a RuleGroup . If set to NONE , the rule's action will take place. Possible values: o NONE o COUNT Type -&gt; (string) The rule type, either REGULAR , as defined by Rule , RATE_BASED , as defined by RateBasedRule , or GROUP , as defined by RuleGroup . The default is REGULAR. Although this field is optional, be aware that if you try to add a RATE_BASED rule to a web ACL without setting the type, the UpdateWebACL request will fail because the request tries to add a REGULAR rule with the specified ID, which does not exist. Possible values: o REGULAR o RATE_BASED o GROUP ExcludedRules -&gt; (list) An array of rules to exclude from a rule group. This is applicable only when the ActivatedRule refers to a Rule- Group . Sometimes it is necessary to troubleshoot rule groups that are blocking traffic unexpectedly (false positives). One troubleshooting technique is to identify the specific rule within the rule group that is blocking the legiti- mate traffic and then disable (exclude) that particular rule. You can exclude rules from both your own rule groups and AWS Marketplace rule groups that have been as- sociated with a web ACL. Specifying ExcludedRules does not remove those rules from the rule group. Rather, it changes the action for the rules to COUNT . Therefore, requests that match an Ex- cludedRule are counted but not blocked. The RuleGroup owner will receive COUNT metrics for each ExcludedRule . If you want to exclude rules from a rule group that is already associated with a web ACL, perform the following steps: o Use the AWS WAF logs to identify the IDs of the rules that you want to exclude. For more information about the logs, see Logging Web ACL Traffic Information . o Submit an UpdateWebACL request that has two actions: o The first action deletes the existing rule group from the web ACL. That is, in the UpdateWebACL request, the first Updates:Action should be DELETE and Up- dates:ActivatedRule:RuleId should be the rule group that contains the rules that you want to exclude. o The second action inserts the same rule group back in, but specifying the rules to exclude. That is, the second Updates:Action should be INSERT , Updates:Ac- tivatedRule:RuleId should be the rule group that you just removed, and ExcludedRules should contain the rules that you want to exclude. (structure) NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. The rule to exclude from a rule group. This is applic- able only when the ActivatedRule refers to a RuleGroup . The rule must belong to the RuleGroup that is speci- fied by the ActivatedRule . RuleId -&gt; (string) [required] The unique identifier for the rule to exclude from the rule group. Constraints: o min: 1 o max: 128 o pattern: .*\S.* JSON Syntax: [ { "Action": "INSERT"|"DELETE", "ActivatedRule": { "Priority": integer, "RuleId": "string", "Action": { "Type": "BLOCK"|"ALLOW"|"COUNT" }, "OverrideAction": { "Type": "NONE"|"COUNT" }, "Type": "REGULAR"|"RATE_BASED"|"GROUP", "ExcludedRules": [ { "RuleId": "string" } ... ] } } ... ]</param>
+    /// <param name="ChangeToken">The value returned by the most recent call to GetChangeToken . Constraints: o min: 1 o max: 128 o pattern: .*\S.*</param>
+    public AwsWafRegionalUpdateRuleGroupOptions(
+        string RuleGroupId,
+        IEnumerable<string> Updates,
+        string ChangeToken
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RuleGroupId);
+        this.RuleGroupId = RuleGroupId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Updates);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Updates));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Updates));
+            }
+
+            Updates = materialized;
+        }
+        this.Updates = Updates;
+        global::System.ArgumentNullException.ThrowIfNull(ChangeToken);
+        this.ChangeToken = ChangeToken;
+    }
+
+    private AwsWafRegionalUpdateRuleGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWafRegionalUpdateRuleGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWafRegionalUpdateRuleGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The RuleGroupId of the RuleGroup that you want to update. Rule- GroupId is returned by CreateRuleGroup and by ListRuleGroups . Constraints: o min: 1 o max: 128 o pattern: .*\S.*
+    /// </summary>
     [CliOption("--rule-group-id")]
-    public string? RuleGroupId { get; set; }
+    public string? RuleGroupId { get; private init; }
 
+    /// <summary>
+    /// An array of RuleGroupUpdate objects that you want to insert into or delete from a RuleGroup . You can only insert REGULAR rules into a rule group. ActivatedRule|OverrideAction applies only when updating or adding a RuleGroup to a WebACL . In this case you do not use Ac- tivatedRule|Action . For all other update requests, Activate- dRule|Action is used instead of ActivatedRule|OverrideAction . Constraints: o min: 1 (structure) NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for re- gional and global use. Specifies an ActivatedRule and indicates whether you want to add it to a RuleGroup or delete it from a RuleGroup . Action -&gt; (string) [required] Specify INSERT to add an ActivatedRule to a RuleGroup . Use DELETE to remove an ActivatedRule from a RuleGroup . Possible values: o INSERT o DELETE ActivatedRule -&gt; (structure) [required] The ActivatedRule object specifies a Rule that you want to insert or delete, the priority of the Rule in the WebACL , and the action that you want AWS WAF to take when a web re- quest matches the Rule (ALLOW , BLOCK , or COUNT ). Priority -&gt; (integer) [required] Specifies the order in which the Rules in a WebACL are evaluated. Rules with a lower value for Priority are evaluated before Rules with a higher value. The value must be a unique integer. If you add multiple Rules to a WebACL , the values don't need to be consecutive. RuleId -&gt; (string) [required] The RuleId for a Rule . You use RuleId to get more infor- mation about a Rule (see GetRule ), update a Rule (see UpdateRule ), insert a Rule into a WebACL or delete a one from a WebACL (see UpdateWebACL ), or delete a Rule from AWS WAF (see DeleteRule ). RuleId is returned by CreateRule and by ListRules . Constraints: o min: 1 o max: 128 o pattern: .*\S.* Action -&gt; (structure) Specifies the action that CloudFront or AWS WAF takes when a web request matches the conditions in the Rule . Valid values for Action include the following: o ALLOW : CloudFront responds with the requested object. o BLOCK : CloudFront responds with an HTTP 403 (Forbid- den) status code. o COUNT : AWS WAF increments a counter of requests that match the conditions in the rule and then continues to inspect the web request based on the remaining rules in the web ACL. ActivatedRule|OverrideAction applies only when updat- ing or adding a RuleGroup to a WebACL . In this case, you do not use ActivatedRule|Action . For all other update requests, ActivatedRule|Action is used instead of ActivatedRule|OverrideAction . Type -&gt; (string) [required] Specifies how you want AWS WAF to respond to requests that match the settings in a Rule . Valid settings in- clude the following: o ALLOW : AWS WAF allows requests o BLOCK : AWS WAF blocks requests o COUNT : AWS WAF increments a counter of the requests that match all of the conditions in the rule. AWS WAF then continues to inspect the web request based on the remaining rules in the web ACL. You can't specify COUNT for the default action for a WebACL . Possible values: o BLOCK o ALLOW o COUNT OverrideAction -&gt; (structure) Use the OverrideAction to test your RuleGroup . Any rule in a RuleGroup can potentially block a request. If you set the OverrideAction to None , the RuleGroup will block a request if any individual rule in the Rule- Group matches the request and is configured to block that request. However if you first want to test the RuleGroup , set the OverrideAction to Count . The RuleGroup will then override any block action specified by individual rules contained within the group. Instead of blocking matching requests, those requests will be counted. You can view a record of counted requests using GetSample- dRequests . ActivatedRule|OverrideAction applies only when updat- ing or adding a RuleGroup to a WebACL . In this case you do not use ActivatedRule|Action . For all other update requests, ActivatedRule|Action is used instead of ActivatedRule|OverrideAction . Type -&gt; (string) [required] COUNT overrides the action specified by the indi- vidual rule within a RuleGroup . If set to NONE , the rule's action will take place. Possible values: o NONE o COUNT Type -&gt; (string) The rule type, either REGULAR , as defined by Rule , RATE_BASED , as defined by RateBasedRule , or GROUP , as defined by RuleGroup . The default is REGULAR. Although this field is optional, be aware that if you try to add a RATE_BASED rule to a web ACL without setting the type, the UpdateWebACL request will fail because the request tries to add a REGULAR rule with the specified ID, which does not exist. Possible values: o REGULAR o RATE_BASED o GROUP ExcludedRules -&gt; (list) An array of rules to exclude from a rule group. This is applicable only when the ActivatedRule refers to a Rule- Group . Sometimes it is necessary to troubleshoot rule groups that are blocking traffic unexpectedly (false positives). One troubleshooting technique is to identify the specific rule within the rule group that is blocking the legiti- mate traffic and then disable (exclude) that particular rule. You can exclude rules from both your own rule groups and AWS Marketplace rule groups that have been as- sociated with a web ACL. Specifying ExcludedRules does not remove those rules from the rule group. Rather, it changes the action for the rules to COUNT . Therefore, requests that match an Ex- cludedRule are counted but not blocked. The RuleGroup owner will receive COUNT metrics for each ExcludedRule . If you want to exclude rules from a rule group that is already associated with a web ACL, perform the following steps: o Use the AWS WAF logs to identify the IDs of the rules that you want to exclude. For more information about the logs, see Logging Web ACL Traffic Information . o Submit an UpdateWebACL request that has two actions: o The first action deletes the existing rule group from the web ACL. That is, in the UpdateWebACL request, the first Updates:Action should be DELETE and Up- dates:ActivatedRule:RuleId should be the rule group that contains the rules that you want to exclude. o The second action inserts the same rule group back in, but specifying the rules to exclude. That is, the second Updates:Action should be INSERT , Updates:Ac- tivatedRule:RuleId should be the rule group that you just removed, and ExcludedRules should contain the rules that you want to exclude. (structure) NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. The rule to exclude from a rule group. This is applic- able only when the ActivatedRule refers to a RuleGroup . The rule must belong to the RuleGroup that is speci- fied by the ActivatedRule . RuleId -&gt; (string) [required] The unique identifier for the rule to exclude from the rule group. Constraints: o min: 1 o max: 128 o pattern: .*\S.* JSON Syntax: [ { "Action": "INSERT"|"DELETE", "ActivatedRule": { "Priority": integer, "RuleId": "string", "Action": { "Type": "BLOCK"|"ALLOW"|"COUNT" }, "OverrideAction": { "Type": "NONE"|"COUNT" }, "Type": "REGULAR"|"RATE_BASED"|"GROUP", "ExcludedRules": [ { "RuleId": "string" } ... ] } } ... ]
+    /// </summary>
     [CliOption("--updates", GroupValues = true)]
-    public IEnumerable<string>? Updates { get; set; }
+    public IEnumerable<string>? Updates { get; private init; }
 
+    /// <summary>
+    /// The value returned by the most recent call to GetChangeToken . Constraints: o min: 1 o max: 128 o pattern: .*\S.*
+    /// </summary>
     [SecretValue]
     [CliOption("--change-token")]
-    public string? ChangeToken { get; set; }
+    public string? ChangeToken { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

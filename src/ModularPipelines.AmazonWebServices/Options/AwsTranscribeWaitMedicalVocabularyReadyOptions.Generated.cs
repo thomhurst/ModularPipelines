@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("transcribe", "wait", "medical-vocabulary-ready")]
-public record AwsTranscribeWaitMedicalVocabularyReadyOptions : AwsOptions
+public record AwsTranscribeWaitMedicalVocabularyReadyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Wait until JMESPath query VocabularyState returns READY when polling with get-medical-vocabulary. It will poll every 10 seconds until a suc- cessful state has been reached. This will exit with a return code of 255 after 180 failed checks. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="VocabularyName">The name of the custom medical vocabulary you want information about. Custom medical vocabulary names are case sensitive. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z._-]+</param>
+    public AwsTranscribeWaitMedicalVocabularyReadyOptions(
+        string VocabularyName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VocabularyName);
+        this.VocabularyName = VocabularyName;
+    }
+
+    private AwsTranscribeWaitMedicalVocabularyReadyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTranscribeWaitMedicalVocabularyReadyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTranscribeWaitMedicalVocabularyReadyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the custom medical vocabulary you want information about. Custom medical vocabulary names are case sensitive. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z._-]+
+    /// </summary>
     [CliOption("--vocabulary-name")]
-    public string? VocabularyName { get; set; }
+    public string? VocabularyName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

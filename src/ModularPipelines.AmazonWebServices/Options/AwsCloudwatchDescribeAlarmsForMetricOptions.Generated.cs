@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudwatch", "describe-alarms-for-metric")]
-public record AwsCloudwatchDescribeAlarmsForMetricOptions : AwsOptions
+public record AwsCloudwatchDescribeAlarmsForMetricOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--metric-name")]
-    public string? MetricName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Retrieves the alarms for the specified metric. To filter the results, specify a statistic, period, or unit. This operation retrieves only standard alarms that are based on the specified metric. It does not return alarms based on math expressions that use the specified metric, or composite alarms that use the speci- fied metric. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="MetricName">The name of the metric. Constraints: o min: 1 o max: 255</param>
+    /// <param name="Namespace">The namespace of the metric. Constraints: o min: 1 o max: 255 o pattern: [^:].*</param>
+    public AwsCloudwatchDescribeAlarmsForMetricOptions(
+        string MetricName,
+        string Namespace
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MetricName);
+        this.MetricName = MetricName;
+        global::System.ArgumentNullException.ThrowIfNull(Namespace);
+        this.Namespace = Namespace;
+    }
+
+    private AwsCloudwatchDescribeAlarmsForMetricOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudwatchDescribeAlarmsForMetricOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudwatchDescribeAlarmsForMetricOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the metric. Constraints: o min: 1 o max: 255
+    /// </summary>
+    [CliOption("--metric-name")]
+    public string? MetricName { get; private init; }
+
+    /// <summary>
+    /// The namespace of the metric. Constraints: o min: 1 o max: 255 o pattern: [^:].*
+    /// </summary>
     [CliOption("--namespace")]
-    public string? Namespace { get; set; }
+    public string? Namespace { get; private init; }
 
     /// <summary>
     /// The statistic for the metric, other than percentiles. For percentile statistics, use ExtendedStatistics . Possible values: o SampleCount o Average o Sum o Minimum o Maximum
@@ -63,5 +107,22 @@ public record AwsCloudwatchDescribeAlarmsForMetricOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -16,18 +16,18 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDatazoneListDataSourceRunsStatus
 {
-    [EnumValue("REQUESTED")]
-    Requested = 1,
-
-    [EnumValue("RUNNING")]
-    Running = 2,
-
     [EnumValue("FAILED")]
-    Failed = 3,
+    Failed,
 
     [EnumValue("PARTIALLY_SUCCEEDED")]
-    PartiallySucceeded = 4,
+    PartiallySucceeded,
+
+    [EnumValue("REQUESTED")]
+    Requested,
+
+    [EnumValue("RUNNING")]
+    Running,
 
     [EnumValue("SUCCESS")]
-    Success = 5
+    Success
 }

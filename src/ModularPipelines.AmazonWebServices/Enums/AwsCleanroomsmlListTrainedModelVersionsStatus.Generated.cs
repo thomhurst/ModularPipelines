@@ -16,36 +16,36 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCleanroomsmlListTrainedModelVersionsStatus
 {
-    [EnumValue("CREATE_PENDING")]
-    CreatePending = 1,
-
-    [EnumValue("CREATE_IN_PROGRESS")]
-    CreateInProgress = 2,
-
-    [EnumValue("CREATE_FAILED")]
-    CreateFailed = 3,
-
     [EnumValue("ACTIVE")]
-    Active = 4,
-
-    [EnumValue("DELETE_PENDING")]
-    DeletePending = 5,
-
-    [EnumValue("DELETE_IN_PROGRESS")]
-    DeleteInProgress = 6,
-
-    [EnumValue("DELETE_FAILED")]
-    DeleteFailed = 7,
-
-    [EnumValue("INACTIVE")]
-    Inactive = 8,
-
-    [EnumValue("CANCEL_PENDING")]
-    CancelPending = 9,
-
-    [EnumValue("CANCEL_IN_PROGRESS")]
-    CancelInProgress = 10,
+    Active,
 
     [EnumValue("CANCEL_FAILED")]
-    CancelFailed = 11
+    CancelFailed,
+
+    [EnumValue("CANCEL_IN_PROGRESS")]
+    CancelInProgress,
+
+    [EnumValue("CANCEL_PENDING")]
+    CancelPending,
+
+    [EnumValue("CREATE_FAILED")]
+    CreateFailed,
+
+    [EnumValue("CREATE_IN_PROGRESS")]
+    CreateInProgress,
+
+    [EnumValue("CREATE_PENDING")]
+    CreatePending,
+
+    [EnumValue("DELETE_FAILED")]
+    DeleteFailed,
+
+    [EnumValue("DELETE_IN_PROGRESS")]
+    DeleteInProgress,
+
+    [EnumValue("DELETE_PENDING")]
+    DeletePending,
+
+    [EnumValue("INACTIVE")]
+    Inactive
 }

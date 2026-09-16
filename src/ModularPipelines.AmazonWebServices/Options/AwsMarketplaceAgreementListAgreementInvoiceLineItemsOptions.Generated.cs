@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("marketplace-agreement", "list-agreement-invoice-line-items")]
-public record AwsMarketplaceAgreementListAgreementInvoiceLineItemsOptions : AwsOptions
+public record AwsMarketplaceAgreementListAgreementInvoiceLineItemsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--agreement-id")]
-    public string? AgreementId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Allows sellers (proposers) to retrieve aggregated billing data from AWS Marketplace agreements using flexible grouping. Supports invoice-level aggregation with filtering by billing period, invoice type, and issued date. NOTE: The groupBy parameter is required and supports only INVOICE_ID as a value. The agreementId parameter is required. See also: AWS API Documentation list-agreement-invoice-line-items is a paginated operation. Multiple API calls may be issued in order to retrieve the entire dat...
+    /// </summary>
+    /// <param name="AgreementId">The unique identifier of the agreement. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_/-]+</param>
+    /// <param name="GroupBy">Specifies a grouping strategy for line items. Currently supports IN- VOICE_ID . Possible values: o INVOICE_ID</param>
+    public AwsMarketplaceAgreementListAgreementInvoiceLineItemsOptions(
+        string AgreementId,
+        string GroupBy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AgreementId);
+        this.AgreementId = AgreementId;
+        global::System.ArgumentNullException.ThrowIfNull(GroupBy);
+        this.GroupBy = GroupBy;
+    }
+
+    private AwsMarketplaceAgreementListAgreementInvoiceLineItemsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMarketplaceAgreementListAgreementInvoiceLineItemsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMarketplaceAgreementListAgreementInvoiceLineItemsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the agreement. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_/-]+
+    /// </summary>
+    [CliOption("--agreement-id")]
+    public string? AgreementId { get; private init; }
+
+    /// <summary>
+    /// Specifies a grouping strategy for line items. Currently supports IN- VOICE_ID . Possible values: o INVOICE_ID
+    /// </summary>
     [CliOption("--group-by")]
-    public string? GroupBy { get; set; }
+    public string? GroupBy { get; private init; }
 
     /// <summary>
     /// An optional filter to retrieve invoice information for a specific invoice. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_/-]+
@@ -83,5 +127,22 @@ public record AwsMarketplaceAgreementListAgreementInvoiceLineItemsOptions : AwsO
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

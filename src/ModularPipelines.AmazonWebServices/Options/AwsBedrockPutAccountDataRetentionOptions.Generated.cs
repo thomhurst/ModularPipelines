@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +21,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock", "put-account-data-retention")]
-public record AwsBedrockPutAccountDataRetentionOptions : AwsOptions
+public record AwsBedrockPutAccountDataRetentionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Sets the account-wide data retention mode for Amazon Bedrock. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Mode">The data retention mode to set for the account. Possible values: o default o none o aws_review o provider_data_share o inherit</param>
+    public AwsBedrockPutAccountDataRetentionOptions(
+        AwsBedrockPutAccountDataRetentionMode Mode
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Mode);
+        this.Mode = Mode;
+    }
+
+    private AwsBedrockPutAccountDataRetentionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockPutAccountDataRetentionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockPutAccountDataRetentionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The data retention mode to set for the account. Possible values: o default o none o aws_review o provider_data_share o inherit
+    /// </summary>
     [CliOption("--mode")]
-    public string? Mode { get; set; }
+    public AwsBedrockPutAccountDataRetentionMode? Mode { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

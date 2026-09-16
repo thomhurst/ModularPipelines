@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --ingestionmode.
+/// Allowed values for --ingestion-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsPersonalizeCreateDataSetExportJobIngestionMode
 {
+    [EnumValue("ALL")]
+    All,
+
     [EnumValue("BULK")]
-    Bulk = 1,
+    Bulk,
 
     [EnumValue("PUT")]
-    Put = 2,
-
-    [EnumValue("ALL")]
-    All = 3
+    Put
 }

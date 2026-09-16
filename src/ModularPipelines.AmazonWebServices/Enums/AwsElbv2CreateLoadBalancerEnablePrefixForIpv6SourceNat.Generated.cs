@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --enableprefixforipv6sourcenat.
+/// Allowed values for --enable-prefix-for-ipv6-source-nat.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsElbv2CreateLoadBalancerEnablePrefixForIpv6SourceNat
 {
-    [EnumValue("on")]
-    On = 1,
-
     [EnumValue("off")]
-    Off = 2
+    Off,
+
+    [EnumValue("on")]
+    On
 }

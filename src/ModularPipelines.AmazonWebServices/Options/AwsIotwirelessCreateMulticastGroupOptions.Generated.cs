@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotwireless", "create-multicast-group")]
-public record AwsIotwirelessCreateMulticastGroupOptions : AwsOptions
+public record AwsIotwirelessCreateMulticastGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a multicast group. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Lorawan">The LoRaWAN information that is to be used with the multicast group. RfRegion -&gt; (string) Supported RfRegions Possible values: o EU868 o US915 o AU915 o AS923-1 o AS923-2 o AS923-3 o AS923-4 o EU433 o CN470 o CN779 o RU864 o KR920 o IN865 DlClass -&gt; (string) DlClass for LoRaWAM, valid values are ClassB and ClassC. Possible values: o ClassB o ClassC Constraints: o max: 256 ParticipatingGateways -&gt; (structure) Specify the list of gateways to which you want to send the mul- ticast downlink messages. The multicast message will be sent to each gateway in the list, with the transmission interval as the time interval between each message. GatewayList -&gt; (list) The list of gateways that you want to use for sending the multicast downlink message. Each downlink message will be sent to all the gateways in the list in the order that you provided. If the gateway list is empty, then AWS IoT Core for LoRaWAN chooses the gateways that were most recently used by the devices to send an uplink message. Constraints: o max: 20 (string) Constraints: o max: 256 TransmissionInterval -&gt; (integer) The duration of time in milliseconds for which AWS IoT Core for LoRaWAN will wait before transmitting the multicast pay- load to the next gateway in the list. Constraints: o min: 0 o max: 60000 DefaultSessionParameters -&gt; (structure) The default session parameters for the multicast group. DlDr -&gt; (integer) Downlink data rate. Constraints: o min: 0 o max: 15 DlFreq -&gt; (integer) Downlink frequency. Constraints: o min: 100000000 o max: 1000000000 Shorthand Syntax: RfRegion=string,DlClass=string,ParticipatingGateways={GatewayList=[string,string],TransmissionInterval=integer},DefaultSessionParameters={DlDr=integer,DlFreq=integer} JSON Syntax: { "RfRegion": "EU868"|"US915"|"AU915"|"AS923-1"|"AS923-2"|"AS923-3"|"AS923-4"|"EU433"|"CN470"|"CN779"|"RU864"|"KR920"|"IN865", "DlClass": "ClassB"|"ClassC", "ParticipatingGateways": { "GatewayList": ["string", ...], "TransmissionInterval": integer }, "DefaultSessionParameters": { "DlDr": integer, "DlFreq": integer } }</param>
+    public AwsIotwirelessCreateMulticastGroupOptions(
+        string Lorawan
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Lorawan);
+        this.Lorawan = Lorawan;
+    }
+
+    private AwsIotwirelessCreateMulticastGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotwirelessCreateMulticastGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotwirelessCreateMulticastGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The LoRaWAN information that is to be used with the multicast group. RfRegion -&gt; (string) Supported RfRegions Possible values: o EU868 o US915 o AU915 o AS923-1 o AS923-2 o AS923-3 o AS923-4 o EU433 o CN470 o CN779 o RU864 o KR920 o IN865 DlClass -&gt; (string) DlClass for LoRaWAM, valid values are ClassB and ClassC. Possible values: o ClassB o ClassC Constraints: o max: 256 ParticipatingGateways -&gt; (structure) Specify the list of gateways to which you want to send the mul- ticast downlink messages. The multicast message will be sent to each gateway in the list, with the transmission interval as the time interval between each message. GatewayList -&gt; (list) The list of gateways that you want to use for sending the multicast downlink message. Each downlink message will be sent to all the gateways in the list in the order that you provided. If the gateway list is empty, then AWS IoT Core for LoRaWAN chooses the gateways that were most recently used by the devices to send an uplink message. Constraints: o max: 20 (string) Constraints: o max: 256 TransmissionInterval -&gt; (integer) The duration of time in milliseconds for which AWS IoT Core for LoRaWAN will wait before transmitting the multicast pay- load to the next gateway in the list. Constraints: o min: 0 o max: 60000 DefaultSessionParameters -&gt; (structure) The default session parameters for the multicast group. DlDr -&gt; (integer) Downlink data rate. Constraints: o min: 0 o max: 15 DlFreq -&gt; (integer) Downlink frequency. Constraints: o min: 100000000 o max: 1000000000 Shorthand Syntax: RfRegion=string,DlClass=string,ParticipatingGateways={GatewayList=[string,string],TransmissionInterval=integer},DefaultSessionParameters={DlDr=integer,DlFreq=integer} JSON Syntax: { "RfRegion": "EU868"|"US915"|"AU915"|"AS923-1"|"AS923-2"|"AS923-3"|"AS923-4"|"EU433"|"CN470"|"CN779"|"RU864"|"KR920"|"IN865", "DlClass": "ClassB"|"ClassC", "ParticipatingGateways": { "GatewayList": ["string", ...], "TransmissionInterval": integer }, "DefaultSessionParameters": { "DlDr": integer, "DlFreq": integer } }
+    /// </summary>
+    [CliOption("--lorawan")]
+    public string? Lorawan { get; private init; }
+
     /// <summary>
     /// The name of the multicast group. Constraints: o max: 256
     /// </summary>
@@ -47,13 +87,27 @@ public record AwsIotwirelessCreateMulticastGroupOptions : AwsOptions
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
-    [CliOption("--lorawan")]
-    public string? Lorawan { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

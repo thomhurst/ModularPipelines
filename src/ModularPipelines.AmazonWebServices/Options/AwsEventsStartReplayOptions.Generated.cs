@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("events", "start-replay")]
-public record AwsEventsStartReplayOptions : AwsOptions
+public record AwsEventsStartReplayOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts the specified replay. Events are not necessarily replayed in the exact same order that they were added to the archive. A replay processes events to replay based on the time in the event, and replays them using 1 minute intervals. If you specify an EventStartTime and an EventEndTime that covers a 20 minute time range, the events are re- played from the first minute of that 20 minute range first. Then the events from the second minute are replayed. You can use DescribeReplay to determine th...
+    /// </summary>
+    /// <param name="ReplayName">The name of the replay to start. Constraints: o min: 1 o max: 64 o pattern: [\.\-_A-Za-z0-9]+</param>
+    /// <param name="EventSourceArn">The ARN of the archive to replay events from. Constraints: o min: 1 o max: 1600 o pattern: ^arn:aws([a-z]|\-)*:events:([a-z]|\d|\-)*:([0-9]{12})?:.+\/.+$</param>
+    /// <param name="EventStartTime">A time stamp for the time to start replaying events. Only events that occurred between the EventStartTime and EventEndTime are re- played.</param>
+    /// <param name="EventEndTime">A time stamp for the time to stop replaying events. Only events that occurred between the EventStartTime and EventEndTime are replayed.</param>
+    /// <param name="Destination">A ReplayDestination object that includes details about the destina- tion for the replay. Arn -&gt; (string) [required] The ARN of the event bus to replay event to. You can replay events only to the event bus specified to create the archive. Constraints: o min: 1 o max: 1600 FilterArns -&gt; (list) A list of ARNs for rules to replay events to. (string) Constraints: o min: 1 o max: 1600 Shorthand Syntax: Arn=string,FilterArns=string,string JSON Syntax: { "Arn": "string", "FilterArns": ["string", ...] }</param>
+    public AwsEventsStartReplayOptions(
+        string ReplayName,
+        string EventSourceArn,
+        string EventStartTime,
+        string EventEndTime,
+        string Destination
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReplayName);
+        this.ReplayName = ReplayName;
+        global::System.ArgumentNullException.ThrowIfNull(EventSourceArn);
+        this.EventSourceArn = EventSourceArn;
+        global::System.ArgumentNullException.ThrowIfNull(EventStartTime);
+        this.EventStartTime = EventStartTime;
+        global::System.ArgumentNullException.ThrowIfNull(EventEndTime);
+        this.EventEndTime = EventEndTime;
+        global::System.ArgumentNullException.ThrowIfNull(Destination);
+        this.Destination = Destination;
+    }
+
+    private AwsEventsStartReplayOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEventsStartReplayOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEventsStartReplayOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the replay to start. Constraints: o min: 1 o max: 64 o pattern: [\.\-_A-Za-z0-9]+
+    /// </summary>
     [CliOption("--replay-name")]
-    public string? ReplayName { get; set; }
+    public string? ReplayName { get; private init; }
+
+    /// <summary>
+    /// The ARN of the archive to replay events from. Constraints: o min: 1 o max: 1600 o pattern: ^arn:aws([a-z]|\-)*:events:([a-z]|\d|\-)*:([0-9]{12})?:.+\/.+$
+    /// </summary>
+    [CliOption("--event-source-arn")]
+    public string? EventSourceArn { get; private init; }
+
+    /// <summary>
+    /// A time stamp for the time to start replaying events. Only events that occurred between the EventStartTime and EventEndTime are re- played.
+    /// </summary>
+    [CliOption("--event-start-time")]
+    public string? EventStartTime { get; private init; }
+
+    /// <summary>
+    /// A time stamp for the time to stop replaying events. Only events that occurred between the EventStartTime and EventEndTime are replayed.
+    /// </summary>
+    [CliOption("--event-end-time")]
+    public string? EventEndTime { get; private init; }
+
+    /// <summary>
+    /// A ReplayDestination object that includes details about the destina- tion for the replay. Arn -&gt; (string) [required] The ARN of the event bus to replay event to. You can replay events only to the event bus specified to create the archive. Constraints: o min: 1 o max: 1600 FilterArns -&gt; (list) A list of ARNs for rules to replay events to. (string) Constraints: o min: 1 o max: 1600 Shorthand Syntax: Arn=string,FilterArns=string,string JSON Syntax: { "Arn": "string", "FilterArns": ["string", ...] }
+    /// </summary>
+    [CliOption("--destination")]
+    public string? Destination { get; private init; }
 
     /// <summary>
     /// A description for the replay to start. Constraints: o max: 512 o pattern: .*
@@ -30,22 +107,27 @@ public record AwsEventsStartReplayOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--event-source-arn")]
-    public string? EventSourceArn { get; set; }
-
-    [CliOption("--event-start-time")]
-    public string? EventStartTime { get; set; }
-
-    [CliOption("--event-end-time")]
-    public string? EventEndTime { get; set; }
-
-    [CliOption("--destination")]
-    public string? Destination { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

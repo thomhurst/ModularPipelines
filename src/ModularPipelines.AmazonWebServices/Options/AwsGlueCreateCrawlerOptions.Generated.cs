@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("glue", "create-crawler")]
-public record AwsGlueCreateCrawlerOptions : AwsOptions
+public record AwsGlueCreateCrawlerOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--name")]
-    public string? Name { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a new crawler with specified targets, role, configuration, and optional schedule. At least one crawl target must be specified, in the s3Targets field, the jdbcTargets field, or the DynamoDBTargets field. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">Name of the new crawler. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="Role">The IAM role or Amazon Resource Name (ARN) of an IAM role used by the new crawler to access customer resources.</param>
+    /// <param name="Targets">A list of collection of targets to crawl. S3Targets -&gt; (list) Specifies Amazon Simple Storage Service (Amazon S3) targets. (structure) Specifies a data store in Amazon Simple Storage Service (Ama- zon S3). Path -&gt; (string) The path to the Amazon S3 target. Exclusions -&gt; (list) A list of glob patterns used to exclude from the crawl. For more information, see Catalog Tables with a Crawler . (string) ConnectionName -&gt; (string) The name of a connection which allows a job or crawler to access data in Amazon S3 within an Amazon Virtual Private Cloud environment (Amazon VPC). SampleSize -&gt; (integer) Sets the number of files in each leaf folder to be crawled when crawling sample files in a dataset. If not set, all the files are crawled. A valid value is an inte- ger between 1 and 249. EventQueueArn -&gt; (string) A valid Amazon SQS ARN. For example, arn:aws:sqs:re- gion:account:sqs . DlqEventQueueArn -&gt; (string) A valid Amazon dead-letter SQS ARN. For example, arn:aws:sqs:region:account:deadLetterQueue . JdbcTargets -&gt; (list) Specifies JDBC targets. (structure) Specifies a JDBC data store to crawl. ConnectionName -&gt; (string) The name of the connection to use to connect to the JDBC target. Path -&gt; (string) The path of the JDBC target. Exclusions -&gt; (list) A list of glob patterns used to exclude from the crawl. For more information, see Catalog Tables with a Crawler . (string) EnableAdditionalMetadata -&gt; (list) Specify a value of RAWTYPES or COMMENTS to enable addi- tional metadata in table responses. RAWTYPES provides the native-level datatype. COMMENTS provides comments associ- ated with a column or table in the database. If you do not need additional metadata, keep the field empty. (string) Possible values: o COMMENTS o RAWTYPES MongoDBTargets -&gt; (list) Specifies Amazon DocumentDB or MongoDB targets. (structure) Specifies an Amazon DocumentDB or MongoDB data store to crawl. ConnectionName -&gt; (string) The name of the connection to use to connect to the Ama- zon DocumentDB or MongoDB target. Path -&gt; (string) The path of the Amazon DocumentDB or MongoDB target (database/collection). ScanAll -&gt; (boolean) Indicates whether to scan all the records, or to sample rows from the table. Scanning all the records can take a long time when the table is not a high throughput table. A value of true means to scan all records, while a value of false means to sample the records. If no value is specified, the value defaults to true . DynamoDBTargets -&gt; (list) Specifies Amazon DynamoDB targets. (structure) Specifies an Amazon DynamoDB table to crawl. Path -&gt; (string) The name of the DynamoDB table to crawl. scanAll -&gt; (boolean) Indicates whether to scan all the records, or to sample rows from the table. Scanning all the records can take a long time when the table is not a high throughput table. A value of true means to scan all records, while a value of false means to sample the records. If no value is specified, the value defaults to true . scanRate -&gt; (double) The percentage of the configured read capacity units to use by the Glue crawler. Read capacity units is a term defined by DynamoDB, and is a numeric value that acts as rate limiter for the number of reads that can be per- formed on that table per second. The valid values are null or a value between 0.1 to 1.5. A null value is used when user does not provide a value, and defaults to 0.5 of the configured Read Capacity Unit (for provisioned tables), or 0.25 of the max configured Read Capacity Unit (for tables using on-demand mode). CatalogTargets -&gt; (list) Specifies Glue Data Catalog targets. (structure) Specifies an Glue Data Catalog target. DatabaseName -&gt; (string) [required] The name of the database to be synchronized. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Tables -&gt; (list) [required] A list of the tables to be synchronized. Constraints: o min: 1 (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* ConnectionName -&gt; (string) The name of the connection for an Amazon S3-backed Data Catalog table to be a target of the crawl when using a Catalog connection type paired with a NETWORK Connection type. EventQueueArn -&gt; (string) A valid Amazon SQS ARN. For example, arn:aws:sqs:re- gion:account:sqs . DlqEventQueueArn -&gt; (string) A valid Amazon dead-letter SQS ARN. For example, arn:aws:sqs:region:account:deadLetterQueue . DeltaTargets -&gt; (list) Specifies Delta data store targets. (structure) Specifies a Delta data store to crawl one or more Delta ta- bles. DeltaTables -&gt; (list) A list of the Amazon S3 paths to the Delta tables. (string) ConnectionName -&gt; (string) The name of the connection to use to connect to the Delta table target. WriteManifest -&gt; (boolean) Specifies whether to write the manifest files to the Delta table path. CreateNativeDeltaTable -&gt; (boolean) Specifies whether the crawler will create native tables, to allow integration with query engines that support querying of the Delta transaction log directly. IcebergTargets -&gt; (list) Specifies Apache Iceberg data store targets. (structure) Specifies an Apache Iceberg data source where Iceberg tables are stored in Amazon S3. Paths -&gt; (list) One or more Amazon S3 paths that contains Iceberg meta- data folders as s3://bucket/prefix . (string) ConnectionName -&gt; (string) The name of the connection to use to connect to the Ice- berg target. Exclusions -&gt; (list) A list of glob patterns used to exclude from the crawl. For more information, see Catalog Tables with a Crawler . (string) MaximumTraversalDepth -&gt; (integer) The maximum depth of Amazon S3 paths that the crawler can traverse to discover the Iceberg metadata folder in your Amazon S3 path. Used to limit the crawler run time. HudiTargets -&gt; (list) Specifies Apache Hudi data store targets. (structure) Specifies an Apache Hudi data source. Paths -&gt; (list) An array of Amazon S3 location strings for Hudi, each in- dicating the root folder with which the metadata files for a Hudi table resides. The Hudi folder may be located in a child folder of the root folder. The crawler will scan all folders underneath a path for a Hudi folder. (string) ConnectionName -&gt; (string) The name of the connection to use to connect to the Hudi target. If your Hudi files are stored in buckets that re- quire VPC authorization, you can set their connection properties here. Exclusions -&gt; (list) A list of glob patterns used to exclude from the crawl. For more information, see Catalog Tables with a Crawler . (string) MaximumTraversalDepth -&gt; (integer) The maximum depth of Amazon S3 paths that the crawler can traverse to discover the Hudi metadata folder in your Amazon S3 path. Used to limit the crawler run time. JSON Syntax: { "S3Targets": [ { "Path": "string", "Exclusions": ["string", ...], "ConnectionName": "string", "SampleSize": integer, "EventQueueArn": "string", "DlqEventQueueArn": "string" } ... ], "JdbcTargets": [ { "ConnectionName": "string", "Path": "string", "Exclusions": ["string", ...], "EnableAdditionalMetadata": ["COMMENTS"|"RAWTYPES", ...] } ... ], "MongoDBTargets": [ { "ConnectionName": "string", "Path": "string", "ScanAll": true|false } ... ], "DynamoDBTargets": [ { "Path": "string", "scanAll": true|false, "scanRate": double } ... ], "CatalogTargets": [ { "DatabaseName": "string", "Tables": ["string", ...], "ConnectionName": "string", "EventQueueArn": "string", "DlqEventQueueArn": "string" } ... ], "DeltaTargets": [ { "DeltaTables": ["string", ...], "ConnectionName": "string", "WriteManifest": true|false, "CreateNativeDeltaTable": true|false } ... ], "IcebergTargets": [ { "Paths": ["string", ...], "ConnectionName": "string", "Exclusions": ["string", ...], "MaximumTraversalDepth": integer } ... ], "HudiTargets": [ { "Paths": ["string", ...], "ConnectionName": "string", "Exclusions": ["string", ...], "MaximumTraversalDepth": integer } ... ] }</param>
+    public AwsGlueCreateCrawlerOptions(
+        string Name,
+        string Role,
+        string Targets
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Role);
+        this.Role = Role;
+        global::System.ArgumentNullException.ThrowIfNull(Targets);
+        this.Targets = Targets;
+    }
+
+    private AwsGlueCreateCrawlerOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlueCreateCrawlerOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlueCreateCrawlerOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Name of the new crawler. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The IAM role or Amazon Resource Name (ARN) of an IAM role used by the new crawler to access customer resources.
+    /// </summary>
     [CliOption("--role")]
-    public string? Role { get; set; }
+    public string? Role { get; private init; }
+
+    /// <summary>
+    /// A list of collection of targets to crawl. S3Targets -&gt; (list) Specifies Amazon Simple Storage Service (Amazon S3) targets. (structure) Specifies a data store in Amazon Simple Storage Service (Ama- zon S3). Path -&gt; (string) The path to the Amazon S3 target. Exclusions -&gt; (list) A list of glob patterns used to exclude from the crawl. For more information, see Catalog Tables with a Crawler . (string) ConnectionName -&gt; (string) The name of a connection which allows a job or crawler to access data in Amazon S3 within an Amazon Virtual Private Cloud environment (Amazon VPC). SampleSize -&gt; (integer) Sets the number of files in each leaf folder to be crawled when crawling sample files in a dataset. If not set, all the files are crawled. A valid value is an inte- ger between 1 and 249. EventQueueArn -&gt; (string) A valid Amazon SQS ARN. For example, arn:aws:sqs:re- gion:account:sqs . DlqEventQueueArn -&gt; (string) A valid Amazon dead-letter SQS ARN. For example, arn:aws:sqs:region:account:deadLetterQueue . JdbcTargets -&gt; (list) Specifies JDBC targets. (structure) Specifies a JDBC data store to crawl. ConnectionName -&gt; (string) The name of the connection to use to connect to the JDBC target. Path -&gt; (string) The path of the JDBC target. Exclusions -&gt; (list) A list of glob patterns used to exclude from the crawl. For more information, see Catalog Tables with a Crawler . (string) EnableAdditionalMetadata -&gt; (list) Specify a value of RAWTYPES or COMMENTS to enable addi- tional metadata in table responses. RAWTYPES provides the native-level datatype. COMMENTS provides comments associ- ated with a column or table in the database. If you do not need additional metadata, keep the field empty. (string) Possible values: o COMMENTS o RAWTYPES MongoDBTargets -&gt; (list) Specifies Amazon DocumentDB or MongoDB targets. (structure) Specifies an Amazon DocumentDB or MongoDB data store to crawl. ConnectionName -&gt; (string) The name of the connection to use to connect to the Ama- zon DocumentDB or MongoDB target. Path -&gt; (string) The path of the Amazon DocumentDB or MongoDB target (database/collection). ScanAll -&gt; (boolean) Indicates whether to scan all the records, or to sample rows from the table. Scanning all the records can take a long time when the table is not a high throughput table. A value of true means to scan all records, while a value of false means to sample the records. If no value is specified, the value defaults to true . DynamoDBTargets -&gt; (list) Specifies Amazon DynamoDB targets. (structure) Specifies an Amazon DynamoDB table to crawl. Path -&gt; (string) The name of the DynamoDB table to crawl. scanAll -&gt; (boolean) Indicates whether to scan all the records, or to sample rows from the table. Scanning all the records can take a long time when the table is not a high throughput table. A value of true means to scan all records, while a value of false means to sample the records. If no value is specified, the value defaults to true . scanRate -&gt; (double) The percentage of the configured read capacity units to use by the Glue crawler. Read capacity units is a term defined by DynamoDB, and is a numeric value that acts as rate limiter for the number of reads that can be per- formed on that table per second. The valid values are null or a value between 0.1 to 1.5. A null value is used when user does not provide a value, and defaults to 0.5 of the configured Read Capacity Unit (for provisioned tables), or 0.25 of the max configured Read Capacity Unit (for tables using on-demand mode). CatalogTargets -&gt; (list) Specifies Glue Data Catalog targets. (structure) Specifies an Glue Data Catalog target. DatabaseName -&gt; (string) [required] The name of the database to be synchronized. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Tables -&gt; (list) [required] A list of the tables to be synchronized. Constraints: o min: 1 (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* ConnectionName -&gt; (string) The name of the connection for an Amazon S3-backed Data Catalog table to be a target of the crawl when using a Catalog connection type paired with a NETWORK Connection type. EventQueueArn -&gt; (string) A valid Amazon SQS ARN. For example, arn:aws:sqs:re- gion:account:sqs . DlqEventQueueArn -&gt; (string) A valid Amazon dead-letter SQS ARN. For example, arn:aws:sqs:region:account:deadLetterQueue . DeltaTargets -&gt; (list) Specifies Delta data store targets. (structure) Specifies a Delta data store to crawl one or more Delta ta- bles. DeltaTables -&gt; (list) A list of the Amazon S3 paths to the Delta tables. (string) ConnectionName -&gt; (string) The name of the connection to use to connect to the Delta table target. WriteManifest -&gt; (boolean) Specifies whether to write the manifest files to the Delta table path. CreateNativeDeltaTable -&gt; (boolean) Specifies whether the crawler will create native tables, to allow integration with query engines that support querying of the Delta transaction log directly. IcebergTargets -&gt; (list) Specifies Apache Iceberg data store targets. (structure) Specifies an Apache Iceberg data source where Iceberg tables are stored in Amazon S3. Paths -&gt; (list) One or more Amazon S3 paths that contains Iceberg meta- data folders as s3://bucket/prefix . (string) ConnectionName -&gt; (string) The name of the connection to use to connect to the Ice- berg target. Exclusions -&gt; (list) A list of glob patterns used to exclude from the crawl. For more information, see Catalog Tables with a Crawler . (string) MaximumTraversalDepth -&gt; (integer) The maximum depth of Amazon S3 paths that the crawler can traverse to discover the Iceberg metadata folder in your Amazon S3 path. Used to limit the crawler run time. HudiTargets -&gt; (list) Specifies Apache Hudi data store targets. (structure) Specifies an Apache Hudi data source. Paths -&gt; (list) An array of Amazon S3 location strings for Hudi, each in- dicating the root folder with which the metadata files for a Hudi table resides. The Hudi folder may be located in a child folder of the root folder. The crawler will scan all folders underneath a path for a Hudi folder. (string) ConnectionName -&gt; (string) The name of the connection to use to connect to the Hudi target. If your Hudi files are stored in buckets that re- quire VPC authorization, you can set their connection properties here. Exclusions -&gt; (list) A list of glob patterns used to exclude from the crawl. For more information, see Catalog Tables with a Crawler . (string) MaximumTraversalDepth -&gt; (integer) The maximum depth of Amazon S3 paths that the crawler can traverse to discover the Hudi metadata folder in your Amazon S3 path. Used to limit the crawler run time. JSON Syntax: { "S3Targets": [ { "Path": "string", "Exclusions": ["string", ...], "ConnectionName": "string", "SampleSize": integer, "EventQueueArn": "string", "DlqEventQueueArn": "string" } ... ], "JdbcTargets": [ { "ConnectionName": "string", "Path": "string", "Exclusions": ["string", ...], "EnableAdditionalMetadata": ["COMMENTS"|"RAWTYPES", ...] } ... ], "MongoDBTargets": [ { "ConnectionName": "string", "Path": "string", "ScanAll": true|false } ... ], "DynamoDBTargets": [ { "Path": "string", "scanAll": true|false, "scanRate": double } ... ], "CatalogTargets": [ { "DatabaseName": "string", "Tables": ["string", ...], "ConnectionName": "string", "EventQueueArn": "string", "DlqEventQueueArn": "string" } ... ], "DeltaTargets": [ { "DeltaTables": ["string", ...], "ConnectionName": "string", "WriteManifest": true|false, "CreateNativeDeltaTable": true|false } ... ], "IcebergTargets": [ { "Paths": ["string", ...], "ConnectionName": "string", "Exclusions": ["string", ...], "MaximumTraversalDepth": integer } ... ], "HudiTargets": [ { "Paths": ["string", ...], "ConnectionName": "string", "Exclusions": ["string", ...], "MaximumTraversalDepth": integer } ... ] }
+    /// </summary>
+    [CliOption("--targets")]
+    public string? Targets { get; private init; }
 
     /// <summary>
     /// The Glue database where results are written, such as: arn:aws:day- light:us-east-1::database/sometable/* .
@@ -39,9 +93,6 @@ public record AwsGlueCreateCrawlerOptions : AwsOptions
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--targets")]
-    public string? Targets { get; set; }
 
     /// <summary>
     /// A cron expression used to specify the schedule (see Time-Based Schedules for Jobs and Crawlers . For example, to run something every day at 12:15 UTC, you would specify: cron(15 12 * * ? *) .
@@ -108,5 +159,22 @@ public record AwsGlueCreateCrawlerOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

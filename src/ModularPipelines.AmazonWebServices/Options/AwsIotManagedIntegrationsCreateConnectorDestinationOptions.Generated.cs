@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,8 +21,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot-managed-integrations", "create-connector-destination")]
-public record AwsIotManagedIntegrationsCreateConnectorDestinationOptions : AwsOptions
+public record AwsIotManagedIntegrationsCreateConnectorDestinationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Create a connector destination for connecting a cloud-to-cloud (C2C) connector to the customer's Amazon Web Services account. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CloudConnectorId">The identifier of the C2C connector. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9-_]+</param>
+    /// <param name="AuthConfig">The authentication configuration details for the connector destina- tion, including OAuth settings and other authentication parameters. oAuth -&gt; (structure) The OAuth configuration settings used for authentication with the third-party service. authUrl -&gt; (string) [required] The authorization URL for the OAuth service, where users are directed to authenticate and authorize access. Constraints: o min: 1 o max: 1024 o pattern: https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}([-a-zA-Z0-9()@:%_\+.~#?&amp;\/=]*) tokenUrl -&gt; (string) [required] The token URL for the OAuth service, where authorization codes are exchanged for access tokens. Constraints: o min: 1 o max: 1024 o pattern: https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}([-a-zA-Z0-9()@:%_\+.~#?&amp;\/=]*) scope -&gt; (string) The OAuth scopes requested during authorization, which define the permissions granted to the application. tokenEndpointAuthenticationScheme -&gt; (string) [required] The authentication scheme used when requesting tokens from the token endpoint. Possible values: o HTTP_BASIC o REQUEST_BODY_CREDENTIALS oAuthCompleteRedirectUrl -&gt; (string) The URL where users are redirected after completing the OAuth authorization process. proactiveRefreshTokenRenewal -&gt; (structure) Configuration for proactively refreshing OAuth tokens before they expire. enabled -&gt; (boolean) Indicates whether proactive refresh token renewal is en- abled. DaysBeforeRenewal -&gt; (integer) The days before token expiration when the system should attempt to renew the token, specified in days. Constraints: o min: 30 GeneralAuthorization -&gt; (list) The authorization materials for General Authorization. Constraints: o min: 0 o max: 3 (structure) The authorization material containing the Secrets Manager arn and version. SecretsManager -&gt; (structure) [required] Configuration for AWS Secrets Manager, used to securely store and manage sensitive information for connector des- tinations. arn -&gt; (string) [required] The Amazon Resource Name (ARN) of the AWS Secrets Man- ager secret. Constraints: o min: 20 o max: 2048 o pattern: arn:aws:secretsman- ager:[0-9a-zA-Z-]{1,32}:\d{12}:se- cret:[A-Za-z0-9/_+=.@-]{8,520} versionId -&gt; (string) [required] The version ID of the AWS Secrets Manager secret. Constraints: o min: 32 o max: 64 o pattern: [a-zA-Z0-9-_]+ AuthMaterialName -&gt; (string) [required] The name of the authorization material. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9=_+/-]+ JSON Syntax: { "oAuth": { "authUrl": "string", "tokenUrl": "string", "scope": "string", "tokenEndpointAuthenticationScheme": "HTTP_BASIC"|"REQUEST_BODY_CREDENTIALS", "oAuthCompleteRedirectUrl": "string", "proactiveRefreshTokenRenewal": { "enabled": true|false, "DaysBeforeRenewal": integer } }, "GeneralAuthorization": [ { "SecretsManager": { "arn": "string", "versionId": "string" }, "AuthMaterialName": "string" } ... ] }</param>
+    public AwsIotManagedIntegrationsCreateConnectorDestinationOptions(
+        string CloudConnectorId,
+        string AuthConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CloudConnectorId);
+        this.CloudConnectorId = CloudConnectorId;
+        global::System.ArgumentNullException.ThrowIfNull(AuthConfig);
+        this.AuthConfig = AuthConfig;
+    }
+
+    private AwsIotManagedIntegrationsCreateConnectorDestinationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotManagedIntegrationsCreateConnectorDestinationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotManagedIntegrationsCreateConnectorDestinationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the C2C connector. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9-_]+
+    /// </summary>
+    [CliOption("--cloud-connector-id")]
+    public string? CloudConnectorId { get; private init; }
+
+    /// <summary>
+    /// The authentication configuration details for the connector destina- tion, including OAuth settings and other authentication parameters. oAuth -&gt; (structure) The OAuth configuration settings used for authentication with the third-party service. authUrl -&gt; (string) [required] The authorization URL for the OAuth service, where users are directed to authenticate and authorize access. Constraints: o min: 1 o max: 1024 o pattern: https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}([-a-zA-Z0-9()@:%_\+.~#?&amp;\/=]*) tokenUrl -&gt; (string) [required] The token URL for the OAuth service, where authorization codes are exchanged for access tokens. Constraints: o min: 1 o max: 1024 o pattern: https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}([-a-zA-Z0-9()@:%_\+.~#?&amp;\/=]*) scope -&gt; (string) The OAuth scopes requested during authorization, which define the permissions granted to the application. tokenEndpointAuthenticationScheme -&gt; (string) [required] The authentication scheme used when requesting tokens from the token endpoint. Possible values: o HTTP_BASIC o REQUEST_BODY_CREDENTIALS oAuthCompleteRedirectUrl -&gt; (string) The URL where users are redirected after completing the OAuth authorization process. proactiveRefreshTokenRenewal -&gt; (structure) Configuration for proactively refreshing OAuth tokens before they expire. enabled -&gt; (boolean) Indicates whether proactive refresh token renewal is en- abled. DaysBeforeRenewal -&gt; (integer) The days before token expiration when the system should attempt to renew the token, specified in days. Constraints: o min: 30 GeneralAuthorization -&gt; (list) The authorization materials for General Authorization. Constraints: o min: 0 o max: 3 (structure) The authorization material containing the Secrets Manager arn and version. SecretsManager -&gt; (structure) [required] Configuration for AWS Secrets Manager, used to securely store and manage sensitive information for connector des- tinations. arn -&gt; (string) [required] The Amazon Resource Name (ARN) of the AWS Secrets Man- ager secret. Constraints: o min: 20 o max: 2048 o pattern: arn:aws:secretsman- ager:[0-9a-zA-Z-]{1,32}:\d{12}:se- cret:[A-Za-z0-9/_+=.@-]{8,520} versionId -&gt; (string) [required] The version ID of the AWS Secrets Manager secret. Constraints: o min: 32 o max: 64 o pattern: [a-zA-Z0-9-_]+ AuthMaterialName -&gt; (string) [required] The name of the authorization material. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9=_+/-]+ JSON Syntax: { "oAuth": { "authUrl": "string", "tokenUrl": "string", "scope": "string", "tokenEndpointAuthenticationScheme": "HTTP_BASIC"|"REQUEST_BODY_CREDENTIALS", "oAuthCompleteRedirectUrl": "string", "proactiveRefreshTokenRenewal": { "enabled": true|false, "DaysBeforeRenewal": integer } }, "GeneralAuthorization": [ { "SecretsManager": { "arn": "string", "versionId": "string" }, "AuthMaterialName": "string" } ... ] }
+    /// </summary>
+    [CliOption("--auth-config")]
+    public string? AuthConfig { get; private init; }
+
     /// <summary>
     /// The display name of the connector destination. Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9-_ ]+
     /// </summary>
@@ -35,17 +84,11 @@ public record AwsIotManagedIntegrationsCreateConnectorDestinationOptions : AwsOp
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--cloud-connector-id")]
-    public string? CloudConnectorId { get; set; }
-
     /// <summary>
     /// The authentication type used for the connector destination, which determines how credentials and access are managed. Possible values: o OAUTH
     /// </summary>
     [CliOption("--auth-type")]
-    public AwsIotManagedIntegrationsCreateConnectorDestinationAuthType? AuthType { get; set; }
-
-    [CliOption("--auth-config")]
-    public string? AuthConfig { get; set; }
+    public string? AuthType { get; set; }
 
     /// <summary>
     /// The AWS Secrets Manager configuration used to securely store and manage sensitive information for the connector destination. arn -&gt; (string) [required] The Amazon Resource Name (ARN) of the AWS Secrets Manager se- cret. Constraints: o min: 20 o max: 2048 o pattern: arn:aws:secretsmanager:[0-9a-zA-Z-]{1,32}:\d{12}:se- cret:[A-Za-z0-9/_+=.@-]{8,520} versionId -&gt; (string) [required] The version ID of the AWS Secrets Manager secret. Constraints: o min: 32 o max: 64 o pattern: [a-zA-Z0-9-_]+ Shorthand Syntax: arn=string,versionId=string JSON Syntax: { "arn": "string", "versionId": "string" }
@@ -66,5 +109,22 @@ public record AwsIotManagedIntegrationsCreateConnectorDestinationOptions : AwsOp
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

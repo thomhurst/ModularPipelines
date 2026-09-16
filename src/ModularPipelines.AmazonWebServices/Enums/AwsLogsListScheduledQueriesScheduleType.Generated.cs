@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --scheduletype.
+/// Allowed values for --schedule-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsLogsListScheduledQueriesScheduleType
 {
-    [EnumValue("CUSTOMER_MANAGED")]
-    CustomerManaged = 1,
-
     [EnumValue("AWS_MANAGED")]
-    AwsManaged = 2
+    AwsManaged,
+
+    [EnumValue("CUSTOMER_MANAGED")]
+    CustomerManaged
 }

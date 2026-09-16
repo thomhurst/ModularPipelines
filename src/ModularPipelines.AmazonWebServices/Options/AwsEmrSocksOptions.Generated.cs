@@ -21,13 +21,35 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("emr", "socks")]
 public record AwsEmrSocksOptions : AwsOptions
 {
+    /// <summary>
+    /// Create a socks tunnel on port 8157 from your machine to the master. A value for the variable Key Pair File can be set in the AWS CLI config file using the "aws configure set emr.key_pair_file &lt;value&gt;" command.
+    /// </summary>
+    /// <param name="ClusterId"></param>
+    /// <param name="KeyPairFile"></param>
+    public AwsEmrSocksOptions(
+        string ClusterId,
+        string KeyPairFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterId);
+        this.ClusterId = ClusterId;
+        global::System.ArgumentNullException.ThrowIfNull(KeyPairFile);
+        this.KeyPairFile = KeyPairFile;
+    }
+
+    public void Deconstruct(out string ClusterId, out string KeyPairFile)
+    {
+        ClusterId = this.ClusterId;
+        KeyPairFile = this.KeyPairFile;
+    }
+
     [CliOption("--cluster-id")]
-    public string? ClusterId { get; set; }
+    public string ClusterId { get; private init; }
 
     [CliOption("--key-pair-file")]
-    public string? KeyPairFile { get; set; }
+    public string KeyPairFile { get; private init; }
 
-    [CliOption("--ssh-options")]
-    public string? SshOptions { get; set; }
+    [CliOption("--ssh-options", GroupValues = true)]
+    public IEnumerable<string>? SshOptions { get; set; }
 
 }

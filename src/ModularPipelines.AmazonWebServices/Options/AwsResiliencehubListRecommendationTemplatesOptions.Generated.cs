@@ -53,7 +53,10 @@ public record AwsResiliencehubListRecommendationTemplatesOptions : AwsOptions
     [CliOption("--recommendation-template-arn")]
     public string? RecommendationTemplateArn { get; set; }
 
-    [CliFlag("--reverse-order")]
+    /// <summary>
+    /// The default is to sort by ascending startTime . To sort by descend- ing startTime , set reverseOrder to true .
+    /// </summary>
+    [CliFlag("--reverse-order", NegatedName = "--no-reverse-order")]
     public bool? ReverseOrder { get; set; }
 
     /// <summary>

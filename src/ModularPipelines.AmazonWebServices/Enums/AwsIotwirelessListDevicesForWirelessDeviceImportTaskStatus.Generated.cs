@@ -16,15 +16,15 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotwirelessListDevicesForWirelessDeviceImportTaskStatus
 {
-    [EnumValue("INITIALIZED")]
-    Initialized = 1,
+    [EnumValue("FAILED")]
+    Failed,
 
-    [EnumValue("PENDING")]
-    Pending = 2,
+    [EnumValue("INITIALIZED")]
+    Initialized,
 
     [EnumValue("ONBOARDED")]
-    Onboarded = 3,
+    Onboarded,
 
-    [EnumValue("FAILED")]
-    Failed = 4
+    [EnumValue("PENDING")]
+    Pending
 }

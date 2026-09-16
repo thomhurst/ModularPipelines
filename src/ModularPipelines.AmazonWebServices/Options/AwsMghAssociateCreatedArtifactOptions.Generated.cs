@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,71 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mgh", "associate-created-artifact")]
-public record AwsMghAssociateCreatedArtifactOptions : AwsOptions
+public record AwsMghAssociateCreatedArtifactOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Associates a created artifact of an AWS cloud resource, the target re- ceiving the migration, with the migration task performed by a migration tool. This API has the following traits: o Migration tools can call the AssociateCreatedArtifact operation to indicate which AWS artifact is associated with a migration task. o The created artifact name must be provided in ARN (Amazon Resource Name) format which will contain information about type and region; for example: arn:aws:ec2:us-east-1:48821628898...
+    /// </summary>
+    /// <param name="ProgressUpdateStream">The name of the ProgressUpdateStream. Constraints: o min: 1 o max: 50 o pattern: [^/:|\000-\037]+</param>
+    /// <param name="MigrationTaskName">Unique identifier that references the migration task. Do not store personal data in this field. Constraints: o min: 1 o max: 256 o pattern: [^:|]+</param>
+    /// <param name="CreatedArtifact">An ARN of the AWS resource related to the migration (e.g., AMI, EC2 instance, RDS instance, etc.) Name -&gt; (string) [required] An ARN that uniquely identifies the result of a migration task. Constraints: o min: 1 o max: 1600 o pattern: arn:[a-z-]+:[a-z0-9-]+:(?:[a-z0-9-]+|):(?:[0-9]{12}|):.* Description -&gt; (string) A description that can be free-form text to record additional detail about the artifact for clarity or for later reference. Constraints: o min: 0 o max: 500 o pattern: ^.{0,500}$ Shorthand Syntax: Name=string,Description=string JSON Syntax: { "Name": "string", "Description": "string" }</param>
+    public AwsMghAssociateCreatedArtifactOptions(
+        string ProgressUpdateStream,
+        string MigrationTaskName,
+        string CreatedArtifact
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProgressUpdateStream);
+        this.ProgressUpdateStream = ProgressUpdateStream;
+        global::System.ArgumentNullException.ThrowIfNull(MigrationTaskName);
+        this.MigrationTaskName = MigrationTaskName;
+        global::System.ArgumentNullException.ThrowIfNull(CreatedArtifact);
+        this.CreatedArtifact = CreatedArtifact;
+    }
+
+    private AwsMghAssociateCreatedArtifactOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMghAssociateCreatedArtifactOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMghAssociateCreatedArtifactOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the ProgressUpdateStream. Constraints: o min: 1 o max: 50 o pattern: [^/:|\000-\037]+
+    /// </summary>
     [CliOption("--progress-update-stream")]
-    public string? ProgressUpdateStream { get; set; }
+    public string? ProgressUpdateStream { get; private init; }
 
+    /// <summary>
+    /// Unique identifier that references the migration task. Do not store personal data in this field. Constraints: o min: 1 o max: 256 o pattern: [^:|]+
+    /// </summary>
     [CliOption("--migration-task-name")]
-    public string? MigrationTaskName { get; set; }
+    public string? MigrationTaskName { get; private init; }
 
+    /// <summary>
+    /// An ARN of the AWS resource related to the migration (e.g., AMI, EC2 instance, RDS instance, etc.) Name -&gt; (string) [required] An ARN that uniquely identifies the result of a migration task. Constraints: o min: 1 o max: 1600 o pattern: arn:[a-z-]+:[a-z0-9-]+:(?:[a-z0-9-]+|):(?:[0-9]{12}|):.* Description -&gt; (string) A description that can be free-form text to record additional detail about the artifact for clarity or for later reference. Constraints: o min: 0 o max: 500 o pattern: ^.{0,500}$ Shorthand Syntax: Name=string,Description=string JSON Syntax: { "Name": "string", "Description": "string" }
+    /// </summary>
     [CliOption("--created-artifact")]
-    public string? CreatedArtifact { get; set; }
+    public string? CreatedArtifact { get; private init; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Optional boolean flag to indicate whether any effect should take place. Used to test if the caller has permission to make the call.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -38,5 +92,22 @@ public record AwsMghAssociateCreatedArtifactOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

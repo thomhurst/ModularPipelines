@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock", "create-custom-model")]
-public record AwsBedrockCreateCustomModelOptions : AwsOptions
+public record AwsBedrockCreateCustomModelOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new custom model in Amazon Bedrock. After the model is ac- tive, you can use it for inference. You can provide the model data source in one of the following ways: o customModelDataSource Specify a SageMaker AI model package ARN. Ama- zon Bedrock resolves the model package to retrieve the model arti- facts. This is the preferred method for new SageMaker AI training outputs. o modelSourceConfig Specify an Amazon S3 URI pointing to the Ama- zon-managed Amazon S3 bucket containing your mod...
+    /// </summary>
+    /// <param name="ModelName">A unique name for the custom model. Constraints: o min: 1 o max: 63 o pattern: ([0-9a-zA-Z][_-]?){1,63}</param>
+    public AwsBedrockCreateCustomModelOptions(
+        string ModelName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ModelName);
+        this.ModelName = ModelName;
+    }
+
+    private AwsBedrockCreateCustomModelOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockCreateCustomModelOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockCreateCustomModelOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique name for the custom model. Constraints: o min: 1 o max: 63 o pattern: ([0-9a-zA-Z][_-]?){1,63}
+    /// </summary>
     [CliOption("--model-name")]
-    public string? ModelName { get; set; }
+    public string? ModelName { get; private init; }
 
     /// <summary>
     /// The data source for the model. The Amazon S3 URI in the model source must be for the Amazon-managed Amazon S3 bucket containing your model artifacts. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: s3DataSource. s3DataSource -&gt; (structure) The Amazon S3 data source of the model to import. s3Uri -&gt; (string) [required] The URI of the Amazon S3 data source. Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][-.a-z0-9]{1,61}[a-z0-9](?:/[-!_*'().a-z0-9A-Z]+(?:/[-!_*'().a-z0-9A-Z]+)*)?/? Shorthand Syntax: s3DataSource={s3Uri=string} JSON Syntax: { "s3DataSource": { "s3Uri": "string" } }
@@ -67,5 +104,22 @@ public record AwsBedrockCreateCustomModelOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

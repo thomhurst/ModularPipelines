@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "update-audit-suppression")]
-public record AwsIotUpdateAuditSuppressionOptions : AwsOptions
+public record AwsIotUpdateAuditSuppressionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--check-name")]
-    public string? CheckName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates a Device Defender audit suppression. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CheckName">An audit check name. Checks must be enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of all checks, in- cluding those that are enabled or use UpdateAccountAuditConfigura- tion to select which checks are enabled.)</param>
+    /// <param name="ResourceIdentifier">Information that identifies the noncompliant resource. deviceCertificateId -&gt; (string) The ID of the certificate attached to the resource. Constraints: o min: 64 o max: 64 o pattern: (0x)?[a-fA-F0-9]+ caCertificateId -&gt; (string) The ID of the CA certificate used to authorize the certificate. Constraints: o min: 64 o max: 64 o pattern: (0x)?[a-fA-F0-9]+ cognitoIdentityPoolId -&gt; (string) The ID of the Amazon Cognito identity pool. clientId -&gt; (string) The client ID. policyVersionIdentifier -&gt; (structure) The version of the policy associated with the resource. policyName -&gt; (string) The name of the policy. Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+ policyVersionId -&gt; (string) The ID of the version of the policy associated with the re- source. Constraints: o pattern: [0-9]+ account -&gt; (string) The account with which the resource is associated. Constraints: o min: 12 o max: 12 o pattern: [0-9]+ iamRoleArn -&gt; (string) The ARN of the IAM role that has overly permissive actions. Constraints: o min: 20 o max: 2048 roleAliasArn -&gt; (string) The ARN of the role alias that has overly permissive actions. Constraints: o min: 1 o max: 2048 issuerCertificateIdentifier -&gt; (structure) The issuer certificate identifier. issuerCertificateSubject -&gt; (string) The subject of the issuer certificate. Constraints: o max: 1000 o pattern: [\p{Graph}\x20]* issuerId -&gt; (string) The issuer ID. Constraints: o max: 64 o pattern: (0x)?[a-fA-F0-9]+ issuerCertificateSerialNumber -&gt; (string) The issuer certificate serial number. Constraints: o max: 20 o pattern: [a-fA-F0-9:]+ deviceCertificateArn -&gt; (string) The ARN of the identified device certificate. Shorthand Syntax: deviceCertificateId=string,caCertificateId=string,cognitoIdentityPoolId=string,clientId=string,policyVersionIdentifier={policyName=string,policyVersionId=string},account=string,iamRoleArn=string,roleAliasArn=string,issuerCertificateIdentifier={issuerCertificateSubject=string,issuerId=string,issuerCertificateSerialNumber=string},deviceCertificateArn=string JSON Syntax: { "deviceCertificateId": "string", "caCertificateId": "string", "cognitoIdentityPoolId": "string", "clientId": "string", "policyVersionIdentifier": { "policyName": "string", "policyVersionId": "string" }, "account": "string", "iamRoleArn": "string", "roleAliasArn": "string", "issuerCertificateIdentifier": { "issuerCertificateSubject": "string", "issuerId": "string", "issuerCertificateSerialNumber": "string" }, "deviceCertificateArn": "string" }</param>
+    public AwsIotUpdateAuditSuppressionOptions(
+        string CheckName,
+        string ResourceIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CheckName);
+        this.CheckName = CheckName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceIdentifier);
+        this.ResourceIdentifier = ResourceIdentifier;
+    }
+
+    private AwsIotUpdateAuditSuppressionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotUpdateAuditSuppressionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotUpdateAuditSuppressionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// An audit check name. Checks must be enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of all checks, in- cluding those that are enabled or use UpdateAccountAuditConfigura- tion to select which checks are enabled.)
+    /// </summary>
+    [CliOption("--check-name")]
+    public string? CheckName { get; private init; }
+
+    /// <summary>
+    /// Information that identifies the noncompliant resource. deviceCertificateId -&gt; (string) The ID of the certificate attached to the resource. Constraints: o min: 64 o max: 64 o pattern: (0x)?[a-fA-F0-9]+ caCertificateId -&gt; (string) The ID of the CA certificate used to authorize the certificate. Constraints: o min: 64 o max: 64 o pattern: (0x)?[a-fA-F0-9]+ cognitoIdentityPoolId -&gt; (string) The ID of the Amazon Cognito identity pool. clientId -&gt; (string) The client ID. policyVersionIdentifier -&gt; (structure) The version of the policy associated with the resource. policyName -&gt; (string) The name of the policy. Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+ policyVersionId -&gt; (string) The ID of the version of the policy associated with the re- source. Constraints: o pattern: [0-9]+ account -&gt; (string) The account with which the resource is associated. Constraints: o min: 12 o max: 12 o pattern: [0-9]+ iamRoleArn -&gt; (string) The ARN of the IAM role that has overly permissive actions. Constraints: o min: 20 o max: 2048 roleAliasArn -&gt; (string) The ARN of the role alias that has overly permissive actions. Constraints: o min: 1 o max: 2048 issuerCertificateIdentifier -&gt; (structure) The issuer certificate identifier. issuerCertificateSubject -&gt; (string) The subject of the issuer certificate. Constraints: o max: 1000 o pattern: [\p{Graph}\x20]* issuerId -&gt; (string) The issuer ID. Constraints: o max: 64 o pattern: (0x)?[a-fA-F0-9]+ issuerCertificateSerialNumber -&gt; (string) The issuer certificate serial number. Constraints: o max: 20 o pattern: [a-fA-F0-9:]+ deviceCertificateArn -&gt; (string) The ARN of the identified device certificate. Shorthand Syntax: deviceCertificateId=string,caCertificateId=string,cognitoIdentityPoolId=string,clientId=string,policyVersionIdentifier={policyName=string,policyVersionId=string},account=string,iamRoleArn=string,roleAliasArn=string,issuerCertificateIdentifier={issuerCertificateSubject=string,issuerId=string,issuerCertificateSerialNumber=string},deviceCertificateArn=string JSON Syntax: { "deviceCertificateId": "string", "caCertificateId": "string", "cognitoIdentityPoolId": "string", "clientId": "string", "policyVersionIdentifier": { "policyName": "string", "policyVersionId": "string" }, "account": "string", "iamRoleArn": "string", "roleAliasArn": "string", "issuerCertificateIdentifier": { "issuerCertificateSubject": "string", "issuerId": "string", "issuerCertificateSerialNumber": "string" }, "deviceCertificateArn": "string" }
+    /// </summary>
     [CliOption("--resource-identifier")]
-    public string? ResourceIdentifier { get; set; }
+    public string? ResourceIdentifier { get; private init; }
 
     /// <summary>
     /// The expiration date (epoch timestamp in seconds) that you want the suppression to adhere to.
@@ -33,7 +77,10 @@ public record AwsIotUpdateAuditSuppressionOptions : AwsOptions
     [CliOption("--expiration-date")]
     public string? ExpirationDate { get; set; }
 
-    [CliFlag("--suppress-indefinitely")]
+    /// <summary>
+    /// Indicates whether a suppression should exist indefinitely or not.
+    /// </summary>
+    [CliFlag("--suppress-indefinitely", NegatedName = "--no-suppress-indefinitely")]
     public bool? SuppressIndefinitely { get; set; }
 
     /// <summary>
@@ -47,5 +94,22 @@ public record AwsIotUpdateAuditSuppressionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

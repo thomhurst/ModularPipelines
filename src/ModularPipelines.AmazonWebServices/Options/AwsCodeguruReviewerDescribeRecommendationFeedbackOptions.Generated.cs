@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codeguru-reviewer", "describe-recommendation-feedback")]
-public record AwsCodeguruReviewerDescribeRecommendationFeedbackOptions : AwsOptions
+public record AwsCodeguruReviewerDescribeRecommendationFeedbackOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--code-review-arn")]
-    public string? CodeReviewArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Describes the customer feedback for a CodeGuru Reviewer recommendation. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CodeReviewArn">The Amazon Resource Name (ARN) of the CodeReview object. Constraints: o min: 1 o max: 1600 o pattern: ^arn:aws[^:\s]*:codeguru-re- viewer:[^:\s]+:[\d]{12}:[a-z-]+:[\w-]+$</param>
+    /// <param name="RecommendationId">The recommendation ID that can be used to track the provided recom- mendations and then to collect the feedback. Constraints: o min: 1 o max: 64</param>
+    public AwsCodeguruReviewerDescribeRecommendationFeedbackOptions(
+        string CodeReviewArn,
+        string RecommendationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CodeReviewArn);
+        this.CodeReviewArn = CodeReviewArn;
+        global::System.ArgumentNullException.ThrowIfNull(RecommendationId);
+        this.RecommendationId = RecommendationId;
+    }
+
+    private AwsCodeguruReviewerDescribeRecommendationFeedbackOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodeguruReviewerDescribeRecommendationFeedbackOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodeguruReviewerDescribeRecommendationFeedbackOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the CodeReview object. Constraints: o min: 1 o max: 1600 o pattern: ^arn:aws[^:\s]*:codeguru-re- viewer:[^:\s]+:[\d]{12}:[a-z-]+:[\w-]+$
+    /// </summary>
+    [CliOption("--code-review-arn")]
+    public string? CodeReviewArn { get; private init; }
+
+    /// <summary>
+    /// The recommendation ID that can be used to track the provided recom- mendations and then to collect the feedback. Constraints: o min: 1 o max: 64
+    /// </summary>
     [CliOption("--recommendation-id")]
-    public string? RecommendationId { get; set; }
+    public string? RecommendationId { get; private init; }
 
     /// <summary>
     /// Optional parameter to describe the feedback for a given user. If this is not supplied, it defaults to the user making the request. The UserId is an IAM principal that can be specified as an Amazon Web Services account ID or an Amazon Resource Name (ARN). For more information, see Specifying a Principal in the Amazon Web Services Identity and Access Management User Guide . Constraints: o min: 1 o max: 256
@@ -38,5 +82,22 @@ public record AwsCodeguruReviewerDescribeRecommendationFeedbackOptions : AwsOpti
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

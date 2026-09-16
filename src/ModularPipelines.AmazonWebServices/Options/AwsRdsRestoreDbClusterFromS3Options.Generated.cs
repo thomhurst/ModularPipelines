@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,8 +21,107 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rds", "restore-db-cluster-from-s3")]
-public record AwsRdsRestoreDbClusterFromS3Options : AwsOptions
+public record AwsRdsRestoreDbClusterFromS3Options : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an Amazon Aurora DB cluster from MySQL data stored in an Amazon S3 bucket. Amazon RDS must be authorized to access the Amazon S3 bucket and the data must be created using the Percona XtraBackup utility as described in Migrating Data from MySQL by Using an Amazon S3 Bucket in the Amazon Aurora User Guide . NOTE: This operation only restores the DB cluster, not the DB instances for that DB cluster. You must invoke the CreateDBInstance operation to create DB instances for the restored DB cl...
+    /// </summary>
+    /// <param name="DbClusterIdentifier">The name of the DB cluster to create from the source data in the Amazon S3 bucket. This parameter isn't case-sensitive. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens. o First character must be a letter. o Can't end with a hyphen or contain two consecutive hyphens. Example: my-cluster1</param>
+    /// <param name="Engine">The name of the database engine to be used for this DB cluster. Valid Values: aurora-mysql (for Aurora MySQL)</param>
+    /// <param name="MasterUsername">The name of the master user for the restored DB cluster. Constraints: o Must be 1 to 16 letters or numbers. o First character must be a letter. o Can't be a reserved word for the chosen database engine.</param>
+    /// <param name="SourceEngine">The identifier for the database engine that was backed up to create the files stored in the Amazon S3 bucket. Valid Values: mysql</param>
+    /// <param name="SourceEngineVersion">The version of the database that the backup files were created from. MySQL versions 5.7 and 8.0 are supported. Example: 5.7.40 , 8.0.28</param>
+    /// <param name="S3BucketName">The name of the Amazon S3 bucket that contains the data used to cre- ate the Amazon Aurora DB cluster.</param>
+    /// <param name="S3IngestionRoleArn">The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) role that authorizes Amazon RDS to ac- cess the Amazon S3 bucket on your behalf.</param>
+    public AwsRdsRestoreDbClusterFromS3Options(
+        string DbClusterIdentifier,
+        string Engine,
+        string MasterUsername,
+        string SourceEngine,
+        string SourceEngineVersion,
+        string S3BucketName,
+        string S3IngestionRoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DbClusterIdentifier);
+        this.DbClusterIdentifier = DbClusterIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(Engine);
+        this.Engine = Engine;
+        global::System.ArgumentNullException.ThrowIfNull(MasterUsername);
+        this.MasterUsername = MasterUsername;
+        global::System.ArgumentNullException.ThrowIfNull(SourceEngine);
+        this.SourceEngine = SourceEngine;
+        global::System.ArgumentNullException.ThrowIfNull(SourceEngineVersion);
+        this.SourceEngineVersion = SourceEngineVersion;
+        global::System.ArgumentNullException.ThrowIfNull(S3BucketName);
+        this.S3BucketName = S3BucketName;
+        global::System.ArgumentNullException.ThrowIfNull(S3IngestionRoleArn);
+        this.S3IngestionRoleArn = S3IngestionRoleArn;
+    }
+
+    private AwsRdsRestoreDbClusterFromS3Options()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRdsRestoreDbClusterFromS3Options FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRdsRestoreDbClusterFromS3Options ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the DB cluster to create from the source data in the Amazon S3 bucket. This parameter isn't case-sensitive. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens. o First character must be a letter. o Can't end with a hyphen or contain two consecutive hyphens. Example: my-cluster1
+    /// </summary>
+    [CliOption("--db-cluster-identifier")]
+    public string? DbClusterIdentifier { get; private init; }
+
+    /// <summary>
+    /// The name of the database engine to be used for this DB cluster. Valid Values: aurora-mysql (for Aurora MySQL)
+    /// </summary>
+    [CliOption("--engine")]
+    public string? Engine { get; private init; }
+
+    /// <summary>
+    /// The name of the master user for the restored DB cluster. Constraints: o Must be 1 to 16 letters or numbers. o First character must be a letter. o Can't be a reserved word for the chosen database engine.
+    /// </summary>
+    [CliOption("--master-username")]
+    public string? MasterUsername { get; private init; }
+
+    /// <summary>
+    /// The identifier for the database engine that was backed up to create the files stored in the Amazon S3 bucket. Valid Values: mysql
+    /// </summary>
+    [CliOption("--source-engine")]
+    public string? SourceEngine { get; private init; }
+
+    /// <summary>
+    /// The version of the database that the backup files were created from. MySQL versions 5.7 and 8.0 are supported. Example: 5.7.40 , 8.0.28
+    /// </summary>
+    [CliOption("--source-engine-version")]
+    public string? SourceEngineVersion { get; private init; }
+
+    /// <summary>
+    /// The name of the Amazon S3 bucket that contains the data used to cre- ate the Amazon Aurora DB cluster.
+    /// </summary>
+    [CliOption("--s3-bucket-name")]
+    public string? S3BucketName { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) role that authorizes Amazon RDS to ac- cess the Amazon S3 bucket on your behalf.
+    /// </summary>
+    [CliOption("--s3-ingestion-role-arn")]
+    public string? S3IngestionRoleArn { get; private init; }
+
     /// <summary>
     /// A list of Availability Zones (AZs) where instances in the restored DB cluster can be created. (string) Syntax: "string" "string" ...
     /// </summary>
@@ -47,9 +146,6 @@ public record AwsRdsRestoreDbClusterFromS3Options : AwsOptions
     [CliOption("--database-name")]
     public string? DatabaseName { get; set; }
 
-    [CliOption("--db-cluster-identifier")]
-    public string? DbClusterIdentifier { get; set; }
-
     /// <summary>
     /// The name of the DB cluster parameter group to associate with the re- stored DB cluster. If this argument is omitted, the default parame- ter group for the engine version is used. Constraints: o If supplied, must match the name of an existing DBClusterParame- terGroup.
     /// </summary>
@@ -68,9 +164,6 @@ public record AwsRdsRestoreDbClusterFromS3Options : AwsOptions
     [CliOption("--db-subnet-group-name")]
     public string? DbSubnetGroupName { get; set; }
 
-    [CliOption("--engine")]
-    public string? Engine { get; set; }
-
     /// <summary>
     /// The version number of the database engine to use. To list all of the available engine versions for aurora-mysql (Au- rora MySQL), use the following command: aws rds describe-db-engine-versions --engine aurora-mysql --query "DBEngineVersions[].EngineVersion" Aurora MySQL Examples: 5.7.mysql_aurora.2.12.0 , 8.0.mysql_aurora.3.04.0
     /// </summary>
@@ -82,9 +175,6 @@ public record AwsRdsRestoreDbClusterFromS3Options : AwsOptions
     /// </summary>
     [CliOption("--port")]
     public int? Port { get; set; }
-
-    [CliOption("--master-username")]
-    public string? MasterUsername { get; set; }
 
     /// <summary>
     /// The password for the master database user. This password can contain any printable ASCII character except "/", """, or "@". Constraints: o Must contain from 8 to 41 characters. o Can't be specified if ManageMasterUserPassword is turned on.
@@ -117,7 +207,10 @@ public record AwsRdsRestoreDbClusterFromS3Options : AwsOptions
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
-    [CliFlag("--storage-encrypted")]
+    /// <summary>
+    /// Specifies whether the restored DB cluster is encrypted.
+    /// </summary>
+    [CliFlag("--storage-encrypted", NegatedName = "--no-storage-encrypted")]
     public bool? StorageEncrypted { get; set; }
 
     /// <summary>
@@ -126,26 +219,17 @@ public record AwsRdsRestoreDbClusterFromS3Options : AwsOptions
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
-    [CliFlag("--enable-iam-database-authentication")]
+    /// <summary>
+    /// tication (boolean) Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By de- fault, mapping isn't enabled. For more information, see IAM Database Authentication in the Amazon Aurora User Guide .
+    /// </summary>
+    [CliFlag("--enable-iam-database-authentication", NegatedName = "--no-enable-iam-database-authentication")]
     public bool? EnableIamDatabaseAuthentication { get; set; }
-
-    [CliOption("--source-engine")]
-    public string? SourceEngine { get; set; }
-
-    [CliOption("--source-engine-version")]
-    public string? SourceEngineVersion { get; set; }
-
-    [CliOption("--s3-bucket-name")]
-    public string? S3BucketName { get; set; }
 
     /// <summary>
     /// The prefix for all of the file names that contain the data used to create the Amazon Aurora DB cluster. If you do not specify a SourceS3Prefix value, then the Amazon Aurora DB cluster is created by using all of the files in the Amazon S3 bucket.
     /// </summary>
     [CliOption("--s3-prefix")]
     public string? S3Prefix { get; set; }
-
-    [CliOption("--s3-ingestion-role-arn")]
-    public string? S3IngestionRoleArn { get; set; }
 
     /// <summary>
     /// The target backtrack window, in seconds. To disable backtracking, set this value to 0. NOTE: Currently, Backtrack is only supported for Aurora MySQL DB clus- ters. Default: 0 Constraints: o If specified, this value must be set to a number from 0 to 259,200 (72 hours).
@@ -159,10 +243,16 @@ public record AwsRdsRestoreDbClusterFromS3Options : AwsOptions
     [CliOption("--enable-cloudwatch-logs-exports", GroupValues = true)]
     public IEnumerable<string>? EnableCloudwatchLogsExports { get; set; }
 
-    [CliFlag("--deletion-protection")]
+    /// <summary>
+    /// Specifies whether to enable deletion protection for the DB cluster. The database can't be deleted when deletion protection is enabled. By default, deletion protection isn't enabled.
+    /// </summary>
+    [CliFlag("--deletion-protection", NegatedName = "--no-deletion-protection")]
     public bool? DeletionProtection { get; set; }
 
-    [CliFlag("--copy-tags-to-snapshot")]
+    /// <summary>
+    /// Specifies whether to copy all tags from the restored DB cluster to snapshots of the restored DB cluster. The default is not to copy them.
+    /// </summary>
+    [CliFlag("--copy-tags-to-snapshot", NegatedName = "--no-copy-tags-to-snapshot")]
     public bool? CopyTagsToSnapshot { get; set; }
 
     /// <summary>
@@ -187,7 +277,7 @@ public record AwsRdsRestoreDbClusterFromS3Options : AwsOptions
     /// The network type of the DB cluster. Valid Values: o IPV4 o DUAL The network type is determined by the DBSubnetGroup specified for the DB cluster. A DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL ). For more information, see Working with a DB instance in a VPC in the Amazon Aurora User Guide.
     /// </summary>
     [CliOption("--network-type")]
-    public AwsRdsRestoreDbClusterFromS3NetworkType? NetworkType { get; set; }
+    public string? NetworkType { get; set; }
 
     /// <summary>
     /// Contains the scaling configuration of an Aurora Serverless v2 DB cluster. For more information, see Using Amazon Aurora Serverless v2 in the Amazon Aurora User Guide . MinCapacity -&gt; (double) The minimum number of Aurora capacity units (ACUs) for a DB in- stance in an Aurora Serverless v2 cluster. You can specify ACU values in half-step increments, such as 8, 8.5, 9, and so on. For Aurora versions that support the Aurora Serverless v2 auto-pause feature, the smallest value that you can use is 0. For versions that don't support Aurora Serverless v2 auto-pause, the smallest value that you can use is 0.5. MaxCapacity -&gt; (double) The maximum number of Aurora capacity units (ACUs) for a DB in- stance in an Aurora Serverless v2 cluster. You can specify ACU values in half-step increments, such as 32, 32.5, 33, and so on. The largest value that you can use is 256 for recent Aurora ver- sions, or 128 for older versions. You can check the attributes of your engine version or platform version to determine the spe- cific maximum capacity supported. SecondsUntilAutoPause -&gt; (integer) Specifies the number of seconds an Aurora Serverless v2 DB in- stance must be idle before Aurora attempts to automatically pause it. Specify a value between 300 seconds (five minutes) and 86,400 seconds (one day). The default is 300 seconds. Shorthand Syntax: MinCapacity=double,MaxCapacity=double,SecondsUntilAutoPause=integer JSON Syntax: { "MinCapacity": double, "MaxCapacity": double, "SecondsUntilAutoPause": integer }
@@ -195,13 +285,15 @@ public record AwsRdsRestoreDbClusterFromS3Options : AwsOptions
     [CliOption("--serverless-v2-scaling-configuration")]
     public string? ServerlessV2ScalingConfiguration { get; set; }
 
-    [CliFlag("--manage-master-user-password")]
+    /// <summary>
+    /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager. For more information, see Password management with Amazon Web Ser- vices Secrets Manager in the Amazon RDS User Guide and Password man- agement with Amazon Web Services Secrets Manager in the Amazon Au- rora User Guide. Constraints: o Can't manage the master user password with Amazon Web Services Se- crets Manager if MasterUserPassword is specified.
+    /// </summary>
+    [CliFlag("--manage-master-user-password", NegatedName = "--no-manage-master-user-password")]
     public bool? ManageMasterUserPassword { get; set; }
 
     /// <summary>
     /// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and managed in Amazon Web Services Se- crets Manager. This setting is valid only if the master user password is managed by RDS in Amazon Web Services Secrets Manager for the DB cluster. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a dif- ferent Amazon Web Services account, specify the key ARN or alias ARN. If you don't specify MasterUserSecretKmsKeyId , then the aws/se- cretsmanager KMS key is used to encrypt the secret. If the secret is in a different Amazon Web Services account, then you can't use the aws/secretsmanager KMS key to encrypt the secret, and you must use a customer managed KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
     /// </summary>
-    [SecretValue]
     [CliOption("--master-user-secret-kms-key-id")]
     public string? MasterUserSecretKmsKeyId { get; set; }
 
@@ -228,5 +320,22 @@ public record AwsRdsRestoreDbClusterFromS3Options : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

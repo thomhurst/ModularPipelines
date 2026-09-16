@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,22 +20,91 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "modify-ipam-resource-cidr")]
-public record AwsEc2ModifyIpamResourceCidrOptions : AwsOptions
+public record AwsEc2ModifyIpamResourceCidrOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--dry-run")]
-    public bool? DryRun { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Modify a resource CIDR. You can use this action to transfer resource CIDRs between scopes and ignore resource CIDRs that you do not want to manage. If set to false, the resource will not be tracked for overlap, it cannot be auto-imported into a pool, and it will be removed from any pool it has an allocation in. For more information, see Move resource CIDRs between scopes and Change the monitoring state of resource CIDRs in the Amazon VPC IPAM User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceId">The ID of the resource you want to modify.</param>
+    /// <param name="ResourceCidr">The CIDR of the resource you want to modify.</param>
+    /// <param name="ResourceRegion">The Amazon Web Services Region of the resource you want to modify.</param>
+    /// <param name="CurrentIpamScopeId">The ID of the current scope that the resource CIDR is in.</param>
+    /// <param name="Monitored">Determines if the resource is monitored by IPAM. If a resource is monitored, the resource is discovered by IPAM and you can view de- tails about the resources CIDR.</param>
+    public AwsEc2ModifyIpamResourceCidrOptions(
+        string ResourceId,
+        string ResourceCidr,
+        string ResourceRegion,
+        string CurrentIpamScopeId,
+        bool Monitored
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceId);
+        this.ResourceId = ResourceId;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceCidr);
+        this.ResourceCidr = ResourceCidr;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceRegion);
+        this.ResourceRegion = ResourceRegion;
+        global::System.ArgumentNullException.ThrowIfNull(CurrentIpamScopeId);
+        this.CurrentIpamScopeId = CurrentIpamScopeId;
+        this.Monitored = Monitored;
+    }
+
+    private AwsEc2ModifyIpamResourceCidrOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2ModifyIpamResourceCidrOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2ModifyIpamResourceCidrOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the resource you want to modify.
+    /// </summary>
     [CliOption("--resource-id")]
-    public string? ResourceId { get; set; }
+    public string? ResourceId { get; private init; }
 
+    /// <summary>
+    /// The CIDR of the resource you want to modify.
+    /// </summary>
     [CliOption("--resource-cidr")]
-    public string? ResourceCidr { get; set; }
+    public string? ResourceCidr { get; private init; }
 
+    /// <summary>
+    /// The Amazon Web Services Region of the resource you want to modify.
+    /// </summary>
     [CliOption("--resource-region")]
-    public string? ResourceRegion { get; set; }
+    public string? ResourceRegion { get; private init; }
 
+    /// <summary>
+    /// The ID of the current scope that the resource CIDR is in.
+    /// </summary>
     [CliOption("--current-ipam-scope-id")]
-    public string? CurrentIpamScopeId { get; set; }
+    public string? CurrentIpamScopeId { get; private init; }
+
+    /// <summary>
+    /// Determines if the resource is monitored by IPAM. If a resource is monitored, the resource is discovered by IPAM and you can view de- tails about the resources CIDR.
+    /// </summary>
+    [CliFlag("--monitored", NegatedName = "--no-monitored")]
+    public bool? Monitored { get; private init; }
+
+    /// <summary>
+    /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
+    public bool? DryRun { get; set; }
 
     /// <summary>
     /// The ID of the scope you want to transfer the resource CIDR to.
@@ -42,13 +112,27 @@ public record AwsEc2ModifyIpamResourceCidrOptions : AwsOptions
     [CliOption("--destination-ipam-scope-id")]
     public string? DestinationIpamScopeId { get; set; }
 
-    [CliFlag("--monitored")]
-    public bool? Monitored { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

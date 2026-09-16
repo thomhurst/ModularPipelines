@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker-featurestore-runtime", "batch-get-record")]
-public record AwsSagemakerFeaturestoreRuntimeBatchGetRecordOptions : AwsOptions
+public record AwsSagemakerFeaturestoreRuntimeBatchGetRecordOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves a batch of Records from a FeatureGroup . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Identifiers">A list containing the name or Amazon Resource Name (ARN) of the Fea- tureGroup , the list of names of Feature s to be retrieved, and the corresponding RecordIdentifier values as strings. Constraints: o min: 1 o max: 100 (structure) The identifier that identifies the batch of Records you are re- trieving in a batch. FeatureGroupName -&gt; (string) [required] The name or Amazon Resource Name (ARN) of the FeatureGroup containing the records you are retrieving in a batch. Constraints: o min: 1 o max: 150 o pattern: (arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:[0-9]{12}:fea- ture-group/)?([a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63}) RecordIdentifiersValueAsString -&gt; (list) [required] The value for a list of record identifiers in string format. Constraints: o min: 1 o max: 100 (string) Constraints: o max: 358400 o pattern: .* FeatureNames -&gt; (list) List of names of Features to be retrieved. If not specified, the latest value for all the Features are returned. Constraints: o min: 1 (string) Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63} Shorthand Syntax: FeatureGroupName=string,RecordIdentifiersValueAsString=string,string,FeatureNames=string,string ... JSON Syntax: [ { "FeatureGroupName": "string", "RecordIdentifiersValueAsString": ["string", ...], "FeatureNames": ["string", ...] } ... ]</param>
+    public AwsSagemakerFeaturestoreRuntimeBatchGetRecordOptions(
+        IEnumerable<string> Identifiers
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Identifiers);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Identifiers));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Identifiers));
+            }
+
+            Identifiers = materialized;
+        }
+        this.Identifiers = Identifiers;
+    }
+
+    private AwsSagemakerFeaturestoreRuntimeBatchGetRecordOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerFeaturestoreRuntimeBatchGetRecordOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerFeaturestoreRuntimeBatchGetRecordOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A list containing the name or Amazon Resource Name (ARN) of the Fea- tureGroup , the list of names of Feature s to be retrieved, and the corresponding RecordIdentifier values as strings. Constraints: o min: 1 o max: 100 (structure) The identifier that identifies the batch of Records you are re- trieving in a batch. FeatureGroupName -&gt; (string) [required] The name or Amazon Resource Name (ARN) of the FeatureGroup containing the records you are retrieving in a batch. Constraints: o min: 1 o max: 150 o pattern: (arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:[0-9]{12}:fea- ture-group/)?([a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63}) RecordIdentifiersValueAsString -&gt; (list) [required] The value for a list of record identifiers in string format. Constraints: o min: 1 o max: 100 (string) Constraints: o max: 358400 o pattern: .* FeatureNames -&gt; (list) List of names of Features to be retrieved. If not specified, the latest value for all the Features are returned. Constraints: o min: 1 (string) Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63} Shorthand Syntax: FeatureGroupName=string,RecordIdentifiersValueAsString=string,string,FeatureNames=string,string ... JSON Syntax: [ { "FeatureGroupName": "string", "RecordIdentifiersValueAsString": ["string", ...], "FeatureNames": ["string", ...] } ... ]
+    /// </summary>
     [CliOption("--identifiers", GroupValues = true)]
-    public IEnumerable<string>? Identifiers { get; set; }
+    public IEnumerable<string>? Identifiers { get; private init; }
 
     /// <summary>
     /// Parameter to request ExpiresAt in response. If Enabled , BatchGe- tRecord will return the value of ExpiresAt , if it is not null. If Disabled and null, BatchGetRecord will return null. Possible values: o Enabled o Disabled
@@ -36,5 +84,22 @@ public record AwsSagemakerFeaturestoreRuntimeBatchGetRecordOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

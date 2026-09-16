@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudfront", "update-trust-store")]
-public record AwsCloudfrontUpdateTrustStoreOptions : AwsOptions
+public record AwsCloudfrontUpdateTrustStoreOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a trust store. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Id">The trust store ID. Constraints: o min: 1 o max: 64</param>
+    /// <param name="IfMatch">The current version (ETag value) of the trust store you are updat- ing.</param>
+    public AwsCloudfrontUpdateTrustStoreOptions(
+        string Id,
+        string IfMatch
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+        global::System.ArgumentNullException.ThrowIfNull(IfMatch);
+        this.IfMatch = IfMatch;
+    }
+
+    private AwsCloudfrontUpdateTrustStoreOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudfrontUpdateTrustStoreOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudfrontUpdateTrustStoreOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The trust store ID. Constraints: o min: 1 o max: 64
+    /// </summary>
     [CliOption("--id")]
-    public string? Id { get; set; }
+    public string? Id { get; private init; }
+
+    /// <summary>
+    /// The current version (ETag value) of the trust store you are updat- ing.
+    /// </summary>
+    [CliOption("--if-match")]
+    public string? IfMatch { get; private init; }
 
     /// <summary>
     /// The CA certificates bundle source. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: CaCertificatesBundleS3Location. CaCertificatesBundleS3Location -&gt; (structure) The CA certificates bundle location in Amazon S3. Bucket -&gt; (string) [required] The S3 bucket. Key -&gt; (string) [required] The location's key. Region -&gt; (string) [required] The location's Region. Constraints: o min: 1 o max: 32 o pattern: [a-z]{2}-[a-z]+-\d Version -&gt; (string) The location's version. Shorthand Syntax: CaCertificatesBundleS3Location={Bucket=string,Key=string,Region=string,Version=string} JSON Syntax: { "CaCertificatesBundleS3Location": { "Bucket": "string", "Key": "string", "Region": "string", "Version": "string" } }
@@ -30,16 +77,33 @@ public record AwsCloudfrontUpdateTrustStoreOptions : AwsOptions
     [CliOption("--ca-certificates-bundle-source")]
     public string? CaCertificatesBundleSource { get; set; }
 
-    [CliFlag("--use-client-certificate-ocsp-endpoint")]
+    /// <summary>
+    /// cate-ocsp-endpoint (boolean) A Boolean that determines whether to use the CA certificate's OCSP endpoint to check certificate revocation status.
+    /// </summary>
+    [CliFlag("--use-client-certificate-ocsp-endpoint", NegatedName = "--no-use-client-certificate-ocsp-endpoint")]
     public bool? UseClientCertificateOcspEndpoint { get; set; }
-
-    [CliOption("--if-match")]
-    public string? IfMatch { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

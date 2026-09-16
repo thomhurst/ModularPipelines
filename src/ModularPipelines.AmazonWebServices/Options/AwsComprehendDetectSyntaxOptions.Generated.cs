@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +21,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("comprehend", "detect-syntax")]
-public record AwsComprehendDetectSyntaxOptions : AwsOptions
+public record AwsComprehendDetectSyntaxOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--text")]
-    public string? Text { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Inspects text for syntax and the part of speech of words in the docu- ment. For more information, see Syntax in the Comprehend Developer Guide. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Text">A UTF-8 string. The maximum string size is 5 KB. Constraints: o min: 1</param>
+    /// <param name="LanguageCode">The language code of the input documents. You can specify any of the following languages supported by Amazon Comprehend: German ("de"), English ("en"), Spanish ("es"), French ("fr"), Italian ("it"), or Portuguese ("pt"). Possible values: o en o es o fr o de o it o pt</param>
+    public AwsComprehendDetectSyntaxOptions(
+        string Text,
+        AwsComprehendDetectSyntaxLanguageCode LanguageCode
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Text);
+        this.Text = Text;
+        global::System.ArgumentNullException.ThrowIfNull(LanguageCode);
+        this.LanguageCode = LanguageCode;
+    }
+
+    private AwsComprehendDetectSyntaxOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsComprehendDetectSyntaxOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsComprehendDetectSyntaxOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A UTF-8 string. The maximum string size is 5 KB. Constraints: o min: 1
+    /// </summary>
+    [CliOption("--text")]
+    public string? Text { get; private init; }
+
+    /// <summary>
+    /// The language code of the input documents. You can specify any of the following languages supported by Amazon Comprehend: German ("de"), English ("en"), Spanish ("es"), French ("fr"), Italian ("it"), or Portuguese ("pt"). Possible values: o en o es o fr o de o it o pt
+    /// </summary>
     [CliOption("--language-code")]
-    public string? LanguageCode { get; set; }
+    public AwsComprehendDetectSyntaxLanguageCode? LanguageCode { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,19 +21,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datazone", "create-form-type")]
-public record AwsDatazoneCreateFormTypeOptions : AwsOptions
+public record AwsDatazoneCreateFormTypeOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a metadata form type. Prerequisites: o The domain must exist and be in an ENABLED state. o The owning project must exist and be accessible. o The name must be unique within the domain. For custom form types, to indicate that a field should be searchable, annotate it with @amazon.datazone#searchable . By default, searchable fields are indexed for semantic search, where related query terms will match the attribute value even if they are not stemmed or keyword matches. To indicate that a fi...
+    /// </summary>
+    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain in which this metadata form type is created. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Name">The name of this Amazon DataZone metadata form type. Constraints: o min: 1 o max: 128 o pattern: (amazon.datazone.)?(?![0-9_])\w+$|^_\w*[a-zA-Z0-9]\w*</param>
+    /// <param name="Model">The model of this Amazon DataZone metadata form type. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: smithy. smithy -&gt; (string) Indicates the smithy model of the API. Constraints: o min: 1 o max: 100000 Shorthand Syntax: smithy=string JSON Syntax: { "smithy": "string" }</param>
+    /// <param name="OwningProjectIdentifier">The ID of the Amazon DataZone project that owns this metadata form type. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    public AwsDatazoneCreateFormTypeOptions(
+        string DomainIdentifier,
+        string Name,
+        string Model,
+        string OwningProjectIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainIdentifier);
+        this.DomainIdentifier = DomainIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Model);
+        this.Model = Model;
+        global::System.ArgumentNullException.ThrowIfNull(OwningProjectIdentifier);
+        this.OwningProjectIdentifier = OwningProjectIdentifier;
+    }
+
+    private AwsDatazoneCreateFormTypeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatazoneCreateFormTypeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatazoneCreateFormTypeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Amazon DataZone domain in which this metadata form type is created. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// </summary>
     [CliOption("--domain-identifier")]
-    public string? DomainIdentifier { get; set; }
+    public string? DomainIdentifier { get; private init; }
 
+    /// <summary>
+    /// The name of this Amazon DataZone metadata form type. Constraints: o min: 1 o max: 128 o pattern: (amazon.datazone.)?(?![0-9_])\w+$|^_\w*[a-zA-Z0-9]\w*
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The model of this Amazon DataZone metadata form type. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: smithy. smithy -&gt; (string) Indicates the smithy model of the API. Constraints: o min: 1 o max: 100000 Shorthand Syntax: smithy=string JSON Syntax: { "smithy": "string" }
+    /// </summary>
     [CliOption("--model")]
-    public string? Model { get; set; }
+    public string? Model { get; private init; }
 
+    /// <summary>
+    /// The ID of the Amazon DataZone project that owns this metadata form type. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// </summary>
     [CliOption("--owning-project-identifier")]
-    public string? OwningProjectIdentifier { get; set; }
+    public string? OwningProjectIdentifier { get; private init; }
 
     /// <summary>
     /// The status of this Amazon DataZone metadata form type. Possible values: o ENABLED o DISABLED
@@ -51,5 +109,22 @@ public record AwsDatazoneCreateFormTypeOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

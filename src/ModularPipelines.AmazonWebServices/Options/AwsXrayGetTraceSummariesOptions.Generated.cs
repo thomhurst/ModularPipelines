@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("xray", "get-trace-summaries")]
-public record AwsXrayGetTraceSummariesOptions : AwsOptions
+public record AwsXrayGetTraceSummariesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--start-time")]
-    public string? StartTime { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Retrieves IDs and annotations for traces available for a specified time frame using an optional filter. To get the full traces, pass the trace IDs to BatchGetTraces . A filter expression can target traced requests that hit specific ser- vice nodes or edges, have errors, or come from a known user. For exam- ple, the following filter expression targets traces that pass through api.example.com : service("api.example.com") This filter expression finds traces that have an annotation named ac- count w...
+    /// </summary>
+    /// <param name="StartTime">The start of the time frame for which to retrieve traces.</param>
+    /// <param name="EndTime">The end of the time frame for which to retrieve traces.</param>
+    public AwsXrayGetTraceSummariesOptions(
+        string StartTime,
+        string EndTime
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StartTime);
+        this.StartTime = StartTime;
+        global::System.ArgumentNullException.ThrowIfNull(EndTime);
+        this.EndTime = EndTime;
+    }
+
+    private AwsXrayGetTraceSummariesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsXrayGetTraceSummariesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsXrayGetTraceSummariesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The start of the time frame for which to retrieve traces.
+    /// </summary>
+    [CliOption("--start-time")]
+    public string? StartTime { get; private init; }
+
+    /// <summary>
+    /// The end of the time frame for which to retrieve traces.
+    /// </summary>
     [CliOption("--end-time")]
-    public string? EndTime { get; set; }
+    public string? EndTime { get; private init; }
 
     /// <summary>
     /// Query trace summaries by TraceId (trace start time), Event (trace update time), or Service (trace segment end time). Possible values: o TraceId o Event o Service
@@ -35,7 +79,10 @@ public record AwsXrayGetTraceSummariesOptions : AwsOptions
     [CliOption("--time-range-type")]
     public AwsXrayGetTraceSummariesTimeRangeType? TimeRangeType { get; set; }
 
-    [CliFlag("--sampling")]
+    /// <summary>
+    /// Set to true to get summaries for only a subset of available traces.
+    /// </summary>
+    [CliFlag("--sampling", NegatedName = "--no-sampling")]
     public bool? Sampling { get; set; }
 
     /// <summary>
@@ -68,5 +115,22 @@ public record AwsXrayGetTraceSummariesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

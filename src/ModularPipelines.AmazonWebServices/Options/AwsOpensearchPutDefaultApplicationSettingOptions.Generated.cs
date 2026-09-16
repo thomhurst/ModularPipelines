@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("opensearch", "put-default-application-setting")]
-public record AwsOpensearchPutDefaultApplicationSettingOptions : AwsOptions
+public record AwsOpensearchPutDefaultApplicationSettingOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--application-arn")]
-    public string? ApplicationArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--set-as-default")]
-    public bool? SetAsDefault { get; set; }
+    /// <summary>
+    /// Sets the default application to the application with the specified ARN. To remove the default application, use the GetDefaultApplicationSetting operation to get the current default and then call the PutDefaultAppli- cationSetting with the current applications ARN and the setAsDefault parameter set to false . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationArn">The Amazon Resource Name (ARN) of the domain. See Identifiers for IAM Entities in Using Amazon Web Services Identity and Access Man- agement for more information. Constraints: o min: 20 o max: 2048 o pattern: .*</param>
+    /// <param name="SetAsDefault">Set to true to set the specified ARN as the default application. Set to false to clear the default application.</param>
+    public AwsOpensearchPutDefaultApplicationSettingOptions(
+        string ApplicationArn,
+        bool SetAsDefault
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationArn);
+        this.ApplicationArn = ApplicationArn;
+        this.SetAsDefault = SetAsDefault;
+    }
+
+    private AwsOpensearchPutDefaultApplicationSettingOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOpensearchPutDefaultApplicationSettingOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOpensearchPutDefaultApplicationSettingOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the domain. See Identifiers for IAM Entities in Using Amazon Web Services Identity and Access Man- agement for more information. Constraints: o min: 20 o max: 2048 o pattern: .*
+    /// </summary>
+    [CliOption("--application-arn")]
+    public string? ApplicationArn { get; private init; }
+
+    /// <summary>
+    /// Set to true to set the specified ARN as the default application. Set to false to clear the default application.
+    /// </summary>
+    [CliFlag("--set-as-default", NegatedName = "--no-set-as-default")]
+    public bool? SetAsDefault { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

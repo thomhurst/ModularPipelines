@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("quicksight", "get-dashboard-embed-url")]
-public record AwsQuicksightGetDashboardEmbedUrlOptions : AwsOptions
+public record AwsQuicksightGetDashboardEmbedUrlOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Generates a temporary session URL and authorization code(bearer token) that you can use to embed an Amazon Quick Sight read-only dashboard in your website or application. Before you use this command, make sure that you have configured the dashboards and permissions. Currently, you can use GetDashboardEmbedURL only from the server, not from the user's browser. The following rules apply to the generated URL: o They must be used together. o They can be used one time only. o They are valid for 5 min...
+    /// </summary>
+    /// <param name="AwsAccountId">The ID for the Amazon Web Services account that contains the dash- board that you're embedding. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="DashboardId">The ID for the dashboard, also added to the Identity and Access Man- agement (IAM) policy. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+</param>
+    /// <param name="IdentityType">The authentication method that the user uses to sign in. Possible values: o IAM o QUICKSIGHT o ANONYMOUS</param>
+    public AwsQuicksightGetDashboardEmbedUrlOptions(
+        string AwsAccountId,
+        string DashboardId,
+        AwsQuicksightGetDashboardEmbedUrlIdentityType IdentityType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
+        this.AwsAccountId = AwsAccountId;
+        global::System.ArgumentNullException.ThrowIfNull(DashboardId);
+        this.DashboardId = DashboardId;
+        global::System.ArgumentNullException.ThrowIfNull(IdentityType);
+        this.IdentityType = IdentityType;
+    }
+
+    private AwsQuicksightGetDashboardEmbedUrlOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQuicksightGetDashboardEmbedUrlOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQuicksightGetDashboardEmbedUrlOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID for the Amazon Web Services account that contains the dash- board that you're embedding. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// </summary>
     [CliOption("--aws-account-id")]
-    public string? AwsAccountId { get; set; }
+    public string? AwsAccountId { get; private init; }
 
+    /// <summary>
+    /// The ID for the dashboard, also added to the Identity and Access Man- agement (IAM) policy. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+
+    /// </summary>
     [CliOption("--dashboard-id")]
-    public string? DashboardId { get; set; }
+    public string? DashboardId { get; private init; }
 
+    /// <summary>
+    /// The authentication method that the user uses to sign in. Possible values: o IAM o QUICKSIGHT o ANONYMOUS
+    /// </summary>
     [CliOption("--identity-type")]
-    public string? IdentityType { get; set; }
+    public AwsQuicksightGetDashboardEmbedUrlIdentityType? IdentityType { get; private init; }
 
     /// <summary>
     /// How many minutes the session is valid. The session lifetime must be 15-600 minutes. Constraints: o min: 15 o max: 600
@@ -36,13 +88,22 @@ public record AwsQuicksightGetDashboardEmbedUrlOptions : AwsOptions
     [CliOption("--session-lifetime-in-minutes")]
     public int? SessionLifetimeInMinutes { get; set; }
 
-    [CliFlag("--undo-redo-disabled")]
+    /// <summary>
+    /// Remove the undo/redo button on the embedded dashboard. The default is FALSE, which enables the undo/redo button.
+    /// </summary>
+    [CliFlag("--undo-redo-disabled", NegatedName = "--no-undo-redo-disabled")]
     public bool? UndoRedoDisabled { get; set; }
 
-    [CliFlag("--reset-disabled")]
+    /// <summary>
+    /// Remove the reset button on the embedded dashboard. The default is FALSE, which enables the reset button.
+    /// </summary>
+    [CliFlag("--reset-disabled", NegatedName = "--no-reset-disabled")]
     public bool? ResetDisabled { get; set; }
 
-    [CliFlag("--state-persistence-enabled")]
+    /// <summary>
+    /// Adds persistence of state for the user session in an embedded dash- board. Persistence applies to the sheet and the parameter settings. These are control settings that the dashboard subscriber (Amazon Quick Sight reader) chooses while viewing the dashboard. If this is set to TRUE , the settings are the same when the subscriber reopens the same dashboard URL. The state is stored in Amazon Quick Sight, not in a browser cookie. If this is set to FALSE, the state of the user session is not persisted. The default is FALSE .
+    /// </summary>
+    [CliFlag("--state-persistence-enabled", NegatedName = "--no-state-persistence-enabled")]
     public bool? StatePersistenceEnabled { get; set; }
 
     /// <summary>
@@ -68,5 +129,22 @@ public record AwsQuicksightGetDashboardEmbedUrlOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,26 +21,93 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("fsx", "create-file-cache")]
-public record AwsFsxCreateFileCacheOptions : AwsOptions
+public record AwsFsxCreateFileCacheOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new Amazon File Cache resource. You can use this operation with a client request token in the request that Amazon File Cache uses to ensure idempotent creation. If a cache with the specified client request token exists and the parameters match, CreateFileCache returns the description of the existing cache. If a cache with the specified client request token exists and the para- meters don't match, this call returns IncompatibleParameterError . If a file cache with the specified client r...
+    /// </summary>
+    /// <param name="FileCacheType">The type of cache that you're creating, which must be LUSTRE . Possible values: o LUSTRE</param>
+    /// <param name="FileCacheTypeVersion">Sets the Lustre version for the cache that you're creating, which must be 2.12 . Constraints: o min: 1 o max: 20 o pattern: ^[0-9](.[0-9]*)*$</param>
+    /// <param name="StorageCapacity">The storage capacity of the cache in gibibytes (GiB). Valid values are 1200 GiB, 2400 GiB, and increments of 2400 GiB. Constraints: o min: 0 o max: 2147483647</param>
+    /// <param name="SubnetIds">A list of subnet IDs that the cache will be accessible from. You can specify only one subnet ID in a call to the CreateFileCache opera- tion. Constraints: o max: 50 (string) The ID for a subnet. A subnet is a range of IP addresses in your virtual private cloud (VPC). For more information, see VPC and subnets in the Amazon VPC User Guide. Constraints: o min: 15 o max: 24 o pattern: ^(subnet-[0-9a-f]{8,})$ Syntax: "string" "string" ...</param>
+    public AwsFsxCreateFileCacheOptions(
+        string FileCacheType,
+        string FileCacheTypeVersion,
+        int StorageCapacity,
+        IEnumerable<string> SubnetIds
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FileCacheType);
+        this.FileCacheType = FileCacheType;
+        global::System.ArgumentNullException.ThrowIfNull(FileCacheTypeVersion);
+        this.FileCacheTypeVersion = FileCacheTypeVersion;
+        this.StorageCapacity = StorageCapacity;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SubnetIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SubnetIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SubnetIds));
+            }
+
+            SubnetIds = materialized;
+        }
+        this.SubnetIds = SubnetIds;
+    }
+
+    private AwsFsxCreateFileCacheOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFsxCreateFileCacheOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFsxCreateFileCacheOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The type of cache that you're creating, which must be LUSTRE . Possible values: o LUSTRE
+    /// </summary>
+    [CliOption("--file-cache-type")]
+    public string? FileCacheType { get; private init; }
+
+    /// <summary>
+    /// Sets the Lustre version for the cache that you're creating, which must be 2.12 . Constraints: o min: 1 o max: 20 o pattern: ^[0-9](.[0-9]*)*$
+    /// </summary>
+    [CliOption("--file-cache-type-version")]
+    public string? FileCacheTypeVersion { get; private init; }
+
+    /// <summary>
+    /// The storage capacity of the cache in gibibytes (GiB). Valid values are 1200 GiB, 2400 GiB, and increments of 2400 GiB. Constraints: o min: 0 o max: 2147483647
+    /// </summary>
+    [CliOption("--storage-capacity")]
+    public int? StorageCapacity { get; private init; }
+
+    /// <summary>
+    /// A list of subnet IDs that the cache will be accessible from. You can specify only one subnet ID in a call to the CreateFileCache opera- tion. Constraints: o max: 50 (string) The ID for a subnet. A subnet is a range of IP addresses in your virtual private cloud (VPC). For more information, see VPC and subnets in the Amazon VPC User Guide. Constraints: o min: 15 o max: 24 o pattern: ^(subnet-[0-9a-f]{8,})$ Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--subnet-ids", GroupValues = true)]
+    public IEnumerable<string>? SubnetIds { get; private init; }
+
     /// <summary>
     /// An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Ser- vices SDK. By using the idempotent operation, you can retry a CreateFileCache operation without the risk of creating an extra cache. This approach can be useful when an initial call fails in a way that makes it un- clear whether a cache was created. Examples are if a transport level timeout occurred, or your connection was reset. If you use the same client request token and the initial call created a cache, the client receives success as long as the parameters are the same. Constraints: o min: 1 o max: 63 o pattern: [A-za-z0-9_.-]{0,63}$
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
-
-    [CliOption("--file-cache-type")]
-    public string? FileCacheType { get; set; }
-
-    [CliOption("--file-cache-type-version")]
-    public string? FileCacheTypeVersion { get; set; }
-
-    [CliOption("--storage-capacity")]
-    public int? StorageCapacity { get; set; }
-
-    [CliOption("--subnet-ids", GroupValues = true)]
-    public IEnumerable<string>? SubnetIds { get; set; }
 
     /// <summary>
     /// A list of IDs specifying the security groups to apply to all network interfaces created for Amazon File Cache access. This list isn't re- turned in later requests to describe the cache. Constraints: o max: 50 (string) The ID of your Amazon EC2 security group. This ID is used to control network access to the endpoint that Amazon FSx creates on your behalf in each subnet. For more information, see Amazon EC2 Security groups for Linux instances in the Amazon EC2 User Guide . Constraints: o min: 11 o max: 20 o pattern: ^(sg-[0-9a-f]{8,})$ Syntax: "string" "string" ...
@@ -54,16 +122,10 @@ public record AwsFsxCreateFileCacheOptions : AwsOptions
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// |
-    /// </summary>
-    [CliFlag("--copy-tags-to-data-repository-associations")]
-    public bool? CopyTagsToDataRepositoryAssociations { get; set; }
-
-    /// <summary>
     /// A boolean flag indicating whether tags for the cache should be copied to data repository associations. This value defaults to false.
     /// </summary>
-    [CliFlag("--no-copy-tags-to-data-repository-associations")]
-    public bool? NoCopyTagsToDataRepositoryAssociations { get; set; }
+    [CliFlag("--copy-tags-to-data-repository-associations", NegatedName = "--no-copy-tags-to-data-repository-associations")]
+    public bool? CopyTagsToDataRepositoryAssociations { get; set; }
 
     /// <summary>
     /// Specifies the ID of the Key Management Service (KMS) key to use for encrypting data on an Amazon File Cache. If a KmsKeyId isn't speci- fied, the Amazon FSx-managed KMS key for your account is used. For more information, see Encrypt in the Key Management Service API Ref- erence . Constraints: o min: 1 o max: 2048 o pattern: ^.{1,2048}$
@@ -88,5 +150,22 @@ public record AwsFsxCreateFileCacheOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

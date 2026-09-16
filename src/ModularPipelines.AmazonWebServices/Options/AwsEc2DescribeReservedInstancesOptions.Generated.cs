@@ -34,7 +34,10 @@ public record AwsEc2DescribeReservedInstancesOptions : AwsOptions
     [CliOption("--reserved-instances-ids", GroupValues = true)]
     public IEnumerable<string>? ReservedInstancesIds { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -47,7 +50,7 @@ public record AwsEc2DescribeReservedInstancesOptions : AwsOptions
     /// The Reserved Instance offering type. If you are using tools that predate the 2011-11-01 API version, you only have access to the Medium Utilization Reserved Instance offering type. Possible values: o Heavy Utilization o Medium Utilization o Light Utilization o No Upfront o Partial Upfront o All Upfront
     /// </summary>
     [CliOption("--offering-type")]
-    public AwsEc2DescribeReservedInstancesOfferingType? OfferingType { get; set; }
+    public string? OfferingType { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

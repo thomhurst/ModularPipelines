@@ -36,7 +36,10 @@ public record AwsEfsCreateFileSystemOptions : AwsOptions
     [CliOption("--performance-mode")]
     public AwsEfsCreateFileSystemPerformanceMode? PerformanceMode { get; set; }
 
-    [CliFlag("--encrypted")]
+    /// <summary>
+    /// A Boolean value that, if true, creates an encrypted file system. When creating an encrypted file system, you have the option of spec- ifying an existing Key Management Service key (KMS key). If you don't specify a KMS key, then the default KMS key for Amazon EFS, /aws/elasticfilesystem , is used to protect the encrypted file sys- tem.
+    /// </summary>
+    [CliFlag("--encrypted", NegatedName = "--no-encrypted")]
     public bool? Encrypted { get; set; }
 
     /// <summary>
@@ -63,7 +66,10 @@ public record AwsEfsCreateFileSystemOptions : AwsOptions
     [CliOption("--availability-zone-name")]
     public string? AvailabilityZoneName { get; set; }
 
-    [CliFlag("--backup")]
+    /// <summary>
+    /// Specifies whether automatic backups are enabled on the file system that you are creating. Set the value to true to enable automatic backups. If you are creating a One Zone file system, automatic back- ups are enabled by default. For more information, see Automatic backups in the Amazon EFS User Guide . Default is false . However, if you specify an AvailabilityZoneName , the default is true . NOTE: Backup is not available in all Amazon Web Services Regions where Amazon EFS is available.
+    /// </summary>
+    [CliFlag("--backup", NegatedName = "--no-backup")]
     public bool? Backup { get; set; }
 
     /// <summary>

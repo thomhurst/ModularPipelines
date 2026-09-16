@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,22 +21,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("quicksight", "create-flow")]
-public record AwsQuicksightCreateFlowOptions : AwsOptions
+public record AwsQuicksightCreateFlowOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--aws-account-id")]
-    public string? AwsAccountId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a new flow in the specified Amazon Web Services account. Cre- ates both a DRAFT and PUBLISHED (auto-published) version. This operation is idempotent. Supply a ClientToken to safely retry without creating duplicate resources. See also: AWS API Documentation create-flow uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the ...
+    /// </summary>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account where you want to create the flow. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12}</param>
+    /// <param name="Name">The display name for the flow. Constraints: o min: 1 o max: 128 o pattern: (?!\s+$)[^{}"\\&lt;&gt;]*</param>
+    /// <param name="FlowDefinition">The definition of the flow, specifying the steps and configurations. This is the flow definition in Quick Flow's internal format. The format is subject to change. NOTE: Always derive or depend on the flow definition from the De- scribeFlow operation to ensure you are working with the latest format. JSON Syntax: {...}</param>
+    public AwsQuicksightCreateFlowOptions(
+        string AwsAccountId,
+        string Name,
+        string FlowDefinition
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
+        this.AwsAccountId = AwsAccountId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(FlowDefinition);
+        this.FlowDefinition = FlowDefinition;
+    }
+
+    private AwsQuicksightCreateFlowOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQuicksightCreateFlowOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQuicksightCreateFlowOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Amazon Web Services account where you want to create the flow. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12}
+    /// </summary>
+    [CliOption("--aws-account-id")]
+    public string? AwsAccountId { get; private init; }
+
+    /// <summary>
+    /// The display name for the flow. Constraints: o min: 1 o max: 128 o pattern: (?!\s+$)[^{}"\\&lt;&gt;]*
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The definition of the flow, specifying the steps and configurations. This is the flow definition in Quick Flow's internal format. The format is subject to change. NOTE: Always derive or depend on the flow definition from the De- scribeFlow operation to ensure you are working with the latest format. JSON Syntax: {...}
+    /// </summary>
+    [CliOption("--flow-definition")]
+    public string? FlowDefinition { get; private init; }
 
     /// <summary>
     /// The description for the flow. Constraints: o min: 0 o max: 1024 o pattern: (?!\s+$)[^{}"\\&lt;&gt;]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--flow-definition")]
-    public string? FlowDefinition { get; set; }
 
     /// <summary>
     /// Initial permissions for the flow. If omitted, the flow is created without any permissions. (structure) A structure that contains the permission information for one principal against one flow. Actions -&gt; (list) [required] A list of actions that the principal can perform against the flow. The following are the list of values to set a principal as a flow owner: o quicksight:PublishFlow o quicksight:GetFlow o quicksight:UpdateFlowPermissions o quicksight:GetFlowSession o quicksight:StartFlowSession o quicksight:StopFlowSession o quicksight:UpdateFlowSession o quicksight:UnpublishFlow o quicksight:GetFlowStages o quicksight:DeleteFlow o quicksight:DescribeFlowPermissions o quicksight:UpdateFlow o quicksight:CreatePresignedUrl The following are the list of values to set a principal as a flow viewer: o quicksight:GetFlow o quicksight:UpdateFlowSession o quicksight:StartFlowSession o quicksight:StopFlowSession o quicksight:GetFlowSession o quicksight:CreatePresignedUrl o quicksight:GetFlowStages (string) Constraints: o min: 1 o max: 64 Principal -&gt; (string) [required] The Amazon Resource Name (ARN) of the principal. This can be an Amazon Quick user, group or namespace associated with the flow. Namespace principal can only be set as a viewer and will grant everyone in the same namespace viewer permissions. Constraints: o min: 1 o max: 256 Shorthand Syntax: Actions=string,string,Principal=string ... JSON Syntax: [ { "Actions": ["string", ...], "Principal": "string" } ... ]
@@ -55,5 +106,22 @@ public record AwsQuicksightCreateFlowOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

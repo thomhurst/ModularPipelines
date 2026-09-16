@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("transcribe", "list-tags-for-resource")]
-public record AwsTranscribeListTagsForResourceOptions : AwsOptions
+public record AwsTranscribeListTagsForResourceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists all tags associated with the specified transcription job, vocabu- lary, model, or resource. To learn more about using tags with Amazon Transcribe, refer to Tagging resources . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceArn">Returns a list of all tags associated with the specified Amazon Re- source Name (ARN). ARNs have the format arn:partition:service:re- gion:account-id:resource-type/resource-id . For example, arn:aws:transcribe:us-west-2:111122223333:transcrip- tion-job/transcription-job-name . Valid values for resource-type are: transcription-job , med- ical-transcription-job , vocabulary , medical-vocabulary , vocabu- lary-filter , and language-model . Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[^:]+)?:tran- scribe:[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z-]*/[0-9a-zA-Z._-]+</param>
+    public AwsTranscribeListTagsForResourceOptions(
+        string ResourceArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
+        this.ResourceArn = ResourceArn;
+    }
+
+    private AwsTranscribeListTagsForResourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTranscribeListTagsForResourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTranscribeListTagsForResourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Returns a list of all tags associated with the specified Amazon Re- source Name (ARN). ARNs have the format arn:partition:service:re- gion:account-id:resource-type/resource-id . For example, arn:aws:transcribe:us-west-2:111122223333:transcrip- tion-job/transcription-job-name . Valid values for resource-type are: transcription-job , med- ical-transcription-job , vocabulary , medical-vocabulary , vocabu- lary-filter , and language-model . Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[^:]+)?:tran- scribe:[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z-]*/[0-9a-zA-Z._-]+
+    /// </summary>
     [CliOption("--resource-arn")]
-    public string? ResourceArn { get; set; }
+    public string? ResourceArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

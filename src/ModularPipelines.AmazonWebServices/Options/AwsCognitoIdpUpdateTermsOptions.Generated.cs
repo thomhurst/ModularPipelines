@@ -11,7 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
-using ModularPipelines.AmazonWebServices.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognito-idp", "update-terms")]
-public record AwsCognitoIdpUpdateTermsOptions : AwsOptions
+public record AwsCognitoIdpUpdateTermsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--terms-id")]
-    public string? TermsId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Modifies existing terms documents for the requested app client. When Terms and conditions and Privacy policy documents are configured, the app client displays links to them in the sign-up page of managed login for the app client. You can provide URLs for terms documents in the languages that are sup- ported by managed login localization . Amazon Cognito directs users to the terms documents for their current language, with fallback to de- fault if no document exists for the language. Each request...
+    /// </summary>
+    /// <param name="TermsId">The ID of the terms document that you want to update. Constraints: o pattern: ^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[4][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$</param>
+    /// <param name="UserPoolId">The ID of the user pool that contains the terms that you want to up- date. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+</param>
+    public AwsCognitoIdpUpdateTermsOptions(
+        string TermsId,
+        string UserPoolId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TermsId);
+        this.TermsId = TermsId;
+        global::System.ArgumentNullException.ThrowIfNull(UserPoolId);
+        this.UserPoolId = UserPoolId;
+    }
+
+    private AwsCognitoIdpUpdateTermsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCognitoIdpUpdateTermsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCognitoIdpUpdateTermsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the terms document that you want to update. Constraints: o pattern: ^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[4][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$
+    /// </summary>
+    [CliOption("--terms-id")]
+    public string? TermsId { get; private init; }
+
+    /// <summary>
+    /// The ID of the user pool that contains the terms that you want to up- date. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+
+    /// </summary>
     [CliOption("--user-pool-id")]
-    public string? UserPoolId { get; set; }
+    public string? UserPoolId { get; private init; }
 
     /// <summary>
     /// The new name that you want to apply to the requested terms docu- ments. Constraints: o pattern: ^(terms-of-use|privacy-policy)$
@@ -39,13 +82,13 @@ public record AwsCognitoIdpUpdateTermsOptions : AwsOptions
     /// This parameter is reserved for future use and currently accepts only one value. Possible values: o LINK
     /// </summary>
     [CliOption("--terms-source")]
-    public AwsCognitoIdpUpdateTermsTermsSource? TermsSource { get; set; }
+    public string? TermsSource { get; set; }
 
     /// <summary>
     /// This parameter is reserved for future use and currently accepts only one value. Possible values: o NONE
     /// </summary>
     [CliOption("--enforcement")]
-    public AwsCognitoIdpUpdateTermsEnforcement? Enforcement { get; set; }
+    public string? Enforcement { get; set; }
 
     /// <summary>
     /// A map of URLs to languages. For each localized language that will view the requested TermsName , assign a URL. A selection of cog- nito:default displays for all languages that don't have a lan- guage-specific URL. For example, "cognito:default": "https://terms.example.com", "cog- nito:spanish": "https://terms.example.com/es" . Constraints: o min: 1 o max: 13 key -&gt; (string) Constraints: o pattern: ^cognito:(default|dutch|english|french|spanish|ger- man|bahasa-indonesia|italian|japanese|korean|por- tuguese-brazil|chinese-(simplified|traditional))$ value -&gt; (string) Constraints: o min: 1 o max: 1024 o pattern: ^[\p{L}\p{M}\p{S}\p{N}\p{P}]+$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -58,5 +101,22 @@ public record AwsCognitoIdpUpdateTermsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

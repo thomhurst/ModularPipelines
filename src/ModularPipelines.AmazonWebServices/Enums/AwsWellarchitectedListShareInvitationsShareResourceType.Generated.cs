@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --shareresourcetype.
+/// Allowed values for --share-resource-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsWellarchitectedListShareInvitationsShareResourceType
 {
-    [EnumValue("WORKLOAD")]
-    Workload = 1,
-
     [EnumValue("LENS")]
-    Lens = 2,
+    Lens,
 
     [EnumValue("PROFILE")]
-    Profile = 3,
+    Profile,
 
     [EnumValue("TEMPLATE")]
-    Template = 4
+    Template,
+
+    [EnumValue("WORKLOAD")]
+    Workload
 }

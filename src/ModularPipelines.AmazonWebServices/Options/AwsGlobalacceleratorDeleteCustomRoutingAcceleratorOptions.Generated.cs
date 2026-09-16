@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("globalaccelerator", "delete-custom-routing-accelerator")]
-public record AwsGlobalacceleratorDeleteCustomRoutingAcceleratorOptions : AwsOptions
+public record AwsGlobalacceleratorDeleteCustomRoutingAcceleratorOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Delete a custom routing accelerator. Before you can delete an accelera- tor, you must disable it and remove all dependent resources (listeners and endpoint groups). To disable the accelerator, update the accelera- tor to set Enabled to false. WARNING: When you create a custom routing accelerator, by default, Global Ac- celerator provides you with a set of two static IP addresses. The IP addresses are assigned to your accelerator for as long as it exists, even if you disable the accelerator and i...
+    /// </summary>
+    /// <param name="AcceleratorArn">The Amazon Resource Name (ARN) of the custom routing accelerator to delete. Constraints: o max: 255</param>
+    public AwsGlobalacceleratorDeleteCustomRoutingAcceleratorOptions(
+        string AcceleratorArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AcceleratorArn);
+        this.AcceleratorArn = AcceleratorArn;
+    }
+
+    private AwsGlobalacceleratorDeleteCustomRoutingAcceleratorOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlobalacceleratorDeleteCustomRoutingAcceleratorOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlobalacceleratorDeleteCustomRoutingAcceleratorOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the custom routing accelerator to delete. Constraints: o max: 255
+    /// </summary>
     [CliOption("--accelerator-arn")]
-    public string? AcceleratorArn { get; set; }
+    public string? AcceleratorArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

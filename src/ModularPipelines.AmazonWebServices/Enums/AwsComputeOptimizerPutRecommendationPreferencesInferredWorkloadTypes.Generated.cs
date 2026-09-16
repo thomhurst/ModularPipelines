@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --inferredworkloadtypes.
+/// Allowed values for --inferred-workload-types.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsComputeOptimizerPutRecommendationPreferencesInferredWorkloadTypes
 {
     [EnumValue("Active")]
-    Active = 1,
+    Active,
 
     [EnumValue("Inactive")]
-    Inactive = 2
+    Inactive
 }

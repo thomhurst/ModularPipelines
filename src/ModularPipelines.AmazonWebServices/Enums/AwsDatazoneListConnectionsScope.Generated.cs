@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDatazoneListConnectionsScope
 {
     [EnumValue("DOMAIN")]
-    Domain = 1,
+    Domain,
 
     [EnumValue("PROJECT")]
-    Project = 2
+    Project
 }

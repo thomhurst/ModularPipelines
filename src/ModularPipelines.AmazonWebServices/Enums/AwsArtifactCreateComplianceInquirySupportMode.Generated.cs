@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --supportmode.
+/// Allowed values for --support-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsArtifactCreateComplianceInquirySupportMode
 {
     [EnumValue("AI_ONLY")]
-    AiOnly = 1,
+    AiOnly,
 
     [EnumValue("FULL_SUPPORT")]
-    FullSupport = 2
+    FullSupport
 }

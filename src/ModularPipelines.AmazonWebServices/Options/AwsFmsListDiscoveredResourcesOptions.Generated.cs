@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("fms", "list-discovered-resources")]
-public record AwsFmsListDiscoveredResourcesOptions : AwsOptions
+public record AwsFmsListDiscoveredResourcesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--member-account-ids", GroupValues = true)]
-    public IEnumerable<string>? MemberAccountIds { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Returns an array of resources in the organization's accounts that are available to be associated with a resource set. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="MemberAccountIds">The Amazon Web Services account IDs to discover resources in. Only one account is supported per request. The account must be a member of your organization. (string) Constraints: o min: 1 o max: 1024 o pattern: ^[0-9]+$ Syntax: "string" "string" ...</param>
+    /// <param name="ResourceType">The type of resources to discover. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$</param>
+    public AwsFmsListDiscoveredResourcesOptions(
+        IEnumerable<string> MemberAccountIds,
+        string ResourceType
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(MemberAccountIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(MemberAccountIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(MemberAccountIds));
+            }
+
+            MemberAccountIds = materialized;
+        }
+        this.MemberAccountIds = MemberAccountIds;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
+        this.ResourceType = ResourceType;
+    }
+
+    private AwsFmsListDiscoveredResourcesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFmsListDiscoveredResourcesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFmsListDiscoveredResourcesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Web Services account IDs to discover resources in. Only one account is supported per request. The account must be a member of your organization. (string) Constraints: o min: 1 o max: 1024 o pattern: ^[0-9]+$ Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--member-account-ids", GroupValues = true)]
+    public IEnumerable<string>? MemberAccountIds { get; private init; }
+
+    /// <summary>
+    /// The type of resources to discover. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$
+    /// </summary>
     [CliOption("--resource-type")]
-    public string? ResourceType { get; set; }
+    public string? ResourceType { get; private init; }
 
     /// <summary>
     /// The maximum number of objects that you want Firewall Manager to re- turn for this request. If more objects are available, in the re- sponse, Firewall Manager provides a NextToken value that you can use in a subsequent call to get the next batch of objects. Constraints: o min: 1 o max: 100
@@ -46,5 +101,22 @@ public record AwsFmsListDiscoveredResourcesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

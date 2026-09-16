@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gamelift", "create-game-session")]
-public record AwsGameliftCreateGameSessionOptions : AwsOptions
+public record AwsGameliftCreateGameSessionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Creates a multiplayer game session for players in a specific fleet lo- cation. This operation prompts an available server process to start a game session and retrieves connection information for the new game ses- sion. As an alternative, consider using the Amazon GameLift Servers game session placement feature with StartGameSessionPlacement , which uses the FleetIQ algorithm and queues to optimize the placement process. Wh...
+    /// </summary>
+    /// <param name="MaximumPlayerSessionCount">The maximum number of players that can be connected simultaneously to the game session. Constraints: o min: 0</param>
+    public AwsGameliftCreateGameSessionOptions(
+        int MaximumPlayerSessionCount
+    )
+    {
+        this.MaximumPlayerSessionCount = MaximumPlayerSessionCount;
+    }
+
+    private AwsGameliftCreateGameSessionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGameliftCreateGameSessionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGameliftCreateGameSessionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The maximum number of players that can be connected simultaneously to the game session. Constraints: o min: 0
+    /// </summary>
+    [CliOption("--maximum-player-session-count")]
+    public int? MaximumPlayerSessionCount { get; private init; }
+
     /// <summary>
     /// A unique identifier for the fleet to create a game session in. You can use either the fleet ID or ARN value. Each request must refer- ence either a fleet ID or alias ID, but not both. Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$
     /// </summary>
@@ -33,9 +72,6 @@ public record AwsGameliftCreateGameSessionOptions : AwsOptions
     /// </summary>
     [CliOption("--alias-id")]
     public string? AliasId { get; set; }
-
-    [CliOption("--maximum-player-session-count")]
-    public int? MaximumPlayerSessionCount { get; set; }
 
     /// <summary>
     /// A descriptive label that is associated with a game session. Session names do not need to be unique. Constraints: o min: 1 o max: 1024
@@ -85,5 +121,22 @@ public record AwsGameliftCreateGameSessionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,13 +22,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datasync", "create-location-smb")]
-public record AwsDatasyncCreateLocationSmbOptions : AwsOptions
+public record AwsDatasyncCreateLocationSmbOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--subdirectory")]
-    public string? Subdirectory { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a transfer location for a Server Message Block (SMB) file server. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync accesses SMB file servers. For more information, see Providing DataSync access to SMB file servers . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Subdirectory">Specifies the name of the share exported by your SMB file server where DataSync will read or write data. You can include a subdirec- tory in the share path (for example, /path/to/subdirectory ). Make sure that other SMB clients in your network can also mount this path. To copy all data in the subdirectory, DataSync must be able to mount the SMB share and access all of its data. For more information, see Providing DataSync access to SMB file servers . Constraints: o max: 4096 o pattern: ^[a-zA-Z0-9_\-\+\./\(\)\$\p{Zs}]+$</param>
+    /// <param name="ServerHostname">Specifies the domain name or IP address (IPv4 or IPv6) of the SMB file server that your DataSync agent connects to. NOTE: If you're using Kerberos authentication, you must specify a do- main name. Constraints: o max: 255 o pattern: ^(([a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9\-:]*[A-Za-z0-9])$</param>
+    /// <param name="AgentArns">Specifies the DataSync agent (or agents) that can connect to your SMB file server. You specify an agent by using its Amazon Resource Name (ARN). Constraints: o min: 1 o max: 8 (string) Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):data- sync:[a-z\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$ Syntax: "string" "string" ...</param>
+    public AwsDatasyncCreateLocationSmbOptions(
+        string Subdirectory,
+        string ServerHostname,
+        IEnumerable<string> AgentArns
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Subdirectory);
+        this.Subdirectory = Subdirectory;
+        global::System.ArgumentNullException.ThrowIfNull(ServerHostname);
+        this.ServerHostname = ServerHostname;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(AgentArns);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(AgentArns));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(AgentArns));
+            }
+
+            AgentArns = materialized;
+        }
+        this.AgentArns = AgentArns;
+    }
+
+    private AwsDatasyncCreateLocationSmbOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatasyncCreateLocationSmbOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatasyncCreateLocationSmbOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the name of the share exported by your SMB file server where DataSync will read or write data. You can include a subdirec- tory in the share path (for example, /path/to/subdirectory ). Make sure that other SMB clients in your network can also mount this path. To copy all data in the subdirectory, DataSync must be able to mount the SMB share and access all of its data. For more information, see Providing DataSync access to SMB file servers . Constraints: o max: 4096 o pattern: ^[a-zA-Z0-9_\-\+\./\(\)\$\p{Zs}]+$
+    /// </summary>
+    [CliOption("--subdirectory")]
+    public string? Subdirectory { get; private init; }
+
+    /// <summary>
+    /// Specifies the domain name or IP address (IPv4 or IPv6) of the SMB file server that your DataSync agent connects to. NOTE: If you're using Kerberos authentication, you must specify a do- main name. Constraints: o max: 255 o pattern: ^(([a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9\-:]*[A-Za-z0-9])$
+    /// </summary>
     [CliOption("--server-hostname")]
-    public string? ServerHostname { get; set; }
+    public string? ServerHostname { get; private init; }
+
+    /// <summary>
+    /// Specifies the DataSync agent (or agents) that can connect to your SMB file server. You specify an agent by using its Amazon Resource Name (ARN). Constraints: o min: 1 o max: 8 (string) Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):data- sync:[a-z\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$ Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--agent-arns", GroupValues = true)]
+    public IEnumerable<string>? AgentArns { get; private init; }
 
     /// <summary>
     /// Specifies the user that can mount and access the files, folders, and file metadata in your SMB file server. This parameter applies only if AuthenticationType is set to NTLM . For information about choosing a user with the right level of access for your transfer, see Providing DataSync access to SMB file servers . Constraints: o max: 104 o pattern: ^[^\x22\x5B\x5D/\\:;|=,+*?\x3C\x3E]{1,104}$
@@ -61,9 +126,6 @@ public record AwsDatasyncCreateLocationSmbOptions : AwsOptions
     [SecretValue]
     [CliOption("--custom-secret-config")]
     public string? CustomSecretConfig { get; set; }
-
-    [CliOption("--agent-arns", GroupValues = true)]
-    public IEnumerable<string>? AgentArns { get; set; }
 
     /// <summary>
     /// Specifies the version of the SMB protocol that DataSync uses to ac- cess your SMB file server. Version -&gt; (string) By default, DataSync automatically chooses an SMB protocol ver- sion based on negotiation with your SMB file server. You also can configure DataSync to use a specific SMB version, but we recommend doing this only if DataSync has trouble negotiating with the SMB file server automatically. These are the following options for configuring the SMB version: o AUTOMATIC (default): DataSync and the SMB file server negoti- ate the highest version of SMB that they mutually support be- tween 2.1 and 3.1.1. This is the recommended option. If you instead choose a specific version that your file server doesn't support, you may get an Operation Not Supported error. o SMB3 : Restricts the protocol negotiation to only SMB version 3.0.2. o SMB2 : Restricts the protocol negotiation to only SMB version 2.1. o SMB2_0 : Restricts the protocol negotiation to only SMB ver- sion 2.0. o SMB1 : Restricts the protocol negotiation to only SMB version 1.0. NOTE: The SMB1 option isn't available when creating an Amazon FSx for NetApp ONTAP location . Possible values: o AUTOMATIC o SMB2 o SMB3 o SMB1 o SMB2_0 Shorthand Syntax: Version=string JSON Syntax: { "Version": "AUTOMATIC"|"SMB2"|"SMB3"|"SMB1"|"SMB2_0" }
@@ -112,5 +174,22 @@ public record AwsDatasyncCreateLocationSmbOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

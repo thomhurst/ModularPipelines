@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chime-sdk-voice", "put-voice-connector-emergency-calling-configuration")]
-public record AwsChimeSdkVoicePutVoiceConnectorEmergencyCallingConfigurationOptions : AwsOptions
+public record AwsChimeSdkVoicePutVoiceConnectorEmergencyCallingConfigurationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--voice-connector-id")]
-    public string? VoiceConnectorId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates a Voice Connector's emergency calling configuration. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="VoiceConnectorId">The Voice Connector ID. Constraints: o pattern: ([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})</param>
+    /// <param name="EmergencyCallingConfiguration">The configuration being updated. DNIS -&gt; (list) The Dialed Number Identification Service (DNIS) emergency call- ing configuration details. (structure) The Dialed Number Identification Service (DNIS) emergency calling configuration details associated with an Amazon Chime SDK Voice Connector's emergency calling configuration. EmergencyPhoneNumber -&gt; (string) [required] The DNIS phone number that you route emergency calls to, in E.164 format. Constraints: o pattern: ^\+?[1-9]\d{1,14}$ TestPhoneNumber -&gt; (string) The DNIS phone number for routing test emergency calls to, in E.164 format. Constraints: o pattern: ^\+?[1-9]\d{1,14}$ CallingCountry -&gt; (string) [required] The country from which emergency calls are allowed, in ISO 3166-1 alpha-2 format. Constraints: o pattern: [A-Z]{2} Shorthand Syntax: DNIS=[{EmergencyPhoneNumber=string,TestPhoneNumber=string,CallingCountry=string},{EmergencyPhoneNumber=string,TestPhoneNumber=string,CallingCountry=string}] JSON Syntax: { "DNIS": [ { "EmergencyPhoneNumber": "string", "TestPhoneNumber": "string", "CallingCountry": "string" } ... ] }</param>
+    public AwsChimeSdkVoicePutVoiceConnectorEmergencyCallingConfigurationOptions(
+        string VoiceConnectorId,
+        string EmergencyCallingConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VoiceConnectorId);
+        this.VoiceConnectorId = VoiceConnectorId;
+        global::System.ArgumentNullException.ThrowIfNull(EmergencyCallingConfiguration);
+        this.EmergencyCallingConfiguration = EmergencyCallingConfiguration;
+    }
+
+    private AwsChimeSdkVoicePutVoiceConnectorEmergencyCallingConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChimeSdkVoicePutVoiceConnectorEmergencyCallingConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChimeSdkVoicePutVoiceConnectorEmergencyCallingConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Voice Connector ID. Constraints: o pattern: ([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})
+    /// </summary>
+    [CliOption("--voice-connector-id")]
+    public string? VoiceConnectorId { get; private init; }
+
+    /// <summary>
+    /// The configuration being updated. DNIS -&gt; (list) The Dialed Number Identification Service (DNIS) emergency call- ing configuration details. (structure) The Dialed Number Identification Service (DNIS) emergency calling configuration details associated with an Amazon Chime SDK Voice Connector's emergency calling configuration. EmergencyPhoneNumber -&gt; (string) [required] The DNIS phone number that you route emergency calls to, in E.164 format. Constraints: o pattern: ^\+?[1-9]\d{1,14}$ TestPhoneNumber -&gt; (string) The DNIS phone number for routing test emergency calls to, in E.164 format. Constraints: o pattern: ^\+?[1-9]\d{1,14}$ CallingCountry -&gt; (string) [required] The country from which emergency calls are allowed, in ISO 3166-1 alpha-2 format. Constraints: o pattern: [A-Z]{2} Shorthand Syntax: DNIS=[{EmergencyPhoneNumber=string,TestPhoneNumber=string,CallingCountry=string},{EmergencyPhoneNumber=string,TestPhoneNumber=string,CallingCountry=string}] JSON Syntax: { "DNIS": [ { "EmergencyPhoneNumber": "string", "TestPhoneNumber": "string", "CallingCountry": "string" } ... ] }
+    /// </summary>
     [CliOption("--emergency-calling-configuration")]
-    public string? EmergencyCallingConfiguration { get; set; }
+    public string? EmergencyCallingConfiguration { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

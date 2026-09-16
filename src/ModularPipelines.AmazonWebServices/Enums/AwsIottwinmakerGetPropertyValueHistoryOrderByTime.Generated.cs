@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --orderbytime.
+/// Allowed values for --order-by-time.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIottwinmakerGetPropertyValueHistoryOrderByTime
 {
     [EnumValue("ASCENDING")]
-    Ascending = 1,
+    Ascending,
 
     [EnumValue("DESCENDING")]
-    Descending = 2
+    Descending
 }

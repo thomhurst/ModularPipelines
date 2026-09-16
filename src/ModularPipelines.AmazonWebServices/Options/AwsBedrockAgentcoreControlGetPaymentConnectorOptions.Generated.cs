@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore-control", "get-payment-connector")]
-public record AwsBedrockAgentcoreControlGetPaymentConnectorOptions : AwsOptions
+public record AwsBedrockAgentcoreControlGetPaymentConnectorOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--payment-manager-id")]
-    public string? PaymentManagerId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Retrieves information about a specific payment connector. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PaymentManagerId">The unique identifier of the parent payment manager. Constraints: o min: 12 o max: 211 o pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}</param>
+    /// <param name="PaymentConnectorId">The unique identifier of the payment connector to retrieve. Constraints: o min: 12 o max: 211 o pattern: ([0-9a-z_][-]?){1,100}-[0-9a-z]{10}</param>
+    public AwsBedrockAgentcoreControlGetPaymentConnectorOptions(
+        string PaymentManagerId,
+        string PaymentConnectorId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PaymentManagerId);
+        this.PaymentManagerId = PaymentManagerId;
+        global::System.ArgumentNullException.ThrowIfNull(PaymentConnectorId);
+        this.PaymentConnectorId = PaymentConnectorId;
+    }
+
+    private AwsBedrockAgentcoreControlGetPaymentConnectorOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreControlGetPaymentConnectorOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreControlGetPaymentConnectorOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the parent payment manager. Constraints: o min: 12 o max: 211 o pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}
+    /// </summary>
+    [CliOption("--payment-manager-id")]
+    public string? PaymentManagerId { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the payment connector to retrieve. Constraints: o min: 12 o max: 211 o pattern: ([0-9a-z_][-]?){1,100}-[0-9a-z]{10}
+    /// </summary>
     [CliOption("--payment-connector-id")]
-    public string? PaymentConnectorId { get; set; }
+    public string? PaymentConnectorId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --locationstatus.
+/// Allowed values for --location-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsApigatewayGetDocumentationPartsLocationStatus
 {
     [EnumValue("DOCUMENTED")]
-    Documented = 1,
+    Documented,
 
     [EnumValue("UNDOCUMENTED")]
-    Undocumented = 2
+    Undocumented
 }

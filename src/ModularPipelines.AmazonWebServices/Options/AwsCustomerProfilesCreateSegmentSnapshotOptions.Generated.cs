@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("customer-profiles", "create-segment-snapshot")]
-public record AwsCustomerProfilesCreateSegmentSnapshotOptions : AwsOptions
+public record AwsCustomerProfilesCreateSegmentSnapshotOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Triggers a job to export a segment to a specified destination. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainName">The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="SegmentDefinitionName">The name of the segment definition used in this snapshot request. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="DataFormat">The format in which the segment will be exported. Possible values: o CSV o JSONL o ORC</param>
+    public AwsCustomerProfilesCreateSegmentSnapshotOptions(
+        string DomainName,
+        string SegmentDefinitionName,
+        AwsCustomerProfilesCreateSegmentSnapshotDataFormat DataFormat
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainName);
+        this.DomainName = DomainName;
+        global::System.ArgumentNullException.ThrowIfNull(SegmentDefinitionName);
+        this.SegmentDefinitionName = SegmentDefinitionName;
+        global::System.ArgumentNullException.ThrowIfNull(DataFormat);
+        this.DataFormat = DataFormat;
+    }
+
+    private AwsCustomerProfilesCreateSegmentSnapshotOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCustomerProfilesCreateSegmentSnapshotOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCustomerProfilesCreateSegmentSnapshotOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// </summary>
     [CliOption("--domain-name")]
-    public string? DomainName { get; set; }
+    public string? DomainName { get; private init; }
 
+    /// <summary>
+    /// The name of the segment definition used in this snapshot request. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// </summary>
     [CliOption("--segment-definition-name")]
-    public string? SegmentDefinitionName { get; set; }
+    public string? SegmentDefinitionName { get; private init; }
 
+    /// <summary>
+    /// The format in which the segment will be exported. Possible values: o CSV o JSONL o ORC
+    /// </summary>
     [CliOption("--data-format")]
-    public string? DataFormat { get; set; }
+    public AwsCustomerProfilesCreateSegmentSnapshotDataFormat? DataFormat { get; private init; }
 
     /// <summary>
     /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the exported segment. Constraints: o min: 0 o max: 255
@@ -53,5 +105,22 @@ public record AwsCustomerProfilesCreateSegmentSnapshotOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,23 +11,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --groupby.
+/// Allowed values for --group-by.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsWafv2GetRevenueStatisticsGroupBy
 {
-    [EnumValue("NAME")]
-    Name = 1,
-
     [EnumValue("CATEGORY")]
-    Category = 2,
+    Category,
 
     [EnumValue("INTENT")]
-    Intent = 3,
+    Intent,
+
+    [EnumValue("NAME")]
+    Name,
 
     [EnumValue("ORGANIZATION")]
-    Organization = 4,
+    Organization,
 
     [EnumValue("WEBACL")]
-    Webacl = 5
+    Webacl
 }

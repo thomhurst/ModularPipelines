@@ -22,6 +22,34 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsKinesisVideoArchivedMediaGetClipOptions : AwsOptions
 {
     /// <summary>
+    /// Downloads an MP4 file (clip) containing the archived, on-demand media from the specified video stream over the specified time range. Both the StreamName and the StreamARN parameters are optional, but you must specify either the StreamName or the StreamARN when invoking this API operation. As a prerequisite to using GetCLip API, you must obtain an endpoint us- ing GetDataEndpoint , specifying GET_CLIP forthe APIName parameter. An Amazon Kinesis video stream has the following requirements for pro-...
+    /// </summary>
+    /// <param name="ClipFragmentSelector">The time range of the requested clip and the source of the time- stamps. FragmentSelectorType -&gt; (string) [required] The origin of the timestamps to use (Server or Producer). Possible values: o PRODUCER_TIMESTAMP o SERVER_TIMESTAMP TimestampRange -&gt; (structure) [required] The range of timestamps to return. StartTimestamp -&gt; (timestamp) [required] The starting timestamp in the range of timestamps for which to return fragments. Only fragments that start exactly at or after StartTimestamp are included in the session. Fragments that start before StartTimestamp and continue past it aren't included in the session. If FragmentSelectorType is SERVER_TIMESTAMP , the StartTimestamp must be later than the stream head. EndTimestamp -&gt; (timestamp) [required] The end of the timestamp range for the requested media. This value must be within 24 hours of the specified Start- Timestamp , and it must be later than the StartTimestamp value. If FragmentSelectorType for the request is SERVER_TIMESTAMP , this value must be in the past. This value is inclusive. The EndTimestamp is compared to the (starting) timestamp of the fragment. Fragments that start before the EndTimestamp value and continue past it are in- cluded in the session. Shorthand Syntax: FragmentSelectorType=string,TimestampRange={StartTimestamp=timestamp,EndTimestamp=timestamp} JSON Syntax: { "FragmentSelectorType": "PRODUCER_TIMESTAMP"|"SERVER_TIMESTAMP", "TimestampRange": { "StartTimestamp": timestamp, "EndTimestamp": timestamp } } outfile (string) [required] Filename where the content will be saved</param>
+    /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
+    public AwsKinesisVideoArchivedMediaGetClipOptions(
+        string ClipFragmentSelector,
+        string Outfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClipFragmentSelector);
+        this.ClipFragmentSelector = ClipFragmentSelector;
+        global::System.ArgumentNullException.ThrowIfNull(Outfile);
+        this.Outfile = Outfile;
+    }
+
+    public void Deconstruct(out string ClipFragmentSelector, out string Outfile)
+    {
+        ClipFragmentSelector = this.ClipFragmentSelector;
+        Outfile = this.Outfile;
+    }
+
+    /// <summary>
+    /// The time range of the requested clip and the source of the time- stamps. FragmentSelectorType -&gt; (string) [required] The origin of the timestamps to use (Server or Producer). Possible values: o PRODUCER_TIMESTAMP o SERVER_TIMESTAMP TimestampRange -&gt; (structure) [required] The range of timestamps to return. StartTimestamp -&gt; (timestamp) [required] The starting timestamp in the range of timestamps for which to return fragments. Only fragments that start exactly at or after StartTimestamp are included in the session. Fragments that start before StartTimestamp and continue past it aren't included in the session. If FragmentSelectorType is SERVER_TIMESTAMP , the StartTimestamp must be later than the stream head. EndTimestamp -&gt; (timestamp) [required] The end of the timestamp range for the requested media. This value must be within 24 hours of the specified Start- Timestamp , and it must be later than the StartTimestamp value. If FragmentSelectorType for the request is SERVER_TIMESTAMP , this value must be in the past. This value is inclusive. The EndTimestamp is compared to the (starting) timestamp of the fragment. Fragments that start before the EndTimestamp value and continue past it are in- cluded in the session. Shorthand Syntax: FragmentSelectorType=string,TimestampRange={StartTimestamp=timestamp,EndTimestamp=timestamp} JSON Syntax: { "FragmentSelectorType": "PRODUCER_TIMESTAMP"|"SERVER_TIMESTAMP", "TimestampRange": { "StartTimestamp": timestamp, "EndTimestamp": timestamp } } outfile (string) [required] Filename where the content will be saved
+    /// </summary>
+    [CliOption("--clip-fragment-selector")]
+    public string ClipFragmentSelector { get; private init; }
+
+    /// <summary>
     /// The name of the stream for which to retrieve the media clip. You must specify either the StreamName or the StreamARN. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--stream-name")]
@@ -33,7 +61,10 @@ public record AwsKinesisVideoArchivedMediaGetClipOptions : AwsOptions
     [CliOption("--stream-arn")]
     public string? StreamArn { get; set; }
 
-    [CliOption("--clip-fragment-selector")]
-    public string? ClipFragmentSelector { get; set; }
+    /// <summary>
+    /// The &lt;outfile&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Outfile { get; private init; }
 
 }

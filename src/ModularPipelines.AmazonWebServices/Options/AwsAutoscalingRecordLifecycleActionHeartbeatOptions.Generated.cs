@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("autoscaling", "record-lifecycle-action-heartbeat")]
-public record AwsAutoscalingRecordLifecycleActionHeartbeatOptions : AwsOptions
+public record AwsAutoscalingRecordLifecycleActionHeartbeatOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--lifecycle-hook-name")]
-    public string? LifecycleHookName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Records a heartbeat for the lifecycle action associated with the speci- fied token or instance. This extends the timeout by the length of time defined using the PutLifecycleHook API call. This step is a part of the procedure for adding a lifecycle hook to an Auto Scaling group: o (Optional) Create a launch template or launch configuration with a user data script that runs while an instance is in a wait state due to a lifecycle hook. o (Optional) Create a Lambda function and a rule that allows Am...
+    /// </summary>
+    /// <param name="LifecycleHookName">The name of the lifecycle hook. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z0-9\-_\/]+</param>
+    /// <param name="AutoScalingGroupName">The name of the Auto Scaling group. Constraints: o min: 1 o max: 1600 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
+    public AwsAutoscalingRecordLifecycleActionHeartbeatOptions(
+        string LifecycleHookName,
+        string AutoScalingGroupName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LifecycleHookName);
+        this.LifecycleHookName = LifecycleHookName;
+        global::System.ArgumentNullException.ThrowIfNull(AutoScalingGroupName);
+        this.AutoScalingGroupName = AutoScalingGroupName;
+    }
+
+    private AwsAutoscalingRecordLifecycleActionHeartbeatOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAutoscalingRecordLifecycleActionHeartbeatOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAutoscalingRecordLifecycleActionHeartbeatOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the lifecycle hook. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z0-9\-_\/]+
+    /// </summary>
+    [CliOption("--lifecycle-hook-name")]
+    public string? LifecycleHookName { get; private init; }
+
+    /// <summary>
+    /// The name of the Auto Scaling group. Constraints: o min: 1 o max: 1600 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// </summary>
     [CliOption("--auto-scaling-group-name")]
-    public string? AutoScalingGroupName { get; set; }
+    public string? AutoScalingGroupName { get; private init; }
 
     /// <summary>
     /// A token that uniquely identifies a specific lifecycle action associ- ated with an instance. Amazon EC2 Auto Scaling sends this token to the notification target that you specified when you created the lifecycle hook. Constraints: o min: 36 o max: 36
@@ -46,5 +90,22 @@ public record AwsAutoscalingRecordLifecycleActionHeartbeatOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

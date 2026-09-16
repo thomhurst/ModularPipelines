@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("outposts", "cancel-capacity-task")]
-public record AwsOutpostsCancelCapacityTaskOptions : AwsOptions
+public record AwsOutpostsCancelCapacityTaskOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--capacity-task-id")]
-    public string? CapacityTaskId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Cancels the capacity task. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CapacityTaskId">ID of the capacity task that you want to cancel. Constraints: o min: 21 o max: 21 o pattern: ^cap-[a-f0-9]{17}$</param>
+    /// <param name="OutpostIdentifier">ID or ARN of the Outpost associated with the capacity task that you want to cancel. Constraints: o min: 1 o max: 180 o pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:out- post/)?op-[a-f0-9]{17}$</param>
+    public AwsOutpostsCancelCapacityTaskOptions(
+        string CapacityTaskId,
+        string OutpostIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CapacityTaskId);
+        this.CapacityTaskId = CapacityTaskId;
+        global::System.ArgumentNullException.ThrowIfNull(OutpostIdentifier);
+        this.OutpostIdentifier = OutpostIdentifier;
+    }
+
+    private AwsOutpostsCancelCapacityTaskOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOutpostsCancelCapacityTaskOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOutpostsCancelCapacityTaskOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// ID of the capacity task that you want to cancel. Constraints: o min: 21 o max: 21 o pattern: ^cap-[a-f0-9]{17}$
+    /// </summary>
+    [CliOption("--capacity-task-id")]
+    public string? CapacityTaskId { get; private init; }
+
+    /// <summary>
+    /// ID or ARN of the Outpost associated with the capacity task that you want to cancel. Constraints: o min: 1 o max: 180 o pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:out- post/)?op-[a-f0-9]{17}$
+    /// </summary>
     [CliOption("--outpost-identifier")]
-    public string? OutpostIdentifier { get; set; }
+    public string? OutpostIdentifier { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --servicetier.
+/// Allowed values for --service-tier.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsBedrockRuntimeInvokeModelServiceTier
 {
-    [EnumValue("priority")]
-    Priority = 1,
-
     [EnumValue("default")]
-    Default = 2,
+    Default,
 
     [EnumValue("flex")]
-    Flex = 3,
+    Flex,
+
+    [EnumValue("priority")]
+    Priority,
 
     [EnumValue("reserved")]
-    Reserved = 4
+    Reserved
 }

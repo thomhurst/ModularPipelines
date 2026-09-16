@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --verificationstate.
+/// Allowed values for --verification-state.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSecurityhubBatchUpdateFindingsVerificationState
 {
-    [EnumValue("UNKNOWN")]
-    Unknown = 1,
-
-    [EnumValue("TRUE_POSITIVE")]
-    TruePositive = 2,
+    [EnumValue("BENIGN_POSITIVE")]
+    BenignPositive,
 
     [EnumValue("FALSE_POSITIVE")]
-    FalsePositive = 3,
+    FalsePositive,
 
-    [EnumValue("BENIGN_POSITIVE")]
-    BenignPositive = 4
+    [EnumValue("TRUE_POSITIVE")]
+    TruePositive,
+
+    [EnumValue("UNKNOWN")]
+    Unknown
 }

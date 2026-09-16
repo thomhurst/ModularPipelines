@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +21,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("transcribe", "create-language-model")]
-public record AwsTranscribeCreateLanguageModelOptions : AwsOptions
+public record AwsTranscribeCreateLanguageModelOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new custom language model. When creating a new custom language model, you must specify: o If you want a Wideband (audio sample rates over 16,000 Hz) or Narrow- band (audio sample rates under 16,000 Hz) base model o The location of your training and tuning files (this must be an Ama- zon S3 URI) o The language of your model o A unique name for your model See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LanguageCode">The language code that represents the language of your model. Each custom language model must contain terms in only one language, and the language you select for your custom language model must match the language of your training and tuning data. For a list of supported languages and their associated language codes, refer to the Supported languages table. Note that US English (en-US ) is the only language supported with Amazon Transcribe Med- ical. A custom language model can only be used to transcribe files in the same language as the model. For example, if you create a custom lan- guage model using US English (en-US ), you can only apply this model to files that contain English audio. Possible values: o en-US o hi-IN o es-US o en-GB o en-AU o de-DE o ja-JP</param>
+    /// <param name="BaseModelName">The Amazon Transcribe standard language model, or base model, used to create your custom language model. Amazon Transcribe offers two options for base models: Wideband and Narrowband. If the audio you want to transcribe has a sample rate of 16,000 Hz or greater, choose WideBand . To transcribe audio with a sample rate less than 16,000 Hz, choose NarrowBand . Possible values: o NarrowBand o WideBand</param>
+    /// <param name="ModelName">A unique name, chosen by you, for your custom language model. This name is case sensitive, cannot contain spaces, and must be unique within an Amazon Web Services account. If you try to create a new custom language model with the same name as an existing custom language model, you get a ConflictException error. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z._-]+</param>
+    /// <param name="InputDataConfig">Contains the Amazon S3 location of the training data you want to use to create a new custom language model, and permissions to access this location. When using InputDataConfig , you must include these sub-parameters: S3Uri , which is the Amazon S3 location of your training data, and DataAccessRoleArn , which is the Amazon Resource Name (ARN) of the role that has permission to access your specified Amazon S3 loca- tion. You can optionally include TuningDataS3Uri , which is the Ama- zon S3 location of your tuning data. If you specify different Amazon S3 locations for training and tuning data, the ARN you use must have permissions to access both locations. S3Uri -&gt; (string) [required] The Amazon S3 location (URI) of the text files you want to use to train your custom language model. Here's an example URI path: s3://DOC-EXAM- PLE-BUCKET/my-model-training-data/ Constraints: o min: 1 o max: 2000 o pattern: (s3://|http(s*)://).+ TuningDataS3Uri -&gt; (string) The Amazon S3 location (URI) of the text files you want to use to tune your custom language model. Here's an example URI path: s3://DOC-EXAM- PLE-BUCKET/my-model-tuning-data/ Constraints: o min: 1 o max: 2000 o pattern: (s3://|http(s*)://).+ DataAccessRoleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of an IAM role that has permis- sions to access the Amazon S3 bucket that contains your input files. If the role that you specify doesnt have the appropriate permissions to access the specified Amazon S3 location, your re- quest fails. IAM role ARNs have the format arn:partition:iam::ac- count:role/role-name-with-path . For example: arn:aws:iam::111122223333:role/Admin . For more information, see IAM ARNs . Constraints: o min: 20 o max: 2048 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):iam::[0-9]{0,63}:role/[A-Za-z0-9:_/+=,@.-]{0,1024}$ Shorthand Syntax: S3Uri=string,TuningDataS3Uri=string,DataAccessRoleArn=string JSON Syntax: { "S3Uri": "string", "TuningDataS3Uri": "string", "DataAccessRoleArn": "string" }</param>
+    public AwsTranscribeCreateLanguageModelOptions(
+        AwsTranscribeCreateLanguageModelLanguageCode LanguageCode,
+        AwsTranscribeCreateLanguageModelBaseModelName BaseModelName,
+        string ModelName,
+        string InputDataConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LanguageCode);
+        this.LanguageCode = LanguageCode;
+        global::System.ArgumentNullException.ThrowIfNull(BaseModelName);
+        this.BaseModelName = BaseModelName;
+        global::System.ArgumentNullException.ThrowIfNull(ModelName);
+        this.ModelName = ModelName;
+        global::System.ArgumentNullException.ThrowIfNull(InputDataConfig);
+        this.InputDataConfig = InputDataConfig;
+    }
+
+    private AwsTranscribeCreateLanguageModelOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTranscribeCreateLanguageModelOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTranscribeCreateLanguageModelOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The language code that represents the language of your model. Each custom language model must contain terms in only one language, and the language you select for your custom language model must match the language of your training and tuning data. For a list of supported languages and their associated language codes, refer to the Supported languages table. Note that US English (en-US ) is the only language supported with Amazon Transcribe Med- ical. A custom language model can only be used to transcribe files in the same language as the model. For example, if you create a custom lan- guage model using US English (en-US ), you can only apply this model to files that contain English audio. Possible values: o en-US o hi-IN o es-US o en-GB o en-AU o de-DE o ja-JP
+    /// </summary>
     [CliOption("--language-code")]
-    public string? LanguageCode { get; set; }
+    public AwsTranscribeCreateLanguageModelLanguageCode? LanguageCode { get; private init; }
 
+    /// <summary>
+    /// The Amazon Transcribe standard language model, or base model, used to create your custom language model. Amazon Transcribe offers two options for base models: Wideband and Narrowband. If the audio you want to transcribe has a sample rate of 16,000 Hz or greater, choose WideBand . To transcribe audio with a sample rate less than 16,000 Hz, choose NarrowBand . Possible values: o NarrowBand o WideBand
+    /// </summary>
     [CliOption("--base-model-name")]
-    public string? BaseModelName { get; set; }
+    public AwsTranscribeCreateLanguageModelBaseModelName? BaseModelName { get; private init; }
 
+    /// <summary>
+    /// A unique name, chosen by you, for your custom language model. This name is case sensitive, cannot contain spaces, and must be unique within an Amazon Web Services account. If you try to create a new custom language model with the same name as an existing custom language model, you get a ConflictException error. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z._-]+
+    /// </summary>
     [CliOption("--model-name")]
-    public string? ModelName { get; set; }
+    public string? ModelName { get; private init; }
 
+    /// <summary>
+    /// Contains the Amazon S3 location of the training data you want to use to create a new custom language model, and permissions to access this location. When using InputDataConfig , you must include these sub-parameters: S3Uri , which is the Amazon S3 location of your training data, and DataAccessRoleArn , which is the Amazon Resource Name (ARN) of the role that has permission to access your specified Amazon S3 loca- tion. You can optionally include TuningDataS3Uri , which is the Ama- zon S3 location of your tuning data. If you specify different Amazon S3 locations for training and tuning data, the ARN you use must have permissions to access both locations. S3Uri -&gt; (string) [required] The Amazon S3 location (URI) of the text files you want to use to train your custom language model. Here's an example URI path: s3://DOC-EXAM- PLE-BUCKET/my-model-training-data/ Constraints: o min: 1 o max: 2000 o pattern: (s3://|http(s*)://).+ TuningDataS3Uri -&gt; (string) The Amazon S3 location (URI) of the text files you want to use to tune your custom language model. Here's an example URI path: s3://DOC-EXAM- PLE-BUCKET/my-model-tuning-data/ Constraints: o min: 1 o max: 2000 o pattern: (s3://|http(s*)://).+ DataAccessRoleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of an IAM role that has permis- sions to access the Amazon S3 bucket that contains your input files. If the role that you specify doesnt have the appropriate permissions to access the specified Amazon S3 location, your re- quest fails. IAM role ARNs have the format arn:partition:iam::ac- count:role/role-name-with-path . For example: arn:aws:iam::111122223333:role/Admin . For more information, see IAM ARNs . Constraints: o min: 20 o max: 2048 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):iam::[0-9]{0,63}:role/[A-Za-z0-9:_/+=,@.-]{0,1024}$ Shorthand Syntax: S3Uri=string,TuningDataS3Uri=string,DataAccessRoleArn=string JSON Syntax: { "S3Uri": "string", "TuningDataS3Uri": "string", "DataAccessRoleArn": "string" }
+    /// </summary>
     [CliOption("--input-data-config")]
-    public string? InputDataConfig { get; set; }
+    public string? InputDataConfig { get; private init; }
 
     /// <summary>
     /// Adds one or more custom tags, each in the form of a key:value pair, to a new custom language model at the time you create this new model. To learn more about using tags with Amazon Transcribe, refer to Tagging resources . Constraints: o min: 1 o max: 200 (structure) Adds metadata, in the form of a key:value pair, to the specified resource. For example, you could add the tag Department:Sales to a re- source to indicate that it pertains to your organization's sales department. You can also use tags for tag-based access control. To learn more about tagging, see Tagging resources . Key -&gt; (string) [required] The first part of a key:value pair that forms a tag associ- ated with a given resource. For example, in the tag Depart- ment:Sales , the key is 'Department'. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The second part of a key:value pair that forms a tag associ- ated with a given resource. For example, in the tag Depart- ment:Sales , the value is 'Sales'. Note that you can set the value of a tag to an empty string, but you can't set the value of a tag to null. Omitting the tag value is the same as using an empty string. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -44,5 +103,22 @@ public record AwsTranscribeCreateLanguageModelOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

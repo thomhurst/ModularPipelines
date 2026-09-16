@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codecommit", "disassociate-approval-rule-template-from-repository")]
-public record AwsCodecommitDisassociateApprovalRuleTemplateFromRepositoryOptions : AwsOptions
+public record AwsCodecommitDisassociateApprovalRuleTemplateFromRepositoryOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--approval-rule-template-name")]
-    public string? ApprovalRuleTemplateName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Removes the association between a template and a repository so that ap- proval rules based on the template are not automatically created when pull requests are created in the specified repository. This does not delete any approval rules previously created for pull requests through the template association. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApprovalRuleTemplateName">The name of the approval rule template to disassociate from a speci- fied repository. Constraints: o min: 1 o max: 100</param>
+    /// <param name="RepositoryName">The name of the repository you want to disassociate from the tem- plate. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+</param>
+    public AwsCodecommitDisassociateApprovalRuleTemplateFromRepositoryOptions(
+        string ApprovalRuleTemplateName,
+        string RepositoryName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApprovalRuleTemplateName);
+        this.ApprovalRuleTemplateName = ApprovalRuleTemplateName;
+        global::System.ArgumentNullException.ThrowIfNull(RepositoryName);
+        this.RepositoryName = RepositoryName;
+    }
+
+    private AwsCodecommitDisassociateApprovalRuleTemplateFromRepositoryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodecommitDisassociateApprovalRuleTemplateFromRepositoryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodecommitDisassociateApprovalRuleTemplateFromRepositoryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the approval rule template to disassociate from a speci- fied repository. Constraints: o min: 1 o max: 100
+    /// </summary>
+    [CliOption("--approval-rule-template-name")]
+    public string? ApprovalRuleTemplateName { get; private init; }
+
+    /// <summary>
+    /// The name of the repository you want to disassociate from the tem- plate. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+
+    /// </summary>
     [CliOption("--repository-name")]
-    public string? RepositoryName { get; set; }
+    public string? RepositoryName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

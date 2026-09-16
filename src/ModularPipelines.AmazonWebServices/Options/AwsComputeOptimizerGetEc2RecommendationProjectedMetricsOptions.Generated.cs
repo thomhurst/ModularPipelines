@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,22 +21,85 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute-optimizer", "get-ec2-recommendation-projected-metrics")]
-public record AwsComputeOptimizerGetEc2RecommendationProjectedMetricsOptions : AwsOptions
+public record AwsComputeOptimizerGetEc2RecommendationProjectedMetricsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns the projected utilization metrics of Amazon EC2 instance recom- mendations. NOTE: The Cpu and Memory metrics are the only projected utilization met- rics returned when you run this action. Additionally, the Memory metric is returned only for resources that have the unified Cloud- Watch agent installed on them. For more information, see Enabling Memory Utilization with the CloudWatch Agent . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceArn">The Amazon Resource Name (ARN) of the instances for which to return recommendation projected metrics.</param>
+    /// <param name="Stat">The statistic of the projected metrics. Possible values: o Maximum o Average</param>
+    /// <param name="Period">The granularity, in seconds, of the projected metrics data points.</param>
+    /// <param name="StartTime">The timestamp of the first projected metrics data point to return.</param>
+    /// <param name="EndTime">The timestamp of the last projected metrics data point to return.</param>
+    public AwsComputeOptimizerGetEc2RecommendationProjectedMetricsOptions(
+        string InstanceArn,
+        AwsComputeOptimizerGetEc2RecommendationProjectedMetricsStat Stat,
+        int Period,
+        string StartTime,
+        string EndTime
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceArn);
+        this.InstanceArn = InstanceArn;
+        global::System.ArgumentNullException.ThrowIfNull(Stat);
+        this.Stat = Stat;
+        this.Period = Period;
+        global::System.ArgumentNullException.ThrowIfNull(StartTime);
+        this.StartTime = StartTime;
+        global::System.ArgumentNullException.ThrowIfNull(EndTime);
+        this.EndTime = EndTime;
+    }
+
+    private AwsComputeOptimizerGetEc2RecommendationProjectedMetricsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsComputeOptimizerGetEc2RecommendationProjectedMetricsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsComputeOptimizerGetEc2RecommendationProjectedMetricsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the instances for which to return recommendation projected metrics.
+    /// </summary>
     [CliOption("--instance-arn")]
-    public string? InstanceArn { get; set; }
+    public string? InstanceArn { get; private init; }
 
+    /// <summary>
+    /// The statistic of the projected metrics. Possible values: o Maximum o Average
+    /// </summary>
     [CliOption("--stat")]
-    public string? Stat { get; set; }
+    public AwsComputeOptimizerGetEc2RecommendationProjectedMetricsStat? Stat { get; private init; }
 
+    /// <summary>
+    /// The granularity, in seconds, of the projected metrics data points.
+    /// </summary>
     [CliOption("--period")]
-    public int? Period { get; set; }
+    public int? Period { get; private init; }
 
+    /// <summary>
+    /// The timestamp of the first projected metrics data point to return.
+    /// </summary>
     [CliOption("--start-time")]
-    public string? StartTime { get; set; }
+    public string? StartTime { get; private init; }
 
+    /// <summary>
+    /// The timestamp of the last projected metrics data point to return.
+    /// </summary>
     [CliOption("--end-time")]
-    public string? EndTime { get; set; }
+    public string? EndTime { get; private init; }
 
     /// <summary>
     /// An object to specify the preferences for the Amazon EC2 recommenda- tion projected metrics to return in the response. cpuVendorArchitectures -&gt; (list) Specifies the CPU vendor and architecture for Amazon EC2 in- stance and Auto Scaling group recommendations. For example, when you specify AWS_ARM64 with: o A GetEC2InstanceRecommendations or GetAutoScalingGroupRecom- mendations request, Compute Optimizer returns recommendations that consist of Graviton instance types only. o A GetEC2RecommendationProjectedMetrics request, Compute Opti- mizer returns projected utilization metrics for Graviton in- stance type recommendations only. o A ExportEC2InstanceRecommendations or ExportAutoScaling- GroupRecommendations request, Compute Optimizer exports recom- mendations that consist of Graviton instance types only. (string) Possible values: o AWS_ARM64 o CURRENT Shorthand Syntax: cpuVendorArchitectures=string,string JSON Syntax: { "cpuVendorArchitectures": ["AWS_ARM64"|"CURRENT", ...] }
@@ -47,5 +112,22 @@ public record AwsComputeOptimizerGetEc2RecommendationProjectedMetricsOptions : A
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

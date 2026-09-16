@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pinpoint-sms-voice-v2", "update-notify-configuration")]
-public record AwsPinpointSmsVoiceV2UpdateNotifyConfigurationOptions : AwsOptions
+public record AwsPinpointSmsVoiceV2UpdateNotifyConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an existing notify configuration. You can update the default template, pool association, enabled channels, enabled countries, and deletion protection settings. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="NotifyConfigurationId">The identifier of the notify configuration to update. The NotifyCon- figurationId can be found using the DescribeNotifyConfigurations operation. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+</param>
+    public AwsPinpointSmsVoiceV2UpdateNotifyConfigurationOptions(
+        string NotifyConfigurationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NotifyConfigurationId);
+        this.NotifyConfigurationId = NotifyConfigurationId;
+    }
+
+    private AwsPinpointSmsVoiceV2UpdateNotifyConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPinpointSmsVoiceV2UpdateNotifyConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPinpointSmsVoiceV2UpdateNotifyConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the notify configuration to update. The NotifyCon- figurationId can be found using the DescribeNotifyConfigurations operation. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// </summary>
     [CliOption("--notify-configuration-id")]
-    public string? NotifyConfigurationId { get; set; }
+    public string? NotifyConfigurationId { get; private init; }
 
     /// <summary>
     /// The default template identifier to associate with the notify config- uration. If specified, this template is used when sending messages without an explicit template identifier. Pass the special value UN- SET_DEFAULT_TEMPLATE to clear the current default template from the notify configuration. Constraints: o min: 0 o max: 256 o pattern: ([A-Za-z0-9_-]*|UNSET_DEFAULT_TEMPLATE)
@@ -48,7 +85,10 @@ public record AwsPinpointSmsVoiceV2UpdateNotifyConfigurationOptions : AwsOptions
     [CliOption("--enabled-channels", GroupValues = true)]
     public IEnumerable<string>? EnabledChannels { get; set; }
 
-    [CliFlag("--deletion-protection-enabled")]
+    /// <summary>
+    /// When set to true the notify configuration can't be deleted.
+    /// </summary>
+    [CliFlag("--deletion-protection-enabled", NegatedName = "--no-deletion-protection-enabled")]
     public bool? DeletionProtectionEnabled { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -56,5 +96,22 @@ public record AwsPinpointSmsVoiceV2UpdateNotifyConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

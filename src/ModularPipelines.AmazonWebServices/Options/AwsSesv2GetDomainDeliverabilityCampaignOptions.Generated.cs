@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sesv2", "get-domain-deliverability-campaign")]
-public record AwsSesv2GetDomainDeliverabilityCampaignOptions : AwsOptions
+public record AwsSesv2GetDomainDeliverabilityCampaignOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieve all the deliverability data for a specific campaign. This data is available for a campaign only if the campaign sent email by using a domain that the Deliverability dashboard is enabled for. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CampaignId">The unique identifier for the campaign. The Deliverability dashboard automatically generates and assigns this identifier to a campaign.</param>
+    public AwsSesv2GetDomainDeliverabilityCampaignOptions(
+        string CampaignId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CampaignId);
+        this.CampaignId = CampaignId;
+    }
+
+    private AwsSesv2GetDomainDeliverabilityCampaignOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSesv2GetDomainDeliverabilityCampaignOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSesv2GetDomainDeliverabilityCampaignOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for the campaign. The Deliverability dashboard automatically generates and assigns this identifier to a campaign.
+    /// </summary>
     [CliOption("--campaign-id")]
-    public string? CampaignId { get; set; }
+    public string? CampaignId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

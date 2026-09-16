@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lambda", "delete-event-source-mapping")]
-public record AwsLambdaDeleteEventSourceMappingOptions : AwsOptions
+public record AwsLambdaDeleteEventSourceMappingOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes an event source mapping . You can get the identifier of a map- ping from the output of ListEventSourceMappings . When you delete an event source mapping, it enters a Deleting state and might not be completely deleted for several seconds. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Uuid">The identifier of the event source mapping. Constraints: o min: 36 o max: 36</param>
+    public AwsLambdaDeleteEventSourceMappingOptions(
+        string Uuid
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Uuid);
+        this.Uuid = Uuid;
+    }
+
+    private AwsLambdaDeleteEventSourceMappingOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLambdaDeleteEventSourceMappingOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLambdaDeleteEventSourceMappingOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the event source mapping. Constraints: o min: 36 o max: 36
+    /// </summary>
     [CliOption("--uuid")]
-    public string? Uuid { get; set; }
+    public string? Uuid { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

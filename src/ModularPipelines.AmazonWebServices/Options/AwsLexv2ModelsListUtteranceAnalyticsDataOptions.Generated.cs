@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lexv2-models", "list-utterance-analytics-data")]
-public record AwsLexv2ModelsListUtteranceAnalyticsDataOptions : AwsOptions
+public record AwsLexv2ModelsListUtteranceAnalyticsDataOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// NOTE: To use this API operation, your IAM role must have permissions to perform the ListAggregatedUtterances operation, which provides ac- cess to utterance-related analytics. See Viewing utterance statis- tics for the IAM policy to apply to the IAM role. Retrieves a list of metadata for individual user utterances to your bot. The following fields are required: o startDateTime and endDateTime Define a time range for which you want to retrieve results. Of the optional fields, you can organize the...
+    /// </summary>
+    /// <param name="BotId">The identifier for the bot for which you want to retrieve utterance analytics. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="StartDateTime">The date and time that marks the beginning of the range of time for which you want to see utterance analytics.</param>
+    /// <param name="EndDateTime">The date and time that marks the end of the range of time for which you want to see utterance analytics.</param>
+    public AwsLexv2ModelsListUtteranceAnalyticsDataOptions(
+        string BotId,
+        string StartDateTime,
+        string EndDateTime
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BotId);
+        this.BotId = BotId;
+        global::System.ArgumentNullException.ThrowIfNull(StartDateTime);
+        this.StartDateTime = StartDateTime;
+        global::System.ArgumentNullException.ThrowIfNull(EndDateTime);
+        this.EndDateTime = EndDateTime;
+    }
+
+    private AwsLexv2ModelsListUtteranceAnalyticsDataOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLexv2ModelsListUtteranceAnalyticsDataOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLexv2ModelsListUtteranceAnalyticsDataOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier for the bot for which you want to retrieve utterance analytics. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// </summary>
     [CliOption("--bot-id")]
-    public string? BotId { get; set; }
+    public string? BotId { get; private init; }
 
+    /// <summary>
+    /// The date and time that marks the beginning of the range of time for which you want to see utterance analytics.
+    /// </summary>
     [CliOption("--start-date-time")]
-    public string? StartDateTime { get; set; }
+    public string? StartDateTime { get; private init; }
 
+    /// <summary>
+    /// The date and time that marks the end of the range of time for which you want to see utterance analytics.
+    /// </summary>
     [CliOption("--end-date-time")]
-    public string? EndDateTime { get; set; }
+    public string? EndDateTime { get; private init; }
 
     /// <summary>
     /// An object specifying the measure and method by which to sort the ut- terance analytics data. name -&gt; (string) [required] The measure by which to sort the utterance analytics data. o Count The number of utterances. o UtteranceTimestamp The date and time of the utterance. Possible values: o UtteranceTimestamp order -&gt; (string) [required] Specifies whether to sort the results in ascending or descending order. Possible values: o Ascending o Descending Shorthand Syntax: name=string,order=string JSON Syntax: { "name": "UtteranceTimestamp", "order": "Ascending"|"Descending" }
@@ -61,5 +112,22 @@ public record AwsLexv2ModelsListUtteranceAnalyticsDataOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

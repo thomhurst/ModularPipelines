@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,109 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lightsail", "setup-instance-https")]
-public record AwsLightsailSetupInstanceHttpsOptions : AwsOptions
+public record AwsLightsailSetupInstanceHttpsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an SSL/TLS certificate that secures traffic for your website. After the certificate is created, it is installed on the specified Lightsail instance. If you provide more than one domain name in the request, at least one name must be less than or equal to 63 characters in length. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceName">The name of the Lightsail instance. Constraints: o pattern: \w[\w\-]*\w</param>
+    /// <param name="EmailAddress">The contact method for SSL/TLS certificate renewal alerts. You can enter one email address. Constraints: o min: 6 o max: 254 o pattern: ^[\w!#$%&amp;.'*+\/=?^_\x60{|}~\-]{1,64}@[a-zA-Z0-9\-]{1,63}(\.[a-zA-Z0-9\-]{1,63}){0,8}(\.[a-zA-Z]{2,63})$</param>
+    /// <param name="DomainNames">The name of the domain and subdomains that were specified for the SSL/TLS certificate. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 4 o max: 253 o pattern: ^[a-zA-Z0-9\-]{1,63}(\.[a-zA-Z0-9\-]{1,63}){0,8}(\.[a-zA-Z]{2,63})$ Syntax: "string" "string" ...</param>
+    /// <param name="CertificateProvider">The certificate authority that issues the SSL/TLS certificate. Possible values: o LetsEncrypt</param>
+    public AwsLightsailSetupInstanceHttpsOptions(
+        string InstanceName,
+        string EmailAddress,
+        IEnumerable<string> DomainNames,
+        string CertificateProvider
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceName);
+        this.InstanceName = InstanceName;
+        global::System.ArgumentNullException.ThrowIfNull(EmailAddress);
+        this.EmailAddress = EmailAddress;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(DomainNames);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(DomainNames));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(DomainNames));
+            }
+
+            DomainNames = materialized;
+        }
+        this.DomainNames = DomainNames;
+        global::System.ArgumentNullException.ThrowIfNull(CertificateProvider);
+        this.CertificateProvider = CertificateProvider;
+    }
+
+    private AwsLightsailSetupInstanceHttpsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLightsailSetupInstanceHttpsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLightsailSetupInstanceHttpsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the Lightsail instance. Constraints: o pattern: \w[\w\-]*\w
+    /// </summary>
     [CliOption("--instance-name")]
-    public string? InstanceName { get; set; }
+    public string? InstanceName { get; private init; }
 
+    /// <summary>
+    /// The contact method for SSL/TLS certificate renewal alerts. You can enter one email address. Constraints: o min: 6 o max: 254 o pattern: ^[\w!#$%&amp;.'*+\/=?^_\x60{|}~\-]{1,64}@[a-zA-Z0-9\-]{1,63}(\.[a-zA-Z0-9\-]{1,63}){0,8}(\.[a-zA-Z]{2,63})$
+    /// </summary>
     [CliOption("--email-address")]
-    public string? EmailAddress { get; set; }
+    public string? EmailAddress { get; private init; }
 
+    /// <summary>
+    /// The name of the domain and subdomains that were specified for the SSL/TLS certificate. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 4 o max: 253 o pattern: ^[a-zA-Z0-9\-]{1,63}(\.[a-zA-Z0-9\-]{1,63}){0,8}(\.[a-zA-Z]{2,63})$ Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--domain-names", GroupValues = true)]
-    public IEnumerable<string>? DomainNames { get; set; }
+    public IEnumerable<string>? DomainNames { get; private init; }
 
+    /// <summary>
+    /// The certificate authority that issues the SSL/TLS certificate. Possible values: o LetsEncrypt
+    /// </summary>
     [CliOption("--certificate-provider")]
-    public string? CertificateProvider { get; set; }
+    public string? CertificateProvider { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

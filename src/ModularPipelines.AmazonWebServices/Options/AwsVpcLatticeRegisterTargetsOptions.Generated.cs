@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vpc-lattice", "register-targets")]
-public record AwsVpcLatticeRegisterTargetsOptions : AwsOptions
+public record AwsVpcLatticeRegisterTargetsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--target-group-identifier")]
-    public string? TargetGroupIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Registers the targets with the target group. If it's a Lambda target, you can only have one target in a target group. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TargetGroupIdentifier">The ID or ARN of the target group. Constraints: o min: 17 o max: 2048 o pattern: ((tg-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:targetgroup/tg-[0-9a-z]{17}))</param>
+    /// <param name="Targets">The targets. Constraints: o min: 1 o max: 100 (structure) Describes a target. id -&gt; (string) [required] The ID of the target. If the target group type is INSTANCE , this is an instance ID. If the target group type is IP , this is an IP address. If the target group type is LAMBDA , this is the ARN of a Lambda function. If the target group type is ALB , this is the ARN of an Application Load Balancer. Constraints: o min: 1 o max: 200 port -&gt; (integer) The port on which the target is listening. For HTTP, the de- fault is 80. For HTTPS, the default is 443. Constraints: o min: 1 o max: 65535 Shorthand Syntax: id=string,port=integer ... JSON Syntax: [ { "id": "string", "port": integer } ... ]</param>
+    public AwsVpcLatticeRegisterTargetsOptions(
+        string TargetGroupIdentifier,
+        IEnumerable<string> Targets
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TargetGroupIdentifier);
+        this.TargetGroupIdentifier = TargetGroupIdentifier;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Targets);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Targets));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Targets));
+            }
+
+            Targets = materialized;
+        }
+        this.Targets = Targets;
+    }
+
+    private AwsVpcLatticeRegisterTargetsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsVpcLatticeRegisterTargetsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsVpcLatticeRegisterTargetsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID or ARN of the target group. Constraints: o min: 17 o max: 2048 o pattern: ((tg-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:targetgroup/tg-[0-9a-z]{17}))
+    /// </summary>
+    [CliOption("--target-group-identifier")]
+    public string? TargetGroupIdentifier { get; private init; }
+
+    /// <summary>
+    /// The targets. Constraints: o min: 1 o max: 100 (structure) Describes a target. id -&gt; (string) [required] The ID of the target. If the target group type is INSTANCE , this is an instance ID. If the target group type is IP , this is an IP address. If the target group type is LAMBDA , this is the ARN of a Lambda function. If the target group type is ALB , this is the ARN of an Application Load Balancer. Constraints: o min: 1 o max: 200 port -&gt; (integer) The port on which the target is listening. For HTTP, the de- fault is 80. For HTTPS, the default is 443. Constraints: o min: 1 o max: 65535 Shorthand Syntax: id=string,port=integer ... JSON Syntax: [ { "id": "string", "port": integer } ... ]
+    /// </summary>
     [CliOption("--targets", GroupValues = true)]
-    public IEnumerable<string>? Targets { get; set; }
+    public IEnumerable<string>? Targets { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

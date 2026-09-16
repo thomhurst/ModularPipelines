@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kafka", "create-channel")]
-public record AwsKafkaCreateChannelOptions : AwsOptions
+public record AwsKafkaCreateChannelOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--channel-name")]
-    public string? ChannelName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a Channel that streams records from an Amazon MSK Express clus- ter topic to Amazon S3 or Apache Iceberg. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ChannelName">The name of the channel. Must be unique within the cluster.</param>
+    /// <param name="ClusterArn">The Amazon Resource Name (ARN) that uniquely identifies the cluster.</param>
+    /// <param name="TopicConfigurationList">The list of topic configurations for the channel. Currently exactly one topic must be specified. (structure) Configuration of an Apache Kafka topic that feeds a channel. RecordConverter -&gt; (structure) [required] Configuration that controls how Apache Kafka record values are deserialized for the destination. ValueConverter -&gt; (string) [required] The deserialization format applied to Apache Kafka record values. Possible values: o BYTE_ARRAY o JSON o JSON_SCHEMA_GSR o STRING RecordSchema -&gt; (structure) The schema used to validate records when the value converter requires one (for example, JSON_SCHEMA_GSR). GsrArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the AWS Glue Schema Registry schema (not registry) used to validate records for the destination Apache Iceberg table. TopicArn -&gt; (string) [required] The Amazon Resource Name (ARN) that uniquely identifies the topic. Shorthand Syntax: RecordConverter={ValueConverter=string},RecordSchema={GsrArn=string},TopicArn=string ... JSON Syntax: [ { "RecordConverter": { "ValueConverter": "BYTE_ARRAY"|"JSON"|"JSON_SCHEMA_GSR"|"STRING" }, "RecordSchema": { "GsrArn": "string" }, "TopicArn": "string" } ... ]</param>
+    public AwsKafkaCreateChannelOptions(
+        string ChannelName,
+        string ClusterArn,
+        IEnumerable<string> TopicConfigurationList
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ChannelName);
+        this.ChannelName = ChannelName;
+        global::System.ArgumentNullException.ThrowIfNull(ClusterArn);
+        this.ClusterArn = ClusterArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(TopicConfigurationList);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(TopicConfigurationList));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(TopicConfigurationList));
+            }
+
+            TopicConfigurationList = materialized;
+        }
+        this.TopicConfigurationList = TopicConfigurationList;
+    }
+
+    private AwsKafkaCreateChannelOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKafkaCreateChannelOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKafkaCreateChannelOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the channel. Must be unique within the cluster.
+    /// </summary>
+    [CliOption("--channel-name")]
+    public string? ChannelName { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+    /// </summary>
     [CliOption("--cluster-arn")]
-    public string? ClusterArn { get; set; }
+    public string? ClusterArn { get; private init; }
+
+    /// <summary>
+    /// The list of topic configurations for the channel. Currently exactly one topic must be specified. (structure) Configuration of an Apache Kafka topic that feeds a channel. RecordConverter -&gt; (structure) [required] Configuration that controls how Apache Kafka record values are deserialized for the destination. ValueConverter -&gt; (string) [required] The deserialization format applied to Apache Kafka record values. Possible values: o BYTE_ARRAY o JSON o JSON_SCHEMA_GSR o STRING RecordSchema -&gt; (structure) The schema used to validate records when the value converter requires one (for example, JSON_SCHEMA_GSR). GsrArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the AWS Glue Schema Registry schema (not registry) used to validate records for the destination Apache Iceberg table. TopicArn -&gt; (string) [required] The Amazon Resource Name (ARN) that uniquely identifies the topic. Shorthand Syntax: RecordConverter={ValueConverter=string},RecordSchema={GsrArn=string},TopicArn=string ... JSON Syntax: [ { "RecordConverter": { "ValueConverter": "BYTE_ARRAY"|"JSON"|"JSON_SCHEMA_GSR"|"STRING" }, "RecordSchema": { "GsrArn": "string" }, "TopicArn": "string" } ... ]
+    /// </summary>
+    [CliOption("--topic-configuration-list", GroupValues = true)]
+    public IEnumerable<string>? TopicConfigurationList { get; private init; }
 
     /// <summary>
     /// The encryption configuration applied to the channel. KmsKeyArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the AWS KMS key used to en- crypt the data. Shorthand Syntax: KmsKeyArn=string JSON Syntax: { "KmsKeyArn": "string" }
@@ -52,9 +117,6 @@ public record AwsKafkaCreateChannelOptions : AwsOptions
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
-    [CliOption("--topic-configuration-list", GroupValues = true)]
-    public IEnumerable<string>? TopicConfigurationList { get; set; }
-
     /// <summary>
     /// The destinations to which the channel publishes operational logs. CloudWatchLogs -&gt; (structure) Details of the CloudWatch Logs destination for Channel logs. Enabled -&gt; (boolean) [required] LogGroup -&gt; (string) Firehose -&gt; (structure) Details of the Kinesis Data Firehose delivery stream that is the destination for Channel logs. DeliveryStream -&gt; (string) Enabled -&gt; (boolean) [required] S3 -&gt; (structure) Details of the Amazon S3 destination for Channel logs. Bucket -&gt; (string) Enabled -&gt; (boolean) [required] Prefix -&gt; (string) Shorthand Syntax: CloudWatchLogs={Enabled=boolean,LogGroup=string},Firehose={DeliveryStream=string,Enabled=boolean},S3={Bucket=string,Enabled=boolean,Prefix=string} JSON Syntax: { "CloudWatchLogs": { "Enabled": true|false, "LogGroup": "string" }, "Firehose": { "DeliveryStream": "string", "Enabled": true|false }, "S3": { "Bucket": "string", "Enabled": true|false, "Prefix": "string" } }
     /// </summary>
@@ -66,5 +128,22 @@ public record AwsKafkaCreateChannelOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

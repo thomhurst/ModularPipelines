@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --notificationsubscriptionstatus.
+/// Allowed values for --notification-subscription-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsArtifactPutAccountSettingsNotificationSubscriptionStatus
 {
-    [EnumValue("SUBSCRIBED")]
-    Subscribed = 1,
-
     [EnumValue("NOT_SUBSCRIBED")]
-    NotSubscribed = 2
+    NotSubscribed,
+
+    [EnumValue("SUBSCRIBED")]
+    Subscribed
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,22 +20,85 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("directconnect", "allocate-hosted-connection")]
-public record AwsDirectconnectAllocateHostedConnectionOptions : AwsOptions
+public record AwsDirectconnectAllocateHostedConnectionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a hosted connection on the specified interconnect or a link ag- gregation group (LAG) of interconnects. Allocates a VLAN number and a specified amount of capacity (bandwidth) for use by a hosted connection on the specified interconnect or LAG of interconnects. Amazon Web Services polices the hosted connection for the specified capacity and the Direct Connect Partner must also police the hosted connection for the specified capacity. NOTE: Intended for use by Direct Connect Partners only. ...
+    /// </summary>
+    /// <param name="ConnectionId">The ID of the interconnect or LAG.</param>
+    /// <param name="OwnerAccount">The ID of the Amazon Web Services account ID of the customer for the connection.</param>
+    /// <param name="Bandwidth">The bandwidth of the connection. The possible values are 50Mbps, 100Mbps, 200Mbps, 300Mbps, 400Mbps, 500Mbps, 1Gbps, 2Gbps, 5Gbps, 10Gbps, and 25Gbps. Note that only those Direct Connect Partners who have met specific requirements are allowed to create a 1Gbps, 2Gbps, 5Gbps, 10Gbps, or 25Gbps hosted connection.</param>
+    /// <param name="ConnectionName">The name of the hosted connection.</param>
+    /// <param name="Vlan">The dedicated VLAN provisioned to the hosted connection.</param>
+    public AwsDirectconnectAllocateHostedConnectionOptions(
+        string ConnectionId,
+        string OwnerAccount,
+        string Bandwidth,
+        string ConnectionName,
+        int Vlan
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConnectionId);
+        this.ConnectionId = ConnectionId;
+        global::System.ArgumentNullException.ThrowIfNull(OwnerAccount);
+        this.OwnerAccount = OwnerAccount;
+        global::System.ArgumentNullException.ThrowIfNull(Bandwidth);
+        this.Bandwidth = Bandwidth;
+        global::System.ArgumentNullException.ThrowIfNull(ConnectionName);
+        this.ConnectionName = ConnectionName;
+        this.Vlan = Vlan;
+    }
+
+    private AwsDirectconnectAllocateHostedConnectionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDirectconnectAllocateHostedConnectionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDirectconnectAllocateHostedConnectionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the interconnect or LAG.
+    /// </summary>
     [CliOption("--connection-id")]
-    public string? ConnectionId { get; set; }
+    public string? ConnectionId { get; private init; }
 
+    /// <summary>
+    /// The ID of the Amazon Web Services account ID of the customer for the connection.
+    /// </summary>
     [CliOption("--owner-account")]
-    public string? OwnerAccount { get; set; }
+    public string? OwnerAccount { get; private init; }
 
+    /// <summary>
+    /// The bandwidth of the connection. The possible values are 50Mbps, 100Mbps, 200Mbps, 300Mbps, 400Mbps, 500Mbps, 1Gbps, 2Gbps, 5Gbps, 10Gbps, and 25Gbps. Note that only those Direct Connect Partners who have met specific requirements are allowed to create a 1Gbps, 2Gbps, 5Gbps, 10Gbps, or 25Gbps hosted connection.
+    /// </summary>
     [CliOption("--bandwidth")]
-    public string? Bandwidth { get; set; }
+    public string? Bandwidth { get; private init; }
 
+    /// <summary>
+    /// The name of the hosted connection.
+    /// </summary>
     [CliOption("--connection-name")]
-    public string? ConnectionName { get; set; }
+    public string? ConnectionName { get; private init; }
 
+    /// <summary>
+    /// The dedicated VLAN provisioned to the hosted connection.
+    /// </summary>
     [CliOption("--vlan")]
-    public int? Vlan { get; set; }
+    public int? Vlan { get; private init; }
 
     /// <summary>
     /// The tags associated with the connection. Constraints: o min: 1 (structure) Information about a tag. key -&gt; (string) [required] The key. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) The value. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
@@ -47,5 +111,22 @@ public record AwsDirectconnectAllocateHostedConnectionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

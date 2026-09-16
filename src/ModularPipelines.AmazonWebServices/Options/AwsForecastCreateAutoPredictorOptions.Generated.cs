@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("forecast", "create-auto-predictor")]
-public record AwsForecastCreateAutoPredictorOptions : AwsOptions
+public record AwsForecastCreateAutoPredictorOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an Amazon Forecast predictor. Amazon Forecast creates predictors with AutoPredictor, which involves applying the optimal combination of algorithms to each time series in your datasets. You can use CreateAutoPredictor to create new predic- tors or upgrade/retrain existing predictors. Creating new predictors The following parameters are required when creating a new predictor: o PredictorName - A unique name for the predictor. o DatasetGroupArn - The ARN of the dataset group used to train t...
+    /// </summary>
+    /// <param name="PredictorName">A unique name for the predictor Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z][a-zA-Z0-9_]*</param>
+    public AwsForecastCreateAutoPredictorOptions(
+        string PredictorName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PredictorName);
+        this.PredictorName = PredictorName;
+    }
+
+    private AwsForecastCreateAutoPredictorOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsForecastCreateAutoPredictorOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsForecastCreateAutoPredictorOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique name for the predictor Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z][a-zA-Z0-9_]*
+    /// </summary>
     [CliOption("--predictor-name")]
-    public string? PredictorName { get; set; }
+    public string? PredictorName { get; private init; }
 
     /// <summary>
     /// The number of time-steps that the model predicts. The forecast hori- zon is also called the prediction length. The maximum forecast horizon is the lesser of 500 time-steps or 1/4 of the TARGET_TIME_SERIES dataset length. If you are retraining an existing AutoPredictor, then the maximum forecast horizon is the lesser of 500 time-steps or 1/3 of the TARGET_TIME_SERIES dataset length. If you are upgrading to an AutoPredictor or retraining an existing AutoPredictor, you cannot update the forecast horizon parameter. You can meet this requirement by providing longer time-series in the dataset.
@@ -73,7 +110,10 @@ public record AwsForecastCreateAutoPredictorOptions : AwsOptions
     [CliOption("--optimization-metric")]
     public AwsForecastCreateAutoPredictorOptimizationMetric? OptimizationMetric { get; set; }
 
-    [CliFlag("--explain-predictor")]
+    /// <summary>
+    /// Create an Explainability resource for the predictor.
+    /// </summary>
+    [CliFlag("--explain-predictor", NegatedName = "--no-explain-predictor")]
     public bool? ExplainPredictor { get; set; }
 
     /// <summary>
@@ -99,5 +139,22 @@ public record AwsForecastCreateAutoPredictorOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

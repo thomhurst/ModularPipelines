@@ -12,7 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
-using ModularPipelines.AmazonWebServices.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -22,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eks", "create-eks-anywhere-subscription")]
-public record AwsEksCreateEksAnywhereSubscriptionOptions : AwsOptions
+public record AwsEksCreateEksAnywhereSubscriptionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--name")]
-    public string? Name { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an EKS Anywhere subscription. When a subscription is created, it is a contract agreement for the length of the term specified in the request. Licenses that are used to validate support are provisioned in Amazon Web Services License Manager and the caller account is granted access to EKS Anywhere Curated Packages. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The unique name for your subscription. It must be unique in your Amazon Web Services account in the Amazon Web Services Region you're creating the subscription in. The name can contain only alphanumeric characters (case-sensitive), hyphens, and underscores. It must start with an alphabetic character and can't be longer than 100 charac- ters. Constraints: o min: 1 o max: 100 o pattern: ^[0-9A-Za-z][A-Za-z0-9\-_]*</param>
+    /// <param name="Term">An object representing the term duration and term unit type of your subscription. This determines the term length of your subscription. Valid values are MONTHS for term unit and 12 or 36 for term dura- tion, indicating a 12 month or 36 month subscription. This value cannot be changed after creating the subscription. duration -&gt; (integer) The duration of the subscription term. Valid values are 12 and 36, indicating a 12 month or 36 month subscription. unit -&gt; (string) The term unit of the subscription. Valid value is MONTHS . Possible values: o MONTHS Shorthand Syntax: duration=integer,unit=string JSON Syntax: { "duration": integer, "unit": "MONTHS" }</param>
+    public AwsEksCreateEksAnywhereSubscriptionOptions(
+        string Name,
+        string Term
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Term);
+        this.Term = Term;
+    }
+
+    private AwsEksCreateEksAnywhereSubscriptionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEksCreateEksAnywhereSubscriptionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEksCreateEksAnywhereSubscriptionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique name for your subscription. It must be unique in your Amazon Web Services account in the Amazon Web Services Region you're creating the subscription in. The name can contain only alphanumeric characters (case-sensitive), hyphens, and underscores. It must start with an alphabetic character and can't be longer than 100 charac- ters. Constraints: o min: 1 o max: 100 o pattern: ^[0-9A-Za-z][A-Za-z0-9\-_]*
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// An object representing the term duration and term unit type of your subscription. This determines the term length of your subscription. Valid values are MONTHS for term unit and 12 or 36 for term dura- tion, indicating a 12 month or 36 month subscription. This value cannot be changed after creating the subscription. duration -&gt; (integer) The duration of the subscription term. Valid values are 12 and 36, indicating a 12 month or 36 month subscription. unit -&gt; (string) The term unit of the subscription. Valid value is MONTHS . Possible values: o MONTHS Shorthand Syntax: duration=integer,unit=string JSON Syntax: { "duration": integer, "unit": "MONTHS" }
+    /// </summary>
     [CliOption("--term")]
-    public string? Term { get; set; }
+    public string? Term { get; private init; }
 
     /// <summary>
     /// The number of licenses to purchase with the subscription. Valid val- ues are between 1 and 100. This value can't be changed after creat- ing the subscription.
@@ -40,9 +83,12 @@ public record AwsEksCreateEksAnywhereSubscriptionOptions : AwsOptions
     /// The license type for all licenses in the subscription. Valid value is CLUSTER. With the CLUSTER license type, each license covers sup- port for a single EKS Anywhere cluster. Possible values: o Cluster
     /// </summary>
     [CliOption("--license-type")]
-    public AwsEksCreateEksAnywhereSubscriptionLicenseType? LicenseType { get; set; }
+    public string? LicenseType { get; set; }
 
-    [CliFlag("--auto-renew")]
+    /// <summary>
+    /// A boolean indicating whether the subscription auto renews at the end of the term.
+    /// </summary>
+    [CliFlag("--auto-renew", NegatedName = "--no-auto-renew")]
     public bool? AutoRenew { get; set; }
 
     /// <summary>
@@ -63,5 +109,22 @@ public record AwsEksCreateEksAnywhereSubscriptionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

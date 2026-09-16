@@ -16,12 +16,12 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsTrustedadvisorListRecommendationsForResourceStatus
 {
+    [EnumValue("error")]
+    Error,
+
     [EnumValue("ok")]
-    Ok = 1,
+    Ok,
 
     [EnumValue("warning")]
-    Warning = 2,
-
-    [EnumValue("error")]
-    Error = 3
+    Warning
 }

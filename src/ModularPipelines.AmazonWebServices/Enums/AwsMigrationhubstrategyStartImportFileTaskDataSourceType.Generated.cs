@@ -11,17 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --datasourcetype.
+/// Allowed values for --data-source-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsMigrationhubstrategyStartImportFileTaskDataSourceType
 {
     [EnumValue("ApplicationDiscoveryService")]
-    ApplicationDiscoveryService = 1,
-
-    [EnumValue("MPA")]
-    Mpa = 2,
+    ApplicationDiscoveryService,
 
     [EnumValue("Import")]
-    Import = 3
+    Import,
+
+    [EnumValue("MPA")]
+    Mpa,
+
+    [EnumValue("StrategyRecommendationsApplicationDataCollector")]
+    StrategyRecommendationsApplicationDataCollector
 }

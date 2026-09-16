@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,19 +21,58 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mq", "update-broker")]
-public record AwsMqUpdateBrokerOptions : AwsOptions
+public record AwsMqUpdateBrokerOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Adds a pending configuration change to a broker. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BrokerId">The unique ID that Amazon MQ generates for the broker.</param>
+    public AwsMqUpdateBrokerOptions(
+        string BrokerId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BrokerId);
+        this.BrokerId = BrokerId;
+    }
+
+    private AwsMqUpdateBrokerOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMqUpdateBrokerOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMqUpdateBrokerOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique ID that Amazon MQ generates for the broker.
+    /// </summary>
+    [CliOption("--broker-id")]
+    public string? BrokerId { get; private init; }
+
     /// <summary>
     /// Optional. The authentication strategy used to secure the broker. The default is SIMPLE. Possible values: o SIMPLE o LDAP o CONFIG_MANAGED
     /// </summary>
     [CliOption("--authentication-strategy")]
     public AwsMqUpdateBrokerAuthenticationStrategy? AuthenticationStrategy { get; set; }
 
-    [CliFlag("--auto-minor-version-upgrade")]
+    /// <summary>
+    /// Enables automatic upgrades to new patch versions for brokers as new versions are released and supported by Amazon MQ. Automatic upgrades occur during the scheduled maintenance window or after a manual bro- ker reboot. NOTE: Must be set to true for ActiveMQ brokers version 5.18 and above and for RabbitMQ brokers version 3.13 and above.
+    /// </summary>
+    [CliFlag("--auto-minor-version-upgrade", NegatedName = "--no-auto-minor-version-upgrade")]
     public bool? AutoMinorVersionUpgrade { get; set; }
-
-    [CliOption("--broker-id")]
-    public string? BrokerId { get; set; }
 
     /// <summary>
     /// A list of information about the configuration. Id -&gt; (string) [required] Required. The unique ID that Amazon MQ generates for the config- uration. Revision -&gt; (integer) The revision number of the configuration. Shorthand Syntax: Id=string,Revision=integer JSON Syntax: { "Id": "string", "Revision": integer }
@@ -99,5 +139,22 @@ public record AwsMqUpdateBrokerOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,44 +11,44 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --languagecode.
+/// Allowed values for --language-code.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsComprehendDetectEntitiesLanguageCode
 {
-    [EnumValue("en")]
-    En = 1,
-
-    [EnumValue("es")]
-    Es = 2,
-
-    [EnumValue("fr")]
-    Fr = 3,
+    [EnumValue("ar")]
+    Ar,
 
     [EnumValue("de")]
-    De = 4,
+    De,
 
-    [EnumValue("it")]
-    It = 5,
+    [EnumValue("en")]
+    En,
 
-    [EnumValue("pt")]
-    Pt = 6,
+    [EnumValue("es")]
+    Es,
 
-    [EnumValue("ar")]
-    Ar = 7,
+    [EnumValue("fr")]
+    Fr,
 
     [EnumValue("hi")]
-    Hi = 8,
+    Hi,
+
+    [EnumValue("it")]
+    It,
 
     [EnumValue("ja")]
-    Ja = 9,
+    Ja,
 
     [EnumValue("ko")]
-    Ko = 10,
+    Ko,
+
+    [EnumValue("pt")]
+    Pt,
 
     [EnumValue("zh")]
-    Zh = 11,
+    Zh,
 
     [EnumValue("zh-TW")]
-    ZhTw = 12
+    ZhTw
 }

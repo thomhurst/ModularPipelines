@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --orchestrationtype.
+/// Allowed values for --orchestration-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsBedrockAgentCreateAgentOrchestrationType
 {
-    [EnumValue("DEFAULT")]
-    Default = 1,
-
     [EnumValue("CUSTOM_ORCHESTRATION")]
-    CustomOrchestration = 2
+    CustomOrchestration,
+
+    [EnumValue("DEFAULT")]
+    Default
 }

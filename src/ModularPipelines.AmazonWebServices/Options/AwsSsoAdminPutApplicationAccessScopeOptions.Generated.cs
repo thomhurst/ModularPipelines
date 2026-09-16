@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sso-admin", "put-application-access-scope")]
-public record AwsSsoAdminPutApplicationAccessScopeOptions : AwsOptions
+public record AwsSsoAdminPutApplicationAccessScopeOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Adds or updates the list of authorized targets for an IAM Identity Cen- ter access scope for an application. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Scope">Specifies the name of the access scope to be associated with the specified targets. Constraints: o pattern: ([A-Za-z0-9_]{1,50})(:[A-Za-z0-9_]{1,50}){0,1}(:[A-Za-z0-9_]{1,50}){0,1}</param>
+    /// <param name="ApplicationArn">Specifies the ARN of the application with the access scope with the targets to add or update. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::\d{12}:applica- tion/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}</param>
+    public AwsSsoAdminPutApplicationAccessScopeOptions(
+        string Scope,
+        string ApplicationArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Scope);
+        this.Scope = Scope;
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationArn);
+        this.ApplicationArn = ApplicationArn;
+    }
+
+    private AwsSsoAdminPutApplicationAccessScopeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsoAdminPutApplicationAccessScopeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsoAdminPutApplicationAccessScopeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the name of the access scope to be associated with the specified targets. Constraints: o pattern: ([A-Za-z0-9_]{1,50})(:[A-Za-z0-9_]{1,50}){0,1}(:[A-Za-z0-9_]{1,50}){0,1}
+    /// </summary>
     [CliOption("--scope")]
-    public string? Scope { get; set; }
+    public string? Scope { get; private init; }
+
+    /// <summary>
+    /// Specifies the ARN of the application with the access scope with the targets to add or update. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::\d{12}:applica- tion/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}
+    /// </summary>
+    [CliOption("--application-arn")]
+    public string? ApplicationArn { get; private init; }
 
     /// <summary>
     /// Specifies an array list of ARNs that represent the authorized tar- gets for this access scope. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 100 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::(\d{12}:applica- tion/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}|:in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}) Syntax: "string" "string" ...
@@ -30,13 +77,27 @@ public record AwsSsoAdminPutApplicationAccessScopeOptions : AwsOptions
     [CliOption("--authorized-targets", GroupValues = true)]
     public IEnumerable<string>? AuthorizedTargets { get; set; }
 
-    [CliOption("--application-arn")]
-    public string? ApplicationArn { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kendra", "batch-get-document-status")]
-public record AwsKendraBatchGetDocumentStatusOptions : AwsOptions
+public record AwsKendraBatchGetDocumentStatusOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--index-id")]
-    public string? IndexId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Returns the indexing status for one or more documents submitted with the BatchPutDocument API. When you use the BatchPutDocument API, documents are indexed asynchro- nously. You can use the BatchGetDocumentStatus API to get the current status of a list of documents so that you can determine if they have been successfully indexed. You can also use the BatchGetDocumentStatus API to check the status of the BatchDeleteDocument API. When a document is deleted from the index, Amazon Kendra returns NOT...
+    /// </summary>
+    /// <param name="IndexId">The identifier of the index to add documents to. The index ID is re- turned by the CreateIndex API. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
+    /// <param name="DocumentInfoList">A list of DocumentInfo objects that identify the documents for which to get the status. You identify the documents by their document ID and optional attributes. Constraints: o min: 1 o max: 10 (structure) Identifies a document for which to retrieve status information DocumentId -&gt; (string) [required] The identifier of the document. Constraints: o min: 1 o max: 2048 Attributes -&gt; (list) Attributes that identify a specific version of a document to check. The only valid attributes are: o version o datasourceId o jobExecutionId The attributes follow these rules: o dataSourceId and jobExecutionId must be used together. o version is ignored if dataSourceId and jobExecutionId are not provided. o If dataSourceId and jobExecutionId are provided, but ver- sion is not, the version defaults to "0". (structure) A document attribute or metadata field. To create custom document attributes, see Custom attributes . Key -&gt; (string) [required] The identifier for the attribute. Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9_][a-zA-Z0-9_-]* Value -&gt; (structure) [required] The value of the attribute. StringValue -&gt; (string) A string, such as "department". Constraints: o min: 1 o max: 2048 StringListValue -&gt; (list) A list of strings. The default maximum length or number of strings is 10. (string) Constraints: o min: 1 o max: 2048 LongValue -&gt; (long) A long integer value. DateValue -&gt; (timestamp) A date expressed as an ISO 8601 string. It is important for the time zone to be included in the ISO 8601 date-time format. For example, 2012-03-25T12:30:10+01:00 is the ISO 8601 date-time format for March 25th 2012 at 12:30PM (plus 10 seconds) in Central European Time. JSON Syntax: [ { "DocumentId": "string", "Attributes": [ { "Key": "string", "Value": { "StringValue": "string", "StringListValue": ["string", ...], "LongValue": long, "DateValue": timestamp } } ... ] } ... ]</param>
+    public AwsKendraBatchGetDocumentStatusOptions(
+        string IndexId,
+        IEnumerable<string> DocumentInfoList
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IndexId);
+        this.IndexId = IndexId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(DocumentInfoList);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(DocumentInfoList));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(DocumentInfoList));
+            }
+
+            DocumentInfoList = materialized;
+        }
+        this.DocumentInfoList = DocumentInfoList;
+    }
+
+    private AwsKendraBatchGetDocumentStatusOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKendraBatchGetDocumentStatusOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKendraBatchGetDocumentStatusOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the index to add documents to. The index ID is re- turned by the CreateIndex API. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
+    /// </summary>
+    [CliOption("--index-id")]
+    public string? IndexId { get; private init; }
+
+    /// <summary>
+    /// A list of DocumentInfo objects that identify the documents for which to get the status. You identify the documents by their document ID and optional attributes. Constraints: o min: 1 o max: 10 (structure) Identifies a document for which to retrieve status information DocumentId -&gt; (string) [required] The identifier of the document. Constraints: o min: 1 o max: 2048 Attributes -&gt; (list) Attributes that identify a specific version of a document to check. The only valid attributes are: o version o datasourceId o jobExecutionId The attributes follow these rules: o dataSourceId and jobExecutionId must be used together. o version is ignored if dataSourceId and jobExecutionId are not provided. o If dataSourceId and jobExecutionId are provided, but ver- sion is not, the version defaults to "0". (structure) A document attribute or metadata field. To create custom document attributes, see Custom attributes . Key -&gt; (string) [required] The identifier for the attribute. Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9_][a-zA-Z0-9_-]* Value -&gt; (structure) [required] The value of the attribute. StringValue -&gt; (string) A string, such as "department". Constraints: o min: 1 o max: 2048 StringListValue -&gt; (list) A list of strings. The default maximum length or number of strings is 10. (string) Constraints: o min: 1 o max: 2048 LongValue -&gt; (long) A long integer value. DateValue -&gt; (timestamp) A date expressed as an ISO 8601 string. It is important for the time zone to be included in the ISO 8601 date-time format. For example, 2012-03-25T12:30:10+01:00 is the ISO 8601 date-time format for March 25th 2012 at 12:30PM (plus 10 seconds) in Central European Time. JSON Syntax: [ { "DocumentId": "string", "Attributes": [ { "Key": "string", "Value": { "StringValue": "string", "StringListValue": ["string", ...], "LongValue": long, "DateValue": timestamp } } ... ] } ... ]
+    /// </summary>
     [CliOption("--document-info-list", GroupValues = true)]
-    public IEnumerable<string>? DocumentInfoList { get; set; }
+    public IEnumerable<string>? DocumentInfoList { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

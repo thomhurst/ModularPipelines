@@ -11,50 +11,50 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --producttype.
+/// Allowed values for --product-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSavingsplansDescribeSavingsPlansOfferingsProductType
 {
-    [EnumValue("EC2")]
-    Ec2 = 1,
-
-    [EnumValue("Fargate")]
-    Fargate = 2,
-
-    [EnumValue("Lambda")]
-    Lambda = 3,
-
-    [EnumValue("SageMaker")]
-    SageMaker = 4,
-
-    [EnumValue("RDS")]
-    Rds = 5,
-
-    [EnumValue("DSQL")]
-    Dsql = 6,
-
-    [EnumValue("DynamoDB")]
-    DynamoDb = 7,
-
-    [EnumValue("ElastiCache")]
-    ElastiCache = 8,
+    [EnumValue("DMS")]
+    Dms,
 
     [EnumValue("DocDB")]
-    DocDb = 9,
+    DocDb,
 
-    [EnumValue("Neptune")]
-    Neptune = 10,
+    [EnumValue("DSQL")]
+    Dsql,
 
-    [EnumValue("Timestream")]
-    Timestream = 11,
+    [EnumValue("DynamoDB")]
+    DynamoDb,
+
+    [EnumValue("EC2")]
+    Ec2,
+
+    [EnumValue("ElastiCache")]
+    ElastiCache,
+
+    [EnumValue("Fargate")]
+    Fargate,
 
     [EnumValue("Keyspaces")]
-    Keyspaces = 12,
+    Keyspaces,
 
-    [EnumValue("DMS")]
-    Dms = 13,
+    [EnumValue("Lambda")]
+    Lambda,
+
+    [EnumValue("Neptune")]
+    Neptune,
 
     [EnumValue("OpenSearch")]
-    OpenSearch = 14
+    OpenSearch,
+
+    [EnumValue("RDS")]
+    Rds,
+
+    [EnumValue("SageMaker")]
+    SageMaker,
+
+    [EnumValue("Timestream")]
+    Timestream
 }

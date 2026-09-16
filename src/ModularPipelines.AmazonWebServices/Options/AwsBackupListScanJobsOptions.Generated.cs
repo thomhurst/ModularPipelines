@@ -51,7 +51,7 @@ public record AwsBackupListScanJobsOptions : AwsOptions
     /// Returns only the scan jobs for the specified malware scanner. Cur- rently only supports GUARDDUTY . Possible values: o GUARDDUTY
     /// </summary>
     [CliOption("--by-malware-scanner")]
-    public AwsBackupListScanJobsByMalwareScanner? ByMalwareScanner { get; set; }
+    public string? ByMalwareScanner { get; set; }
 
     /// <summary>
     /// Returns only the scan jobs that are ran against the specified recov- ery point.

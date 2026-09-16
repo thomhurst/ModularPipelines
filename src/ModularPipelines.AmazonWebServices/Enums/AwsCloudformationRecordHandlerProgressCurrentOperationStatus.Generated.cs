@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --currentoperationstatus.
+/// Allowed values for --current-operation-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCloudformationRecordHandlerProgressCurrentOperationStatus
 {
-    [EnumValue("PENDING")]
-    Pending = 1,
+    [EnumValue("FAILED")]
+    Failed,
 
     [EnumValue("IN_PROGRESS")]
-    InProgress = 2,
+    InProgress,
+
+    [EnumValue("PENDING")]
+    Pending,
 
     [EnumValue("SUCCESS")]
-    Success = 3,
-
-    [EnumValue("FAILED")]
-    Failed = 4
+    Success
 }

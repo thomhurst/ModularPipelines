@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chime-sdk-meetings", "batch-create-attendee")]
-public record AwsChimeSdkMeetingsBatchCreateAttendeeOptions : AwsOptions
+public record AwsChimeSdkMeetingsBatchCreateAttendeeOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--meeting-id")]
-    public string? MeetingId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates up to 100 attendees for an active Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="MeetingId">The Amazon Chime SDK ID of the meeting to which you're adding atten- dees. Constraints: o pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}</param>
+    /// <param name="Attendees">The attendee information, including attendees' IDs and join tokens. Constraints: o min: 1 o max: 100 (structure) The Amazon Chime SDK attendee fields to create, used with the BatchCreateAttendee action. ExternalUserId -&gt; (string) [required] The Amazon Chime SDK external user ID. An idempotency token. Links the attendee to an identity managed by a builder appli- cation. Pattern: [-_&amp;@+=,(){}\[\]\/.:|'"#a-zA-Z0-9-\s]* Values that begin with aws: are reserved. You can't configure a value that uses this prefix. Case insensitive. Constraints: o min: 2 o max: 64 Capabilities -&gt; (structure) A list of one or more capabilities. Audio -&gt; (string) [required] The audio capability assigned to an attendee. Possible values: o SendReceive o Send o Receive o None Video -&gt; (string) [required] The video capability assigned to an attendee. Possible values: o SendReceive o Send o Receive o None Content -&gt; (string) [required] The content capability assigned to an attendee. Possible values: o SendReceive o Send o Receive o None Shorthand Syntax: ExternalUserId=string,Capabilities={Audio=string,Video=string,Content=string} ... JSON Syntax: [ { "ExternalUserId": "string", "Capabilities": { "Audio": "SendReceive"|"Send"|"Receive"|"None", "Video": "SendReceive"|"Send"|"Receive"|"None", "Content": "SendReceive"|"Send"|"Receive"|"None" } } ... ]</param>
+    public AwsChimeSdkMeetingsBatchCreateAttendeeOptions(
+        string MeetingId,
+        IEnumerable<string> Attendees
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MeetingId);
+        this.MeetingId = MeetingId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Attendees);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Attendees));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Attendees));
+            }
+
+            Attendees = materialized;
+        }
+        this.Attendees = Attendees;
+    }
+
+    private AwsChimeSdkMeetingsBatchCreateAttendeeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChimeSdkMeetingsBatchCreateAttendeeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChimeSdkMeetingsBatchCreateAttendeeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Chime SDK ID of the meeting to which you're adding atten- dees. Constraints: o pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}
+    /// </summary>
+    [CliOption("--meeting-id")]
+    public string? MeetingId { get; private init; }
+
+    /// <summary>
+    /// The attendee information, including attendees' IDs and join tokens. Constraints: o min: 1 o max: 100 (structure) The Amazon Chime SDK attendee fields to create, used with the BatchCreateAttendee action. ExternalUserId -&gt; (string) [required] The Amazon Chime SDK external user ID. An idempotency token. Links the attendee to an identity managed by a builder appli- cation. Pattern: [-_&amp;@+=,(){}\[\]\/.:|'"#a-zA-Z0-9-\s]* Values that begin with aws: are reserved. You can't configure a value that uses this prefix. Case insensitive. Constraints: o min: 2 o max: 64 Capabilities -&gt; (structure) A list of one or more capabilities. Audio -&gt; (string) [required] The audio capability assigned to an attendee. Possible values: o SendReceive o Send o Receive o None Video -&gt; (string) [required] The video capability assigned to an attendee. Possible values: o SendReceive o Send o Receive o None Content -&gt; (string) [required] The content capability assigned to an attendee. Possible values: o SendReceive o Send o Receive o None Shorthand Syntax: ExternalUserId=string,Capabilities={Audio=string,Video=string,Content=string} ... JSON Syntax: [ { "ExternalUserId": "string", "Capabilities": { "Audio": "SendReceive"|"Send"|"Receive"|"None", "Video": "SendReceive"|"Send"|"Receive"|"None", "Content": "SendReceive"|"Send"|"Receive"|"None" } } ... ]
+    /// </summary>
     [CliOption("--attendees", GroupValues = true)]
-    public IEnumerable<string>? Attendees { get; set; }
+    public IEnumerable<string>? Attendees { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

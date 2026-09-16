@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lakeformation", "start-query-planning")]
-public record AwsLakeformationStartQueryPlanningOptions : AwsOptions
+public record AwsLakeformationStartQueryPlanningOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--query-planning-context")]
-    public string? QueryPlanningContext { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Submits a request to process a query statement. This operation generates work units that can be retrieved with the Get- WorkUnits operation as soon as the query state is WORKUNITS_AVAILABLE or FINISHED. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="QueryPlanningContext">A structure containing information about the query plan. CatalogId -&gt; (string) The ID of the Data Catalog where the partition in question re- sides. If none is provided, the Amazon Web Services account ID is used by default. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* DatabaseName -&gt; (string) [required] The database containing the table. Constraints: o min: 1 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* QueryAsOfTime -&gt; (timestamp) The time as of when to read the table contents. If not set, the most recent transaction commit time will be used. Cannot be specified along with TransactionId . QueryParameters -&gt; (map) A map consisting of key-value pairs. key -&gt; (string) value -&gt; (string) TransactionId -&gt; (string) The transaction ID at which to read the table contents. If this transaction is not committed, the read will be treated as part of that transaction and will see its writes. If this transaction has aborted, an error will be returned. If not set, defaults to the most recent committed transaction. Cannot be specified along with QueryAsOfTime . Constraints: o min: 1 o max: 255 o pattern: [\p{L}\p{N}\p{P}]* Shorthand Syntax: CatalogId=string,DatabaseName=string,QueryAsOfTime=timestamp,QueryParameters={KeyName1=string,KeyName2=string},TransactionId=string JSON Syntax: { "CatalogId": "string", "DatabaseName": "string", "QueryAsOfTime": timestamp, "QueryParameters": {"string": "string" ...}, "TransactionId": "string" }</param>
+    /// <param name="QueryString">A PartiQL query statement used as an input to the planner service. Constraints: o min: 1</param>
+    public AwsLakeformationStartQueryPlanningOptions(
+        string QueryPlanningContext,
+        string QueryString
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(QueryPlanningContext);
+        this.QueryPlanningContext = QueryPlanningContext;
+        global::System.ArgumentNullException.ThrowIfNull(QueryString);
+        this.QueryString = QueryString;
+    }
+
+    private AwsLakeformationStartQueryPlanningOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLakeformationStartQueryPlanningOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLakeformationStartQueryPlanningOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A structure containing information about the query plan. CatalogId -&gt; (string) The ID of the Data Catalog where the partition in question re- sides. If none is provided, the Amazon Web Services account ID is used by default. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* DatabaseName -&gt; (string) [required] The database containing the table. Constraints: o min: 1 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* QueryAsOfTime -&gt; (timestamp) The time as of when to read the table contents. If not set, the most recent transaction commit time will be used. Cannot be specified along with TransactionId . QueryParameters -&gt; (map) A map consisting of key-value pairs. key -&gt; (string) value -&gt; (string) TransactionId -&gt; (string) The transaction ID at which to read the table contents. If this transaction is not committed, the read will be treated as part of that transaction and will see its writes. If this transaction has aborted, an error will be returned. If not set, defaults to the most recent committed transaction. Cannot be specified along with QueryAsOfTime . Constraints: o min: 1 o max: 255 o pattern: [\p{L}\p{N}\p{P}]* Shorthand Syntax: CatalogId=string,DatabaseName=string,QueryAsOfTime=timestamp,QueryParameters={KeyName1=string,KeyName2=string},TransactionId=string JSON Syntax: { "CatalogId": "string", "DatabaseName": "string", "QueryAsOfTime": timestamp, "QueryParameters": {"string": "string" ...}, "TransactionId": "string" }
+    /// </summary>
+    [CliOption("--query-planning-context")]
+    public string? QueryPlanningContext { get; private init; }
+
+    /// <summary>
+    /// A PartiQL query statement used as an input to the planner service. Constraints: o min: 1
+    /// </summary>
     [CliOption("--query-string")]
-    public string? QueryString { get; set; }
+    public string? QueryString { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

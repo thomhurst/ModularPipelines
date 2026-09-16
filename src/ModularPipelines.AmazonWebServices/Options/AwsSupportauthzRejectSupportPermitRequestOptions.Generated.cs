@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("supportauthz", "reject-support-permit-request")]
-public record AwsSupportauthzRejectSupportPermitRequestOptions : AwsOptions
+public record AwsSupportauthzRejectSupportPermitRequestOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Rejects a permit request from an AWS support operator. The operator cannot proceed with the requested action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RequestArn">The ARN of the permit request to reject. Constraints: o min: 1 o max: 512 o pattern: [a-zA-Z0-9:/-]{1,512}</param>
+    public AwsSupportauthzRejectSupportPermitRequestOptions(
+        string RequestArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RequestArn);
+        this.RequestArn = RequestArn;
+    }
+
+    private AwsSupportauthzRejectSupportPermitRequestOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSupportauthzRejectSupportPermitRequestOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSupportauthzRejectSupportPermitRequestOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the permit request to reject. Constraints: o min: 1 o max: 512 o pattern: [a-zA-Z0-9:/-]{1,512}
+    /// </summary>
     [CliOption("--request-arn")]
-    public string? RequestArn { get; set; }
+    public string? RequestArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

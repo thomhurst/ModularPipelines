@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sso-oidc", "create-token-with-iam")]
-public record AwsSsoOidcCreateTokenWithIamOptions : AwsOptions
+public record AwsSsoOidcCreateTokenWithIamOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--client-id")]
-    public string? ClientId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates and returns access and refresh tokens for authorized client ap- plications that are authenticated using any IAM entity, such as a ser- vice role or user. These tokens might contain defined scopes that spec- ify permissions such as read:profile or write:data . Through downscop- ing, you can use the scopes parameter to request tokens with reduced permissions compared to the original client application's permissions or, if applicable, the refresh token's scopes. The access token can be used...
+    /// </summary>
+    /// <param name="ClientId">The unique identifier string for the client or application. This value is an application ARN that has OAuth grants configured.</param>
+    /// <param name="GrantType">Supports the following OAuth grant types: Authorization Code, Re- fresh Token, JWT Bearer, and Token Exchange. Specify one of the fol- lowing values, depending on the grant type that you want: o Authorization Code - authorization_code o Refresh Token - refresh_token o JWT Bearer - urn:ietf:params:oauth:grant-type:jwt-bearer o Token Exchange - urn:ietf:params:oauth:grant-type:token-exchange</param>
+    public AwsSsoOidcCreateTokenWithIamOptions(
+        string ClientId,
+        string GrantType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClientId);
+        this.ClientId = ClientId;
+        global::System.ArgumentNullException.ThrowIfNull(GrantType);
+        this.GrantType = GrantType;
+    }
+
+    private AwsSsoOidcCreateTokenWithIamOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsoOidcCreateTokenWithIamOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsoOidcCreateTokenWithIamOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier string for the client or application. This value is an application ARN that has OAuth grants configured.
+    /// </summary>
+    [CliOption("--client-id")]
+    public string? ClientId { get; private init; }
+
+    /// <summary>
+    /// Supports the following OAuth grant types: Authorization Code, Re- fresh Token, JWT Bearer, and Token Exchange. Specify one of the fol- lowing values, depending on the grant type that you want: o Authorization Code - authorization_code o Refresh Token - refresh_token o JWT Bearer - urn:ietf:params:oauth:grant-type:jwt-bearer o Token Exchange - urn:ietf:params:oauth:grant-type:token-exchange
+    /// </summary>
     [CliOption("--grant-type")]
-    public string? GrantType { get; set; }
+    public string? GrantType { get; private init; }
 
     /// <summary>
     /// Used only when calling this API for the Authorization Code grant type. This short-lived code is used to identify this authorization request. The code is obtained through a redirect from IAM Identity Center to a redirect URI persisted in the Authorization Code GrantOptions for the application.
@@ -91,5 +135,22 @@ public record AwsSsoOidcCreateTokenWithIamOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

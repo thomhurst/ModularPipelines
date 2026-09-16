@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotwireless", "associate-aws-account-with-partner-account")]
-public record AwsIotwirelessAssociateAwsAccountWithPartnerAccountOptions : AwsOptions
+public record AwsIotwirelessAssociateAwsAccountWithPartnerAccountOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Associates a partner account with your AWS account. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Sidewalk">The Sidewalk account credentials. AmazonId -&gt; (string) The Sidewalk Amazon ID. Constraints: o max: 2048 AppServerPrivateKey -&gt; (string) The Sidewalk application server private key. Constraints: o min: 1 o max: 4096 o pattern: [a-fA-F0-9]{64} Shorthand Syntax: AmazonId=string,AppServerPrivateKey=string JSON Syntax: { "AmazonId": "string", "AppServerPrivateKey": "string" }</param>
+    public AwsIotwirelessAssociateAwsAccountWithPartnerAccountOptions(
+        string Sidewalk
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Sidewalk);
+        this.Sidewalk = Sidewalk;
+    }
+
+    private AwsIotwirelessAssociateAwsAccountWithPartnerAccountOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotwirelessAssociateAwsAccountWithPartnerAccountOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotwirelessAssociateAwsAccountWithPartnerAccountOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Sidewalk account credentials. AmazonId -&gt; (string) The Sidewalk Amazon ID. Constraints: o max: 2048 AppServerPrivateKey -&gt; (string) The Sidewalk application server private key. Constraints: o min: 1 o max: 4096 o pattern: [a-fA-F0-9]{64} Shorthand Syntax: AmazonId=string,AppServerPrivateKey=string JSON Syntax: { "AmazonId": "string", "AppServerPrivateKey": "string" }
+    /// </summary>
     [CliOption("--sidewalk")]
-    public string? Sidewalk { get; set; }
+    public string? Sidewalk { get; private init; }
 
     /// <summary>
     /// Each resource must have a unique client request token. The client token is used to implement idempotency. It ensures that the request completes no more than one time. If you retry a request with the same token and the same parameters, the request will complete suc- cessfully. However, if you try to create a new resource using the same token but different parameters, an HTTP 409 conflict occurs. If you omit this value, AWS SDKs will automatically generate a unique client request. For more information about idempotency, see Ensuring idempotency in Amazon EC2 API requests . Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-_]+$
@@ -43,5 +80,22 @@ public record AwsIotwirelessAssociateAwsAccountWithPartnerAccountOptions : AwsOp
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

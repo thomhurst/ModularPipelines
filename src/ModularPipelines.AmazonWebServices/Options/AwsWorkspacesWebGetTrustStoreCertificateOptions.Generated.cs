@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workspaces-web", "get-trust-store-certificate")]
-public record AwsWorkspacesWebGetTrustStoreCertificateOptions : AwsOptions
+public record AwsWorkspacesWebGetTrustStoreCertificateOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--trust-store-arn")]
-    public string? TrustStoreArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Gets the trust store certificate. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TrustStoreArn">The ARN of the trust store certificate. Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=\/,.@-]+:[a-zA-Z0-9\-]+:[a-zA-Z0-9\-]*:[a-zA-Z0-9]{1,12}:[a-zA-Z]+(\/[a-fA-F0-9\-]{36})+</param>
+    /// <param name="Thumbprint">The thumbprint of the trust store certificate. Constraints: o min: 64 o max: 64 o pattern: [A-Fa-f0-9]{64}</param>
+    public AwsWorkspacesWebGetTrustStoreCertificateOptions(
+        string TrustStoreArn,
+        string Thumbprint
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TrustStoreArn);
+        this.TrustStoreArn = TrustStoreArn;
+        global::System.ArgumentNullException.ThrowIfNull(Thumbprint);
+        this.Thumbprint = Thumbprint;
+    }
+
+    private AwsWorkspacesWebGetTrustStoreCertificateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkspacesWebGetTrustStoreCertificateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkspacesWebGetTrustStoreCertificateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the trust store certificate. Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=\/,.@-]+:[a-zA-Z0-9\-]+:[a-zA-Z0-9\-]*:[a-zA-Z0-9]{1,12}:[a-zA-Z]+(\/[a-fA-F0-9\-]{36})+
+    /// </summary>
+    [CliOption("--trust-store-arn")]
+    public string? TrustStoreArn { get; private init; }
+
+    /// <summary>
+    /// The thumbprint of the trust store certificate. Constraints: o min: 64 o max: 64 o pattern: [A-Fa-f0-9]{64}
+    /// </summary>
     [CliOption("--thumbprint")]
-    public string? Thumbprint { get; set; }
+    public string? Thumbprint { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

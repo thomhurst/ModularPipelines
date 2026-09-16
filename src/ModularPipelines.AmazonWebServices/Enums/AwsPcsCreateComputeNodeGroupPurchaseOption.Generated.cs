@@ -11,17 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --purchaseoption.
+/// Allowed values for --purchase-option.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsPcsCreateComputeNodeGroupPurchaseOption
 {
+    [EnumValue("CAPACITY_BLOCK")]
+    CapacityBlock,
+
+    [EnumValue("INTERRUPTIBLE_CAPACITY_RESERVATION")]
+    InterruptibleCapacityReservation,
+
     [EnumValue("ONDEMAND")]
-    Ondemand = 1,
+    Ondemand,
 
     [EnumValue("SPOT")]
-    Spot = 2,
-
-    [EnumValue("CAPACITY_BLOCK")]
-    CapacityBlock = 3
+    Spot
 }

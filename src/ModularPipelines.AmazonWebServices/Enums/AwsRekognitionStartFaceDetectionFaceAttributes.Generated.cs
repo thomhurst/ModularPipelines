@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --faceattributes.
+/// Allowed values for --face-attributes.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsRekognitionStartFaceDetectionFaceAttributes
 {
-    [EnumValue("DEFAULT")]
-    Default = 1,
-
     [EnumValue("ALL")]
-    All = 2
+    All,
+
+    [EnumValue("DEFAULT")]
+    Default
 }

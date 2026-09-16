@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,79 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workspaces", "start-workspaces")]
-public record AwsWorkspacesStartWorkspacesOptions : AwsOptions
+public record AwsWorkspacesStartWorkspacesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts the specified WorkSpaces. You cannot start a WorkSpace unless it has a running mode of AutoStop or Manual and a state of STOPPED . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="StartWorkspaceRequests">The WorkSpaces to start. You can specify up to 25 WorkSpaces. Constraints: o min: 1 o max: 25 (structure) Information used to start a WorkSpace. WorkspaceId -&gt; (string) The identifier of the WorkSpace. Constraints: o pattern: ^ws-[0-9a-z]{8,63}$ Shorthand Syntax: WorkspaceId=string ... JSON Syntax: [ { "WorkspaceId": "string" } ... ]</param>
+    public AwsWorkspacesStartWorkspacesOptions(
+        IEnumerable<string> StartWorkspaceRequests
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(StartWorkspaceRequests);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(StartWorkspaceRequests));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(StartWorkspaceRequests));
+            }
+
+            StartWorkspaceRequests = materialized;
+        }
+        this.StartWorkspaceRequests = StartWorkspaceRequests;
+    }
+
+    private AwsWorkspacesStartWorkspacesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkspacesStartWorkspacesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkspacesStartWorkspacesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The WorkSpaces to start. You can specify up to 25 WorkSpaces. Constraints: o min: 1 o max: 25 (structure) Information used to start a WorkSpace. WorkspaceId -&gt; (string) The identifier of the WorkSpace. Constraints: o pattern: ^ws-[0-9a-z]{8,63}$ Shorthand Syntax: WorkspaceId=string ... JSON Syntax: [ { "WorkspaceId": "string" } ... ]
+    /// </summary>
     [CliOption("--start-workspace-requests", GroupValues = true)]
-    public IEnumerable<string>? StartWorkspaceRequests { get; set; }
+    public IEnumerable<string>? StartWorkspaceRequests { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

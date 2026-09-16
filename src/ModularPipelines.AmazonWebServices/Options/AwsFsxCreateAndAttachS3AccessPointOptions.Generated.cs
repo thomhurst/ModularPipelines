@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,20 +22,63 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("fsx", "create-and-attach-s3-access-point")]
-public record AwsFsxCreateAndAttachS3AccessPointOptions : AwsOptions
+public record AwsFsxCreateAndAttachS3AccessPointOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an S3 access point and attaches it to an Amazon FSx volume. For FSx for OpenZFS file systems, the volume must be hosted on a high-availability file system, either Single-AZ or Multi-AZ. For more information, see Accessing your data using Amazon S3 access points . in the Amazon FSx for OpenZFS User Guide. The requester requires the following permissions to perform these ac- tions: o fsx:CreateAndAttachS3AccessPoint o s3:CreateAccessPoint o s3:GetAccessPoint o s3:PutAccessPointPolicy o s3:...
+    /// </summary>
+    /// <param name="Name">The name you want to assign to this S3 access point. Constraints: o min: 3 o max: 50 o pattern: ^(?=[a-z0-9])[a-z0-9-]{1,48}[a-z0-9]$</param>
+    /// <param name="Type">The type of S3 access point you want to create. Only OpenZFS is sup- ported. Possible values: o OPENZFS o ONTAP</param>
+    public AwsFsxCreateAndAttachS3AccessPointOptions(
+        string Name,
+        AwsFsxCreateAndAttachS3AccessPointType Type
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+    }
+
+    private AwsFsxCreateAndAttachS3AccessPointOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFsxCreateAndAttachS3AccessPointOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFsxCreateAndAttachS3AccessPointOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name you want to assign to this S3 access point. Constraints: o min: 3 o max: 50 o pattern: ^(?=[a-z0-9])[a-z0-9-]{1,48}[a-z0-9]$
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The type of S3 access point you want to create. Only OpenZFS is sup- ported. Possible values: o OPENZFS o ONTAP
+    /// </summary>
+    [CliOption("--type")]
+    public AwsFsxCreateAndAttachS3AccessPointType? Type { get; private init; }
+
     /// <summary>
     /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Ama- zon Web Services SDK. Constraints: o min: 1 o max: 63 o pattern: [A-za-z0-9_.-]{0,63}$
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
-
-    [CliOption("--name")]
-    public string? Name { get; set; }
-
-    [CliOption("--type")]
-    public string? Type { get; set; }
 
     /// <summary>
     /// Specifies the configuration to use when creating and attaching an S3 access point to an FSx for OpenZFS volume. VolumeId -&gt; (string) [required] The ID of the FSx for OpenZFS volume to which you want the S3 access point attached. Constraints: o min: 23 o max: 23 o pattern: ^(fsvol-[0-9a-f]{17,})$ FileSystemIdentity -&gt; (structure) [required] Specifies the file system user identity to use for authorizing file read and write requests that are made using this S3 access point. Type -&gt; (string) [required] Specifies the FSx for OpenZFS user identity type, accepts only POSIX . Possible values: o POSIX PosixUser -&gt; (structure) Specifies the UID and GIDs of the file system POSIX user. Uid -&gt; (long) [required] The UID of the file system user. Constraints: o min: 0 o max: 4294967295 Gid -&gt; (long) [required] The GID of the file system user. Constraints: o min: 0 o max: 4294967295 SecondaryGids -&gt; (list) The list of secondary GIDs for the file system user. Constraints: o max: 15 (long) Constraints: o min: 0 o max: 4294967295 JSON Syntax: { "VolumeId": "string", "FileSystemIdentity": { "Type": "POSIX", "PosixUser": { "Uid": long, "Gid": long, "SecondaryGids": [long, ...] } } }
@@ -58,5 +103,22 @@ public record AwsFsxCreateAndAttachS3AccessPointOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

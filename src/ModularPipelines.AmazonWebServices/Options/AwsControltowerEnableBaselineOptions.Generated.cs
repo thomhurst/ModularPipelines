@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,22 +21,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("controltower", "enable-baseline")]
-public record AwsControltowerEnableBaselineOptions : AwsOptions
+public record AwsControltowerEnableBaselineOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Enable (apply) a Baseline to a Target. This API starts an asynchronous operation to deploy resources specified by the Baseline to the speci- fied Target. For usage examples, see ` the Amazon Web Services Control Tower User Guide https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html`__ . See also: AWS API Documentation enable-baseline uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays...
+    /// </summary>
+    /// <param name="BaselineVersion">The specific version to be enabled of the specified baseline. Constraints: o min: 1 o max: 10 o pattern: \d+(?:\.\d+){0,2}</param>
+    /// <param name="BaselineIdentifier">The ARN of the baseline to be enabled. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[0-9a-zA-Z_\-:\/]+</param>
+    /// <param name="TargetIdentifier">The ARN of the target on which the baseline will be enabled. Only OUs are supported as targets. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[0-9a-zA-Z_\-:\/]+</param>
+    public AwsControltowerEnableBaselineOptions(
+        string BaselineVersion,
+        string BaselineIdentifier,
+        string TargetIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BaselineVersion);
+        this.BaselineVersion = BaselineVersion;
+        global::System.ArgumentNullException.ThrowIfNull(BaselineIdentifier);
+        this.BaselineIdentifier = BaselineIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(TargetIdentifier);
+        this.TargetIdentifier = TargetIdentifier;
+    }
+
+    private AwsControltowerEnableBaselineOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsControltowerEnableBaselineOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsControltowerEnableBaselineOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The specific version to be enabled of the specified baseline. Constraints: o min: 1 o max: 10 o pattern: \d+(?:\.\d+){0,2}
+    /// </summary>
     [CliOption("--baseline-version")]
-    public string? BaselineVersion { get; set; }
+    public string? BaselineVersion { get; private init; }
+
+    /// <summary>
+    /// The ARN of the baseline to be enabled. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[0-9a-zA-Z_\-:\/]+
+    /// </summary>
+    [CliOption("--baseline-identifier")]
+    public string? BaselineIdentifier { get; private init; }
+
+    /// <summary>
+    /// The ARN of the target on which the baseline will be enabled. Only OUs are supported as targets. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[0-9a-zA-Z_\-:\/]+
+    /// </summary>
+    [CliOption("--target-identifier")]
+    public string? TargetIdentifier { get; private init; }
 
     /// <summary>
     /// A list of key-value objects that specify enablement parameters, where key is a string and value is a document of any type. (structure) A key-value parameter to an EnabledBaseline resource. key -&gt; (string) [required] A string denoting the parameter key. value -&gt; (document) [required] A low-level Document object of any type (for example, a Java Object). Shorthand Syntax: key=string ... JSON Syntax: [ { "key": "string", "value": {...} } ... ]
     /// </summary>
     [CliOption("--parameters", GroupValues = true)]
     public IEnumerable<string>? Parameters { get; set; }
-
-    [CliOption("--baseline-identifier")]
-    public string? BaselineIdentifier { get; set; }
-
-    [CliOption("--target-identifier")]
-    public string? TargetIdentifier { get; set; }
 
     /// <summary>
     /// Tags associated with input to EnableBaseline . Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -48,5 +99,22 @@ public record AwsControltowerEnableBaselineOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

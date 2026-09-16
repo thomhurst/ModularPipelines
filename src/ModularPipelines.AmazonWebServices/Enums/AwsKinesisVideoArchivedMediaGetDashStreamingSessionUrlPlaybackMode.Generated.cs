@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --playbackmode.
+/// Allowed values for --playback-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsKinesisVideoArchivedMediaGetDashStreamingSessionUrlPlaybackMode
 {
     [EnumValue("LIVE")]
-    Live = 1,
+    Live,
 
     [EnumValue("LIVE_REPLAY")]
-    LiveReplay = 2,
+    LiveReplay,
 
     [EnumValue("ON_DEMAND")]
-    OnDemand = 3
+    OnDemand
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mgn", "update-launch-configuration-template")]
-public record AwsMgnUpdateLaunchConfigurationTemplateOptions : AwsOptions
+public record AwsMgnUpdateLaunchConfigurationTemplateOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an existing Launch Configuration Template by ID. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LaunchConfigurationTemplateId">Launch Configuration Template ID. Constraints: o min: 21 o max: 21 o pattern: lct-[0-9a-zA-Z]{17}</param>
+    public AwsMgnUpdateLaunchConfigurationTemplateOptions(
+        string LaunchConfigurationTemplateId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LaunchConfigurationTemplateId);
+        this.LaunchConfigurationTemplateId = LaunchConfigurationTemplateId;
+    }
+
+    private AwsMgnUpdateLaunchConfigurationTemplateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMgnUpdateLaunchConfigurationTemplateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMgnUpdateLaunchConfigurationTemplateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Launch Configuration Template ID. Constraints: o min: 21 o max: 21 o pattern: lct-[0-9a-zA-Z]{17}
+    /// </summary>
     [CliOption("--launch-configuration-template-id")]
-    public string? LaunchConfigurationTemplateId { get; set; }
+    public string? LaunchConfigurationTemplateId { get; private init; }
 
     /// <summary>
     /// Post Launch Action to execute on the Test or Cutover instance. deployment -&gt; (string) Deployment type in which AWS Systems Manager Documents will be executed. Possible values: o TEST_AND_CUTOVER o CUTOVER_ONLY o TEST_ONLY s3LogBucket -&gt; (string) AWS Systems Manager Command's logs S3 log bucket. Constraints: o min: 3 o max: 63 s3OutputKeyPrefix -&gt; (string) AWS Systems Manager Command's logs S3 output key prefix. Constraints: o min: 0 o max: 256 cloudWatchLogGroupName -&gt; (string) AWS Systems Manager Command's CloudWatch log group name. Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9]+ ssmDocuments -&gt; (list) AWS Systems Manager Documents. Constraints: o min: 0 o max: 10 (structure) AWS Systems Manager Document. actionName -&gt; (string) [required] User-friendly name for the AWS Systems Manager Document. Constraints: o min: 0 o max: 256 ssmDocumentName -&gt; (string) [required] AWS Systems Manager Document name or full ARN. Constraints: o min: 3 o max: 172 o pattern: ([A-Za-z0-9/:_\.-])+ timeoutSeconds -&gt; (integer) AWS Systems Manager Document timeout seconds. Constraints: o min: 1 mustSucceedForCutover -&gt; (boolean) If true, Cutover will not be enabled if the document has failed. parameters -&gt; (map) AWS Systems Manager Document parameters. Constraints: o min: 0 o max: 20 key -&gt; (string) Constraints: o min: 1 o max: 1011 o pattern: ([A-Za-z0-9])+ value -&gt; (list) Constraints: o min: 0 o max: 10 (structure) AWS Systems Manager Parameter Store parameter. parameterType -&gt; (string) [required] AWS Systems Manager Parameter Store parameter type. Possible values: o STRING o SECURE_STRING parameterName -&gt; (string) [required] AWS Systems Manager Parameter Store parameter name. Constraints: o min: 1 o max: 1011 o pattern: ([A-Za-z0-9_\.-])+ externalParameters -&gt; (map) AWS Systems Manager Document external parameters. Constraints: o min: 0 o max: 20 key -&gt; (string) Constraints: o min: 1 o max: 1011 o pattern: ([A-Za-z0-9])+ value -&gt; (tagged union structure) AWS Systems Manager Document external parameter. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: dynamicPath. dynamicPath -&gt; (string) AWS Systems Manager Document external parameters dynamic path. Constraints: o min: 1 o max: 1011 o pattern: [a-zA-Z0-9_]+(\.[a-zA-Z0-9_\[\]]+)* JSON Syntax: { "deployment": "TEST_AND_CUTOVER"|"CUTOVER_ONLY"|"TEST_ONLY", "s3LogBucket": "string", "s3OutputKeyPrefix": "string", "cloudWatchLogGroupName": "string", "ssmDocuments": [ { "actionName": "string", "ssmDocumentName": "string", "timeoutSeconds": integer, "mustSucceedForCutover": true|false, "parameters": {"string": [ { "parameterType": "STRING"|"SECURE_STRING", "parameterName": "string" } ... ] ...}, "externalParameters": {"string": { "dynamicPath": "string" } ...} } ... ] }
@@ -31,7 +68,10 @@ public record AwsMgnUpdateLaunchConfigurationTemplateOptions : AwsOptions
     [CliOption("--post-launch-actions")]
     public string? PostLaunchActions { get; set; }
 
-    [CliFlag("--enable-map-auto-tagging")]
+    /// <summary>
+    /// Enable map auto tagging.
+    /// </summary>
+    [CliFlag("--enable-map-auto-tagging", NegatedName = "--no-enable-map-auto-tagging")]
     public bool? EnableMapAutoTagging { get; set; }
 
     /// <summary>
@@ -52,13 +92,22 @@ public record AwsMgnUpdateLaunchConfigurationTemplateOptions : AwsOptions
     [CliOption("--target-instance-type-right-sizing-method")]
     public AwsMgnUpdateLaunchConfigurationTemplateTargetInstanceTypeRightSizingMethod? TargetInstanceTypeRightSizingMethod { get; set; }
 
-    [CliFlag("--copy-private-ip")]
+    /// <summary>
+    /// Copy private Ip.
+    /// </summary>
+    [CliFlag("--copy-private-ip", NegatedName = "--no-copy-private-ip")]
     public bool? CopyPrivateIp { get; set; }
 
-    [CliFlag("--associate-public-ip-address")]
+    /// <summary>
+    /// Associate public Ip address.
+    /// </summary>
+    [CliFlag("--associate-public-ip-address", NegatedName = "--no-associate-public-ip-address")]
     public bool? AssociatePublicIpAddress { get; set; }
 
-    [CliFlag("--copy-tags")]
+    /// <summary>
+    /// Copy tags.
+    /// </summary>
+    [CliFlag("--copy-tags", NegatedName = "--no-copy-tags")]
     public bool? CopyTags { get; set; }
 
     /// <summary>
@@ -80,18 +129,21 @@ public record AwsMgnUpdateLaunchConfigurationTemplateOptions : AwsOptions
     public int? SmallVolumeMaxSize { get; set; }
 
     /// <summary>
-    /// Small volume config. volumeType -&gt; (string) Launch template disk volume type configuration. Possible values: o io1 o io2 o gp3 o gp2 o st1 o sc1 o standard iops -&gt; (long) Launch template disk iops configuration. Constraints: o min: 100 o max: 64000 throughput -&gt; (long) Launch template disk throughput configuration. Constraints: o min: 125 o max: 1000 Shorthand Syntax: volumeType=string,iops=long,throughput=long JSON Syntax: { "volumeType": "io1"|"io2"|"gp3"|"gp2"|"st1"|"sc1"|"standard", "iops": long, "throughput": long }
+    /// Small volume config. volumeType -&gt; (string) Launch template disk volume type configuration. Possible values: o io1 o io2 o gp3 o gp2 o st1 o sc1 o standard iops -&gt; (long) Launch template disk iops configuration. Constraints: o min: 100 o max: 64000 throughput -&gt; (long) Launch template disk throughput configuration. Constraints: o min: 125 o max: 2000 volumeInitializationRate -&gt; (long) Launch template disk volume initialization rate configuration. Constraints: o min: 100 o max: 300 deleteOnTermination -&gt; (boolean) Launch template disk delete on termination configuration. Shorthand Syntax: volumeType=string,iops=long,throughput=long,volumeInitializationRate=long,deleteOnTermination=boolean JSON Syntax: { "volumeType": "io1"|"io2"|"gp3"|"gp2"|"st1"|"sc1"|"standard", "iops": long, "throughput": long, "volumeInitializationRate": long, "deleteOnTermination": true|false }
     /// </summary>
     [CliOption("--small-volume-conf")]
     public string? SmallVolumeConf { get; set; }
 
     /// <summary>
-    /// Large volume config. volumeType -&gt; (string) Launch template disk volume type configuration. Possible values: o io1 o io2 o gp3 o gp2 o st1 o sc1 o standard iops -&gt; (long) Launch template disk iops configuration. Constraints: o min: 100 o max: 64000 throughput -&gt; (long) Launch template disk throughput configuration. Constraints: o min: 125 o max: 1000 Shorthand Syntax: volumeType=string,iops=long,throughput=long JSON Syntax: { "volumeType": "io1"|"io2"|"gp3"|"gp2"|"st1"|"sc1"|"standard", "iops": long, "throughput": long }
+    /// Large volume config. volumeType -&gt; (string) Launch template disk volume type configuration. Possible values: o io1 o io2 o gp3 o gp2 o st1 o sc1 o standard iops -&gt; (long) Launch template disk iops configuration. Constraints: o min: 100 o max: 64000 throughput -&gt; (long) Launch template disk throughput configuration. Constraints: o min: 125 o max: 2000 volumeInitializationRate -&gt; (long) Launch template disk volume initialization rate configuration. Constraints: o min: 100 o max: 300 deleteOnTermination -&gt; (boolean) Launch template disk delete on termination configuration. Shorthand Syntax: volumeType=string,iops=long,throughput=long,volumeInitializationRate=long,deleteOnTermination=boolean JSON Syntax: { "volumeType": "io1"|"io2"|"gp3"|"gp2"|"st1"|"sc1"|"standard", "iops": long, "throughput": long, "volumeInitializationRate": long, "deleteOnTermination": true|false }
     /// </summary>
     [CliOption("--large-volume-conf")]
     public string? LargeVolumeConf { get; set; }
 
-    [CliFlag("--enable-parameters-encryption")]
+    /// <summary>
+    /// Enable parameters encryption.
+    /// </summary>
+    [CliFlag("--enable-parameters-encryption", NegatedName = "--no-enable-parameters-encryption")]
     public bool? EnableParametersEncryption { get; set; }
 
     /// <summary>
@@ -105,5 +157,22 @@ public record AwsMgnUpdateLaunchConfigurationTemplateOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

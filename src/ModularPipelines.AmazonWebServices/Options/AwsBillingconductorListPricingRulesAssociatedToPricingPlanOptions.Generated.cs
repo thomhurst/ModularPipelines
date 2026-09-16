@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("billingconductor", "list-pricing-rules-associated-to-pricing-plan")]
-public record AwsBillingconductorListPricingRulesAssociatedToPricingPlanOptions : AwsOptions
+public record AwsBillingconductorListPricingRulesAssociatedToPricingPlanOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists the pricing rules that are associated with a pricing plan. See also: AWS API Documentation list-pricing-rules-associated-to-pricing-plan is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query expressions: Pricin...
+    /// </summary>
+    /// <param name="PricingPlanArn">The Amazon Resource Name (ARN) of the pricing plan for which associ- ations are to be listed. Constraints: o pattern: (arn:aws(-cn)?:billingconductor::(aws|[0-9]{12}):pricing- plan/)?(BasicPricingPlan|Passthrough|[a-zA-Z0-9]{10})</param>
+    public AwsBillingconductorListPricingRulesAssociatedToPricingPlanOptions(
+        string PricingPlanArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PricingPlanArn);
+        this.PricingPlanArn = PricingPlanArn;
+    }
+
+    private AwsBillingconductorListPricingRulesAssociatedToPricingPlanOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBillingconductorListPricingRulesAssociatedToPricingPlanOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBillingconductorListPricingRulesAssociatedToPricingPlanOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the pricing plan for which associ- ations are to be listed. Constraints: o pattern: (arn:aws(-cn)?:billingconductor::(aws|[0-9]{12}):pricing- plan/)?(BasicPricingPlan|Passthrough|[a-zA-Z0-9]{10})
+    /// </summary>
+    [CliOption("--pricing-plan-arn")]
+    public string? PricingPlanArn { get; private init; }
+
     /// <summary>
     /// The billing period for which the pricing rule associations are to be listed. Constraints: o pattern: \d{4}-(0?[1-9]|1[012])
     /// </summary>
     [CliOption("--billing-period")]
     public string? BillingPeriod { get; set; }
-
-    [CliOption("--pricing-plan-arn")]
-    public string? PricingPlanArn { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -55,5 +92,22 @@ public record AwsBillingconductorListPricingRulesAssociatedToPricingPlanOptions 
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

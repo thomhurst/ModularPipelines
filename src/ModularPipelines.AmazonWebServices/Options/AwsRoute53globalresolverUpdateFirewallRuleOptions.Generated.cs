@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,8 +22,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53globalresolver", "update-firewall-rule")]
-public record AwsRoute53globalresolverUpdateFirewallRuleOptions : AwsOptions
+public record AwsRoute53globalresolverUpdateFirewallRuleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the configuration of a DNS firewall rule. WARNING: Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FirewallRuleId">The ID of the DNS Firewall rule. Constraints: o min: 1 o max: 64 o pattern: [-.a-zA-Z0-9]+</param>
+    public AwsRoute53globalresolverUpdateFirewallRuleOptions(
+        string FirewallRuleId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FirewallRuleId);
+        this.FirewallRuleId = FirewallRuleId;
+    }
+
+    private AwsRoute53globalresolverUpdateFirewallRuleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53globalresolverUpdateFirewallRuleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53globalresolverUpdateFirewallRuleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the DNS Firewall rule. Constraints: o min: 1 o max: 64 o pattern: [-.a-zA-Z0-9]+
+    /// </summary>
+    [CliOption("--firewall-rule-id")]
+    public string? FirewallRuleId { get; private init; }
+
     /// <summary>
     /// The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list, or a threat in a DNS Firewall Advanced rule. Possible values: o ALLOW o ALERT o BLOCK
     /// </summary>
@@ -33,7 +73,7 @@ public record AwsRoute53globalresolverUpdateFirewallRuleOptions : AwsOptions
     /// The DNS record's type. This determines the format of the record value that you provided in BlockOverrideDomain . Used for the rule action BLOCK with a BlockResponse setting of OVERRIDE . Possible values: o CNAME
     /// </summary>
     [CliOption("--block-override-dns-type")]
-    public AwsRoute53globalresolverUpdateFirewallRuleBlockOverrideDnsType? BlockOverrideDnsType { get; set; }
+    public string? BlockOverrideDnsType { get; set; }
 
     /// <summary>
     /// The custom DNS record to send back in response to the query. Used for the rule action BLOCK with a BlockResponse setting of OVERRIDE . Constraints: o min: 1 o max: 256 o pattern: \*?[a-zA-Z0-9!"#$%&amp;'()*+,./:;&lt;=&gt;?@\[\\\]^_`{|}~-]+
@@ -78,9 +118,6 @@ public record AwsRoute53globalresolverUpdateFirewallRuleOptions : AwsOptions
     [CliOption("--dns-advanced-protection")]
     public AwsRoute53globalresolverUpdateFirewallRuleDnsAdvancedProtection? DnsAdvancedProtection { get; set; }
 
-    [CliOption("--firewall-rule-id")]
-    public string? FirewallRuleId { get; set; }
-
     /// <summary>
     /// The name of the DNS Firewall rule. Constraints: o min: 1 o max: 64 o pattern: (?!^[0-9]+$)([a-zA-Z0-9-_/' ']+)
     /// </summary>
@@ -98,5 +135,22 @@ public record AwsRoute53globalresolverUpdateFirewallRuleOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

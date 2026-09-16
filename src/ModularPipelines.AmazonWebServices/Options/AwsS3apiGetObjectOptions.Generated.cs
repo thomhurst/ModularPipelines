@@ -10,7 +10,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -22,8 +21,44 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("s3api", "get-object")]
 public record AwsS3apiGetObjectOptions : AwsOptions
 {
+    /// <summary>
+    /// Retrieves an object from Amazon S3. In the GetObject request, specify the full key name for the object. General purpose buckets - Both the virtual-hosted-style requests and the path-style requests are supported. For a virtual hosted-style request example, if you have the object photos/2006/February/sam- ple.jpg , specify the object key name as /photos/2006/February/sam- ple.jpg . For a path-style request example, if you have the object photos/2006/February/sample.jpg in the bucket named exampleb...
+    /// </summary>
+    /// <param name="Bucket">The bucket name containing the object. Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format `` Bucket-name .s3express-zone-id .*region-code* .amazon- aws.com`` . Path-style requests are not supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format `` bucket-base-name --zone-id --x-s3`` (for example, `` amzn-s3-demo-bucket --usw2-az1 --x-s3`` ). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide . Access points - When you use this action with an access point for general purpose buckets, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When you use this action with an access point for di- rectory buckets, you must provide the access point name in place of the bucket name. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName -AccountId .s3-access- point.*Region* .amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more in- formation about access point ARNs, see Using access points in the Amazon S3 User Guide . Object Lambda access points - When you use this action with an Object Lambda access point, you must direct requests to the Ob- ject Lambda access point hostname. The Object Lambda access point hostname takes the form AccessPointName -AccountId .s3-ob- ject-lambda.*Region* .amazonaws.com. NOTE: Object Lambda access points are not supported by directory buckets. S3 on Outposts - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form `` AccessPointName -Accoun- tId .*outpostID* .s3-outposts.*Region* .amazonaws.com`` . When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see What is S3 on Outposts? in the Amazon S3 User Guide .</param>
+    /// <param name="Key">Key of the object to get. Constraints: o min: 1</param>
+    /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
+    public AwsS3apiGetObjectOptions(
+        string Bucket,
+        string Key,
+        string Outfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Bucket);
+        this.Bucket = Bucket;
+        global::System.ArgumentNullException.ThrowIfNull(Key);
+        this.Key = Key;
+        global::System.ArgumentNullException.ThrowIfNull(Outfile);
+        this.Outfile = Outfile;
+    }
+
+    public void Deconstruct(out string Bucket, out string Key, out string Outfile)
+    {
+        Bucket = this.Bucket;
+        Key = this.Key;
+        Outfile = this.Outfile;
+    }
+
+    /// <summary>
+    /// The bucket name containing the object. Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format `` Bucket-name .s3express-zone-id .*region-code* .amazon- aws.com`` . Path-style requests are not supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format `` bucket-base-name --zone-id --x-s3`` (for example, `` amzn-s3-demo-bucket --usw2-az1 --x-s3`` ). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide . Access points - When you use this action with an access point for general purpose buckets, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When you use this action with an access point for di- rectory buckets, you must provide the access point name in place of the bucket name. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName -AccountId .s3-access- point.*Region* .amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more in- formation about access point ARNs, see Using access points in the Amazon S3 User Guide . Object Lambda access points - When you use this action with an Object Lambda access point, you must direct requests to the Ob- ject Lambda access point hostname. The Object Lambda access point hostname takes the form AccessPointName -AccountId .s3-ob- ject-lambda.*Region* .amazonaws.com. NOTE: Object Lambda access points are not supported by directory buckets. S3 on Outposts - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form `` AccessPointName -Accoun- tId .*outpostID* .s3-outposts.*Region* .amazonaws.com`` . When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see What is S3 on Outposts? in the Amazon S3 User Guide .
+    /// </summary>
     [CliOption("--bucket")]
-    public string? Bucket { get; set; }
+    public string Bucket { get; private init; }
+
+    /// <summary>
+    /// Key of the object to get. Constraints: o min: 1
+    /// </summary>
+    [CliOption("--key")]
+    public string Key { get; private init; }
 
     /// <summary>
     /// Return the object only if its entity tag (ETag) is the same as the one specified in this header; otherwise, return a 412 Precondition Failed error. If both of the If-Match and If-Unmodified-Since headers are present in the request as follows: If-Match condition evaluates to true , and; If-Unmodified-Since condition evaluates to false ; then, S3 re- turns 200 OK and the data requested. For more information about conditional requests, see RFC 7232 .
@@ -48,9 +83,6 @@ public record AwsS3apiGetObjectOptions : AwsOptions
     /// </summary>
     [CliOption("--if-unmodified-since")]
     public string? IfUnmodifiedSince { get; set; }
-
-    [CliOption("--key")]
-    public string? Key { get; set; }
 
     /// <summary>
     /// Downloads the specified byte range of an object. For more informa- tion about the HTTP Range header, see https://www.rfc-editor.org/rfc/rfc9110.html#name-range . NOTE: Amazon S3 doesn't support retrieving multiple ranges of data per GET request.
@@ -122,7 +154,7 @@ public record AwsS3apiGetObjectOptions : AwsOptions
     /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their re- quests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buck- ets, see Downloading Objects in Requester Pays Buckets in the Amazon S3 User Guide . NOTE: This functionality is not supported for directory buckets. Possible values: o requester
     /// </summary>
     [CliOption("--request-payer")]
-    public AwsS3apiGetObjectRequestPayer? RequestPayer { get; set; }
+    public string? RequestPayer { get; set; }
 
     /// <summary>
     /// Part number of the object being read. This is a positive integer be- tween 1 and 10,000. Effectively performs a 'ranged' GET request for the part specified. Useful for downloading just a part of an object.
@@ -140,6 +172,12 @@ public record AwsS3apiGetObjectOptions : AwsOptions
     /// To retrieve the checksum, this mode must be enabled. Possible values: o ENABLED outfile (string) [required] Filename where the content will be saved
     /// </summary>
     [CliOption("--checksum-mode")]
-    public AwsS3apiGetObjectChecksumMode? ChecksumMode { get; set; }
+    public string? ChecksumMode { get; set; }
+
+    /// <summary>
+    /// The &lt;outfile&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Outfile { get; private init; }
 
 }

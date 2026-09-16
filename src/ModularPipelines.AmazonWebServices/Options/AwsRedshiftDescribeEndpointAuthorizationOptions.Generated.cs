@@ -34,7 +34,10 @@ public record AwsRedshiftDescribeEndpointAuthorizationOptions : AwsOptions
     [CliOption("--account")]
     public string? Account { get; set; }
 
-    [CliFlag("--grantee")]
+    /// <summary>
+    /// Indicates whether to check authorization from a grantor or grantee point of view. If true, Amazon Redshift returns endpoint authoriza- tions that you've been granted. If false (default), checks autho- rization from a grantor point of view.
+    /// </summary>
+    [CliFlag("--grantee", NegatedName = "--no-grantee")]
     public bool? Grantee { get; set; }
 
     [CliOption("--cli-input-json")]

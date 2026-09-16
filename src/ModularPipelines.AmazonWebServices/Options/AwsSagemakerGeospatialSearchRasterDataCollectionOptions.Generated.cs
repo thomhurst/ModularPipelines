@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker-geospatial", "search-raster-data-collection")]
-public record AwsSagemakerGeospatialSearchRasterDataCollectionOptions : AwsOptions
+public record AwsSagemakerGeospatialSearchRasterDataCollectionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Allows you run image query on a specific raster data collection to get a list of the satellite imagery matching the selected filters. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the raster data collection. Constraints: o pattern: ^arn:aws[a-z-]{0,12}:sagemaker-geospa- tial:[a-z0-9-]{1,25}:[0-9]{12}:raster-data-collection/(public|pre- mium|user)/[a-z0-9]{12,}$</param>
+    /// <param name="RasterDataCollectionQuery">RasterDataCollectionQuery consisting of AreaOfInterest(AOI) , PropertyFilters and TimeRangeFilterInput used in SearchRasterDataCollection . AreaOfInterest -&gt; (tagged union structure) The Area of interest to be used in the search query. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: AreaOfInterestGeometry. AreaOfInterestGeometry -&gt; (tagged union structure) A GeoJSON object representing the geographic extent in the coordinate space. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: MultiPolygonGeometry, PolygonGeometry. MultiPolygonGeometry -&gt; (structure) The structure representing the MultiPolygon Geometry. Coordinates -&gt; (list) [required] The coordinates of the multipolygon geometry. (list) Constraints: o min: 1 (list) Constraints: o min: 4 (list) Constraints: o min: 2 o max: 2 (double) PolygonGeometry -&gt; (structure) The structure representing Polygon Geometry. Coordinates -&gt; (list) [required] Coordinates representing a Polygon based on the GeoJson spec . Constraints: o min: 1 (list) Constraints: o min: 4 (list) Constraints: o min: 2 o max: 2 (double) BandFilter -&gt; (list) The list of Bands to be displayed in the result for each item. Constraints: o min: 1 (string) PropertyFilters -&gt; (structure) The Property Filters used in the search query. LogicalOperator -&gt; (string) The Logical Operator used to combine the Property Filters. Possible values: o AND Properties -&gt; (list) A list of Property Filters. (structure) The structure representing a single PropertyFilter. Property -&gt; (tagged union structure) [required] Represents a single property to match with when searching a raster data collection. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: EoCloudCover, LandsatCloudCoverLand, Platform, ViewOffNadir, ViewSunAzimuth, ViewSunElevation. EoCloudCover -&gt; (structure) The structure representing EoCloudCover property filter containing a lower bound and upper bound. LowerBound -&gt; (float) [required] Lower bound for EoCloudCover. UpperBound -&gt; (float) [required] Upper bound for EoCloudCover. LandsatCloudCoverLand -&gt; (structure) The structure representing Land Cloud Cover prop- erty filter for Landsat collection containing a lower bound and upper bound. LowerBound -&gt; (float) [required] The minimum value for Land Cloud Cover property filter. This will filter items having Land Cloud Cover greater than or equal to this value. UpperBound -&gt; (float) [required] The maximum value for Land Cloud Cover property filter. This will filter items having Land Cloud Cover less than or equal to this value. Platform -&gt; (structure) The structure representing Platform property fil- ter consisting of value and comparison operator. ComparisonOperator -&gt; (string) The ComparisonOperator to use with PlatformIn- put. Possible values: o EQUALS o NOT_EQUALS o STARTS_WITH Value -&gt; (string) [required] The value of the platform. ViewOffNadir -&gt; (structure) The structure representing ViewOffNadir property filter containing a lower bound and upper bound. LowerBound -&gt; (float) [required] The minimum value for ViewOffNadir property filter. This filters items having ViewOffNadir greater than or equal to this value. UpperBound -&gt; (float) [required] The maximum value for ViewOffNadir property filter. This filters items having ViewOffNadir lesser than or equal to this value. ViewSunAzimuth -&gt; (structure) The structure representing ViewSunAzimuth property filter containing a lower bound and upper bound. LowerBound -&gt; (float) [required] The minimum value for ViewSunAzimuth property filter. This filters items having ViewSunAz- imuth greater than or equal to this value. UpperBound -&gt; (float) [required] The maximum value for ViewSunAzimuth property filter. This filters items having ViewSunAz- imuth lesser than or equal to this value. ViewSunElevation -&gt; (structure) The structure representing ViewSunElevation prop- erty filter containing a lower bound and upper bound. LowerBound -&gt; (float) [required] The lower bound to view the sun elevation. UpperBound -&gt; (float) [required] The upper bound to view the sun elevation. TimeRangeFilter -&gt; (structure) [required] The TimeRange Filter used in the search query. EndTime -&gt; (timestamp) [required] The end time for the time-range filter. StartTime -&gt; (timestamp) [required] The start time for the time-range filter. JSON Syntax: { "AreaOfInterest": { "AreaOfInterestGeometry": { "MultiPolygonGeometry": { "Coordinates": [ [ [ [double, ...] ... ] ... ] ... ] }, "PolygonGeometry": { "Coordinates": [ [ [double, ...] ... ] ... ] } } }, "BandFilter": ["string", ...], "PropertyFilters": { "LogicalOperator": "AND", "Properties": [ { "Property": { "EoCloudCover": { "LowerBound": float, "UpperBound": float }, "LandsatCloudCoverLand": { "LowerBound": float, "UpperBound": float }, "Platform": { "ComparisonOperator": "EQUALS"|"NOT_EQUALS"|"STARTS_WITH", "Value": "string" }, "ViewOffNadir": { "LowerBound": float, "UpperBound": float }, "ViewSunAzimuth": { "LowerBound": float, "UpperBound": float }, "ViewSunElevation": { "LowerBound": float, "UpperBound": float } } } ... ] }, "TimeRangeFilter": { "EndTime": timestamp, "StartTime": timestamp } }</param>
+    public AwsSagemakerGeospatialSearchRasterDataCollectionOptions(
+        string Arn,
+        string RasterDataCollectionQuery
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Arn);
+        this.Arn = Arn;
+        global::System.ArgumentNullException.ThrowIfNull(RasterDataCollectionQuery);
+        this.RasterDataCollectionQuery = RasterDataCollectionQuery;
+    }
+
+    private AwsSagemakerGeospatialSearchRasterDataCollectionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerGeospatialSearchRasterDataCollectionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerGeospatialSearchRasterDataCollectionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the raster data collection. Constraints: o pattern: ^arn:aws[a-z-]{0,12}:sagemaker-geospa- tial:[a-z0-9-]{1,25}:[0-9]{12}:raster-data-collection/(public|pre- mium|user)/[a-z0-9]{12,}$
+    /// </summary>
     [CliOption("--arn")]
-    public string? Arn { get; set; }
+    public string? Arn { get; private init; }
+
+    /// <summary>
+    /// RasterDataCollectionQuery consisting of AreaOfInterest(AOI) , PropertyFilters and TimeRangeFilterInput used in SearchRasterDataCollection . AreaOfInterest -&gt; (tagged union structure) The Area of interest to be used in the search query. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: AreaOfInterestGeometry. AreaOfInterestGeometry -&gt; (tagged union structure) A GeoJSON object representing the geographic extent in the coordinate space. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: MultiPolygonGeometry, PolygonGeometry. MultiPolygonGeometry -&gt; (structure) The structure representing the MultiPolygon Geometry. Coordinates -&gt; (list) [required] The coordinates of the multipolygon geometry. (list) Constraints: o min: 1 (list) Constraints: o min: 4 (list) Constraints: o min: 2 o max: 2 (double) PolygonGeometry -&gt; (structure) The structure representing Polygon Geometry. Coordinates -&gt; (list) [required] Coordinates representing a Polygon based on the GeoJson spec . Constraints: o min: 1 (list) Constraints: o min: 4 (list) Constraints: o min: 2 o max: 2 (double) BandFilter -&gt; (list) The list of Bands to be displayed in the result for each item. Constraints: o min: 1 (string) PropertyFilters -&gt; (structure) The Property Filters used in the search query. LogicalOperator -&gt; (string) The Logical Operator used to combine the Property Filters. Possible values: o AND Properties -&gt; (list) A list of Property Filters. (structure) The structure representing a single PropertyFilter. Property -&gt; (tagged union structure) [required] Represents a single property to match with when searching a raster data collection. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: EoCloudCover, LandsatCloudCoverLand, Platform, ViewOffNadir, ViewSunAzimuth, ViewSunElevation. EoCloudCover -&gt; (structure) The structure representing EoCloudCover property filter containing a lower bound and upper bound. LowerBound -&gt; (float) [required] Lower bound for EoCloudCover. UpperBound -&gt; (float) [required] Upper bound for EoCloudCover. LandsatCloudCoverLand -&gt; (structure) The structure representing Land Cloud Cover prop- erty filter for Landsat collection containing a lower bound and upper bound. LowerBound -&gt; (float) [required] The minimum value for Land Cloud Cover property filter. This will filter items having Land Cloud Cover greater than or equal to this value. UpperBound -&gt; (float) [required] The maximum value for Land Cloud Cover property filter. This will filter items having Land Cloud Cover less than or equal to this value. Platform -&gt; (structure) The structure representing Platform property fil- ter consisting of value and comparison operator. ComparisonOperator -&gt; (string) The ComparisonOperator to use with PlatformIn- put. Possible values: o EQUALS o NOT_EQUALS o STARTS_WITH Value -&gt; (string) [required] The value of the platform. ViewOffNadir -&gt; (structure) The structure representing ViewOffNadir property filter containing a lower bound and upper bound. LowerBound -&gt; (float) [required] The minimum value for ViewOffNadir property filter. This filters items having ViewOffNadir greater than or equal to this value. UpperBound -&gt; (float) [required] The maximum value for ViewOffNadir property filter. This filters items having ViewOffNadir lesser than or equal to this value. ViewSunAzimuth -&gt; (structure) The structure representing ViewSunAzimuth property filter containing a lower bound and upper bound. LowerBound -&gt; (float) [required] The minimum value for ViewSunAzimuth property filter. This filters items having ViewSunAz- imuth greater than or equal to this value. UpperBound -&gt; (float) [required] The maximum value for ViewSunAzimuth property filter. This filters items having ViewSunAz- imuth lesser than or equal to this value. ViewSunElevation -&gt; (structure) The structure representing ViewSunElevation prop- erty filter containing a lower bound and upper bound. LowerBound -&gt; (float) [required] The lower bound to view the sun elevation. UpperBound -&gt; (float) [required] The upper bound to view the sun elevation. TimeRangeFilter -&gt; (structure) [required] The TimeRange Filter used in the search query. EndTime -&gt; (timestamp) [required] The end time for the time-range filter. StartTime -&gt; (timestamp) [required] The start time for the time-range filter. JSON Syntax: { "AreaOfInterest": { "AreaOfInterestGeometry": { "MultiPolygonGeometry": { "Coordinates": [ [ [ [double, ...] ... ] ... ] ... ] }, "PolygonGeometry": { "Coordinates": [ [ [double, ...] ... ] ... ] } } }, "BandFilter": ["string", ...], "PropertyFilters": { "LogicalOperator": "AND", "Properties": [ { "Property": { "EoCloudCover": { "LowerBound": float, "UpperBound": float }, "LandsatCloudCoverLand": { "LowerBound": float, "UpperBound": float }, "Platform": { "ComparisonOperator": "EQUALS"|"NOT_EQUALS"|"STARTS_WITH", "Value": "string" }, "ViewOffNadir": { "LowerBound": float, "UpperBound": float }, "ViewSunAzimuth": { "LowerBound": float, "UpperBound": float }, "ViewSunElevation": { "LowerBound": float, "UpperBound": float } } } ... ] }, "TimeRangeFilter": { "EndTime": timestamp, "StartTime": timestamp } }
+    /// </summary>
+    [CliOption("--raster-data-collection-query")]
+    public string? RasterDataCollectionQuery { get; private init; }
 
     /// <summary>
     /// If the previous response was truncated, you receive this token. Use it in your next request to receive the next set of results. Constraints: o min: 0 o max: 8192
@@ -32,13 +79,27 @@ public record AwsSagemakerGeospatialSearchRasterDataCollectionOptions : AwsOptio
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CliOption("--raster-data-collection-query")]
-    public string? RasterDataCollectionQuery { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

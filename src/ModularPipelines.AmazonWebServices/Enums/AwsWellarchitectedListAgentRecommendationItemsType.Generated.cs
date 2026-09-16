@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsWellarchitectedListAgentRecommendationItemsType
 {
     [EnumValue("AWS_RESOURCE")]
-    AwsResource = 1,
+    AwsResource,
 
     [EnumValue("RECOMMENDATION")]
-    Recommendation = 2
+    Recommendation
 }

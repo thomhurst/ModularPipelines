@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,84 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "modify-default-credit-specification")]
-public record AwsEc2ModifyDefaultCreditSpecificationOptions : AwsOptions
+public record AwsEc2ModifyDefaultCreditSpecificationOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--dry-run")]
-    public bool? DryRun { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Modifies the default credit option for CPU usage of burstable perfor- mance instances. The default credit option is set at the account level per Amazon Web Services Region, and is specified per instance family. All new burstable performance instances in the account launch using the default credit option. ModifyDefaultCreditSpecification is an asynchronous operation, which works at an Amazon Web Services Region level and modifies the credit option for each Availability Zone. All zones in a Region...
+    /// </summary>
+    /// <param name="InstanceFamily">The instance family. Possible values: o t2 o t3 o t3a o t4g</param>
+    /// <param name="CpuCredits">The credit option for CPU usage of the instance family. Valid Values: standard | unlimited</param>
+    public AwsEc2ModifyDefaultCreditSpecificationOptions(
+        AwsEc2ModifyDefaultCreditSpecificationInstanceFamily InstanceFamily,
+        string CpuCredits
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceFamily);
+        this.InstanceFamily = InstanceFamily;
+        global::System.ArgumentNullException.ThrowIfNull(CpuCredits);
+        this.CpuCredits = CpuCredits;
+    }
+
+    private AwsEc2ModifyDefaultCreditSpecificationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2ModifyDefaultCreditSpecificationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2ModifyDefaultCreditSpecificationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The instance family. Possible values: o t2 o t3 o t3a o t4g
+    /// </summary>
     [CliOption("--instance-family")]
-    public string? InstanceFamily { get; set; }
+    public AwsEc2ModifyDefaultCreditSpecificationInstanceFamily? InstanceFamily { get; private init; }
 
+    /// <summary>
+    /// The credit option for CPU usage of the instance family. Valid Values: standard | unlimited
+    /// </summary>
     [CliOption("--cpu-credits")]
-    public string? CpuCredits { get; set; }
+    public string? CpuCredits { get; private init; }
+
+    /// <summary>
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
+    public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

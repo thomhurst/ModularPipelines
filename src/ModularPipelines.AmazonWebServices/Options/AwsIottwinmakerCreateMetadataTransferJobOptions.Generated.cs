@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,8 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iottwinmaker", "create-metadata-transfer-job")]
-public record AwsIottwinmakerCreateMetadataTransferJobOptions : AwsOptions
+public record AwsIottwinmakerCreateMetadataTransferJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new metadata transfer job. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Sources">The metadata transfer job sources. Constraints: o min: 1 o max: 1 (structure) The source configuration. type -&gt; (string) [required] The source configuration type. Possible values: o s3 o iotsitewise o iottwinmaker s3Configuration -&gt; (structure) The source configuration S3 configuration. location -&gt; (string) [required] The S3 destination source configuration location. Constraints: o pattern: .*(^arn:((aws)|(aws-cn)|(aws-us-gov)):s3:::)([a-zA-Z0-9_-]+)\/([/.a-zA-Z0-9_-]+$).* iotSiteWiseConfiguration -&gt; (structure) The source configuration IoT SiteWise configuration. filters -&gt; (list) The AWS IoT SiteWise soucre configuration filters. (tagged union structure) The AWS IoT SiteWise soucre configuration filter.[need held with desc here] NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: filterByAs- setModel, filterByAsset. filterByAssetModel -&gt; (structure) Filter by asset model. assetModelId -&gt; (string) The asset model Id. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} assetModelExternalId -&gt; (string) The external-Id property of an asset model. Constraints: o min: 2 o max: 128 o pattern: .*[a-zA-Z0-9_][a-zA-Z_\-0-9.:]*[a-zA-Z0-9_]+.* includeOffspring -&gt; (boolean) Include asset offspring. [need desc.] includeAssets -&gt; (boolean) Bolean to include assets. filterByAsset -&gt; (structure) Filter by asset. assetId -&gt; (string) Filter by asset Id. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} assetExternalId -&gt; (string) The external-Id property of an asset. Constraints: o min: 2 o max: 128 o pattern: .*[a-zA-Z0-9_][a-zA-Z_\-0-9.:]*[a-zA-Z0-9_]+.* includeOffspring -&gt; (boolean) Includes sub-assets.[need description hekp for this] includeAssetModel -&gt; (boolean) Boolean to include the asset model. iotTwinMakerConfiguration -&gt; (structure) The source configuration IoT TwinMaker configuration. workspace -&gt; (string) [required] The IoT TwinMaker workspace. Constraints: o min: 20 o max: 2048 o pattern: arn:((aws)|(aws-cn)|(aws-us-gov)):iottwin- maker:[a-z0-9-]+:[0-9]{12}:[\/a-zA-Z0-9_\-\.:]+ filters -&gt; (list) The metadata transfer job AWS IoT TwinMaker source con- figuration filters. (tagged union structure) The metadata transfer job AWS IoT TwinMaker source configuration filter. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: filterBy- ComponentType, filterByEntity. filterByComponentType -&gt; (structure) Filter by component type. componentTypeId -&gt; (string) [required] The component type Id. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z_\.\-0-9:]+ filterByEntity -&gt; (structure) Filter by entity. entityId -&gt; (string) [required] The entity Id. Constraints: o min: 1 o max: 128 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|^[a-zA-Z0-9][a-zA-Z_\-0-9.:]*[a-zA-Z0-9]+ JSON Syntax: [ { "type": "s3"|"iotsitewise"|"iottwinmaker", "s3Configuration": { "location": "string" }, "iotSiteWiseConfiguration": { "filters": [ { "filterByAssetModel": { "assetModelId": "string", "assetModelExternalId": "string", "includeOffspring": true|false, "includeAssets": true|false }, "filterByAsset": { "assetId": "string", "assetExternalId": "string", "includeOffspring": true|false, "includeAssetModel": true|false } } ... ] }, "iotTwinMakerConfiguration": { "workspace": "string", "filters": [ { "filterByComponentType": { "componentTypeId": "string" }, "filterByEntity": { "entityId": "string" } } ... ] } } ... ]</param>
+    /// <param name="Destination">The metadata transfer job destination. type -&gt; (string) [required] The destination type. Possible values: o s3 o iotsitewise o iottwinmaker s3Configuration -&gt; (structure) The metadata transfer job S3 configuration. [need to add S3 en- tity] location -&gt; (string) [required] The S3 destination configuration location. Constraints: o pattern: .*(^arn:((aws)|(aws-cn)|(aws-us-gov)):s3:::)([/a-zA-Z0-9_-]+$).* iotTwinMakerConfiguration -&gt; (structure) The metadata transfer job Amazon Web Services IoT TwinMaker con- figuration. workspace -&gt; (string) [required] The IoT TwinMaker workspace. Constraints: o min: 20 o max: 2048 o pattern: arn:((aws)|(aws-cn)|(aws-us-gov)):iottwin- maker:[a-z0-9-]+:[0-9]{12}:[\/a-zA-Z0-9_\-\.:]+ Shorthand Syntax: type=string,s3Configuration={location=string},iotTwinMakerConfiguration={workspace=string} JSON Syntax: { "type": "s3"|"iotsitewise"|"iottwinmaker", "s3Configuration": { "location": "string" }, "iotTwinMakerConfiguration": { "workspace": "string" } }</param>
+    public AwsIottwinmakerCreateMetadataTransferJobOptions(
+        IEnumerable<string> Sources,
+        string Destination
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Sources);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Sources));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Sources));
+            }
+
+            Sources = materialized;
+        }
+        this.Sources = Sources;
+        global::System.ArgumentNullException.ThrowIfNull(Destination);
+        this.Destination = Destination;
+    }
+
+    private AwsIottwinmakerCreateMetadataTransferJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIottwinmakerCreateMetadataTransferJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIottwinmakerCreateMetadataTransferJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The metadata transfer job sources. Constraints: o min: 1 o max: 1 (structure) The source configuration. type -&gt; (string) [required] The source configuration type. Possible values: o s3 o iotsitewise o iottwinmaker s3Configuration -&gt; (structure) The source configuration S3 configuration. location -&gt; (string) [required] The S3 destination source configuration location. Constraints: o pattern: .*(^arn:((aws)|(aws-cn)|(aws-us-gov)):s3:::)([a-zA-Z0-9_-]+)\/([/.a-zA-Z0-9_-]+$).* iotSiteWiseConfiguration -&gt; (structure) The source configuration IoT SiteWise configuration. filters -&gt; (list) The AWS IoT SiteWise soucre configuration filters. (tagged union structure) The AWS IoT SiteWise soucre configuration filter.[need held with desc here] NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: filterByAs- setModel, filterByAsset. filterByAssetModel -&gt; (structure) Filter by asset model. assetModelId -&gt; (string) The asset model Id. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} assetModelExternalId -&gt; (string) The external-Id property of an asset model. Constraints: o min: 2 o max: 128 o pattern: .*[a-zA-Z0-9_][a-zA-Z_\-0-9.:]*[a-zA-Z0-9_]+.* includeOffspring -&gt; (boolean) Include asset offspring. [need desc.] includeAssets -&gt; (boolean) Bolean to include assets. filterByAsset -&gt; (structure) Filter by asset. assetId -&gt; (string) Filter by asset Id. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} assetExternalId -&gt; (string) The external-Id property of an asset. Constraints: o min: 2 o max: 128 o pattern: .*[a-zA-Z0-9_][a-zA-Z_\-0-9.:]*[a-zA-Z0-9_]+.* includeOffspring -&gt; (boolean) Includes sub-assets.[need description hekp for this] includeAssetModel -&gt; (boolean) Boolean to include the asset model. iotTwinMakerConfiguration -&gt; (structure) The source configuration IoT TwinMaker configuration. workspace -&gt; (string) [required] The IoT TwinMaker workspace. Constraints: o min: 20 o max: 2048 o pattern: arn:((aws)|(aws-cn)|(aws-us-gov)):iottwin- maker:[a-z0-9-]+:[0-9]{12}:[\/a-zA-Z0-9_\-\.:]+ filters -&gt; (list) The metadata transfer job AWS IoT TwinMaker source con- figuration filters. (tagged union structure) The metadata transfer job AWS IoT TwinMaker source configuration filter. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: filterBy- ComponentType, filterByEntity. filterByComponentType -&gt; (structure) Filter by component type. componentTypeId -&gt; (string) [required] The component type Id. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z_\.\-0-9:]+ filterByEntity -&gt; (structure) Filter by entity. entityId -&gt; (string) [required] The entity Id. Constraints: o min: 1 o max: 128 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|^[a-zA-Z0-9][a-zA-Z_\-0-9.:]*[a-zA-Z0-9]+ JSON Syntax: [ { "type": "s3"|"iotsitewise"|"iottwinmaker", "s3Configuration": { "location": "string" }, "iotSiteWiseConfiguration": { "filters": [ { "filterByAssetModel": { "assetModelId": "string", "assetModelExternalId": "string", "includeOffspring": true|false, "includeAssets": true|false }, "filterByAsset": { "assetId": "string", "assetExternalId": "string", "includeOffspring": true|false, "includeAssetModel": true|false } } ... ] }, "iotTwinMakerConfiguration": { "workspace": "string", "filters": [ { "filterByComponentType": { "componentTypeId": "string" }, "filterByEntity": { "entityId": "string" } } ... ] } } ... ]
+    /// </summary>
+    [CliOption("--sources", GroupValues = true)]
+    public IEnumerable<string>? Sources { get; private init; }
+
+    /// <summary>
+    /// The metadata transfer job destination. type -&gt; (string) [required] The destination type. Possible values: o s3 o iotsitewise o iottwinmaker s3Configuration -&gt; (structure) The metadata transfer job S3 configuration. [need to add S3 en- tity] location -&gt; (string) [required] The S3 destination configuration location. Constraints: o pattern: .*(^arn:((aws)|(aws-cn)|(aws-us-gov)):s3:::)([/a-zA-Z0-9_-]+$).* iotTwinMakerConfiguration -&gt; (structure) The metadata transfer job Amazon Web Services IoT TwinMaker con- figuration. workspace -&gt; (string) [required] The IoT TwinMaker workspace. Constraints: o min: 20 o max: 2048 o pattern: arn:((aws)|(aws-cn)|(aws-us-gov)):iottwin- maker:[a-z0-9-]+:[0-9]{12}:[\/a-zA-Z0-9_\-\.:]+ Shorthand Syntax: type=string,s3Configuration={location=string},iotTwinMakerConfiguration={workspace=string} JSON Syntax: { "type": "s3"|"iotsitewise"|"iottwinmaker", "s3Configuration": { "location": "string" }, "iotTwinMakerConfiguration": { "workspace": "string" } }
+    /// </summary>
+    [CliOption("--destination")]
+    public string? Destination { get; private init; }
+
     /// <summary>
     /// The metadata transfer job Id. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+
     /// </summary>
@@ -33,16 +94,27 @@ public record AwsIottwinmakerCreateMetadataTransferJobOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--sources", GroupValues = true)]
-    public IEnumerable<string>? Sources { get; set; }
-
-    [CliOption("--destination")]
-    public string? Destination { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

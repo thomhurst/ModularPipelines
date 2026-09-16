@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --conflictresolutionstrategy.
+/// Allowed values for --conflict-resolution-strategy.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCodecommitBatchDescribeMergeConflictsConflictResolutionStrategy
 {
-    [EnumValue("NONE")]
-    None = 1,
+    [EnumValue("ACCEPT_DESTINATION")]
+    AcceptDestination,
 
     [EnumValue("ACCEPT_SOURCE")]
-    AcceptSource = 2,
-
-    [EnumValue("ACCEPT_DESTINATION")]
-    AcceptDestination = 3,
+    AcceptSource,
 
     [EnumValue("AUTOMERGE")]
-    Automerge = 4
+    Automerge,
+
+    [EnumValue("NONE")]
+    None
 }

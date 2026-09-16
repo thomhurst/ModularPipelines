@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,22 +22,83 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotsitewise", "create-computation-model")]
-public record AwsIotsitewiseCreateComputationModelOptions : AwsOptions
+public record AwsIotsitewiseCreateComputationModelOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Create a computation model with a configuration and data binding. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ComputationModelName">The name of the computation model. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9 _\-#$*!@.]+$</param>
+    /// <param name="ComputationModelConfiguration">The configuration for the computation model. anomalyDetection -&gt; (structure) The configuration for the anomaly detection type of computation model. inputProperties -&gt; (string) [required] Define the variable name associated with input properties, with the following format ${VariableName} . Constraints: o min: 4 o max: 67 o pattern: ^\$\{[a-z][a-z0-9_]*\} resultProperty -&gt; (string) [required] Define the variable name associated with the result property, and the following format ${VariableName} . Constraints: o min: 4 o max: 67 o pattern: ^\$\{[a-z][a-z0-9_]*\} Shorthand Syntax: anomalyDetection={inputProperties=string,resultProperty=string} JSON Syntax: { "anomalyDetection": { "inputProperties": "string", "resultProperty": "string" } }</param>
+    /// <param name="ComputationModelDataBinding">The data binding for the computation model. Key is a variable name defined in configuration. Value is a ComputationModelDataBinding- Value referenced by the variable. key -&gt; (string) Constraints: o min: 1 o max: 64 o pattern: ^[a-z][a-z0-9_]*$ value -&gt; (structure) Contains computation model data binding value information, which can be one of assetModelProperty , list . assetModelProperty -&gt; (structure) Specifies an asset model property data binding value. assetModelId -&gt; (string) [required] The ID of the asset model, in UUID format. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ propertyId -&gt; (string) [required] The ID of the asset model property used in data binding value. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ assetProperty -&gt; (structure) The asset property value used for computation model data binding. assetId -&gt; (string) [required] The ID of the asset containing the property. This identi- fies the specific asset instance's property value used in the computation model. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ propertyId -&gt; (string) [required] The ID of the property within the asset. This identifies the specific property's value used in the computation model. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ list -&gt; (list) Specifies a list of data binding value. (structure) Contains computation model data binding value informa- tion, which can be one of assetModelProperty , list . assetModelProperty -&gt; (structure) Specifies an asset model property data binding value. assetModelId -&gt; (string) [required] The ID of the asset model, in UUID format. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ propertyId -&gt; (string) [required] The ID of the asset model property used in data binding value. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ assetProperty -&gt; (structure) The asset property value used for computation model data binding. assetId -&gt; (string) [required] The ID of the asset containing the property. This identifies the specific asset instance's property value used in the computation model. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ propertyId -&gt; (string) [required] The ID of the property within the asset. This identifies the specific property's value used in the computation model. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ list -&gt; (list) Specifies a list of data binding value. ( ... recursive ... ) JSON Syntax: {"string": { "assetModelProperty": { "assetModelId": "string", "propertyId": "string" }, "assetProperty": { "assetId": "string", "propertyId": "string" }, "list": [ { "assetModelProperty": { "assetModelId": "string", "propertyId": "string" }, "assetProperty": { "assetId": "string", "propertyId": "string" }, "list": [ { ... recursive ... } ... ] } ... ] } ...}</param>
+    public AwsIotsitewiseCreateComputationModelOptions(
+        string ComputationModelName,
+        string ComputationModelConfiguration,
+        IReadOnlyList<KeyValue> ComputationModelDataBinding
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ComputationModelName);
+        this.ComputationModelName = ComputationModelName;
+        global::System.ArgumentNullException.ThrowIfNull(ComputationModelConfiguration);
+        this.ComputationModelConfiguration = ComputationModelConfiguration;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ComputationModelDataBinding);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(ComputationModelDataBinding));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ComputationModelDataBinding));
+            }
+
+            ComputationModelDataBinding = materialized;
+        }
+        this.ComputationModelDataBinding = ComputationModelDataBinding;
+    }
+
+    private AwsIotsitewiseCreateComputationModelOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotsitewiseCreateComputationModelOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotsitewiseCreateComputationModelOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the computation model. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9 _\-#$*!@.]+$
+    /// </summary>
     [CliOption("--computation-model-name")]
-    public string? ComputationModelName { get; set; }
+    public string? ComputationModelName { get; private init; }
+
+    /// <summary>
+    /// The configuration for the computation model. anomalyDetection -&gt; (structure) The configuration for the anomaly detection type of computation model. inputProperties -&gt; (string) [required] Define the variable name associated with input properties, with the following format ${VariableName} . Constraints: o min: 4 o max: 67 o pattern: ^\$\{[a-z][a-z0-9_]*\} resultProperty -&gt; (string) [required] Define the variable name associated with the result property, and the following format ${VariableName} . Constraints: o min: 4 o max: 67 o pattern: ^\$\{[a-z][a-z0-9_]*\} Shorthand Syntax: anomalyDetection={inputProperties=string,resultProperty=string} JSON Syntax: { "anomalyDetection": { "inputProperties": "string", "resultProperty": "string" } }
+    /// </summary>
+    [CliOption("--computation-model-configuration")]
+    public string? ComputationModelConfiguration { get; private init; }
+
+    /// <summary>
+    /// The data binding for the computation model. Key is a variable name defined in configuration. Value is a ComputationModelDataBinding- Value referenced by the variable. key -&gt; (string) Constraints: o min: 1 o max: 64 o pattern: ^[a-z][a-z0-9_]*$ value -&gt; (structure) Contains computation model data binding value information, which can be one of assetModelProperty , list . assetModelProperty -&gt; (structure) Specifies an asset model property data binding value. assetModelId -&gt; (string) [required] The ID of the asset model, in UUID format. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ propertyId -&gt; (string) [required] The ID of the asset model property used in data binding value. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ assetProperty -&gt; (structure) The asset property value used for computation model data binding. assetId -&gt; (string) [required] The ID of the asset containing the property. This identi- fies the specific asset instance's property value used in the computation model. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ propertyId -&gt; (string) [required] The ID of the property within the asset. This identifies the specific property's value used in the computation model. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ list -&gt; (list) Specifies a list of data binding value. (structure) Contains computation model data binding value informa- tion, which can be one of assetModelProperty , list . assetModelProperty -&gt; (structure) Specifies an asset model property data binding value. assetModelId -&gt; (string) [required] The ID of the asset model, in UUID format. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ propertyId -&gt; (string) [required] The ID of the asset model property used in data binding value. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ assetProperty -&gt; (structure) The asset property value used for computation model data binding. assetId -&gt; (string) [required] The ID of the asset containing the property. This identifies the specific asset instance's property value used in the computation model. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ propertyId -&gt; (string) [required] The ID of the property within the asset. This identifies the specific property's value used in the computation model. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ list -&gt; (list) Specifies a list of data binding value. ( ... recursive ... ) JSON Syntax: {"string": { "assetModelProperty": { "assetModelId": "string", "propertyId": "string" }, "assetProperty": { "assetId": "string", "propertyId": "string" }, "list": [ { "assetModelProperty": { "assetModelId": "string", "propertyId": "string" }, "assetProperty": { "assetId": "string", "propertyId": "string" }, "list": [ { ... recursive ... } ... ] } ... ] } ...}
+    /// </summary>
+    [CliOption("--computation-model-data-binding", CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? ComputationModelDataBinding { get; private init; }
 
     /// <summary>
     /// The description of the computation model. Constraints: o min: 1 o max: 2048 o pattern: ^[a-zA-Z0-9 _\-#$*!@]+$
     /// </summary>
     [CliOption("--computation-model-description")]
     public string? ComputationModelDescription { get; set; }
-
-    [CliOption("--computation-model-configuration")]
-    public string? ComputationModelConfiguration { get; set; }
-
-    [CliOption("--computation-model-data-binding", CollectionSeparator = ",")]
-    public IReadOnlyList<KeyValue>? ComputationModelDataBinding { get; set; }
 
     /// <summary>
     /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required. Constraints: o min: 36 o max: 64 o pattern: \S{36,64}
@@ -56,5 +118,22 @@ public record AwsIotsitewiseCreateComputationModelOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

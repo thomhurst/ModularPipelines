@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --includeddata.
+/// Allowed values for --included-data.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsStepfunctionsDescribeStateMachineForExecutionIncludedData
 {
     [EnumValue("ALL_DATA")]
-    AllData = 1,
+    AllData,
 
     [EnumValue("METADATA_ONLY")]
-    MetadataOnly = 2
+    MetadataOnly
 }

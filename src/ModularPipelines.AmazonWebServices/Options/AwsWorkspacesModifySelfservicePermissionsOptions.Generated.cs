@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workspaces", "modify-selfservice-permissions")]
-public record AwsWorkspacesModifySelfservicePermissionsOptions : AwsOptions
+public record AwsWorkspacesModifySelfservicePermissionsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--resource-id")]
-    public string? ResourceId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Modifies the self-service WorkSpace management capabilities for your users. For more information, see Enable Self-Service WorkSpace Manage- ment Capabilities for Your Users . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceId">The identifier of the directory. Constraints: o min: 10 o max: 65 o pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)</param>
+    /// <param name="SelfservicePermissions">The permissions to enable or disable self-service capabilities. RestartWorkspace -&gt; (string) Specifies whether users can restart their WorkSpace. Possible values: o ENABLED o DISABLED IncreaseVolumeSize -&gt; (string) Specifies whether users can increase the volume size of the dri- ves on their WorkSpace. Possible values: o ENABLED o DISABLED ChangeComputeType -&gt; (string) Specifies whether users can change the compute type (bundle) for their WorkSpace. Possible values: o ENABLED o DISABLED SwitchRunningMode -&gt; (string) Specifies whether users can switch the running mode of their WorkSpace. Possible values: o ENABLED o DISABLED RebuildWorkspace -&gt; (string) Specifies whether users can rebuild the operating system of a WorkSpace to its original state. Possible values: o ENABLED o DISABLED Shorthand Syntax: RestartWorkspace=string,IncreaseVolumeSize=string,ChangeComputeType=string,SwitchRunningMode=string,RebuildWorkspace=string JSON Syntax: { "RestartWorkspace": "ENABLED"|"DISABLED", "IncreaseVolumeSize": "ENABLED"|"DISABLED", "ChangeComputeType": "ENABLED"|"DISABLED", "SwitchRunningMode": "ENABLED"|"DISABLED", "RebuildWorkspace": "ENABLED"|"DISABLED" }</param>
+    public AwsWorkspacesModifySelfservicePermissionsOptions(
+        string ResourceId,
+        string SelfservicePermissions
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceId);
+        this.ResourceId = ResourceId;
+        global::System.ArgumentNullException.ThrowIfNull(SelfservicePermissions);
+        this.SelfservicePermissions = SelfservicePermissions;
+    }
+
+    private AwsWorkspacesModifySelfservicePermissionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkspacesModifySelfservicePermissionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkspacesModifySelfservicePermissionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the directory. Constraints: o min: 10 o max: 65 o pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)
+    /// </summary>
+    [CliOption("--resource-id")]
+    public string? ResourceId { get; private init; }
+
+    /// <summary>
+    /// The permissions to enable or disable self-service capabilities. RestartWorkspace -&gt; (string) Specifies whether users can restart their WorkSpace. Possible values: o ENABLED o DISABLED IncreaseVolumeSize -&gt; (string) Specifies whether users can increase the volume size of the dri- ves on their WorkSpace. Possible values: o ENABLED o DISABLED ChangeComputeType -&gt; (string) Specifies whether users can change the compute type (bundle) for their WorkSpace. Possible values: o ENABLED o DISABLED SwitchRunningMode -&gt; (string) Specifies whether users can switch the running mode of their WorkSpace. Possible values: o ENABLED o DISABLED RebuildWorkspace -&gt; (string) Specifies whether users can rebuild the operating system of a WorkSpace to its original state. Possible values: o ENABLED o DISABLED Shorthand Syntax: RestartWorkspace=string,IncreaseVolumeSize=string,ChangeComputeType=string,SwitchRunningMode=string,RebuildWorkspace=string JSON Syntax: { "RestartWorkspace": "ENABLED"|"DISABLED", "IncreaseVolumeSize": "ENABLED"|"DISABLED", "ChangeComputeType": "ENABLED"|"DISABLED", "SwitchRunningMode": "ENABLED"|"DISABLED", "RebuildWorkspace": "ENABLED"|"DISABLED" }
+    /// </summary>
     [CliOption("--selfservice-permissions")]
-    public string? SelfservicePermissions { get; set; }
+    public string? SelfservicePermissions { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

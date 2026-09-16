@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("geo-places", "suggest")]
-public record AwsGeoPlacesSuggestOptions : AwsOptions
+public record AwsGeoPlacesSuggestOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Suggest provides intelligent predictions or recommendations based on the user's input or context, such as relevant places, points of in- terest, query terms or search category. It is designed to help users find places or point of interests candidates or identify a follow on query based on incomplete or misspelled queries. It returns a list of possible matches or refinements that can be used to formulate a more accurate query. Users can select the most appropriate sugges- tion and use it for furt...
+    /// </summary>
+    /// <param name="QueryText">The free-form text query to match addresses against. This is usually a partially typed address from an end user in an address box or form. NOTE: The fields QueryText and QueryID are mutually exclusive. Constraints: o min: 1 o max: 200</param>
+    public AwsGeoPlacesSuggestOptions(
+        string QueryText
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(QueryText);
+        this.QueryText = QueryText;
+    }
+
+    private AwsGeoPlacesSuggestOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGeoPlacesSuggestOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGeoPlacesSuggestOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The free-form text query to match addresses against. This is usually a partially typed address from an end user in an address box or form. NOTE: The fields QueryText and QueryID are mutually exclusive. Constraints: o min: 1 o max: 200
+    /// </summary>
     [CliOption("--query-text")]
-    public string? QueryText { get; set; }
+    public string? QueryText { get; private init; }
 
     /// <summary>
     /// An optional limit for the number of results returned in a single call. Default value: 20 Constraints: o min: 1 o max: 100
@@ -71,7 +108,7 @@ public record AwsGeoPlacesSuggestOptions : AwsOptions
     /// Indicates if the query results will be persisted in customer infra- structure. Defaults to SingleUse (not stored). Currently, Suggest does not support storage of results. Possible values: o SingleUse
     /// </summary>
     [CliOption("--intended-use")]
-    public AwsGeoPlacesSuggestIntendedUse? IntendedUse { get; set; }
+    public string? IntendedUse { get; set; }
 
     /// <summary>
     /// Indicates the mode of mobility used by the end user. This is used to improve the relevance of search results. Valid values are Car , Scooter , and Truck . Possible values: o Car o Scooter o Truck
@@ -90,5 +127,22 @@ public record AwsGeoPlacesSuggestOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

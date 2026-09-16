@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +22,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workmail", "create-mobile-device-access-rule")]
-public record AwsWorkmailCreateMobileDeviceAccessRuleOptions : AwsOptions
+public record AwsWorkmailCreateMobileDeviceAccessRuleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new mobile device access rule for the specified WorkMail or- ganization. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="OrganizationId">The WorkMail organization under which the rule will be created. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
+    /// <param name="Name">The rule name. Constraints: o min: 1 o max: 64 o pattern: [\S\s]+</param>
+    /// <param name="Effect">The effect of the rule when it matches. Allowed values are ALLOW or DENY . Possible values: o ALLOW o DENY</param>
+    public AwsWorkmailCreateMobileDeviceAccessRuleOptions(
+        string OrganizationId,
+        string Name,
+        AwsWorkmailCreateMobileDeviceAccessRuleEffect Effect
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OrganizationId);
+        this.OrganizationId = OrganizationId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Effect);
+        this.Effect = Effect;
+    }
+
+    private AwsWorkmailCreateMobileDeviceAccessRuleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkmailCreateMobileDeviceAccessRuleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkmailCreateMobileDeviceAccessRuleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The WorkMail organization under which the rule will be created. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// </summary>
     [CliOption("--organization-id")]
-    public string? OrganizationId { get; set; }
+    public string? OrganizationId { get; private init; }
+
+    /// <summary>
+    /// The rule name. Constraints: o min: 1 o max: 64 o pattern: [\S\s]+
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The effect of the rule when it matches. Allowed values are ALLOW or DENY . Possible values: o ALLOW o DENY
+    /// </summary>
+    [CliOption("--effect")]
+    public AwsWorkmailCreateMobileDeviceAccessRuleEffect? Effect { get; private init; }
 
     /// <summary>
     /// The idempotency token for the client request. Constraints: o min: 1 o max: 128 o pattern: [\x21-\x7e]+
@@ -32,17 +90,11 @@ public record AwsWorkmailCreateMobileDeviceAccessRuleOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--name")]
-    public string? Name { get; set; }
-
     /// <summary>
     /// The rule description. Constraints: o min: 1 o max: 256 o pattern: [\S\s]+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--effect")]
-    public string? Effect { get; set; }
 
     /// <summary>
     /// Device types that the rule will match. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 256 o pattern: [\u0020-\u00FF]+ Syntax: "string" "string" ...
@@ -97,5 +149,22 @@ public record AwsWorkmailCreateMobileDeviceAccessRuleOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "list-traffic-distribution-group-users")]
-public record AwsConnectListTrafficDistributionGroupUsersOptions : AwsOptions
+public record AwsConnectListTrafficDistributionGroupUsersOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists traffic distribution group users. See also: AWS API Documentation list-traffic-distribution-group-users is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: TrafficDistributionGroupUserSumma- ry...
+    /// </summary>
+    /// <param name="TrafficDistributionGroupId">The identifier of the traffic distribution group. This can be the ID or the ARN if the API is being called in the Region where the traf- fic distribution group was created. The ARN must be provided if the call is from the replicated Region. Constraints: o pattern: ^(arn:(aws|aws-us-gov):con- nect:[a-z]{2}-[a-z-]+-[0-9]{1}:[0-9]{1,20}:traffic-distribu- tion-group/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
+    public AwsConnectListTrafficDistributionGroupUsersOptions(
+        string TrafficDistributionGroupId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TrafficDistributionGroupId);
+        this.TrafficDistributionGroupId = TrafficDistributionGroupId;
+    }
+
+    private AwsConnectListTrafficDistributionGroupUsersOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectListTrafficDistributionGroupUsersOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectListTrafficDistributionGroupUsersOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the traffic distribution group. This can be the ID or the ARN if the API is being called in the Region where the traf- fic distribution group was created. The ARN must be provided if the call is from the replicated Region. Constraints: o pattern: ^(arn:(aws|aws-us-gov):con- nect:[a-z]{2}-[a-z-]+-[0-9]{1}:[0-9]{1,20}:traffic-distribu- tion-group/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+    /// </summary>
     [CliOption("--traffic-distribution-group-id")]
-    public string? TrafficDistributionGroupId { get; set; }
+    public string? TrafficDistributionGroupId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -39,7 +76,7 @@ public record AwsConnectListTrafficDistributionGroupUsersOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 10
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 1000
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
@@ -49,5 +86,22 @@ public record AwsConnectListTrafficDistributionGroupUsersOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

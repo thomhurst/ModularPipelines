@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "get-backup-selection")]
-public record AwsBackupGetBackupSelectionOptions : AwsOptions
+public record AwsBackupGetBackupSelectionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--backup-plan-id")]
-    public string? BackupPlanId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Returns selection metadata and a document in JSON format that specifies a list of resources that are associated with a backup plan. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BackupPlanId">Uniquely identifies a backup plan.</param>
+    /// <param name="SelectionId">Uniquely identifies the body of a request to assign a set of re- sources to a backup plan.</param>
+    public AwsBackupGetBackupSelectionOptions(
+        string BackupPlanId,
+        string SelectionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BackupPlanId);
+        this.BackupPlanId = BackupPlanId;
+        global::System.ArgumentNullException.ThrowIfNull(SelectionId);
+        this.SelectionId = SelectionId;
+    }
+
+    private AwsBackupGetBackupSelectionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBackupGetBackupSelectionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBackupGetBackupSelectionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Uniquely identifies a backup plan.
+    /// </summary>
+    [CliOption("--backup-plan-id")]
+    public string? BackupPlanId { get; private init; }
+
+    /// <summary>
+    /// Uniquely identifies the body of a request to assign a set of re- sources to a backup plan.
+    /// </summary>
     [CliOption("--selection-id")]
-    public string? SelectionId { get; set; }
+    public string? SelectionId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

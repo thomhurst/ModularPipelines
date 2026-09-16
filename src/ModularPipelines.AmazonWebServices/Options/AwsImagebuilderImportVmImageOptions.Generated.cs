@@ -12,6 +12,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,13 +23,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("imagebuilder", "import-vm-image")]
-public record AwsImagebuilderImportVmImageOptions : AwsOptions
+public record AwsImagebuilderImportVmImageOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--name")]
-    public string? Name { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// When you export your virtual machine (VM) from its virtualization envi- ronment, that process creates a set of one or more disk container files that act as snapshots of your VMs environment, settings, and data. The Amazon EC2 API ImportImage action uses those files to import your VM and create an AMI. To import using the CLI command, see import-image You can reference the task ID from the VM import to pull in the AMI that the import created as the base image for your Image Builder recipe. See al...
+    /// </summary>
+    /// <param name="Name">The name of the base image that is created by the import process. Constraints: o min: 1 o max: 1024</param>
+    /// <param name="SemanticVersion">The semantic version to attach to the base image that was created during the import process. This version follows the semantic version syntax. NOTE: The semantic version has four nodes: &lt;major&gt;.&lt;mi- nor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for the first three, and can filter on all of them. Assignment: For the first three nodes, you can assign any positive integer value, including zero. The upper limit is 2^30-1, or 1073741823, for each node. Image Builder automati- cally assigns the build number to the fourth node. Patterns: You can use any numeric pattern that adheres to the assignment requirements for the nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or a date, such as 2021.01.01. Constraints: o pattern: ^[0-9]+\.[0-9]+\.[0-9]+$</param>
+    /// <param name="Platform">The operating system platform for the imported VM. Possible values: o Windows o Linux o macOS</param>
+    /// <param name="VmImportTaskId">The importTaskId (API) or ImportTaskId (CLI) from the Amazon EC2 VM import process. Image Builder retrieves information from the import process to pull in the AMI that is created from the VM source as the base image for your recipe. Constraints: o min: 1 o max: 1024</param>
+    public AwsImagebuilderImportVmImageOptions(
+        string Name,
+        string SemanticVersion,
+        AwsImagebuilderImportVmImagePlatform Platform,
+        string VmImportTaskId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(SemanticVersion);
+        this.SemanticVersion = SemanticVersion;
+        global::System.ArgumentNullException.ThrowIfNull(Platform);
+        this.Platform = Platform;
+        global::System.ArgumentNullException.ThrowIfNull(VmImportTaskId);
+        this.VmImportTaskId = VmImportTaskId;
+    }
+
+    private AwsImagebuilderImportVmImageOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsImagebuilderImportVmImageOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsImagebuilderImportVmImageOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the base image that is created by the import process. Constraints: o min: 1 o max: 1024
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The semantic version to attach to the base image that was created during the import process. This version follows the semantic version syntax. NOTE: The semantic version has four nodes: &lt;major&gt;.&lt;mi- nor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for the first three, and can filter on all of them. Assignment: For the first three nodes, you can assign any positive integer value, including zero. The upper limit is 2^30-1, or 1073741823, for each node. Image Builder automati- cally assigns the build number to the fourth node. Patterns: You can use any numeric pattern that adheres to the assignment requirements for the nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or a date, such as 2021.01.01. Constraints: o pattern: ^[0-9]+\.[0-9]+\.[0-9]+$
+    /// </summary>
     [CliOption("--semantic-version")]
-    public string? SemanticVersion { get; set; }
+    public string? SemanticVersion { get; private init; }
+
+    /// <summary>
+    /// The operating system platform for the imported VM. Possible values: o Windows o Linux o macOS
+    /// </summary>
+    [CliOption("--platform")]
+    public AwsImagebuilderImportVmImagePlatform? Platform { get; private init; }
+
+    /// <summary>
+    /// The importTaskId (API) or ImportTaskId (CLI) from the Amazon EC2 VM import process. Image Builder retrieves information from the import process to pull in the AMI that is created from the VM source as the base image for your recipe. Constraints: o min: 1 o max: 1024
+    /// </summary>
+    [CliOption("--vm-import-task-id")]
+    public string? VmImportTaskId { get; private init; }
 
     /// <summary>
     /// The description for the base image that is created by the import process. Constraints: o min: 1 o max: 1024
@@ -35,20 +100,14 @@ public record AwsImagebuilderImportVmImageOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--platform")]
-    public string? Platform { get; set; }
-
     /// <summary>
     /// The operating system version for the imported VM. Constraints: o min: 1
     /// </summary>
     [CliOption("--os-version")]
     public string? OsVersion { get; set; }
 
-    [CliOption("--vm-import-task-id")]
-    public string? VmImportTaskId { get; set; }
-
     /// <summary>
-    /// Define logging configuration for the image build process. logGroupName -&gt; (string) The log group name that Image Builder uses for image creation. If not specified, the log group name defaults to /aws/image- builder/image-name . Constraints: o min: 1 o max: 512 o pattern: ^[a-zA-Z0-9\-_/\.]{1,512}$ Shorthand Syntax: logGroupName=string JSON Syntax: { "logGroupName": "string" }
+    /// The logging configuration for the image build process. logGroupName -&gt; (string) The log group name that Image Builder uses for image creation. If not specified, the log group name defaults to /aws/image- builder/image-name . Constraints: o min: 1 o max: 512 o pattern: ^[a-zA-Z0-9\-_/\.]{1,512}$ Shorthand Syntax: logGroupName=string JSON Syntax: { "logGroupName": "string" }
     /// </summary>
     [CliOption("--logging-configuration")]
     public string? LoggingConfiguration { get; set; }
@@ -60,7 +119,7 @@ public record AwsImagebuilderImportVmImageOptions : AwsOptions
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency in the Amazon EC2 API Reference . Constraints: o min: 1 o max: 64
+    /// A unique, case-sensitive identifier you provide to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request, but does not re- turn an error. For more information, see Ensuring idempotency in the Amazon EC2 API Reference . Constraints: o min: 1 o max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -71,5 +130,22 @@ public record AwsImagebuilderImportVmImageOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

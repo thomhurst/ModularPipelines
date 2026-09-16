@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIotfleetwiseUpdateDecoderManifestStatus
 {
     [EnumValue("ACTIVE")]
-    Active = 1,
+    Active,
 
     [EnumValue("DRAFT")]
-    Draft = 2,
+    Draft,
 
     [EnumValue("INVALID")]
-    Invalid = 3,
+    Invalid,
 
     [EnumValue("VALIDATING")]
-    Validating = 4
+    Validating
 }

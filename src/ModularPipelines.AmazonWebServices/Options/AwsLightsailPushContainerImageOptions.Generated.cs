@@ -21,13 +21,40 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("lightsail", "push-container-image")]
 public record AwsLightsailPushContainerImageOptions : AwsOptions
 {
+    /// <summary>
+    /// Push container image for use in a service deployment.
+    /// </summary>
+    /// <param name="ServiceName"></param>
+    /// <param name="Image"></param>
+    /// <param name="Label"></param>
+    public AwsLightsailPushContainerImageOptions(
+        string ServiceName,
+        string Image,
+        string Label
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceName);
+        this.ServiceName = ServiceName;
+        global::System.ArgumentNullException.ThrowIfNull(Image);
+        this.Image = Image;
+        global::System.ArgumentNullException.ThrowIfNull(Label);
+        this.Label = Label;
+    }
+
+    public void Deconstruct(out string ServiceName, out string Image, out string Label)
+    {
+        ServiceName = this.ServiceName;
+        Image = this.Image;
+        Label = this.Label;
+    }
+
     [CliOption("--service-name")]
-    public string? ServiceName { get; set; }
+    public string ServiceName { get; private init; }
 
     [CliOption("--image")]
-    public string? Image { get; set; }
+    public string Image { get; private init; }
 
     [CliOption("--label")]
-    public string? Label { get; set; }
+    public string Label { get; private init; }
 
 }

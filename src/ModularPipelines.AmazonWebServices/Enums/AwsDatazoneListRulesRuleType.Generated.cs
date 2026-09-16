@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --ruletype.
+/// Allowed values for --rule-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDatazoneListRulesRuleType
 {
-    [EnumValue("METADATA_FORM_ENFORCEMENT")]
-    MetadataFormEnforcement = 1,
-
     [EnumValue("GLOSSARY_TERM_ENFORCEMENT")]
-    GlossaryTermEnforcement = 2
+    GlossaryTermEnforcement,
+
+    [EnumValue("METADATA_FORM_ENFORCEMENT")]
+    MetadataFormEnforcement
 }

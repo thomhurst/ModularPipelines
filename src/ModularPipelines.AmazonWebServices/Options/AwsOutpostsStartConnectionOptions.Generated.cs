@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,27 +20,93 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("outposts", "start-connection")]
-public record AwsOutpostsStartConnectionOptions : AwsOptions
+public record AwsOutpostsStartConnectionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// NOTE: Amazon Web Services uses this action to install Outpost servers. Starts the connection required for Outpost server installation. Use CloudTrail to monitor this action or Amazon Web Services managed policy for Amazon Web Services Outposts to secure it. For more informa- tion, see Amazon Web Services managed policies for Amazon Web Services Outposts and Logging Amazon Web Services Outposts API calls with Amazon Web Services CloudTrail in the Amazon Web Services Outposts User Guide . See also...
+    /// </summary>
+    /// <param name="AssetId">The ID of the Outpost server. Constraints: o min: 1 o max: 100 o pattern: ^(\w+)$</param>
+    /// <param name="ClientPublicKey">The public key of the client. Constraints: o min: 44 o max: 44 o pattern: ^[a-zA-Z0-9/+]{43}=$</param>
+    /// <param name="NetworkInterfaceDeviceIndex">The device index of the network interface on the Outpost server. Constraints: o min: 0 o max: 1</param>
+    public AwsOutpostsStartConnectionOptions(
+        string AssetId,
+        string ClientPublicKey,
+        int NetworkInterfaceDeviceIndex
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AssetId);
+        this.AssetId = AssetId;
+        global::System.ArgumentNullException.ThrowIfNull(ClientPublicKey);
+        this.ClientPublicKey = ClientPublicKey;
+        this.NetworkInterfaceDeviceIndex = NetworkInterfaceDeviceIndex;
+    }
+
+    private AwsOutpostsStartConnectionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOutpostsStartConnectionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOutpostsStartConnectionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Outpost server. Constraints: o min: 1 o max: 100 o pattern: ^(\w+)$
+    /// </summary>
+    [CliOption("--asset-id")]
+    public string? AssetId { get; private init; }
+
+    /// <summary>
+    /// The public key of the client. Constraints: o min: 44 o max: 44 o pattern: ^[a-zA-Z0-9/+]{43}=$
+    /// </summary>
+    [CliOption("--client-public-key")]
+    public string? ClientPublicKey { get; private init; }
+
+    /// <summary>
+    /// The device index of the network interface on the Outpost server. Constraints: o min: 0 o max: 1
+    /// </summary>
+    [CliOption("--network-interface-device-index")]
+    public int? NetworkInterfaceDeviceIndex { get; private init; }
+
     /// <summary>
     /// The serial number of the dongle. Constraints: o min: 1 o max: 100 o pattern: ^(\w+)$
     /// </summary>
     [CliOption("--device-serial-number")]
     public string? DeviceSerialNumber { get; set; }
 
-    [CliOption("--asset-id")]
-    public string? AssetId { get; set; }
-
-    [CliOption("--client-public-key")]
-    public string? ClientPublicKey { get; set; }
-
-    [CliOption("--network-interface-device-index")]
-    public int? NetworkInterfaceDeviceIndex { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

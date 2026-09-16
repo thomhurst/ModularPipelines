@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("securitylake", "update-data-lake")]
-public record AwsSecuritylakeUpdateDataLakeOptions : AwsOptions
+public record AwsSecuritylakeUpdateDataLakeOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// You can use UpdateDataLake to specify where to store your security data, how it should be encrypted at rest and for how long. You can add a Rollup Region to consolidate data from multiple Amazon Web Services Regions, replace default encryption (SSE-S3) with Customer Manged Key , or specify transition and expiration actions through storage Lifecycle management . The UpdateDataLake API works as an "upsert" operation that performs an insert if the specified item or record does not exist, or an upda...
+    /// </summary>
+    /// <param name="Configurations">Specifies the Region or Regions that will contribute data to the rollup region. Constraints: o min: 1 (structure) Provides details of Amazon Security Lake object. encryptionConfiguration -&gt; (structure) Provides encryption details of Amazon Security Lake object. kmsKeyId -&gt; (string) The identifier of KMS encryption key used by Amazon Secu- rity Lake to encrypt the Security Lake object. lifecycleConfiguration -&gt; (structure) Provides lifecycle details of Amazon Security Lake object. expiration -&gt; (structure) Provides data expiration details of Amazon Security Lake object. days -&gt; (integer) Number of days before data expires in the Amazon Secu- rity Lake object. Constraints: o min: 1 transitions -&gt; (list) Provides data storage transition details of Amazon Secu- rity Lake object. (structure) Provide transition lifecycle details of Amazon Secu- rity Lake object. days -&gt; (integer) Number of days before data transitions to a dif- ferent S3 Storage Class in the Amazon Security Lake object. Constraints: o min: 1 storageClass -&gt; (string) The range of storage classes that you can choose from based on the data access, resiliency, and cost requirements of your workloads. region -&gt; (string) [required] The Amazon Web Services Regions where Security Lake is auto- matically enabled. Constraints: o pattern: ^(us(-gov)?|af|ap|ca|eu|me|sa)-(cen- tral|north|(north(?:east|west))|south|south(?:east|west)|east|west)-\d+$ replicationConfiguration -&gt; (structure) Provides replication details of Amazon Security Lake object. regions -&gt; (list) Specifies one or more centralized rollup Regions. The Amazon Web Services Region specified in the region para- meter of the ` CreateDataLake https://docs.aws.amazon.com/security-lake/latest/APIReference/API_CreateDataLake.html`__ or ` UpdateDataLake https://docs.aws.amazon.com/security-lake/latest/APIReference/API_UpdateDataLake.html`__ operations contributes data to the rollup Region or Re- gions specified in this parameter. Replication enables automatic, asynchronous copying of objects across Amazon S3 buckets. S3 buckets that are configured for object replication can be owned by the same Amazon Web Services account or by different ac- counts. You can replicate objects to a single destination bucket or to multiple destination buckets. The destina- tion buckets can be in different Regions or within the same Region as the source bucket. (string) Constraints: o pattern: ^(us(-gov)?|af|ap|ca|eu|me|sa)-(cen- tral|north|(north(?:east|west))|south|south(?:east|west)|east|west)-\d+$ roleArn -&gt; (string) Replication settings for the Amazon S3 buckets. This pa- rameter uses the Identity and Access Management (IAM) role you created that is managed by Security Lake, to en- sure the replication setting is correct. Constraints: o pattern: ^arn:(aws[a-zA-Z-]*)?:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+$ JSON Syntax: [ { "encryptionConfiguration": { "kmsKeyId": "string" }, "lifecycleConfiguration": { "expiration": { "days": integer }, "transitions": [ { "days": integer, "storageClass": "string" } ... ] }, "region": "string", "replicationConfiguration": { "regions": ["string", ...], "roleArn": "string" } } ... ]</param>
+    public AwsSecuritylakeUpdateDataLakeOptions(
+        IEnumerable<string> Configurations
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Configurations);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Configurations));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Configurations));
+            }
+
+            Configurations = materialized;
+        }
+        this.Configurations = Configurations;
+    }
+
+    private AwsSecuritylakeUpdateDataLakeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSecuritylakeUpdateDataLakeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSecuritylakeUpdateDataLakeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the Region or Regions that will contribute data to the rollup region. Constraints: o min: 1 (structure) Provides details of Amazon Security Lake object. encryptionConfiguration -&gt; (structure) Provides encryption details of Amazon Security Lake object. kmsKeyId -&gt; (string) The identifier of KMS encryption key used by Amazon Secu- rity Lake to encrypt the Security Lake object. lifecycleConfiguration -&gt; (structure) Provides lifecycle details of Amazon Security Lake object. expiration -&gt; (structure) Provides data expiration details of Amazon Security Lake object. days -&gt; (integer) Number of days before data expires in the Amazon Secu- rity Lake object. Constraints: o min: 1 transitions -&gt; (list) Provides data storage transition details of Amazon Secu- rity Lake object. (structure) Provide transition lifecycle details of Amazon Secu- rity Lake object. days -&gt; (integer) Number of days before data transitions to a dif- ferent S3 Storage Class in the Amazon Security Lake object. Constraints: o min: 1 storageClass -&gt; (string) The range of storage classes that you can choose from based on the data access, resiliency, and cost requirements of your workloads. region -&gt; (string) [required] The Amazon Web Services Regions where Security Lake is auto- matically enabled. Constraints: o pattern: ^(us(-gov)?|af|ap|ca|eu|me|sa)-(cen- tral|north|(north(?:east|west))|south|south(?:east|west)|east|west)-\d+$ replicationConfiguration -&gt; (structure) Provides replication details of Amazon Security Lake object. regions -&gt; (list) Specifies one or more centralized rollup Regions. The Amazon Web Services Region specified in the region para- meter of the ` CreateDataLake https://docs.aws.amazon.com/security-lake/latest/APIReference/API_CreateDataLake.html`__ or ` UpdateDataLake https://docs.aws.amazon.com/security-lake/latest/APIReference/API_UpdateDataLake.html`__ operations contributes data to the rollup Region or Re- gions specified in this parameter. Replication enables automatic, asynchronous copying of objects across Amazon S3 buckets. S3 buckets that are configured for object replication can be owned by the same Amazon Web Services account or by different ac- counts. You can replicate objects to a single destination bucket or to multiple destination buckets. The destina- tion buckets can be in different Regions or within the same Region as the source bucket. (string) Constraints: o pattern: ^(us(-gov)?|af|ap|ca|eu|me|sa)-(cen- tral|north|(north(?:east|west))|south|south(?:east|west)|east|west)-\d+$ roleArn -&gt; (string) Replication settings for the Amazon S3 buckets. This pa- rameter uses the Identity and Access Management (IAM) role you created that is managed by Security Lake, to en- sure the replication setting is correct. Constraints: o pattern: ^arn:(aws[a-zA-Z-]*)?:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+$ JSON Syntax: [ { "encryptionConfiguration": { "kmsKeyId": "string" }, "lifecycleConfiguration": { "expiration": { "days": integer }, "transitions": [ { "days": integer, "storageClass": "string" } ... ] }, "region": "string", "replicationConfiguration": { "regions": ["string", ...], "roleArn": "string" } } ... ]
+    /// </summary>
     [CliOption("--configurations", GroupValues = true)]
-    public IEnumerable<string>? Configurations { get; set; }
+    public IEnumerable<string>? Configurations { get; private init; }
 
     /// <summary>
     /// The Amazon Resource Name (ARN) used to create and update the Glue table. This table contains partitions generated by the ingestion and normalization of Amazon Web Services log sources and custom sources. Constraints: o pattern: ^arn:(aws[a-zA-Z-]*)?:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+$
@@ -35,5 +83,22 @@ public record AwsSecuritylakeUpdateDataLakeOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

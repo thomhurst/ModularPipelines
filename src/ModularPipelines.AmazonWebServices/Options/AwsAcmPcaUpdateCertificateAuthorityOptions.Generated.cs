@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acm-pca", "update-certificate-authority")]
-public record AwsAcmPcaUpdateCertificateAuthorityOptions : AwsOptions
+public record AwsAcmPcaUpdateCertificateAuthorityOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the status or configuration of a private certificate authority (CA). Your private CA must be in the ACTIVE or DISABLED state before you can update it. You can disable a private CA that is in the ACTIVE state or make a CA that is in the DISABLED state active again. NOTE: Both Amazon Web Services Private CA and the IAM principal must have permission to write to the S3 bucket that you specify. If the IAM principal making the call does not have permission to write to the bucket, then an exce...
+    /// </summary>
+    /// <param name="CertificateAuthorityArn">Amazon Resource Name (ARN) of the private CA that issued the cer- tificate to be revoked. This must be of the form: `` arn:aws:acm-pca:region :account :certificate-author- ity/12345678-1234-1234-1234-123456789012 `` System Message: WARNING/2 (&lt;string&gt;:, line 84) Inline literal start-string without end-string. Constraints: o min: 5 o max: 200 o pattern: arn:[\w+=/,.@-]+:acm-pca:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=,.@-]+)*</param>
+    public AwsAcmPcaUpdateCertificateAuthorityOptions(
+        string CertificateAuthorityArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CertificateAuthorityArn);
+        this.CertificateAuthorityArn = CertificateAuthorityArn;
+    }
+
+    private AwsAcmPcaUpdateCertificateAuthorityOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAcmPcaUpdateCertificateAuthorityOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAcmPcaUpdateCertificateAuthorityOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Amazon Resource Name (ARN) of the private CA that issued the cer- tificate to be revoked. This must be of the form: `` arn:aws:acm-pca:region :account :certificate-author- ity/12345678-1234-1234-1234-123456789012 `` System Message: WARNING/2 (&lt;string&gt;:, line 84) Inline literal start-string without end-string. Constraints: o min: 5 o max: 200 o pattern: arn:[\w+=/,.@-]+:acm-pca:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=,.@-]+)*
+    /// </summary>
     [CliOption("--certificate-authority-arn")]
-    public string? CertificateAuthorityArn { get; set; }
+    public string? CertificateAuthorityArn { get; private init; }
 
     /// <summary>
     /// Contains information to enable support for Online Certificate Status Protocol (OCSP), certificate revocation list (CRL), both protocols, or neither. If you don't supply this parameter, existing capibilites remain unchanged. For more information, see the OcspConfiguration and CrlConfiguration types. The following requirements apply to revocation configurations. o A configuration disabling CRLs or OCSP must contain only the En- abled=False parameter, and will fail if other parameters such as CustomCname or ExpirationInDays are included. o In a CRL configuration, the S3BucketName parameter must conform to Amazon S3 bucket naming rules . o A configuration containing a custom Canonical Name (CNAME) parame- ter for CRLs or OCSP must conform to RFC2396 restrictions on the use of special characters in a CNAME. o In a CRL or OCSP configuration, the value of a CNAME parameter must not include a protocol prefix such as "http://" or "- https://". WARNING: If you update the S3BucketName of CrlConfiguration , you can break revocation for existing certificates. In other words, if you call UpdateCertificateAuthority to update the CRL configura- tion's S3 bucket name, Amazon Web Services Private CA only writes CRLs to the new S3 bucket. Certificates issued prior to this point will have the old S3 bucket name in your CRL Distrib- ution Point (CDP) extension, essentially breaking revocation. If you must update the S3 bucket, you'll need to reissue old cer- tificates to keep the revocation working. Alternatively, you can use a CustomCname in your CRL configuration if you might need to change the S3 bucket name in the future. CrlConfiguration -&gt; (structure) Configuration of the certificate revocation list (CRL), if any, maintained by your private CA. A CRL is typically updated ap- proximately 30 minutes after a certificate is revoked. If for any reason a CRL update fails, Amazon Web Services Private CA makes further attempts every 15 minutes. Enabled -&gt; (boolean) [required] Boolean value that specifies whether certificate revocation lists (CRLs) are enabled. You can use this value to enable certificate revocation for a new CA when you call the CreateCertificateAuthority action or for an existing CA when you call the UpdateCertificateAuthority action. ExpirationInDays -&gt; (integer) Validity period of the CRL in days. Constraints: o min: 1 o max: 5000 CustomCname -&gt; (string) Name inserted into the certificate CRL Distribution Points extension that enables the use of an alias for the CRL dis- tribution point. Use this value if you don't want the name of your S3 bucket to be public. NOTE: The content of a Canonical Name (CNAME) record must con- form to RFC2396 restrictions on the use of special char- acters in URIs. Additionally, the value of the CNAME must not include a protocol prefix such as "http://" or "- https://". Constraints: o min: 0 o max: 253 o pattern: [-a-zA-Z0-9;/?:@&amp;=+$,%_.!~*()']* S3BucketName -&gt; (string) Name of the S3 bucket that contains the CRL. If you do not provide a value for the CustomCname argument, the name of your S3 bucket is placed into the CRL Distribution Points ex- tension of the issued certificate. You can change the name of your bucket by calling the UpdateCertificateAuthority opera- tion. You must specify a bucket policy that allows Amazon Web Services Private CA to write the CRL to your bucket. NOTE: The S3BucketName parameter must conform to the S3 bucket naming rules . Constraints: o min: 3 o max: 255 o pattern: [-a-zA-Z0-9._/]+ S3ObjectAcl -&gt; (string) Determines whether the CRL will be publicly readable or pri- vately held in the CRL Amazon S3 bucket. If you choose PUB- LIC_READ, the CRL will be accessible over the public inter- net. If you choose BUCKET_OWNER_FULL_CONTROL, only the owner of the CRL S3 bucket can access the CRL, and your PKI clients may need an alternative method of access. If no value is specified, the default is PUBLIC_READ . Note: This default can cause CA creation to fail in some circumstances. If you have have enabled the Block Public Access (BPA) feature in your S3 account, then you must specify the value of this parameter as BUCKET_OWNER_FULL_CONTROL , and not doing so results in an error. If you have disabled BPA in S3, then you can specify either BUCKET_OWNER_FULL_CONTROL or PUBLIC_READ as the value. For more information, see Blocking public access to the S3 bucket . Possible values: o PUBLIC_READ o BUCKET_OWNER_FULL_CONTROL CrlDistributionPointExtensionConfiguration -&gt; (structure) Configures the behavior of the CRL Distribution Point exten- sion for certificates issued by your certificate authority. If this field is not provided, then the CRl Distribution Point Extension will be present and contain the default CRL URL. OmitExtension -&gt; (boolean) [required] Configures whether the CRL Distribution Point extension should be populated with the default URL to the CRL. If set to true , then the CDP extension will not be present in any certificates issued by that CA unless otherwise specified through CSR or API passthrough. NOTE: Only set this if you have another way to distribute the CRL Distribution Points for certificates issued by your CA, such as the Matter Distributed Compliance Ledger This configuration cannot be enabled with a custom CNAME set. CrlType -&gt; (string) Specifies whether to create a complete or partitioned CRL. This setting determines the maximum number of certificates that the certificate authority can issue and revoke. For more information, see Amazon Web Services Private CA quotas . o COMPLETE - The default setting. Amazon Web Services Private CA maintains a single CRL le for all unexpired certicates issued by a CA that have been revoked for any reason. Each certicate that Amazon Web Services Private CA issues is bound to a specic CRL through its CRL distribution point (CDP) extension, dened in RFC 5280 . o PARTITIONED - Compared to complete CRLs, partitioned CRLs dramatically increase the number of certicates your private CA can issue. WARNING: When using partitioned CRLs, you must validate that the CRL's associated issuing distribution point (IDP) URI matches the certicate's CDP URI to ensure the right CRL has been fetched. Amazon Web Services Private CA marks the IDP extension as critical, which your client must be able to process. Possible values: o COMPLETE o PARTITIONED CustomPath -&gt; (string) Designates a custom le path in S3 for CRL(s). For example, http://&lt;CustomName&gt;/ &lt;CustomPath&gt;/&lt;CrlPartition_GUID&gt;.crl . Constraints: o min: 0 o max: 253 o pattern: (/|[-a-zA-Z0-9;?:@&amp;=+$,%_.!~*()']+(/[-a-zA-Z0-9;?:@&amp;=+$,%_.!~*()']+)*) OcspConfiguration -&gt; (structure) Configuration of Online Certificate Status Protocol (OCSP) sup- port, if any, maintained by your private CA. When you revoke a certificate, OCSP responses may take up to 60 minutes to reflect the new status. Enabled -&gt; (boolean) [required] Flag enabling use of the Online Certificate Status Protocol (OCSP) for validating certificate revocation status. OcspCustomCname -&gt; (string) By default, Amazon Web Services Private CA injects an Amazon Web Services domain into certificates being validated by the Online Certificate Status Protocol (OCSP). A customer can al- ternatively use this object to define a CNAME specifying a customized OCSP domain. NOTE: The content of a Canonical Name (CNAME) record must con- form to RFC2396 restrictions on the use of special char- acters in URIs. Additionally, the value of the CNAME must not include a protocol prefix such as "http://" or "- https://". For more information, see Customizing Online Certificate Sta- tus Protocol (OCSP) in the Amazon Web Services Private Cer- tificate Authority User Guide . Constraints: o min: 0 o max: 253 o pattern: [-a-zA-Z0-9;/?:@&amp;=+$,%_.!~*()']* Shorthand Syntax: CrlConfiguration={Enabled=boolean,ExpirationInDays=integer,CustomCname=string,S3BucketName=string,S3ObjectAcl=string,CrlDistributionPointExtensionConfiguration={OmitExtension=boolean},CrlType=string,CustomPath=string},OcspConfiguration={Enabled=boolean,OcspCustomCname=string} JSON Syntax: { "CrlConfiguration": { "Enabled": true|false, "ExpirationInDays": integer, "CustomCname": "string", "S3BucketName": "string", "S3ObjectAcl": "PUBLIC_READ"|"BUCKET_OWNER_FULL_CONTROL", "CrlDistributionPointExtensionConfiguration": { "OmitExtension": true|false }, "CrlType": "COMPLETE"|"PARTITIONED", "CustomPath": "string" }, "OcspConfiguration": { "Enabled": true|false, "OcspCustomCname": "string" } }
@@ -42,5 +79,22 @@ public record AwsAcmPcaUpdateCertificateAuthorityOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

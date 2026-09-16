@@ -16,21 +16,21 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsElementalinferenceUpdateDictionaryLanguage
 {
+    [EnumValue("deu")]
+    Deu,
+
     [EnumValue("eng")]
-    Eng = 1,
+    Eng,
 
     [EnumValue("fra")]
-    Fra = 2,
+    Fra,
 
     [EnumValue("ita")]
-    Ita = 3,
-
-    [EnumValue("deu")]
-    Deu = 4,
-
-    [EnumValue("spa")]
-    Spa = 5,
+    Ita,
 
     [EnumValue("por")]
-    Por = 6
+    Por,
+
+    [EnumValue("spa")]
+    Spa
 }

@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --stateequals.
+/// Allowed values for --state-equals.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsTranscribeListVocabulariesStateEquals
 {
+    [EnumValue("FAILED")]
+    Failed,
+
     [EnumValue("PENDING")]
-    Pending = 1,
+    Pending,
 
     [EnumValue("READY")]
-    Ready = 2,
-
-    [EnumValue("FAILED")]
-    Failed = 3
+    Ready
 }

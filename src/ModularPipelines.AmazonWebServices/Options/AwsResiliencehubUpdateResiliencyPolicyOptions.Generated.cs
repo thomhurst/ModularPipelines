@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,8 +22,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resiliencehub", "update-resiliency-policy")]
-public record AwsResiliencehubUpdateResiliencyPolicyOptions : AwsOptions
+public record AwsResiliencehubUpdateResiliencyPolicyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a resiliency policy. NOTE: Resilience Hub allows you to provide a value of zero for rtoInSecs and rpoInSecs of your resiliency policy. But, while assessing your application, the lowest possible assessment result is near zero. Hence, if you provide value zero for rtoInSecs and rpoInSecs , the estimated workload RTO and estimated workload RPO result will be near zero and the Compliance status for your application will be set to Policy breached . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PolicyArn">Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN is: arn:partition :resiliencehub:region :account :re- siliency-policy/policy-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Ref- erence guide. Constraints: o pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$</param>
+    public AwsResiliencehubUpdateResiliencyPolicyOptions(
+        string PolicyArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyArn);
+        this.PolicyArn = PolicyArn;
+    }
+
+    private AwsResiliencehubUpdateResiliencyPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsResiliencehubUpdateResiliencyPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsResiliencehubUpdateResiliencyPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN is: arn:partition :resiliencehub:region :account :re- siliency-policy/policy-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Ref- erence guide. Constraints: o pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$
+    /// </summary>
+    [CliOption("--policy-arn")]
+    public string? PolicyArn { get; private init; }
+
     /// <summary>
     /// Specifies a high-level geographical location constraint for where your resilience policy data can be stored. Possible values: o AnyLocation o SameContinent o SameCountry
     /// </summary>
@@ -34,9 +74,6 @@ public record AwsResiliencehubUpdateResiliencyPolicyOptions : AwsOptions
     /// </summary>
     [CliOption("--policy", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Policy { get; set; }
-
-    [CliOption("--policy-arn")]
-    public string? PolicyArn { get; set; }
 
     /// <summary>
     /// Description of the resiliency policy. Constraints: o min: 0 o max: 500
@@ -61,5 +98,22 @@ public record AwsResiliencehubUpdateResiliencyPolicyOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-firewall", "start-flow-flush")]
-public record AwsNetworkFirewallStartFlowFlushOptions : AwsOptions
+public record AwsNetworkFirewallStartFlowFlushOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Begins the flushing of traffic from the firewall, according to the fil- ters you define. When the operation starts, impacted flows are tem- porarily marked as timed out before the Suricata engine prunes, or flushes, the flows from the firewall table. WARNING: While the flush completes, impacted flows are processed as midstream traffic. This may result in a temporary increase in midstream traf- fic metrics. We recommend that you double check your stream excep- tion policy before you perform a flu...
+    /// </summary>
+    /// <param name="FirewallArn">The Amazon Resource Name (ARN) of the firewall. Constraints: o min: 1 o max: 256 o pattern: ^arn:aws.*</param>
+    /// <param name="FlowFilters">Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation. (structure) Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation. SourceAddress -&gt; (structure) A single IP address specification. This is used in the MatchAttributes source and destination specifications. AddressDefinition -&gt; (string) [required] Specify an IP address or a block of IP addresses in Classless Inter-Domain Routing (CIDR) notation. Network Firewall supports all address ranges for IPv4 and IPv6. Examples: o To configure Network Firewall to inspect for the IP ad- dress 192.0.2.44, specify 192.0.2.44/32 . o To configure Network Firewall to inspect for IP ad- dresses from 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24 . o To configure Network Firewall to inspect for the IP ad- dress 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128 . o To configure Network Firewall to inspect for IP ad- dresses from 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64 . For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing . Constraints: o min: 1 o max: 255 o pattern: ^([a-fA-F\d:\.]+($|/\d{1,3}))$ DestinationAddress -&gt; (structure) A single IP address specification. This is used in the MatchAttributes source and destination specifications. AddressDefinition -&gt; (string) [required] Specify an IP address or a block of IP addresses in Classless Inter-Domain Routing (CIDR) notation. Network Firewall supports all address ranges for IPv4 and IPv6. Examples: o To configure Network Firewall to inspect for the IP ad- dress 192.0.2.44, specify 192.0.2.44/32 . o To configure Network Firewall to inspect for IP ad- dresses from 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24 . o To configure Network Firewall to inspect for the IP ad- dress 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128 . o To configure Network Firewall to inspect for IP ad- dresses from 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64 . For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing . Constraints: o min: 1 o max: 255 o pattern: ^([a-fA-F\d:\.]+($|/\d{1,3}))$ SourcePort -&gt; (string) The source port to inspect for. You can specify an individual port, for example 1994 and you can specify a port range, for example 1990:1994 . To match with any port, specify ANY . Constraints: o min: 1 o max: 1024 o pattern: ^.*$ DestinationPort -&gt; (string) The destination port to inspect for. You can specify an indi- vidual port, for example 1994 and you can specify a port range, for example 1990:1994 . To match with any port, spec- ify ANY . Constraints: o min: 1 o max: 1024 o pattern: ^.*$ Protocols -&gt; (list) The protocols to inspect for, specified using the assigned internet protocol number (IANA) for each protocol. If not specified, this matches with any protocol. (string) Constraints: o min: 1 o max: 12 o pattern: ^.*$ Shorthand Syntax: SourceAddress={AddressDefinition=string},DestinationAddress={AddressDefinition=string},SourcePort=string,DestinationPort=string,Protocols=string,string ... JSON Syntax: [ { "SourceAddress": { "AddressDefinition": "string" }, "DestinationAddress": { "AddressDefinition": "string" }, "SourcePort": "string", "DestinationPort": "string", "Protocols": ["string", ...] } ... ]</param>
+    public AwsNetworkFirewallStartFlowFlushOptions(
+        string FirewallArn,
+        IEnumerable<string> FlowFilters
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FirewallArn);
+        this.FirewallArn = FirewallArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(FlowFilters);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(FlowFilters));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(FlowFilters));
+            }
+
+            FlowFilters = materialized;
+        }
+        this.FlowFilters = FlowFilters;
+    }
+
+    private AwsNetworkFirewallStartFlowFlushOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNetworkFirewallStartFlowFlushOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNetworkFirewallStartFlowFlushOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the firewall. Constraints: o min: 1 o max: 256 o pattern: ^arn:aws.*
+    /// </summary>
     [CliOption("--firewall-arn")]
-    public string? FirewallArn { get; set; }
+    public string? FirewallArn { get; private init; }
+
+    /// <summary>
+    /// Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation. (structure) Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation. SourceAddress -&gt; (structure) A single IP address specification. This is used in the MatchAttributes source and destination specifications. AddressDefinition -&gt; (string) [required] Specify an IP address or a block of IP addresses in Classless Inter-Domain Routing (CIDR) notation. Network Firewall supports all address ranges for IPv4 and IPv6. Examples: o To configure Network Firewall to inspect for the IP ad- dress 192.0.2.44, specify 192.0.2.44/32 . o To configure Network Firewall to inspect for IP ad- dresses from 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24 . o To configure Network Firewall to inspect for the IP ad- dress 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128 . o To configure Network Firewall to inspect for IP ad- dresses from 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64 . For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing . Constraints: o min: 1 o max: 255 o pattern: ^([a-fA-F\d:\.]+($|/\d{1,3}))$ DestinationAddress -&gt; (structure) A single IP address specification. This is used in the MatchAttributes source and destination specifications. AddressDefinition -&gt; (string) [required] Specify an IP address or a block of IP addresses in Classless Inter-Domain Routing (CIDR) notation. Network Firewall supports all address ranges for IPv4 and IPv6. Examples: o To configure Network Firewall to inspect for the IP ad- dress 192.0.2.44, specify 192.0.2.44/32 . o To configure Network Firewall to inspect for IP ad- dresses from 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24 . o To configure Network Firewall to inspect for the IP ad- dress 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128 . o To configure Network Firewall to inspect for IP ad- dresses from 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64 . For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing . Constraints: o min: 1 o max: 255 o pattern: ^([a-fA-F\d:\.]+($|/\d{1,3}))$ SourcePort -&gt; (string) The source port to inspect for. You can specify an individual port, for example 1994 and you can specify a port range, for example 1990:1994 . To match with any port, specify ANY . Constraints: o min: 1 o max: 1024 o pattern: ^.*$ DestinationPort -&gt; (string) The destination port to inspect for. You can specify an indi- vidual port, for example 1994 and you can specify a port range, for example 1990:1994 . To match with any port, spec- ify ANY . Constraints: o min: 1 o max: 1024 o pattern: ^.*$ Protocols -&gt; (list) The protocols to inspect for, specified using the assigned internet protocol number (IANA) for each protocol. If not specified, this matches with any protocol. (string) Constraints: o min: 1 o max: 12 o pattern: ^.*$ Shorthand Syntax: SourceAddress={AddressDefinition=string},DestinationAddress={AddressDefinition=string},SourcePort=string,DestinationPort=string,Protocols=string,string ... JSON Syntax: [ { "SourceAddress": { "AddressDefinition": "string" }, "DestinationAddress": { "AddressDefinition": "string" }, "SourcePort": "string", "DestinationPort": "string", "Protocols": ["string", ...] } ... ]
+    /// </summary>
+    [CliOption("--flow-filters", GroupValues = true)]
+    public IEnumerable<string>? FlowFilters { get; private init; }
 
     /// <summary>
     /// The ID of the Availability Zone where the firewall is located. For example, us-east-2a . Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
@@ -48,13 +106,27 @@ public record AwsNetworkFirewallStartFlowFlushOptions : AwsOptions
     [CliOption("--minimum-flow-age-in-seconds")]
     public int? MinimumFlowAgeInSeconds { get; set; }
 
-    [CliOption("--flow-filters", GroupValues = true)]
-    public IEnumerable<string>? FlowFilters { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

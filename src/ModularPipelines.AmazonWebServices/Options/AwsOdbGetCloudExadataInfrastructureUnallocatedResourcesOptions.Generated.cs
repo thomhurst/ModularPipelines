@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("odb", "get-cloud-exadata-infrastructure-unallocated-resources")]
-public record AwsOdbGetCloudExadataInfrastructureUnallocatedResourcesOptions : AwsOptions
+public record AwsOdbGetCloudExadataInfrastructureUnallocatedResourcesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves information about unallocated resources in a specified Cloud Exadata Infrastructure. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CloudExadataInfrastructureId">The unique identifier of the Cloud Exadata infrastructure for which to retrieve unallocated resources. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})</param>
+    public AwsOdbGetCloudExadataInfrastructureUnallocatedResourcesOptions(
+        string CloudExadataInfrastructureId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CloudExadataInfrastructureId);
+        this.CloudExadataInfrastructureId = CloudExadataInfrastructureId;
+    }
+
+    private AwsOdbGetCloudExadataInfrastructureUnallocatedResourcesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOdbGetCloudExadataInfrastructureUnallocatedResourcesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOdbGetCloudExadataInfrastructureUnallocatedResourcesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the Cloud Exadata infrastructure for which to retrieve unallocated resources. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})
+    /// </summary>
     [CliOption("--cloud-exadata-infrastructure-id")]
-    public string? CloudExadataInfrastructureId { get; set; }
+    public string? CloudExadataInfrastructureId { get; private init; }
 
     /// <summary>
     /// The database servers to include in the unallocated resources query. Constraints: o min: 1 o max: 1024 (string) Syntax: "string" "string" ...
@@ -35,5 +72,22 @@ public record AwsOdbGetCloudExadataInfrastructureUnallocatedResourcesOptions : A
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

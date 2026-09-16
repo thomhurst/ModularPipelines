@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,97 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ds", "start-schema-extension")]
-public record AwsDsStartSchemaExtensionOptions : AwsOptions
+public record AwsDsStartSchemaExtensionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Applies a schema extension to a Microsoft AD directory. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DirectoryId">The identifier of the directory for which the schema extension will be applied to. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="CreateSnapshotBeforeSchemaExtension">fore-schema-extension (boolean) [required] If true, creates a snapshot of the directory before applying the schema extension.</param>
+    /// <param name="LdifContent">The LDIF file represented as a string. To construct the LdifContent string, precede each line as it would be formatted in an ldif file with n. See the example request below for more details. The file size can be no larger than 1MB. Constraints: o min: 1 o max: 500000</param>
+    /// <param name="Description">A description of the schema extension. Constraints: o min: 0 o max: 128 o pattern: ^([a-zA-Z0-9_])[\\a-zA-Z0-9_@#%*+=:?./!\s-]*$</param>
+    public AwsDsStartSchemaExtensionOptions(
+        string DirectoryId,
+        bool CreateSnapshotBeforeSchemaExtension,
+        string LdifContent,
+        string Description
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DirectoryId);
+        this.DirectoryId = DirectoryId;
+        this.CreateSnapshotBeforeSchemaExtension = CreateSnapshotBeforeSchemaExtension;
+        global::System.ArgumentNullException.ThrowIfNull(LdifContent);
+        this.LdifContent = LdifContent;
+        global::System.ArgumentNullException.ThrowIfNull(Description);
+        this.Description = Description;
+    }
+
+    private AwsDsStartSchemaExtensionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDsStartSchemaExtensionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDsStartSchemaExtensionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the directory for which the schema extension will be applied to. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// </summary>
     [CliOption("--directory-id")]
-    public string? DirectoryId { get; set; }
+    public string? DirectoryId { get; private init; }
 
-    [CliFlag("--create-snapshot-before-schema-extension")]
-    public bool? CreateSnapshotBeforeSchemaExtension { get; set; }
+    /// <summary>
+    /// fore-schema-extension (boolean) [required] If true, creates a snapshot of the directory before applying the schema extension.
+    /// </summary>
+    [CliFlag("--create-snapshot-before-schema-extension", NegatedName = "--no-create-snapshot-before-schema-extension")]
+    public bool? CreateSnapshotBeforeSchemaExtension { get; private init; }
 
+    /// <summary>
+    /// The LDIF file represented as a string. To construct the LdifContent string, precede each line as it would be formatted in an ldif file with n. See the example request below for more details. The file size can be no larger than 1MB. Constraints: o min: 1 o max: 500000
+    /// </summary>
     [CliOption("--ldif-content")]
-    public string? LdifContent { get; set; }
+    public string? LdifContent { get; private init; }
 
+    /// <summary>
+    /// A description of the schema extension. Constraints: o min: 0 o max: 128 o pattern: ^([a-zA-Z0-9_])[\\a-zA-Z0-9_@#%*+=:?./!\s-]*$
+    /// </summary>
     [CliOption("--description")]
-    public string? Description { get; set; }
+    public string? Description { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

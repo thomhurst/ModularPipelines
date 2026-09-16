@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dms", "start-metadata-model-export-as-script")]
-public record AwsDmsStartMetadataModelExportAsScriptOptions : AwsOptions
+public record AwsDmsStartMetadataModelExportAsScriptOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Queues an export of metadata models (database objects such as tables, views, and procedures) as a data definition language (DDL) script. The script is stored as a ZIP archive in the Amazon S3 bucket associated with the migration project. If other requests created by Start* opera- tions are already in the migration project's queue, the export begins after they complete. When exporting from the target metadata tree, the export applies only to metadata models created by conversion. Metadata models ...
+    /// </summary>
+    /// <param name="MigrationProjectIdentifier">The migration project name or Amazon Resource Name (ARN). Constraints: o max: 255</param>
+    /// <param name="SelectionRules">A JSON string that identifies the metadata models to export as a SQL script. For the selection rule format and examples, see Selection rules in DMS Schema Conversion . Usage: o Accepts source or target selection rules depending on the Origin parameter. The server-name in the object locator must match the corresponding data provider. o Supports explicit , include , and exclude rule actions.</param>
+    /// <param name="Origin">Specifies the metadata tree to export from. Possible values: o SOURCE o TARGET</param>
+    public AwsDmsStartMetadataModelExportAsScriptOptions(
+        string MigrationProjectIdentifier,
+        string SelectionRules,
+        AwsDmsStartMetadataModelExportAsScriptOrigin Origin
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MigrationProjectIdentifier);
+        this.MigrationProjectIdentifier = MigrationProjectIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(SelectionRules);
+        this.SelectionRules = SelectionRules;
+        global::System.ArgumentNullException.ThrowIfNull(Origin);
+        this.Origin = Origin;
+    }
+
+    private AwsDmsStartMetadataModelExportAsScriptOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDmsStartMetadataModelExportAsScriptOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDmsStartMetadataModelExportAsScriptOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The migration project name or Amazon Resource Name (ARN). Constraints: o max: 255
+    /// </summary>
     [CliOption("--migration-project-identifier")]
-    public string? MigrationProjectIdentifier { get; set; }
+    public string? MigrationProjectIdentifier { get; private init; }
 
+    /// <summary>
+    /// A JSON string that identifies the metadata models to export as a SQL script. For the selection rule format and examples, see Selection rules in DMS Schema Conversion . Usage: o Accepts source or target selection rules depending on the Origin parameter. The server-name in the object locator must match the corresponding data provider. o Supports explicit , include , and exclude rule actions.
+    /// </summary>
     [CliOption("--selection-rules")]
-    public string? SelectionRules { get; set; }
+    public string? SelectionRules { get; private init; }
 
+    /// <summary>
+    /// Specifies the metadata tree to export from. Possible values: o SOURCE o TARGET
+    /// </summary>
     [CliOption("--origin")]
-    public string? Origin { get; set; }
+    public AwsDmsStartMetadataModelExportAsScriptOrigin? Origin { get; private init; }
 
     /// <summary>
     /// The name for the exported file. When you omit this parameter, the service generates a name from the data provider engine name and an export timestamp.
@@ -41,5 +93,22 @@ public record AwsDmsStartMetadataModelExportAsScriptOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,22 +22,83 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mediatailor", "create-channel")]
-public record AwsMediatailorCreateChannelOptions : AwsOptions
+public record AwsMediatailorCreateChannelOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a channel. For information about MediaTailor channels, see Working with channels in the MediaTailor User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ChannelName">The name of the channel.</param>
+    /// <param name="Outputs">The channel's output properties. (structure) The output configuration for this channel. DashPlaylistSettings -&gt; (structure) DASH manifest configuration parameters. ManifestWindowSeconds -&gt; (integer) The total duration (in seconds) of each manifest. Minimum value: 30 seconds. Maximum value: 3600 seconds. MinBufferTimeSeconds -&gt; (integer) Minimum amount of content (measured in seconds) that a player must keep available in the buffer. Minimum value: 2 seconds. Maximum value: 60 seconds. MinUpdatePeriodSeconds -&gt; (integer) Minimum amount of time (in seconds) that the player should wait before requesting updates to the manifest. Minimum value: 2 seconds. Maximum value: 60 seconds. SuggestedPresentationDelaySeconds -&gt; (integer) Amount of time (in seconds) that the player should be from the live point at the end of the manifest. Minimum value: 2 seconds. Maximum value: 60 seconds. HlsPlaylistSettings -&gt; (structure) HLS playlist configuration parameters. ManifestWindowSeconds -&gt; (integer) The total duration (in seconds) of each manifest. Minimum value: 30 seconds. Maximum value: 3600 seconds. AdMarkupType -&gt; (list) Determines the type of SCTE 35 tags to use in ad markup. Specify DATERANGE to use DATERANGE tags (for live or VOD content). Specify SCTE35_ENHANCED to use EXT-X-CUE-OUT and EXT-X-CUE-IN tags (for VOD content only). (string) Possible values: o DATERANGE o SCTE35_ENHANCED ManifestName -&gt; (string) [required] The name of the manifest for the channel. The name appears in the PlaybackUrl . SourceGroup -&gt; (string) [required] A string used to match which HttpPackageConfiguration is used for each VodSource . Shorthand Syntax: DashPlaylistSettings={ManifestWindowSeconds=integer,MinBufferTimeSeconds=integer,MinUpdatePeriodSeconds=integer,SuggestedPresentationDelaySeconds=integer},HlsPlaylistSettings={ManifestWindowSeconds=integer,AdMarkupType=[string,string]},ManifestName=string,SourceGroup=string ... JSON Syntax: [ { "DashPlaylistSettings": { "ManifestWindowSeconds": integer, "MinBufferTimeSeconds": integer, "MinUpdatePeriodSeconds": integer, "SuggestedPresentationDelaySeconds": integer }, "HlsPlaylistSettings": { "ManifestWindowSeconds": integer, "AdMarkupType": ["DATERANGE"|"SCTE35_ENHANCED", ...] }, "ManifestName": "string", "SourceGroup": "string" } ... ]</param>
+    /// <param name="PlaybackMode">The type of playback mode to use for this channel. LINEAR - The programs in the schedule play once back-to-back in the schedule. LOOP - The programs in the schedule play back-to-back in an end- less loop. When the last program in the schedule stops playing, playback loops back to the first program in the schedule. Possible values: o LOOP o LINEAR</param>
+    public AwsMediatailorCreateChannelOptions(
+        string ChannelName,
+        IEnumerable<string> Outputs,
+        AwsMediatailorCreateChannelPlaybackMode PlaybackMode
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ChannelName);
+        this.ChannelName = ChannelName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Outputs);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Outputs));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Outputs));
+            }
+
+            Outputs = materialized;
+        }
+        this.Outputs = Outputs;
+        global::System.ArgumentNullException.ThrowIfNull(PlaybackMode);
+        this.PlaybackMode = PlaybackMode;
+    }
+
+    private AwsMediatailorCreateChannelOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMediatailorCreateChannelOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMediatailorCreateChannelOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the channel.
+    /// </summary>
     [CliOption("--channel-name")]
-    public string? ChannelName { get; set; }
+    public string? ChannelName { get; private init; }
+
+    /// <summary>
+    /// The channel's output properties. (structure) The output configuration for this channel. DashPlaylistSettings -&gt; (structure) DASH manifest configuration parameters. ManifestWindowSeconds -&gt; (integer) The total duration (in seconds) of each manifest. Minimum value: 30 seconds. Maximum value: 3600 seconds. MinBufferTimeSeconds -&gt; (integer) Minimum amount of content (measured in seconds) that a player must keep available in the buffer. Minimum value: 2 seconds. Maximum value: 60 seconds. MinUpdatePeriodSeconds -&gt; (integer) Minimum amount of time (in seconds) that the player should wait before requesting updates to the manifest. Minimum value: 2 seconds. Maximum value: 60 seconds. SuggestedPresentationDelaySeconds -&gt; (integer) Amount of time (in seconds) that the player should be from the live point at the end of the manifest. Minimum value: 2 seconds. Maximum value: 60 seconds. HlsPlaylistSettings -&gt; (structure) HLS playlist configuration parameters. ManifestWindowSeconds -&gt; (integer) The total duration (in seconds) of each manifest. Minimum value: 30 seconds. Maximum value: 3600 seconds. AdMarkupType -&gt; (list) Determines the type of SCTE 35 tags to use in ad markup. Specify DATERANGE to use DATERANGE tags (for live or VOD content). Specify SCTE35_ENHANCED to use EXT-X-CUE-OUT and EXT-X-CUE-IN tags (for VOD content only). (string) Possible values: o DATERANGE o SCTE35_ENHANCED ManifestName -&gt; (string) [required] The name of the manifest for the channel. The name appears in the PlaybackUrl . SourceGroup -&gt; (string) [required] A string used to match which HttpPackageConfiguration is used for each VodSource . Shorthand Syntax: DashPlaylistSettings={ManifestWindowSeconds=integer,MinBufferTimeSeconds=integer,MinUpdatePeriodSeconds=integer,SuggestedPresentationDelaySeconds=integer},HlsPlaylistSettings={ManifestWindowSeconds=integer,AdMarkupType=[string,string]},ManifestName=string,SourceGroup=string ... JSON Syntax: [ { "DashPlaylistSettings": { "ManifestWindowSeconds": integer, "MinBufferTimeSeconds": integer, "MinUpdatePeriodSeconds": integer, "SuggestedPresentationDelaySeconds": integer }, "HlsPlaylistSettings": { "ManifestWindowSeconds": integer, "AdMarkupType": ["DATERANGE"|"SCTE35_ENHANCED", ...] }, "ManifestName": "string", "SourceGroup": "string" } ... ]
+    /// </summary>
+    [CliOption("--outputs", GroupValues = true)]
+    public IEnumerable<string>? Outputs { get; private init; }
+
+    /// <summary>
+    /// The type of playback mode to use for this channel. LINEAR - The programs in the schedule play once back-to-back in the schedule. LOOP - The programs in the schedule play back-to-back in an end- less loop. When the last program in the schedule stops playing, playback loops back to the first program in the schedule. Possible values: o LOOP o LINEAR
+    /// </summary>
+    [CliOption("--playback-mode")]
+    public AwsMediatailorCreateChannelPlaybackMode? PlaybackMode { get; private init; }
 
     /// <summary>
     /// The slate used to fill gaps between programs in the schedule. You must configure filler slate if your channel uses the LINEAR Play- backMode . MediaTailor doesn't support filler slate for channels us- ing the LOOP PlaybackMode . SourceLocationName -&gt; (string) The name of the source location where the slate VOD source is stored. VodSourceName -&gt; (string) The slate VOD source name. The VOD source must already exist in a source location before it can be used for slate. Shorthand Syntax: SourceLocationName=string,VodSourceName=string JSON Syntax: { "SourceLocationName": "string", "VodSourceName": "string" }
     /// </summary>
     [CliOption("--filler-slate")]
     public string? FillerSlate { get; set; }
-
-    [CliOption("--outputs", GroupValues = true)]
-    public IEnumerable<string>? Outputs { get; set; }
-
-    [CliOption("--playback-mode")]
-    public string? PlaybackMode { get; set; }
 
     /// <summary>
     /// The tags to assign to the channel. Tags are key-value pairs that you can associate with Amazon resources to help with organization, ac- cess control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources . key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -67,5 +129,22 @@ public record AwsMediatailorCreateChannelOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

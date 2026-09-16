@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "disable-transit-gateway-route-table-propagation")]
-public record AwsEc2DisableTransitGatewayRouteTablePropagationOptions : AwsOptions
+public record AwsEc2DisableTransitGatewayRouteTablePropagationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Disables the specified resource attachment from propagating routes to the specified propagation route table. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TransitGatewayRouteTableId">The ID of the propagation route table.</param>
+    public AwsEc2DisableTransitGatewayRouteTablePropagationOptions(
+        string TransitGatewayRouteTableId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TransitGatewayRouteTableId);
+        this.TransitGatewayRouteTableId = TransitGatewayRouteTableId;
+    }
+
+    private AwsEc2DisableTransitGatewayRouteTablePropagationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2DisableTransitGatewayRouteTablePropagationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2DisableTransitGatewayRouteTablePropagationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the propagation route table.
+    /// </summary>
     [CliOption("--transit-gateway-route-table-id")]
-    public string? TransitGatewayRouteTableId { get; set; }
+    public string? TransitGatewayRouteTableId { get; private init; }
 
     /// <summary>
     /// The ID of the attachment.
@@ -30,7 +67,10 @@ public record AwsEc2DisableTransitGatewayRouteTablePropagationOptions : AwsOptio
     [CliOption("--transit-gateway-attachment-id")]
     public string? TransitGatewayAttachmentId { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -44,5 +84,22 @@ public record AwsEc2DisableTransitGatewayRouteTablePropagationOptions : AwsOptio
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

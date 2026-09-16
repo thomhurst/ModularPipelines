@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,10 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("m2", "start-batch-job")]
-public record AwsM2StartBatchJobOptions : AwsOptions
+public record AwsM2StartBatchJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts a batch job and returns the unique identifier of this execution of the batch job. The associated application must be running in order to start the batch job. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationId">The unique identifier of the application associated with this batch job. Constraints: o pattern: ^\S{1,80}$</param>
+    /// <param name="BatchJobIdentifier">The unique identifier of the batch job. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: fileBatchJobIdentifier, restartBatchJo- bIdentifier, s3BatchJobIdentifier, scriptBatchJobIdentifier. fileBatchJobIdentifier -&gt; (structure) Specifies a file associated with a specific batch job. fileName -&gt; (string) [required] The file name for the batch job identifier. folderPath -&gt; (string) The relative path to the file name for the batch job identi- fier. restartBatchJobIdentifier -&gt; (structure) Specifies the required information for restart, including execu- tionId and JobStepRestartMarker . executionId -&gt; (string) [required] The executionId from the StartBatchJob response when the job ran for the first time. Constraints: o pattern: ^\S{1,80}$ jobStepRestartMarker -&gt; (structure) [required] The step/procedure step information for a restart batch job operation. fromProcStep -&gt; (string) The procedure step name that a batch job was restarted from. fromStep -&gt; (string) [required] The step name that a batch job was restarted from. skip -&gt; (boolean) The step-level checkpoint timestamp (creation or last modification) for an Amazon Web Services Blu Age applica- tion batch job. stepCheckpoint -&gt; (integer) Skip selected step and issue a restart from immediate successor step for an Amazon Web Services Blu Age appli- cation batch job. toProcStep -&gt; (string) The procedure step name that a batch job was restarted to. toStep -&gt; (string) The step name that a batch job was restarted to. s3BatchJobIdentifier -&gt; (structure) Specifies an Amazon S3 location that identifies the batch jobs that you want to run. Use this identifier to run ad hoc batch jobs. bucket -&gt; (string) [required] The Amazon S3 bucket that contains the batch job definitions. identifier -&gt; (tagged union structure) [required] Identifies the batch job definition. This identifier can also point to any batch job definition that already exists in the application or to one of the batch job definitions within the directory that is specified in keyPrefix . NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: fileName, scriptName. fileName -&gt; (string) The name of the file that contains the batch job defini- tion. scriptName -&gt; (string) The name of the script that contains the batch job defin- ition. keyPrefix -&gt; (string) The key prefix that specifies the path to the folder in the S3 bucket that has the batch job definitions. scriptBatchJobIdentifier -&gt; (structure) A batch job identifier in which the batch job to run is identi- fied by the script name. scriptName -&gt; (string) [required] The name of the script containing the batch job definition. Shorthand Syntax: fileBatchJobIdentifier={fileName=string,folderPath=string},restartBatchJobIdentifier={executionId=string,jobStepRestartMarker={fromProcStep=string,fromStep=string,skip=boolean,stepCheckpoint=integer,toProcStep=string,toStep=string}},s3BatchJobIdentifier={bucket=string,identifier={fileName=string,scriptName=string},keyPrefix=string},scriptBatchJobIdentifier={scriptName=string} JSON Syntax: { "fileBatchJobIdentifier": { "fileName": "string", "folderPath": "string" }, "restartBatchJobIdentifier": { "executionId": "string", "jobStepRestartMarker": { "fromProcStep": "string", "fromStep": "string", "skip": true|false, "stepCheckpoint": integer, "toProcStep": "string", "toStep": "string" } }, "s3BatchJobIdentifier": { "bucket": "string", "identifier": { "fileName": "string", "scriptName": "string" }, "keyPrefix": "string" }, "scriptBatchJobIdentifier": { "scriptName": "string" } }</param>
+    public AwsM2StartBatchJobOptions(
+        string ApplicationId,
+        string BatchJobIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationId);
+        this.ApplicationId = ApplicationId;
+        global::System.ArgumentNullException.ThrowIfNull(BatchJobIdentifier);
+        this.BatchJobIdentifier = BatchJobIdentifier;
+    }
+
+    private AwsM2StartBatchJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsM2StartBatchJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsM2StartBatchJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the application associated with this batch job. Constraints: o pattern: ^\S{1,80}$
+    /// </summary>
     [CliOption("--application-id")]
-    public string? ApplicationId { get; set; }
+    public string? ApplicationId { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the batch job. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: fileBatchJobIdentifier, restartBatchJo- bIdentifier, s3BatchJobIdentifier, scriptBatchJobIdentifier. fileBatchJobIdentifier -&gt; (structure) Specifies a file associated with a specific batch job. fileName -&gt; (string) [required] The file name for the batch job identifier. folderPath -&gt; (string) The relative path to the file name for the batch job identi- fier. restartBatchJobIdentifier -&gt; (structure) Specifies the required information for restart, including execu- tionId and JobStepRestartMarker . executionId -&gt; (string) [required] The executionId from the StartBatchJob response when the job ran for the first time. Constraints: o pattern: ^\S{1,80}$ jobStepRestartMarker -&gt; (structure) [required] The step/procedure step information for a restart batch job operation. fromProcStep -&gt; (string) The procedure step name that a batch job was restarted from. fromStep -&gt; (string) [required] The step name that a batch job was restarted from. skip -&gt; (boolean) The step-level checkpoint timestamp (creation or last modification) for an Amazon Web Services Blu Age applica- tion batch job. stepCheckpoint -&gt; (integer) Skip selected step and issue a restart from immediate successor step for an Amazon Web Services Blu Age appli- cation batch job. toProcStep -&gt; (string) The procedure step name that a batch job was restarted to. toStep -&gt; (string) The step name that a batch job was restarted to. s3BatchJobIdentifier -&gt; (structure) Specifies an Amazon S3 location that identifies the batch jobs that you want to run. Use this identifier to run ad hoc batch jobs. bucket -&gt; (string) [required] The Amazon S3 bucket that contains the batch job definitions. identifier -&gt; (tagged union structure) [required] Identifies the batch job definition. This identifier can also point to any batch job definition that already exists in the application or to one of the batch job definitions within the directory that is specified in keyPrefix . NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: fileName, scriptName. fileName -&gt; (string) The name of the file that contains the batch job defini- tion. scriptName -&gt; (string) The name of the script that contains the batch job defin- ition. keyPrefix -&gt; (string) The key prefix that specifies the path to the folder in the S3 bucket that has the batch job definitions. scriptBatchJobIdentifier -&gt; (structure) A batch job identifier in which the batch job to run is identi- fied by the script name. scriptName -&gt; (string) [required] The name of the script containing the batch job definition. Shorthand Syntax: fileBatchJobIdentifier={fileName=string,folderPath=string},restartBatchJobIdentifier={executionId=string,jobStepRestartMarker={fromProcStep=string,fromStep=string,skip=boolean,stepCheckpoint=integer,toProcStep=string,toStep=string}},s3BatchJobIdentifier={bucket=string,identifier={fileName=string,scriptName=string},keyPrefix=string},scriptBatchJobIdentifier={scriptName=string} JSON Syntax: { "fileBatchJobIdentifier": { "fileName": "string", "folderPath": "string" }, "restartBatchJobIdentifier": { "executionId": "string", "jobStepRestartMarker": { "fromProcStep": "string", "fromStep": "string", "skip": true|false, "stepCheckpoint": integer, "toProcStep": "string", "toStep": "string" } }, "s3BatchJobIdentifier": { "bucket": "string", "identifier": { "fileName": "string", "scriptName": "string" }, "keyPrefix": "string" }, "scriptBatchJobIdentifier": { "scriptName": "string" } }
+    /// </summary>
+    [CliOption("--batch-job-identifier")]
+    public string? BatchJobIdentifier { get; private init; }
 
     /// <summary>
     /// The Amazon Web Services Secrets Manager containing user's creden- tials for authentication and authorization for Start Batch Job exe- cution operation. Constraints: o min: 20 o max: 2048
@@ -32,9 +79,6 @@ public record AwsM2StartBatchJobOptions : AwsOptions
     [SecretValue]
     [CliOption("--auth-secrets-manager-arn")]
     public string? AuthSecretsManagerArn { get; set; }
-
-    [CliOption("--batch-job-identifier")]
-    public string? BatchJobIdentifier { get; set; }
 
     /// <summary>
     /// The collection of batch job parameters. For details about limits for keys and values, see Coding variables in JCL . Constraints: o min: 0 o max: 500 key -&gt; (string) See https://www.ibm.com/docs/en/workload-automation/9.3.0?topic=zos-coding-variables-in-jcl to get details about limits for both keys and values: 8 for keys (variable names), 44 for values (variable values) In addition, keys will be only alphabetic characters and digits, without any space or special characters (dash, underscore, etc ...) For BluAge Engine: There is no limit in length of keys and val- ues. Additional validation may be applied in code, per engine. Parameter key: the first character must be alphabetic. Can be of up to 32 alphanumeric characters. Constraints: o min: 1 o max: 32 o pattern: ^[A-Za-z][A-Za-z0-9]{1,31}$ value -&gt; (string) Parameter value can be of up to 1024 alphanumeric characters. Constraints: o min: 0 o max: 1024 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -47,5 +91,22 @@ public record AwsM2StartBatchJobOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

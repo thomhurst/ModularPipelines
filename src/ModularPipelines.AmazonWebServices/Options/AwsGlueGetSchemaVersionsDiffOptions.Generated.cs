@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("glue", "get-schema-versions-diff")]
-public record AwsGlueGetSchemaVersionsDiffOptions : AwsOptions
+public record AwsGlueGetSchemaVersionsDiffOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Fetches the schema version difference in the specified difference type between two stored schema versions in the Schema Registry. This API allows you to compare two schema versions between two schema definitions under the same schema. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SchemaId">This is a wrapper structure to contain schema identity fields. The structure contains: o SchemaId$SchemaArn: The Amazon Resource Name (ARN) of the schema. One of SchemaArn or SchemaName has to be provided. o SchemaId$SchemaName: The name of the schema. One of SchemaArn or SchemaName has to be provided. SchemaArn -&gt; (string) The Amazon Resource Name (ARN) of the schema. One of SchemaArn or SchemaName has to be provided. Constraints: o min: 1 o max: 10240 o pattern: arn:aws(-(cn|us-gov|iso(-[bef])?))?:glue:.* SchemaName -&gt; (string) The name of the schema. One of SchemaArn or SchemaName has to be provided. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9-_$#.]+ RegistryName -&gt; (string) The name of the schema registry that contains the schema. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9-_$#.]+ Shorthand Syntax: SchemaArn=string,SchemaName=string,RegistryName=string JSON Syntax: { "SchemaArn": "string", "SchemaName": "string", "RegistryName": "string" }</param>
+    /// <param name="FirstSchemaVersionNumber">The first of the two schema versions to be compared. LatestVersion -&gt; (boolean) The latest version available for the schema. VersionNumber -&gt; (long) The version number of the schema. Constraints: o min: 1 o max: 100000 Shorthand Syntax: LatestVersion=boolean,VersionNumber=long JSON Syntax: { "LatestVersion": true|false, "VersionNumber": long }</param>
+    /// <param name="SecondSchemaVersionNumber">The second of the two schema versions to be compared. LatestVersion -&gt; (boolean) The latest version available for the schema. VersionNumber -&gt; (long) The version number of the schema. Constraints: o min: 1 o max: 100000 Shorthand Syntax: LatestVersion=boolean,VersionNumber=long JSON Syntax: { "LatestVersion": true|false, "VersionNumber": long }</param>
+    /// <param name="SchemaDiffType">Refers to SYNTAX_DIFF , which is the currently supported diff type. Possible values: o SYNTAX_DIFF</param>
+    public AwsGlueGetSchemaVersionsDiffOptions(
+        string SchemaId,
+        string FirstSchemaVersionNumber,
+        string SecondSchemaVersionNumber,
+        string SchemaDiffType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SchemaId);
+        this.SchemaId = SchemaId;
+        global::System.ArgumentNullException.ThrowIfNull(FirstSchemaVersionNumber);
+        this.FirstSchemaVersionNumber = FirstSchemaVersionNumber;
+        global::System.ArgumentNullException.ThrowIfNull(SecondSchemaVersionNumber);
+        this.SecondSchemaVersionNumber = SecondSchemaVersionNumber;
+        global::System.ArgumentNullException.ThrowIfNull(SchemaDiffType);
+        this.SchemaDiffType = SchemaDiffType;
+    }
+
+    private AwsGlueGetSchemaVersionsDiffOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlueGetSchemaVersionsDiffOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlueGetSchemaVersionsDiffOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// This is a wrapper structure to contain schema identity fields. The structure contains: o SchemaId$SchemaArn: The Amazon Resource Name (ARN) of the schema. One of SchemaArn or SchemaName has to be provided. o SchemaId$SchemaName: The name of the schema. One of SchemaArn or SchemaName has to be provided. SchemaArn -&gt; (string) The Amazon Resource Name (ARN) of the schema. One of SchemaArn or SchemaName has to be provided. Constraints: o min: 1 o max: 10240 o pattern: arn:aws(-(cn|us-gov|iso(-[bef])?))?:glue:.* SchemaName -&gt; (string) The name of the schema. One of SchemaArn or SchemaName has to be provided. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9-_$#.]+ RegistryName -&gt; (string) The name of the schema registry that contains the schema. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9-_$#.]+ Shorthand Syntax: SchemaArn=string,SchemaName=string,RegistryName=string JSON Syntax: { "SchemaArn": "string", "SchemaName": "string", "RegistryName": "string" }
+    /// </summary>
     [CliOption("--schema-id")]
-    public string? SchemaId { get; set; }
+    public string? SchemaId { get; private init; }
 
+    /// <summary>
+    /// The first of the two schema versions to be compared. LatestVersion -&gt; (boolean) The latest version available for the schema. VersionNumber -&gt; (long) The version number of the schema. Constraints: o min: 1 o max: 100000 Shorthand Syntax: LatestVersion=boolean,VersionNumber=long JSON Syntax: { "LatestVersion": true|false, "VersionNumber": long }
+    /// </summary>
     [CliOption("--first-schema-version-number")]
-    public string? FirstSchemaVersionNumber { get; set; }
+    public string? FirstSchemaVersionNumber { get; private init; }
 
+    /// <summary>
+    /// The second of the two schema versions to be compared. LatestVersion -&gt; (boolean) The latest version available for the schema. VersionNumber -&gt; (long) The version number of the schema. Constraints: o min: 1 o max: 100000 Shorthand Syntax: LatestVersion=boolean,VersionNumber=long JSON Syntax: { "LatestVersion": true|false, "VersionNumber": long }
+    /// </summary>
     [CliOption("--second-schema-version-number")]
-    public string? SecondSchemaVersionNumber { get; set; }
+    public string? SecondSchemaVersionNumber { get; private init; }
 
+    /// <summary>
+    /// Refers to SYNTAX_DIFF , which is the currently supported diff type. Possible values: o SYNTAX_DIFF
+    /// </summary>
     [CliOption("--schema-diff-type")]
-    public string? SchemaDiffType { get; set; }
+    public string? SchemaDiffType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

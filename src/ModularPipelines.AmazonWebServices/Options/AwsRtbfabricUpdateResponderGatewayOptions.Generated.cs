@@ -11,28 +11,82 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates a responder gateway. See also: AWS API Documentation
+/// Updates the description, Auto Scaling group managed endpoint configura- tion, trust store configuration, and client routing policy of a respon- der gateway. This operation also updates the protocols list in the lis- tener configuration. You cannot change the domainName , port , and protocol values that you set when you create a responder gateway. To change any of them, delete the gateway and create a new one. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rtbfabric", "update-responder-gateway")]
-public record AwsRtbfabricUpdateResponderGatewayOptions : AwsOptions
+public record AwsRtbfabricUpdateResponderGatewayOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
     /// <summary>
-    /// The domain name for the responder gateway. Constraints: o min: 1 o max: 255 o pattern: (?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?)(?:\.(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?))+
+    /// Updates the description, Auto Scaling group managed endpoint configura- tion, trust store configuration, and client routing policy of a respon- der gateway. This operation also updates the protocols list in the lis- tener configuration. You cannot change the domainName , port , and protocol values that you set when you create a responder gateway. To change any of them, delete the gateway and create a new one. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Port">Networking port to use. This operation does not change the port of an existing gateway. To use a different port, delete the gateway and create a new one. Constraints: o min: 1 o max: 65535</param>
+    /// <param name="Protocol">Networking protocol to use. This operation does not change the pro- tocol of an existing gateway. To use a different protocol, delete the gateway and create a new one. Possible values: o HTTP o HTTPS</param>
+    /// <param name="GatewayId">The unique identifier of the gateway. Constraints: o min: 8 o max: 32 o pattern: rtb-gw-[a-z0-9-]{1,25}</param>
+    public AwsRtbfabricUpdateResponderGatewayOptions(
+        int Port,
+        AwsRtbfabricUpdateResponderGatewayProtocol Protocol,
+        string GatewayId
+    )
+    {
+        this.Port = Port;
+        global::System.ArgumentNullException.ThrowIfNull(Protocol);
+        this.Protocol = Protocol;
+        global::System.ArgumentNullException.ThrowIfNull(GatewayId);
+        this.GatewayId = GatewayId;
+    }
+
+    private AwsRtbfabricUpdateResponderGatewayOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRtbfabricUpdateResponderGatewayOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRtbfabricUpdateResponderGatewayOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Networking port to use. This operation does not change the port of an existing gateway. To use a different port, delete the gateway and create a new one. Constraints: o min: 1 o max: 65535
+    /// </summary>
+    [CliOption("--port")]
+    public int? Port { get; private init; }
+
+    /// <summary>
+    /// Networking protocol to use. This operation does not change the pro- tocol of an existing gateway. To use a different protocol, delete the gateway and create a new one. Possible values: o HTTP o HTTPS
+    /// </summary>
+    [CliOption("--protocol")]
+    public AwsRtbfabricUpdateResponderGatewayProtocol? Protocol { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the gateway. Constraints: o min: 8 o max: 32 o pattern: rtb-gw-[a-z0-9-]{1,25}
+    /// </summary>
+    [CliOption("--gateway-id")]
+    public string? GatewayId { get; private init; }
+
+    /// <summary>
+    /// Domain name for the responder gateway. This operation does not change the domain name of an existing gateway. To use a different domain name, delete the gateway and create a new one. Constraints: o min: 1 o max: 255 o pattern: (?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?)(?:\.(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?))+
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; set; }
-
-    [CliOption("--port")]
-    public int? Port { get; set; }
-
-    [CliOption("--protocol")]
-    public string? Protocol { get; set; }
 
     /// <summary>
     /// The listener configuration for the responder gateway. protocols -&gt; (list) [required] The protocol for connections from clients to the gateway Constraints: o min: 1 o max: 2 (string) Possible values: o HTTP o HTTPS Shorthand Syntax: protocols=string,string JSON Syntax: { "protocols": ["HTTP"|"HTTPS", ...] }
@@ -53,14 +107,11 @@ public record AwsRtbfabricUpdateResponderGatewayOptions : AwsOptions
     public string? ManagedEndpointConfiguration { get; set; }
 
     /// <summary>
-    /// The unique client token.
+    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same clientToken , but with dif- ferent parameters, the retry fails with an IdempotentParameterMis- match error.
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--gateway-id")]
-    public string? GatewayId { get; set; }
 
     /// <summary>
     /// An optional description for the responder gateway. Constraints: o pattern: [A-Za-z0-9 ]+
@@ -68,10 +119,33 @@ public record AwsRtbfabricUpdateResponderGatewayOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
+    /// <summary>
+    /// The client routing policy of the gateway. This policy controls which Availability Zones RTB Fabric uses to reach the gateway for the re- quester gateways that send traffic to it. Valid values are the fol- lowing: o AVAILABILITY_ZONE_AFFINITY : RTB Fabric routes each requester's traffic to gateway capacity in the requester's own Availability Zone when the gateway has capacity available there. Otherwise, RTB Fabric routes the traffic to gateway capacity in the other Avail- ability Zones of the gateway. o ANY_AVAILABILITY_ZONE : RTB Fabric routes each requester's traffic to gateway capacity in every Availability Zone that the subnets of the gateway span. The Availability Zone that the requester is in does not change this. If you don't specify a value, the gateway keeps its current client routing policy. Changing the policy sets the gateway status to PEND- ING_UPDATE until the change is complete. RTB Fabric does not support partial Availability Zone affinity, so PARTIAL_AVAILABIL- ITY_ZONE_AFFINITY is not a valid value. For more information, see Configuring Availability Zone affinity in the Amazon Web Services RTB Fabric User Guide . Possible values: o AVAILABILITY_ZONE_AFFINITY o ANY_AVAILABILITY_ZONE
+    /// </summary>
+    [CliOption("--client-routing-policy")]
+    public AwsRtbfabricUpdateResponderGatewayClientRoutingPolicy? ClientRoutingPolicy { get; set; }
+
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

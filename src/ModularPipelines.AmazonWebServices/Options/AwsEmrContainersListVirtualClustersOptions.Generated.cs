@@ -11,7 +11,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -33,7 +32,7 @@ public record AwsEmrContainersListVirtualClustersOptions : AwsOptions
     /// The container provider type of the virtual cluster. Amazon EKS is the only supported type as of now. Possible values: o EKS
     /// </summary>
     [CliOption("--container-provider-type")]
-    public AwsEmrContainersListVirtualClustersContainerProviderType? ContainerProviderType { get; set; }
+    public string? ContainerProviderType { get; set; }
 
     /// <summary>
     /// The date and time after which the virtual clusters are created.
@@ -53,7 +52,10 @@ public record AwsEmrContainersListVirtualClustersOptions : AwsOptions
     [CliOption("--states", GroupValues = true)]
     public IEnumerable<string>? States { get; set; }
 
-    [CliFlag("--eks-access-entry-integrated")]
+    /// <summary>
+    /// Optional Boolean that specifies whether the operation should return the virtual clusters that have the access entry integration enabled or disabled. If not specified, the operation returns all applicable virtual clusters.
+    /// </summary>
+    [CliFlag("--eks-access-entry-integrated", NegatedName = "--no-eks-access-entry-integrated")]
     public bool? EksAccessEntryIntegrated { get; set; }
 
     [CliOption("--cli-input-json")]

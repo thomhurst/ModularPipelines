@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lookoutequipment", "list-inference-events")]
-public record AwsLookoutequipmentListInferenceEventsOptions : AwsOptions
+public record AwsLookoutequipmentListInferenceEventsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists all inference events that have been found for the specified in- ference scheduler. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InferenceSchedulerName">The name of the inference scheduler for the inference events listed. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$</param>
+    /// <param name="IntervalStartTime">Lookout for Equipment will return all the inference events with an end time equal to or greater than the start time given.</param>
+    /// <param name="IntervalEndTime">Returns all the inference events with an end start time equal to or greater than less than the end time given.</param>
+    public AwsLookoutequipmentListInferenceEventsOptions(
+        string InferenceSchedulerName,
+        string IntervalStartTime,
+        string IntervalEndTime
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InferenceSchedulerName);
+        this.InferenceSchedulerName = InferenceSchedulerName;
+        global::System.ArgumentNullException.ThrowIfNull(IntervalStartTime);
+        this.IntervalStartTime = IntervalStartTime;
+        global::System.ArgumentNullException.ThrowIfNull(IntervalEndTime);
+        this.IntervalEndTime = IntervalEndTime;
+    }
+
+    private AwsLookoutequipmentListInferenceEventsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLookoutequipmentListInferenceEventsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLookoutequipmentListInferenceEventsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the inference scheduler for the inference events listed. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$
+    /// </summary>
+    [CliOption("--inference-scheduler-name")]
+    public string? InferenceSchedulerName { get; private init; }
+
+    /// <summary>
+    /// Lookout for Equipment will return all the inference events with an end time equal to or greater than the start time given.
+    /// </summary>
+    [CliOption("--interval-start-time")]
+    public string? IntervalStartTime { get; private init; }
+
+    /// <summary>
+    /// Returns all the inference events with an end start time equal to or greater than less than the end time given.
+    /// </summary>
+    [CliOption("--interval-end-time")]
+    public string? IntervalEndTime { get; private init; }
+
     /// <summary>
     /// An opaque pagination token indicating where to continue the listing of inference events. Constraints: o max: 8192 o pattern: \p{ASCII}{0,8192}
     /// </summary>
@@ -35,19 +95,27 @@ public record AwsLookoutequipmentListInferenceEventsOptions : AwsOptions
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CliOption("--inference-scheduler-name")]
-    public string? InferenceSchedulerName { get; set; }
-
-    [CliOption("--interval-start-time")]
-    public string? IntervalStartTime { get; set; }
-
-    [CliOption("--interval-end-time")]
-    public string? IntervalEndTime { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

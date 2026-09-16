@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,8 +21,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lightsail", "copy-snapshot")]
-public record AwsLightsailCopySnapshotOptions : AwsOptions
+public record AwsLightsailCopySnapshotOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Copies a manual snapshot of an instance or disk as another manual snap- shot, or copies an automatic snapshot of an instance or disk as a man- ual snapshot. This operation can also be used to copy a manual or auto- matic snapshot of an instance or a disk from one Amazon Web Services Region to another in Amazon Lightsail. When copying a manual snapshot , be sure to define the source region , source snapshot name , and target snapshot name parameters. When copying an automatic snapshot , be sure t...
+    /// </summary>
+    /// <param name="TargetSnapshotName">The name of the new manual snapshot to be created as a copy. Constraints: o pattern: \w[\w\-]*\w</param>
+    /// <param name="SourceRegion">The Amazon Web Services Region where the source manual or automatic snapshot is located. Possible values: o us-east-1 o us-east-2 o us-west-1 o us-west-2 o eu-west-1 o eu-west-2 o eu-west-3 o eu-central-1 o eu-north-1 o eu-south-2 o ca-central-1 o ap-east-1 o ap-south-1 o ap-southeast-1 o ap-southeast-2 o ap-northeast-1 o ap-northeast-2 o ap-southeast-3 o ap-southeast-5 o sa-east-1</param>
+    public AwsLightsailCopySnapshotOptions(
+        string TargetSnapshotName,
+        AwsLightsailCopySnapshotSourceRegion SourceRegion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TargetSnapshotName);
+        this.TargetSnapshotName = TargetSnapshotName;
+        global::System.ArgumentNullException.ThrowIfNull(SourceRegion);
+        this.SourceRegion = SourceRegion;
+    }
+
+    private AwsLightsailCopySnapshotOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLightsailCopySnapshotOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLightsailCopySnapshotOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the new manual snapshot to be created as a copy. Constraints: o pattern: \w[\w\-]*\w
+    /// </summary>
+    [CliOption("--target-snapshot-name")]
+    public string? TargetSnapshotName { get; private init; }
+
+    /// <summary>
+    /// The Amazon Web Services Region where the source manual or automatic snapshot is located. Possible values: o us-east-1 o us-east-2 o us-west-1 o us-west-2 o eu-west-1 o eu-west-2 o eu-west-3 o eu-central-1 o eu-north-1 o eu-south-2 o ca-central-1 o ap-east-1 o ap-south-1 o ap-southeast-1 o ap-southeast-2 o ap-northeast-1 o ap-northeast-2 o ap-southeast-3 o ap-southeast-5 o sa-east-1
+    /// </summary>
+    [CliOption("--source-region")]
+    public AwsLightsailCopySnapshotSourceRegion? SourceRegion { get; private init; }
+
     /// <summary>
     /// The name of the source manual snapshot to copy. Constraint: o Define this parameter only when copying a manual snapshot as an- other manual snapshot. Constraints: o pattern: \w[\w\-]*\w
     /// </summary>
@@ -39,19 +90,33 @@ public record AwsLightsailCopySnapshotOptions : AwsOptions
     [CliOption("--restore-date")]
     public string? RestoreDate { get; set; }
 
-    [CliFlag("--use-latest-restorable-auto-snapshot")]
+    /// <summary>
+    /// able-auto-snapshot (boolean) A Boolean value to indicate whether to use the latest available au- tomatic snapshot of the specified source instance or disk. Constraints: o This parameter cannot be defined together with the restore date parameter. The use latest restorable auto snapshot and restore date parameters are mutually exclusive. o Define this parameter only when copying an automatic snapshot as a manual snapshot. For more information, see the Amazon Lightsail Developer Guide .
+    /// </summary>
+    [CliFlag("--use-latest-restorable-auto-snapshot", NegatedName = "--no-use-latest-restorable-auto-snapshot")]
     public bool? UseLatestRestorableAutoSnapshot { get; set; }
-
-    [CliOption("--target-snapshot-name")]
-    public string? TargetSnapshotName { get; set; }
-
-    [CliOption("--source-region")]
-    public string? SourceRegion { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

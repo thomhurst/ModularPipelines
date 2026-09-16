@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -40,11 +40,11 @@ public class AwsConnectcampaignsv2 : IAwsConnectcampaignsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateCampaignAsync(
-        AwsConnectcampaignsv2CreateCampaignOptions? options = null,
+        AwsConnectcampaignsv2CreateCampaignOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConnectcampaignsv2CreateCampaignOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -55,11 +55,11 @@ public class AwsConnectcampaignsv2 : IAwsConnectcampaignsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteCampaignChannelSubtypeConfigAsync(
-        AwsConnectcampaignsv2DeleteCampaignChannelSubtypeConfigOptions? options = null,
+        AwsConnectcampaignsv2DeleteCampaignChannelSubtypeConfigOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConnectcampaignsv2DeleteCampaignChannelSubtypeConfigOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -70,11 +70,11 @@ public class AwsConnectcampaignsv2 : IAwsConnectcampaignsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteCampaignCommunicationLimitsAsync(
-        AwsConnectcampaignsv2DeleteCampaignCommunicationLimitsOptions? options = null,
+        AwsConnectcampaignsv2DeleteCampaignCommunicationLimitsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConnectcampaignsv2DeleteCampaignCommunicationLimitsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -85,11 +85,11 @@ public class AwsConnectcampaignsv2 : IAwsConnectcampaignsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteCampaignCommunicationTimeAsync(
-        AwsConnectcampaignsv2DeleteCampaignCommunicationTimeOptions? options = null,
+        AwsConnectcampaignsv2DeleteCampaignCommunicationTimeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConnectcampaignsv2DeleteCampaignCommunicationTimeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -100,11 +100,11 @@ public class AwsConnectcampaignsv2 : IAwsConnectcampaignsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteCampaignEntryLimitsAsync(
-        AwsConnectcampaignsv2DeleteCampaignEntryLimitsOptions? options = null,
+        AwsConnectcampaignsv2DeleteCampaignEntryLimitsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConnectcampaignsv2DeleteCampaignEntryLimitsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -115,11 +115,11 @@ public class AwsConnectcampaignsv2 : IAwsConnectcampaignsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteCampaignAsync(
-        AwsConnectcampaignsv2DeleteCampaignOptions? options = null,
+        AwsConnectcampaignsv2DeleteCampaignOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConnectcampaignsv2DeleteCampaignOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -130,11 +130,11 @@ public class AwsConnectcampaignsv2 : IAwsConnectcampaignsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteConnectInstanceConfigAsync(
-        AwsConnectcampaignsv2DeleteConnectInstanceConfigOptions? options = null,
+        AwsConnectcampaignsv2DeleteConnectInstanceConfigOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConnectcampaignsv2DeleteConnectInstanceConfigOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -145,11 +145,11 @@ public class AwsConnectcampaignsv2 : IAwsConnectcampaignsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteConnectInstanceIntegrationAsync(
-        AwsConnectcampaignsv2DeleteConnectInstanceIntegrationOptions? options = null,
+        AwsConnectcampaignsv2DeleteConnectInstanceIntegrationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConnectcampaignsv2DeleteConnectInstanceIntegrationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -160,11 +160,11 @@ public class AwsConnectcampaignsv2 : IAwsConnectcampaignsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteInstanceOnboardingJobAsync(
-        AwsConnectcampaignsv2DeleteInstanceOnboardingJobOptions? options = null,
+        AwsConnectcampaignsv2DeleteInstanceOnboardingJobOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConnectcampaignsv2DeleteInstanceOnboardingJobOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -175,11 +175,11 @@ public class AwsConnectcampaignsv2 : IAwsConnectcampaignsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeCampaignAsync(
-        AwsConnectcampaignsv2DescribeCampaignOptions? options = null,
+        AwsConnectcampaignsv2DescribeCampaignOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConnectcampaignsv2DescribeCampaignOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -190,11 +190,11 @@ public class AwsConnectcampaignsv2 : IAwsConnectcampaignsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetCampaignStateBatchAsync(
-        AwsConnectcampaignsv2GetCampaignStateBatchOptions? options = null,
+        AwsConnectcampaignsv2GetCampaignStateBatchOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConnectcampaignsv2GetCampaignStateBatchOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -205,11 +205,11 @@ public class AwsConnectcampaignsv2 : IAwsConnectcampaignsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetCampaignStateAsync(
-        AwsConnectcampaignsv2GetCampaignStateOptions? options = null,
+        AwsConnectcampaignsv2GetCampaignStateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConnectcampaignsv2GetCampaignStateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -220,11 +220,11 @@ public class AwsConnectcampaignsv2 : IAwsConnectcampaignsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetConnectInstanceConfigAsync(
-        AwsConnectcampaignsv2GetConnectInstanceConfigOptions? options = null,
+        AwsConnectcampaignsv2GetConnectInstanceConfigOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConnectcampaignsv2GetConnectInstanceConfigOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -235,11 +235,11 @@ public class AwsConnectcampaignsv2 : IAwsConnectcampaignsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetInstanceCommunicationLimitsAsync(
-        AwsConnectcampaignsv2GetInstanceCommunicationLimitsOptions? options = null,
+        AwsConnectcampaignsv2GetInstanceCommunicationLimitsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConnectcampaignsv2GetInstanceCommunicationLimitsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -250,11 +250,11 @@ public class AwsConnectcampaignsv2 : IAwsConnectcampaignsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetInstanceOnboardingJobStatusAsync(
-        AwsConnectcampaignsv2GetInstanceOnboardingJobStatusOptions? options = null,
+        AwsConnectcampaignsv2GetInstanceOnboardingJobStatusOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConnectcampaignsv2GetInstanceOnboardingJobStatusOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -269,7 +269,7 @@ public class AwsConnectcampaignsv2 : IAwsConnectcampaignsv2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConnectcampaignsv2ListCampaignsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConnectcampaignsv2ListCampaignsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -280,11 +280,11 @@ public class AwsConnectcampaignsv2 : IAwsConnectcampaignsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListConnectInstanceIntegrationsAsync(
-        AwsConnectcampaignsv2ListConnectInstanceIntegrationsOptions? options = null,
+        AwsConnectcampaignsv2ListConnectInstanceIntegrationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConnectcampaignsv2ListConnectInstanceIntegrationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -295,11 +295,11 @@ public class AwsConnectcampaignsv2 : IAwsConnectcampaignsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListTagsForResourceAsync(
-        AwsConnectcampaignsv2ListTagsForResourceOptions? options = null,
+        AwsConnectcampaignsv2ListTagsForResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConnectcampaignsv2ListTagsForResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -310,11 +310,11 @@ public class AwsConnectcampaignsv2 : IAwsConnectcampaignsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PauseCampaignAsync(
-        AwsConnectcampaignsv2PauseCampaignOptions? options = null,
+        AwsConnectcampaignsv2PauseCampaignOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConnectcampaignsv2PauseCampaignOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -325,11 +325,11 @@ public class AwsConnectcampaignsv2 : IAwsConnectcampaignsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutConnectInstanceIntegrationAsync(
-        AwsConnectcampaignsv2PutConnectInstanceIntegrationOptions? options = null,
+        AwsConnectcampaignsv2PutConnectInstanceIntegrationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConnectcampaignsv2PutConnectInstanceIntegrationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -340,11 +340,11 @@ public class AwsConnectcampaignsv2 : IAwsConnectcampaignsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutInstanceCommunicationLimitsAsync(
-        AwsConnectcampaignsv2PutInstanceCommunicationLimitsOptions? options = null,
+        AwsConnectcampaignsv2PutInstanceCommunicationLimitsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConnectcampaignsv2PutInstanceCommunicationLimitsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -355,11 +355,11 @@ public class AwsConnectcampaignsv2 : IAwsConnectcampaignsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutOutboundRequestBatchAsync(
-        AwsConnectcampaignsv2PutOutboundRequestBatchOptions? options = null,
+        AwsConnectcampaignsv2PutOutboundRequestBatchOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConnectcampaignsv2PutOutboundRequestBatchOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -370,11 +370,11 @@ public class AwsConnectcampaignsv2 : IAwsConnectcampaignsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutProfileOutboundRequestBatchAsync(
-        AwsConnectcampaignsv2PutProfileOutboundRequestBatchOptions? options = null,
+        AwsConnectcampaignsv2PutProfileOutboundRequestBatchOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConnectcampaignsv2PutProfileOutboundRequestBatchOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -385,11 +385,11 @@ public class AwsConnectcampaignsv2 : IAwsConnectcampaignsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ResumeCampaignAsync(
-        AwsConnectcampaignsv2ResumeCampaignOptions? options = null,
+        AwsConnectcampaignsv2ResumeCampaignOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConnectcampaignsv2ResumeCampaignOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -400,11 +400,11 @@ public class AwsConnectcampaignsv2 : IAwsConnectcampaignsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartCampaignAsync(
-        AwsConnectcampaignsv2StartCampaignOptions? options = null,
+        AwsConnectcampaignsv2StartCampaignOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConnectcampaignsv2StartCampaignOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -415,11 +415,11 @@ public class AwsConnectcampaignsv2 : IAwsConnectcampaignsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartInstanceOnboardingJobAsync(
-        AwsConnectcampaignsv2StartInstanceOnboardingJobOptions? options = null,
+        AwsConnectcampaignsv2StartInstanceOnboardingJobOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConnectcampaignsv2StartInstanceOnboardingJobOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -430,11 +430,11 @@ public class AwsConnectcampaignsv2 : IAwsConnectcampaignsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StopCampaignAsync(
-        AwsConnectcampaignsv2StopCampaignOptions? options = null,
+        AwsConnectcampaignsv2StopCampaignOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConnectcampaignsv2StopCampaignOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -445,11 +445,11 @@ public class AwsConnectcampaignsv2 : IAwsConnectcampaignsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> TagResourceAsync(
-        AwsConnectcampaignsv2TagResourceOptions? options = null,
+        AwsConnectcampaignsv2TagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConnectcampaignsv2TagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -460,11 +460,11 @@ public class AwsConnectcampaignsv2 : IAwsConnectcampaignsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UntagResourceAsync(
-        AwsConnectcampaignsv2UntagResourceOptions? options = null,
+        AwsConnectcampaignsv2UntagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConnectcampaignsv2UntagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -475,11 +475,11 @@ public class AwsConnectcampaignsv2 : IAwsConnectcampaignsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateCampaignChannelSubtypeConfigAsync(
-        AwsConnectcampaignsv2UpdateCampaignChannelSubtypeConfigOptions? options = null,
+        AwsConnectcampaignsv2UpdateCampaignChannelSubtypeConfigOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConnectcampaignsv2UpdateCampaignChannelSubtypeConfigOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -490,11 +490,11 @@ public class AwsConnectcampaignsv2 : IAwsConnectcampaignsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateCampaignCommunicationLimitsAsync(
-        AwsConnectcampaignsv2UpdateCampaignCommunicationLimitsOptions? options = null,
+        AwsConnectcampaignsv2UpdateCampaignCommunicationLimitsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConnectcampaignsv2UpdateCampaignCommunicationLimitsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -505,11 +505,11 @@ public class AwsConnectcampaignsv2 : IAwsConnectcampaignsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateCampaignCommunicationTimeAsync(
-        AwsConnectcampaignsv2UpdateCampaignCommunicationTimeOptions? options = null,
+        AwsConnectcampaignsv2UpdateCampaignCommunicationTimeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConnectcampaignsv2UpdateCampaignCommunicationTimeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -520,11 +520,11 @@ public class AwsConnectcampaignsv2 : IAwsConnectcampaignsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateCampaignEntryLimitsAsync(
-        AwsConnectcampaignsv2UpdateCampaignEntryLimitsOptions? options = null,
+        AwsConnectcampaignsv2UpdateCampaignEntryLimitsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConnectcampaignsv2UpdateCampaignEntryLimitsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -535,11 +535,11 @@ public class AwsConnectcampaignsv2 : IAwsConnectcampaignsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateCampaignFlowAssociationAsync(
-        AwsConnectcampaignsv2UpdateCampaignFlowAssociationOptions? options = null,
+        AwsConnectcampaignsv2UpdateCampaignFlowAssociationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConnectcampaignsv2UpdateCampaignFlowAssociationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -550,11 +550,11 @@ public class AwsConnectcampaignsv2 : IAwsConnectcampaignsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateCampaignNameAsync(
-        AwsConnectcampaignsv2UpdateCampaignNameOptions? options = null,
+        AwsConnectcampaignsv2UpdateCampaignNameOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConnectcampaignsv2UpdateCampaignNameOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -565,11 +565,11 @@ public class AwsConnectcampaignsv2 : IAwsConnectcampaignsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateCampaignScheduleAsync(
-        AwsConnectcampaignsv2UpdateCampaignScheduleOptions? options = null,
+        AwsConnectcampaignsv2UpdateCampaignScheduleOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConnectcampaignsv2UpdateCampaignScheduleOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -580,11 +580,11 @@ public class AwsConnectcampaignsv2 : IAwsConnectcampaignsv2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateCampaignSourceAsync(
-        AwsConnectcampaignsv2UpdateCampaignSourceOptions? options = null,
+        AwsConnectcampaignsv2UpdateCampaignSourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConnectcampaignsv2UpdateCampaignSourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

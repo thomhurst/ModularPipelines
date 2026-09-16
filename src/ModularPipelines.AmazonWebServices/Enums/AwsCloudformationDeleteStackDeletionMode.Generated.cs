@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --deletionmode.
+/// Allowed values for --deletion-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCloudformationDeleteStackDeletionMode
 {
-    [EnumValue("STANDARD")]
-    Standard = 1,
-
     [EnumValue("FORCE_DELETE_STACK")]
-    ForceDeleteStack = 2
+    ForceDeleteStack,
+
+    [EnumValue("STANDARD")]
+    Standard
 }

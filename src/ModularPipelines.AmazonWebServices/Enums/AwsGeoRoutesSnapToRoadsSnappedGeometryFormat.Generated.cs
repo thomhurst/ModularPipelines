@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --snappedgeometryformat.
+/// Allowed values for --snapped-geometry-format.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGeoRoutesSnapToRoadsSnappedGeometryFormat
 {
     [EnumValue("FlexiblePolyline")]
-    FlexiblePolyline = 1,
+    FlexiblePolyline,
 
     [EnumValue("Simple")]
-    Simple = 2
+    Simple
 }

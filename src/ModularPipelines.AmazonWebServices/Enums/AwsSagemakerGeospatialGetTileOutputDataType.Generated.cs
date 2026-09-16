@@ -11,23 +11,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --outputdatatype.
+/// Allowed values for --output-data-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSagemakerGeospatialGetTileOutputDataType
 {
-    [EnumValue("INT32")]
-    Int32 = 1,
-
     [EnumValue("FLOAT32")]
-    Float32 = 2,
-
-    [EnumValue("INT16")]
-    Int16 = 3,
+    Float32,
 
     [EnumValue("FLOAT64")]
-    Float64 = 4,
+    Float64,
+
+    [EnumValue("INT16")]
+    Int16,
+
+    [EnumValue("INT32")]
+    Int32,
 
     [EnumValue("UINT16")]
-    Uint16 = 5
+    Uint16
 }

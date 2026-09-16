@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("servicediscovery", "create-service")]
-public record AwsServicediscoveryCreateServiceOptions : AwsOptions
+public record AwsServicediscoveryCreateServiceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a service. This action defines the configuration for the fol- lowing entities: o For public and private DNS namespaces, one of the following combina- tions of DNS records in Amazon Route 53: o A o AAAA o A and AAAA o SRV o CNAME o Optionally, a health check After you create the service, you can submit a RegisterInstance re- quest, and Cloud Map uses the values in the configuration to create the specified entities. For the current quota on the number of instances that you can register usi...
+    /// </summary>
+    /// <param name="Name">The name that you want to assign to the service. NOTE: Do not include sensitive information in the name if the name- space is discoverable by public DNS queries. If you want Cloud Map to create an SRV record when you register an instance and you're using a system that requires a specific SRV for- mat, such as HAProxy , specify the following for Name : o Start the name with an underscore (_), such as _exampleservice . o End the name with ._protocol , such as ._tcp . When you register an instance, Cloud Map creates an SRV record and assigns a name to the record by concatenating the service name and the namespace name (for example, _exampleservice._tcp.example.com ). NOTE: For services that are accessible by DNS queries, you can't cre- ate multiple services with names that differ only by case (such as EXAMPLE and example). Otherwise, these services have the same DNS name and can't be distinguished. However, if you use a name- space that's only accessible by API calls, then you can create services that with names that differ only by case. Constraints: o pattern: ((?=^.{1,127}$)^([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9])(\.([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9]))*$)|(^\.$)</param>
+    public AwsServicediscoveryCreateServiceOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsServicediscoveryCreateServiceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsServicediscoveryCreateServiceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsServicediscoveryCreateServiceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name that you want to assign to the service. NOTE: Do not include sensitive information in the name if the name- space is discoverable by public DNS queries. If you want Cloud Map to create an SRV record when you register an instance and you're using a system that requires a specific SRV for- mat, such as HAProxy , specify the following for Name : o Start the name with an underscore (_), such as _exampleservice . o End the name with ._protocol , such as ._tcp . When you register an instance, Cloud Map creates an SRV record and assigns a name to the record by concatenating the service name and the namespace name (for example, _exampleservice._tcp.example.com ). NOTE: For services that are accessible by DNS queries, you can't cre- ate multiple services with names that differ only by case (such as EXAMPLE and example). Otherwise, these services have the same DNS name and can't be distinguished. However, if you use a name- space that's only accessible by API calls, then you can create services that with names that differ only by case. Constraints: o pattern: ((?=^.{1,127}$)^([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9])(\.([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9]))*$)|(^\.$)
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
     /// <summary>
     /// The ID or Amazon Resource Name (ARN) of the namespace that you want to use to create the service. For namespaces shared with your Amazon Web Services account, specify the namespace ARN. For more informa- tion about shared namespaces, see Cross-account Cloud Map namespace sharing in the Cloud Map Developer Guide . Constraints: o max: 255
@@ -71,12 +107,29 @@ public record AwsServicediscoveryCreateServiceOptions : AwsOptions
     /// If present, specifies that the service instances are only discover- able using the DiscoverInstances API operation. No DNS records is registered for the service instances. The only valid value is HTTP . Possible values: o HTTP
     /// </summary>
     [CliOption("--type")]
-    public AwsServicediscoveryCreateServiceType? Type { get; set; }
+    public string? Type { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

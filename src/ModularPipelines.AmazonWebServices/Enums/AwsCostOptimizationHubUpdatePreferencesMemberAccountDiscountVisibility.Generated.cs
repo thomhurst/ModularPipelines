@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --memberaccountdiscountvisibility.
+/// Allowed values for --member-account-discount-visibility.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCostOptimizationHubUpdatePreferencesMemberAccountDiscountVisibility
 {
     [EnumValue("All")]
-    All = 1,
+    All,
 
     [EnumValue("None")]
-    None = 2
+    None
 }

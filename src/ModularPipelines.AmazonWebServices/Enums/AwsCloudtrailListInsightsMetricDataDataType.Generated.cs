@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --datatype.
+/// Allowed values for --data-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCloudtrailListInsightsMetricDataDataType
 {
     [EnumValue("FillWithZeros")]
-    FillWithZeros = 1,
+    FillWithZeros,
 
     [EnumValue("NonZeroData")]
-    NonZeroData = 2
+    NonZeroData
 }

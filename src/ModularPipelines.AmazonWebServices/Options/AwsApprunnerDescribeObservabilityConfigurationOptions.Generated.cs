@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apprunner", "describe-observability-configuration")]
-public record AwsApprunnerDescribeObservabilityConfigurationOptions : AwsOptions
+public record AwsApprunnerDescribeObservabilityConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Return a full description of an App Runner observability configuration resource. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ObservabilityConfigurationArn">The Amazon Resource Name (ARN) of the App Runner observability con- figuration that you want a description for. The ARN can be a full observability configuration ARN, or a partial ARN ending with either `` .../name `` or `` .../name /revision `` . If a revision isn't specified, the latest active revision is described. System Message: WARNING/2 (&lt;string&gt;:, line 72) Inline literal start-string without end-string. System Message: WARNING/2 (&lt;string&gt;:, line 72) Inline literal start-string without end-string. Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[\w]+)*:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[0-9]{12}:(\w|\/|-){1,1011}</param>
+    public AwsApprunnerDescribeObservabilityConfigurationOptions(
+        string ObservabilityConfigurationArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ObservabilityConfigurationArn);
+        this.ObservabilityConfigurationArn = ObservabilityConfigurationArn;
+    }
+
+    private AwsApprunnerDescribeObservabilityConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApprunnerDescribeObservabilityConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApprunnerDescribeObservabilityConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the App Runner observability con- figuration that you want a description for. The ARN can be a full observability configuration ARN, or a partial ARN ending with either `` .../name `` or `` .../name /revision `` . If a revision isn't specified, the latest active revision is described. System Message: WARNING/2 (&lt;string&gt;:, line 72) Inline literal start-string without end-string. System Message: WARNING/2 (&lt;string&gt;:, line 72) Inline literal start-string without end-string. Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[\w]+)*:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[0-9]{12}:(\w|\/|-){1,1011}
+    /// </summary>
     [CliOption("--observability-configuration-arn")]
-    public string? ObservabilityConfigurationArn { get; set; }
+    public string? ObservabilityConfigurationArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

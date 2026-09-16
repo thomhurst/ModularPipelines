@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --operationstatus.
+/// Allowed values for --operation-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsKinesisanalyticsv2ListApplicationOperationsOperationStatus
 {
-    [EnumValue("IN_PROGRESS")]
-    InProgress = 1,
-
     [EnumValue("CANCELLED")]
-    Cancelled = 2,
-
-    [EnumValue("SUCCESSFUL")]
-    Successful = 3,
+    Cancelled,
 
     [EnumValue("FAILED")]
-    Failed = 4
+    Failed,
+
+    [EnumValue("IN_PROGRESS")]
+    InProgress,
+
+    [EnumValue("SUCCESSFUL")]
+    Successful
 }

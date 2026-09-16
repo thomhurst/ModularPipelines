@@ -6,11 +6,11 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,49 +21,104 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "modify-instance-metadata-options")]
-public record AwsEc2ModifyInstanceMetadataOptionsOptions : AwsOptions
+public record AwsEc2ModifyInstanceMetadataOptionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modify the instance metadata parameters on a running or stopped in- stance. When you modify the parameters on a stopped instance, they are applied when the instance is started. When you modify the parameters on a running instance, the API responds with a state of pending. After the parameter modifications are successfully applied to the instance, the state of the modifications changes from pending to applied in subse- quent describe-instances API calls. For more information, see Instance metadat...
+    /// </summary>
+    /// <param name="InstanceId">The ID of the instance.</param>
+    public AwsEc2ModifyInstanceMetadataOptionsOptions(
+        string InstanceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+    }
+
+    private AwsEc2ModifyInstanceMetadataOptionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2ModifyInstanceMetadataOptionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2ModifyInstanceMetadataOptionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the instance.
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
     /// <summary>
     /// Indicates whether IMDSv2 is required. o optional - IMDSv2 is optional. You can choose whether to send a session token in your instance metadata retrieval requests. If you retrieve IAM role credentials without a session token, you receive the IMDSv1 role credentials. If you retrieve IAM role credentials using a valid session token, you receive the IMDSv2 role creden- tials. o required - IMDSv2 is required. You must send a session token in your instance metadata retrieval requests. With this option, re- trieving the IAM role credentials always returns IMDSv2 creden- tials; IMDSv1 credentials are not available. Default: o If the value of ImdsSupport for the Amazon Machine Image (AMI) for your instance is v2.0 and the account level default is set to no-preference , the default is required . o If the value of ImdsSupport for the Amazon Machine Image (AMI) for your instance is v2.0 , but the account level default is set to V1 or V2 , the default is optional . The default value can also be affected by other combinations of pa- rameters. For more information, see Order of precedence for instance metadata options in the Amazon EC2 User Guide . Possible values: o optional o required
     /// </summary>
-    [SecretValue]
     [CliOption("--http-tokens")]
-    public AwsEc2ModifyInstanceMetadataHttpTokens? HttpTokens { get; set; }
+    public AwsEc2ModifyInstanceMetadataOptionsHttpTokens? HttpTokens { get; set; }
 
     /// <summary>
     /// The desired HTTP PUT response hop limit for instance metadata re- quests. The larger the number, the further instance metadata re- quests can travel. If no parameter is specified, the existing state is maintained. Possible values: Integers from 1 to 64
     /// </summary>
     [CliOption("--http-put-response-hop-limit")]
-    public AwsEc2ModifyInstanceMetadataHttpPutResponseHopLimit? HttpPutResponseHopLimit { get; set; }
+    public int? HttpPutResponseHopLimit { get; set; }
 
     /// <summary>
     /// Enables or disables the HTTP metadata endpoint on your instances. If this parameter is not specified, the existing state is maintained. If you specify a value of disabled , you cannot access your instance metadata. Possible values: o disabled o enabled
     /// </summary>
     [CliOption("--http-endpoint")]
-    public AwsEc2ModifyInstanceMetadataHttpEndpoint? HttpEndpoint { get; set; }
+    public AwsEc2ModifyInstanceMetadataOptionsHttpEndpoint? HttpEndpoint { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
     /// Enables or disables the IPv6 endpoint for the instance metadata ser- vice. Applies only if you enabled the HTTP metadata endpoint. Possible values: o disabled o enabled
     /// </summary>
     [CliOption("--http-protocol-ipv6")]
-    public AwsEc2ModifyInstanceMetadataHttpProtocolIpv6? HttpProtocolIpv6 { get; set; }
+    public AwsEc2ModifyInstanceMetadataOptionsHttpProtocolIpv6? HttpProtocolIpv6 { get; set; }
 
     /// <summary>
     /// Set to enabled to allow access to instance tags from the instance metadata. Set to disabled to turn off access to instance tags from the instance metadata. For more information, see View tags for your EC2 instances using instance metadata . Possible values: o disabled o enabled
     /// </summary>
     [CliOption("--instance-metadata-tags")]
-    public AwsEc2ModifyInstanceMetadataInstanceMetadataTags? InstanceMetadataTags { get; set; }
+    public AwsEc2ModifyInstanceMetadataOptionsInstanceMetadataTags? InstanceMetadataTags { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

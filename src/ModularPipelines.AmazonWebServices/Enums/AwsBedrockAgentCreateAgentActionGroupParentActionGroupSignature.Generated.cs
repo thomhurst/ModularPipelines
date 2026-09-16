@@ -11,11 +11,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --parentactiongroupsignature.
+/// Allowed values for --parent-action-group-signature.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsBedrockAgentCreateAgentActionGroupParentActionGroupSignature
 {
-    [EnumValue("AMAZON")]
-    Amazon = 1
+    [EnumValue("AMAZON.CodeInterpreter")]
+    AmazonCodeInterpreter,
+
+    [EnumValue("AMAZON.UserInput")]
+    AmazonUserInput,
+
+    [EnumValue("ANTHROPIC.Bash")]
+    AnthropicBash,
+
+    [EnumValue("ANTHROPIC.Computer")]
+    AnthropicComputer,
+
+    [EnumValue("ANTHROPIC.TextEditor")]
+    AnthropicTextEditor
 }

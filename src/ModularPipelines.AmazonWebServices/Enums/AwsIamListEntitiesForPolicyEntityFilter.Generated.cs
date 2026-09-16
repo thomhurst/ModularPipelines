@@ -11,23 +11,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --entityfilter.
+/// Allowed values for --entity-filter.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIamListEntitiesForPolicyEntityFilter
 {
-    [EnumValue("User")]
-    User = 1,
-
-    [EnumValue("Role")]
-    Role = 2,
+    [EnumValue("AWSManagedPolicy")]
+    AwsManagedPolicy,
 
     [EnumValue("Group")]
-    Group = 3,
+    Group,
 
     [EnumValue("LocalManagedPolicy")]
-    LocalManagedPolicy = 4,
+    LocalManagedPolicy,
 
-    [EnumValue("AWSManagedPolicy")]
-    AwsManagedPolicy = 5
+    [EnumValue("Role")]
+    Role,
+
+    [EnumValue("User")]
+    User
 }

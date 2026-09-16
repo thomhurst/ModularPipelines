@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dlm", "update-lifecycle-policy")]
-public record AwsDlmUpdateLifecyclePolicyOptions : AwsOptions
+public record AwsDlmUpdateLifecyclePolicyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the specified lifecycle policy. For more information about updating a policy, see Modify lifecycle policies . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PolicyId">The identifier of the lifecycle policy. Constraints: o min: 0 o max: 64 o pattern: policy-[a-f0-9]+</param>
+    public AwsDlmUpdateLifecyclePolicyOptions(
+        string PolicyId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyId);
+        this.PolicyId = PolicyId;
+    }
+
+    private AwsDlmUpdateLifecyclePolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDlmUpdateLifecyclePolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDlmUpdateLifecyclePolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the lifecycle policy. Constraints: o min: 0 o max: 64 o pattern: policy-[a-f0-9]+
+    /// </summary>
     [CliOption("--policy-id")]
-    public string? PolicyId { get; set; }
+    public string? PolicyId { get; private init; }
 
     /// <summary>
     /// The Amazon Resource Name (ARN) of the IAM role used to run the oper- ations specified by the lifecycle policy. Constraints: o min: 0 o max: 2048 o pattern: arn:aws(-[a-z]{1,3}){0,2}:iam::\d+:role/.*
@@ -61,10 +98,16 @@ public record AwsDlmUpdateLifecyclePolicyOptions : AwsOptions
     [CliOption("--retain-interval")]
     public int? RetainInterval { get; set; }
 
-    [CliFlag("--copy-tags")]
+    /// <summary>
+    /// [Default policies only] Indicates whether the policy should copy tags from the source resource to the snapshot or AMI.
+    /// </summary>
+    [CliFlag("--copy-tags", NegatedName = "--no-copy-tags")]
     public bool? CopyTags { get; set; }
 
-    [CliFlag("--extend-deletion")]
+    /// <summary>
+    /// [Default policies only] Defines the snapshot or AMI retention behavior for the policy if the source volume or instance is deleted, or if the policy enters the error, disabled, or deleted state. By default (ExtendDeletion=false ): o If a source resource is deleted, Amazon Data Lifecycle Manager will continue to delete previously created snapshots or AMIs, up to but not including the last one, based on the specified reten- tion period. If you want Amazon Data Lifecycle Manager to delete all snapshots or AMIs, including the last one, specify true . o If a policy enters the error, disabled, or deleted state, Amazon Data Lifecycle Manager stops deleting snapshots and AMIs. If you want Amazon Data Lifecycle Manager to continue deleting snapshots or AMIs, including the last one, if the policy enters one of these states, specify true . If you enable extended deletion (ExtendDeletion=true ), you override both default behaviors simultaneously. Default: false
+    /// </summary>
+    [CliFlag("--extend-deletion", NegatedName = "--no-extend-deletion")]
     public bool? ExtendDeletion { get; set; }
 
     /// <summary>
@@ -84,5 +127,22 @@ public record AwsDlmUpdateLifecyclePolicyOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

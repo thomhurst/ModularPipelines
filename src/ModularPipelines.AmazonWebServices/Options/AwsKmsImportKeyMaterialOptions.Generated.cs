@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,17 +22,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kms", "import-key-material")]
-public record AwsKmsImportKeyMaterialOptions : AwsOptions
+public record AwsKmsImportKeyMaterialOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--key-id")]
-    public string? KeyId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Imports or reimports key material into an existing KMS key that was created without key material. You can also use this operation to set or update the expiration model and expiration date of the imported key ma- terial. By default, KMS creates KMS keys with key material that it generates. You can also generate and import your own key material. For more infor- mation about importing key material, see Importing key material . For asymmetric and HMAC keys, you cannot change the key material after t...
+    /// </summary>
+    /// <param name="KeyId">The identifier of the KMS key that will be associated with the im- ported key material. This must be the same KMS key specified in the KeyID parameter of the corresponding GetParametersForImport re- quest. The Origin of the KMS key must be EXTERNAL and its KeyState must be PendingImport . The KMS key can be a symmetric encryption KMS key, HMAC KMS key, asymmetric encryption KMS key, or asymmetric signing KMS key, in- cluding a multi-Region key of any supported type. You cannot perform this operation on a KMS key in a custom key store, or on a KMS key in a different Amazon Web Services account. Specify the key ID or key ARN of the KMS key. For example: o Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab o Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab To get the key ID and key ARN for a KMS key, use ListKeys or De- scribeKey . Constraints: o min: 1 o max: 2048</param>
+    /// <param name="ImportToken">The import token that you received in the response to a previous GetParametersForImport request. It must be from the same response that contained the public key that you used to encrypt the key mate- rial. Constraints: o min: 1 o max: 6144</param>
+    /// <param name="EncryptedKeyMaterial">The encrypted key material to import. The key material must be en- crypted under the public wrapping key that GetParametersForImport returned, using the wrapping algorithm that you specified in the same GetParametersForImport request. Constraints: o min: 1 o max: 6144</param>
+    public AwsKmsImportKeyMaterialOptions(
+        string KeyId,
+        string ImportToken,
+        string EncryptedKeyMaterial
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KeyId);
+        this.KeyId = KeyId;
+        global::System.ArgumentNullException.ThrowIfNull(ImportToken);
+        this.ImportToken = ImportToken;
+        global::System.ArgumentNullException.ThrowIfNull(EncryptedKeyMaterial);
+        this.EncryptedKeyMaterial = EncryptedKeyMaterial;
+    }
+
+    private AwsKmsImportKeyMaterialOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKmsImportKeyMaterialOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKmsImportKeyMaterialOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the KMS key that will be associated with the im- ported key material. This must be the same KMS key specified in the KeyID parameter of the corresponding GetParametersForImport re- quest. The Origin of the KMS key must be EXTERNAL and its KeyState must be PendingImport . The KMS key can be a symmetric encryption KMS key, HMAC KMS key, asymmetric encryption KMS key, or asymmetric signing KMS key, in- cluding a multi-Region key of any supported type. You cannot perform this operation on a KMS key in a custom key store, or on a KMS key in a different Amazon Web Services account. Specify the key ID or key ARN of the KMS key. For example: o Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab o Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab To get the key ID and key ARN for a KMS key, use ListKeys or De- scribeKey . Constraints: o min: 1 o max: 2048
+    /// </summary>
+    [CliOption("--key-id")]
+    public string? KeyId { get; private init; }
+
+    /// <summary>
+    /// The import token that you received in the response to a previous GetParametersForImport request. It must be from the same response that contained the public key that you used to encrypt the key mate- rial. Constraints: o min: 1 o max: 6144
+    /// </summary>
     [SecretValue]
     [CliOption("--import-token")]
-    public string? ImportToken { get; set; }
+    public string? ImportToken { get; private init; }
 
+    /// <summary>
+    /// The encrypted key material to import. The key material must be en- crypted under the public wrapping key that GetParametersForImport returned, using the wrapping algorithm that you specified in the same GetParametersForImport request. Constraints: o min: 1 o max: 6144
+    /// </summary>
     [CliOption("--encrypted-key-material")]
-    public string? EncryptedKeyMaterial { get; set; }
+    public string? EncryptedKeyMaterial { get; private init; }
 
     /// <summary>
     /// The date and time when the imported key material expires. This para- meter is required when the value of the ExpirationModel parameter is KEY_MATERIAL_EXPIRES . Otherwise it is not valid. The value of this parameter must be a future date and time. The max- imum value is 365 days from the request date. When the key material expires, KMS deletes the key material from the KMS key. Without its key material, the KMS key is unusable. To use the KMS key in cryptographic operations, you must reimport the same key material. You cannot change the ExpirationModel or ValidTo values for the cur- rent import after the request completes. To change either value, you must delete ( DeleteImportedKeyMaterial ) and reimport the key mate- rial.
@@ -68,5 +119,22 @@ public record AwsKmsImportKeyMaterialOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

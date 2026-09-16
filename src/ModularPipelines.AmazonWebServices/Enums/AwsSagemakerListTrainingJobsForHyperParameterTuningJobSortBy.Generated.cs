@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --sortby.
+/// Allowed values for --sort-by.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSagemakerListTrainingJobsForHyperParameterTuningJobSortBy
 {
-    [EnumValue("Name")]
-    Name = 1,
-
     [EnumValue("CreationTime")]
-    CreationTime = 2,
-
-    [EnumValue("Status")]
-    Status = 3,
+    CreationTime,
 
     [EnumValue("FinalObjectiveMetricValue")]
-    FinalObjectiveMetricValue = 4
+    FinalObjectiveMetricValue,
+
+    [EnumValue("Name")]
+    Name,
+
+    [EnumValue("Status")]
+    Status
 }

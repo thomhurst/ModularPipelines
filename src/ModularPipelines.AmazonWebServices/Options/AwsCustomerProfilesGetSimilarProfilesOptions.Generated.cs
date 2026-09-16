@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +22,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("customer-profiles", "get-similar-profiles")]
-public record AwsCustomerProfilesGetSimilarProfilesOptions : AwsOptions
+public record AwsCustomerProfilesGetSimilarProfilesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a set of profiles that belong to the same matching group using the matchId or profileId . You can also specify the type of matching that you want for finding similar profiles using either RULE_BASED_MATCHING or ML_BASED_MATCHING . See also: AWS API Documentation get-similar-profiles is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and...
+    /// </summary>
+    /// <param name="DomainName">The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="MatchType">Specify the type of matching to get similar profiles for. Possible values: o RULE_BASED_MATCHING o ML_BASED_MATCHING</param>
+    /// <param name="SearchKey">The string indicating the search key to be used. Constraints: o min: 1 o max: 255</param>
+    /// <param name="SearchValue">The string based on SearchKey to be searched for similar profiles. Constraints: o min: 1 o max: 255</param>
+    public AwsCustomerProfilesGetSimilarProfilesOptions(
+        string DomainName,
+        AwsCustomerProfilesGetSimilarProfilesMatchType MatchType,
+        string SearchKey,
+        string SearchValue
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainName);
+        this.DomainName = DomainName;
+        global::System.ArgumentNullException.ThrowIfNull(MatchType);
+        this.MatchType = MatchType;
+        global::System.ArgumentNullException.ThrowIfNull(SearchKey);
+        this.SearchKey = SearchKey;
+        global::System.ArgumentNullException.ThrowIfNull(SearchValue);
+        this.SearchValue = SearchValue;
+    }
+
+    private AwsCustomerProfilesGetSimilarProfilesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCustomerProfilesGetSimilarProfilesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCustomerProfilesGetSimilarProfilesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// </summary>
     [CliOption("--domain-name")]
-    public string? DomainName { get; set; }
+    public string? DomainName { get; private init; }
 
+    /// <summary>
+    /// Specify the type of matching to get similar profiles for. Possible values: o RULE_BASED_MATCHING o ML_BASED_MATCHING
+    /// </summary>
     [CliOption("--match-type")]
-    public string? MatchType { get; set; }
+    public AwsCustomerProfilesGetSimilarProfilesMatchType? MatchType { get; private init; }
 
+    /// <summary>
+    /// The string indicating the search key to be used. Constraints: o min: 1 o max: 255
+    /// </summary>
     [CliOption("--search-key")]
-    public string? SearchKey { get; set; }
+    public string? SearchKey { get; private init; }
 
+    /// <summary>
+    /// The string based on SearchKey to be searched for similar profiles. Constraints: o min: 1 o max: 255
+    /// </summary>
     [CliOption("--search-value")]
-    public string? SearchValue { get; set; }
+    public string? SearchValue { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -58,5 +117,22 @@ public record AwsCustomerProfilesGetSimilarProfilesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --updatemode.
+/// Allowed values for --update-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsFrauddetectorUpdateListUpdateMode
 {
-    [EnumValue("REPLACE")]
-    Replace = 1,
-
     [EnumValue("APPEND")]
-    Append = 2,
+    Append,
 
     [EnumValue("REMOVE")]
-    Remove = 3
+    Remove,
+
+    [EnumValue("REPLACE")]
+    Replace
 }

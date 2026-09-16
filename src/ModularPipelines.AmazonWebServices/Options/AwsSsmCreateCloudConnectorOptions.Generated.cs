@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,25 +20,82 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "create-cloud-connector")]
-public record AwsSsmCreateCloudConnectorOptions : AwsOptions
+public record AwsSsmCreateCloudConnectorOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--display-name")]
-    public string? DisplayName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a cloud connector that establishes a connection between Systems Manager and a third-party cloud environment. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DisplayName">A friendly name for the cloud connector. Constraints: o min: 1 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}\p{P}\p{M}]*)$</param>
+    /// <param name="RoleArn">The Amazon Resource Name (ARN) of the IAM role that the cloud con- nector uses to communicate with the third-party cloud environment. Constraints: o min: 20 o max: 2048 o pattern: ^arn:aws[a-z0-9-]*:iam::\d{12}:role\/[\w-\/.@+=,]{1,1017}$</param>
+    /// <param name="Configuration">The configuration details for connecting to the third-party cloud environment. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: AzureConfiguration. AzureConfiguration -&gt; (structure) The access details and targets for connecting to a Microsoft Azure environment. TenantId -&gt; (string) [required] The ID of the Azure tenant. Constraints: o min: 1 o max: 256 o pattern: ^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$ TenantDisplayName -&gt; (string) The display name of the Azure tenant. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}\p{P}\p{M}]*)$ ApplicationId -&gt; (string) [required] The ID of the Azure application registration used for authen- tication. Constraints: o min: 1 o max: 256 o pattern: ^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$ ApplicationDisplayName -&gt; (string) The display name of the Azure application registration. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}\p{P}\p{M}]*)$ Targets -&gt; (tagged union structure) The target Azure subscriptions for the cloud connector. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: Subscriptions. Subscriptions -&gt; (list) A list of Azure subscriptions to target. Constraints: o min: 1 o max: 75 (structure) Information about an Azure subscription targeted by the cloud connector. Id -&gt; (string) [required] The ID of the Azure subscription. Constraints: o min: 1 o max: 256 o pattern: ^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$ DisplayName -&gt; (string) The display name of the Azure subscription. Constraints: o min: 0 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}\p{P}\p{M}]*)$ JSON Syntax: { "AzureConfiguration": { "TenantId": "string", "TenantDisplayName": "string", "ApplicationId": "string", "ApplicationDisplayName": "string", "Targets": { "Subscriptions": [ { "Id": "string", "DisplayName": "string" } ... ] } } }</param>
+    /// <param name="ConfigConnectorArn">The ARN of the Amazon Web Services Config connector associated with this cloud connector. Constraints: o min: 1 o max: 512 o pattern: ^arn:aws(-cn|-us-gov)?:config:([^:]+):\d{12}:connec- tor/.+$</param>
+    public AwsSsmCreateCloudConnectorOptions(
+        string DisplayName,
+        string RoleArn,
+        string Configuration,
+        string ConfigConnectorArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DisplayName);
+        this.DisplayName = DisplayName;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+        global::System.ArgumentNullException.ThrowIfNull(Configuration);
+        this.Configuration = Configuration;
+        global::System.ArgumentNullException.ThrowIfNull(ConfigConnectorArn);
+        this.ConfigConnectorArn = ConfigConnectorArn;
+    }
+
+    private AwsSsmCreateCloudConnectorOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmCreateCloudConnectorOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmCreateCloudConnectorOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A friendly name for the cloud connector. Constraints: o min: 1 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}\p{P}\p{M}]*)$
+    /// </summary>
+    [CliOption("--display-name")]
+    public string? DisplayName { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the IAM role that the cloud con- nector uses to communicate with the third-party cloud environment. Constraints: o min: 20 o max: 2048 o pattern: ^arn:aws[a-z0-9-]*:iam::\d{12}:role\/[\w-\/.@+=,]{1,1017}$
+    /// </summary>
     [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
+    public string? RoleArn { get; private init; }
+
+    /// <summary>
+    /// The configuration details for connecting to the third-party cloud environment. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: AzureConfiguration. AzureConfiguration -&gt; (structure) The access details and targets for connecting to a Microsoft Azure environment. TenantId -&gt; (string) [required] The ID of the Azure tenant. Constraints: o min: 1 o max: 256 o pattern: ^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$ TenantDisplayName -&gt; (string) The display name of the Azure tenant. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}\p{P}\p{M}]*)$ ApplicationId -&gt; (string) [required] The ID of the Azure application registration used for authen- tication. Constraints: o min: 1 o max: 256 o pattern: ^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$ ApplicationDisplayName -&gt; (string) The display name of the Azure application registration. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}\p{P}\p{M}]*)$ Targets -&gt; (tagged union structure) The target Azure subscriptions for the cloud connector. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: Subscriptions. Subscriptions -&gt; (list) A list of Azure subscriptions to target. Constraints: o min: 1 o max: 75 (structure) Information about an Azure subscription targeted by the cloud connector. Id -&gt; (string) [required] The ID of the Azure subscription. Constraints: o min: 1 o max: 256 o pattern: ^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$ DisplayName -&gt; (string) The display name of the Azure subscription. Constraints: o min: 0 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}\p{P}\p{M}]*)$ JSON Syntax: { "AzureConfiguration": { "TenantId": "string", "TenantDisplayName": "string", "ApplicationId": "string", "ApplicationDisplayName": "string", "Targets": { "Subscriptions": [ { "Id": "string", "DisplayName": "string" } ... ] } } }
+    /// </summary>
+    [CliOption("--configuration")]
+    public string? Configuration { get; private init; }
+
+    /// <summary>
+    /// The ARN of the Amazon Web Services Config connector associated with this cloud connector. Constraints: o min: 1 o max: 512 o pattern: ^arn:aws(-cn|-us-gov)?:config:([^:]+):\d{12}:connec- tor/.+$
+    /// </summary>
+    [CliOption("--config-connector-arn")]
+    public string? ConfigConnectorArn { get; private init; }
 
     /// <summary>
     /// A description for the cloud connector. Constraints: o min: 0 o max: 1024 o pattern: ^([\p{L}\p{Z}\p{N}\p{P}\p{M}]*)$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--configuration")]
-    public string? Configuration { get; set; }
-
-    [CliOption("--config-connector-arn")]
-    public string? ConfigConnectorArn { get; set; }
 
     /// <summary>
     /// Optional metadata that you assign to a resource. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. Constraints: o max: 1000 (structure) Metadata that you assign to your Amazon Web Services resources. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment. In Amazon Web Services Systems Manager, you can apply tags to Systems Manager documents (SSM documents), managed nodes, maintenance windows, parameters, patch baselines, OpsItems, and OpsMetadata. Key -&gt; (string) [required] The name of the tag. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The value of the tag. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -50,5 +108,22 @@ public record AwsSsmCreateCloudConnectorOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

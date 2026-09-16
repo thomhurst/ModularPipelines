@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elasticache", "start-migration")]
-public record AwsElasticacheStartMigrationOptions : AwsOptions
+public record AwsElasticacheStartMigrationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--replication-group-id")]
-    public string? ReplicationGroupId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Start the migration of data. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ReplicationGroupId">The ID of the replication group to which data should be migrated.</param>
+    /// <param name="CustomerNodeEndpointList">List of endpoints from which data should be migrated. For Valkey or Redis OSS (cluster mode disabled), the list should have only one el- ement. (structure) The endpoint from which data should be migrated. Address -&gt; (string) The address of the node endpoint Port -&gt; (integer) The port of the node endpoint Shorthand Syntax: Address=string,Port=integer ... JSON Syntax: [ { "Address": "string", "Port": integer } ... ]</param>
+    public AwsElasticacheStartMigrationOptions(
+        string ReplicationGroupId,
+        IEnumerable<string> CustomerNodeEndpointList
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReplicationGroupId);
+        this.ReplicationGroupId = ReplicationGroupId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(CustomerNodeEndpointList);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(CustomerNodeEndpointList));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(CustomerNodeEndpointList));
+            }
+
+            CustomerNodeEndpointList = materialized;
+        }
+        this.CustomerNodeEndpointList = CustomerNodeEndpointList;
+    }
+
+    private AwsElasticacheStartMigrationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElasticacheStartMigrationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElasticacheStartMigrationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the replication group to which data should be migrated.
+    /// </summary>
+    [CliOption("--replication-group-id")]
+    public string? ReplicationGroupId { get; private init; }
+
+    /// <summary>
+    /// List of endpoints from which data should be migrated. For Valkey or Redis OSS (cluster mode disabled), the list should have only one el- ement. (structure) The endpoint from which data should be migrated. Address -&gt; (string) The address of the node endpoint Port -&gt; (integer) The port of the node endpoint Shorthand Syntax: Address=string,Port=integer ... JSON Syntax: [ { "Address": "string", "Port": integer } ... ]
+    /// </summary>
     [CliOption("--customer-node-endpoint-list", GroupValues = true)]
-    public IEnumerable<string>? CustomerNodeEndpointList { get; set; }
+    public IEnumerable<string>? CustomerNodeEndpointList { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("quicksight", "update-dlp-setting")]
-public record AwsQuicksightUpdateDlpSettingOptions : AwsOptions
+public record AwsQuicksightUpdateDlpSettingOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--aws-account-id")]
-    public string? AwsAccountId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates an existing DLP setting configuration in an Amazon Web Services account. Fields that are omitted from the request retain their current values. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the DLP set- ting that you want to update. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="DlpSettingId">The ID of the DLP setting that you want to update. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\-_]+</param>
+    public AwsQuicksightUpdateDlpSettingOptions(
+        string AwsAccountId,
+        string DlpSettingId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
+        this.AwsAccountId = AwsAccountId;
+        global::System.ArgumentNullException.ThrowIfNull(DlpSettingId);
+        this.DlpSettingId = DlpSettingId;
+    }
+
+    private AwsQuicksightUpdateDlpSettingOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQuicksightUpdateDlpSettingOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQuicksightUpdateDlpSettingOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Amazon Web Services account that contains the DLP set- ting that you want to update. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// </summary>
+    [CliOption("--aws-account-id")]
+    public string? AwsAccountId { get; private init; }
+
+    /// <summary>
+    /// The ID of the DLP setting that you want to update. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\-_]+
+    /// </summary>
     [CliOption("--dlp-setting-id")]
-    public string? DlpSettingId { get; set; }
+    public string? DlpSettingId { get; private init; }
 
     /// <summary>
     /// An updated display name for the DLP setting. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z0-9](?:[\w- &amp;]*[A-Za-z0-9])?
@@ -38,7 +82,7 @@ public record AwsQuicksightUpdateDlpSettingOptions : AwsOptions
     /// An updated DLP provider type. Currently, the only supported value is MICROSOFT_PURVIEW . Possible values: o MICROSOFT_PURVIEW
     /// </summary>
     [CliOption("--provider-type")]
-    public AwsQuicksightUpdateDlpSettingProviderType? ProviderType { get; set; }
+    public string? ProviderType { get; set; }
 
     /// <summary>
     /// An updated provider-specific configuration for the DLP integration. This is a union type structure. For this structure to be valid, only one of the attributes can be defined. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: MicrosoftPurview. MicrosoftPurview -&gt; (structure) The configuration for a Microsoft Purview DLP integration. Credentials -&gt; (structure) [required] The credentials used to authenticate with Microsoft Purview. SecretArn -&gt; (string) [required] The ARN of the Amazon Web Services Secrets Manager secret that contains the Microsoft Purview OAuth credentials. The secret includes the Azure tenant ID, client ID, and client secret or certificate. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(-[\w]+)*:secretsman- ager:[a-z0-9\-]+:\d{12}:secret:.+ LabelActionMappings -&gt; (list) [required] The mappings from Microsoft Purview sensitivity labels to en- forcement actions. Constraints: o min: 0 o max: 100 (structure) Maps a sensitivity label from Microsoft Purview to an en- forcement action. LabelId -&gt; (string) [required] The identifier of the sensitivity label from the DLP provider. Constraints: o min: 1 o max: 512 LabelName -&gt; (string) [required] The display name of the sensitivity label from the DLP provider. Constraints: o min: 1 o max: 512 Action -&gt; (string) [required] The enforcement action to apply when content with this sensitivity label is detected. Valid values are ALLOW , BLOCK , and WARN . Possible values: o ALLOW o WARN o BLOCK UnmappedAction -&gt; (string) [required] The default action to apply to content that has no sensitiv- ity label or whose label is not mapped. Valid values are AL- LOW , BLOCK , and WARN . Possible values: o ALLOW o WARN o BLOCK JSON Syntax: { "MicrosoftPurview": { "Credentials": { "SecretArn": "string" }, "LabelActionMappings": [ { "LabelId": "string", "LabelName": "string", "Action": "ALLOW"|"WARN"|"BLOCK" } ... ], "UnmappedAction": "ALLOW"|"WARN"|"BLOCK" } }
@@ -52,7 +96,10 @@ public record AwsQuicksightUpdateDlpSettingOptions : AwsOptions
     [CliOption("--provider-outage-action")]
     public AwsQuicksightUpdateDlpSettingProviderOutageAction? ProviderOutageAction { get; set; }
 
-    [CliFlag("--enabled")]
+    /// <summary>
+    /// Specifies whether DLP enforcement is active for this setting. Set to true to enable enforcement, or false to disable it.
+    /// </summary>
+    [CliFlag("--enabled", NegatedName = "--no-enabled")]
     public bool? Enabled { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -60,5 +107,22 @@ public record AwsQuicksightUpdateDlpSettingOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

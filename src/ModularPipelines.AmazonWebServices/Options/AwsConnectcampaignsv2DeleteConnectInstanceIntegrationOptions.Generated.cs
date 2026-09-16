@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connectcampaignsv2", "delete-connect-instance-integration")]
-public record AwsConnectcampaignsv2DeleteConnectInstanceIntegrationOptions : AwsOptions
+public record AwsConnectcampaignsv2DeleteConnectInstanceIntegrationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--connect-instance-id")]
-    public string? ConnectInstanceId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Delete the integration for the specified Amazon Connect instance. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ConnectInstanceId">Amazon Connect Instance Id Constraints: o min: 1 o max: 256 o pattern: [-_.a-zA-Z0-9]+</param>
+    /// <param name="IntegrationIdentifier">Integration identifier for Connect instance NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: customerProfiles, qConnect, lambda. customerProfiles -&gt; (structure) Customer Profiles integration identifier domainArn -&gt; (string) [required] Amazon Resource Names(ARN) Constraints: o min: 20 o max: 500 o pattern: arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-z]{2}-[a-z]+-\d{1,2}:[a-zA-Z0-9-]+:[^:]+(?:/[^:]+)*(?:/[^:]+)?(?:\:[^:]+)? qConnect -&gt; (structure) Q Connect integration identifier knowledgeBaseArn -&gt; (string) [required] Amazon Resource Names(ARN) Constraints: o min: 20 o max: 500 o pattern: arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-z]{2}-[a-z]+-\d{1,2}:[a-zA-Z0-9-]+:[^:]+(?:/[^:]+)*(?:/[^:]+)?(?:\:[^:]+)? lambda -&gt; (structure) Lambda integration identifier functionArn -&gt; (string) [required] Lambda ARN for integration with Connect instances Constraints: o min: 1 o max: 140 o pattern: arn:aws[a-zA-Z-]*:lambda:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:func- tion:([a-zA-Z0-9-_]+)(:([a-zA-Z0-9-_]+))? Shorthand Syntax: customerProfiles={domainArn=string},qConnect={knowledgeBaseArn=string},lambda={functionArn=string} JSON Syntax: { "customerProfiles": { "domainArn": "string" }, "qConnect": { "knowledgeBaseArn": "string" }, "lambda": { "functionArn": "string" } }</param>
+    public AwsConnectcampaignsv2DeleteConnectInstanceIntegrationOptions(
+        string ConnectInstanceId,
+        string IntegrationIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConnectInstanceId);
+        this.ConnectInstanceId = ConnectInstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(IntegrationIdentifier);
+        this.IntegrationIdentifier = IntegrationIdentifier;
+    }
+
+    private AwsConnectcampaignsv2DeleteConnectInstanceIntegrationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectcampaignsv2DeleteConnectInstanceIntegrationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectcampaignsv2DeleteConnectInstanceIntegrationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Amazon Connect Instance Id Constraints: o min: 1 o max: 256 o pattern: [-_.a-zA-Z0-9]+
+    /// </summary>
+    [CliOption("--connect-instance-id")]
+    public string? ConnectInstanceId { get; private init; }
+
+    /// <summary>
+    /// Integration identifier for Connect instance NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: customerProfiles, qConnect, lambda. customerProfiles -&gt; (structure) Customer Profiles integration identifier domainArn -&gt; (string) [required] Amazon Resource Names(ARN) Constraints: o min: 20 o max: 500 o pattern: arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-z]{2}-[a-z]+-\d{1,2}:[a-zA-Z0-9-]+:[^:]+(?:/[^:]+)*(?:/[^:]+)?(?:\:[^:]+)? qConnect -&gt; (structure) Q Connect integration identifier knowledgeBaseArn -&gt; (string) [required] Amazon Resource Names(ARN) Constraints: o min: 20 o max: 500 o pattern: arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-z]{2}-[a-z]+-\d{1,2}:[a-zA-Z0-9-]+:[^:]+(?:/[^:]+)*(?:/[^:]+)?(?:\:[^:]+)? lambda -&gt; (structure) Lambda integration identifier functionArn -&gt; (string) [required] Lambda ARN for integration with Connect instances Constraints: o min: 1 o max: 140 o pattern: arn:aws[a-zA-Z-]*:lambda:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:func- tion:([a-zA-Z0-9-_]+)(:([a-zA-Z0-9-_]+))? Shorthand Syntax: customerProfiles={domainArn=string},qConnect={knowledgeBaseArn=string},lambda={functionArn=string} JSON Syntax: { "customerProfiles": { "domainArn": "string" }, "qConnect": { "knowledgeBaseArn": "string" }, "lambda": { "functionArn": "string" } }
+    /// </summary>
     [CliOption("--integration-identifier")]
-    public string? IntegrationIdentifier { get; set; }
+    public string? IntegrationIdentifier { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

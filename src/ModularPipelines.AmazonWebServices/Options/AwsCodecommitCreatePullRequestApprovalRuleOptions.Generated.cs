@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codecommit", "create-pull-request-approval-rule")]
-public record AwsCodecommitCreatePullRequestApprovalRuleOptions : AwsOptions
+public record AwsCodecommitCreatePullRequestApprovalRuleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an approval rule for a pull request. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PullRequestId">The system-generated ID of the pull request for which you want to create the approval rule.</param>
+    /// <param name="ApprovalRuleName">The name for the approval rule. Constraints: o min: 1 o max: 100</param>
+    /// <param name="ApprovalRuleContent">The content of the approval rule, including the number of approvals needed and the structure of an approval pool defined for approvals, if any. For more information about approval pools, see the CodeCom- mit User Guide. NOTE: When you create the content of the approval rule, you can spec- ify approvers in an approval pool in one of two ways: o CodeCommitApprovers : This option only requires an Amazon Web Services account and a resource. It can be used for both IAM users and federated access users whose name matches the pro- vided resource name. This is a very powerful option that of- fers a great deal of flexibility. For example, if you specify the Amazon Web Services account 123456789012 and Mary_Major , all of the following would be counted as approvals coming from that user: o An IAM user in the account (arn:aws:iam::123456789012 :user/Mary_Major ) o A federated user identified in IAM as Mary_Major (arn:aws:sts::123456789012 :federated-user/Mary_Major ) This option does not recognize an active session of someone as- suming the role of CodeCommitReview with a role session name of Mary_Major (arn:aws:sts::123456789012 :assumed-role/CodeCom- mitReview/Mary_Major ) unless you include a wildcard ( * Mary_Major). System Message: WARNING/2 (&lt;string&gt;:, line 119) Inline emphasis start-string without end-string. o Fully qualified ARN : This option allows you to specify the fully qualified Amazon Resource Name (ARN) of the IAM user or role. For more information about IAM ARNs, wildcards, and formats, see IAM Identifiers in the IAM User Guide . Constraints: o min: 1 o max: 3000</param>
+    public AwsCodecommitCreatePullRequestApprovalRuleOptions(
+        string PullRequestId,
+        string ApprovalRuleName,
+        string ApprovalRuleContent
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PullRequestId);
+        this.PullRequestId = PullRequestId;
+        global::System.ArgumentNullException.ThrowIfNull(ApprovalRuleName);
+        this.ApprovalRuleName = ApprovalRuleName;
+        global::System.ArgumentNullException.ThrowIfNull(ApprovalRuleContent);
+        this.ApprovalRuleContent = ApprovalRuleContent;
+    }
+
+    private AwsCodecommitCreatePullRequestApprovalRuleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodecommitCreatePullRequestApprovalRuleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodecommitCreatePullRequestApprovalRuleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The system-generated ID of the pull request for which you want to create the approval rule.
+    /// </summary>
     [CliOption("--pull-request-id")]
-    public string? PullRequestId { get; set; }
+    public string? PullRequestId { get; private init; }
 
+    /// <summary>
+    /// The name for the approval rule. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--approval-rule-name")]
-    public string? ApprovalRuleName { get; set; }
+    public string? ApprovalRuleName { get; private init; }
 
+    /// <summary>
+    /// The content of the approval rule, including the number of approvals needed and the structure of an approval pool defined for approvals, if any. For more information about approval pools, see the CodeCom- mit User Guide. NOTE: When you create the content of the approval rule, you can spec- ify approvers in an approval pool in one of two ways: o CodeCommitApprovers : This option only requires an Amazon Web Services account and a resource. It can be used for both IAM users and federated access users whose name matches the pro- vided resource name. This is a very powerful option that of- fers a great deal of flexibility. For example, if you specify the Amazon Web Services account 123456789012 and Mary_Major , all of the following would be counted as approvals coming from that user: o An IAM user in the account (arn:aws:iam::123456789012 :user/Mary_Major ) o A federated user identified in IAM as Mary_Major (arn:aws:sts::123456789012 :federated-user/Mary_Major ) This option does not recognize an active session of someone as- suming the role of CodeCommitReview with a role session name of Mary_Major (arn:aws:sts::123456789012 :assumed-role/CodeCom- mitReview/Mary_Major ) unless you include a wildcard ( * Mary_Major). System Message: WARNING/2 (&lt;string&gt;:, line 119) Inline emphasis start-string without end-string. o Fully qualified ARN : This option allows you to specify the fully qualified Amazon Resource Name (ARN) of the IAM user or role. For more information about IAM ARNs, wildcards, and formats, see IAM Identifiers in the IAM User Guide . Constraints: o min: 1 o max: 3000
+    /// </summary>
     [CliOption("--approval-rule-content")]
-    public string? ApprovalRuleContent { get; set; }
+    public string? ApprovalRuleContent { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

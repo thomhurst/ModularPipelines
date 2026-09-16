@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elasticache", "modify-replication-group")]
-public record AwsElasticacheModifyReplicationGroupOptions : AwsOptions
+public record AwsElasticacheModifyReplicationGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies the settings for a replication group. This is limited to Valkey and Redis OSS 7 and above. o Scaling for Valkey or Redis OSS (cluster mode enabled) in the Elasti- Cache User Guide o ModifyReplicationGroupShardConfiguration in the ElastiCache API Ref- erence NOTE: This operation is valid for Valkey or Redis OSS only. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ReplicationGroupId">The identifier of the replication group to modify.</param>
+    public AwsElasticacheModifyReplicationGroupOptions(
+        string ReplicationGroupId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReplicationGroupId);
+        this.ReplicationGroupId = ReplicationGroupId;
+    }
+
+    private AwsElasticacheModifyReplicationGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElasticacheModifyReplicationGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElasticacheModifyReplicationGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the replication group to modify.
+    /// </summary>
     [CliOption("--replication-group-id")]
-    public string? ReplicationGroupId { get; set; }
+    public string? ReplicationGroupId { get; private init; }
 
     /// <summary>
     /// A description for the replication group. Maximum length is 255 char- acters.
@@ -44,10 +81,16 @@ public record AwsElasticacheModifyReplicationGroupOptions : AwsOptions
     [CliOption("--snapshotting-cluster-id")]
     public string? SnapshottingClusterId { get; set; }
 
-    [CliFlag("--automatic-failover-enabled")]
+    /// <summary>
+    /// Determines whether a read replica is automatically promoted to read/write primary if the existing primary encounters a failure. Valid values: true | false
+    /// </summary>
+    [CliFlag("--automatic-failover-enabled", NegatedName = "--no-automatic-failover-enabled")]
     public bool? AutomaticFailoverEnabled { get; set; }
 
-    [CliFlag("--multi-az-enabled")]
+    /// <summary>
+    /// A flag to indicate MultiAZ is enabled.
+    /// </summary>
+    [CliFlag("--multi-az-enabled", NegatedName = "--no-multi-az-enabled")]
     public bool? MultiAzEnabled { get; set; }
 
     /// <summary>
@@ -92,7 +135,10 @@ public record AwsElasticacheModifyReplicationGroupOptions : AwsOptions
     [CliOption("--notification-topic-status")]
     public string? NotificationTopicStatus { get; set; }
 
-    [CliFlag("--apply-immediately")]
+    /// <summary>
+    /// If true , this parameter causes the modifications in this request and any pending modifications to be applied, asynchronously and as soon as possible, regardless of the PreferredMaintenanceWindow set- ting for the replication group. If false , changes to the nodes in the replication group are applied on the next maintenance reboot, or the next failure reboot, whichever occurs first. Valid values: true | false Default: false
+    /// </summary>
+    [CliFlag("--apply-immediately", NegatedName = "--no-apply-immediately")]
     public bool? ApplyImmediately { get; set; }
 
     /// <summary>
@@ -107,7 +153,10 @@ public record AwsElasticacheModifyReplicationGroupOptions : AwsOptions
     [CliOption("--engine-version")]
     public string? EngineVersion { get; set; }
 
-    [CliFlag("--auto-minor-version-upgrade")]
+    /// <summary>
+    /// If you are running Valkey or Redis OSS engine version 6.0 or later, set this parameter to yes if you want to opt-in to the next auto mi- nor version upgrade campaign. This parameter is disabled for previ- ous versions.
+    /// </summary>
+    [CliFlag("--auto-minor-version-upgrade", NegatedName = "--no-auto-minor-version-upgrade")]
     public bool? AutoMinorVersionUpgrade { get; set; }
 
     /// <summary>
@@ -138,7 +187,6 @@ public record AwsElasticacheModifyReplicationGroupOptions : AwsOptions
     /// <summary>
     /// Specifies the strategy to use to update the AUTH token. This parame- ter must be specified with the auth-token parameter. Possible val- ues: o ROTATE - default, if no update strategy is provided o SET - allowed only after ROTATE o DELETE - allowed only when transitioning to RBAC For more information, see Authenticating Users with AUTH Possible values: o SET o ROTATE o DELETE
     /// </summary>
-    [SecretValue]
     [CliOption("--auth-token-update-strategy")]
     public AwsElasticacheModifyReplicationGroupAuthTokenUpdateStrategy? AuthTokenUpdateStrategy { get; set; }
 
@@ -154,7 +202,10 @@ public record AwsElasticacheModifyReplicationGroupOptions : AwsOptions
     [CliOption("--user-group-ids-to-remove", GroupValues = true)]
     public IEnumerable<string>? UserGroupIdsToRemove { get; set; }
 
-    [CliFlag("--remove-user-groups")]
+    /// <summary>
+    /// Removes the user group associated with this replication group.
+    /// </summary>
+    [CliFlag("--remove-user-groups", NegatedName = "--no-remove-user-groups")]
     public bool? RemoveUserGroups { get; set; }
 
     /// <summary>
@@ -169,7 +220,10 @@ public record AwsElasticacheModifyReplicationGroupOptions : AwsOptions
     [CliOption("--ip-discovery")]
     public AwsElasticacheModifyReplicationGroupIpDiscovery? IpDiscovery { get; set; }
 
-    [CliFlag("--transit-encryption-enabled")]
+    /// <summary>
+    /// A flag that enables in-transit encryption when set to true. If you are enabling in-transit encryption for an existing cluster, you must also set TransitEncryptionMode to preferred .
+    /// </summary>
+    [CliFlag("--transit-encryption-enabled", NegatedName = "--no-transit-encryption-enabled")]
     public bool? TransitEncryptionEnabled { get; set; }
 
     /// <summary>
@@ -195,5 +249,22 @@ public record AwsElasticacheModifyReplicationGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

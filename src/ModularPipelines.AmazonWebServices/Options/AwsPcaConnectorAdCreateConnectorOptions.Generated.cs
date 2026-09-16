@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,10 +22,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pca-connector-ad", "create-connector")]
-public record AwsPcaConnectorAdCreateConnectorOptions : AwsOptions
+public record AwsPcaConnectorAdCreateConnectorOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a connector between Amazon Web Services Private CA and an Ac- tive Directory. You must specify the private CA, directory ID, and se- curity groups. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CertificateAuthorityArn">The Amazon Resource Name (ARN) of the certificate authority being used. Constraints: o min: 5 o max: 200 o pattern: ^arn:[\w-]+:acm-pca:[\w-]+:[0-9]+:certificate-author- ity\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$</param>
+    /// <param name="DirectoryId">The identifier of the Active Directory. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="VpcInformation">Information about your VPC and security groups used with the connec- tor. IpAddressType -&gt; (string) The VPC IP address type. Possible values: o IPV4 o DUALSTACK SecurityGroupIds -&gt; (list) [required] The security groups used with the connector. You can use a maxi- mum of 4 security groups with a connector. Constraints: o min: 1 o max: 4 (string) Constraints: o min: 11 o max: 20 o pattern: ^(?:sg-[0-9a-f]{8}|sg-[0-9a-f]{17})$ Shorthand Syntax: IpAddressType=string,SecurityGroupIds=string,string JSON Syntax: { "IpAddressType": "IPV4"|"DUALSTACK", "SecurityGroupIds": ["string", ...] }</param>
+    public AwsPcaConnectorAdCreateConnectorOptions(
+        string CertificateAuthorityArn,
+        string DirectoryId,
+        string VpcInformation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CertificateAuthorityArn);
+        this.CertificateAuthorityArn = CertificateAuthorityArn;
+        global::System.ArgumentNullException.ThrowIfNull(DirectoryId);
+        this.DirectoryId = DirectoryId;
+        global::System.ArgumentNullException.ThrowIfNull(VpcInformation);
+        this.VpcInformation = VpcInformation;
+    }
+
+    private AwsPcaConnectorAdCreateConnectorOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPcaConnectorAdCreateConnectorOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPcaConnectorAdCreateConnectorOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the certificate authority being used. Constraints: o min: 5 o max: 200 o pattern: ^arn:[\w-]+:acm-pca:[\w-]+:[0-9]+:certificate-author- ity\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$
+    /// </summary>
     [CliOption("--certificate-authority-arn")]
-    public string? CertificateAuthorityArn { get; set; }
+    public string? CertificateAuthorityArn { get; private init; }
+
+    /// <summary>
+    /// The identifier of the Active Directory. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// </summary>
+    [CliOption("--directory-id")]
+    public string? DirectoryId { get; private init; }
+
+    /// <summary>
+    /// Information about your VPC and security groups used with the connec- tor. IpAddressType -&gt; (string) The VPC IP address type. Possible values: o IPV4 o DUALSTACK SecurityGroupIds -&gt; (list) [required] The security groups used with the connector. You can use a maxi- mum of 4 security groups with a connector. Constraints: o min: 1 o max: 4 (string) Constraints: o min: 11 o max: 20 o pattern: ^(?:sg-[0-9a-f]{8}|sg-[0-9a-f]{17})$ Shorthand Syntax: IpAddressType=string,SecurityGroupIds=string,string JSON Syntax: { "IpAddressType": "IPV4"|"DUALSTACK", "SecurityGroupIds": ["string", ...] }
+    /// </summary>
+    [CliOption("--vpc-information")]
+    public string? VpcInformation { get; private init; }
 
     /// <summary>
     /// Idempotency token. Constraints: o min: 1 o max: 64 o pattern: ^[!-~]+$
@@ -33,22 +90,33 @@ public record AwsPcaConnectorAdCreateConnectorOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--directory-id")]
-    public string? DirectoryId { get; set; }
-
     /// <summary>
     /// Metadata assigned to a connector consisting of a key-value pair. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
-    [CliOption("--vpc-information")]
-    public string? VpcInformation { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

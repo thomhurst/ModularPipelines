@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --servicetype.
+/// Allowed values for --service-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotCreateDomainConfigurationServiceType
 {
-    [EnumValue("DATA")]
-    Data = 1,
-
     [EnumValue("CREDENTIAL_PROVIDER")]
-    CredentialProvider = 2,
+    CredentialProvider,
+
+    [EnumValue("DATA")]
+    Data,
 
     [EnumValue("JOBS")]
-    Jobs = 3
+    Jobs
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chime", "update-user-settings")]
-public record AwsChimeUpdateUserSettingsOptions : AwsOptions
+public record AwsChimeUpdateUserSettingsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the settings for the specified user, such as phone number set- tings. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AccountId">The Amazon Chime account ID.</param>
+    /// <param name="UserId">The user ID.</param>
+    /// <param name="UserSettings">The user settings to update. Telephony -&gt; (structure) [required] The telephony settings associated with the user. InboundCalling -&gt; (boolean) [required] Allows or denies inbound calling. OutboundCalling -&gt; (boolean) [required] Allows or denies outbound calling. SMS -&gt; (boolean) [required] Allows or denies SMS messaging. Shorthand Syntax: Telephony={InboundCalling=boolean,OutboundCalling=boolean,SMS=boolean} JSON Syntax: { "Telephony": { "InboundCalling": true|false, "OutboundCalling": true|false, "SMS": true|false } }</param>
+    public AwsChimeUpdateUserSettingsOptions(
+        string AccountId,
+        string UserId,
+        string UserSettings
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountId);
+        this.AccountId = AccountId;
+        global::System.ArgumentNullException.ThrowIfNull(UserId);
+        this.UserId = UserId;
+        global::System.ArgumentNullException.ThrowIfNull(UserSettings);
+        this.UserSettings = UserSettings;
+    }
+
+    private AwsChimeUpdateUserSettingsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChimeUpdateUserSettingsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChimeUpdateUserSettingsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Chime account ID.
+    /// </summary>
     [CliOption("--account-id")]
-    public string? AccountId { get; set; }
+    public string? AccountId { get; private init; }
 
+    /// <summary>
+    /// The user ID.
+    /// </summary>
     [CliOption("--user-id")]
-    public string? UserId { get; set; }
+    public string? UserId { get; private init; }
 
+    /// <summary>
+    /// The user settings to update. Telephony -&gt; (structure) [required] The telephony settings associated with the user. InboundCalling -&gt; (boolean) [required] Allows or denies inbound calling. OutboundCalling -&gt; (boolean) [required] Allows or denies outbound calling. SMS -&gt; (boolean) [required] Allows or denies SMS messaging. Shorthand Syntax: Telephony={InboundCalling=boolean,OutboundCalling=boolean,SMS=boolean} JSON Syntax: { "Telephony": { "InboundCalling": true|false, "OutboundCalling": true|false, "SMS": true|false } }
+    /// </summary>
     [CliOption("--user-settings")]
-    public string? UserSettings { get; set; }
+    public string? UserSettings { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

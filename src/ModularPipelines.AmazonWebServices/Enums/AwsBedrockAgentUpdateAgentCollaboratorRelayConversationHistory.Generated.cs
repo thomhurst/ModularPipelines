@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --relayconversationhistory.
+/// Allowed values for --relay-conversation-history.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsBedrockAgentUpdateAgentCollaboratorRelayConversationHistory
 {
-    [EnumValue("TO_COLLABORATOR")]
-    ToCollaborator = 1,
-
     [EnumValue("DISABLED")]
-    Disabled = 2
+    Disabled,
+
+    [EnumValue("TO_COLLABORATOR")]
+    ToCollaborator
 }

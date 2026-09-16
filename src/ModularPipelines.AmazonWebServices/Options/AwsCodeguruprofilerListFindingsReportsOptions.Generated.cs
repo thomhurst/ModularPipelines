@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codeguruprofiler", "list-findings-reports")]
-public record AwsCodeguruprofilerListFindingsReportsOptions : AwsOptions
+public record AwsCodeguruprofilerListFindingsReportsOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--daily-reports-only")]
-    public bool? DailyReportsOnly { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// List the available reports for a given profiling group and time range. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EndTime">The end time of the profile to get analysis data about. You must specify startTime and endTime . This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisec- ond past June 1, 2020 1:15:02 PM UTC.</param>
+    /// <param name="ProfilingGroupName">The name of the profiling group from which to search for analysis data. Constraints: o min: 1 o max: 255 o pattern: ^[\w-]+$</param>
+    /// <param name="StartTime">The start time of the profile to get analysis data about. You must specify startTime and endTime . This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisec- ond past June 1, 2020 1:15:02 PM UTC.</param>
+    public AwsCodeguruprofilerListFindingsReportsOptions(
+        string EndTime,
+        string ProfilingGroupName,
+        string StartTime
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EndTime);
+        this.EndTime = EndTime;
+        global::System.ArgumentNullException.ThrowIfNull(ProfilingGroupName);
+        this.ProfilingGroupName = ProfilingGroupName;
+        global::System.ArgumentNullException.ThrowIfNull(StartTime);
+        this.StartTime = StartTime;
+    }
+
+    private AwsCodeguruprofilerListFindingsReportsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodeguruprofilerListFindingsReportsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodeguruprofilerListFindingsReportsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The end time of the profile to get analysis data about. You must specify startTime and endTime . This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisec- ond past June 1, 2020 1:15:02 PM UTC.
+    /// </summary>
     [CliOption("--end-time")]
-    public string? EndTime { get; set; }
+    public string? EndTime { get; private init; }
+
+    /// <summary>
+    /// The name of the profiling group from which to search for analysis data. Constraints: o min: 1 o max: 255 o pattern: ^[\w-]+$
+    /// </summary>
+    [CliOption("--profiling-group-name")]
+    public string? ProfilingGroupName { get; private init; }
+
+    /// <summary>
+    /// The start time of the profile to get analysis data about. You must specify startTime and endTime . This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisec- ond past June 1, 2020 1:15:02 PM UTC.
+    /// </summary>
+    [CliOption("--start-time")]
+    public string? StartTime { get; private init; }
+
+    /// <summary>
+    /// A Boolean value indicating whether to only return reports from daily profiles. If set to True , only analysis data from daily profiles is returned. If set to False , analysis data is returned from smaller time windows (for example, one hour).
+    /// </summary>
+    [CliFlag("--daily-reports-only", NegatedName = "--no-daily-reports-only")]
+    public bool? DailyReportsOnly { get; set; }
 
     /// <summary>
     /// The maximum number of report results returned by ListFindingsReports in paginated output. When this parameter is used, ListFindingsRe- ports only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial re- quest can be seen by sending another ListFindingsReports request with the returned nextToken value. Constraints: o min: 1 o max: 1000
@@ -41,16 +101,27 @@ public record AwsCodeguruprofilerListFindingsReportsOptions : AwsOptions
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CliOption("--profiling-group-name")]
-    public string? ProfilingGroupName { get; set; }
-
-    [CliOption("--start-time")]
-    public string? StartTime { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

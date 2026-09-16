@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --playersessioncreationpolicy.
+/// Allowed values for --player-session-creation-policy.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGameliftUpdateGameSessionPlayerSessionCreationPolicy
 {
     [EnumValue("ACCEPT_ALL")]
-    AcceptAll = 1,
+    AcceptAll,
 
     [EnumValue("DENY_ALL")]
-    DenyAll = 2
+    DenyAll
 }

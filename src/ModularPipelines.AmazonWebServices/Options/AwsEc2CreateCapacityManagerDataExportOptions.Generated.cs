@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,22 +22,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "create-capacity-manager-data-export")]
-public record AwsEc2CreateCapacityManagerDataExportOptions : AwsOptions
+public record AwsEc2CreateCapacityManagerDataExportOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new data export configuration for EC2 Capacity Manager. This allows you to automatically export capacity usage data to an S3 bucket on a scheduled basis. The exported data includes metrics for On-Demand, Spot, and Capacity Reservations usage across your organization. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="S3BucketName">The name of the S3 bucket where the capacity data export files will be delivered. The bucket must exist and you must have write permis- sions to it.</param>
+    /// <param name="Schedule">The frequency at which data exports are generated. Possible values: o hourly</param>
+    /// <param name="OutputFormat">The file format for the exported data. Parquet format is recommended for large datasets and better compression. Possible values: o csv o parquet</param>
+    public AwsEc2CreateCapacityManagerDataExportOptions(
+        string S3BucketName,
+        string Schedule,
+        AwsEc2CreateCapacityManagerDataExportOutputFormat OutputFormat
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(S3BucketName);
+        this.S3BucketName = S3BucketName;
+        global::System.ArgumentNullException.ThrowIfNull(Schedule);
+        this.Schedule = Schedule;
+        global::System.ArgumentNullException.ThrowIfNull(OutputFormat);
+        this.OutputFormat = OutputFormat;
+    }
+
+    private AwsEc2CreateCapacityManagerDataExportOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2CreateCapacityManagerDataExportOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2CreateCapacityManagerDataExportOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the S3 bucket where the capacity data export files will be delivered. The bucket must exist and you must have write permis- sions to it.
+    /// </summary>
     [CliOption("--s3-bucket-name")]
-    public string? S3BucketName { get; set; }
+    public string? S3BucketName { get; private init; }
+
+    /// <summary>
+    /// The frequency at which data exports are generated. Possible values: o hourly
+    /// </summary>
+    [CliOption("--schedule")]
+    public string? Schedule { get; private init; }
+
+    /// <summary>
+    /// The file format for the exported data. Parquet format is recommended for large datasets and better compression. Possible values: o csv o parquet
+    /// </summary>
+    [CliOption("--output-format")]
+    public AwsEc2CreateCapacityManagerDataExportOutputFormat? OutputFormat { get; private init; }
 
     /// <summary>
     /// The S3 key prefix for the exported data files. This allows you to organize exports in a specific folder structure within your bucket. If not specified, files are placed at the bucket root.
     /// </summary>
     [CliOption("--s3-bucket-prefix")]
     public string? S3BucketPrefix { get; set; }
-
-    [CliOption("--schedule")]
-    public string? Schedule { get; set; }
-
-    [CliOption("--output-format")]
-    public string? OutputFormat { get; set; }
 
     /// <summary>
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see Ensure Idempo- tency.
@@ -44,7 +96,10 @@ public record AwsEc2CreateCapacityManagerDataExportOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -58,5 +113,22 @@ public record AwsEc2CreateCapacityManagerDataExportOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

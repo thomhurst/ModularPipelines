@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCodecommitListRepositoriesOrder
 {
     [EnumValue("ascending")]
-    Ascending = 1,
+    Ascending,
 
     [EnumValue("descending")]
-    Descending = 2
+    Descending
 }

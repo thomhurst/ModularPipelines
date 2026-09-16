@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,16 +22,134 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("drs", "create-replication-configuration-template")]
-public record AwsDrsCreateReplicationConfigurationTemplateOptions : AwsOptions
+public record AwsDrsCreateReplicationConfigurationTemplateOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new ReplicationConfigurationTemplate. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="StagingAreaSubnetId">The subnet to be used by the replication staging area. Constraints: o min: 0 o max: 255 o pattern: subnet-[0-9a-fA-F]{8,}</param>
+    /// <param name="ReplicationServersSecurityGroupsIds">The security group IDs that will be used by the replication server. Constraints: o min: 0 o max: 32 (string) Constraints: o min: 0 o max: 255 o pattern: sg-[0-9a-fA-F]{8,} Syntax: "string" "string" ...</param>
+    /// <param name="EbsEncryption">The type of EBS encryption to be used during replication. Possible values: o DEFAULT o CUSTOM o NONE</param>
+    /// <param name="BandwidthThrottling">Configure bandwidth throttling for the outbound data transfer rate of the Source Server in Mbps. Constraints: o min: 0</param>
+    /// <param name="StagingAreaTags">A set of tags to be associated with all resources created in the replication staging area: EC2 replication server, EBS volumes, EBS snapshots, etc. key -&gt; (string) Constraints: o min: 0 o max: 256 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="PitPolicy">The Point in time (PIT) policy to manage snapshots taken during replication. Constraints: o min: 3 o max: 3 (structure) A rule in the Point in Time (PIT) policy representing when to take snapshots and how long to retain them for. ruleID -&gt; (long) The ID of the rule. Constraints: o min: 0 units -&gt; (string) [required] The units used to measure the interval and retentionDuration. Possible values: o MINUTE o HOUR o DAY interval -&gt; (integer) [required] How often, in the chosen units, a snapshot should be taken. Constraints: o min: 1 retentionDuration -&gt; (integer) [required] The duration to retain a snapshot for, in the chosen units. Constraints: o min: 1 enabled -&gt; (boolean) Whether this rule is enabled or not. Shorthand Syntax: ruleID=long,units=string,interval=integer,retentionDuration=integer,enabled=boolean ... JSON Syntax: [ { "ruleID": long, "units": "MINUTE"|"HOUR"|"DAY", "interval": integer, "retentionDuration": integer, "enabled": true|false } ... ]</param>
+    public AwsDrsCreateReplicationConfigurationTemplateOptions(
+        string StagingAreaSubnetId,
+        IEnumerable<string> ReplicationServersSecurityGroupsIds,
+        AwsDrsCreateReplicationConfigurationTemplateEbsEncryption EbsEncryption,
+        int BandwidthThrottling,
+        IReadOnlyList<KeyValue> StagingAreaTags,
+        IEnumerable<string> PitPolicy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StagingAreaSubnetId);
+        this.StagingAreaSubnetId = StagingAreaSubnetId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ReplicationServersSecurityGroupsIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ReplicationServersSecurityGroupsIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ReplicationServersSecurityGroupsIds));
+            }
+
+            ReplicationServersSecurityGroupsIds = materialized;
+        }
+        this.ReplicationServersSecurityGroupsIds = ReplicationServersSecurityGroupsIds;
+        global::System.ArgumentNullException.ThrowIfNull(EbsEncryption);
+        this.EbsEncryption = EbsEncryption;
+        this.BandwidthThrottling = BandwidthThrottling;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(StagingAreaTags);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(StagingAreaTags));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(StagingAreaTags));
+            }
+
+            StagingAreaTags = materialized;
+        }
+        this.StagingAreaTags = StagingAreaTags;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(PitPolicy);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(PitPolicy));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(PitPolicy));
+            }
+
+            PitPolicy = materialized;
+        }
+        this.PitPolicy = PitPolicy;
+    }
+
+    private AwsDrsCreateReplicationConfigurationTemplateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDrsCreateReplicationConfigurationTemplateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDrsCreateReplicationConfigurationTemplateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The subnet to be used by the replication staging area. Constraints: o min: 0 o max: 255 o pattern: subnet-[0-9a-fA-F]{8,}
+    /// </summary>
     [CliOption("--staging-area-subnet-id")]
-    public string? StagingAreaSubnetId { get; set; }
+    public string? StagingAreaSubnetId { get; private init; }
 
-    [CliFlag("--associate-default-security-group")]
-    public bool? AssociateDefaultSecurityGroup { get; set; }
-
+    /// <summary>
+    /// The security group IDs that will be used by the replication server. Constraints: o min: 0 o max: 32 (string) Constraints: o min: 0 o max: 255 o pattern: sg-[0-9a-fA-F]{8,} Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--replication-servers-security-groups-ids", GroupValues = true)]
-    public IEnumerable<string>? ReplicationServersSecurityGroupsIds { get; set; }
+    public IEnumerable<string>? ReplicationServersSecurityGroupsIds { get; private init; }
+
+    /// <summary>
+    /// The type of EBS encryption to be used during replication. Possible values: o DEFAULT o CUSTOM o NONE
+    /// </summary>
+    [CliOption("--ebs-encryption")]
+    public AwsDrsCreateReplicationConfigurationTemplateEbsEncryption? EbsEncryption { get; private init; }
+
+    /// <summary>
+    /// Configure bandwidth throttling for the outbound data transfer rate of the Source Server in Mbps. Constraints: o min: 0
+    /// </summary>
+    [CliOption("--bandwidth-throttling")]
+    public int? BandwidthThrottling { get; private init; }
+
+    /// <summary>
+    /// A set of tags to be associated with all resources created in the replication staging area: EC2 replication server, EBS volumes, EBS snapshots, etc. key -&gt; (string) Constraints: o min: 0 o max: 256 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// </summary>
+    [CliOption("--staging-area-tags", CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? StagingAreaTags { get; private init; }
+
+    /// <summary>
+    /// The Point in time (PIT) policy to manage snapshots taken during replication. Constraints: o min: 3 o max: 3 (structure) A rule in the Point in Time (PIT) policy representing when to take snapshots and how long to retain them for. ruleID -&gt; (long) The ID of the rule. Constraints: o min: 0 units -&gt; (string) [required] The units used to measure the interval and retentionDuration. Possible values: o MINUTE o HOUR o DAY interval -&gt; (integer) [required] How often, in the chosen units, a snapshot should be taken. Constraints: o min: 1 retentionDuration -&gt; (integer) [required] The duration to retain a snapshot for, in the chosen units. Constraints: o min: 1 enabled -&gt; (boolean) Whether this rule is enabled or not. Shorthand Syntax: ruleID=long,units=string,interval=integer,retentionDuration=integer,enabled=boolean ... JSON Syntax: [ { "ruleID": long, "units": "MINUTE"|"HOUR"|"DAY", "interval": integer, "retentionDuration": integer, "enabled": true|false } ... ]
+    /// </summary>
+    [CliOption("--pit-policy", GroupValues = true)]
+    public IEnumerable<string>? PitPolicy { get; private init; }
+
+    /// <summary>
+    /// rity-group (boolean) Whether to associate the default Elastic Disaster Recovery Security group with the Replication Configuration Template.
+    /// </summary>
+    [CliFlag("--associate-default-security-group", NegatedName = "--no-associate-default-security-group")]
+    public bool? AssociateDefaultSecurityGroup { get; set; }
 
     /// <summary>
     /// The instance type to be used for the replication server. Constraints: o min: 0 o max: 255
@@ -38,7 +157,10 @@ public record AwsDrsCreateReplicationConfigurationTemplateOptions : AwsOptions
     [CliOption("--replication-server-instance-type")]
     public string? ReplicationServerInstanceType { get; set; }
 
-    [CliFlag("--use-dedicated-replication-server")]
+    /// <summary>
+    /// tion-server (boolean) Whether to use a dedicated Replication Server in the replication staging area.
+    /// </summary>
+    [CliFlag("--use-dedicated-replication-server", NegatedName = "--no-use-dedicated-replication-server")]
     public bool? UseDedicatedReplicationServer { get; set; }
 
     /// <summary>
@@ -47,17 +169,11 @@ public record AwsDrsCreateReplicationConfigurationTemplateOptions : AwsOptions
     [CliOption("--default-large-staging-disk-type")]
     public AwsDrsCreateReplicationConfigurationTemplateDefaultLargeStagingDiskType? DefaultLargeStagingDiskType { get; set; }
 
-    [CliOption("--ebs-encryption")]
-    public string? EbsEncryption { get; set; }
-
     /// <summary>
     /// The ARN of the EBS encryption key to be used during replication. Constraints: o min: 20 o max: 2048 o pattern: arn:.{16,2044}
     /// </summary>
     [CliOption("--ebs-encryption-key-arn")]
     public string? EbsEncryptionKeyArn { get; set; }
-
-    [CliOption("--bandwidth-throttling")]
-    public int? BandwidthThrottling { get; set; }
 
     /// <summary>
     /// The data plane routing mechanism that will be used for replication. Possible values: o PRIVATE_IP o PUBLIC_IP
@@ -65,14 +181,11 @@ public record AwsDrsCreateReplicationConfigurationTemplateOptions : AwsOptions
     [CliOption("--data-plane-routing")]
     public AwsDrsCreateReplicationConfigurationTemplateDataPlaneRouting? DataPlaneRouting { get; set; }
 
-    [CliFlag("--create-public-ip")]
+    /// <summary>
+    /// Whether to create a Public IP for the Recovery Instance by default.
+    /// </summary>
+    [CliFlag("--create-public-ip", NegatedName = "--no-create-public-ip")]
     public bool? CreatePublicIp { get; set; }
-
-    [CliOption("--staging-area-tags", CollectionSeparator = ",")]
-    public IReadOnlyList<KeyValue>? StagingAreaTags { get; set; }
-
-    [CliOption("--pit-policy", GroupValues = true)]
-    public IEnumerable<string>? PitPolicy { get; set; }
 
     /// <summary>
     /// A set of tags to be associated with the Replication Configuration Template resource. key -&gt; (string) Constraints: o min: 0 o max: 256 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -80,7 +193,10 @@ public record AwsDrsCreateReplicationConfigurationTemplateOptions : AwsOptions
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
-    [CliFlag("--auto-replicate-new-disks")]
+    /// <summary>
+    /// Whether to allow the AWS replication agent to automatically repli- cate newly added disks.
+    /// </summary>
+    [CliFlag("--auto-replicate-new-disks", NegatedName = "--no-auto-replicate-new-disks")]
     public bool? AutoReplicateNewDisks { get; set; }
 
     /// <summary>
@@ -94,5 +210,22 @@ public record AwsDrsCreateReplicationConfigurationTemplateOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

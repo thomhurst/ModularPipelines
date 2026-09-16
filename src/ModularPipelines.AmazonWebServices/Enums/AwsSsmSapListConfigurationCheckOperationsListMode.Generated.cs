@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --listmode.
+/// Allowed values for --list-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSsmSapListConfigurationCheckOperationsListMode
 {
     [EnumValue("ALL_OPERATIONS")]
-    AllOperations = 1,
+    AllOperations,
 
     [EnumValue("LATEST_PER_CHECK")]
-    LatestPerCheck = 2
+    LatestPerCheck
 }

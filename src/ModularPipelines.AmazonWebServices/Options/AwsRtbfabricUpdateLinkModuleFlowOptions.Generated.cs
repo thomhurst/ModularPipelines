@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,28 +21,106 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rtbfabric", "update-link-module-flow")]
-public record AwsRtbfabricUpdateLinkModuleFlowOptions : AwsOptions
+public record AwsRtbfabricUpdateLinkModuleFlowOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
     /// <summary>
-    /// The unique client token.
+    /// Updates a link module flow. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="GatewayId">The unique identifier of the gateway. Constraints: o min: 8 o max: 32 o pattern: rtb-gw-[a-z0-9-]{1,25}</param>
+    /// <param name="LinkId">The unique identifier of the link. Constraints: o min: 6 o max: 30 o pattern: link-[a-z0-9-]{1,25}</param>
+    /// <param name="Modules">The configuration of a module. (structure) Describes the configuration of a module. version -&gt; (string) The version of the module. Constraints: o min: 1 o max: 25 o pattern: [a-z0-9-]{1,25} name -&gt; (string) [required] The name of the module. Constraints: o min: 0 o max: 255 o pattern: [A-Za-z0-9 -]+ dependsOn -&gt; (list) The dependencies of the module. (string) Constraints: o min: 0 o max: 255 o pattern: [A-Za-z0-9 -]+ moduleParameters -&gt; (tagged union structure) Describes the parameters of a module. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: noBid, openRtbAttribute, rateLimiter. noBid -&gt; (structure) Describes the parameters of a no bid module. reason -&gt; (string) The reason description. Constraints: o min: 1 o max: 50 o pattern: [a-zA-Z0-9]* reasonCode -&gt; (integer) The reason code. Constraints: o min: 0 o max: 10 passThroughPercentage -&gt; (float) The pass through percentage. Constraints: o min: 0 o max: 100 openRtbAttribute -&gt; (structure) Describes the parameters of an open RTB attribute module. filterType -&gt; (string) [required] The filter type. Possible values: o INCLUDE o EXCLUDE filterConfiguration -&gt; (list) [required] Describes the configuration of a filter. (structure) Describes the configuration of a filter. criteria -&gt; (list) [required] Describes the criteria for a filter. (structure) Describes the criteria for a filter. path -&gt; (string) [required] The path to filter. values -&gt; (list) [required] The value to filter. Constraints: o min: 1 (string) action -&gt; (tagged union structure) [required] Describes a bid action. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: noBid, head- erTag. noBid -&gt; (structure) Describes a no bid action. noBidReasonCode -&gt; (integer) The reason code for the no bid action. Constraints: o min: 0 headerTag -&gt; (structure) Describes the header tag for a bid action. name -&gt; (string) [required] The name of the bid action. value -&gt; (string) [required] The value of the bid action. holdbackPercentage -&gt; (float) [required] The hold back percentage. Constraints: o min: 0 o max: 100 rateLimiter -&gt; (structure) Describes the parameters of a rate limit. tps -&gt; (float) The transactions per second rate limit. JSON Syntax: [ { "version": "string", "name": "string", "dependsOn": ["string", ...], "moduleParameters": { "noBid": { "reason": "string", "reasonCode": integer, "passThroughPercentage": float }, "openRtbAttribute": { "filterType": "INCLUDE"|"EXCLUDE", "filterConfiguration": [ { "criteria": [ { "path": "string", "values": ["string", ...] } ... ] } ... ], "action": { "noBid": { "noBidReasonCode": integer }, "headerTag": { "name": "string", "value": "string" } }, "holdbackPercentage": float }, "rateLimiter": { "tps": float } } } ... ]</param>
+    public AwsRtbfabricUpdateLinkModuleFlowOptions(
+        string GatewayId,
+        string LinkId,
+        IEnumerable<string> Modules
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GatewayId);
+        this.GatewayId = GatewayId;
+        global::System.ArgumentNullException.ThrowIfNull(LinkId);
+        this.LinkId = LinkId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Modules);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Modules));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Modules));
+            }
+
+            Modules = materialized;
+        }
+        this.Modules = Modules;
+    }
+
+    private AwsRtbfabricUpdateLinkModuleFlowOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRtbfabricUpdateLinkModuleFlowOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRtbfabricUpdateLinkModuleFlowOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the gateway. Constraints: o min: 8 o max: 32 o pattern: rtb-gw-[a-z0-9-]{1,25}
+    /// </summary>
+    [CliOption("--gateway-id")]
+    public string? GatewayId { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the link. Constraints: o min: 6 o max: 30 o pattern: link-[a-z0-9-]{1,25}
+    /// </summary>
+    [CliOption("--link-id")]
+    public string? LinkId { get; private init; }
+
+    /// <summary>
+    /// The configuration of a module. (structure) Describes the configuration of a module. version -&gt; (string) The version of the module. Constraints: o min: 1 o max: 25 o pattern: [a-z0-9-]{1,25} name -&gt; (string) [required] The name of the module. Constraints: o min: 0 o max: 255 o pattern: [A-Za-z0-9 -]+ dependsOn -&gt; (list) The dependencies of the module. (string) Constraints: o min: 0 o max: 255 o pattern: [A-Za-z0-9 -]+ moduleParameters -&gt; (tagged union structure) Describes the parameters of a module. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: noBid, openRtbAttribute, rateLimiter. noBid -&gt; (structure) Describes the parameters of a no bid module. reason -&gt; (string) The reason description. Constraints: o min: 1 o max: 50 o pattern: [a-zA-Z0-9]* reasonCode -&gt; (integer) The reason code. Constraints: o min: 0 o max: 10 passThroughPercentage -&gt; (float) The pass through percentage. Constraints: o min: 0 o max: 100 openRtbAttribute -&gt; (structure) Describes the parameters of an open RTB attribute module. filterType -&gt; (string) [required] The filter type. Possible values: o INCLUDE o EXCLUDE filterConfiguration -&gt; (list) [required] Describes the configuration of a filter. (structure) Describes the configuration of a filter. criteria -&gt; (list) [required] Describes the criteria for a filter. (structure) Describes the criteria for a filter. path -&gt; (string) [required] The path to filter. values -&gt; (list) [required] The value to filter. Constraints: o min: 1 (string) action -&gt; (tagged union structure) [required] Describes a bid action. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: noBid, head- erTag. noBid -&gt; (structure) Describes a no bid action. noBidReasonCode -&gt; (integer) The reason code for the no bid action. Constraints: o min: 0 headerTag -&gt; (structure) Describes the header tag for a bid action. name -&gt; (string) [required] The name of the bid action. value -&gt; (string) [required] The value of the bid action. holdbackPercentage -&gt; (float) [required] The hold back percentage. Constraints: o min: 0 o max: 100 rateLimiter -&gt; (structure) Describes the parameters of a rate limit. tps -&gt; (float) The transactions per second rate limit. JSON Syntax: [ { "version": "string", "name": "string", "dependsOn": ["string", ...], "moduleParameters": { "noBid": { "reason": "string", "reasonCode": integer, "passThroughPercentage": float }, "openRtbAttribute": { "filterType": "INCLUDE"|"EXCLUDE", "filterConfiguration": [ { "criteria": [ { "path": "string", "values": ["string", ...] } ... ] } ... ], "action": { "noBid": { "noBidReasonCode": integer }, "headerTag": { "name": "string", "value": "string" } }, "holdbackPercentage": float }, "rateLimiter": { "tps": float } } } ... ]
+    /// </summary>
+    [CliOption("--modules", GroupValues = true)]
+    public IEnumerable<string>? Modules { get; private init; }
+
+    /// <summary>
+    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same clientToken , but with dif- ferent parameters, the retry fails with an IdempotentParameterMis- match error.
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--gateway-id")]
-    public string? GatewayId { get; set; }
-
-    [CliOption("--link-id")]
-    public string? LinkId { get; set; }
-
-    [CliOption("--modules", GroupValues = true)]
-    public IEnumerable<string>? Modules { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

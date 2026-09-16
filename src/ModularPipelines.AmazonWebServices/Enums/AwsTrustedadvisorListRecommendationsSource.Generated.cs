@@ -17,44 +17,44 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsTrustedadvisorListRecommendationsSource
 {
     [EnumValue("aws_config")]
-    AwsConfig = 1,
+    AwsConfig,
 
     [EnumValue("compute_optimizer")]
-    ComputeOptimizer = 2,
+    ComputeOptimizer,
 
     [EnumValue("cost_explorer")]
-    CostExplorer = 3,
-
-    [EnumValue("lse")]
-    Lse = 4,
-
-    [EnumValue("manual")]
-    Manual = 5,
-
-    [EnumValue("pse")]
-    Pse = 6,
-
-    [EnumValue("rds")]
-    Rds = 7,
-
-    [EnumValue("resilience")]
-    Resilience = 8,
-
-    [EnumValue("resilience_hub")]
-    ResilienceHub = 9,
-
-    [EnumValue("security_hub")]
-    SecurityHub = 10,
-
-    [EnumValue("stir")]
-    Stir = 11,
-
-    [EnumValue("ta_check")]
-    TaCheck = 12,
-
-    [EnumValue("well_architected")]
-    WellArchitected = 13,
+    CostExplorer,
 
     [EnumValue("cost_optimization_hub")]
-    CostOptimizationHub = 14
+    CostOptimizationHub,
+
+    [EnumValue("lse")]
+    Lse,
+
+    [EnumValue("manual")]
+    Manual,
+
+    [EnumValue("pse")]
+    Pse,
+
+    [EnumValue("rds")]
+    Rds,
+
+    [EnumValue("resilience")]
+    Resilience,
+
+    [EnumValue("resilience_hub")]
+    ResilienceHub,
+
+    [EnumValue("security_hub")]
+    SecurityHub,
+
+    [EnumValue("stir")]
+    Stir,
+
+    [EnumValue("ta_check")]
+    TaCheck,
+
+    [EnumValue("well_architected")]
+    WellArchitected
 }

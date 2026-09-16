@@ -23,6 +23,54 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsGeoMapsGetStaticMapOptions : AwsOptions
 {
     /// <summary>
+    /// GetStaticMap provides high-quality static map images with customiz- able options. You can modify the map's appearance and overlay addi- tional information. It's an ideal solution for applications requir- ing tailored static map snapshots. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers. For more information, see the following topics in the Amazon Location Service Developer Guide : o Static maps o Customize static maps o Overlay on the static map See also: AWS AP...
+    /// </summary>
+    /// <param name="Height">Specifies the height of the map image. Constraints: o min: 64 o max: 1400</param>
+    /// <param name="FileName">The map scaling parameter to size the image, icons, and labels. It follows the pattern of ^map(@2x)?$ . Example: map, map@2x Constraints: o pattern: map(@2x)?</param>
+    /// <param name="Width">Specifies the width of the map image. Constraints: o min: 64 o max: 1400</param>
+    /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
+    public AwsGeoMapsGetStaticMapOptions(
+        int Height,
+        string FileName,
+        int Width,
+        string Outfile
+    )
+    {
+        this.Height = Height;
+        global::System.ArgumentNullException.ThrowIfNull(FileName);
+        this.FileName = FileName;
+        this.Width = Width;
+        global::System.ArgumentNullException.ThrowIfNull(Outfile);
+        this.Outfile = Outfile;
+    }
+
+    public void Deconstruct(out int Height, out string FileName, out int Width, out string Outfile)
+    {
+        Height = this.Height;
+        FileName = this.FileName;
+        Width = this.Width;
+        Outfile = this.Outfile;
+    }
+
+    /// <summary>
+    /// Specifies the height of the map image. Constraints: o min: 64 o max: 1400
+    /// </summary>
+    [CliOption("--height")]
+    public int Height { get; private init; }
+
+    /// <summary>
+    /// The map scaling parameter to size the image, icons, and labels. It follows the pattern of ^map(@2x)?$ . Example: map, map@2x Constraints: o pattern: map(@2x)?
+    /// </summary>
+    [CliOption("--file-name")]
+    public string FileName { get; private init; }
+
+    /// <summary>
+    /// Specifies the width of the map image. Constraints: o min: 64 o max: 1400
+    /// </summary>
+    [CliOption("--width")]
+    public int Width { get; private init; }
+
+    /// <summary>
     /// Takes in two pairs of coordinates in World Geodetic System (WGS 84) format: [longitude, latitude], denoting south-westerly and north-easterly edges of the image. The underlying area becomes the view of the image. Example: -123.17075,49.26959,-123.08125,49.31429 Constraints: o min: 0 o max: 100 o pattern: (-?\d{1,3}(\.\d{1,14})?,-?\d{1,2}(\.\d{1,14})?)(,(-?\d{1,3}(\.\d{1,14})?,-?\d{1,2}(\.\d{1,14})?))*
     /// </summary>
     [CliOption("--bounding-box")]
@@ -52,7 +100,10 @@ public record AwsGeoMapsGetStaticMapOptions : AwsOptions
     [CliOption("--compact-overlay")]
     public string? CompactOverlay { get; set; }
 
-    [CliFlag("--crop-labels")]
+    /// <summary>
+    /// It is a flag that takes in true or false. It prevents the labels that are on the edge of the image from being cut or obscured.
+    /// </summary>
+    [CliFlag("--crop-labels", NegatedName = "--no-crop-labels")]
     public bool? CropLabels { get; set; }
 
     /// <summary>
@@ -60,9 +111,6 @@ public record AwsGeoMapsGetStaticMapOptions : AwsOptions
     /// </summary>
     [CliOption("--geo-json-overlay")]
     public string? GeoJsonOverlay { get; set; }
-
-    [CliOption("--height")]
-    public int? Height { get; set; }
 
     /// <summary>
     /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request. Constraints: o min: 0 o max: 1000
@@ -106,9 +154,6 @@ public record AwsGeoMapsGetStaticMapOptions : AwsOptions
     [CliOption("--radius")]
     public int? Radius { get; set; }
 
-    [CliOption("--file-name")]
-    public string? FileName { get; set; }
-
     /// <summary>
     /// Displays a scale on the bottom right of the map image with the unit specified in the input. Example: KilometersMiles, Miles, Kilometers, MilesKilometers Possible values: o Kilometers o KilometersMiles o Miles o MilesKilometers
     /// </summary>
@@ -119,15 +164,18 @@ public record AwsGeoMapsGetStaticMapOptions : AwsOptions
     /// Style specifies the desired map style. Possible values: o Satellite o Standard
     /// </summary>
     [CliOption("--style")]
-    public AwsGeoMapsGetStaticMapStyle? Style { get; set; }
-
-    [CliOption("--width")]
-    public int? Width { get; set; }
+    public string? Style { get; set; }
 
     /// <summary>
     /// Specifies the zoom level of the map image. NOTE: Cannot be used with Radius . Constraints: o min: 0 o max: 20 outfile (string) [required] Filename where the content will be saved
     /// </summary>
     [CliOption("--zoom")]
     public int? Zoom { get; set; }
+
+    /// <summary>
+    /// The &lt;outfile&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Outfile { get; private init; }
 
 }

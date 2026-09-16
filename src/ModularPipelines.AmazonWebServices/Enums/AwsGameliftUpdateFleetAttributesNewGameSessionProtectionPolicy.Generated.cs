@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --newgamesessionprotectionpolicy.
+/// Allowed values for --new-game-session-protection-policy.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGameliftUpdateFleetAttributesNewGameSessionProtectionPolicy
 {
-    [EnumValue("NoProtection")]
-    NoProtection = 1,
-
     [EnumValue("FullProtection")]
-    FullProtection = 2
+    FullProtection,
+
+    [EnumValue("NoProtection")]
+    NoProtection
 }

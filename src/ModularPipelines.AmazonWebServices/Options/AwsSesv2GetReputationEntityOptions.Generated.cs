@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sesv2", "get-reputation-entity")]
-public record AwsSesv2GetReputationEntityOptions : AwsOptions
+public record AwsSesv2GetReputationEntityOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--reputation-entity-reference")]
-    public string? ReputationEntityReference { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Retrieve information about a specific reputation entity, including its reputation management policy, customer-managed status, Amazon Web Ser- vices Amazon SES-managed status, and aggregate sending status. Reputation entities represent resources in your Amazon SES account that have reputation tracking and management capabilities. The repu- tation impact reflects the highest impact reputation finding for the entity. Reputation findings can be retrieved using the ListRecommen- dations operation. Se...
+    /// </summary>
+    /// <param name="ReputationEntityReference">The unique identifier for the reputation entity. For resource-type entities, this is the Amazon Resource Name (ARN) of the resource. Constraints: o min: 1</param>
+    /// <param name="ReputationEntityType">The type of reputation entity. Currently, only RESOURCE type enti- ties are supported. Possible values: o RESOURCE</param>
+    public AwsSesv2GetReputationEntityOptions(
+        string ReputationEntityReference,
+        string ReputationEntityType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReputationEntityReference);
+        this.ReputationEntityReference = ReputationEntityReference;
+        global::System.ArgumentNullException.ThrowIfNull(ReputationEntityType);
+        this.ReputationEntityType = ReputationEntityType;
+    }
+
+    private AwsSesv2GetReputationEntityOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSesv2GetReputationEntityOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSesv2GetReputationEntityOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for the reputation entity. For resource-type entities, this is the Amazon Resource Name (ARN) of the resource. Constraints: o min: 1
+    /// </summary>
+    [CliOption("--reputation-entity-reference")]
+    public string? ReputationEntityReference { get; private init; }
+
+    /// <summary>
+    /// The type of reputation entity. Currently, only RESOURCE type enti- ties are supported. Possible values: o RESOURCE
+    /// </summary>
     [CliOption("--reputation-entity-type")]
-    public string? ReputationEntityType { get; set; }
+    public string? ReputationEntityType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

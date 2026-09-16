@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,19 +22,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("neptunedata", "start-loader-job")]
-public record AwsNeptunedataStartLoaderJobOptions : AwsOptions
+public record AwsNeptunedataStartLoaderJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts a Neptune bulk loader job to load data from an Amazon S3 bucket into a Neptune DB instance. See Using the Amazon Neptune Bulk Loader to Ingest Data . When invoking this operation in a Neptune cluster that has IAM authen- tication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:StartLoaderJob IAM action in that cluster. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Source">The source parameter accepts an S3 URI that identifies a single file, multiple files, a folder, or multiple folders. Neptune loads every data file in any folder that is specified. The URI can be in any of the following formats. o s3://(bucket_name)/(object-key-name) o https://s3.amazonaws.com/(bucket_name)/(object-key-name) o https://s3.us-east-1.amazonaws.com/(bucket_name)/(object-key-name) The object-key-name element of the URI is equivalent to the prefix parameter in an S3 ListObjects API call. It identifies all the ob- jects in the specified S3 bucket whose names begin with that prefix. That can be a single file or folder, or multiple files and/or fold- ers. The specified folder or folders can contain multiple vertex files and multiple edge files.</param>
+    /// <param name="Format">The format of the data. For more information about data formats for the Neptune Loader command, see Load Data Formats . Allowed values o ** csv ** for the Gremlin CSV data format . System Message: WARNING/2 (&lt;string&gt;:, line 122) Inline strong start-string without end-string. o ** opencypher ** for the openCypher CSV data format . System Message: WARNING/2 (&lt;string&gt;:, line 124) Inline strong start-string without end-string. o ** ntriples ** for the N-Triples RDF data format . System Message: WARNING/2 (&lt;string&gt;:, line 126) Inline strong start-string without end-string. o ** nquads ** for the N-Quads RDF data format . System Message: WARNING/2 (&lt;string&gt;:, line 128) Inline strong start-string without end-string. o ** rdfxml ** for the RDFXML RDF data format . System Message: WARNING/2 (&lt;string&gt;:, line 130) Inline strong start-string without end-string. o ** turtle ** for the Turtle RDF data format . System Message: WARNING/2 (&lt;string&gt;:, line 132) Inline strong start-string without end-string. Possible values: o csv o opencypher o ntriples o nquads o rdfxml o turtle</param>
+    /// <param name="S3BucketRegion">The Amazon region of the S3 bucket. This must match the Amazon Re- gion of the DB cluster. Possible values: o us-east-1 o us-east-2 o us-west-1 o us-west-2 o ca-central-1 o sa-east-1 o eu-north-1 o eu-west-1 o eu-west-2 o eu-west-3 o eu-central-1 o me-south-1 o af-south-1 o ap-east-1 o ap-northeast-1 o ap-northeast-2 o ap-southeast-1 o ap-southeast-2 o ap-south-1 o cn-north-1 o cn-northwest-1 o us-gov-west-1 o us-gov-east-1 o ca-west-1 o eu-south-2 o il-central-1 o me-central-1 o ap-northeast-3 o ap-southeast-3 o ap-southeast-4 o ap-southeast-5 o ap-southeast-7 o mx-central-1 o ap-east-2 o ap-south-2 o eu-central-2</param>
+    /// <param name="IamRoleArn">The Amazon Resource Name (ARN) for an IAM role to be assumed by the Neptune DB instance for access to the S3 bucket. The IAM role ARN provided here should be attached to the DB cluster (see Adding the IAM Role to an Amazon Neptune Cluster .</param>
+    public AwsNeptunedataStartLoaderJobOptions(
+        string Source,
+        AwsNeptunedataStartLoaderJobFormat Format,
+        string S3BucketRegion,
+        string IamRoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Source);
+        this.Source = Source;
+        global::System.ArgumentNullException.ThrowIfNull(Format);
+        this.Format = Format;
+        global::System.ArgumentNullException.ThrowIfNull(S3BucketRegion);
+        this.S3BucketRegion = S3BucketRegion;
+        global::System.ArgumentNullException.ThrowIfNull(IamRoleArn);
+        this.IamRoleArn = IamRoleArn;
+    }
+
+    private AwsNeptunedataStartLoaderJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNeptunedataStartLoaderJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNeptunedataStartLoaderJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The source parameter accepts an S3 URI that identifies a single file, multiple files, a folder, or multiple folders. Neptune loads every data file in any folder that is specified. The URI can be in any of the following formats. o s3://(bucket_name)/(object-key-name) o https://s3.amazonaws.com/(bucket_name)/(object-key-name) o https://s3.us-east-1.amazonaws.com/(bucket_name)/(object-key-name) The object-key-name element of the URI is equivalent to the prefix parameter in an S3 ListObjects API call. It identifies all the ob- jects in the specified S3 bucket whose names begin with that prefix. That can be a single file or folder, or multiple files and/or fold- ers. The specified folder or folders can contain multiple vertex files and multiple edge files.
+    /// </summary>
     [CliOption("--source")]
-    public string? Source { get; set; }
+    public string? Source { get; private init; }
 
+    /// <summary>
+    /// The format of the data. For more information about data formats for the Neptune Loader command, see Load Data Formats . Allowed values o ** csv ** for the Gremlin CSV data format . System Message: WARNING/2 (&lt;string&gt;:, line 122) Inline strong start-string without end-string. o ** opencypher ** for the openCypher CSV data format . System Message: WARNING/2 (&lt;string&gt;:, line 124) Inline strong start-string without end-string. o ** ntriples ** for the N-Triples RDF data format . System Message: WARNING/2 (&lt;string&gt;:, line 126) Inline strong start-string without end-string. o ** nquads ** for the N-Quads RDF data format . System Message: WARNING/2 (&lt;string&gt;:, line 128) Inline strong start-string without end-string. o ** rdfxml ** for the RDFXML RDF data format . System Message: WARNING/2 (&lt;string&gt;:, line 130) Inline strong start-string without end-string. o ** turtle ** for the Turtle RDF data format . System Message: WARNING/2 (&lt;string&gt;:, line 132) Inline strong start-string without end-string. Possible values: o csv o opencypher o ntriples o nquads o rdfxml o turtle
+    /// </summary>
     [CliOption("--format")]
-    public string? Format { get; set; }
+    public AwsNeptunedataStartLoaderJobFormat? Format { get; private init; }
 
+    /// <summary>
+    /// The Amazon region of the S3 bucket. This must match the Amazon Re- gion of the DB cluster. Possible values: o us-east-1 o us-east-2 o us-west-1 o us-west-2 o ca-central-1 o sa-east-1 o eu-north-1 o eu-west-1 o eu-west-2 o eu-west-3 o eu-central-1 o me-south-1 o af-south-1 o ap-east-1 o ap-northeast-1 o ap-northeast-2 o ap-southeast-1 o ap-southeast-2 o ap-south-1 o cn-north-1 o cn-northwest-1 o us-gov-west-1 o us-gov-east-1 o ca-west-1 o eu-south-2 o il-central-1 o me-central-1 o ap-northeast-3 o ap-southeast-3 o ap-southeast-4 o ap-southeast-5 o ap-southeast-7 o mx-central-1 o ap-east-2 o ap-south-2 o eu-central-2
+    /// </summary>
     [CliOption("--s3-bucket-region")]
-    public string? S3BucketRegion { get; set; }
+    public string? S3BucketRegion { get; private init; }
 
+    /// <summary>
+    /// The Amazon Resource Name (ARN) for an IAM role to be assumed by the Neptune DB instance for access to the S3 bucket. The IAM role ARN provided here should be attached to the DB cluster (see Adding the IAM Role to an Amazon Neptune Cluster .
+    /// </summary>
     [CliOption("--iam-role-arn")]
-    public string? IamRoleArn { get; set; }
+    public string? IamRoleArn { get; private init; }
 
     /// <summary>
     /// The load job mode. Allowed values : RESUME , NEW , AUTO . Default value : AUTO . o RESUME - In RESUME mode, the loader looks for a previous load from this source, and if it finds one, resumes that load job. If no previous load job is found, the loader stops. The loader avoids reloading files that were successfully loaded in a previous job. It only tries to process failed files. If you dropped previously loaded data from your Neptune cluster, that data is not reloaded in this mode. If a previous load job loaded all files from the same source successfully, nothing is reloaded, and the loader re- turns success. o NEW - In NEW mode, the creates a new load request regardless of any previous loads. You can use this mode to reload all the data from a source after dropping previously loaded data from your Nep- tune cluster, or to load new data available at the same source. o AUTO - In AUTO mode, the loader looks for a previous load job from the same source, and if it finds one, resumes that job, just as in RESUME mode. If the loader doesn't find a previous load job from the same source, it loads all data from the source, just as in NEW mode. Possible values: o RESUME o NEW o AUTO
@@ -41,7 +99,10 @@ public record AwsNeptunedataStartLoaderJobOptions : AwsOptions
     [CliOption("--mode")]
     public AwsNeptunedataStartLoaderJobMode? Mode { get; set; }
 
-    [CliFlag("--fail-on-error")]
+    /// <summary>
+    /// ** failOnError ** - A flag to toggle a complete stop on an er- ror. Allowed values : "TRUE" , "FALSE" . Default value : "TRUE" . When this parameter is set to "FALSE" , the loader tries to load all the data in the location specified, skipping any entries with er- rors. When this parameter is set to "TRUE" , the loader stops as soon as it encounters an error. Data loaded up to that point persists.
+    /// </summary>
+    [CliFlag("--fail-on-error", NegatedName = "--no-fail-on-error")]
     public bool? FailOnError { get; set; }
 
     /// <summary>
@@ -56,10 +117,16 @@ public record AwsNeptunedataStartLoaderJobOptions : AwsOptions
     [CliOption("--parser-configuration", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ParserConfiguration { get; set; }
 
-    [CliFlag("--update-single-cardinality-properties")]
+    /// <summary>
+    /// ity-properties (boolean) updateSingleCardinalityProperties is an optional parameter that controls how the bulk loader treats a new value for single-car- dinality vertex or edge properties. This is not supported for loading openCypher data. Allowed values : "TRUE" , "FALSE" . Default value : "FALSE" . By default, or when updateSingleCardinalityProperties is explicitly set to "FALSE" , the loader treats a new value as an error, because it violates single cardinality. When updateSingleCardinalityProperties is set to "TRUE" , on the other hand, the bulk loader replaces the existing value with the new one. If multiple edge or single-cardinality vertex property values are provided in the source file(s) being loaded, the final value at the end of the bulk load could be any one of those new values. The loader only guarantees that the existing value has been replaced by one of the new ones.
+    /// </summary>
+    [CliFlag("--update-single-cardinality-properties", NegatedName = "--no-update-single-cardinality-properties")]
     public bool? UpdateSingleCardinalityProperties { get; set; }
 
-    [CliFlag("--queue-request")]
+    /// <summary>
+    /// This is an optional flag parameter that indicates whether the load request can be queued up or not. You don't have to wait for one load job to complete before issuing the next one, because Neptune can queue up as many as 64 jobs at a time, provided that their queueRequest parameters are all set to "TRUE" . The queue order of the jobs will be first-in-first-out (FIFO). If the queueRequest parameter is omitted or set to "FALSE" , the load request will fail if another load job is already running. Allowed values : "TRUE" , "FALSE" . Default value : "FALSE" .
+    /// </summary>
+    [CliFlag("--queue-request", NegatedName = "--no-queue-request")]
     public bool? QueueRequest { get; set; }
 
     /// <summary>
@@ -68,10 +135,16 @@ public record AwsNeptunedataStartLoaderJobOptions : AwsOptions
     [CliOption("--dependencies", GroupValues = true)]
     public IEnumerable<string>? Dependencies { get; set; }
 
-    [CliFlag("--user-provided-edge-ids")]
+    /// <summary>
+    /// This parameter is required only when loading openCypher data that contains relationship IDs. It must be included and set to True when openCypher relationship IDs are explicitly provided in the load data (recommended). When userProvidedEdgeIds is absent or set to True , an :ID column must be present in every relationship file in the load. When userProvidedEdgeIds is present and set to False , relationship files in the load must not contain an :ID column. Instead, the Nep- tune loader automatically generates an ID for each relationship. It's useful to provide relationship IDs explicitly so that the loader can resume loading after error in the CSV data have been fixed, without having to reload any relationships that have already been loaded. If relationship IDs have not been explicitly assigned, the loader cannot resume a failed load if any relationship file has had to be corrected, and must instead reload all the relationships.
+    /// </summary>
+    [CliFlag("--user-provided-edge-ids", NegatedName = "--no-user-provided-edge-ids")]
     public bool? UserProvidedEdgeIds { get; set; }
 
-    [CliFlag("--edge-only-load")]
+    /// <summary>
+    /// ** edgeOnlyLoad ** - A flag that controls file processing order during bulk loading. Allowed values : "TRUE" , "FALSE" . Default value : "FALSE" . When this parameter is set to "FALSE", the loader automatically loads vertex files first, then edge files afterwards. It does this by first scanning all files to determine their contents (vertices or edges). When this parameter is set to "TRUE", the loader skips the initial scanning phase and immediately loads all files in the order they appear.
+    /// </summary>
+    [CliFlag("--edge-only-load", NegatedName = "--no-edge-only-load")]
     public bool? EdgeOnlyLoad { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -79,5 +152,22 @@ public record AwsNeptunedataStartLoaderJobOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

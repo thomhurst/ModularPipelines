@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,13 +22,96 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("transcribe", "start-medical-transcription-job")]
-public record AwsTranscribeStartMedicalTranscriptionJobOptions : AwsOptions
+public record AwsTranscribeStartMedicalTranscriptionJobOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--medical-transcription-job-name")]
-    public string? MedicalTranscriptionJobName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Transcribes the audio from a medical dictation or conversation and ap- plies any additional Request Parameters you choose to include in your request. In addition to many standard transcription features, Amazon Transcribe Medical provides you with a robust medical vocabulary and, optionally, content identification, which adds flags to personal health information (PHI). To learn more about these features, refer to How Amazon Tran- scribe Medical works . To make a StartMedicalTranscriptionJob reque...
+    /// </summary>
+    /// <param name="MedicalTranscriptionJobName">A unique name, chosen by you, for your medical transcription job. The name that you specify is also used as the default name of your transcription output file. If you want to specify a different name for your transcription output, use the OutputKey parameter. This name is case sensitive, cannot contain spaces, and must be unique within an Amazon Web Services account. If you try to create a new job with the same name as an existing job, you get a ConflictEx- ception error. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z._-]+</param>
+    /// <param name="LanguageCode">The language code that represents the language spoken in the input media file. US English (en-US ) is the only valid value for medical transcription jobs. Any other value you enter for language code re- sults in a BadRequestException error. Possible values: o af-ZA o ar-AE o ar-SA o am-ET o cy-GB o da-DK o de-CH o de-DE o en-AB o en-AU o en-GB o en-IE o en-IN o en-US o en-WL o es-ES o es-MX o es-US o fa-AF o fa-IR o fr-CA o fr-FR o ga-IE o gd-GB o he-IL o hi-IN o ht-HT o id-ID o it-IT o ja-JP o jv-ID o km-KH o ko-KR o my-MM o ms-MY o nl-NL o pt-BR o pt-PT o ru-RU o ta-IN o te-IN o tr-TR o zh-CN o zh-TW o th-TH o en-ZA o en-NZ o vi-VN o sv-SE o ab-GE o ast-ES o az-AZ o ba-RU o be-BY o bg-BG o bn-IN o bs-BA o ca-ES o ckb-IQ o ckb-IR o cs-CZ o cy-WL o el-GR o et-EE o et-ET o eu-ES o fi-FI o gl-ES o gu-IN o ha-NG o hr-HR o hu-HU o hy-AM o is-IS o ka-GE o kab-DZ o kk-KZ o kn-IN o ky-KG o lg-IN o lt-LT o lv-LV o mhr-RU o mi-NZ o mk-MK o ml-IN o mn-MN o mr-IN o mt-MT o no-NO o ne-NP o or-IN o pa-IN o pl-PL o ps-AF o ro-RO o rw-RW o si-LK o sk-SK o sl-SI o so-SO o sq-AL o sr-RS o su-ID o sw-BI o sw-KE o sw-RW o sw-TZ o sw-UG o tl-PH o tt-RU o ug-CN o uk-UA o uz-UZ o wo-SN o zh-HK o zu-ZA</param>
+    /// <param name="Media">Describes the Amazon S3 location of the media file you want to use in your request. For information on supported media formats, refer to the MediaFormat parameter or the Media formats section in the Amazon S3 Developer Guide. MediaFileUri -&gt; (string) The Amazon S3 location of the media file you want to transcribe. For example: o s3://DOC-EXAMPLE-BUCKET/my-media-file.flac o s3://DOC-EXAMPLE-BUCKET/media-files/my-media-file.flac Note that the Amazon S3 bucket that contains your input media must be located in the same Amazon Web Services Region where you're making your transcription request. Constraints: o min: 1 o max: 2000 o pattern: (s3://|http(s*)://).+ RedactedMediaFileUri -&gt; (string) The Amazon S3 location of the media file you want to redact. For example: o s3://DOC-EXAMPLE-BUCKET/my-media-file.flac o s3://DOC-EXAMPLE-BUCKET/media-files/my-media-file.flac Note that the Amazon S3 bucket that contains your input media must be located in the same Amazon Web Services Region where you're making your transcription request. WARNING: RedactedMediaFileUri produces a redacted audio file in addi- tion to a redacted transcript. It is only supported for Call Analytics (StartCallAnalyticsJob ) transcription requests. Constraints: o min: 1 o max: 2000 o pattern: (s3://|http(s*)://).+ Shorthand Syntax: MediaFileUri=string,RedactedMediaFileUri=string JSON Syntax: { "MediaFileUri": "string", "RedactedMediaFileUri": "string" }</param>
+    /// <param name="OutputBucketName">The name of the Amazon S3 bucket where you want your medical tran- scription output stored. Do not include the S3:// prefix of the specified bucket. If you want your output to go to a sub-folder of this bucket, spec- ify it using the OutputKey parameter; OutputBucketName only accepts the name of a bucket. For example, if you want your output stored in S3://DOC-EXAM- PLE-BUCKET , set OutputBucketName to DOC-EXAMPLE-BUCKET . However, if you want your output stored in S3://DOC-EXAM- PLE-BUCKET/test-files/ , set OutputBucketName to DOC-EXAMPLE-BUCKET and OutputKey to test-files/ . Note that Amazon Transcribe must have permission to use the speci- fied location. You can change Amazon S3 permissions using the Amazon Web Services Management Console . See also Permissions Required for IAM User Roles . Constraints: o max: 64 o pattern: [a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9]</param>
+    /// <param name="Specialty">Specify the predominant medical specialty represented in your media. For batch transcriptions, PRIMARYCARE is the only valid value. If you require additional specialties, refer to . Possible values: o PRIMARYCARE</param>
+    /// <param name="Type">Specify whether your input media contains only one person (DICTATION ) or contains a conversation between two people (CONVERSATION ). For example, DICTATION could be used for a medical professional wanting to transcribe voice memos; CONVERSATION could be used for transcribing the doctor-patient dialogue during the patient's office visit. Possible values: o CONVERSATION o DICTATION</param>
+    public AwsTranscribeStartMedicalTranscriptionJobOptions(
+        string MedicalTranscriptionJobName,
+        string LanguageCode,
+        string Media,
+        string OutputBucketName,
+        string Specialty,
+        AwsTranscribeStartMedicalTranscriptionJobType Type
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MedicalTranscriptionJobName);
+        this.MedicalTranscriptionJobName = MedicalTranscriptionJobName;
+        global::System.ArgumentNullException.ThrowIfNull(LanguageCode);
+        this.LanguageCode = LanguageCode;
+        global::System.ArgumentNullException.ThrowIfNull(Media);
+        this.Media = Media;
+        global::System.ArgumentNullException.ThrowIfNull(OutputBucketName);
+        this.OutputBucketName = OutputBucketName;
+        global::System.ArgumentNullException.ThrowIfNull(Specialty);
+        this.Specialty = Specialty;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+    }
+
+    private AwsTranscribeStartMedicalTranscriptionJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTranscribeStartMedicalTranscriptionJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTranscribeStartMedicalTranscriptionJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique name, chosen by you, for your medical transcription job. The name that you specify is also used as the default name of your transcription output file. If you want to specify a different name for your transcription output, use the OutputKey parameter. This name is case sensitive, cannot contain spaces, and must be unique within an Amazon Web Services account. If you try to create a new job with the same name as an existing job, you get a ConflictEx- ception error. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z._-]+
+    /// </summary>
+    [CliOption("--medical-transcription-job-name")]
+    public string? MedicalTranscriptionJobName { get; private init; }
+
+    /// <summary>
+    /// The language code that represents the language spoken in the input media file. US English (en-US ) is the only valid value for medical transcription jobs. Any other value you enter for language code re- sults in a BadRequestException error. Possible values: o af-ZA o ar-AE o ar-SA o am-ET o cy-GB o da-DK o de-CH o de-DE o en-AB o en-AU o en-GB o en-IE o en-IN o en-US o en-WL o es-ES o es-MX o es-US o fa-AF o fa-IR o fr-CA o fr-FR o ga-IE o gd-GB o he-IL o hi-IN o ht-HT o id-ID o it-IT o ja-JP o jv-ID o km-KH o ko-KR o my-MM o ms-MY o nl-NL o pt-BR o pt-PT o ru-RU o ta-IN o te-IN o tr-TR o zh-CN o zh-TW o th-TH o en-ZA o en-NZ o vi-VN o sv-SE o ab-GE o ast-ES o az-AZ o ba-RU o be-BY o bg-BG o bn-IN o bs-BA o ca-ES o ckb-IQ o ckb-IR o cs-CZ o cy-WL o el-GR o et-EE o et-ET o eu-ES o fi-FI o gl-ES o gu-IN o ha-NG o hr-HR o hu-HU o hy-AM o is-IS o ka-GE o kab-DZ o kk-KZ o kn-IN o ky-KG o lg-IN o lt-LT o lv-LV o mhr-RU o mi-NZ o mk-MK o ml-IN o mn-MN o mr-IN o mt-MT o no-NO o ne-NP o or-IN o pa-IN o pl-PL o ps-AF o ro-RO o rw-RW o si-LK o sk-SK o sl-SI o so-SO o sq-AL o sr-RS o su-ID o sw-BI o sw-KE o sw-RW o sw-TZ o sw-UG o tl-PH o tt-RU o ug-CN o uk-UA o uz-UZ o wo-SN o zh-HK o zu-ZA
+    /// </summary>
     [CliOption("--language-code")]
-    public string? LanguageCode { get; set; }
+    public string? LanguageCode { get; private init; }
+
+    /// <summary>
+    /// Describes the Amazon S3 location of the media file you want to use in your request. For information on supported media formats, refer to the MediaFormat parameter or the Media formats section in the Amazon S3 Developer Guide. MediaFileUri -&gt; (string) The Amazon S3 location of the media file you want to transcribe. For example: o s3://DOC-EXAMPLE-BUCKET/my-media-file.flac o s3://DOC-EXAMPLE-BUCKET/media-files/my-media-file.flac Note that the Amazon S3 bucket that contains your input media must be located in the same Amazon Web Services Region where you're making your transcription request. Constraints: o min: 1 o max: 2000 o pattern: (s3://|http(s*)://).+ RedactedMediaFileUri -&gt; (string) The Amazon S3 location of the media file you want to redact. For example: o s3://DOC-EXAMPLE-BUCKET/my-media-file.flac o s3://DOC-EXAMPLE-BUCKET/media-files/my-media-file.flac Note that the Amazon S3 bucket that contains your input media must be located in the same Amazon Web Services Region where you're making your transcription request. WARNING: RedactedMediaFileUri produces a redacted audio file in addi- tion to a redacted transcript. It is only supported for Call Analytics (StartCallAnalyticsJob ) transcription requests. Constraints: o min: 1 o max: 2000 o pattern: (s3://|http(s*)://).+ Shorthand Syntax: MediaFileUri=string,RedactedMediaFileUri=string JSON Syntax: { "MediaFileUri": "string", "RedactedMediaFileUri": "string" }
+    /// </summary>
+    [CliOption("--media")]
+    public string? Media { get; private init; }
+
+    /// <summary>
+    /// The name of the Amazon S3 bucket where you want your medical tran- scription output stored. Do not include the S3:// prefix of the specified bucket. If you want your output to go to a sub-folder of this bucket, spec- ify it using the OutputKey parameter; OutputBucketName only accepts the name of a bucket. For example, if you want your output stored in S3://DOC-EXAM- PLE-BUCKET , set OutputBucketName to DOC-EXAMPLE-BUCKET . However, if you want your output stored in S3://DOC-EXAM- PLE-BUCKET/test-files/ , set OutputBucketName to DOC-EXAMPLE-BUCKET and OutputKey to test-files/ . Note that Amazon Transcribe must have permission to use the speci- fied location. You can change Amazon S3 permissions using the Amazon Web Services Management Console . See also Permissions Required for IAM User Roles . Constraints: o max: 64 o pattern: [a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9]
+    /// </summary>
+    [CliOption("--output-bucket-name")]
+    public string? OutputBucketName { get; private init; }
+
+    /// <summary>
+    /// Specify the predominant medical specialty represented in your media. For batch transcriptions, PRIMARYCARE is the only valid value. If you require additional specialties, refer to . Possible values: o PRIMARYCARE
+    /// </summary>
+    [CliOption("--specialty")]
+    public string? Specialty { get; private init; }
+
+    /// <summary>
+    /// Specify whether your input media contains only one person (DICTATION ) or contains a conversation between two people (CONVERSATION ). For example, DICTATION could be used for a medical professional wanting to transcribe voice memos; CONVERSATION could be used for transcribing the doctor-patient dialogue during the patient's office visit. Possible values: o CONVERSATION o DICTATION
+    /// </summary>
+    [CliOption("--type")]
+    public AwsTranscribeStartMedicalTranscriptionJobType? Type { get; private init; }
 
     /// <summary>
     /// The sample rate, in hertz, of the audio track in your input media file. If you do not specify the media sample rate, Amazon Transcribe Med- ical determines it for you. If you specify the sample rate, it must match the rate detected by Amazon Transcribe Medical; if there's a mismatch between the value that you specify and the value detected, your job fails. Therefore, in most cases, it's advised to omit Medi- aSampleRateHertz and let Amazon Transcribe Medical determine the sample rate. Constraints: o min: 16000 o max: 48000
@@ -40,12 +124,6 @@ public record AwsTranscribeStartMedicalTranscriptionJobOptions : AwsOptions
     /// </summary>
     [CliOption("--media-format")]
     public AwsTranscribeStartMedicalTranscriptionJobMediaFormat? MediaFormat { get; set; }
-
-    [CliOption("--media")]
-    public string? Media { get; set; }
-
-    [CliOption("--output-bucket-name")]
-    public string? OutputBucketName { get; set; }
 
     /// <summary>
     /// Use in combination with OutputBucketName to specify the output loca- tion of your transcript and, optionally, a unique name for your out- put file. The default name for your transcription output is the same as the name you specified for your medical transcription job (Med- icalTranscriptionJobName ). Here are some examples of how you can use OutputKey : o If you specify 'DOC-EXAMPLE-BUCKET' as the OutputBucketName and 'my-transcript.json' as the OutputKey , your transcription output path is s3://DOC-EXAMPLE-BUCKET/my-transcript.json . o If you specify 'my-first-transcription' as the MedicalTranscrip- tionJobName , 'DOC-EXAMPLE-BUCKET' as the OutputBucketName , and 'my-transcript' as the OutputKey , your transcription output path is s3://DOC-EXAMPLE-BUCKET/my-transcript/my-first-transcrip- tion.json . o If you specify 'DOC-EXAMPLE-BUCKET' as the OutputBucketName and 'test-files/my-transcript.json' as the OutputKey , your transcrip- tion output path is s3://DOC-EXAMPLE-BUCKET/test-files/my-tran- script.json . o If you specify 'my-first-transcription' as the MedicalTranscrip- tionJobName , 'DOC-EXAMPLE-BUCKET' as the OutputBucketName , and 'test-files/my-transcript' as the OutputKey , your transcription output path is s3://DOC-EXAMPLE-BUCKET/test-files/my-tran- script/my-first-transcription.json . If you specify the name of an Amazon S3 bucket sub-folder that doesn't exist, one is created for you. Constraints: o min: 1 o max: 1024 o pattern: [a-zA-Z0-9-_.!*'()/]{1,1024}$
@@ -75,13 +153,7 @@ public record AwsTranscribeStartMedicalTranscriptionJobOptions : AwsOptions
     /// Labels all personal health information (PHI) identified in your transcript. For more information, see Identifying personal health information (PHI) in a transcription . Possible values: o PHI
     /// </summary>
     [CliOption("--content-identification-type")]
-    public AwsTranscribeStartMedicalTranscriptionJobContentIdentificationType? ContentIdentificationType { get; set; }
-
-    [CliOption("--specialty")]
-    public string? Specialty { get; set; }
-
-    [CliOption("--type")]
-    public string? Type { get; set; }
+    public string? ContentIdentificationType { get; set; }
 
     /// <summary>
     /// Adds one or more custom tags, each in the form of a key:value pair, to a new medical transcription job at the time you start this new job. To learn more about using tags with Amazon Transcribe, refer to Tagging resources . Constraints: o min: 1 o max: 200 (structure) Adds metadata, in the form of a key:value pair, to the specified resource. For example, you could add the tag Department:Sales to a re- source to indicate that it pertains to your organization's sales department. You can also use tags for tag-based access control. To learn more about tagging, see Tagging resources . Key -&gt; (string) [required] The first part of a key:value pair that forms a tag associ- ated with a given resource. For example, in the tag Depart- ment:Sales , the key is 'Department'. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The second part of a key:value pair that forms a tag associ- ated with a given resource. For example, in the tag Depart- ment:Sales , the value is 'Sales'. Note that you can set the value of a tag to an empty string, but you can't set the value of a tag to null. Omitting the tag value is the same as using an empty string. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -94,5 +166,22 @@ public record AwsTranscribeStartMedicalTranscriptionJobOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

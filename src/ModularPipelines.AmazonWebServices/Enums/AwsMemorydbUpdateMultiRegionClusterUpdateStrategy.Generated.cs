@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --updatestrategy.
+/// Allowed values for --update-strategy.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsMemorydbUpdateMultiRegionClusterUpdateStrategy
 {
     [EnumValue("coordinated")]
-    Coordinated = 1,
+    Coordinated,
 
     [EnumValue("uncoordinated")]
-    Uncoordinated = 2
+    Uncoordinated
 }

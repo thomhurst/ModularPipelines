@@ -11,23 +11,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --sortby.
+/// Allowed values for --sort-by.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSagemakerListAssociationsSortBy
 {
-    [EnumValue("SourceArn")]
-    SourceArn = 1,
+    [EnumValue("CreationTime")]
+    CreationTime,
 
     [EnumValue("DestinationArn")]
-    DestinationArn = 2,
-
-    [EnumValue("SourceType")]
-    SourceType = 3,
+    DestinationArn,
 
     [EnumValue("DestinationType")]
-    DestinationType = 4,
+    DestinationType,
 
-    [EnumValue("CreationTime")]
-    CreationTime = 5
+    [EnumValue("SourceArn")]
+    SourceArn,
+
+    [EnumValue("SourceType")]
+    SourceType
 }

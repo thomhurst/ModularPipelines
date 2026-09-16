@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("machinelearning", "update-data-source")]
-public record AwsMachinelearningUpdateDataSourceOptions : AwsOptions
+public record AwsMachinelearningUpdateDataSourceOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--data-source-id")]
-    public string? DataSourceId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the DataSourceName of a DataSource . You can use the GetDataSource operation to view the contents of the up- dated data element. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DataSourceId">The ID assigned to the DataSource during creation. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="DataSourceName">A new user-supplied name or description of the DataSource that will replace the current description. Constraints: o max: 1024 o pattern: .*\S.*|^$</param>
+    public AwsMachinelearningUpdateDataSourceOptions(
+        string DataSourceId,
+        string DataSourceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataSourceId);
+        this.DataSourceId = DataSourceId;
+        global::System.ArgumentNullException.ThrowIfNull(DataSourceName);
+        this.DataSourceName = DataSourceName;
+    }
+
+    private AwsMachinelearningUpdateDataSourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMachinelearningUpdateDataSourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMachinelearningUpdateDataSourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID assigned to the DataSource during creation. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
+    [CliOption("--data-source-id")]
+    public string? DataSourceId { get; private init; }
+
+    /// <summary>
+    /// A new user-supplied name or description of the DataSource that will replace the current description. Constraints: o max: 1024 o pattern: .*\S.*|^$
+    /// </summary>
     [CliOption("--data-source-name")]
-    public string? DataSourceName { get; set; }
+    public string? DataSourceName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

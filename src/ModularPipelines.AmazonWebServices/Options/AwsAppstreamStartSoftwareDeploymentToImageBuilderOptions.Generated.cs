@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appstream", "start-software-deployment-to-image-builder")]
-public record AwsAppstreamStartSoftwareDeploymentToImageBuilderOptions : AwsOptions
+public record AwsAppstreamStartSoftwareDeploymentToImageBuilderOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--image-builder-name")]
-    public string? ImageBuilderName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--retry-failed-deployments")]
+    /// <summary>
+    /// Initiates license included applications deployment to an image builder instance. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ImageBuilderName">The name of the target image builder instance. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
+    public AwsAppstreamStartSoftwareDeploymentToImageBuilderOptions(
+        string ImageBuilderName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ImageBuilderName);
+        this.ImageBuilderName = ImageBuilderName;
+    }
+
+    private AwsAppstreamStartSoftwareDeploymentToImageBuilderOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppstreamStartSoftwareDeploymentToImageBuilderOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppstreamStartSoftwareDeploymentToImageBuilderOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the target image builder instance. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
+    /// </summary>
+    [CliOption("--image-builder-name")]
+    public string? ImageBuilderName { get; private init; }
+
+    /// <summary>
+    /// Whether to retry previously failed license included application de- ployments.
+    /// </summary>
+    [CliFlag("--retry-failed-deployments", NegatedName = "--no-retry-failed-deployments")]
     public bool? RetryFailedDeployments { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -32,5 +72,22 @@ public record AwsAppstreamStartSoftwareDeploymentToImageBuilderOptions : AwsOpti
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

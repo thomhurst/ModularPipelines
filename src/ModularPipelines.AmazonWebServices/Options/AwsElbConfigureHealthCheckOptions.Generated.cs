@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elb", "configure-health-check")]
-public record AwsElbConfigureHealthCheckOptions : AwsOptions
+public record AwsElbConfigureHealthCheckOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--load-balancer-name")]
-    public string? LoadBalancerName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Specifies the health check settings to use when evaluating the health state of your EC2 instances. For more information, see Configure Health Checks for Your Load Bal- ancer in the Classic Load Balancers Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LoadBalancerName">The name of the load balancer.</param>
+    /// <param name="HealthCheck">The configuration information. Target -&gt; (string) [required] The instance being checked. The protocol is either TCP, HTTP, HTTPS, or SSL. The range of valid ports is one (1) through 65535. TCP is the default, specified as a TCP: port pair, for example "TCP:5000". In this case, a health check simply attempts to open a TCP connection to the instance on the specified port. Failure to connect within the configured timeout is considered un- healthy. SSL is also specified as SSL: port pair, for example, SSL:5000. For HTTP/HTTPS, you must include a ping path in the string. HTTP is specified as a HTTP:port;/;PathToPing; grouping, for example "HTTP:80/weather/us/wa/seattle". In this case, a HTTP GET re- quest is issued to the instance on the given port and path. Any answer other than "200 OK" within the timeout period is consid- ered unhealthy. The total length of the HTTP ping target must be 1024 16-bit Unicode characters or less. Interval -&gt; (integer) [required] The approximate interval, in seconds, between health checks of an individual instance. Constraints: o min: 5 o max: 300 Timeout -&gt; (integer) [required] The amount of time, in seconds, during which no response means a failed health check. This value must be less than the Interval value. Constraints: o min: 2 o max: 60 UnhealthyThreshold -&gt; (integer) [required] The number of consecutive health check failures required before moving the instance to the Unhealthy state. Constraints: o min: 2 o max: 10 HealthyThreshold -&gt; (integer) [required] The number of consecutive health checks successes required be- fore moving the instance to the Healthy state. Constraints: o min: 2 o max: 10 Shorthand Syntax: Target=string,Interval=integer,Timeout=integer,UnhealthyThreshold=integer,HealthyThreshold=integer JSON Syntax: { "Target": "string", "Interval": integer, "Timeout": integer, "UnhealthyThreshold": integer, "HealthyThreshold": integer }</param>
+    public AwsElbConfigureHealthCheckOptions(
+        string LoadBalancerName,
+        string HealthCheck
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LoadBalancerName);
+        this.LoadBalancerName = LoadBalancerName;
+        global::System.ArgumentNullException.ThrowIfNull(HealthCheck);
+        this.HealthCheck = HealthCheck;
+    }
+
+    private AwsElbConfigureHealthCheckOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElbConfigureHealthCheckOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElbConfigureHealthCheckOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the load balancer.
+    /// </summary>
+    [CliOption("--load-balancer-name")]
+    public string? LoadBalancerName { get; private init; }
+
+    /// <summary>
+    /// The configuration information. Target -&gt; (string) [required] The instance being checked. The protocol is either TCP, HTTP, HTTPS, or SSL. The range of valid ports is one (1) through 65535. TCP is the default, specified as a TCP: port pair, for example "TCP:5000". In this case, a health check simply attempts to open a TCP connection to the instance on the specified port. Failure to connect within the configured timeout is considered un- healthy. SSL is also specified as SSL: port pair, for example, SSL:5000. For HTTP/HTTPS, you must include a ping path in the string. HTTP is specified as a HTTP:port;/;PathToPing; grouping, for example "HTTP:80/weather/us/wa/seattle". In this case, a HTTP GET re- quest is issued to the instance on the given port and path. Any answer other than "200 OK" within the timeout period is consid- ered unhealthy. The total length of the HTTP ping target must be 1024 16-bit Unicode characters or less. Interval -&gt; (integer) [required] The approximate interval, in seconds, between health checks of an individual instance. Constraints: o min: 5 o max: 300 Timeout -&gt; (integer) [required] The amount of time, in seconds, during which no response means a failed health check. This value must be less than the Interval value. Constraints: o min: 2 o max: 60 UnhealthyThreshold -&gt; (integer) [required] The number of consecutive health check failures required before moving the instance to the Unhealthy state. Constraints: o min: 2 o max: 10 HealthyThreshold -&gt; (integer) [required] The number of consecutive health checks successes required be- fore moving the instance to the Healthy state. Constraints: o min: 2 o max: 10 Shorthand Syntax: Target=string,Interval=integer,Timeout=integer,UnhealthyThreshold=integer,HealthyThreshold=integer JSON Syntax: { "Target": "string", "Interval": integer, "Timeout": integer, "UnhealthyThreshold": integer, "HealthyThreshold": integer }
+    /// </summary>
     [CliOption("--health-check")]
-    public string? HealthCheck { get; set; }
+    public string? HealthCheck { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

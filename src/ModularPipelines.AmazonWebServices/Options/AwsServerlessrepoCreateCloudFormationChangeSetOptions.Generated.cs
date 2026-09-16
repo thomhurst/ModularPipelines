@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("serverlessrepo", "create-cloud-formation-change-set")]
-public record AwsServerlessrepoCreateCloudFormationChangeSetOptions : AwsOptions
+public record AwsServerlessrepoCreateCloudFormationChangeSetOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an AWS CloudFormation change set for the given application. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationId">The Amazon Resource Name (ARN) of the application.</param>
+    /// <param name="StackName">This property corresponds to the parameter of the same name for the * AWS CloudFormation CreateChangeSet * API. System Message: WARNING/2 (&lt;string&gt;:, line 341) Inline emphasis start-string without end-string.</param>
+    public AwsServerlessrepoCreateCloudFormationChangeSetOptions(
+        string ApplicationId,
+        string StackName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationId);
+        this.ApplicationId = ApplicationId;
+        global::System.ArgumentNullException.ThrowIfNull(StackName);
+        this.StackName = StackName;
+    }
+
+    private AwsServerlessrepoCreateCloudFormationChangeSetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsServerlessrepoCreateCloudFormationChangeSetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsServerlessrepoCreateCloudFormationChangeSetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the application.
+    /// </summary>
     [CliOption("--application-id")]
-    public string? ApplicationId { get; set; }
+    public string? ApplicationId { get; private init; }
+
+    /// <summary>
+    /// This property corresponds to the parameter of the same name for the * AWS CloudFormation CreateChangeSet * API. System Message: WARNING/2 (&lt;string&gt;:, line 341) Inline emphasis start-string without end-string.
+    /// </summary>
+    [CliOption("--stack-name")]
+    public string? StackName { get; private init; }
 
     /// <summary>
     /// A list of values that you must specify before you can deploy certain applications. Some applications might include resources that can af- fect permissions in your AWS account, for example, by creating new AWS Identity and Access Management (IAM) users. For those applica- tions, you must explicitly acknowledge their capabilities by speci- fying this parameter. The only valid values are CAPABILITY_IAM, CAPABILITY_NAMED_IAM, CA- PABILITY_RESOURCE_POLICY, and CAPABILITY_AUTO_EXPAND. The following resources require you to specify CAPABILITY_IAM or CA- PABILITY_NAMED_IAM: AWS::IAM::Group , AWS::IAM::InstanceProfile , AWS::IAM::Policy , and AWS::IAM::Role . If the application contains IAM resources, you can specify either CAPABILITY_IAM or CAPABIL- ITY_NAMED_IAM. If the application contains IAM resources with custom names, you must specify CAPABILITY_NAMED_IAM. The following resources require you to specify CAPABILITY_RE- SOURCE_POLICY: AWS::Lambda::Permission , AWS::IAM:Policy , AWS::ApplicationAutoScaling::ScalingPolicy , AWS::S3::BucketPolicy , AWS::SQS::QueuePolicy , and AWS::SNS:TopicPolicy . Applications that contain one or more nested applications require you to specify CAPABILITY_AUTO_EXPAND. If your application template contains any of the above resources, we recommend that you review all permissions associated with the appli- cation before deploying. If you don't specify this parameter for an application that requires capabilities, the call will fail. (string) Syntax: "string" "string" ...
@@ -80,9 +127,6 @@ public record AwsServerlessrepoCreateCloudFormationChangeSetOptions : AwsOptions
     [CliOption("--semantic-version")]
     public string? SemanticVersion { get; set; }
 
-    [CliOption("--stack-name")]
-    public string? StackName { get; set; }
-
     /// <summary>
     /// This property corresponds to the parameter of the same name for the * AWS CloudFormation CreateChangeSet * API. System Message: WARNING/2 (&lt;string&gt;:, line 348) Inline emphasis start-string without end-string. (structure) This property corresponds to the * AWS CloudFormation Tag * Data Type. System Message: WARNING/2 (&lt;string&gt;:, line 354) Inline emphasis start-string without end-string. Key -&gt; (string) [required] This property corresponds to the content of the same name for the * AWS CloudFormation Tag * Data Type. System Message: WARNING/2 (&lt;string&gt;:, line 362) Inline emphasis start-string without end-string. Value -&gt; (string) [required] This property corresponds to the content of the same name for the * AWS CloudFormation Tag * Data Type. System Message: WARNING/2 (&lt;string&gt;:, line 372) Inline emphasis start-string without end-string. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
@@ -100,5 +144,22 @@ public record AwsServerlessrepoCreateCloudFormationChangeSetOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

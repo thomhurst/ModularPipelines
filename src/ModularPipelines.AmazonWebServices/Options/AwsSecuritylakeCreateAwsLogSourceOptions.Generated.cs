@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,79 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("securitylake", "create-aws-log-source")]
-public record AwsSecuritylakeCreateAwsLogSourceOptions : AwsOptions
+public record AwsSecuritylakeCreateAwsLogSourceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Adds a natively supported Amazon Web Services service as an Amazon Se- curity Lake source. Enables source types for member accounts in re- quired Amazon Web Services Regions, based on the parameters you spec- ify. You can choose any source type in any Region for either accounts that are part of a trusted organization or standalone accounts. Once you add an Amazon Web Services service as a source, Security Lake starts collecting logs and events from it. You can use this API only to enable nativel...
+    /// </summary>
+    /// <param name="Sources">Specify the natively-supported Amazon Web Services service to add as a source in Security Lake. Constraints: o min: 1 o max: 50 (structure) To add a natively-supported Amazon Web Services service as a log source, use these parameters to specify the configuration set- tings for the log source. accounts -&gt; (list) Specify the Amazon Web Services account information where you want to enable Security Lake. (string) Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$ regions -&gt; (list) [required] Specify the Regions where you want to enable Security Lake. (string) Constraints: o pattern: ^(us(-gov)?|af|ap|ca|eu|me|sa)-(cen- tral|north|(north(?:east|west))|south|south(?:east|west)|east|west)-\d+$ sourceName -&gt; (string) [required] The name for a Amazon Web Services source. Possible values: o ROUTE53 o VPC_FLOW o SH_FINDINGS o CLOUD_TRAIL_MGMT o LAMBDA_EXECUTION o S3_DATA o EKS_AUDIT o WAF sourceVersion -&gt; (string) The version for a Amazon Web Services source. Constraints: o pattern: ^(latest|[0-9]\.[0-9])$ Shorthand Syntax: accounts=string,string,regions=string,string,sourceName=string,sourceVersion=string ... JSON Syntax: [ { "accounts": ["string", ...], "regions": ["string", ...], "sourceName": "ROUTE53"|"VPC_FLOW"|"SH_FINDINGS"|"CLOUD_TRAIL_MGMT"|"LAMBDA_EXECUTION"|"S3_DATA"|"EKS_AUDIT"|"WAF", "sourceVersion": "string" } ... ]</param>
+    public AwsSecuritylakeCreateAwsLogSourceOptions(
+        IEnumerable<string> Sources
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Sources);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Sources));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Sources));
+            }
+
+            Sources = materialized;
+        }
+        this.Sources = Sources;
+    }
+
+    private AwsSecuritylakeCreateAwsLogSourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSecuritylakeCreateAwsLogSourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSecuritylakeCreateAwsLogSourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specify the natively-supported Amazon Web Services service to add as a source in Security Lake. Constraints: o min: 1 o max: 50 (structure) To add a natively-supported Amazon Web Services service as a log source, use these parameters to specify the configuration set- tings for the log source. accounts -&gt; (list) Specify the Amazon Web Services account information where you want to enable Security Lake. (string) Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$ regions -&gt; (list) [required] Specify the Regions where you want to enable Security Lake. (string) Constraints: o pattern: ^(us(-gov)?|af|ap|ca|eu|me|sa)-(cen- tral|north|(north(?:east|west))|south|south(?:east|west)|east|west)-\d+$ sourceName -&gt; (string) [required] The name for a Amazon Web Services source. Possible values: o ROUTE53 o VPC_FLOW o SH_FINDINGS o CLOUD_TRAIL_MGMT o LAMBDA_EXECUTION o S3_DATA o EKS_AUDIT o WAF sourceVersion -&gt; (string) The version for a Amazon Web Services source. Constraints: o pattern: ^(latest|[0-9]\.[0-9])$ Shorthand Syntax: accounts=string,string,regions=string,string,sourceName=string,sourceVersion=string ... JSON Syntax: [ { "accounts": ["string", ...], "regions": ["string", ...], "sourceName": "ROUTE53"|"VPC_FLOW"|"SH_FINDINGS"|"CLOUD_TRAIL_MGMT"|"LAMBDA_EXECUTION"|"S3_DATA"|"EKS_AUDIT"|"WAF", "sourceVersion": "string" } ... ]
+    /// </summary>
     [CliOption("--sources", GroupValues = true)]
-    public IEnumerable<string>? Sources { get; set; }
+    public IEnumerable<string>? Sources { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

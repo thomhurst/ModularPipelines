@@ -11,32 +11,59 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --documenttype.
+/// Allowed values for --document-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSsmCreateDocumentDocumentType
 {
-    [EnumValue("Command")]
-    Command = 1,
+    [EnumValue("ApplicationConfiguration")]
+    ApplicationConfiguration,
 
-    [EnumValue("Policy")]
-    Policy = 2,
+    [EnumValue("ApplicationConfigurationSchema")]
+    ApplicationConfigurationSchema,
+
+    [EnumValue("AutoApprovalPolicy")]
+    AutoApprovalPolicy,
 
     [EnumValue("Automation")]
-    Automation = 3,
+    Automation,
 
-    [EnumValue("Session")]
-    Session = 4,
-
-    [EnumValue("Package")]
-    Package = 5,
-
-    [EnumValue("ApplicationConfiguration")]
-    ApplicationConfiguration = 6,
-
-    [EnumValue("DeploymentStrategy")]
-    DeploymentStrategy = 7,
+    [EnumValue("Automation.ChangeTemplate")]
+    AutomationChangeTemplate,
 
     [EnumValue("ChangeCalendar")]
-    ChangeCalendar = 8
+    ChangeCalendar,
+
+    [EnumValue("CloudFormation")]
+    CloudFormation,
+
+    [EnumValue("Command")]
+    Command,
+
+    [EnumValue("ConformancePackTemplate")]
+    ConformancePackTemplate,
+
+    [EnumValue("DeploymentStrategy")]
+    DeploymentStrategy,
+
+    [EnumValue("ManualApprovalPolicy")]
+    ManualApprovalPolicy,
+
+    [EnumValue("Package")]
+    Package,
+
+    [EnumValue("Policy")]
+    Policy,
+
+    [EnumValue("ProblemAnalysis")]
+    ProblemAnalysis,
+
+    [EnumValue("ProblemAnalysisTemplate")]
+    ProblemAnalysisTemplate,
+
+    [EnumValue("QuickSetup")]
+    QuickSetup,
+
+    [EnumValue("Session")]
+    Session
 }

@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kinesis-video-signaling", "get-ice-server-config")]
-public record AwsKinesisVideoSignalingGetIceServerConfigOptions : AwsOptions
+public record AwsKinesisVideoSignalingGetIceServerConfigOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Gets the Interactive Connectivity Establishment (ICE) server configura- tion information, including URIs, username, and password which can be used to configure the WebRTC connection. The ICE component uses this configuration information to setup the WebRTC connection, including au- thenticating with the Traversal Using Relays around NAT (TURN) relay server. TURN is a protocol that is used to improve the connectivity of peer-to-peer applications. By providing a cloud-based relay service, TURN ens...
+    /// </summary>
+    /// <param name="ChannelArn">The ARN of the signaling channel to be used for the peer-to-peer connection between configured peers. Constraints: o min: 1 o max: 1024 o pattern: arn:aws:kine- sisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+</param>
+    public AwsKinesisVideoSignalingGetIceServerConfigOptions(
+        string ChannelArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ChannelArn);
+        this.ChannelArn = ChannelArn;
+    }
+
+    private AwsKinesisVideoSignalingGetIceServerConfigOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKinesisVideoSignalingGetIceServerConfigOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKinesisVideoSignalingGetIceServerConfigOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the signaling channel to be used for the peer-to-peer connection between configured peers. Constraints: o min: 1 o max: 1024 o pattern: arn:aws:kine- sisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+
+    /// </summary>
     [CliOption("--channel-arn")]
-    public string? ChannelArn { get; set; }
+    public string? ChannelArn { get; private init; }
 
     /// <summary>
     /// Unique identifier for the viewer. Must be unique within the signal- ing channel. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_.-]+
@@ -35,7 +71,7 @@ public record AwsKinesisVideoSignalingGetIceServerConfigOptions : AwsOptions
     /// Specifies the desired service. Currently, TURN is the only valid value. Possible values: o TURN
     /// </summary>
     [CliOption("--service")]
-    public AwsKinesisVideoSignalingGetIceServerConfigService? Service { get; set; }
+    public string? Service { get; set; }
 
     /// <summary>
     /// An optional user ID to be associated with the credentials. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_.-]+
@@ -48,5 +84,22 @@ public record AwsKinesisVideoSignalingGetIceServerConfigOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

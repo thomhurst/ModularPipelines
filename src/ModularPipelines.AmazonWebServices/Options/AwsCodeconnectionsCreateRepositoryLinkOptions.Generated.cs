@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codeconnections", "create-repository-link")]
-public record AwsCodeconnectionsCreateRepositoryLinkOptions : AwsOptions
+public record AwsCodeconnectionsCreateRepositoryLinkOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a link to a specified external Git repository. A repository link allows Git sync to monitor and sync changes to files in a speci- fied Git repository. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ConnectionArn">The Amazon Resource Name (ARN) of the connection to be associated with the repository link. Constraints: o min: 0 o max: 256 o pattern: arn:aws(-[\w]+)*:.+:.+:[0-9]{12}:.+</param>
+    /// <param name="OwnerId">The owner ID for the repository associated with a specific sync con- figuration, such as the owner ID in GitHub. Constraints: o min: 1 o max: 255 o pattern: ^.*$</param>
+    /// <param name="RepositoryName">The name of the repository to be associated with the repository link. Constraints: o min: 1 o max: 128 o pattern: ^.*$</param>
+    public AwsCodeconnectionsCreateRepositoryLinkOptions(
+        string ConnectionArn,
+        string OwnerId,
+        string RepositoryName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConnectionArn);
+        this.ConnectionArn = ConnectionArn;
+        global::System.ArgumentNullException.ThrowIfNull(OwnerId);
+        this.OwnerId = OwnerId;
+        global::System.ArgumentNullException.ThrowIfNull(RepositoryName);
+        this.RepositoryName = RepositoryName;
+    }
+
+    private AwsCodeconnectionsCreateRepositoryLinkOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodeconnectionsCreateRepositoryLinkOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodeconnectionsCreateRepositoryLinkOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the connection to be associated with the repository link. Constraints: o min: 0 o max: 256 o pattern: arn:aws(-[\w]+)*:.+:.+:[0-9]{12}:.+
+    /// </summary>
     [CliOption("--connection-arn")]
-    public string? ConnectionArn { get; set; }
+    public string? ConnectionArn { get; private init; }
 
+    /// <summary>
+    /// The owner ID for the repository associated with a specific sync con- figuration, such as the owner ID in GitHub. Constraints: o min: 1 o max: 255 o pattern: ^.*$
+    /// </summary>
     [CliOption("--owner-id")]
-    public string? OwnerId { get; set; }
+    public string? OwnerId { get; private init; }
 
+    /// <summary>
+    /// The name of the repository to be associated with the repository link. Constraints: o min: 1 o max: 128 o pattern: ^.*$
+    /// </summary>
     [CliOption("--repository-name")]
-    public string? RepositoryName { get; set; }
+    public string? RepositoryName { get; private init; }
 
     /// <summary>
     /// The Amazon Resource Name (ARN) encryption key for the repository to be associated with the repository link. Constraints: o min: 1 o max: 1024 o pattern: arn:aws(-[\w]+)*:kms:[a-z\-0-9]+:\d{12}:key/[a-zA-Z0-9\-]+
@@ -47,5 +98,22 @@ public record AwsCodeconnectionsCreateRepositoryLinkOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }
