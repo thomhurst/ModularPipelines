@@ -173,7 +173,7 @@ public partial class GcloudCliScraper : CliScraperBase
                     ? @"\s+" : Regex.Escape(character.ToString()) + @"\s*"));
                 normalized = Regex.Replace(normalized,
                     @"(?<![\w-])" + Regex.Escape(argument.SwitchName) + "=" + valuePattern + @"(?![\w])"
-                    + @"(?:,\s*-[\w-]+\s+" + valuePattern + @"(?![\w]))?",
+                    + @"(?:,\s*-[\w-]+(?:\s+|=)" + valuePattern + @"(?![\w]))?",
                     argument.SwitchName + "=VALUE ");
             }
             // Defaults annotate the preceding option; they do not add operands or

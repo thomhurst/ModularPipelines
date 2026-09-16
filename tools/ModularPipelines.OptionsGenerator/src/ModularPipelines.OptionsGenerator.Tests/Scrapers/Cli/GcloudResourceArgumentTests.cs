@@ -9,18 +9,20 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers.Cli;
 public class GcloudResourceArgumentTests
 {
     [Test]
-    public async Task Required_Option_Alias_Preserves_The_Following_Resource_Operand()
+    [Arguments(" ")]
+    [Arguments("=")]
+    public async Task Required_Option_Alias_Preserves_The_Following_Resource_Operand(string aliasSeparator)
     {
-        const string help = """
+        var help = $$"""
             NAME
                 gcloud example create - create a resource
             SYNOPSIS
-                gcloud example create --instance=INSTANCE, -i INSTANCE RESOURCE
+                gcloud example create --instance=INSTANCE, -i{{aliasSeparator}}INSTANCE RESOURCE
             POSITIONAL ARGUMENTS
                  RESOURCE
                     The resource name.
             REQUIRED FLAGS
-                 --instance=INSTANCE, -i INSTANCE
+                 --instance=INSTANCE, -i{{aliasSeparator}}INSTANCE
                     The instance name.
             """;
         var command = (await ScrapeFixture("example create", help)).Single();
@@ -191,6 +193,29 @@ public class GcloudResourceArgumentTests
         await new TestScraper().Parse(["gcloud", .. commandPath.Split(' ')], help);
         var command = (await ScrapeFixture(commandPath, help)).Single();
         await Assert.That(command.FullCommand).IsEqualTo("gcloud " + commandPath);
+    }
+
+    [Test]
+    public async Task Captured_Manual_Trigger_Retains_Configuration_And_Dockerfile_Constraints()
+    {
+        var help = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory,
+            "Fixtures", "Gcloud", "585.0.0", "gcloud-builds-triggers-create-manual.txt"));
+        var command = (await ScrapeFixture("builds triggers create manual", help)).Single();
+        var trigger = command.RequiredAlternativeGroups.Single(group => group.IsMutuallyExclusive
+            && group.PropertyNames.Contains("TriggerConfig"));
+        await Assert.That(trigger.IsRequired).IsTrue();
+        await Assert.That(trigger.Members.Single().PropertyName).IsEqualTo("TriggerConfig");
+        var flags = trigger.Groups.Single().Groups.Single();
+        var build = flags.Groups.Single(group => group.PropertyNames.Contains("BuildConfig"));
+        await Assert.That(build.IsRequired).IsTrue();
+        await Assert.That(build.IsMutuallyExclusive).IsTrue();
+        await Assert.That(build.Members.Select(member => member.PropertyName))
+            .IsEquivalentTo(["BuildConfig", "InlineConfig"]);
+        var dockerfile = build.Groups.Single().Groups.Single();
+        await Assert.That(dockerfile.PropertyNames)
+            .IsEquivalentTo(["Dockerfile", "DockerfileDir", "DockerfileImage"]);
+        await Assert.That(dockerfile.Members.Single(member => member.PropertyName == "Dockerfile").IsRequired).IsTrue();
+        await Assert.That(command.PositionalArguments).IsEmpty();
     }
 
     [Test]
