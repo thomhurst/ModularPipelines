@@ -109,12 +109,34 @@ function Test-TrustedBotClearVerdict {
     [CmdletBinding()]
     param(
         [AllowNull()]$Review,
-        [Parameter(Mandatory)][string]$HeadSha
+        [Parameter(Mandatory)][string]$HeadSha,
+        [AllowNull()]$Checks
     )
 
     $author = [string]$Review.author.login
-    if ($author -notmatch '^claude(?:\[bot\])?$' -or $HeadSha -notmatch '^[0-9a-f]{40}$') {
+    if ($author -notmatch '^(?:claude|github-actions)(?:\[bot\])?$' -or $HeadSha -notmatch '^[0-9a-f]{40}$') {
         return $false
+    }
+
+    if ($author -match '^github-actions(?:\[bot\])?$') {
+        # The workflow token has a shared bot identity. Require its formal review
+        # to bind this commit and fall within a successful Claude review check.
+        if ([string]$Review.commit.oid -ne $HeadSha) { return $false }
+        $submittedAt = ConvertTo-UtcDateTimeOffset $Review.submittedAt
+        if ($null -eq $submittedAt) { return $false }
+        $verifiedPublisher = $false
+        foreach ($check in @($Checks | Where-Object { $null -ne $_ })) {
+            if ($check.name -ne 'claude-review' -or $check.workflowName -ne 'Claude Code Review' -or
+                $check.status -ne 'COMPLETED' -or $check.conclusion -ne 'SUCCESS') { continue }
+            $startedAt = ConvertTo-UtcDateTimeOffset $check.startedAt
+            $completedAt = ConvertTo-UtcDateTimeOffset $check.completedAt
+            if ($null -ne $startedAt -and $null -ne $completedAt -and
+                $startedAt -le $submittedAt -and $completedAt -ge $submittedAt) {
+                $verifiedPublisher = $true
+                break
+            }
+        }
+        if (-not $verifiedPublisher) { return $false }
     }
 
     $body = [string]$Review.body

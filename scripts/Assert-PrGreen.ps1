@@ -112,7 +112,8 @@ foreach ($review in $latestReviews) {
     $reason = Get-ActionableReviewBodyReason -Body $body
     if ($reason -and -not (Test-TrustedBotClearVerdict `
             -Review $review `
-            -HeadSha ([string]$view.headRefOid))) {
+            -HeadSha ([string]$view.headRefOid) `
+            -Checks $checks)) {
         $actionableReviews += "$($review.author.login): $reason"
     }
 }

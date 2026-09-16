@@ -1237,4 +1237,65 @@ foreach ($case in $verdictCases) {
     }
 }
 
-Write-Host "OK review heuristic tests passed ($($cases.Count) body cases, $($staleReviewCases.Count) stale review cases, $($verdictCases.Count) verdict cases)."
+$workflowReview = [pscustomobject]@{
+    author = [pscustomobject]@{ login = 'github-actions' }
+    commit = [pscustomobject]@{ oid = $verdictHead }
+    submittedAt = '2026-07-06T01:41:00Z'
+    body = "### Risk`nNo action is needed.`n<!-- REVIEW_VERDICT: CLEAR HEAD: $verdictHead -->"
+}
+$workflowCheck = @{
+    name = 'claude-review'
+    workflowName = 'Claude Code Review'
+    status = 'COMPLETED'
+    conclusion = 'SUCCESS'
+    startedAt = '2026-07-06T01:40:00Z'
+    completedAt = '2026-07-06T01:42:00Z'
+}
+foreach ($case in $verdictCases) {
+    $review = [pscustomobject]@{
+        author = [pscustomobject]@{ login = if ($case.Review.author.login -eq 'claude') { 'github-actions' } else { $case.Review.author.login } }
+        commit = [pscustomobject]@{ oid = $verdictHead }
+        submittedAt = $case.Review.submittedAt
+        body = $case.Review.body
+    }
+    $clears = Test-TrustedBotClearVerdict -Review $review -HeadSha $verdictHead -Checks @([pscustomobject]$workflowCheck)
+    if ($clears -ne $case.Clears) {
+        throw "Workflow case '$($case.Name)' expected Clears=$($case.Clears), got Clears=$clears"
+    }
+}
+foreach ($login in @('github-actions', 'github-actions[bot]')) {
+    $workflowReview.author.login = $login
+    if (-not (Test-TrustedBotClearVerdict -Review $workflowReview -HeadSha $verdictHead -Checks @([pscustomobject]$workflowCheck))) {
+        throw "The authenticated workflow publisher '$login' should clear its exact-head review."
+    }
+}
+foreach ($changedCheck in @(
+    @{ name = 'other-check' },
+    @{ workflowName = 'Other workflow' },
+    @{ status = 'IN_PROGRESS' },
+    @{ conclusion = 'FAILURE' },
+    @{ conclusion = 'SKIPPED' },
+    @{ startedAt = '2026-07-06T01:41:01Z' },
+    @{ completedAt = '2026-07-06T01:40:59Z' },
+    @{ startedAt = $null },
+    @{ completedAt = $null }
+)) {
+    $check = $workflowCheck.Clone()
+    foreach ($key in $changedCheck.Keys) { $check[$key] = $changedCheck[$key] }
+    if (Test-TrustedBotClearVerdict -Review $workflowReview -HeadSha $verdictHead -Checks @([pscustomobject]$check)) {
+        throw "An unrelated, incomplete, or out-of-window check must not authenticate the workflow review."
+    }
+}
+if (Test-TrustedBotClearVerdict -Review $workflowReview -HeadSha $verdictHead) {
+    throw 'A workflow review without check provenance must not clear.'
+}
+$workflowReview.commit.oid = 'b' * 40
+if (Test-TrustedBotClearVerdict -Review $workflowReview -HeadSha $verdictHead -Checks @([pscustomobject]$workflowCheck)) {
+    throw 'The structured review commit must match even when its body names the current head.'
+}
+$workflowReview.commit = $null
+if (Test-TrustedBotClearVerdict -Review $workflowReview -HeadSha $verdictHead -Checks @([pscustomobject]$workflowCheck)) {
+    throw 'A workflow review without a structured commit must not clear.'
+}
+
+Write-Host "OK review heuristic tests passed ($($cases.Count) body cases, $($staleReviewCases.Count) stale review cases, $($verdictCases.Count) verdict cases, 21 workflow provenance cases)."
