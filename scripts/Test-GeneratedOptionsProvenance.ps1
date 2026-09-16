@@ -486,6 +486,40 @@ try {
         }
     }
 
+    foreach ($removal in @('conditional-item', 'conditional-group', 'unconditional')) {
+        $removeItem = '<PackageReference Remove="Build.Package" />'
+        $itemGroup = switch ($removal) {
+            'conditional-item' { '<ItemGroup><PackageReference Remove="Build.Package" Condition="false" /></ItemGroup>' }
+            'conditional-group' { "<ItemGroup Condition=`"false`">$removeItem</ItemGroup>" }
+            'unconditional' { "<ItemGroup>$removeItem</ItemGroup>" }
+        }
+        Set-Content -LiteralPath (Join-Path $tempRoot 'tools/Directory.Build.props') -Value "<Project>$itemGroup</Project>"
+        Set-TestCentralPackageVersions
+        Invoke-Git $tempRoot add .
+        Invoke-Git $tempRoot commit -m "apply $removal package removal"
+        $beforeRemovalUpdate = Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot
+        Set-TestCentralPackageVersions -BuildPackage '2.0.0'
+        Invoke-Git $tempRoot add Directory.Packages.props
+        Invoke-Git $tempRoot commit -m 'update removed package version'
+        $versionChanged = (Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot) -ne $beforeRemovalUpdate
+        if ($versionChanged -ne ($removal -ne 'unconditional')) {
+            throw "Incorrect invalidation after $removal package removal."
+        }
+    }
+
+    Set-Content -LiteralPath $generatorProject `
+        -Value '<Project><ItemGroup><PackageReference Include="AngleSharp" /><PackageReference Include="Build.Package" /></ItemGroup></Project>'
+    Invoke-Git $tempRoot add .
+    Invoke-Git $tempRoot commit -m 'reinclude removed package in executable'
+    $beforeReincludedUpdate = Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot
+    Set-TestCentralPackageVersions -BuildPackage '3.0.0'
+    Invoke-Git $tempRoot add Directory.Packages.props
+    Invoke-Git $tempRoot commit -m 'update reincluded package version'
+    if ((Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot) -eq $beforeReincludedUpdate) {
+        throw 'Reincluded package version was ignored after a prior removal.'
+    }
+    Set-Content -LiteralPath $generatorProject `
+        -Value '<Project><ItemGroup><PackageReference Include="AngleSharp" /></ItemGroup></Project>'
     Set-Content -LiteralPath (Join-Path $tempRoot 'tools/Directory.Build.props') -Value '<Project />'
     Set-TestCentralPackageVersions
     Invoke-Git $tempRoot add .

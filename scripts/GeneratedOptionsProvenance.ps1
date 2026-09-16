@@ -108,16 +108,23 @@ function Get-GeneratedOptionsPackageFingerprint {
         }
     )
 
-    # Keep conditional/shared build references conservatively. Test-project references
-    # are excluded because they cannot affect the generator executable's restore.
+    # Visit shared imports before the executable project, matching their build order.
+    # Conditional includes are conservative; only unconditional removes discard them.
+    # Test-project references cannot affect the generator executable's restore.
     $filterVersions = $true
     foreach ($document in $buildDocuments) {
         foreach ($reference in $document.SelectNodes(
-            '//*[local-name()="PackageReference" or local-name()="GlobalPackageReference"][@Include or @Update]')) {
-            $name = if ($reference.HasAttribute('Include')) { $reference.GetAttribute('Include') }
-                else { $reference.GetAttribute('Update') }
+            '//*[local-name()="PackageReference" or local-name()="GlobalPackageReference"][@Include or @Remove]')) {
+            $isInclude = $reference.HasAttribute('Include')
+            $name = if ($isInclude) { $reference.GetAttribute('Include') }
+                else { $reference.GetAttribute('Remove') }
             if ($name -notmatch '^[A-Za-z0-9_.-]+$') { $filterVersions = $false }
-            [void]$packageNames.Add($name)
+            if ($isInclude) {
+                [void]$packageNames.Add($name)
+            } elseif (-not $reference.SelectSingleNode(
+                'ancestor-or-self::*[@Condition or local-name()="When" or local-name()="Otherwise"]')) {
+                [void]$packageNames.Remove($name)
+            }
         }
 
         # Transitive pinning can make an otherwise unreferenced central version relevant.
