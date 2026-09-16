@@ -1,0 +1,245 @@
+NAME
+    gcloud builds triggers update pubsub - update a Pub/Sub trigger used by
+        Cloud Build
+
+SYNOPSIS
+    gcloud builds triggers update pubsub (TRIGGER : --region=REGION)
+        (--trigger-config=PATH | --description=DESCRIPTION
+          --[no-]require-approval --service-account=SERVICE_ACCOUNT
+          --topic=TOPIC --clear-subscription-filter
+          | --subscription-filter=SUBSCRIPTION_FILTER --clear-substitutions
+          | --remove-substitutions=[KEY,...]
+          | --update-substitutions=[KEY=VALUE,...] --inline-config=PATH
+          | [--dockerfile=DOCKERFILE : --dockerfile-dir=DOCKERFILE_DIR
+          --dockerfile-image=DOCKERFILE_IMAGE]
+          | --git-file-source-branch=GIT_FILE_SOURCE_BRANCH
+          | --git-file-source-tag=GIT_FILE_SOURCE_TAG
+          --git-file-source-github-enterprise-config=GIT_FILE_SOURCE_GITHUB_ENTERPRISE_CONFIG --git-file-source-path=PATH --git-file-source-repo-type=GIT_FILE_SOURCE_REPO_TYPE --git-file-source-uri=URL --source-to-build-branch=SOURCE_TO_BUILD_BRANCH | --source-to-build-tag=SOURCE_TO_BUILD_TAG --source-to-build-github-enterprise-config=SOURCE_TO_BUILD_GITHUB_ENTERPRISE_CONFIG --source-to-build-repo-type=SOURCE_TO_BUILD_REPO_TYPE --source-to-build-uri=SOURCE_TO_BUILD_URI)
+        [GCLOUD_WIDE_FLAG ...]
+
+DESCRIPTION
+    Update a Pub/Sub trigger used by Cloud Build.
+
+EXAMPLES
+    To update the branch from which the trigger clones:
+
+        $ gcloud builds triggers update pubsub my-trigger \
+            --source-to-build-branch=my-branch
+
+    To update the topic:
+
+        $ gcloud builds triggers update pubsub my-trigger \
+            --topic=projects/my-project/topics/my-topic
+
+    To update the substitutions of the trigger:        $ gcloud builds triggers update pubsub my-trigger \
+            --update-substitutions=_REPO_NAME=my-repo,_BRANCH_NAME=master
+
+POSITIONAL ARGUMENTS
+     Trigger resource - Build Trigger. The arguments in this group can be used
+     to specify the attributes of this resource. (NOTE) Some attributes are not
+     given arguments in this group but can be set in other ways.
+
+     To set the project attribute:
+      * provide the argument TRIGGER on the command line with a fully
+        specified name;
+      * provide the argument --project on the command line;
+      * set the property core/project.
+
+     This must be specified.
+
+       TRIGGER
+          ID of the trigger or fully qualified identifier for the trigger.
+
+          To set the trigger attribute:
+          + provide the argument TRIGGER on the command line.
+
+          This positional argument must be specified if any of the other
+          arguments in this group are specified.
+
+       --region=REGION
+          The Cloud location for the trigger.
+
+          To set the region attribute:
+          + provide the argument TRIGGER on the command line with a fully
+            specified name;
+          + provide the argument --region on the command line;
+          + set the property builds/region.
+
+REQUIRED FLAGS
+     Exactly one of these must be specified:
+
+       --trigger-config=PATH
+          Path to Build Trigger config file (JSON or YAML format). For more
+          details, see
+          https://cloud.google.com/cloud-build/docs/api/reference/rest/v1/projects.triggers#BuildTrigger
+
+       Or at least one of these can be specified:
+
+         Flag based trigger configuration
+
+         --description=DESCRIPTION
+            Build trigger description.
+
+         --[no-]require-approval
+            Require manual approval for triggered builds. Use
+            --require-approval to enable and --no-require-approval to disable.
+
+         --service-account=SERVICE_ACCOUNT
+            The service account used for all user-controlled operations
+            including UpdateBuildTrigger, RunBuildTrigger, CreateBuild, and
+            CancelBuild. If no service account is set, then the standard Cloud
+            Build service account ([PROJECT_NUM]@system.gserviceaccount.com) is
+            used instead. Format:
+            projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT_ID_OR_EMAIL}.
+
+         --topic=TOPIC
+            The topic to which this trigger should subscribe.
+
+         At most one of these can be specified:
+
+           --clear-subscription-filter
+              Clear existing subscription filter.
+
+           --subscription-filter=SUBSCRIPTION_FILTER
+              CEL filter expression for the trigger. See
+              https://cloud.google.com/build/docs/filter-build-events-using-cel
+              for more details.
+
+         At most one of these can be specified:
+
+           --clear-substitutions
+              Clear existing substitutions.
+
+           --remove-substitutions=[KEY,...]
+              Remove existing substitutions if present.
+
+           --update-substitutions=[KEY=VALUE,...]
+              Update or add to existing substitutions. Substitutions are
+              parameters to be substituted or add in the build specification.
+
+              For example (using some nonsensical substitution keys; all keys
+              must begin with an underscore):
+
+                  $ gcloud builds triggers update ...
+                      --update-substitutions _FAVORITE_COLOR=blue,_NUM_CANDIES=10
+
+              This will add the provided substitutions to the existing
+              substitutions and results in a build where every occurrence of
+              ${_FAVORITE_COLOR} in certain fields is replaced by "blue", and
+              similarly for ${_NUM_CANDIES} and "10".
+
+              Only the following built-in variables can be specified with the
+              --substitutions flag: REPO_NAME, BRANCH_NAME, TAG_NAME,
+              REVISION_ID, COMMIT_SHA, SHORT_SHA.
+
+              For more details, see:
+              https://cloud.google.com/build/docs/build-config-file-schema#substitutions
+
+         At most one of these can be specified:
+
+           --inline-config=PATH
+              Local path to a YAML or JSON file containing a build
+              configuration.
+
+           Or at least one of these can be specified:
+
+             Dockerfile build configuration flags
+
+             --dockerfile=DOCKERFILE
+                Path of Dockerfile to use for builds in the repository.
+
+                If specified, a build config will be generated to run docker
+                build using the specified file.
+
+                The filename is relative to the Dockerfile directory.
+
+                This flag argument must be specified if any of the other
+                arguments in this group are specified.
+
+             --dockerfile-dir=DOCKERFILE_DIR
+                Location of the directory containing the Dockerfile in the
+                repository.
+
+                The directory will also be used as the Docker build context.
+
+             --dockerfile-image=DOCKERFILE_IMAGE
+                Docker image name to build.
+
+                If not specified,
+                gcr.io/PROJECT/github.com/REPO_OWNER/REPO_NAME:$COMMIT_SHA will
+                be used.
+
+                Use a build configuration (cloudbuild.yaml) file for building
+                multiple images in a single trigger.
+
+           Or at least one of these can be specified:
+
+             Build file source flags
+
+             At most one of these can be specified:
+
+               --git-file-source-branch=GIT_FILE_SOURCE_BRANCH
+                  The branch of the repository to clone when trigger is
+                  invoked.
+
+               --git-file-source-tag=GIT_FILE_SOURCE_TAG
+                  The tag of the repository to clone when trigger is invoked.
+
+             At most one of these can be specified:
+
+               --git-file-source-github-enterprise-config=GIT_FILE_SOURCE_GITHUB_ENTERPRISE_CONFIG
+                  The resource name of the GitHub Enterprise config that should
+                  be applied to this source.
+
+               --git-file-source-path=PATH
+                  The file in the repository to clone when trigger is invoked.
+
+               --git-file-source-repo-type=GIT_FILE_SOURCE_REPO_TYPE
+                  The type of the repository to clone when trigger is invoked.
+
+                  This flag argument must be specified if any of the other
+                  arguments in this group are specified.
+
+               --git-file-source-uri=URL
+                  The URI of the repository to clone when trigger is invoked.
+
+                  This flag argument must be specified if any of the other
+                  arguments in this group are specified.
+
+         At most one of these can be specified:
+
+           --source-to-build-branch=SOURCE_TO_BUILD_BRANCH
+              Branch to build.
+
+           --source-to-build-tag=SOURCE_TO_BUILD_TAG
+              Tag to build.
+
+         At most one of these can be specified:
+
+           --source-to-build-github-enterprise-config=SOURCE_TO_BUILD_GITHUB_ENTERPRISE_CONFIG
+              The resource name of the GitHub Enterprise config that should be
+              applied to this source (1st gen). Format:
+              projects/{project}/locations/{location}/githubEnterpriseConfigs/{id}
+              or projects/{project}/githubEnterpriseConfigs/{id}
+
+           --source-to-build-repo-type=SOURCE_TO_BUILD_REPO_TYPE
+              Type of the repository (1st gen). Currently only GitHub and Cloud
+              Source Repository types are supported.
+
+              This flag argument must be specified if any of the other
+              arguments in this group are specified.
+
+           --source-to-build-uri=SOURCE_TO_BUILD_URI
+              The URI of the repository that should be applied to this source
+              (1st gen).
+
+              This flag argument must be specified if any of the other
+              arguments in this group are specified.
+
+GCLOUD WIDE FLAGS
+    These flags are available to all commands: --access-token-file, --account,
+    --billing-project, --configuration, --flags-file, --flatten, --format,
+    --help, --impersonate-service-account, --log-http, --project, --quiet,
+    --trace-token, --user-output-enabled, --verbosity.
+
+    Run $ gcloud help for details.

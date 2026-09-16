@@ -9,6 +9,61 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers.Cli;
 public class GcloudResourceArgumentTests
 {
     [Test]
+    [Arguments(" ")]
+    [Arguments("=")]
+    public async Task Required_Option_Alias_Preserves_The_Following_Resource_Operand(string aliasSeparator)
+    {
+        var help = $$"""
+            NAME
+                gcloud example create - create a resource
+            SYNOPSIS
+                gcloud example create --instance=INSTANCE, -i{{aliasSeparator}}INSTANCE RESOURCE
+            POSITIONAL ARGUMENTS
+                 RESOURCE
+                    The resource name.
+            REQUIRED FLAGS
+                 --instance=INSTANCE, -i{{aliasSeparator}}INSTANCE
+                    The instance name.
+            """;
+        var command = (await ScrapeFixture("example create", help)).Single();
+        await Assert.That(command.PositionalArguments.Single().PropertyName).IsEqualTo("Resource");
+        await Assert.That(command.PositionalArguments.Single().IsRequired).IsTrue();
+        var option = command.Options.Single();
+        await Assert.That(option.SwitchName).IsEqualTo("--instance");
+        await Assert.That(option.IsRequired).IsTrue();
+        await Assert.That(option.AcceptsMultipleValues).IsFalse();
+    }
+
+    [Test]
+    [Arguments("\"/\"")]
+    [Arguments("\"a ] : | b\"")]
+    [Arguments("'a ) : | b'")]
+    [Arguments("<Mode.VALUE: 1>")]
+    [Arguments("enabled")]
+    public async Task Default_Annotations_Do_Not_Change_Optional_Group_Operands(string defaultValue)
+    {
+        var help = $$"""
+            NAME
+                gcloud example create - create a resource
+            SYNOPSIS
+                gcloud example create RESOURCE [--file=FILE : --directory=DIRECTORY; default={{defaultValue}}]
+            POSITIONAL ARGUMENTS
+                 RESOURCE
+                    The resource name.
+            FLAGS
+                 --file=FILE
+                    The input file.
+                 --directory=DIRECTORY; default={{defaultValue}}
+                    The input directory.
+            """;
+        var command = (await ScrapeFixture("example create", help)).Single();
+        await Assert.That(command.PositionalArguments.Single().PropertyName).IsEqualTo("Resource");
+        await Assert.That(command.Options.Select(option => option.SwitchName))
+            .IsEquivalentTo(["--file", "--directory"]);
+        await Assert.That(command.Options.Any(option => option.IsRequired)).IsFalse();
+    }
+
+    [Test]
     public async Task Positional_Section_Groups_Are_Not_Deferred_As_Option_Only_Metadata()
     {
         const string help = """
@@ -86,6 +141,48 @@ public class GcloudResourceArgumentTests
     [Arguments("gcloud-storage-buckets-relocate.txt")]
     [Arguments("gcloud-transfer-jobs-create.txt")]
     [Arguments("gcloud-transfer-jobs-update.txt")]
+    [Arguments("gcloud-dns-record-sets-changes-list.txt")]
+    [Arguments("gcloud-dns-record-sets-list.txt")]
+    [Arguments("gcloud-dns-record-sets-transaction-abort.txt")]
+    [Arguments("gcloud-dns-record-sets-transaction-describe.txt")]
+    [Arguments("gcloud-dns-record-sets-transaction-execute.txt")]
+    [Arguments("gcloud-dns-record-sets-transaction-start.txt")]
+    [Arguments("gcloud-sql-backups-create.txt")]
+    [Arguments("gcloud-sql-databases-list.txt")]
+    [Arguments("gcloud-sql-operations-list.txt")]
+    [Arguments("gcloud-sql-ssl-client-certs-list.txt")]
+    [Arguments("gcloud-sql-ssl-entraid-certs-create.txt")]
+    [Arguments("gcloud-sql-ssl-entraid-certs-list.txt")]
+    [Arguments("gcloud-sql-ssl-entraid-certs-rollback.txt")]
+    [Arguments("gcloud-sql-ssl-entraid-certs-rotate.txt")]
+    [Arguments("gcloud-sql-ssl-server-ca-certs-create.txt")]
+    [Arguments("gcloud-sql-ssl-server-ca-certs-list.txt")]
+    [Arguments("gcloud-sql-ssl-server-ca-certs-rollback.txt")]
+    [Arguments("gcloud-sql-ssl-server-ca-certs-rotate.txt")]
+    [Arguments("gcloud-sql-ssl-server-certs-create.txt")]
+    [Arguments("gcloud-sql-ssl-server-certs-list.txt")]
+    [Arguments("gcloud-sql-ssl-server-certs-rollback.txt")]
+    [Arguments("gcloud-sql-ssl-server-certs-rotate.txt")]
+    [Arguments("gcloud-sql-ssl-certs-list.txt")]
+    [Arguments("gcloud-sql-users-list.txt")]
+    [Arguments("gcloud-builds-triggers-create-bitbucket-cloud.txt")]
+    [Arguments("gcloud-builds-triggers-create-bitbucket-data-center.txt")]
+    [Arguments("gcloud-builds-triggers-create-bitbucketserver.txt")]
+    [Arguments("gcloud-builds-triggers-create-cloud-source-repositories.txt")]
+    [Arguments("gcloud-builds-triggers-create-github.txt")]
+    [Arguments("gcloud-builds-triggers-create-gitlab.txt")]
+    [Arguments("gcloud-builds-triggers-create-manual.txt")]
+    [Arguments("gcloud-builds-triggers-create-pubsub.txt")]
+    [Arguments("gcloud-builds-triggers-create-webhook.txt")]
+    [Arguments("gcloud-builds-triggers-update-bitbucket-cloud.txt")]
+    [Arguments("gcloud-builds-triggers-update-bitbucket-data-center.txt")]
+    [Arguments("gcloud-builds-triggers-update-bitbucketserver.txt")]
+    [Arguments("gcloud-builds-triggers-update-cloud-source-repositories.txt")]
+    [Arguments("gcloud-builds-triggers-update-github.txt")]
+    [Arguments("gcloud-builds-triggers-update-gitlab.txt")]
+    [Arguments("gcloud-builds-triggers-update-manual.txt")]
+    [Arguments("gcloud-builds-triggers-update-pubsub.txt")]
+    [Arguments("gcloud-builds-triggers-update-webhook.txt")]
     public async Task Captured_585_Commands_Retain_Coverage(string fixture)
     {
         var help = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "Fixtures", "Gcloud", "585.0.0", fixture));
@@ -96,6 +193,29 @@ public class GcloudResourceArgumentTests
         await new TestScraper().Parse(["gcloud", .. commandPath.Split(' ')], help);
         var command = (await ScrapeFixture(commandPath, help)).Single();
         await Assert.That(command.FullCommand).IsEqualTo("gcloud " + commandPath);
+    }
+
+    [Test]
+    public async Task Captured_Manual_Trigger_Retains_Configuration_And_Dockerfile_Constraints()
+    {
+        var help = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory,
+            "Fixtures", "Gcloud", "585.0.0", "gcloud-builds-triggers-create-manual.txt"));
+        var command = (await ScrapeFixture("builds triggers create manual", help)).Single();
+        var trigger = command.RequiredAlternativeGroups.Single(group => group.IsMutuallyExclusive
+            && group.PropertyNames.Contains("TriggerConfig"));
+        await Assert.That(trigger.IsRequired).IsTrue();
+        await Assert.That(trigger.Members.Single().PropertyName).IsEqualTo("TriggerConfig");
+        var flags = trigger.Groups.Single().Groups.Single();
+        var build = flags.Groups.Single(group => group.PropertyNames.Contains("BuildConfig"));
+        await Assert.That(build.IsRequired).IsTrue();
+        await Assert.That(build.IsMutuallyExclusive).IsTrue();
+        await Assert.That(build.Members.Select(member => member.PropertyName))
+            .IsEquivalentTo(["BuildConfig", "InlineConfig"]);
+        var dockerfile = build.Groups.Single().Groups.Single();
+        await Assert.That(dockerfile.PropertyNames)
+            .IsEquivalentTo(["Dockerfile", "DockerfileDir", "DockerfileImage"]);
+        await Assert.That(dockerfile.Members.Single(member => member.PropertyName == "Dockerfile").IsRequired).IsTrue();
+        await Assert.That(command.PositionalArguments).IsEmpty();
     }
 
     [Test]

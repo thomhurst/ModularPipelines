@@ -172,9 +172,13 @@ public partial class GcloudCliScraper : CliScraperBase
                 var valuePattern = string.Concat(argument.ValueHint!.Select(character => char.IsWhiteSpace(character)
                     ? @"\s+" : Regex.Escape(character.ToString()) + @"\s*"));
                 normalized = Regex.Replace(normalized,
-                    @"(?<![\w-])" + Regex.Escape(argument.SwitchName) + "=" + valuePattern + @"(?![\w])",
+                    @"(?<![\w-])" + Regex.Escape(argument.SwitchName) + "=" + valuePattern + @"(?![\w])"
+                    + @"(?:,\s*-[\w-]+(?:\s+|=)" + valuePattern + @"(?![\w]))?",
                     argument.SwitchName + "=VALUE ");
             }
+            // Defaults annotate the preceding option; they do not add operands or
+            // change the nesting of option groups in the synopsis.
+            normalized = SynopsisDefaultAnnotationPattern().Replace(normalized, "${option} ");
             normalized = UsageSynopsisParser.DeferDocumentedOptionGroups(normalized, groups);
             helpText = helpText.Replace(synopsis, normalized, StringComparison.Ordinal);
         }
@@ -1060,6 +1064,9 @@ public partial class GcloudCliScraper : CliScraperBase
     [GeneratedRegex(
         @"^(?<indent>[ \t]+)(?:(?<negatable>--\[no-\])(?<negatableName>\w[\w-]*)|(?<long>--\w[\w-]*))(?:=(?<value>[^\r\n;]+?))?(?:,\s*-[\w-]+(?:[ =]\S+)?)?(?:;\s*default=[^\r\n]+)?$")]
     private static partial Regex GcloudFlagPattern();
+
+    [GeneratedRegex("(?<option>--[\\w-]+=VALUE)\\s*;\\s*default=(?:\"(?:\\\\.|[^\"\\\\])*\"|'(?:\\\\.|[^'\\\\])*'|<[^>\\r\\n]+>|[^\\s\\]\\)]+)")]
+    private static partial Regex SynopsisDefaultAnnotationPattern();
 
     [GeneratedRegex(
         @"(?<![A-Za-z0-9])(?:counts?|numbers?|sizes?|timeouts?|seconds|iops)(?![A-Za-z0-9])",

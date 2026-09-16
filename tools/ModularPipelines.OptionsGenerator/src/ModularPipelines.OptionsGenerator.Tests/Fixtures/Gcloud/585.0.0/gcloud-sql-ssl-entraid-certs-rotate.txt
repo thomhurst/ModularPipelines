@@ -1,0 +1,27 @@
+NAME
+    gcloud sql ssl entraid-certs rotate - rotate in the upcoming Entra ID
+        certificate for a Cloud SQL instance
+
+SYNOPSIS
+    gcloud sql ssl entraid-certs rotate --instance=INSTANCE, -i INSTANCE
+        [--async] [GCLOUD_WIDE_FLAG ...]
+
+DESCRIPTION
+    Rotate in the upcoming Entra ID certificate for a Cloud SQL instance.
+
+REQUIRED FLAGS
+     --instance=INSTANCE, -i INSTANCE
+        Cloud SQL instance ID.
+
+OPTIONAL FLAGS
+     --async
+        Return immediately, without waiting for the operation in progress to
+        complete.
+
+GCLOUD WIDE FLAGS
+    These flags are available to all commands: --access-token-file, --account,
+    --billing-project, --configuration, --flags-file, --flatten, --format,
+    --help, --impersonate-service-account, --log-http, --project, --quiet,
+    --trace-token, --user-output-enabled, --verbosity.
+
+    Run $ gcloud help for details.

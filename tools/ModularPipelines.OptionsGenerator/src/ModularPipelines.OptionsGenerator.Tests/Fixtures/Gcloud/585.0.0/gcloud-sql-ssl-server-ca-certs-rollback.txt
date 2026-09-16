@@ -1,0 +1,27 @@
+NAME
+    gcloud sql ssl server-ca-certs rollback - roll back to the previous server
+        CA cert for a Cloud SQL instance
+
+SYNOPSIS
+    gcloud sql ssl server-ca-certs rollback --instance=INSTANCE, -i INSTANCE
+        [--async] [GCLOUD_WIDE_FLAG ...]
+
+DESCRIPTION
+    Roll back to the previous server CA cert for a Cloud SQL instance.
+
+REQUIRED FLAGS
+     --instance=INSTANCE, -i INSTANCE
+        Cloud SQL instance ID.
+
+OPTIONAL FLAGS
+     --async
+        Return immediately, without waiting for the operation in progress to
+        complete.
+
+GCLOUD WIDE FLAGS
+    These flags are available to all commands: --access-token-file, --account,
+    --billing-project, --configuration, --flags-file, --flatten, --format,
+    --help, --impersonate-service-account, --log-http, --project, --quiet,
+    --trace-token, --user-output-enabled, --verbosity.
+
+    Run $ gcloud help for details.
