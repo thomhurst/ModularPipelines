@@ -1305,4 +1305,53 @@ if (Test-TrustedBotClearVerdict -Review $workflowReview -HeadSha $verdictHead -C
 }
 $workflowProvenanceCaseCount++
 
-Write-Host "OK review heuristic tests passed ($($cases.Count) body cases, $($staleReviewCases.Count) stale review cases, $($verdictCases.Count) verdict cases, $workflowProvenanceCaseCount workflow provenance cases)."
+$dispatchRun = @{
+    id = 123
+    path = '.github/workflows/claude-code-review.yml'
+    name = 'Claude Code Review'
+    event = 'workflow_dispatch'
+    status = 'completed'
+    conclusion = 'success'
+    # The default-branch SHA deliberately differs from the reviewed PR head.
+    head_sha = 'c' * 40
+}
+$dispatchJob = @{
+    run_id = 123
+    name = 'claude-review'
+    status = 'completed'
+    conclusion = 'success'
+    started_at = '2026-07-06T01:40:00Z'
+    completed_at = '2026-07-06T01:42:00Z'
+}
+$workflowReview.commit = [pscustomobject]@{ oid = $verdictHead }
+$dispatchChecks = @(ConvertTo-DispatchedReviewChecks -Run ([pscustomobject]$dispatchRun) -Jobs @([pscustomobject]$dispatchJob))
+if (-not (Test-TrustedBotClearVerdict -Review $workflowReview -HeadSha $verdictHead -Checks $dispatchChecks)) {
+    throw 'A successful default-branch dispatch must authenticate its exact-head review.'
+}
+$dispatchCaseCount = 1
+foreach ($change in @(
+    @{ path = '.github/workflows/other.yml' }, @{ name = 'Other workflow' },
+    @{ event = 'push' }, @{ status = 'in_progress' }, @{ conclusion = 'failure' }, @{ id = $null }
+)) {
+    $run = $dispatchRun.Clone()
+    foreach ($key in $change.Keys) { $run[$key] = $change[$key] }
+    if (@(ConvertTo-DispatchedReviewChecks -Run ([pscustomobject]$run) -Jobs @([pscustomobject]$dispatchJob)).Count -ne 0) {
+        throw 'An unrelated or unsuccessful workflow run must not provide review provenance.'
+    }
+    $dispatchCaseCount++
+}
+foreach ($change in @(
+    @{ run_id = 456 }, @{ name = 'other-job' }, @{ status = 'in_progress' },
+    @{ conclusion = 'failure' }, @{ started_at = '2026-07-06T01:41:01Z' },
+    @{ completed_at = '2026-07-06T01:40:59Z' }
+)) {
+    $job = $dispatchJob.Clone()
+    foreach ($key in $change.Keys) { $job[$key] = $change[$key] }
+    $dispatchChecks = @(ConvertTo-DispatchedReviewChecks -Run ([pscustomobject]$dispatchRun) -Jobs @([pscustomobject]$job))
+    if (Test-TrustedBotClearVerdict -Review $workflowReview -HeadSha $verdictHead -Checks $dispatchChecks) {
+        throw 'An unrelated, unsuccessful, or out-of-window dispatch job must not authenticate a review.'
+    }
+    $dispatchCaseCount++
+}
+
+Write-Host "OK review heuristic tests passed ($($cases.Count) body cases, $($staleReviewCases.Count) stale review cases, $($verdictCases.Count) verdict cases, $workflowProvenanceCaseCount workflow provenance cases, $dispatchCaseCount dispatch cases)."
