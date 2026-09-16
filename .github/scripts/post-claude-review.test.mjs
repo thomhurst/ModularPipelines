@@ -13,6 +13,15 @@ test('only an empty findings array produces CLEAR', () => {
   assert.match(buildReview(blocking, headSha), /REVIEW_VERDICT: BLOCKING HEAD: a{40}/);
 });
 
+test('optional notes stay visible without being classified as required corrections', () => {
+  const body = buildReview(JSON.stringify({
+    summary: 'No correctness issues.', findings: [], notes: ['Consider a separate follow-up refactor.'],
+  }), headSha);
+  assert.ok(body.includes('### Optional follow-up notes\n\nConsider a separate follow-up refactor.'));
+  assert.match(body, /REVIEW_VERDICT: CLEAR HEAD: a{40}/);
+  assert.throws(() => buildReview(JSON.stringify({ summary: 'ok', findings: [], notes: [null] }), headSha));
+});
+
 test('missing and malformed review output fails before any GitHub call', () => {
   for (const invalid of [undefined, '', 'not json', 'null', '{}',
     '{"summary":"ok","findings":null}', '{"summary":" ","findings":[]}',
