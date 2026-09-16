@@ -127,17 +127,22 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
-    public async Task Required_Option_Only_Nested_Colon_Group_Is_Not_Discarded()
+    [Arguments("((--a=A --x=X) : --b=B)")]
+    [Arguments("((--a=A|--x=X):--b=B)")]
+    public async Task Required_Option_Only_Nested_Colon_Group_Is_Not_Discarded(string group)
     {
         await Assert.That(() => UsageSynopsisParser.Parse(
-                "Usage: tool run ((--a=A --x=X) : --b=B)", ["tool", "run"]))
+                $"Usage: tool run {group}", ["tool", "run"]))
             .Throws<InvalidOperationException>();
     }
 
     [Test]
-    public async Task Documented_Option_Groups_Preserve_Operands_And_Line_Boundaries()
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Documented_Option_Groups_Preserve_Operands_And_Line_Boundaries(bool compact)
     {
-        const string synopsis = "    tool run RESOURCE ((--a=A | --b=B) : --c=C) --required=VALUE\n\n";
+        var group = compact ? "((--a=A|--b=B):--c=C)" : "((--a=A | --b=B) : --c=C)";
+        var synopsis = $"    tool run RESOURCE {group} --required=VALUE\n\n";
         var normalized = UsageSynopsisParser.DeferDocumentedOptionGroups(synopsis,
         [
             new CliArgumentGroup
@@ -149,6 +154,7 @@ public class UsageSynopsisParserTests
         ]);
         var usage = UsageSynopsisParser.Parse("Usage:\n" + normalized, ["tool", "run"]);
         await Assert.That(normalized).EndsWith("\n\n");
+        await Assert.That(normalized).DoesNotContain("--a");
         await Assert.That(usage.PositionalArguments.Single().PropertyName).IsEqualTo("Resource");
         await Assert.That(usage.RequiredOptionSwitches).IsEquivalentTo(["--required"]);
         await Assert.That(usage.UnparsedOperandTokens).IsEmpty();

@@ -524,7 +524,7 @@ public static class UsageSynopsisParser
             ? $"option:{optionSwitch}"
             : $"operand:{member.PositionalPropertyName?.ToUpperInvariant()}";
 
-    private static IReadOnlyList<string> SplitTopLevelAlternatives(string content)
+    private static IReadOnlyList<string> SplitTopLevelAlternatives(string content, char separator = '|')
     {
         var alternatives = new List<string>();
         var closingDelimiters = new Stack<char>();
@@ -541,7 +541,7 @@ public static class UsageSynopsisParser
             {
                 closingDelimiters.Pop();
             }
-            else if (character == '|' && closingDelimiters.Count == 0)
+            else if (character == separator && closingDelimiters.Count == 0)
             {
                 alternatives.Add(content[start..index].Trim());
                 start = index + 1;
@@ -1311,7 +1311,7 @@ public static class UsageSynopsisParser
         }
 
         var content = TrimWrapper(normalizedToken).Trim();
-        var nestedTokens = Tokenize(content);
+        var nestedTokens = TokenizeNestedGroup(content);
         if (normalizedToken.StartsWith('[') && nestedTokens.Count > 1 && ContainsOnlyInlineOptions(nestedTokens))
         {
             // Optional option choices can share selector flags without declaring operands.
@@ -1363,19 +1363,30 @@ public static class UsageSynopsisParser
 
     private static bool IsDocumentedOptionGroup(string token, IReadOnlyList<CliArgumentGroup> groups)
     {
-        if (!IsWrapped(token) || !token.Contains(':') || !ContainsOnlyInlineOptions(Tokenize(TrimWrapper(token))))
+        if (!IsWrapped(token) || !token.Contains(':') || !ContainsOnlyInlineOptions(TokenizeOptionGroup(TrimWrapper(token))))
         {
             return false;
         }
 
-        var switches = EnumerateInlineOptionSwitches(Tokenize(TrimWrapper(token))).ToHashSet(StringComparer.Ordinal);
+        var switches = EnumerateInlineOptionSwitches(TokenizeOptionGroup(TrimWrapper(token))).ToHashSet(StringComparer.Ordinal);
         return groups.Any(group => MatchesDocumentedOptionGroup(group, switches));
     }
 
     private static IEnumerable<string> EnumerateInlineOptionSwitches(IEnumerable<string> tokens) =>
         tokens.SelectMany(static token => IsWrapped(token)
-            ? EnumerateInlineOptionSwitches(Tokenize(TrimWrapper(token)))
+            ? EnumerateInlineOptionSwitches(TokenizeOptionGroup(TrimWrapper(token)))
             : GetOptionSwitches(token));
+
+    private static List<string> TokenizeOptionGroup(string content) =>
+        [.. SplitTopLevelAlternatives(content, ':').SelectMany((part, index) =>
+            index == 0 ? Tokenize(part) : [":", .. Tokenize(part)])];
+
+    private static List<string> TokenizeNestedGroup(string content)
+    {
+        var options = TokenizeOptionGroup(content);
+        // Colons inside resource names and values retain their original operand grammar.
+        return ContainsOnlyInlineOptions(options) ? options : Tokenize(content);
+    }
 
     private static bool MatchesDocumentedOptionGroup(CliArgumentGroup group, HashSet<string> switches)
     {
@@ -1390,7 +1401,7 @@ public static class UsageSynopsisParser
     {
         var optionTokens = tokens.Where(static token => token is not (":" or "|")).ToArray();
         return optionTokens.Length > 0 && optionTokens.All(static token => IsWrapped(token)
-            ? ContainsOnlyInlineOptions(Tokenize(TrimWrapper(token)))
+            ? ContainsOnlyInlineOptions(TokenizeOptionGroup(TrimWrapper(token)))
             : GetOptionSwitches(token).Count > 0);
     }
 
