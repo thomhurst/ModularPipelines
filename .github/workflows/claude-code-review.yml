@@ -78,7 +78,7 @@ jobs:
           REVIEW_HEAD_SHA: ${{ steps.pull_request.outputs.head_sha }}
         run: |
           mkdir -p review-context
-          gh pr view "$PR_NUMBER" --repo "$GH_REPO" --json number,title,body,headRefOid,baseRefOid > review-context/pull-request.json
+          gh pr view "$PR_NUMBER" --repo "$GH_REPO" --json number,title,body,headRefOid,baseRefOid | jq . > review-context/pull-request.json
           BASE_SHA=$(jq -r '.baseRefOid' review-context/pull-request.json)
           history_args=()
           if [ "$(git -C pr-head rev-parse --is-shallow-repository)" = true ]; then
@@ -88,9 +88,14 @@ jobs:
           # The credential helper reads GH_TOKEN without persisting it in git config.
           git -C pr-head -c credential.helper= -c 'credential.helper=!gh auth git-credential' fetch --no-tags --filter=blob:none "${history_args[@]}" origin "$BASE_SHA" "$REVIEW_HEAD_SHA"
           git -C pr-head -c credential.helper= -c 'credential.helper=!gh auth git-credential' diff --no-ext-diff --no-textconv "$BASE_SHA...$REVIEW_HEAD_SHA" > review-context/diff.patch
-          gh api --paginate --slurp "repos/$GH_REPO/pulls/$PR_NUMBER/reviews" > review-context/reviews.json
-          gh api --paginate --slurp "repos/$GH_REPO/pulls/$PR_NUMBER/comments" > review-context/inline-comments.json
-          gh api --paginate --slurp "repos/$GH_REPO/issues/$PR_NUMBER/comments" > review-context/conversation.json
+          gh api --paginate --slurp "repos/$GH_REPO/pulls/$PR_NUMBER/reviews" | jq . > review-context/reviews.json
+          gh api --paginate --slurp "repos/$GH_REPO/pulls/$PR_NUMBER/comments" | jq . > review-context/inline-comments.json
+          gh api --paginate --slurp "repos/$GH_REPO/issues/$PR_NUMBER/comments" | jq . > review-context/conversation.json
+          # Read truncates long lines. Keep raw JSON plus wrapped, complete bodies.
+          jq -r '.body // ""' review-context/pull-request.json | fold -s -w 160 > review-context/description.md
+          for context in reviews inline-comments conversation; do
+            jq -r '.[][] | "## Record \(.id)\nAuthor: \(.user.login)\nReply to: \(.in_reply_to_id // "none")\nCommit: \(.commit_id // "none")\n\n\(.body // "")\n"' "review-context/$context.json" | fold -s -w 160 > "review-context/$context.md"
+          done
 
       - name: Test trusted review publisher
         run: node --test .github/scripts/post-claude-review.test.mjs
@@ -127,6 +132,8 @@ jobs:
             The base branch is checked out at the workspace root; the PR head is in
             `pr-head/`. The trusted workflow has already collected the diff,
             PR metadata, and all prior reviews/comments in `review-context/`.
+            Read the Markdown context files for complete comment bodies; JSON retains
+            metadata and original text. Markdown lines are wrapped to avoid Read truncation.
             Use Read, Glob, and Grep to inspect these files. Shell and write tools
             are unavailable; do not try to execute commands or change files.
 
