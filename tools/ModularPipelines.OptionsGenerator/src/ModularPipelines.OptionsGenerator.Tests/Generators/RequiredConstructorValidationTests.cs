@@ -410,6 +410,7 @@ public partial class RequiredConstructorValidationTests
             {
                 public sealed class CliOptionAttribute(string name) : System.Attribute
                 {
+                    public bool GroupValues { get; set; }
                     public CliOptionValueArity ValueArity { get; set; }
                     public string? CollectionSeparator { get; set; }
                     public OptionFormat Format { get; set; }

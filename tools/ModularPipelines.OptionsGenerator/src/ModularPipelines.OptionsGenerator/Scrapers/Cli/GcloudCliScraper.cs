@@ -155,9 +155,10 @@ public partial class GcloudCliScraper : CliScraperBase
 
     protected override UsageSynopsisParseResult ParseUsageSynopsis(string[] commandPath, string helpText)
     {
-        var arguments = ExtractSections(helpText, "FLAGS", "REQUIRED FLAGS", "OPTIONAL FLAGS", "POSITIONAL ARGUMENTS")
-            .SelectMany(section => ParseArgumentGroups(section.Content, ParseGcloudArgument).FlattenArguments())
-            .Where(argument => !string.IsNullOrEmpty(argument.ValueHint))
+        var groups = ExtractSections(helpText, "FLAGS", "REQUIRED FLAGS", "OPTIONAL FLAGS", "POSITIONAL ARGUMENTS")
+            .Select(section => ParseSectionArgumentGroup(section.Name, section.Content)).ToArray();
+        var arguments = groups.SelectMany(group => group.FlattenArguments())
+            .Where(argument => !argument.IsPositional && !string.IsNullOrEmpty(argument.ValueHint))
             .DistinctBy(argument => (argument.SwitchName, argument.ValueHint))
             .OrderByDescending(argument => argument.ValueHint!.Length)
             .ToArray();
@@ -174,6 +175,7 @@ public partial class GcloudCliScraper : CliScraperBase
                     @"(?<![\w-])" + Regex.Escape(argument.SwitchName) + "=" + valuePattern + @"(?![\w])",
                     argument.SwitchName + "=VALUE ");
             }
+            normalized = UsageSynopsisParser.DeferDocumentedOptionGroups(normalized, groups);
             helpText = helpText.Replace(synopsis, normalized, StringComparison.Ordinal);
         }
         return base.ParseUsageSynopsis(commandPath, helpText);
@@ -221,6 +223,9 @@ public partial class GcloudCliScraper : CliScraperBase
     #endregion
 
     #region Gcloud-Specific Parsing Helpers
+
+    private static CliArgumentGroup ParseSectionArgumentGroup(string name, string content) =>
+        ParseArgumentGroups(content, name == "POSITIONAL ARGUMENTS" ? ParseGcloudResourceArgument : ParseGcloudArgument);
 
     private static List<string> ExtractFromSection(string helpText, string sectionName)
     {
@@ -290,8 +295,7 @@ public partial class GcloudCliScraper : CliScraperBase
         var requiredAlternativeGroups = new List<CliRequiredAlternativeGroup>();
         foreach (var (name, content) in ExtractSections(helpText, "FLAGS", "REQUIRED FLAGS", "OPTIONAL FLAGS", "POSITIONAL ARGUMENTS"))
         {
-            var argumentGroup = ParseArgumentGroups(content,
-                name == "POSITIONAL ARGUMENTS" ? ParseGcloudResourceArgument : ParseGcloudArgument);
+            var argumentGroup = ParseSectionArgumentGroup(name, content);
             argumentGroups.Add(argumentGroup);
             sections.Add((name, argumentGroup));
             foreach (var argument in argumentGroup.FlattenArguments().Where(argument => !argument.IsPositional))

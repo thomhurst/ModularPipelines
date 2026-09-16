@@ -7,7 +7,7 @@ using System.Text.Json;
 
 namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 
-public class AwsCliScraperTests
+public partial class AwsCliScraperTests
 {
     [Test]
     public async Task Extracts_Services_From_Aws_2_36_29_Help_Fixture()

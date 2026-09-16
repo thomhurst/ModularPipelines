@@ -81,6 +81,24 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
 
     protected override IReadOnlyList<string> UsageSynopsisHeadings => AwsUsageSynopsisHeadings;
 
+    /// <inheritdoc />
+    protected override UsageSynopsisParseResult ParseUsageSynopsis(string[] commandPath, string helpText)
+    {
+        var lines = GetSynopsisLines(helpText);
+        if (lines.Count == 0)
+        {
+            return base.ParseUsageSynopsis(commandPath, helpText);
+        }
+
+        // AWS prints named operands as "group_name <value>" and repeats option
+        // metavariables as "--names <value> [<value>...]". Neither adds an operand.
+        var synopsis = string.Join('\n', lines);
+        synopsis = AwsOptionMetavariablePattern().Replace(synopsis, "${name}=VALUE");
+        synopsis = AwsPositionalMetavariablePattern().Replace(synopsis, static match =>
+            match.Groups["name"].Value + (match.Groups["repeat"].Success ? "..." : string.Empty));
+        return base.ParseUsageSynopsis(commandPath, $"SYNOPSIS\n{synopsis}");
+    }
+
     protected override IEnumerable<string> GetAdditionalUsageSynopses(
         string[] commandPath,
         string helpText)
@@ -362,6 +380,11 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
             .Where(name => !string.IsNullOrEmpty(name))
             .ToHashSet(StringComparer.OrdinalIgnoreCase);
         var requiredSynopsisOptions = GetRequiredSynopsisOptions(helpText, booleanSwitches);
+        var repeatedSynopsisOptions = AwsOptionMetavariablePattern()
+            .Matches(string.Join('\n', GetSynopsisLines(helpText)))
+            .Where(static match => match.Groups["repeat"].Success)
+            .Select(static match => match.Groups["name"].Value)
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
 
         foreach (Match match in optionMatches)
         {
@@ -424,6 +447,7 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
                              && (typeHint.Contains("map") || (description?.Contains("key=value") ?? false));
             var isArray = typeHint.Contains("list")
                           || typeHint.Contains("...")
+                          || repeatedSynopsisOptions.Contains(longForm)
                           || (!isScalar
                               && !isStructure
                               && !isKeyValue
@@ -461,7 +485,7 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
                 CollectionSeparator = isKeyValue ? "," : null,
                 IsKeyValue = isKeyValue,
                 IsStructuredValue = isStructure || isKeyValue,
-                IsScalarValue = isScalar,
+                IsScalarValue = isScalar && !isArray,
                 IsNumeric = isNumeric,
                 ValueSeparator = isFlag ? " " : " ",
                 EnumDefinition = enumDef,
@@ -836,6 +860,12 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
     /// </summary>
     [GeneratedRegex(@"^(?<long>--[\w-]+)(?:\s|$)")]
     private static partial Regex AwsSynopsisOptionPattern();
+
+    [GeneratedRegex(@"(?<name>--[\w-]+)[ \t]+<value>(?<repeat>\s+\[<value>\.\.\.\])?")]
+    private static partial Regex AwsOptionMetavariablePattern();
+
+    [GeneratedRegex(@"^(?<name>[\w-]+)[ \t]+<value>(?<repeat>\s+\[<value>\.\.\.\])?[ \t]*$", RegexOptions.Multiline)]
+    private static partial Regex AwsPositionalMetavariablePattern();
 
     [GeneratedRegex(@"--[\w-]*-$")]
     private static partial Regex AwsWrappedSynopsisSwitchPattern();

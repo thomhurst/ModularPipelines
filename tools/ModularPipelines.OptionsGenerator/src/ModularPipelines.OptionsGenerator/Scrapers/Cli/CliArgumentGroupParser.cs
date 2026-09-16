@@ -65,13 +65,18 @@ internal static partial class CliArgumentGroupParser
             var preludeStartsGroup = StartsArgumentGroup(preludeLines, prelude)
                 || (preludeIndentation <= declaration.Argument.Indentation
                     && Classify(stack.Peek().Description) == CliArgumentGroupKind.None);
+            var parsedArgument = declaration.Argument with
+            {
+                Description = description,
+                SourceOrder = declaration.LineIndex,
+            };
+            if (TryAddNestedPreludeGroup(stack, parsedArgument, preludeLines))
+            {
+                continue;
+            }
             AddArgument(
                 stack,
-                declaration.Argument with
-                {
-                    Description = description,
-                    SourceOrder = declaration.LineIndex,
-                },
+                parsedArgument,
                 index == 0 && !preludeStartsGroup ? null : prelude,
                 preludeStartsGroup);
         }
@@ -141,10 +146,44 @@ internal static partial class CliArgumentGroupParser
         string? prelude,
         bool preludeStartsGroup)
     {
-        var current = stack.Peek();
-        if (argument.Indentation > current.Indentation)
+        BeginArgumentGroup(stack, argument.Indentation, prelude, preludeStartsGroup);
+        stack.Peek().Arguments.Add(argument);
+    }
+
+    private static bool TryAddNestedPreludeGroup(
+        Stack<ArgumentGroupBuilder> stack, CliArgumentDefinition argument, string[] preludeLines)
+    {
+        var childStart = Array.FindIndex(preludeLines, line => !string.IsNullOrWhiteSpace(line)
+            && CliScraperBase.GetIndentation(line) == argument.Indentation);
+        if (childStart <= 0)
         {
-            var child = new ArgumentGroupBuilder(argument.Indentation, prelude);
+            return false;
+        }
+        var parentDescription = NormalizeDocumentation(preludeLines[..childStart]);
+        var kind = Classify(parentDescription);
+        if ((kind & (CliArgumentGroupKind.AtLeastOne | CliArgumentGroupKind.AtMostOne)) == 0)
+        {
+            return false;
+        }
+
+        // A constraint heading can precede the first branch heading before any option appears.
+        // Both groups end when argument indentation decreases; the branch remains a single choice.
+        BeginArgumentGroup(stack, argument.Indentation, parentDescription, true);
+        var branch = new ArgumentGroupBuilder(argument.Indentation,
+            NormalizeDocumentation(preludeLines[childStart..]));
+        stack.Peek().Groups.Add(branch);
+        stack.Push(branch);
+        branch.Arguments.Add(argument);
+        return true;
+    }
+
+    private static void BeginArgumentGroup(
+        Stack<ArgumentGroupBuilder> stack, int indentation, string? prelude, bool preludeStartsGroup)
+    {
+        var current = stack.Peek();
+        if (indentation > current.Indentation)
+        {
+            var child = new ArgumentGroupBuilder(indentation, prelude);
             current.Groups.Add(child);
             stack.Push(child);
         }
@@ -155,7 +194,7 @@ internal static partial class CliArgumentGroupParser
                 stack.Pop();
             }
 
-            var sibling = new ArgumentGroupBuilder(argument.Indentation, prelude);
+            var sibling = new ArgumentGroupBuilder(indentation, prelude);
             stack.Peek().Groups.Add(sibling);
             stack.Push(sibling);
         }
@@ -163,8 +202,6 @@ internal static partial class CliArgumentGroupParser
         {
             current.AppendDescription(prelude);
         }
-
-        stack.Peek().Arguments.Add(argument);
     }
 
     private static int FindDescriptionEnd(

@@ -713,11 +713,13 @@ public partial class NestedArgumentGroupParsingTests
             }
         });
 
-    private static async Task VerifyGeneratedValidation(string generatedOptions, string typeName, Func<Type, Task> verify)
+    private static async Task VerifyGeneratedValidation(string generatedOptions, string typeName, Func<Type, Task> verify,
+        IReadOnlyList<string>? additionalSources = null)
     {
         var references = ((string) AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES")!)
             .Split(Path.PathSeparator)
             .Select(path => MetadataReference.CreateFromFile(path));
+        var parseOptions = new CSharpParseOptions(LanguageVersion.Preview);
         var compilation = CSharpCompilation.Create(
             "gcloud-upload-validation",
             [
@@ -727,11 +729,13 @@ public partial class NestedArgumentGroupParsingTests
                     + "namespace ModularPipelines.Secrets { public sealed class SecretValueAttribute : Attribute; } "
                     + "namespace ModularPipelines.Attributes { "
                     + "public enum OptionFormat { EqualsSeparated } "
-                    + "public sealed class CliOptionAttribute(string name) : Attribute { public OptionFormat Format { get; set; } } "
+                    + "public sealed class CliOptionAttribute(string name) : Attribute { public OptionFormat Format { get; set; } public string? CollectionSeparator { get; set; } } "
+                    + "public sealed class EnumValueAttribute(string name) : Attribute; "
                     + "public sealed class CliFlagAttribute(string name) : Attribute; "
                     + "public sealed class CliArgumentAttribute(int position) : Attribute { public CommandLinePhase Phase { get; set; } } "
-                    + "public sealed class CliSubCommandAttribute(params string[] parts) : Attribute; }"),
-                CSharpSyntaxTree.ParseText(generatedOptions),
+                    + "public sealed class CliSubCommandAttribute(params string[] parts) : Attribute; }", parseOptions),
+                CSharpSyntaxTree.ParseText(generatedOptions, parseOptions),
+                .. (additionalSources ?? []).Select(source => CSharpSyntaxTree.ParseText(source, parseOptions)),
             ],
             references,
             new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
