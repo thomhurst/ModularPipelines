@@ -12,6 +12,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,35 +23,135 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security-ir", "create-case")]
-public record AwsSecurityIrCreateCaseOptions : AwsOptions
+public record AwsSecurityIrCreateCaseOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new case. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResolverType">Required element used in combination with CreateCase to identify the resolver type. Possible values: o AWS o Self</param>
+    /// <param name="Title">Required element used in combination with CreateCase to provide a title for the new case. Constraints: o min: 1 o max: 300</param>
+    /// <param name="Description">Required element used in combination with CreateCase to provide a description for the new case. Constraints: o min: 1 o max: 8000</param>
+    /// <param name="EngagementType">Required element used in combination with CreateCase to provide an engagement type for the new cases. Available engagement types in- clude Security Incident | Investigation Possible values: o Security Incident o Investigation</param>
+    /// <param name="ReportedIncidentStartDate">Required element used in combination with CreateCase to provide an initial start date for the unauthorized activity.</param>
+    /// <param name="ImpactedAccounts">Required element used in combination with CreateCase to provide a list of impacted accounts. NOTE: AWS account ID's may appear less than 12 characters and need to be zero-prepended. An example would be 123123123 which is nine digits, and with zero-prepend would be 000123123123 . Not zero-prepending to 12 digits could result in errors. Constraints: o min: 0 o max: 200 (string) Constraints: o min: 12 o max: 12 o pattern: [0-9]{12} Syntax: "string" "string" ...</param>
+    /// <param name="Watchers">Required element used in combination with CreateCase to provide a list of entities to receive notifications for case updates. Constraints: o min: 0 o max: 30 (structure) email -&gt; (string) [required] Constraints: o min: 6 o max: 254 o pattern: [a-zA-Z0-9.!#$%&amp;'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)* name -&gt; (string) Constraints: o min: 1 o max: 50 jobTitle -&gt; (string) Constraints: o min: 1 o max: 50 Shorthand Syntax: email=string,name=string,jobTitle=string ... JSON Syntax: [ { "email": "string", "name": "string", "jobTitle": "string" } ... ]</param>
+    public AwsSecurityIrCreateCaseOptions(
+        AwsSecurityIrCreateCaseResolverType ResolverType,
+        string Title,
+        string Description,
+        AwsSecurityIrCreateCaseEngagementType EngagementType,
+        string ReportedIncidentStartDate,
+        IEnumerable<string> ImpactedAccounts,
+        IEnumerable<string> Watchers
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResolverType);
+        this.ResolverType = ResolverType;
+        global::System.ArgumentNullException.ThrowIfNull(Title);
+        this.Title = Title;
+        global::System.ArgumentNullException.ThrowIfNull(Description);
+        this.Description = Description;
+        global::System.ArgumentNullException.ThrowIfNull(EngagementType);
+        this.EngagementType = EngagementType;
+        global::System.ArgumentNullException.ThrowIfNull(ReportedIncidentStartDate);
+        this.ReportedIncidentStartDate = ReportedIncidentStartDate;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ImpactedAccounts);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ImpactedAccounts));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ImpactedAccounts));
+            }
+
+            ImpactedAccounts = materialized;
+        }
+        this.ImpactedAccounts = ImpactedAccounts;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Watchers);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Watchers));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Watchers));
+            }
+
+            Watchers = materialized;
+        }
+        this.Watchers = Watchers;
+    }
+
+    private AwsSecurityIrCreateCaseOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSecurityIrCreateCaseOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSecurityIrCreateCaseOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Required element used in combination with CreateCase to identify the resolver type. Possible values: o AWS o Self
+    /// </summary>
+    [CliOption("--resolver-type")]
+    public AwsSecurityIrCreateCaseResolverType? ResolverType { get; private init; }
+
+    /// <summary>
+    /// Required element used in combination with CreateCase to provide a title for the new case. Constraints: o min: 1 o max: 300
+    /// </summary>
+    [CliOption("--title")]
+    public string? Title { get; private init; }
+
+    /// <summary>
+    /// Required element used in combination with CreateCase to provide a description for the new case. Constraints: o min: 1 o max: 8000
+    /// </summary>
+    [CliOption("--description")]
+    public string? Description { get; private init; }
+
+    /// <summary>
+    /// Required element used in combination with CreateCase to provide an engagement type for the new cases. Available engagement types in- clude Security Incident | Investigation Possible values: o Security Incident o Investigation
+    /// </summary>
+    [CliOption("--engagement-type")]
+    public AwsSecurityIrCreateCaseEngagementType? EngagementType { get; private init; }
+
+    /// <summary>
+    /// Required element used in combination with CreateCase to provide an initial start date for the unauthorized activity.
+    /// </summary>
+    [CliOption("--reported-incident-start-date")]
+    public string? ReportedIncidentStartDate { get; private init; }
+
+    /// <summary>
+    /// Required element used in combination with CreateCase to provide a list of impacted accounts. NOTE: AWS account ID's may appear less than 12 characters and need to be zero-prepended. An example would be 123123123 which is nine digits, and with zero-prepend would be 000123123123 . Not zero-prepending to 12 digits could result in errors. Constraints: o min: 0 o max: 200 (string) Constraints: o min: 12 o max: 12 o pattern: [0-9]{12} Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--impacted-accounts", GroupValues = true)]
+    public IEnumerable<string>? ImpactedAccounts { get; private init; }
+
+    /// <summary>
+    /// Required element used in combination with CreateCase to provide a list of entities to receive notifications for case updates. Constraints: o min: 0 o max: 30 (structure) email -&gt; (string) [required] Constraints: o min: 6 o max: 254 o pattern: [a-zA-Z0-9.!#$%&amp;'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)* name -&gt; (string) Constraints: o min: 1 o max: 50 jobTitle -&gt; (string) Constraints: o min: 1 o max: 50 Shorthand Syntax: email=string,name=string,jobTitle=string ... JSON Syntax: [ { "email": "string", "name": "string", "jobTitle": "string" } ... ]
+    /// </summary>
+    [CliOption("--watchers", GroupValues = true)]
+    public IEnumerable<string>? Watchers { get; private init; }
+
     /// <summary>
     /// NOTE: The clientToken field is an idempotency key used to ensure that repeated attempts for a single action will be ignored by the server during retries. A caller supplied unique ID (typically a UUID) should be provided. Constraints: o min: 1 o max: 255
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--resolver-type")]
-    public string? ResolverType { get; set; }
-
-    [CliOption("--title")]
-    public string? Title { get; set; }
-
-    [CliOption("--description")]
-    public string? Description { get; set; }
-
-    [CliOption("--engagement-type")]
-    public string? EngagementType { get; set; }
-
-    [CliOption("--reported-incident-start-date")]
-    public string? ReportedIncidentStartDate { get; set; }
-
-    [CliOption("--impacted-accounts", GroupValues = true)]
-    public IEnumerable<string>? ImpactedAccounts { get; set; }
-
-    [CliOption("--watchers", GroupValues = true)]
-    public IEnumerable<string>? Watchers { get; set; }
 
     /// <summary>
     /// An optional element used in combination with CreateCase to provide a list of suspicious internet protocol addresses associated with unau- thorized activity. Constraints: o min: 0 o max: 200 (structure) ipAddress -&gt; (string) [required] Constraints: o pattern: (?:(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))|(?:(?:[A-F0-9]{1,4}:){7}[A-F0-9]{1,4})|(?:(?:[A-F0-9]{1,4}:){6}(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)) userAgent -&gt; (string) Constraints: o min: 1 o max: 500 Shorthand Syntax: ipAddress=string,userAgent=string ... JSON Syntax: [ { "ipAddress": "string", "userAgent": "string" } ... ]
@@ -80,5 +182,22 @@ public record AwsSecurityIrCreateCaseOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

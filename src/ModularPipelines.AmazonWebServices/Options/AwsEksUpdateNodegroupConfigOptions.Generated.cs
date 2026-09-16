@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eks", "update-nodegroup-config")]
-public record AwsEksUpdateNodegroupConfigOptions : AwsOptions
+public record AwsEksUpdateNodegroupConfigOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--cluster-name")]
-    public string? ClusterName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates an Amazon EKS managed node group configuration. Your node group continues to function during the update. The response output includes an update ID that you can use to track the status of your node group update with the ` DescribeUpdate https://docs.aws.amazon.com/eks/latest/APIReference/API_DescribeUpdate.html`__ API operation. You can update the Kubernetes labels and taints for a node group and the scaling and version update configuration. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ClusterName">The name of your cluster.</param>
+    /// <param name="NodegroupName">The name of the managed node group to update.</param>
+    public AwsEksUpdateNodegroupConfigOptions(
+        string ClusterName,
+        string NodegroupName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+        global::System.ArgumentNullException.ThrowIfNull(NodegroupName);
+        this.NodegroupName = NodegroupName;
+    }
+
+    private AwsEksUpdateNodegroupConfigOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEksUpdateNodegroupConfigOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEksUpdateNodegroupConfigOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of your cluster.
+    /// </summary>
+    [CliOption("--cluster-name")]
+    public string? ClusterName { get; private init; }
+
+    /// <summary>
+    /// The name of the managed node group to update.
+    /// </summary>
     [CliOption("--nodegroup-name")]
-    public string? NodegroupName { get; set; }
+    public string? NodegroupName { get; private init; }
 
     /// <summary>
     /// The Kubernetes labels to apply to the nodes in the node group after the update. addOrUpdateLabels -&gt; (map) The Kubernetes labels to add or update. key -&gt; (string) Constraints: o min: 1 o max: 63 value -&gt; (string) Constraints: o min: 1 o max: 63 removeLabels -&gt; (list) The Kubernetes labels to remove. (string) Shorthand Syntax: addOrUpdateLabels={KeyName1=string,KeyName2=string},removeLabels=string,string JSON Syntax: { "addOrUpdateLabels": {"string": "string" ...}, "removeLabels": ["string", ...] }
@@ -76,5 +120,22 @@ public record AwsEksUpdateNodegroupConfigOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

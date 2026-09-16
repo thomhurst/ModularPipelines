@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("servicecatalog", "update-portfolio-share")]
-public record AwsServicecatalogUpdatePortfolioShareOptions : AwsOptions
+public record AwsServicecatalogUpdatePortfolioShareOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the specified portfolio share. You can use this API to enable or disable TagOptions sharing or Principal sharing for an existing portfolio share. The portfolio share cannot be updated if the CreatePortfolioShare oper- ation is IN_PROGRESS , as the share is not available to recipient enti- ties. In this case, you must wait for the portfolio share to be com- pleted. You must provide the accountId or organization node in the input, but not both. If the portfolio is shared to both an externa...
+    /// </summary>
+    /// <param name="PortfolioId">The unique identifier of the portfolio for which the share will be updated. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*</param>
+    public AwsServicecatalogUpdatePortfolioShareOptions(
+        string PortfolioId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PortfolioId);
+        this.PortfolioId = PortfolioId;
+    }
+
+    private AwsServicecatalogUpdatePortfolioShareOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsServicecatalogUpdatePortfolioShareOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsServicecatalogUpdatePortfolioShareOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the portfolio for which the share will be updated. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// </summary>
+    [CliOption("--portfolio-id")]
+    public string? PortfolioId { get; private init; }
+
     /// <summary>
     /// The language code. o jp - Japanese o zh - Chinese Constraints: o max: 100
     /// </summary>
     [CliOption("--accept-language")]
     public string? AcceptLanguage { get; set; }
-
-    [CliOption("--portfolio-id")]
-    public string? PortfolioId { get; set; }
 
     /// <summary>
     /// The Amazon Web Services account Id of the recipient account. This field is required when updating an external account to account type share. Constraints: o pattern: ^[0-9]{12}$
@@ -42,10 +79,16 @@ public record AwsServicecatalogUpdatePortfolioShareOptions : AwsOptions
     [CliOption("--organization-node")]
     public string? OrganizationNode { get; set; }
 
-    [CliFlag("--share-tag-options")]
+    /// <summary>
+    /// Enables or disables TagOptions sharing for the portfolio share. If this field is not provided, the current state of TagOptions sharing on the portfolio share will not be modified.
+    /// </summary>
+    [CliFlag("--share-tag-options", NegatedName = "--no-share-tag-options")]
     public bool? ShareTagOptions { get; set; }
 
-    [CliFlag("--share-principals")]
+    /// <summary>
+    /// A flag to enables or disables Principals sharing in the portfolio. If this field is not provided, the current state of the Principals sharing on the portfolio share will not be modified.
+    /// </summary>
+    [CliFlag("--share-principals", NegatedName = "--no-share-principals")]
     public bool? SharePrincipals { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -53,5 +96,22 @@ public record AwsServicecatalogUpdatePortfolioShareOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

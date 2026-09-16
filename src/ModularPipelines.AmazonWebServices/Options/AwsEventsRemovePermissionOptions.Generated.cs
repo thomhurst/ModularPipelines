@@ -27,7 +27,10 @@ public record AwsEventsRemovePermissionOptions : AwsOptions
     [CliOption("--statement-id")]
     public string? StatementId { get; set; }
 
-    [CliFlag("--remove-all-permissions")]
+    /// <summary>
+    /// Specifies whether to remove all permissions.
+    /// </summary>
+    [CliFlag("--remove-all-permissions", NegatedName = "--no-remove-all-permissions")]
     public bool? RemoveAllPermissions { get; set; }
 
     /// <summary>

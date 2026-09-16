@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +22,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "update-instance-attribute")]
-public record AwsConnectUpdateInstanceAttributeOptions : AwsOptions
+public record AwsConnectUpdateInstanceAttributeOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This API is in preview release for Connect Customer and is subject to change. Updates the value for the specified attribute type. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="AttributeType">The type of attribute. NOTE: Only allowlisted customers can consume USE_CUSTOM_TTS_VOICES. To access this feature, contact Amazon Web Services Support for al- lowlisting. NOTE: If you set the attribute type as MESSAGE_STREAMING , you need to update the Lex bot alias resource based policy to include the lex:RecognizeMessageAsync action for the connect instance ARN resource. Possible values: o INBOUND_CALLS o OUTBOUND_CALLS o CONTACTFLOW_LOGS o CONTACT_LENS o AUTO_RESOLVE_BEST_VOICES o USE_CUSTOM_TTS_VOICES o EARLY_MEDIA o MULTI_PARTY_CONFERENCE o HIGH_VOLUME_OUTBOUND o ENHANCED_CONTACT_MONITORING o ENHANCED_CHAT_MONITORING o MULTI_PARTY_CHAT_CONFERENCE o MESSAGE_STREAMING</param>
+    /// <param name="Value">The value for the attribute. Maximum character limit is 100. Constraints: o min: 1 o max: 100</param>
+    public AwsConnectUpdateInstanceAttributeOptions(
+        string InstanceId,
+        AwsConnectUpdateInstanceAttributeAttributeType AttributeType,
+        string Value
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(AttributeType);
+        this.AttributeType = AttributeType;
+        global::System.ArgumentNullException.ThrowIfNull(Value);
+        this.Value = Value;
+    }
+
+    private AwsConnectUpdateInstanceAttributeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectUpdateInstanceAttributeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectUpdateInstanceAttributeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
+    /// <summary>
+    /// The type of attribute. NOTE: Only allowlisted customers can consume USE_CUSTOM_TTS_VOICES. To access this feature, contact Amazon Web Services Support for al- lowlisting. NOTE: If you set the attribute type as MESSAGE_STREAMING , you need to update the Lex bot alias resource based policy to include the lex:RecognizeMessageAsync action for the connect instance ARN resource. Possible values: o INBOUND_CALLS o OUTBOUND_CALLS o CONTACTFLOW_LOGS o CONTACT_LENS o AUTO_RESOLVE_BEST_VOICES o USE_CUSTOM_TTS_VOICES o EARLY_MEDIA o MULTI_PARTY_CONFERENCE o HIGH_VOLUME_OUTBOUND o ENHANCED_CONTACT_MONITORING o ENHANCED_CHAT_MONITORING o MULTI_PARTY_CHAT_CONFERENCE o MESSAGE_STREAMING
+    /// </summary>
     [CliOption("--attribute-type")]
-    public string? AttributeType { get; set; }
+    public AwsConnectUpdateInstanceAttributeAttributeType? AttributeType { get; private init; }
 
+    /// <summary>
+    /// The value for the attribute. Maximum character limit is 100. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--value")]
-    public string? Value { get; set; }
+    public string? Value { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o max: 500
@@ -43,5 +95,22 @@ public record AwsConnectUpdateInstanceAttributeOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

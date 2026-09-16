@@ -11,23 +11,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --featuregroupstatusequals.
+/// Allowed values for --feature-group-status-equals.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSagemakerListFeatureGroupsFeatureGroupStatusEquals
 {
-    [EnumValue("Creating")]
-    Creating = 1,
-
     [EnumValue("Created")]
-    Created = 2,
+    Created,
 
     [EnumValue("CreateFailed")]
-    CreateFailed = 3,
+    CreateFailed,
 
-    [EnumValue("Deleting")]
-    Deleting = 4,
+    [EnumValue("Creating")]
+    Creating,
 
     [EnumValue("DeleteFailed")]
-    DeleteFailed = 5
+    DeleteFailed,
+
+    [EnumValue("Deleting")]
+    Deleting
 }

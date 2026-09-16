@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("docdb", "restore-db-cluster-to-point-in-time")]
-public record AwsDocdbRestoreDbClusterToPointInTimeOptions : AwsOptions
+public record AwsDocdbRestoreDbClusterToPointInTimeOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Restores a cluster to an arbitrary point in time. Users can restore to any point in time before LatestRestorableTime for up to BackupReten- tionPeriod days. The target cluster is created from the source cluster with the same configuration as the original cluster, except that the new cluster is created with the default security group. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DbClusterIdentifier">The name of the new cluster to be created. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens. o The first character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens.</param>
+    /// <param name="SourceDbClusterIdentifier">The identifier of the source cluster from which to restore. Constraints: o Must match the identifier of an existing DBCluster .</param>
+    public AwsDocdbRestoreDbClusterToPointInTimeOptions(
+        string DbClusterIdentifier,
+        string SourceDbClusterIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DbClusterIdentifier);
+        this.DbClusterIdentifier = DbClusterIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(SourceDbClusterIdentifier);
+        this.SourceDbClusterIdentifier = SourceDbClusterIdentifier;
+    }
+
+    private AwsDocdbRestoreDbClusterToPointInTimeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDocdbRestoreDbClusterToPointInTimeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDocdbRestoreDbClusterToPointInTimeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the new cluster to be created. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens. o The first character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens.
+    /// </summary>
     [CliOption("--db-cluster-identifier")]
-    public string? DbClusterIdentifier { get; set; }
+    public string? DbClusterIdentifier { get; private init; }
+
+    /// <summary>
+    /// The identifier of the source cluster from which to restore. Constraints: o Must match the identifier of an existing DBCluster .
+    /// </summary>
+    [CliOption("--source-db-cluster-identifier")]
+    public string? SourceDbClusterIdentifier { get; private init; }
 
     /// <summary>
     /// The type of restore to be performed. You can specify one of the fol- lowing values: o full-copy - The new DB cluster is restored as a full copy of the source DB cluster. o copy-on-write - The new DB cluster is restored as a clone of the source DB cluster. Constraints: You can't specify copy-on-write if the engine version of the source DB cluster is earlier than 1.11. If you don't specify a RestoreType value, then the new DB cluster is restored as a full copy of the source DB cluster.
@@ -31,16 +77,16 @@ public record AwsDocdbRestoreDbClusterToPointInTimeOptions : AwsOptions
     [CliOption("--restore-type")]
     public string? RestoreType { get; set; }
 
-    [CliOption("--source-db-cluster-identifier")]
-    public string? SourceDbClusterIdentifier { get; set; }
-
     /// <summary>
     /// The date and time to restore the cluster to. Valid values: A time in Universal Coordinated Time (UTC) format. Constraints: o Must be before the latest restorable time for the instance. o Must be specified if the UseLatestRestorableTime parameter is not provided. o Cannot be specified if the UseLatestRestorableTime parameter is true . o Cannot be specified if the RestoreType parameter is copy-on-write . Example: 2015-03-07T23:45:00Z
     /// </summary>
     [CliOption("--restore-to-time")]
-    public AwsDocdbRestoreDbClusterToPointInTimeRestoreToTime? RestoreToTime { get; set; }
+    public string? RestoreToTime { get; set; }
 
-    [CliFlag("--use-latest-restorable-time")]
+    /// <summary>
+    /// A value that is set to true to restore the cluster to the latest re- storable backup time, and false otherwise. Default: false Constraints: Cannot be specified if the RestoreToTime parameter is provided.
+    /// </summary>
+    [CliFlag("--use-latest-restorable-time", NegatedName = "--no-use-latest-restorable-time")]
     public bool? UseLatestRestorableTime { get; set; }
 
     /// <summary>
@@ -79,7 +125,10 @@ public record AwsDocdbRestoreDbClusterToPointInTimeOptions : AwsOptions
     [CliOption("--enable-cloudwatch-logs-exports", GroupValues = true)]
     public IEnumerable<string>? EnableCloudwatchLogsExports { get; set; }
 
-    [CliFlag("--deletion-protection")]
+    /// <summary>
+    /// Specifies whether this cluster can be deleted. If DeletionProtection is enabled, the cluster cannot be deleted unless it is modified and DeletionProtection is disabled. DeletionProtection protects clusters from being accidentally deleted.
+    /// </summary>
+    [CliFlag("--deletion-protection", NegatedName = "--no-deletion-protection")]
     public bool? DeletionProtection { get; set; }
 
     /// <summary>
@@ -105,5 +154,22 @@ public record AwsDocdbRestoreDbClusterToPointInTimeOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

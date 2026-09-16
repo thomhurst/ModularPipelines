@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,59 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rtbfabric", "associate-certificate")]
-public record AwsRtbfabricAssociateCertificateOptions : AwsOptions
+public record AwsRtbfabricAssociateCertificateOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--gateway-id")]
-    public string? GatewayId { get; set; }
-
-    [CliOption("--acm-certificate-arn")]
-    public string? AcmCertificateArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken , but with dif- ferent parameters, the retry fails with an IdempotentParameterMis- match error.
+    /// Associates an ACM certificate with a responder gateway. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="GatewayId">The unique identifier of the gateway. Constraints: o min: 8 o max: 32 o pattern: rtb-gw-[a-z0-9-]{1,25}</param>
+    /// <param name="AcmCertificateArn">The Amazon Resource Name (ARN) of the ACM certificate to associate. Constraints: o min: 75 o max: 256 o pattern: arn:(aws|aws-cn|aws-us-gov):acm:[a-z0-9-]+:[0-9]{12}:cer- tifi- cate/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    public AwsRtbfabricAssociateCertificateOptions(
+        string GatewayId,
+        string AcmCertificateArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GatewayId);
+        this.GatewayId = GatewayId;
+        global::System.ArgumentNullException.ThrowIfNull(AcmCertificateArn);
+        this.AcmCertificateArn = AcmCertificateArn;
+    }
+
+    private AwsRtbfabricAssociateCertificateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRtbfabricAssociateCertificateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRtbfabricAssociateCertificateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the gateway. Constraints: o min: 8 o max: 32 o pattern: rtb-gw-[a-z0-9-]{1,25}
+    /// </summary>
+    [CliOption("--gateway-id")]
+    public string? GatewayId { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the ACM certificate to associate. Constraints: o min: 75 o max: 256 o pattern: arn:(aws|aws-cn|aws-us-gov):acm:[a-z0-9-]+:[0-9]{12}:cer- tifi- cate/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// </summary>
+    [CliOption("--acm-certificate-arn")]
+    public string? AcmCertificateArn { get; private init; }
+
+    /// <summary>
+    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same clientToken , but with dif- ferent parameters, the retry fails with an IdempotentParameterMis- match error.
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -40,5 +84,22 @@ public record AwsRtbfabricAssociateCertificateOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

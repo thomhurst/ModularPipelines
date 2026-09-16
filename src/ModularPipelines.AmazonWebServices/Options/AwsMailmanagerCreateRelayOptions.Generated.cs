@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,26 +21,82 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mailmanager", "create-relay")]
-public record AwsMailmanagerCreateRelayOptions : AwsOptions
+public record AwsMailmanagerCreateRelayOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a relay resource which can be used in rules to relay incoming emails to defined relay destinations. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RelayName">The unique name of the relay resource. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-_]+</param>
+    /// <param name="ServerName">The destination relay server address. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-\.]+</param>
+    /// <param name="ServerPort">The destination relay server port. Constraints: o min: 1 o max: 65535</param>
+    /// <param name="Authentication">Authentication for the relay destination serverspecify the secretARN where the SMTP credentials are stored. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: SecretArn, NoAuthentication. SecretArn -&gt; (string) The ARN of the secret created in secrets manager where the relay server's SMTP credentials are stored. Constraints: o pattern: arn:(aws|aws-cn|aws-us-gov|aws-eusc):secretsman- ager:[a-z0-9-]+:\d{12}:secret:[a-zA-Z0-9/_+=,.@-]+ NoAuthentication -&gt; (structure) Keep an empty structure if the relay destination server does not require SMTP credential authentication. Shorthand Syntax: SecretArn=string,NoAuthentication={} JSON Syntax: { "SecretArn": "string", "NoAuthentication": { } }</param>
+    public AwsMailmanagerCreateRelayOptions(
+        string RelayName,
+        string ServerName,
+        int ServerPort,
+        string Authentication
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RelayName);
+        this.RelayName = RelayName;
+        global::System.ArgumentNullException.ThrowIfNull(ServerName);
+        this.ServerName = ServerName;
+        this.ServerPort = ServerPort;
+        global::System.ArgumentNullException.ThrowIfNull(Authentication);
+        this.Authentication = Authentication;
+    }
+
+    private AwsMailmanagerCreateRelayOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMailmanagerCreateRelayOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMailmanagerCreateRelayOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique name of the relay resource. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-_]+
+    /// </summary>
+    [CliOption("--relay-name")]
+    public string? RelayName { get; private init; }
+
+    /// <summary>
+    /// The destination relay server address. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-\.]+
+    /// </summary>
+    [CliOption("--server-name")]
+    public string? ServerName { get; private init; }
+
+    /// <summary>
+    /// The destination relay server port. Constraints: o min: 1 o max: 65535
+    /// </summary>
+    [CliOption("--server-port")]
+    public int? ServerPort { get; private init; }
+
+    /// <summary>
+    /// Authentication for the relay destination serverspecify the secretARN where the SMTP credentials are stored. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: SecretArn, NoAuthentication. SecretArn -&gt; (string) The ARN of the secret created in secrets manager where the relay server's SMTP credentials are stored. Constraints: o pattern: arn:(aws|aws-cn|aws-us-gov|aws-eusc):secretsman- ager:[a-z0-9-]+:\d{12}:secret:[a-zA-Z0-9/_+=,.@-]+ NoAuthentication -&gt; (structure) Keep an empty structure if the relay destination server does not require SMTP credential authentication. Shorthand Syntax: SecretArn=string,NoAuthentication={} JSON Syntax: { "SecretArn": "string", "NoAuthentication": { } }
+    /// </summary>
+    [CliOption("--authentication")]
+    public string? Authentication { get; private init; }
+
     /// <summary>
     /// A unique token that Amazon SES uses to recognize subsequent retries of the same request. Constraints: o min: 1 o max: 128
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--relay-name")]
-    public string? RelayName { get; set; }
-
-    [CliOption("--server-name")]
-    public string? ServerName { get; set; }
-
-    [CliOption("--server-port")]
-    public int? ServerPort { get; set; }
-
-    [CliOption("--authentication")]
-    public string? Authentication { get; set; }
 
     /// <summary>
     /// The tags used to organize, track, or control access for the re- source. For example, { "tags": {"key1":"value1", "key2":"value2"} }. Constraints: o min: 0 o max: 200 (structure) A key-value pair (the value is optional), that you can define and assign to Amazon Web Services resources. Key -&gt; (string) [required] The key of the key-value tag. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9/_\+=\.:@\-]+ Value -&gt; (string) [required] The value of the key-value tag. Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9/_\+=\.:@\-]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -52,5 +109,22 @@ public record AwsMailmanagerCreateRelayOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

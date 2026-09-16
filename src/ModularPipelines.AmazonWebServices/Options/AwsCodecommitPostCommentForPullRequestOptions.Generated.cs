@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,28 +21,92 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codecommit", "post-comment-for-pull-request")]
-public record AwsCodecommitPostCommentForPullRequestOptions : AwsOptions
+public record AwsCodecommitPostCommentForPullRequestOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Posts a comment on a pull request. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PullRequestId">The system-generated ID of the pull request. To get this ID, use ListPullRequests .</param>
+    /// <param name="RepositoryName">The name of the repository where you want to post a comment on a pull request. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+</param>
+    /// <param name="BeforeCommitId">The full commit ID of the commit in the destination branch that was the tip of the branch at the time the pull request was created.</param>
+    /// <param name="AfterCommitId">The full commit ID of the commit in the source branch that is the current tip of the branch for the pull request when you post the comment.</param>
+    /// <param name="Content">The content of your comment on the change.</param>
+    public AwsCodecommitPostCommentForPullRequestOptions(
+        string PullRequestId,
+        string RepositoryName,
+        string BeforeCommitId,
+        string AfterCommitId,
+        string Content
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PullRequestId);
+        this.PullRequestId = PullRequestId;
+        global::System.ArgumentNullException.ThrowIfNull(RepositoryName);
+        this.RepositoryName = RepositoryName;
+        global::System.ArgumentNullException.ThrowIfNull(BeforeCommitId);
+        this.BeforeCommitId = BeforeCommitId;
+        global::System.ArgumentNullException.ThrowIfNull(AfterCommitId);
+        this.AfterCommitId = AfterCommitId;
+        global::System.ArgumentNullException.ThrowIfNull(Content);
+        this.Content = Content;
+    }
+
+    private AwsCodecommitPostCommentForPullRequestOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodecommitPostCommentForPullRequestOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodecommitPostCommentForPullRequestOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The system-generated ID of the pull request. To get this ID, use ListPullRequests .
+    /// </summary>
     [CliOption("--pull-request-id")]
-    public string? PullRequestId { get; set; }
+    public string? PullRequestId { get; private init; }
 
+    /// <summary>
+    /// The name of the repository where you want to post a comment on a pull request. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+
+    /// </summary>
     [CliOption("--repository-name")]
-    public string? RepositoryName { get; set; }
+    public string? RepositoryName { get; private init; }
 
+    /// <summary>
+    /// The full commit ID of the commit in the destination branch that was the tip of the branch at the time the pull request was created.
+    /// </summary>
     [CliOption("--before-commit-id")]
-    public string? BeforeCommitId { get; set; }
+    public string? BeforeCommitId { get; private init; }
 
+    /// <summary>
+    /// The full commit ID of the commit in the source branch that is the current tip of the branch for the pull request when you post the comment.
+    /// </summary>
     [CliOption("--after-commit-id")]
-    public string? AfterCommitId { get; set; }
+    public string? AfterCommitId { get; private init; }
+
+    /// <summary>
+    /// The content of your comment on the change.
+    /// </summary>
+    [CliOption("--content")]
+    public string? Content { get; private init; }
 
     /// <summary>
     /// The location of the change where you want to post your comment. If no location is provided, the comment is posted as a general comment on the pull request difference between the before commit ID and the after commit ID. filePath -&gt; (string) The name of the file being compared, including its extension and subdirectory, if any. filePosition -&gt; (long) The position of a change in a compared file, in line number for- mat. relativeFileVersion -&gt; (string) In a comparison of commits or a pull request, whether the change is in the before or after of that comparison. Possible values: o BEFORE o AFTER Shorthand Syntax: filePath=string,filePosition=long,relativeFileVersion=string JSON Syntax: { "filePath": "string", "filePosition": long, "relativeFileVersion": "BEFORE"|"AFTER" }
     /// </summary>
     [CliOption("--location")]
     public string? Location { get; set; }
-
-    [CliOption("--content")]
-    public string? Content { get; set; }
 
     /// <summary>
     /// A unique, client-generated idempotency token that, when provided in a request, ensures the request cannot be repeated with a changed pa- rameter. If a request is received with the same parameters and a to- ken is included, the request returns information about the initial request that used that token.
@@ -55,5 +120,22 @@ public record AwsCodecommitPostCommentForPullRequestOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

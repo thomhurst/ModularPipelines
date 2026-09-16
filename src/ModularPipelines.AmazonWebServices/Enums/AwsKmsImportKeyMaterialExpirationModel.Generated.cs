@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --expirationmodel.
+/// Allowed values for --expiration-model.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsKmsImportKeyMaterialExpirationModel
 {
-    [EnumValue("KEY_MATERIAL_EXPIRES")]
-    KeyMaterialExpires = 1,
-
     [EnumValue("KEY_MATERIAL_DOES_NOT_EXPIRE")]
-    KeyMaterialDoesNotExpire = 2
+    KeyMaterialDoesNotExpire,
+
+    [EnumValue("KEY_MATERIAL_EXPIRES")]
+    KeyMaterialExpires
 }

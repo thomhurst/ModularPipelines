@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --managedcredentialsaction.
+/// Allowed values for --managed-credentials-action.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCloud9UpdateEnvironmentManagedCredentialsAction
 {
-    [EnumValue("ENABLE")]
-    Enable = 1,
-
     [EnumValue("DISABLE")]
-    Disable = 2
+    Disable,
+
+    [EnumValue("ENABLE")]
+    Enable
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sesv2", "create-tenant-resource-association")]
-public record AwsSesv2CreateTenantResourceAssociationOptions : AwsOptions
+public record AwsSesv2CreateTenantResourceAssociationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--tenant-name")]
-    public string? TenantName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Associate a resource with a tenant. Resources can be email identities, configuration sets, or email tem- plates. When you associate a resource with a tenant, you can use that resource when sending emails on behalf of that tenant. A single resource can be associated with multiple tenants, allowing for resource sharing across different tenants while maintaining isolation in email sending operations. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TenantName">The name of the tenant to associate the resource with. Constraints: o min: 1</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource to associate with the tenant. Constraints: o min: 1</param>
+    public AwsSesv2CreateTenantResourceAssociationOptions(
+        string TenantName,
+        string ResourceArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TenantName);
+        this.TenantName = TenantName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
+        this.ResourceArn = ResourceArn;
+    }
+
+    private AwsSesv2CreateTenantResourceAssociationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSesv2CreateTenantResourceAssociationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSesv2CreateTenantResourceAssociationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the tenant to associate the resource with. Constraints: o min: 1
+    /// </summary>
+    [CliOption("--tenant-name")]
+    public string? TenantName { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the resource to associate with the tenant. Constraints: o min: 1
+    /// </summary>
     [CliOption("--resource-arn")]
-    public string? ResourceArn { get; set; }
+    public string? ResourceArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

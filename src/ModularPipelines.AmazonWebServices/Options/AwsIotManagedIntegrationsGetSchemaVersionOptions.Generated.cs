@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot-managed-integrations", "get-schema-version")]
-public record AwsIotManagedIntegrationsGetSchemaVersionOptions : AwsOptions
+public record AwsIotManagedIntegrationsGetSchemaVersionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--type")]
-    public string? Type { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Gets a schema version with the provided information. See also: AWS API Documentation get-schema-version uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// </summary>
+    /// <param name="Type">The type of schema version. Possible values: o capability o definition</param>
+    /// <param name="SchemaVersionedId">Schema id with a version specified. If the version is missing, it defaults to latest version. Constraints: o min: 7 o max: 128 o pattern: [a-zA-Z0-9.]+@(\d+\.\d+(\.\d+)?|\$latest)</param>
+    public AwsIotManagedIntegrationsGetSchemaVersionOptions(
+        AwsIotManagedIntegrationsGetSchemaVersionType Type,
+        string SchemaVersionedId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+        global::System.ArgumentNullException.ThrowIfNull(SchemaVersionedId);
+        this.SchemaVersionedId = SchemaVersionedId;
+    }
+
+    private AwsIotManagedIntegrationsGetSchemaVersionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotManagedIntegrationsGetSchemaVersionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotManagedIntegrationsGetSchemaVersionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The type of schema version. Possible values: o capability o definition
+    /// </summary>
+    [CliOption("--type")]
+    public AwsIotManagedIntegrationsGetSchemaVersionType? Type { get; private init; }
+
+    /// <summary>
+    /// Schema id with a version specified. If the version is missing, it defaults to latest version. Constraints: o min: 7 o max: 128 o pattern: [a-zA-Z0-9.]+@(\d+\.\d+(\.\d+)?|\$latest)
+    /// </summary>
     [CliOption("--schema-versioned-id")]
-    public string? SchemaVersionedId { get; set; }
+    public string? SchemaVersionedId { get; private init; }
 
     /// <summary>
     /// The format of the schema version. Possible values: o AWS o ZCL o CONNECTOR
@@ -39,5 +83,22 @@ public record AwsIotManagedIntegrationsGetSchemaVersionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

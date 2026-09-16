@@ -11,23 +11,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --powerconnector.
+/// Allowed values for --power-connector.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsOutpostsUpdateSiteRackPhysicalPropertiesPowerConnector
 {
-    [EnumValue("L6_30P")]
-    L6_30P = 1,
-
-    [EnumValue("IEC309")]
-    Iec309 = 2,
-
     [EnumValue("AH530P7W")]
-    Ah530P7W = 3,
+    Ah530P7W,
 
     [EnumValue("AH532P6W")]
-    Ah532P6W = 4,
+    Ah532P6W,
 
     [EnumValue("CS8365C")]
-    Cs8365C = 5
+    Cs8365C,
+
+    [EnumValue("IEC309")]
+    Iec309,
+
+    [EnumValue("L6_30P")]
+    L630P
 }

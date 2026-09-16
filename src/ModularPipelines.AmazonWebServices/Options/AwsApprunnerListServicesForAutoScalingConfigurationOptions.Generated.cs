@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apprunner", "list-services-for-auto-scaling-configuration")]
-public record AwsApprunnerListServicesForAutoScalingConfigurationOptions : AwsOptions
+public record AwsApprunnerListServicesForAutoScalingConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a list of the associated App Runner services using an auto scaling configuration. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AutoScalingConfigurationArn">The Amazon Resource Name (ARN) of the App Runner auto scaling con- figuration that you want to list the services for. The ARN can be a full auto scaling configuration ARN, or a partial ARN ending with either `` .../name `` or `` .../name /revision `` . If a revision isn't specified, the latest active revision is used. System Message: WARNING/2 (&lt;string&gt;:, line 74) Inline literal start-string without end-string. System Message: WARNING/2 (&lt;string&gt;:, line 74) Inline literal start-string without end-string. Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[\w]+)*:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[0-9]{12}:(\w|\/|-){1,1011}</param>
+    public AwsApprunnerListServicesForAutoScalingConfigurationOptions(
+        string AutoScalingConfigurationArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AutoScalingConfigurationArn);
+        this.AutoScalingConfigurationArn = AutoScalingConfigurationArn;
+    }
+
+    private AwsApprunnerListServicesForAutoScalingConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApprunnerListServicesForAutoScalingConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApprunnerListServicesForAutoScalingConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the App Runner auto scaling con- figuration that you want to list the services for. The ARN can be a full auto scaling configuration ARN, or a partial ARN ending with either `` .../name `` or `` .../name /revision `` . If a revision isn't specified, the latest active revision is used. System Message: WARNING/2 (&lt;string&gt;:, line 74) Inline literal start-string without end-string. System Message: WARNING/2 (&lt;string&gt;:, line 74) Inline literal start-string without end-string. Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[\w]+)*:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[0-9]{12}:(\w|\/|-){1,1011}
+    /// </summary>
     [CliOption("--auto-scaling-configuration-arn")]
-    public string? AutoScalingConfigurationArn { get; set; }
+    public string? AutoScalingConfigurationArn { get; private init; }
 
     /// <summary>
     /// The maximum number of results to include in each response (result page). It's used for a paginated request. If you don't specify MaxResults , the request retrieves all avail- able results in a single response. Constraints: o min: 1 o max: 100
@@ -43,5 +80,22 @@ public record AwsApprunnerListServicesForAutoScalingConfigurationOptions : AwsOp
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

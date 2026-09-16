@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("managedblockchain-query", "get-asset-contract")]
-public record AwsManagedblockchainQueryGetAssetContractOptions : AwsOptions
+public record AwsManagedblockchainQueryGetAssetContractOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Gets the information about a specific contract deployed on the blockchain. NOTE: o The Bitcoin blockchain networks do not support this operation. o Metadata is currently only available for some ERC-20 contracts. Metadata will be available for additional contracts in the future. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ContractIdentifier">Contains the blockchain address and network information about the contract. network -&gt; (string) [required] The blockchain network of the contract. Possible values: o ETHEREUM_MAINNET o ETHEREUM_SEPOLIA_TESTNET o BITCOIN_MAINNET o BITCOIN_TESTNET contractAddress -&gt; (string) [required] Container for the blockchain address about a contract. Constraints: o pattern: [-A-Za-z0-9]{13,74} Shorthand Syntax: network=string,contractAddress=string JSON Syntax: { "network": "ETHEREUM_MAINNET"|"ETHEREUM_SEPOLIA_TESTNET"|"BITCOIN_MAINNET"|"BITCOIN_TESTNET", "contractAddress": "string" }</param>
+    public AwsManagedblockchainQueryGetAssetContractOptions(
+        string ContractIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ContractIdentifier);
+        this.ContractIdentifier = ContractIdentifier;
+    }
+
+    private AwsManagedblockchainQueryGetAssetContractOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsManagedblockchainQueryGetAssetContractOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsManagedblockchainQueryGetAssetContractOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Contains the blockchain address and network information about the contract. network -&gt; (string) [required] The blockchain network of the contract. Possible values: o ETHEREUM_MAINNET o ETHEREUM_SEPOLIA_TESTNET o BITCOIN_MAINNET o BITCOIN_TESTNET contractAddress -&gt; (string) [required] Container for the blockchain address about a contract. Constraints: o pattern: [-A-Za-z0-9]{13,74} Shorthand Syntax: network=string,contractAddress=string JSON Syntax: { "network": "ETHEREUM_MAINNET"|"ETHEREUM_SEPOLIA_TESTNET"|"BITCOIN_MAINNET"|"BITCOIN_TESTNET", "contractAddress": "string" }
+    /// </summary>
     [CliOption("--contract-identifier")]
-    public string? ContractIdentifier { get; set; }
+    public string? ContractIdentifier { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

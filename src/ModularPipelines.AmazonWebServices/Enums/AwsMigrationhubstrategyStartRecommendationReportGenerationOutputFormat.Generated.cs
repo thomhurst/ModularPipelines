@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --outputformat.
+/// Allowed values for --output-format.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsMigrationhubstrategyStartRecommendationReportGenerationOutputFormat
 {
     [EnumValue("Excel")]
-    Excel = 1,
+    Excel,
 
     [EnumValue("Json")]
-    Json = 2
+    Json
 }

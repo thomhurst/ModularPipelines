@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --licensetype.
+/// Allowed values for --license-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsWorkspacesDescribeApplicationsLicenseType
 {
     [EnumValue("LICENSED")]
-    Licensed = 1,
+    Licensed,
 
     [EnumValue("UNLICENSED")]
-    Unlicensed = 2
+    Unlicensed
 }

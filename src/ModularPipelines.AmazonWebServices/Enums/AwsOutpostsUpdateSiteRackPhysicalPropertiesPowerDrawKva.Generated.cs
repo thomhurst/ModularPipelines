@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --powerdrawkva.
+/// Allowed values for --power-draw-kva.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsOutpostsUpdateSiteRackPhysicalPropertiesPowerDrawKva
 {
-    [EnumValue("POWER_5_KVA")]
-    Power_5Kva = 1,
-
     [EnumValue("POWER_10_KVA")]
-    Power_10Kva = 2,
+    Power10Kva,
 
     [EnumValue("POWER_15_KVA")]
-    Power_15Kva = 3,
+    Power15Kva,
 
     [EnumValue("POWER_30_KVA")]
-    Power_30Kva = 4
+    Power30Kva,
+
+    [EnumValue("POWER_5_KVA")]
+    Power5Kva
 }

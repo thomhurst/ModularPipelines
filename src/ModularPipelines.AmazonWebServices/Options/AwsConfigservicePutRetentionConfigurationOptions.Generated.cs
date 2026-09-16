@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("configservice", "put-retention-configuration")]
-public record AwsConfigservicePutRetentionConfigurationOptions : AwsOptions
+public record AwsConfigservicePutRetentionConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates and updates the retention configuration with details about re- tention period (number of days) that Config stores your historical in- formation. The API creates the RetentionConfiguration object and names the object as default . When you have a RetentionConfiguration object named default , calling the API modifies the default object. NOTE: Currently, Config supports only one retention configuration per re- gion in your account. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RetentionPeriodInDays">Number of days Config stores your historical information. NOTE: Currently, only applicable to the configuration item history. Constraints: o min: 30 o max: 2557</param>
+    public AwsConfigservicePutRetentionConfigurationOptions(
+        int RetentionPeriodInDays
+    )
+    {
+        this.RetentionPeriodInDays = RetentionPeriodInDays;
+    }
+
+    private AwsConfigservicePutRetentionConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConfigservicePutRetentionConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConfigservicePutRetentionConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Number of days Config stores your historical information. NOTE: Currently, only applicable to the configuration item history. Constraints: o min: 30 o max: 2557
+    /// </summary>
     [CliOption("--retention-period-in-days")]
-    public int? RetentionPeriodInDays { get; set; }
+    public int? RetentionPeriodInDays { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

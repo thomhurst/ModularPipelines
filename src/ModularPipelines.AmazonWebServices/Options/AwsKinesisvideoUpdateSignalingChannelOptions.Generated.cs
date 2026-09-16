@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kinesisvideo", "update-signaling-channel")]
-public record AwsKinesisvideoUpdateSignalingChannelOptions : AwsOptions
+public record AwsKinesisvideoUpdateSignalingChannelOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--channel-arn")]
-    public string? ChannelArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the existing signaling channel. This is an asynchronous opera- tion and takes time to complete. If the MessageTtlSeconds value is updated (either increased or re- duced), it only applies to new messages sent via this channel after it's been updated. Existing messages are still expired as per the pre- vious MessageTtlSeconds value. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ChannelArn">The Amazon Resource Name (ARN) of the signaling channel that you want to update. Constraints: o min: 1 o max: 1024 o pattern: arn:[a-z\d-]+:kine- sisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+</param>
+    /// <param name="CurrentVersion">The current version of the signaling channel that you want to up- date. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9]+</param>
+    public AwsKinesisvideoUpdateSignalingChannelOptions(
+        string ChannelArn,
+        string CurrentVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ChannelArn);
+        this.ChannelArn = ChannelArn;
+        global::System.ArgumentNullException.ThrowIfNull(CurrentVersion);
+        this.CurrentVersion = CurrentVersion;
+    }
+
+    private AwsKinesisvideoUpdateSignalingChannelOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKinesisvideoUpdateSignalingChannelOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKinesisvideoUpdateSignalingChannelOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the signaling channel that you want to update. Constraints: o min: 1 o max: 1024 o pattern: arn:[a-z\d-]+:kine- sisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+
+    /// </summary>
+    [CliOption("--channel-arn")]
+    public string? ChannelArn { get; private init; }
+
+    /// <summary>
+    /// The current version of the signaling channel that you want to up- date. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9]+
+    /// </summary>
     [CliOption("--current-version")]
-    public string? CurrentVersion { get; set; }
+    public string? CurrentVersion { get; private init; }
 
     /// <summary>
     /// The structure containing the configuration for the SINGLE_MASTER type of the signaling channel that you want to update. This parame- ter and the channel message's time-to-live are required for channels with the SINGLE_MASTER channel type. MessageTtlSeconds -&gt; (integer) The period of time (in seconds) a signaling channel retains un- delivered messages before they are discarded. Use to update this value. Constraints: o min: 5 o max: 120 Shorthand Syntax: MessageTtlSeconds=integer JSON Syntax: { "MessageTtlSeconds": integer }
@@ -38,5 +82,22 @@ public record AwsKinesisvideoUpdateSignalingChannelOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

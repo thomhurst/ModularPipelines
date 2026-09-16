@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("signer", "sign-payload")]
-public record AwsSignerSignPayloadOptions : AwsOptions
+public record AwsSignerSignPayloadOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Signs a binary payload and returns a signature envelope. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ProfileName">The name of the signing profile. Constraints: o min: 2 o max: 64 o pattern: ^[a-zA-Z0-9_]{2,}</param>
+    /// <param name="Payload">Specifies the object digest (hash) to sign. Constraints: o min: 1 o max: 4096</param>
+    /// <param name="PayloadFormat">Payload content type. The single valid type is applica- tion/vnd.cncf.notary.payload.v1+json .</param>
+    public AwsSignerSignPayloadOptions(
+        string ProfileName,
+        string Payload,
+        string PayloadFormat
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProfileName);
+        this.ProfileName = ProfileName;
+        global::System.ArgumentNullException.ThrowIfNull(Payload);
+        this.Payload = Payload;
+        global::System.ArgumentNullException.ThrowIfNull(PayloadFormat);
+        this.PayloadFormat = PayloadFormat;
+    }
+
+    private AwsSignerSignPayloadOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSignerSignPayloadOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSignerSignPayloadOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the signing profile. Constraints: o min: 2 o max: 64 o pattern: ^[a-zA-Z0-9_]{2,}
+    /// </summary>
     [CliOption("--profile-name")]
-    public string? ProfileName { get; set; }
+    public string? ProfileName { get; private init; }
+
+    /// <summary>
+    /// Specifies the object digest (hash) to sign. Constraints: o min: 1 o max: 4096
+    /// </summary>
+    [CliOption("--payload")]
+    public string? Payload { get; private init; }
+
+    /// <summary>
+    /// Payload content type. The single valid type is applica- tion/vnd.cncf.notary.payload.v1+json .
+    /// </summary>
+    [CliOption("--payload-format")]
+    public string? PayloadFormat { get; private init; }
 
     /// <summary>
     /// The AWS account ID of the profile owner. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
@@ -30,16 +87,27 @@ public record AwsSignerSignPayloadOptions : AwsOptions
     [CliOption("--profile-owner")]
     public string? ProfileOwner { get; set; }
 
-    [CliOption("--payload")]
-    public string? Payload { get; set; }
-
-    [CliOption("--payload-format")]
-    public string? PayloadFormat { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

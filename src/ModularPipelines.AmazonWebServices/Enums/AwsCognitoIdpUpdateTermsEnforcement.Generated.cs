@@ -17,5 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCognitoIdpUpdateTermsEnforcement
 {
     [EnumValue("NONE")]
-    None = 1
+    None,
+
+    [EnumValue("o")]
+    O
 }

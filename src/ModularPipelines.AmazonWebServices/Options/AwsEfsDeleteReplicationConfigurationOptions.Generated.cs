@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("efs", "delete-replication-configuration")]
-public record AwsEfsDeleteReplicationConfigurationOptions : AwsOptions
+public record AwsEfsDeleteReplicationConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes a replication configuration. Deleting a replication configura- tion ends the replication process. After a replication configuration is deleted, the destination file system becomes Writeable and its replica- tion overwrite protection is re-enabled. For more information, see Delete a replication configuration . This operation requires permissions for the elasticfilesys- tem:DeleteReplicationConfiguration action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SourceFileSystemId">The ID of the source file system in the replication configuration. Constraints: o max: 128 o pattern: ^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-sys- tem/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$</param>
+    public AwsEfsDeleteReplicationConfigurationOptions(
+        string SourceFileSystemId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceFileSystemId);
+        this.SourceFileSystemId = SourceFileSystemId;
+    }
+
+    private AwsEfsDeleteReplicationConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEfsDeleteReplicationConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEfsDeleteReplicationConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the source file system in the replication configuration. Constraints: o max: 128 o pattern: ^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-sys- tem/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$
+    /// </summary>
     [CliOption("--source-file-system-id")]
-    public string? SourceFileSystemId { get; set; }
+    public string? SourceFileSystemId { get; private init; }
 
     /// <summary>
     /// When replicating across Amazon Web Services accounts or across Ama- zon Web Services Regions, Amazon EFS deletes the replication config- uration from both the source and destination account or Region (ALL_CONFIGURATIONS ) by default. If there's a configuration or per- missions issue that prevents Amazon EFS from deleting the replica- tion configuration from both sides, you can use the LOCAL_CONFIGURA- TION_ONLY mode to delete the replication configuration from only the local side (the account or Region from which the delete is per- formed). NOTE: Only use the LOCAL_CONFIGURATION_ONLY mode in the case that Ama- zon EFS is unable to delete the replication configuration in both the source and destination account or Region. Deleting the local configuration leaves the configuration in the other ac- count or Region unrecoverable. Additionally, do not use this mode for same-account, same-region replication as doing so results in a BadRequest exception error. Possible values: o ALL_CONFIGURATIONS o LOCAL_CONFIGURATION_ONLY
@@ -36,5 +73,22 @@ public record AwsEfsDeleteReplicationConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

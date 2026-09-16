@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --targetactiontype.
+/// Allowed values for --target-action-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsRedshiftDescribeScheduledActionsTargetActionType
 {
-    [EnumValue("ResizeCluster")]
-    ResizeCluster = 1,
-
     [EnumValue("PauseCluster")]
-    PauseCluster = 2,
+    PauseCluster,
+
+    [EnumValue("ResizeCluster")]
+    ResizeCluster,
 
     [EnumValue("ResumeCluster")]
-    ResumeCluster = 3
+    ResumeCluster
 }

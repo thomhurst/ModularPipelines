@@ -11,17 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --storagetype.
+/// Allowed values for --storage-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsOmicsUpdateWorkflowStorageType
 {
-    [EnumValue("STATIC")]
-    Static = 1,
-
     [EnumValue("DYNAMIC")]
-    Dynamic = 2,
+    Dynamic,
 
-    [EnumValue("Constraints")]
-    Constraints = 3
+    [EnumValue("STATIC")]
+    Static
 }

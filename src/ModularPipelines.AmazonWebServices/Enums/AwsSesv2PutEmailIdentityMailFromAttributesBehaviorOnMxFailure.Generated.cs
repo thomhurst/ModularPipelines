@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --behavioronmxfailure.
+/// Allowed values for --behavior-on-mx-failure.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSesv2PutEmailIdentityMailFromAttributesBehaviorOnMxFailure
 {
-    [EnumValue("USE_DEFAULT_VALUE")]
-    UseDefaultValue = 1,
-
     [EnumValue("REJECT_MESSAGE")]
-    RejectMessage = 2
+    RejectMessage,
+
+    [EnumValue("USE_DEFAULT_VALUE")]
+    UseDefaultValue
 }

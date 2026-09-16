@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --modelpackageregistrationtype.
+/// Allowed values for --model-package-registration-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSagemakerUpdateModelPackageModelPackageRegistrationType
 {
     [EnumValue("Logged")]
-    Logged = 1,
+    Logged,
 
     [EnumValue("Registered")]
-    Registered = 2
+    Registered
 }

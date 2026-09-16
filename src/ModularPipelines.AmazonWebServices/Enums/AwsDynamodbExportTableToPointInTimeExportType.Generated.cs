@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --exporttype.
+/// Allowed values for --export-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDynamodbExportTableToPointInTimeExportType
 {
     [EnumValue("FULL_EXPORT")]
-    FullExport = 1,
+    FullExport,
 
     [EnumValue("INCREMENTAL_EXPORT")]
-    IncrementalExport = 2
+    IncrementalExport
 }

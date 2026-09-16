@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("personalize", "update-recommender")]
-public record AwsPersonalizeUpdateRecommenderOptions : AwsOptions
+public record AwsPersonalizeUpdateRecommenderOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--recommender-arn")]
-    public string? RecommenderArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the recommender to modify the recommender configuration. If you update the recommender to modify the columns used in training, Amazon Personalize automatically starts a full retraining of the models back- ing your recommender. While the update completes, you can still get recommendations from the recommender. The recommender uses the previous configuration until the update completes. To track the status of this update, use the latestRecommenderUpdate returned in the DescribeRecommender o...
+    /// </summary>
+    /// <param name="RecommenderArn">The Amazon Resource Name (ARN) of the recommender to modify. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
+    /// <param name="RecommenderConfig">The configuration details of the recommender. itemExplorationConfig -&gt; (map) Specifies the exploration configuration hyperparameters, includ- ing explorationWeight and explorationItemAgeCutOff , you want to use to configure the amount of item exploration Amazon Personal- ize uses when recommending items. Provide itemExplorationConfig data only if your recommenders generate personalized recommenda- tions for a user (not popular items or similar items). Constraints: o max: 100 key -&gt; (string) Constraints: o max: 256 value -&gt; (string) Constraints: o max: 1000 minRecommendationRequestsPerSecond -&gt; (integer) Specifies the requested minimum provisioned recommendation re- quests per second that Amazon Personalize will support. A high minRecommendationRequestsPerSecond will increase your bill. We recommend starting with 1 for minRecommendationRequestsPerSecond (the default). Track your usage using Amazon CloudWatch metrics, and increase the minRecommendationRequestsPerSecond as neces- sary. Constraints: o min: 1 trainingDataConfig -&gt; (structure) Specifies the training data configuration to use when creating a domain recommender. excludedDatasetColumns -&gt; (map) Specifies the columns to exclude from training. Each key is a dataset type, and each value is a list of columns. Exclude columns to control what data Amazon Personalize uses to gen- erate recommendations. For example, you might have a column that you want to use only to filter recommendations. You can exclude this column from training and Amazon Personalize considers it only when filtering. Constraints: o max: 3 key -&gt; (string) Constraints: o max: 256 o pattern: ^[A-Za-z_]+$ value -&gt; (list) Constraints: o max: 50 (string) Constraints: o max: 150 o pattern: [A-Za-z_][A-Za-z\d_]* includedDatasetColumns -&gt; (map) A map that specifies which columns to include from each dataset during training. The map can contain up to 3 entries, where each key is a dataset name (maximum length of 256 char- acters, must contain only letters and underscores) and each value is an array of up to 50 column names. Column names can be up to 150 characters long, must start with a letter or un- derscore, and can contain only letters, numbers, and under- scores. Constraints: o max: 3 key -&gt; (string) Constraints: o max: 256 o pattern: ^[A-Za-z_]+$ value -&gt; (list) Constraints: o max: 50 (string) Constraints: o max: 150 o pattern: [A-Za-z_][A-Za-z\d_]* enableMetadataWithRecommendations -&gt; (boolean) Whether metadata with recommendations is enabled for the recom- mender. If enabled, you can specify the columns from your Items dataset in your request for recommendations. Amazon Personalize returns this data for each item in the recommendation response. For information about enabling metadata for a recommender, see Enabling metadata in recommendations for a recommender . If you enable metadata in recommendations, you will incur addi- tional costs. For more information, see Amazon Personalize pric- ing . JSON Syntax: { "itemExplorationConfig": {"string": "string" ...}, "minRecommendationRequestsPerSecond": integer, "trainingDataConfig": { "excludedDatasetColumns": {"string": ["string", ...] ...}, "includedDatasetColumns": {"string": ["string", ...] ...} }, "enableMetadataWithRecommendations": true|false }</param>
+    public AwsPersonalizeUpdateRecommenderOptions(
+        string RecommenderArn,
+        string RecommenderConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RecommenderArn);
+        this.RecommenderArn = RecommenderArn;
+        global::System.ArgumentNullException.ThrowIfNull(RecommenderConfig);
+        this.RecommenderConfig = RecommenderConfig;
+    }
+
+    private AwsPersonalizeUpdateRecommenderOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPersonalizeUpdateRecommenderOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPersonalizeUpdateRecommenderOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the recommender to modify. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
+    /// </summary>
+    [CliOption("--recommender-arn")]
+    public string? RecommenderArn { get; private init; }
+
+    /// <summary>
+    /// The configuration details of the recommender. itemExplorationConfig -&gt; (map) Specifies the exploration configuration hyperparameters, includ- ing explorationWeight and explorationItemAgeCutOff , you want to use to configure the amount of item exploration Amazon Personal- ize uses when recommending items. Provide itemExplorationConfig data only if your recommenders generate personalized recommenda- tions for a user (not popular items or similar items). Constraints: o max: 100 key -&gt; (string) Constraints: o max: 256 value -&gt; (string) Constraints: o max: 1000 minRecommendationRequestsPerSecond -&gt; (integer) Specifies the requested minimum provisioned recommendation re- quests per second that Amazon Personalize will support. A high minRecommendationRequestsPerSecond will increase your bill. We recommend starting with 1 for minRecommendationRequestsPerSecond (the default). Track your usage using Amazon CloudWatch metrics, and increase the minRecommendationRequestsPerSecond as neces- sary. Constraints: o min: 1 trainingDataConfig -&gt; (structure) Specifies the training data configuration to use when creating a domain recommender. excludedDatasetColumns -&gt; (map) Specifies the columns to exclude from training. Each key is a dataset type, and each value is a list of columns. Exclude columns to control what data Amazon Personalize uses to gen- erate recommendations. For example, you might have a column that you want to use only to filter recommendations. You can exclude this column from training and Amazon Personalize considers it only when filtering. Constraints: o max: 3 key -&gt; (string) Constraints: o max: 256 o pattern: ^[A-Za-z_]+$ value -&gt; (list) Constraints: o max: 50 (string) Constraints: o max: 150 o pattern: [A-Za-z_][A-Za-z\d_]* includedDatasetColumns -&gt; (map) A map that specifies which columns to include from each dataset during training. The map can contain up to 3 entries, where each key is a dataset name (maximum length of 256 char- acters, must contain only letters and underscores) and each value is an array of up to 50 column names. Column names can be up to 150 characters long, must start with a letter or un- derscore, and can contain only letters, numbers, and under- scores. Constraints: o max: 3 key -&gt; (string) Constraints: o max: 256 o pattern: ^[A-Za-z_]+$ value -&gt; (list) Constraints: o max: 50 (string) Constraints: o max: 150 o pattern: [A-Za-z_][A-Za-z\d_]* enableMetadataWithRecommendations -&gt; (boolean) Whether metadata with recommendations is enabled for the recom- mender. If enabled, you can specify the columns from your Items dataset in your request for recommendations. Amazon Personalize returns this data for each item in the recommendation response. For information about enabling metadata for a recommender, see Enabling metadata in recommendations for a recommender . If you enable metadata in recommendations, you will incur addi- tional costs. For more information, see Amazon Personalize pric- ing . JSON Syntax: { "itemExplorationConfig": {"string": "string" ...}, "minRecommendationRequestsPerSecond": integer, "trainingDataConfig": { "excludedDatasetColumns": {"string": ["string", ...] ...}, "includedDatasetColumns": {"string": ["string", ...] ...} }, "enableMetadataWithRecommendations": true|false }
+    /// </summary>
     [CliOption("--recommender-config")]
-    public string? RecommenderConfig { get; set; }
+    public string? RecommenderConfig { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

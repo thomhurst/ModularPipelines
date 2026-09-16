@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,55 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("m2", "update-application")]
-public record AwsM2UpdateApplicationOptions : AwsOptions
+public record AwsM2UpdateApplicationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--application-id")]
-    public string? ApplicationId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates an application and creates a new version. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationId">The unique identifier of the application you want to update. Constraints: o pattern: ^\S{1,80}$</param>
+    /// <param name="CurrentApplicationVersion">The current version of the application to update. Constraints: o min: 1</param>
+    public AwsM2UpdateApplicationOptions(
+        string ApplicationId,
+        int CurrentApplicationVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationId);
+        this.ApplicationId = ApplicationId;
+        this.CurrentApplicationVersion = CurrentApplicationVersion;
+    }
+
+    private AwsM2UpdateApplicationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsM2UpdateApplicationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsM2UpdateApplicationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the application you want to update. Constraints: o pattern: ^\S{1,80}$
+    /// </summary>
+    [CliOption("--application-id")]
+    public string? ApplicationId { get; private init; }
+
+    /// <summary>
+    /// The current version of the application to update. Constraints: o min: 1
+    /// </summary>
     [CliOption("--current-application-version")]
-    public int? CurrentApplicationVersion { get; set; }
+    public int? CurrentApplicationVersion { get; private init; }
 
     /// <summary>
     /// The application definition for this application. You can specify ei- ther inline JSON or an S3 bucket location. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: content, s3Location. content -&gt; (string) The content of the application definition. This is a JSON object that contains the resource configuration/definitions that iden- tify an application. Constraints: o min: 1 o max: 65000 s3Location -&gt; (string) The S3 bucket that contains the application definition. Constraints: o pattern: ^\S{1,2000}$ Shorthand Syntax: content=string,s3Location=string JSON Syntax: { "content": "string", "s3Location": "string" }
@@ -44,5 +87,22 @@ public record AwsM2UpdateApplicationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

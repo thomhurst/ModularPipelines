@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCeGetReservationCoverageGranularity
 {
     [EnumValue("DAILY")]
-    Daily = 1,
-
-    [EnumValue("MONTHLY")]
-    Monthly = 2,
+    Daily,
 
     [EnumValue("HOURLY")]
-    Hourly = 3
+    Hourly,
+
+    [EnumValue("MONTHLY")]
+    Monthly
 }

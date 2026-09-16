@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --retrystrategy.
+/// Allowed values for --retry-strategy.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsAutoscalingLaunchInstancesRetryStrategy
 {
     [EnumValue("none")]
-    None = 1
+    None,
+
+    [EnumValue("retry-with-group-configuration")]
+    RetryWithGroupConfiguration
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +21,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "update-topic-rule-destination")]
-public record AwsIotUpdateTopicRuleDestinationOptions : AwsOptions
+public record AwsIotUpdateTopicRuleDestinationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--arn")]
-    public string? Arn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates a topic rule destination. You use this to change the status, endpoint URL, or confirmation URL of the destination. Requires permission to access the UpdateTopicRuleDestination action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Arn">The ARN of the topic rule destination.</param>
+    /// <param name="Status">The status of the topic rule destination. Valid values are: IN_PROGRESS A topic rule destination was created but has not been confirmed. You can set status to IN_PROGRESS by calling UpdateTopicRuleDestination . Calling UpdateTopicRuleDestination causes a new confirmation chal- lenge to be sent to your confirmation endpoint. ENABLED Confirmation was completed, and traffic to this destination is al- lowed. You can set status to DISABLED by calling UpdateTopicRuleDes- tination . DISABLED Confirmation was completed, and traffic to this destination is not allowed. You can set status to ENABLED by calling UpdateTopi- cRuleDestination . ERROR Confirmation could not be completed, for example if the confirmation timed out. You can call GetTopicRuleDestination for details about the error. You can set status to IN_PROGRESS by calling UpdateTopi- cRuleDestination . Calling UpdateTopicRuleDestination causes a new confirmation challenge to be sent to your confirmation endpoint. Possible values: o ENABLED o IN_PROGRESS o DISABLED o ERROR o DELETING</param>
+    public AwsIotUpdateTopicRuleDestinationOptions(
+        string Arn,
+        AwsIotUpdateTopicRuleDestinationStatus Status
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Arn);
+        this.Arn = Arn;
+        global::System.ArgumentNullException.ThrowIfNull(Status);
+        this.Status = Status;
+    }
+
+    private AwsIotUpdateTopicRuleDestinationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotUpdateTopicRuleDestinationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotUpdateTopicRuleDestinationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the topic rule destination.
+    /// </summary>
+    [CliOption("--arn")]
+    public string? Arn { get; private init; }
+
+    /// <summary>
+    /// The status of the topic rule destination. Valid values are: IN_PROGRESS A topic rule destination was created but has not been confirmed. You can set status to IN_PROGRESS by calling UpdateTopicRuleDestination . Calling UpdateTopicRuleDestination causes a new confirmation chal- lenge to be sent to your confirmation endpoint. ENABLED Confirmation was completed, and traffic to this destination is al- lowed. You can set status to DISABLED by calling UpdateTopicRuleDes- tination . DISABLED Confirmation was completed, and traffic to this destination is not allowed. You can set status to ENABLED by calling UpdateTopi- cRuleDestination . ERROR Confirmation could not be completed, for example if the confirmation timed out. You can call GetTopicRuleDestination for details about the error. You can set status to IN_PROGRESS by calling UpdateTopi- cRuleDestination . Calling UpdateTopicRuleDestination causes a new confirmation challenge to be sent to your confirmation endpoint. Possible values: o ENABLED o IN_PROGRESS o DISABLED o ERROR o DELETING
+    /// </summary>
     [CliOption("--status")]
-    public string? Status { get; set; }
+    public AwsIotUpdateTopicRuleDestinationStatus? Status { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

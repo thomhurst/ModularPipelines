@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pinpoint-sms-voice-v2", "verify-destination-number")]
-public record AwsPinpointSmsVoiceV2VerifyDestinationNumberOptions : AwsOptions
+public record AwsPinpointSmsVoiceV2VerifyDestinationNumberOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--verified-destination-number-id")]
-    public string? VerifiedDestinationNumberId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Use the verification code that was received by the verified destination phone number to opt-in the verified destination phone number to receive more messages. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="VerifiedDestinationNumberId">The unique identifier for the verififed destination phone number. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+</param>
+    /// <param name="VerificationCode">The verification code that was received by the verified destination phone number. Constraints: o min: 1 o max: 20 o pattern: [A-Za-z0-9]+</param>
+    public AwsPinpointSmsVoiceV2VerifyDestinationNumberOptions(
+        string VerifiedDestinationNumberId,
+        string VerificationCode
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VerifiedDestinationNumberId);
+        this.VerifiedDestinationNumberId = VerifiedDestinationNumberId;
+        global::System.ArgumentNullException.ThrowIfNull(VerificationCode);
+        this.VerificationCode = VerificationCode;
+    }
+
+    private AwsPinpointSmsVoiceV2VerifyDestinationNumberOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPinpointSmsVoiceV2VerifyDestinationNumberOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPinpointSmsVoiceV2VerifyDestinationNumberOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for the verififed destination phone number. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// </summary>
+    [CliOption("--verified-destination-number-id")]
+    public string? VerifiedDestinationNumberId { get; private init; }
+
+    /// <summary>
+    /// The verification code that was received by the verified destination phone number. Constraints: o min: 1 o max: 20 o pattern: [A-Za-z0-9]+
+    /// </summary>
     [CliOption("--verification-code")]
-    public string? VerificationCode { get; set; }
+    public string? VerificationCode { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

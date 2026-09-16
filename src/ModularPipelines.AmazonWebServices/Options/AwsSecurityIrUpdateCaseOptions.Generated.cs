@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security-ir", "update-case")]
-public record AwsSecurityIrUpdateCaseOptions : AwsOptions
+public record AwsSecurityIrUpdateCaseOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an existing case. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CaseId">Required element for UpdateCase to identify the case ID for updates. Constraints: o min: 10 o max: 32 o pattern: \d{10,32}.*</param>
+    public AwsSecurityIrUpdateCaseOptions(
+        string CaseId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CaseId);
+        this.CaseId = CaseId;
+    }
+
+    private AwsSecurityIrUpdateCaseOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSecurityIrUpdateCaseOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSecurityIrUpdateCaseOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Required element for UpdateCase to identify the case ID for updates. Constraints: o min: 10 o max: 32 o pattern: \d{10,32}.*
+    /// </summary>
     [CliOption("--case-id")]
-    public string? CaseId { get; set; }
+    public string? CaseId { get; private init; }
 
     /// <summary>
     /// Optional element for UpdateCase to provide content for the title field. Constraints: o min: 1 o max: 300
@@ -126,5 +163,22 @@ public record AwsSecurityIrUpdateCaseOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -17,20 +17,20 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIotListCommandExecutionsStatus
 {
     [EnumValue("CREATED")]
-    Created = 1,
-
-    [EnumValue("IN_PROGRESS")]
-    InProgress = 2,
-
-    [EnumValue("SUCCEEDED")]
-    Succeeded = 3,
+    Created,
 
     [EnumValue("FAILED")]
-    Failed = 4,
+    Failed,
+
+    [EnumValue("IN_PROGRESS")]
+    InProgress,
 
     [EnumValue("REJECTED")]
-    Rejected = 5,
+    Rejected,
+
+    [EnumValue("SUCCEEDED")]
+    Succeeded,
 
     [EnumValue("TIMED_OUT")]
-    TimedOut = 6
+    TimedOut
 }

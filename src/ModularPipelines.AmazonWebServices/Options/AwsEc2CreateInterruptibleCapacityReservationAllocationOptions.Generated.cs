@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +22,55 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "create-interruptible-capacity-reservation-allocation")]
-public record AwsEc2CreateInterruptibleCapacityReservationAllocationOptions : AwsOptions
+public record AwsEc2CreateInterruptibleCapacityReservationAllocationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--capacity-reservation-id")]
-    public string? CapacityReservationId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an interruptible Capacity Reservation by specifying the number of unused instances you want to allocate from your source reservation. This helps you make unused capacity available for other workloads within your account while maintaining control to reclaim it. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CapacityReservationId">The ID of the source Capacity Reservation from which to create the interruptible Capacity Reservation. Your Capacity Reservation must be in active state with no end date set and have available capacity for allocation.</param>
+    /// <param name="InstanceCount">The number of instances to allocate from your source reservation. You can only allocate available instances (also called unused capac- ity).</param>
+    public AwsEc2CreateInterruptibleCapacityReservationAllocationOptions(
+        string CapacityReservationId,
+        int InstanceCount
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CapacityReservationId);
+        this.CapacityReservationId = CapacityReservationId;
+        this.InstanceCount = InstanceCount;
+    }
+
+    private AwsEc2CreateInterruptibleCapacityReservationAllocationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2CreateInterruptibleCapacityReservationAllocationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2CreateInterruptibleCapacityReservationAllocationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the source Capacity Reservation from which to create the interruptible Capacity Reservation. Your Capacity Reservation must be in active state with no end date set and have available capacity for allocation.
+    /// </summary>
+    [CliOption("--capacity-reservation-id")]
+    public string? CapacityReservationId { get; private init; }
+
+    /// <summary>
+    /// The number of instances to allocate from your source reservation. You can only allocate available instances (also called unused capac- ity).
+    /// </summary>
     [CliOption("--instance-count")]
-    public int? InstanceCount { get; set; }
+    public int? InstanceCount { get; private init; }
 
     /// <summary>
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -35,7 +79,10 @@ public record AwsEc2CreateInterruptibleCapacityReservationAllocationOptions : Aw
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -44,10 +91,33 @@ public record AwsEc2CreateInterruptibleCapacityReservationAllocationOptions : Aw
     [CliOption("--tag-specifications", GroupValues = true)]
     public IEnumerable<string>? TagSpecifications { get; set; }
 
+    /// <summary>
+    /// Specifies the behavior for the interruptible Capacity Reservation when you reduce its allocation to zero instances. Specify retain to keep the interruptible Capacity Reservation active at zero capacity so that you can allocate instances to it again later. Specify de- fault to cancel the interruptible Capacity Reservation and return the capacity to your source Capacity Reservation. The default value is default . Possible values: o retain o default
+    /// </summary>
+    [CliOption("--zero-size-preference")]
+    public AwsEc2CreateInterruptibleCapacityReservationAllocationZeroSizePreference? ZeroSizePreference { get; set; }
+
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

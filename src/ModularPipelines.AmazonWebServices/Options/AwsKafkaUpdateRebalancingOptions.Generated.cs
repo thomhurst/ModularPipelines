@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kafka", "update-rebalancing")]
-public record AwsKafkaUpdateRebalancingOptions : AwsOptions
+public record AwsKafkaUpdateRebalancingOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Use this resource to update the intelligent rebalancing status of an Amazon MSK Provisioned cluster with Express brokers. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ClusterArn">The Amazon Resource Name (ARN) of the cluster.</param>
+    /// <param name="CurrentVersion">The current version of the cluster.</param>
+    /// <param name="Rebalancing">Specifies if intelligent rebalancing should be turned on for your cluster. The default intelligent rebalancing status is ACTIVE for all new MSK Provisioned clusters that you create with Express bro- kers. Status -&gt; (string) Intelligent rebalancing status. The default intelligent re- balancing status is ACTIVE for all new Express-based clus- ters. Possible values: o PAUSED o ACTIVE Shorthand Syntax: Status=string JSON Syntax: { "Status": "PAUSED"|"ACTIVE" }</param>
+    public AwsKafkaUpdateRebalancingOptions(
+        string ClusterArn,
+        string CurrentVersion,
+        string Rebalancing
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterArn);
+        this.ClusterArn = ClusterArn;
+        global::System.ArgumentNullException.ThrowIfNull(CurrentVersion);
+        this.CurrentVersion = CurrentVersion;
+        global::System.ArgumentNullException.ThrowIfNull(Rebalancing);
+        this.Rebalancing = Rebalancing;
+    }
+
+    private AwsKafkaUpdateRebalancingOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKafkaUpdateRebalancingOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKafkaUpdateRebalancingOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the cluster.
+    /// </summary>
     [CliOption("--cluster-arn")]
-    public string? ClusterArn { get; set; }
+    public string? ClusterArn { get; private init; }
 
+    /// <summary>
+    /// The current version of the cluster.
+    /// </summary>
     [CliOption("--current-version")]
-    public string? CurrentVersion { get; set; }
+    public string? CurrentVersion { get; private init; }
 
+    /// <summary>
+    /// Specifies if intelligent rebalancing should be turned on for your cluster. The default intelligent rebalancing status is ACTIVE for all new MSK Provisioned clusters that you create with Express bro- kers. Status -&gt; (string) Intelligent rebalancing status. The default intelligent re- balancing status is ACTIVE for all new Express-based clus- ters. Possible values: o PAUSED o ACTIVE Shorthand Syntax: Status=string JSON Syntax: { "Status": "PAUSED"|"ACTIVE" }
+    /// </summary>
     [CliOption("--rebalancing")]
-    public string? Rebalancing { get; set; }
+    public string? Rebalancing { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

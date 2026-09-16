@@ -35,7 +35,10 @@ public record AwsPollyDescribeVoicesOptions : AwsOptions
     [CliOption("--language-code")]
     public string? LanguageCode { get; set; }
 
-    [CliFlag("--include-additional-language-codes")]
+    /// <summary>
+    /// guage-codes (boolean) Boolean value indicating whether to return any bilingual voices that use the specified language as an additional language. For instance, if you request all languages that use US English (es-US), and there is an Italian voice that speaks both Italian (it-IT) and US English, that voice will be included if you specify yes but not if you spec- ify no .
+    /// </summary>
+    [CliFlag("--include-additional-language-codes", NegatedName = "--no-include-additional-language-codes")]
     public bool? IncludeAdditionalLanguageCodes { get; set; }
 
     [CliOption("--cli-input-json")]

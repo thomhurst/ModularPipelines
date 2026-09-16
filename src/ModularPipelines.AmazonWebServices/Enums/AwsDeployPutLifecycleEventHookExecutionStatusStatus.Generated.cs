@@ -16,21 +16,21 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDeployPutLifecycleEventHookExecutionStatusStatus
 {
-    [EnumValue("Pending")]
-    Pending = 1,
+    [EnumValue("Failed")]
+    Failed,
 
     [EnumValue("InProgress")]
-    InProgress = 2,
+    InProgress,
 
-    [EnumValue("Succeeded")]
-    Succeeded = 3,
-
-    [EnumValue("Failed")]
-    Failed = 4,
+    [EnumValue("Pending")]
+    Pending,
 
     [EnumValue("Skipped")]
-    Skipped = 5,
+    Skipped,
+
+    [EnumValue("Succeeded")]
+    Succeeded,
 
     [EnumValue("Unknown")]
-    Unknown = 6
+    Unknown
 }

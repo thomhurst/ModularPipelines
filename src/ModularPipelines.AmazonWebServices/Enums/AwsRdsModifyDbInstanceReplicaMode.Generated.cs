@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --replicamode.
+/// Allowed values for --replica-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsRdsModifyDbInstanceReplicaMode
 {
-    [EnumValue("open-read-only")]
-    OpenReadOnly = 1,
-
     [EnumValue("mounted")]
-    Mounted = 2
+    Mounted,
+
+    [EnumValue("open-read-only")]
+    OpenReadOnly
 }

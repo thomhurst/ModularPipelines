@@ -16,6 +16,9 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsOpensearchAuthorizeVpcEndpointAccessService
 {
-    [EnumValue("application")]
-    Application = 1
+    [EnumValue("application.opensearchservice.amazonaws.com")]
+    ApplicationOpensearchserviceAmazonawsCom,
+
+    [EnumValue("o")]
+    O
 }

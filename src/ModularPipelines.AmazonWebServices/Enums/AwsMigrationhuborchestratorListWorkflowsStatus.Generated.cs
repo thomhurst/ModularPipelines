@@ -16,45 +16,45 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsMigrationhuborchestratorListWorkflowsStatus
 {
-    [EnumValue("CREATING")]
-    Creating = 1,
+    [EnumValue("COMPLETED")]
+    Completed,
 
-    [EnumValue("NOT_STARTED")]
-    NotStarted = 2,
+    [EnumValue("CREATING")]
+    Creating,
 
     [EnumValue("CREATION_FAILED")]
-    CreationFailed = 3,
-
-    [EnumValue("STARTING")]
-    Starting = 4,
-
-    [EnumValue("IN_PROGRESS")]
-    InProgress = 5,
-
-    [EnumValue("WORKFLOW_FAILED")]
-    WorkflowFailed = 6,
-
-    [EnumValue("PAUSED")]
-    Paused = 7,
-
-    [EnumValue("PAUSING")]
-    Pausing = 8,
-
-    [EnumValue("PAUSING_FAILED")]
-    PausingFailed = 9,
-
-    [EnumValue("USER_ATTENTION_REQUIRED")]
-    UserAttentionRequired = 10,
-
-    [EnumValue("DELETING")]
-    Deleting = 11,
-
-    [EnumValue("DELETION_FAILED")]
-    DeletionFailed = 12,
+    CreationFailed,
 
     [EnumValue("DELETED")]
-    Deleted = 13,
+    Deleted,
 
-    [EnumValue("COMPLETED")]
-    Completed = 14
+    [EnumValue("DELETING")]
+    Deleting,
+
+    [EnumValue("DELETION_FAILED")]
+    DeletionFailed,
+
+    [EnumValue("IN_PROGRESS")]
+    InProgress,
+
+    [EnumValue("NOT_STARTED")]
+    NotStarted,
+
+    [EnumValue("PAUSED")]
+    Paused,
+
+    [EnumValue("PAUSING")]
+    Pausing,
+
+    [EnumValue("PAUSING_FAILED")]
+    PausingFailed,
+
+    [EnumValue("STARTING")]
+    Starting,
+
+    [EnumValue("USER_ATTENTION_REQUIRED")]
+    UserAttentionRequired,
+
+    [EnumValue("WORKFLOW_FAILED")]
+    WorkflowFailed
 }

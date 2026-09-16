@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --throughputmode.
+/// Allowed values for --throughput-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEfsUpdateFileSystemThroughputMode
 {
     [EnumValue("bursting")]
-    Bursting = 1,
-
-    [EnumValue("provisioned")]
-    Provisioned = 2,
+    Bursting,
 
     [EnumValue("elastic")]
-    Elastic = 3
+    Elastic,
+
+    [EnumValue("provisioned")]
+    Provisioned
 }

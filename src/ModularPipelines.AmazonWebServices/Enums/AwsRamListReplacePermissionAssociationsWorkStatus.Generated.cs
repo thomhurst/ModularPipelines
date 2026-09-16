@@ -16,12 +16,12 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsRamListReplacePermissionAssociationsWorkStatus
 {
-    [EnumValue("IN_PROGRESS")]
-    InProgress = 1,
-
     [EnumValue("COMPLETED")]
-    Completed = 2,
+    Completed,
 
     [EnumValue("FAILED")]
-    Failed = 3
+    Failed,
+
+    [EnumValue("IN_PROGRESS")]
+    InProgress
 }

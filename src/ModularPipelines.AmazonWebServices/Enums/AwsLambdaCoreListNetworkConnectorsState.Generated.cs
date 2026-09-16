@@ -16,21 +16,21 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsLambdaCoreListNetworkConnectorsState
 {
-    [EnumValue("PENDING")]
-    Pending = 1,
-
     [EnumValue("ACTIVE")]
-    Active = 2,
-
-    [EnumValue("INACTIVE")]
-    Inactive = 3,
-
-    [EnumValue("FAILED")]
-    Failed = 4,
-
-    [EnumValue("DELETING")]
-    Deleting = 5,
+    Active,
 
     [EnumValue("DELETE_FAILED")]
-    DeleteFailed = 6
+    DeleteFailed,
+
+    [EnumValue("DELETING")]
+    Deleting,
+
+    [EnumValue("FAILED")]
+    Failed,
+
+    [EnumValue("INACTIVE")]
+    Inactive,
+
+    [EnumValue("PENDING")]
+    Pending
 }

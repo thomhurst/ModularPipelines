@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,19 +22,73 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "create-framework")]
-public record AwsBackupCreateFrameworkOptions : AwsOptions
+public record AwsBackupCreateFrameworkOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a framework with one or more controls. A framework is a collec- tion of controls that you can use to evaluate your backup practices. By using pre-built customizable controls to define your policies, you can evaluate whether your backup practices comply with your policies and which resources are not yet in compliance. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FrameworkName">The unique name of the framework. The name must be between 1 and 256 characters, starting with a letter, and consisting of letters (a-z, A-Z), numbers (0-9), and underscores (_). Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z][_a-zA-Z0-9]*</param>
+    /// <param name="FrameworkControls">The controls that make up the framework. Each control in the list has a name, input parameters, and scope. (structure) Contains detailed information about all of the controls of a framework. Each framework must contain at least one control. ControlName -&gt; (string) [required] The name of a control. This name is between 1 and 256 charac- ters. ControlInputParameters -&gt; (list) The name/value pairs. (structure) The parameters for a control. A control can have zero, one, or more than one parameter. An example of a control with two parameters is: "backup plan frequency is at least daily and the retention period is at least 1 year ". The first parameter is daily . The second parameter is 1 year . ParameterName -&gt; (string) The name of a parameter, for example, BackupPlanFre- quency . ParameterValue -&gt; (string) The value of parameter, for example, hourly . ControlScope -&gt; (structure) The scope of a control. The control scope defines what the control will evaluate. Three examples of control scopes are: a specific backup plan, all backup plans with a specific tag, or all backup plans. For more information, see ` ControlScope . &lt;- https://docs.aws.amazon.com/aws-backup/latest/de- vguide/API_ControlScope.html&gt;`__ ComplianceResourceIds -&gt; (list) The ID of the only Amazon Web Services resource that you want your control scope to contain. Constraints: o min: 1 o max: 100 (string) ComplianceResourceTypes -&gt; (list) Describes whether the control scope includes one or more types of resources, such as EFS or RDS . (string) Tags -&gt; (map) The tag key-value pair applied to those Amazon Web Ser- vices resources that you want to trigger an evaluation for a rule. A maximum of one key-value pair can be pro- vided. The tag value is optional, but it cannot be an empty string if you are creating or editing a framework from the console (though the value can be an empty string when included in a CloudFormation template). The structure to assign a tag is: [{"Key":"string","Value":"string"}] . key -&gt; (string) value -&gt; (string) Shorthand Syntax: ControlName=string,ControlInputParameters=[{ParameterName=string,ParameterValue=string},{ParameterName=string,ParameterValue=string}],ControlScope={ComplianceResourceIds=[string,string],ComplianceResourceTypes=[string,string],Tags={KeyName1=string,KeyName2=string}} ... JSON Syntax: [ { "ControlName": "string", "ControlInputParameters": [ { "ParameterName": "string", "ParameterValue": "string" } ... ], "ControlScope": { "ComplianceResourceIds": ["string", ...], "ComplianceResourceTypes": ["string", ...], "Tags": {"string": "string" ...} } } ... ]</param>
+    public AwsBackupCreateFrameworkOptions(
+        string FrameworkName,
+        IEnumerable<string> FrameworkControls
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FrameworkName);
+        this.FrameworkName = FrameworkName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(FrameworkControls);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(FrameworkControls));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(FrameworkControls));
+            }
+
+            FrameworkControls = materialized;
+        }
+        this.FrameworkControls = FrameworkControls;
+    }
+
+    private AwsBackupCreateFrameworkOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBackupCreateFrameworkOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBackupCreateFrameworkOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique name of the framework. The name must be between 1 and 256 characters, starting with a letter, and consisting of letters (a-z, A-Z), numbers (0-9), and underscores (_). Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z][_a-zA-Z0-9]*
+    /// </summary>
     [CliOption("--framework-name")]
-    public string? FrameworkName { get; set; }
+    public string? FrameworkName { get; private init; }
+
+    /// <summary>
+    /// The controls that make up the framework. Each control in the list has a name, input parameters, and scope. (structure) Contains detailed information about all of the controls of a framework. Each framework must contain at least one control. ControlName -&gt; (string) [required] The name of a control. This name is between 1 and 256 charac- ters. ControlInputParameters -&gt; (list) The name/value pairs. (structure) The parameters for a control. A control can have zero, one, or more than one parameter. An example of a control with two parameters is: "backup plan frequency is at least daily and the retention period is at least 1 year ". The first parameter is daily . The second parameter is 1 year . ParameterName -&gt; (string) The name of a parameter, for example, BackupPlanFre- quency . ParameterValue -&gt; (string) The value of parameter, for example, hourly . ControlScope -&gt; (structure) The scope of a control. The control scope defines what the control will evaluate. Three examples of control scopes are: a specific backup plan, all backup plans with a specific tag, or all backup plans. For more information, see ` ControlScope . &lt;- https://docs.aws.amazon.com/aws-backup/latest/de- vguide/API_ControlScope.html&gt;`__ ComplianceResourceIds -&gt; (list) The ID of the only Amazon Web Services resource that you want your control scope to contain. Constraints: o min: 1 o max: 100 (string) ComplianceResourceTypes -&gt; (list) Describes whether the control scope includes one or more types of resources, such as EFS or RDS . (string) Tags -&gt; (map) The tag key-value pair applied to those Amazon Web Ser- vices resources that you want to trigger an evaluation for a rule. A maximum of one key-value pair can be pro- vided. The tag value is optional, but it cannot be an empty string if you are creating or editing a framework from the console (though the value can be an empty string when included in a CloudFormation template). The structure to assign a tag is: [{"Key":"string","Value":"string"}] . key -&gt; (string) value -&gt; (string) Shorthand Syntax: ControlName=string,ControlInputParameters=[{ParameterName=string,ParameterValue=string},{ParameterName=string,ParameterValue=string}],ControlScope={ComplianceResourceIds=[string,string],ComplianceResourceTypes=[string,string],Tags={KeyName1=string,KeyName2=string}} ... JSON Syntax: [ { "ControlName": "string", "ControlInputParameters": [ { "ParameterName": "string", "ParameterValue": "string" } ... ], "ControlScope": { "ComplianceResourceIds": ["string", ...], "ComplianceResourceTypes": ["string", ...], "Tags": {"string": "string" ...} } } ... ]
+    /// </summary>
+    [CliOption("--framework-controls", GroupValues = true)]
+    public IEnumerable<string>? FrameworkControls { get; private init; }
 
     /// <summary>
     /// An optional description of the framework with a maximum of 1,024 characters. Constraints: o min: 0 o max: 1024 o pattern: .*\S.*
     /// </summary>
     [CliOption("--framework-description")]
     public string? FrameworkDescription { get; set; }
-
-    [CliOption("--framework-controls", GroupValues = true)]
-    public IEnumerable<string>? FrameworkControls { get; set; }
 
     /// <summary>
     /// A customer-chosen string that you can use to distinguish between otherwise identical calls to CreateFrameworkInput . Retrying a suc- cessful request with the same idempotency token results in a success message with no action taken.
@@ -53,5 +108,22 @@ public record AwsBackupCreateFrameworkOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

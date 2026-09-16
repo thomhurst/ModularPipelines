@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,22 +21,100 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("waf-regional", "update-rule")]
-public record AwsWafRegionalUpdateRuleOptions : AwsOptions
+public record AwsWafRegionalUpdateRuleOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--rule-id")]
-    public string? RuleId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. Inserts or deletes Predicate objects in a Rule . Each Predicate object identifies a predicate, such as a ByteMatchSet or an IPSet , that specifies the web requests that you want to allow, block, or cou...
+    /// </summary>
+    /// <param name="RuleId">The RuleId of the Rule that you want to update. RuleId is returned by CreateRule and by ListRules . Constraints: o min: 1 o max: 128 o pattern: .*\S.*</param>
+    /// <param name="ChangeToken">The value returned by the most recent call to GetChangeToken . Constraints: o min: 1 o max: 128 o pattern: .*\S.*</param>
+    /// <param name="Updates">An array of RuleUpdate objects that you want to insert into or delete from a Rule . For more information, see the applicable data types: o RuleUpdate : Contains Action and Predicate o Predicate : Contains DataId , Negated , and Type o FieldToMatch : Contains Data and Type (structure) NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for re- gional and global use. Specifies a Predicate (such as an IPSet ) and indicates whether you want to add it to a Rule or delete it from a Rule . Action -&gt; (string) [required] Specify INSERT to add a Predicate to a Rule . Use DELETE to remove a Predicate from a Rule . Possible values: o INSERT o DELETE Predicate -&gt; (structure) [required] The ID of the Predicate (such as an IPSet ) that you want to add to a Rule . Negated -&gt; (boolean) [required] Set Negated to False if you want AWS WAF to allow, block, or count requests based on the settings in the specified ByteMatchSet , IPSet , SqlInjectionMatchSet , Xss- MatchSet , RegexMatchSet , GeoMatchSet , or SizeCon- straintSet . For example, if an IPSet includes the IP ad- dress 192.0.2.44 , AWS WAF will allow or block requests based on that IP address. Set Negated to True if you want AWS WAF to allow or block a request based on the negation of the settings in the ByteMatchSet , IPSet , SqlInjectionMatchSet , Xss- MatchSet , RegexMatchSet , GeoMatchSet , or SizeCon- straintSet . For example, if an IPSet includes the IP ad- dress 192.0.2.44 , AWS WAF will allow, block, or count requests based on all IP addresses except 192.0.2.44 . Type -&gt; (string) [required] The type of predicate in a Rule , such as ByteMatch or IPSet . Possible values: o IPMatch o ByteMatch o SqlInjectionMatch o GeoMatch o SizeConstraint o XssMatch o RegexMatch DataId -&gt; (string) [required] A unique identifier for a predicate in a Rule , such as ByteMatchSetId or IPSetId . The ID is returned by the corresponding Create or List command. Constraints: o min: 1 o max: 128 o pattern: .*\S.* Shorthand Syntax: Action=string,Predicate={Negated=boolean,Type=string,DataId=string} ... JSON Syntax: [ { "Action": "INSERT"|"DELETE", "Predicate": { "Negated": true|false, "Type": "IPMatch"|"ByteMatch"|"SqlInjectionMatch"|"GeoMatch"|"SizeConstraint"|"XssMatch"|"RegexMatch", "DataId": "string" } } ... ]</param>
+    public AwsWafRegionalUpdateRuleOptions(
+        string RuleId,
+        string ChangeToken,
+        IEnumerable<string> Updates
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RuleId);
+        this.RuleId = RuleId;
+        global::System.ArgumentNullException.ThrowIfNull(ChangeToken);
+        this.ChangeToken = ChangeToken;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Updates);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Updates));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Updates));
+            }
+
+            Updates = materialized;
+        }
+        this.Updates = Updates;
+    }
+
+    private AwsWafRegionalUpdateRuleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWafRegionalUpdateRuleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWafRegionalUpdateRuleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The RuleId of the Rule that you want to update. RuleId is returned by CreateRule and by ListRules . Constraints: o min: 1 o max: 128 o pattern: .*\S.*
+    /// </summary>
+    [CliOption("--rule-id")]
+    public string? RuleId { get; private init; }
+
+    /// <summary>
+    /// The value returned by the most recent call to GetChangeToken . Constraints: o min: 1 o max: 128 o pattern: .*\S.*
+    /// </summary>
     [SecretValue]
     [CliOption("--change-token")]
-    public string? ChangeToken { get; set; }
+    public string? ChangeToken { get; private init; }
 
+    /// <summary>
+    /// An array of RuleUpdate objects that you want to insert into or delete from a Rule . For more information, see the applicable data types: o RuleUpdate : Contains Action and Predicate o Predicate : Contains DataId , Negated , and Type o FieldToMatch : Contains Data and Type (structure) NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for re- gional and global use. Specifies a Predicate (such as an IPSet ) and indicates whether you want to add it to a Rule or delete it from a Rule . Action -&gt; (string) [required] Specify INSERT to add a Predicate to a Rule . Use DELETE to remove a Predicate from a Rule . Possible values: o INSERT o DELETE Predicate -&gt; (structure) [required] The ID of the Predicate (such as an IPSet ) that you want to add to a Rule . Negated -&gt; (boolean) [required] Set Negated to False if you want AWS WAF to allow, block, or count requests based on the settings in the specified ByteMatchSet , IPSet , SqlInjectionMatchSet , Xss- MatchSet , RegexMatchSet , GeoMatchSet , or SizeCon- straintSet . For example, if an IPSet includes the IP ad- dress 192.0.2.44 , AWS WAF will allow or block requests based on that IP address. Set Negated to True if you want AWS WAF to allow or block a request based on the negation of the settings in the ByteMatchSet , IPSet , SqlInjectionMatchSet , Xss- MatchSet , RegexMatchSet , GeoMatchSet , or SizeCon- straintSet . For example, if an IPSet includes the IP ad- dress 192.0.2.44 , AWS WAF will allow, block, or count requests based on all IP addresses except 192.0.2.44 . Type -&gt; (string) [required] The type of predicate in a Rule , such as ByteMatch or IPSet . Possible values: o IPMatch o ByteMatch o SqlInjectionMatch o GeoMatch o SizeConstraint o XssMatch o RegexMatch DataId -&gt; (string) [required] A unique identifier for a predicate in a Rule , such as ByteMatchSetId or IPSetId . The ID is returned by the corresponding Create or List command. Constraints: o min: 1 o max: 128 o pattern: .*\S.* Shorthand Syntax: Action=string,Predicate={Negated=boolean,Type=string,DataId=string} ... JSON Syntax: [ { "Action": "INSERT"|"DELETE", "Predicate": { "Negated": true|false, "Type": "IPMatch"|"ByteMatch"|"SqlInjectionMatch"|"GeoMatch"|"SizeConstraint"|"XssMatch"|"RegexMatch", "DataId": "string" } } ... ]
+    /// </summary>
     [CliOption("--updates", GroupValues = true)]
-    public IEnumerable<string>? Updates { get; set; }
+    public IEnumerable<string>? Updates { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --aquaconfigurationstatus.
+/// Allowed values for --aqua-configuration-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsRedshiftModifyAquaConfigurationAquaConfigurationStatus
 {
-    [EnumValue("enabled")]
-    Enabled = 1,
+    [EnumValue("auto")]
+    Auto,
 
     [EnumValue("disabled")]
-    Disabled = 2,
+    Disabled,
 
-    [EnumValue("auto")]
-    Auto = 3
+    [EnumValue("enabled")]
+    Enabled
 }

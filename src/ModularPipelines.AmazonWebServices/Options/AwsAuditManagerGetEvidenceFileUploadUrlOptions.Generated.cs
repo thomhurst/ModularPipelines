@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("auditmanager", "get-evidence-file-upload-url")]
-public record AwsAuditManagerGetEvidenceFileUploadUrlOptions : AwsOptions
+public record AwsAuditManagerGetEvidenceFileUploadUrlOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a presigned Amazon S3 URL that can be used to upload a file as manual evidence. For instructions on how to use this operation, see Upload a file from your browser in the Audit Manager User Guide . The following restrictions apply to this operation: o Maximum size of an individual evidence file: 100 MB o Number of daily manual evidence uploads per control: 100 o Supported file formats: See Supported file types for manual evidence in the Audit Manager User Guide For more information about ...
+    /// </summary>
+    /// <param name="FileName">The file that you want to upload. For a list of supported file for- mats, see Supported file types for manual evidence in the Audit Man- ager User Guide . Constraints: o min: 1 o max: 300 o pattern: [^\/]*</param>
+    public AwsAuditManagerGetEvidenceFileUploadUrlOptions(
+        string FileName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FileName);
+        this.FileName = FileName;
+    }
+
+    private AwsAuditManagerGetEvidenceFileUploadUrlOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAuditManagerGetEvidenceFileUploadUrlOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAuditManagerGetEvidenceFileUploadUrlOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The file that you want to upload. For a list of supported file for- mats, see Supported file types for manual evidence in the Audit Man- ager User Guide . Constraints: o min: 1 o max: 300 o pattern: [^\/]*
+    /// </summary>
     [CliOption("--file-name")]
-    public string? FileName { get; set; }
+    public string? FileName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

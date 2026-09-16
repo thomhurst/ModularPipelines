@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -40,11 +40,11 @@ public class AwsSagemakerFeaturestoreRuntime : IAwsSagemakerFeaturestoreRuntime
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchGetRecordAsync(
-        AwsSagemakerFeaturestoreRuntimeBatchGetRecordOptions? options = null,
+        AwsSagemakerFeaturestoreRuntimeBatchGetRecordOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSagemakerFeaturestoreRuntimeBatchGetRecordOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -55,11 +55,11 @@ public class AwsSagemakerFeaturestoreRuntime : IAwsSagemakerFeaturestoreRuntime
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchWriteRecordAsync(
-        AwsSagemakerFeaturestoreRuntimeBatchWriteRecordOptions? options = null,
+        AwsSagemakerFeaturestoreRuntimeBatchWriteRecordOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSagemakerFeaturestoreRuntimeBatchWriteRecordOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -70,11 +70,11 @@ public class AwsSagemakerFeaturestoreRuntime : IAwsSagemakerFeaturestoreRuntime
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteRecordAsync(
-        AwsSagemakerFeaturestoreRuntimeDeleteRecordOptions? options = null,
+        AwsSagemakerFeaturestoreRuntimeDeleteRecordOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSagemakerFeaturestoreRuntimeDeleteRecordOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -85,11 +85,11 @@ public class AwsSagemakerFeaturestoreRuntime : IAwsSagemakerFeaturestoreRuntime
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetRecordAsync(
-        AwsSagemakerFeaturestoreRuntimeGetRecordOptions? options = null,
+        AwsSagemakerFeaturestoreRuntimeGetRecordOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSagemakerFeaturestoreRuntimeGetRecordOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -100,11 +100,11 @@ public class AwsSagemakerFeaturestoreRuntime : IAwsSagemakerFeaturestoreRuntime
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListRecordsAsync(
-        AwsSagemakerFeaturestoreRuntimeListRecordsOptions? options = null,
+        AwsSagemakerFeaturestoreRuntimeListRecordsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSagemakerFeaturestoreRuntimeListRecordsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -115,11 +115,26 @@ public class AwsSagemakerFeaturestoreRuntime : IAwsSagemakerFeaturestoreRuntime
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutRecordAsync(
-        AwsSagemakerFeaturestoreRuntimePutRecordOptions? options = null,
+        AwsSagemakerFeaturestoreRuntimePutRecordOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSagemakerFeaturestoreRuntimePutRecordOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Updates one or more feature values for an existing record in the speci- fied feature group. Features that you do not include in the request re- main unchanged. You can update up to 100 features per call. WARNING: This operation is available only for feature groups that use the Standard_V2 or InMemory online store type. The record must already exist. If the record does not exist or has been soft-deleted, the operation returns a ResourceNotFound error. To create a record, use PutRecord . If you pr...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UpdateRecordAsync(
+        AwsSagemakerFeaturestoreRuntimeUpdateRecordOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pinpoint", "create-app")]
-public record AwsPinpointCreateAppOptions : AwsOptions
+public record AwsPinpointCreateAppOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an application. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CreateApplicationRequest">Specifies the display name of an application and the tags to asso- ciate with the application. Name -&gt; (string) [required] The display name of the application. This name is displayed as the Project name on the Amazon Pinpoint console. tags -&gt; (map) A string-to-string map of key-value pairs that defines the tags to associate with the application. Each tag consists of a re- quired tag key and an associated tag value. key -&gt; (string) value -&gt; (string) Shorthand Syntax: Name=string,tags={KeyName1=string,KeyName2=string} JSON Syntax: { "Name": "string", "tags": {"string": "string" ...} }</param>
+    public AwsPinpointCreateAppOptions(
+        string CreateApplicationRequest
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CreateApplicationRequest);
+        this.CreateApplicationRequest = CreateApplicationRequest;
+    }
+
+    private AwsPinpointCreateAppOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPinpointCreateAppOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPinpointCreateAppOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the display name of an application and the tags to asso- ciate with the application. Name -&gt; (string) [required] The display name of the application. This name is displayed as the Project name on the Amazon Pinpoint console. tags -&gt; (map) A string-to-string map of key-value pairs that defines the tags to associate with the application. Each tag consists of a re- quired tag key and an associated tag value. key -&gt; (string) value -&gt; (string) Shorthand Syntax: Name=string,tags={KeyName1=string,KeyName2=string} JSON Syntax: { "Name": "string", "tags": {"string": "string" ...} }
+    /// </summary>
     [CliOption("--create-application-request")]
-    public string? CreateApplicationRequest { get; set; }
+    public string? CreateApplicationRequest { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

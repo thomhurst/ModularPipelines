@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("servicediscovery", "get-instances-health-status")]
-public record AwsServicediscoveryGetInstancesHealthStatusOptions : AwsOptions
+public record AwsServicediscoveryGetInstancesHealthStatusOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Gets the current health status (Healthy , Unhealthy , or Unknown ) of one or more instances that are associated with a specified service. NOTE: There's a brief delay between when you register an instance and when the health status for the instance is available. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ServiceId">The ID or Amazon Resource Name (ARN) of the service that the in- stance is associated with. For services created in a shared name- space, specify the service ARN. For more information about shared namespaces, see Cross-account Cloud Map namespace sharing in the Cloud Map Developer Guide . Constraints: o max: 255</param>
+    public AwsServicediscoveryGetInstancesHealthStatusOptions(
+        string ServiceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceId);
+        this.ServiceId = ServiceId;
+    }
+
+    private AwsServicediscoveryGetInstancesHealthStatusOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsServicediscoveryGetInstancesHealthStatusOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsServicediscoveryGetInstancesHealthStatusOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID or Amazon Resource Name (ARN) of the service that the in- stance is associated with. For services created in a shared name- space, specify the service ARN. For more information about shared namespaces, see Cross-account Cloud Map namespace sharing in the Cloud Map Developer Guide . Constraints: o max: 255
+    /// </summary>
     [CliOption("--service-id")]
-    public string? ServiceId { get; set; }
+    public string? ServiceId { get; private init; }
 
     /// <summary>
     /// An array that contains the IDs of all the instances that you want to get the health status for. If you omit Instances , Cloud Map returns the health status for all the instances that are associated with the specified service. NOTE: To get the IDs for the instances that you've registered by using a specified service, submit a ListInstances request. Constraints: o min: 1 (string) Constraints: o max: 64 Syntax: "string" "string" ...
@@ -49,5 +86,22 @@ public record AwsServicediscoveryGetInstancesHealthStatusOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

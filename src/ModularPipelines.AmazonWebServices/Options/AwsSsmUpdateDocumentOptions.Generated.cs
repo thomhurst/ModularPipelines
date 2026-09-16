@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,19 +21,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "update-document")]
-public record AwsSsmUpdateDocumentOptions : AwsOptions
+public record AwsSsmUpdateDocumentOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates one or more values for an SSM document. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Content">A valid JSON or YAML string. Constraints: o min: 1</param>
+    /// <param name="Name">The name of the SSM document that you want to update. Constraints: o pattern: ^[a-zA-Z0-9_\-.]{3,128}$</param>
+    public AwsSsmUpdateDocumentOptions(
+        string Content,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Content);
+        this.Content = Content;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsSsmUpdateDocumentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmUpdateDocumentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmUpdateDocumentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A valid JSON or YAML string. Constraints: o min: 1
+    /// </summary>
     [CliOption("--content")]
-    public string? Content { get; set; }
+    public string? Content { get; private init; }
+
+    /// <summary>
+    /// The name of the SSM document that you want to update. Constraints: o pattern: ^[a-zA-Z0-9_\-.]{3,128}$
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
 
     /// <summary>
     /// A list of key-value pairs that describe attachments to a version of a document. Constraints: o min: 0 o max: 20 (structure) Identifying information about a document attachment, including the file name and a key-value pair that identifies the location of an attachment to a document. Key -&gt; (string) The key of a key-value pair that identifies the location of an attachment to a document. Possible values: o SourceUrl o S3FileUrl o AttachmentReference Values -&gt; (list) The value of a key-value pair that identifies the location of an attachment to a document. The format for Value depends on the type of key you specify. o For the key SourceUrl , the value is an S3 bucket location. For example: "Values": [ "s3://amzn-s3-demo-bucket/my-pre- fix" ] o For the key S3FileUrl , the value is a file in an S3 bucket. For example: "Values": [ "s3://amzn-s3-demo-bucket/my-prefix/my-file.py" ] o For the key AttachmentReference , the value is constructed from the name of another SSM document in your account, a version number of that document, and a file attached to that document version that you want to reuse. For example: "Values": [ "MyOtherDocument/3/my-other-file.py" ] How- ever, if the SSM document is shared with you from another account, the full SSM document ARN must be specified in- stead of the document name only. For example: "Values": [ "arn:aws:ssm:us-east-2:111122223333:document/OtherAccount- Document/3/their-file.py" ] Constraints: o min: 1 o max: 1 (string) Constraints: o min: 1 o max: 1024 Name -&gt; (string) The name of the document attachment file. Constraints: o pattern: ^[a-zA-Z0-9_\-.]{3,128}$ Shorthand Syntax: Key=string,Values=string,string,Name=string ... JSON Syntax: [ { "Key": "SourceUrl"|"S3FileUrl"|"AttachmentReference", "Values": ["string", ...], "Name": "string" } ... ]
     /// </summary>
     [CliOption("--attachments", GroupValues = true)]
     public IEnumerable<string>? Attachments { get; set; }
-
-    [CliOption("--name")]
-    public string? Name { get; set; }
 
     /// <summary>
     /// The friendly name of the SSM document that you want to update. This value can differ for each version of the document. If you don't specify a value for this parameter in your request, the existing value is applied to the new document version. Constraints: o max: 1024 o pattern: ^[\w\.\-\:\/ ]*$
@@ -69,5 +113,22 @@ public record AwsSsmUpdateDocumentOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

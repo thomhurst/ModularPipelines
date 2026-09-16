@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --dnsadvancedprotection.
+/// Allowed values for --dns-advanced-protection.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsRoute53globalresolverCreateFirewallRuleDnsAdvancedProtection
 {
     [EnumValue("DGA")]
-    Dga = 1,
-
-    [EnumValue("DNS_TUNNELING")]
-    DnsTunneling = 2,
+    Dga,
 
     [EnumValue("DICTIONARY_DGA")]
-    DictionaryDga = 3
+    DictionaryDga,
+
+    [EnumValue("DNS_TUNNELING")]
+    DnsTunneling
 }

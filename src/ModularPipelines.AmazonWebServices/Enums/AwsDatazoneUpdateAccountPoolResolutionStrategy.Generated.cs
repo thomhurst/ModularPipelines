@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --resolutionstrategy.
+/// Allowed values for --resolution-strategy.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDatazoneUpdateAccountPoolResolutionStrategy
 {
     [EnumValue("MANUAL")]
-    Manual = 1
+    Manual,
+
+    [EnumValue("o")]
+    O
 }

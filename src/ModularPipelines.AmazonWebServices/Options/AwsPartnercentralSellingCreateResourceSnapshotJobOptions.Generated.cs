@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +22,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("partnercentral-selling", "create-resource-snapshot-job")]
-public record AwsPartnercentralSellingCreateResourceSnapshotJobOptions : AwsOptions
+public record AwsPartnercentralSellingCreateResourceSnapshotJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Use this action to create a job to generate a snapshot of the specified resource within an engagement. It initiates an asynchronous process to create a resource snapshot. The job creates a new snapshot only if the resource state has changed, adhering to the same access control and im- mutability rules as direct snapshot creation. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Catalog">Specifies the catalog in which to create the snapshot job. Valid values are AWS and Sandbox . Constraints: o pattern: [a-zA-Z]+</param>
+    /// <param name="EngagementIdentifier">Specifies the identifier of the engagement associated with the re- source to be snapshotted. Constraints: o pattern: eng-[0-9a-z]{14}</param>
+    /// <param name="ResourceType">The type of resource for which the snapshot job is being created. Must be one of the supported resource types i.e. Opportunity Possible values: o Opportunity</param>
+    /// <param name="ResourceIdentifier">Specifies the identifier of the specific resource to be snapshotted. The format depends on the ResourceType . Constraints: o pattern: O[0-9]{1,19}</param>
+    /// <param name="ResourceSnapshotTemplateIdentifier">Specifies the name of the template that defines the schema for the snapshot. Constraints: o pattern: [a-zA-Z0-9]{3,80}</param>
+    public AwsPartnercentralSellingCreateResourceSnapshotJobOptions(
+        string Catalog,
+        string EngagementIdentifier,
+        AwsPartnercentralSellingCreateResourceSnapshotJobResourceType ResourceType,
+        string ResourceIdentifier,
+        string ResourceSnapshotTemplateIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+        global::System.ArgumentNullException.ThrowIfNull(EngagementIdentifier);
+        this.EngagementIdentifier = EngagementIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
+        this.ResourceType = ResourceType;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceIdentifier);
+        this.ResourceIdentifier = ResourceIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceSnapshotTemplateIdentifier);
+        this.ResourceSnapshotTemplateIdentifier = ResourceSnapshotTemplateIdentifier;
+    }
+
+    private AwsPartnercentralSellingCreateResourceSnapshotJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPartnercentralSellingCreateResourceSnapshotJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPartnercentralSellingCreateResourceSnapshotJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the catalog in which to create the snapshot job. Valid values are AWS and Sandbox . Constraints: o pattern: [a-zA-Z]+
+    /// </summary>
     [CliOption("--catalog")]
-    public string? Catalog { get; set; }
+    public string? Catalog { get; private init; }
+
+    /// <summary>
+    /// Specifies the identifier of the engagement associated with the re- source to be snapshotted. Constraints: o pattern: eng-[0-9a-z]{14}
+    /// </summary>
+    [CliOption("--engagement-identifier")]
+    public string? EngagementIdentifier { get; private init; }
+
+    /// <summary>
+    /// The type of resource for which the snapshot job is being created. Must be one of the supported resource types i.e. Opportunity Possible values: o Opportunity
+    /// </summary>
+    [CliOption("--resource-type")]
+    public AwsPartnercentralSellingCreateResourceSnapshotJobResourceType? ResourceType { get; private init; }
+
+    /// <summary>
+    /// Specifies the identifier of the specific resource to be snapshotted. The format depends on the ResourceType . Constraints: o pattern: O[0-9]{1,19}
+    /// </summary>
+    [CliOption("--resource-identifier")]
+    public string? ResourceIdentifier { get; private init; }
+
+    /// <summary>
+    /// Specifies the name of the template that defines the schema for the snapshot. Constraints: o pattern: [a-zA-Z0-9]{3,80}
+    /// </summary>
+    [CliOption("--resource-snapshot-template-identifier")]
+    public string? ResourceSnapshotTemplateIdentifier { get; private init; }
 
     /// <summary>
     /// A client-generated UUID used for idempotency check. The token helps prevent duplicate job creations. Constraints: o pattern: .{1,255}
@@ -31,18 +109,6 @@ public record AwsPartnercentralSellingCreateResourceSnapshotJobOptions : AwsOpti
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--engagement-identifier")]
-    public string? EngagementIdentifier { get; set; }
-
-    [CliOption("--resource-type")]
-    public string? ResourceType { get; set; }
-
-    [CliOption("--resource-identifier")]
-    public string? ResourceIdentifier { get; set; }
-
-    [CliOption("--resource-snapshot-template-identifier")]
-    public string? ResourceSnapshotTemplateIdentifier { get; set; }
 
     /// <summary>
     /// A map of the key-value pairs of the tag or tags to assign. Constraints: o min: 1 o max: 200 (structure) The key-value pair assigned to a specified resource. Key -&gt; (string) [required] The key in the tag. Constraints: o pattern: (?=.{1,128}$)([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The value in the tag. Constraints: o pattern: (?=.{0,256}$)([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -55,5 +121,22 @@ public record AwsPartnercentralSellingCreateResourceSnapshotJobOptions : AwsOpti
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

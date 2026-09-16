@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,9 +20,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudwatch", "put-composite-alarm")]
-public record AwsCloudwatchPutCompositeAlarmOptions : AwsOptions
+public record AwsCloudwatchPutCompositeAlarmOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--actions-enabled")]
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates or updates a composite alarm . When you create a composite alarm, you specify a rule expression for the alarm that takes into ac- count the alarm states of other alarms that you have created. The com- posite alarm goes into ALARM state only if all conditions of the rule are met. The alarms specified in a composite alarm's rule expression can include metric alarms and other composite alarms. The rule expression of a com- posite alarm can include as many as 100 underlying alarms. Any singl...
+    /// </summary>
+    /// <param name="AlarmName">The name for the composite alarm. This name must be unique within the Region. Constraints: o min: 1 o max: 255</param>
+    /// <param name="AlarmRule">An expression that specifies which other alarms are to be evaluated to determine this composite alarm's state. For each alarm that you reference, you designate a function that specifies whether that alarm needs to be in ALARM state, OK state, or INSUFFICIENT_DATA state. You can use operators (AND, OR and NOT) to combine multiple functions in a single expression. You can use parenthesis to logi- cally group the functions in your expression. You can use either alarm names or ARNs to reference the other alarms that are to be evaluated. Functions can include the following: o ALARM("*alarm-name* or *alarm-ARN* ") is TRUE if the named alarm is in ALARM state. o OK("*alarm-name* or *alarm-ARN* ") is TRUE if the named alarm is in OK state. o INSUFFICIENT_DATA("*alarm-name* or *alarm-ARN* ") is TRUE if the named alarm is in INSUFFICIENT_DATA state. o TRUE always evaluates to TRUE. o FALSE always evaluates to FALSE. TRUE and FALSE are useful for testing a complex AlarmRule structure, and for testing your alarm actions. Alarm names specified in AlarmRule can be surrounded with dou- ble-quotes ("), but do not have to be. The following are some examples of AlarmRule : o ALARM(CPUUtilizationTooHigh) AND ALARM(DiskReadOpsTooHigh) speci- fies that the composite alarm goes into ALARM state only if both CPUUtilizationTooHigh and DiskReadOpsTooHigh alarms are in ALARM state. o ALARM(CPUUtilizationTooHigh) AND NOT ALARM(DeploymentInProgress) specifies that the alarm goes to ALARM state if CPUUtilization- TooHigh is in ALARM state and DeploymentInProgress is not in ALARM state. This example reduces alarm noise during a known deployment window. o (ALARM(CPUUtilizationTooHigh) OR ALARM(DiskReadOpsTooHigh)) AND OK(NetworkOutTooHigh) goes into ALARM state if CPUUtilization- TooHigh OR DiskReadOpsTooHigh is in ALARM state, and if Network- OutTooHigh is in OK state. This provides another example of using a composite alarm to prevent noise. This rule ensures that you are not notified with an alarm action on high CPU or disk usage if a known network problem is also occurring. The AlarmRule can specify as many as 100 "children" alarms. The AlarmRule expression can have as many as 500 elements. Elements are child alarms, TRUE or FALSE statements, and parentheses. Constraints: o min: 1 o max: 10240</param>
+    public AwsCloudwatchPutCompositeAlarmOptions(
+        string AlarmName,
+        string AlarmRule
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AlarmName);
+        this.AlarmName = AlarmName;
+        global::System.ArgumentNullException.ThrowIfNull(AlarmRule);
+        this.AlarmRule = AlarmRule;
+    }
+
+    private AwsCloudwatchPutCompositeAlarmOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudwatchPutCompositeAlarmOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudwatchPutCompositeAlarmOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name for the composite alarm. This name must be unique within the Region. Constraints: o min: 1 o max: 255
+    /// </summary>
+    [CliOption("--alarm-name")]
+    public string? AlarmName { get; private init; }
+
+    /// <summary>
+    /// An expression that specifies which other alarms are to be evaluated to determine this composite alarm's state. For each alarm that you reference, you designate a function that specifies whether that alarm needs to be in ALARM state, OK state, or INSUFFICIENT_DATA state. You can use operators (AND, OR and NOT) to combine multiple functions in a single expression. You can use parenthesis to logi- cally group the functions in your expression. You can use either alarm names or ARNs to reference the other alarms that are to be evaluated. Functions can include the following: o ALARM("*alarm-name* or *alarm-ARN* ") is TRUE if the named alarm is in ALARM state. o OK("*alarm-name* or *alarm-ARN* ") is TRUE if the named alarm is in OK state. o INSUFFICIENT_DATA("*alarm-name* or *alarm-ARN* ") is TRUE if the named alarm is in INSUFFICIENT_DATA state. o TRUE always evaluates to TRUE. o FALSE always evaluates to FALSE. TRUE and FALSE are useful for testing a complex AlarmRule structure, and for testing your alarm actions. Alarm names specified in AlarmRule can be surrounded with dou- ble-quotes ("), but do not have to be. The following are some examples of AlarmRule : o ALARM(CPUUtilizationTooHigh) AND ALARM(DiskReadOpsTooHigh) speci- fies that the composite alarm goes into ALARM state only if both CPUUtilizationTooHigh and DiskReadOpsTooHigh alarms are in ALARM state. o ALARM(CPUUtilizationTooHigh) AND NOT ALARM(DeploymentInProgress) specifies that the alarm goes to ALARM state if CPUUtilization- TooHigh is in ALARM state and DeploymentInProgress is not in ALARM state. This example reduces alarm noise during a known deployment window. o (ALARM(CPUUtilizationTooHigh) OR ALARM(DiskReadOpsTooHigh)) AND OK(NetworkOutTooHigh) goes into ALARM state if CPUUtilization- TooHigh OR DiskReadOpsTooHigh is in ALARM state, and if Network- OutTooHigh is in OK state. This provides another example of using a composite alarm to prevent noise. This rule ensures that you are not notified with an alarm action on high CPU or disk usage if a known network problem is also occurring. The AlarmRule can specify as many as 100 "children" alarms. The AlarmRule expression can have as many as 500 elements. Elements are child alarms, TRUE or FALSE statements, and parentheses. Constraints: o min: 1 o max: 10240
+    /// </summary>
+    [CliOption("--alarm-rule")]
+    public string? AlarmRule { get; private init; }
+
+    /// <summary>
+    /// Indicates whether actions should be executed during any changes to the alarm state of the composite alarm. The default is TRUE .
+    /// </summary>
+    [CliFlag("--actions-enabled", NegatedName = "--no-actions-enabled")]
     public bool? ActionsEnabled { get; set; }
 
     /// <summary>
@@ -35,12 +88,6 @@ public record AwsCloudwatchPutCompositeAlarmOptions : AwsOptions
     /// </summary>
     [CliOption("--alarm-description")]
     public string? AlarmDescription { get; set; }
-
-    [CliOption("--alarm-name")]
-    public string? AlarmName { get; set; }
-
-    [CliOption("--alarm-rule")]
-    public string? AlarmRule { get; set; }
 
     /// <summary>
     /// The actions to execute when this alarm transitions to the INSUFFI- CIENT_DATA state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values: ] Amazon SNS actions: `` arn:aws:sns:region :account-id :sns-topic-name `` System Message: WARNING/2 (&lt;string&gt;:, line 344) Inline literal start-string without end-string. Lambda actions: o Invoke the latest version of a Lambda function: `` arn:aws:lambda:region :account-id :function:function-name `` System Message: WARNING/2 (&lt;string&gt;:, line 353) Inline literal start-string without end-string. o Invoke a specific version of a Lambda function: `` arn:aws:lambda:region :account-id :function:function-name :ver- sion-number `` System Message: WARNING/2 (&lt;string&gt;:, line 355) Inline literal start-string without end-string. o Invoke a function by using an alias Lambda function: `` arn:aws:lambda:region :account-id :function:function-name :alias-name `` System Message: WARNING/2 (&lt;string&gt;:, line 357) Inline literal start-string without end-string. Constraints: o max: 5 (string) Constraints: o min: 1 o max: 1024 Syntax: "string" "string" ...
@@ -83,5 +130,22 @@ public record AwsCloudwatchPutCompositeAlarmOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

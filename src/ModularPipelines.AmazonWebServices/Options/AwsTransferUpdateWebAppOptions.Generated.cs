@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("transfer", "update-web-app")]
-public record AwsTransferUpdateWebAppOptions : AwsOptions
+public record AwsTransferUpdateWebAppOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Assigns new properties to a web app. You can modify the access point, identity provider details, endpoint configuration, and the web app units. For more information about using VPC endpoints with Transfer Family, see Create a Transfer Family web app in a VPC . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="WebAppId">Provide the identifier of the web app that you are updating. Constraints: o min: 24 o max: 24 o pattern: webapp-[0-9a-f]{17}</param>
+    public AwsTransferUpdateWebAppOptions(
+        string WebAppId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WebAppId);
+        this.WebAppId = WebAppId;
+    }
+
+    private AwsTransferUpdateWebAppOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTransferUpdateWebAppOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTransferUpdateWebAppOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Provide the identifier of the web app that you are updating. Constraints: o min: 24 o max: 24 o pattern: webapp-[0-9a-f]{17}
+    /// </summary>
     [CliOption("--web-app-id")]
-    public string? WebAppId { get; set; }
+    public string? WebAppId { get; private init; }
 
     /// <summary>
     /// Provide updated identity provider values in a WebAppIdenti- tyProviderDetails object. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: IdentityCenterConfig. IdentityCenterConfig -&gt; (structure) A structure that describes the values to use for the IAM Iden- tity Center settings when you update a web app. Role -&gt; (string) The IAM role used to access IAM Identity Center. Constraints: o min: 20 o max: 2048 o pattern: arn:.*role/\S+ Shorthand Syntax: IdentityCenterConfig={Role=string} JSON Syntax: { "IdentityCenterConfig": { "Role": "string" } }
@@ -53,5 +90,22 @@ public record AwsTransferUpdateWebAppOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

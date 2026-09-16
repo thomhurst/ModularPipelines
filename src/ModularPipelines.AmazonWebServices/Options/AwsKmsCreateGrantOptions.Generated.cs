@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kms", "create-grant")]
-public record AwsKmsCreateGrantOptions : AwsOptions
+public record AwsKmsCreateGrantOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Adds a grant to a KMS key. A grant is a policy instrument that allows Amazon Web Services princi- pals to use KMS keys in cryptographic operations. It also can allow them to view a KMS key ( DescribeKey ) and create and manage grants. When authorizing access to a KMS key, grants are considered along with key policies and IAM policies. Grants are often used for temporary per- missions because you can create one, use its permissions, and delete it without changing your key policies or IAM policies...
+    /// </summary>
+    /// <param name="KeyId">Identifies the KMS key for the grant. The grant gives principals permission to use this KMS key. Specify the key ID or key ARN of the KMS key. To specify a KMS key in a different Amazon Web Services account, you must use the key ARN. For example: o Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab o Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab To get the key ID and key ARN for a KMS key, use ListKeys or De- scribeKey . Constraints: o min: 1 o max: 2048</param>
+    /// <param name="Operations">A list of operations that the grant permits. This list must include only operations that are permitted in a grant. Also, the operation must be supported on the KMS key. For ex- ample, you cannot create a grant for a symmetric encryption KMS key that allows the Sign operation, or a grant for an asymmetric KMS key that allows the GenerateDataKey operation. If you try, KMS re- turns a ValidationError exception. For details, see Grant operations in the Key Management Service Developer Guide . (string) Possible values: o Decrypt o Encrypt o GenerateDataKey o GenerateDataKeyWithoutPlaintext o ReEncryptFrom o ReEncryptTo o Sign o Verify o GetPublicKey o CreateGrant o RetireGrant o DescribeKey o GenerateDataKeyPair o GenerateDataKeyPairWithoutPlaintext o GenerateMac o VerifyMac o DeriveSharedSecret Syntax: "string" "string" ...</param>
+    public AwsKmsCreateGrantOptions(
+        string KeyId,
+        IEnumerable<string> Operations
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KeyId);
+        this.KeyId = KeyId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Operations);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Operations));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Operations));
+            }
+
+            Operations = materialized;
+        }
+        this.Operations = Operations;
+    }
+
+    private AwsKmsCreateGrantOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKmsCreateGrantOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKmsCreateGrantOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Identifies the KMS key for the grant. The grant gives principals permission to use this KMS key. Specify the key ID or key ARN of the KMS key. To specify a KMS key in a different Amazon Web Services account, you must use the key ARN. For example: o Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab o Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab To get the key ID and key ARN for a KMS key, use ListKeys or De- scribeKey . Constraints: o min: 1 o max: 2048
+    /// </summary>
     [CliOption("--key-id")]
-    public string? KeyId { get; set; }
+    public string? KeyId { get; private init; }
+
+    /// <summary>
+    /// A list of operations that the grant permits. This list must include only operations that are permitted in a grant. Also, the operation must be supported on the KMS key. For ex- ample, you cannot create a grant for a symmetric encryption KMS key that allows the Sign operation, or a grant for an asymmetric KMS key that allows the GenerateDataKey operation. If you try, KMS re- turns a ValidationError exception. For details, see Grant operations in the Key Management Service Developer Guide . (string) Possible values: o Decrypt o Encrypt o GenerateDataKey o GenerateDataKeyWithoutPlaintext o ReEncryptFrom o ReEncryptTo o Sign o Verify o GetPublicKey o CreateGrant o RetireGrant o DescribeKey o GenerateDataKeyPair o GenerateDataKeyPairWithoutPlaintext o GenerateMac o VerifyMac o DeriveSharedSecret Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--operations", GroupValues = true)]
+    public IEnumerable<string>? Operations { get; private init; }
 
     /// <summary>
     /// The identity that gets the permissions specified in the grant. To specify the grantee principal, use the Amazon Resource Name (ARN) of an Amazon Web Services principal. Valid principals include Amazon Web Services accounts, IAM users, IAM roles, federated users, and assumed role users. For help with the ARN syntax for a principal, see IAM ARNs in the * Identity and Access Management User Guide * . You must specify either GranteePrincipal or GranteeServicePrincipal , but not both. Constraints: o min: 1 o max: 256 o pattern: ^[\w+=,.@:/-]+$
@@ -36,9 +94,6 @@ public record AwsKmsCreateGrantOptions : AwsOptions
     /// </summary>
     [CliOption("--retiring-principal")]
     public string? RetiringPrincipal { get; set; }
-
-    [CliOption("--operations", GroupValues = true)]
-    public IEnumerable<string>? Operations { get; set; }
 
     /// <summary>
     /// Specifies a grant constraint. WARNING: Do not include confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output. KMS supports the following grant constraints. o EncryptionContextEquals and EncryptionContextSubset These encryp- tion context grant constraints allow the permissions in the grant only when the encryption context in the request matches (Encryp- tionContextEquals ) or includes (EncryptionContextSubset ) the en- cryption context specified in the constraint. Encryption context grant constraints are supported only on grant operations that in- clude an EncryptionContext parameter, such as cryptographic opera- tions on symmetric encryption KMS keys. You cannot use an encryp- tion context grant constraint for cryptographic operations with asymmetric KMS keys or HMAC KMS keys. Operations with these keys don't support an encryption context. Grants with encryption con- text grant constraints can include the DescribeKey and Retire- Grant operations, but the constraint doesn't apply to these opera- tions. If a grant with an encryption context grant constraint in- cludes the CreateGrant operation, the constraint requires that any grants created with the CreateGrant permission have an equally strict or stricter encryption context constraint. Each constraint value can include up to 8 encryption context pairs. The encryption context value in each constraint cannot exceed 384 characters. For more information about encryption context, see Encryption context in the * Key Management Service Developer Guide * . o SourceArn This grant constraint allows the permissions in the grant only when the request is made on behalf of a specific Amazon Web Services resource, identified by its Amazon Resource Name (ARN) . This is effectively the same as having the aws:SourceArn global condition key in the grant. The SourceArn constraint is supported on grants for all types of KMS keys and can also be ap- plied to the DescribeKey operation when specified in the request. However, it does not apply to RetireGrant operation. For information about grant constraints, see Using grant constraints in the Key Management Service Developer Guide . EncryptionContextSubset -&gt; (map) A list of key-value pairs that must be included in the encryp- tion context of the cryptographic operation request. The grant allows the cryptographic operation only when the encryption con- text in the request includes the key-value pairs specified in this constraint, although it can include additional key-value pairs. key -&gt; (string) value -&gt; (string) EncryptionContextEquals -&gt; (map) A list of key-value pairs that must match the encryption context in the cryptographic operation request. The grant allows the op- eration only when the encryption context in the request is the same as the encryption context specified in this constraint. key -&gt; (string) value -&gt; (string) SourceArn -&gt; (string) The Amazon Resource Name (ARN) of an Amazon Web Services re- source on behalf of which the request is made. This is effec- tively the same as having the aws:SourceArn global condition key in the grant. The SourceArn constraint ensures that the princi- pal can use the KMS key only when the request is made on behalf of the specified resource. Constraints: o min: 20 o max: 512 o pattern: ^arn:aws[a-z0-9-]*:[a-z0-9-]+:[a-z0-9-]*:[0-9]{12}:.+$ Shorthand Syntax: EncryptionContextSubset={KeyName1=string,KeyName2=string},EncryptionContextEquals={KeyName1=string,KeyName2=string},SourceArn=string JSON Syntax: { "EncryptionContextSubset": {"string": "string" ...}, "EncryptionContextEquals": {"string": "string" ...}, "SourceArn": "string" }
@@ -59,7 +114,10 @@ public record AwsKmsCreateGrantOptions : AwsOptions
     [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks if your request will succeed. DryRun is an optional parame- ter. To learn more about how to use this parameter, see Testing your per- missions in the Key Management Service Developer Guide .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -79,5 +137,22 @@ public record AwsKmsCreateGrantOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

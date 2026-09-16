@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --ruleexecutionmode.
+/// Allowed values for --rule-execution-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsFrauddetectorCreateDetectorVersionRuleExecutionMode
 {
     [EnumValue("ALL_MATCHED")]
-    AllMatched = 1,
+    AllMatched,
 
     [EnumValue("FIRST_MATCHED")]
-    FirstMatched = 2
+    FirstMatched
 }

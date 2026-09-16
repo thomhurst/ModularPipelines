@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gamelift", "create-player-session")]
-public record AwsGameliftCreatePlayerSessionOptions : AwsOptions
+public record AwsGameliftCreatePlayerSessionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--game-session-id")]
-    public string? GameSessionId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Reserves an open player slot in a game session for a player. New player sessions can be created in any game session with an open slot that is in ACTIVE status and has a player creation policy of ACCEPT_ALL . You can add a group of players to a game session with CreatePlayerSessions . To create a player session, specify a game session ID, player ID, and optionally a set of player data. If successful, a slot is reserved in t...
+    /// </summary>
+    /// <param name="GameSessionId">An identifier for the game session that is unique across all regions to add a player to. The value is always a full ARN in the following format: For Home Region game session - arn:aws:gamelift:&lt;home_re- gion&gt;::gamesession/&lt;fleet ID&gt;/&lt;ID string&gt; . For Remote Location game session - arn:aws:gamelift:&lt;home_region&gt;::gamesession/&lt;fleet ID&gt;/&lt;location&gt;/&lt;ID string&gt; . Constraints: o min: 1 o max: 512 o pattern: ^[a-zA-Z0-9:/-]+$</param>
+    /// <param name="PlayerId">A unique identifier for a player. Player IDs are developer-defined. Constraints: o min: 1 o max: 1024</param>
+    public AwsGameliftCreatePlayerSessionOptions(
+        string GameSessionId,
+        string PlayerId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GameSessionId);
+        this.GameSessionId = GameSessionId;
+        global::System.ArgumentNullException.ThrowIfNull(PlayerId);
+        this.PlayerId = PlayerId;
+    }
+
+    private AwsGameliftCreatePlayerSessionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGameliftCreatePlayerSessionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGameliftCreatePlayerSessionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// An identifier for the game session that is unique across all regions to add a player to. The value is always a full ARN in the following format: For Home Region game session - arn:aws:gamelift:&lt;home_re- gion&gt;::gamesession/&lt;fleet ID&gt;/&lt;ID string&gt; . For Remote Location game session - arn:aws:gamelift:&lt;home_region&gt;::gamesession/&lt;fleet ID&gt;/&lt;location&gt;/&lt;ID string&gt; . Constraints: o min: 1 o max: 512 o pattern: ^[a-zA-Z0-9:/-]+$
+    /// </summary>
+    [CliOption("--game-session-id")]
+    public string? GameSessionId { get; private init; }
+
+    /// <summary>
+    /// A unique identifier for a player. Player IDs are developer-defined. Constraints: o min: 1 o max: 1024
+    /// </summary>
     [CliOption("--player-id")]
-    public string? PlayerId { get; set; }
+    public string? PlayerId { get; private init; }
 
     /// <summary>
     /// Developer-defined information related to a player. Amazon GameLift Servers does not use this data, so it can be formatted as needed for use in the game. Constraints: o min: 1 o max: 2048
@@ -38,5 +82,22 @@ public record AwsGameliftCreatePlayerSessionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

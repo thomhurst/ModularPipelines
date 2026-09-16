@@ -16,12 +16,12 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSignerListSigningJobsStatus
 {
-    [EnumValue("InProgress")]
-    InProgress = 1,
-
     [EnumValue("Failed")]
-    Failed = 2,
+    Failed,
+
+    [EnumValue("InProgress")]
+    InProgress,
 
     [EnumValue("Succeeded")]
-    Succeeded = 3
+    Succeeded
 }

@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +22,85 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deadline", "create-queue-environment")]
-public record AwsDeadlineCreateQueueEnvironmentOptions : AwsOptions
+public record AwsDeadlineCreateQueueEnvironmentOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--farm-id")]
-    public string? FarmId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an environment for a queue that defines how jobs in the queue run. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FarmId">The farm ID of the farm to connect to the environment. Constraints: o pattern: farm-[0-9a-f]{32}</param>
+    /// <param name="QueueId">The queue ID to connect the queue and environment. Constraints: o pattern: queue-[0-9a-f]{32}</param>
+    /// <param name="Priority">Sets the priority of the environments in the queue from 0 to 10,000, where 0 is the highest priority (activated first and deactivated last). If two environments share the same priority value, the envi- ronment created first takes higher priority. Constraints: o min: 0 o max: 10000</param>
+    /// <param name="TemplateType">The template's file type, JSON or YAML . Possible values: o JSON o YAML</param>
+    /// <param name="Template">The environment template to use in the queue. Constraints: o min: 1 o max: 15000</param>
+    public AwsDeadlineCreateQueueEnvironmentOptions(
+        string FarmId,
+        string QueueId,
+        int Priority,
+        AwsDeadlineCreateQueueEnvironmentTemplateType TemplateType,
+        string Template
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FarmId);
+        this.FarmId = FarmId;
+        global::System.ArgumentNullException.ThrowIfNull(QueueId);
+        this.QueueId = QueueId;
+        this.Priority = Priority;
+        global::System.ArgumentNullException.ThrowIfNull(TemplateType);
+        this.TemplateType = TemplateType;
+        global::System.ArgumentNullException.ThrowIfNull(Template);
+        this.Template = Template;
+    }
+
+    private AwsDeadlineCreateQueueEnvironmentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDeadlineCreateQueueEnvironmentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDeadlineCreateQueueEnvironmentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The farm ID of the farm to connect to the environment. Constraints: o pattern: farm-[0-9a-f]{32}
+    /// </summary>
+    [CliOption("--farm-id")]
+    public string? FarmId { get; private init; }
+
+    /// <summary>
+    /// The queue ID to connect the queue and environment. Constraints: o pattern: queue-[0-9a-f]{32}
+    /// </summary>
     [CliOption("--queue-id")]
-    public string? QueueId { get; set; }
+    public string? QueueId { get; private init; }
+
+    /// <summary>
+    /// Sets the priority of the environments in the queue from 0 to 10,000, where 0 is the highest priority (activated first and deactivated last). If two environments share the same priority value, the envi- ronment created first takes higher priority. Constraints: o min: 0 o max: 10000
+    /// </summary>
+    [CliOption("--priority")]
+    public int? Priority { get; private init; }
+
+    /// <summary>
+    /// The template's file type, JSON or YAML . Possible values: o JSON o YAML
+    /// </summary>
+    [CliOption("--template-type")]
+    public AwsDeadlineCreateQueueEnvironmentTemplateType? TemplateType { get; private init; }
+
+    /// <summary>
+    /// The environment template to use in the queue. Constraints: o min: 1 o max: 15000
+    /// </summary>
+    [CliOption("--template")]
+    public string? Template { get; private init; }
 
     /// <summary>
     /// The unique token which the server uses to recognize retries of the same request. Constraints: o min: 1 o max: 64
@@ -35,19 +109,27 @@ public record AwsDeadlineCreateQueueEnvironmentOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--priority")]
-    public int? Priority { get; set; }
-
-    [CliOption("--template-type")]
-    public string? TemplateType { get; set; }
-
-    [CliOption("--template")]
-    public string? Template { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

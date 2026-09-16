@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,20 +22,63 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53-recovery-control-config", "create-control-panel")]
-public record AwsRoute53RecoveryControlConfigCreateControlPanelOptions : AwsOptions
+public record AwsRoute53RecoveryControlConfigCreateControlPanelOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new control panel. A control panel represents a group of routing controls that can be changed together in a single transaction. You can use a control panel to centrally view the operational status of applications across your organization, and trigger multi-app failovers in a single transaction, for example, to fail over an Availability Zone or Amazon Web Services Region. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ClusterArn">The Amazon Resource Name (ARN) of the cluster for the control panel. Constraints: o min: 1 o max: 256 o pattern: ^[A-Za-z0-9:\/_-]*$</param>
+    /// <param name="ControlPanelName">The name of the control panel. Constraints: o min: 1 o max: 64 o pattern: ^\S+$</param>
+    public AwsRoute53RecoveryControlConfigCreateControlPanelOptions(
+        string ClusterArn,
+        string ControlPanelName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterArn);
+        this.ClusterArn = ClusterArn;
+        global::System.ArgumentNullException.ThrowIfNull(ControlPanelName);
+        this.ControlPanelName = ControlPanelName;
+    }
+
+    private AwsRoute53RecoveryControlConfigCreateControlPanelOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53RecoveryControlConfigCreateControlPanelOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53RecoveryControlConfigCreateControlPanelOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the cluster for the control panel. Constraints: o min: 1 o max: 256 o pattern: ^[A-Za-z0-9:\/_-]*$
+    /// </summary>
+    [CliOption("--cluster-arn")]
+    public string? ClusterArn { get; private init; }
+
+    /// <summary>
+    /// The name of the control panel. Constraints: o min: 1 o max: 64 o pattern: ^\S+$
+    /// </summary>
+    [CliOption("--control-panel-name")]
+    public string? ControlPanelName { get; private init; }
+
     /// <summary>
     /// A unique, case-sensitive string of up to 64 ASCII characters. To make an idempotent API request with an action, specify a client to- ken in the request. Constraints: o min: 1 o max: 64 o pattern: ^\S+$
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--cluster-arn")]
-    public string? ClusterArn { get; set; }
-
-    [CliOption("--control-panel-name")]
-    public string? ControlPanelName { get; set; }
 
     /// <summary>
     /// The tags associated with the control panel. key -&gt; (string) value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ^\S+$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -47,5 +91,22 @@ public record AwsRoute53RecoveryControlConfigCreateControlPanelOptions : AwsOpti
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

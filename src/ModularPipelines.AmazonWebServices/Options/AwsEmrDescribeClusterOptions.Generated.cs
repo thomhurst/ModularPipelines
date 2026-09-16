@@ -21,7 +21,27 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("emr", "describe-cluster")]
 public record AwsEmrDescribeClusterOptions : AwsOptions
 {
+    /// <summary>
+    /// Provides cluster-level details including status, hardware and software configuration, VPC settings, bootstrap actions, instance groups and so on. Permissions needed for describe-cluster include elasticmapre- duce:ListBootstrapActions, elasticmapreduce:ListInstanceFleets, elas- ticmapreduce:DescribeCluster, and elasticmapreduce:ListInstanceGroups.
+    /// </summary>
+    /// <param name="ClusterId">A unique string that identifies a cluster. The create-cluster com- mand returns this identifier. You can use the list-clusters command to get cluster IDs.</param>
+    public AwsEmrDescribeClusterOptions(
+        string ClusterId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterId);
+        this.ClusterId = ClusterId;
+    }
+
+    public void Deconstruct(out string ClusterId)
+    {
+        ClusterId = this.ClusterId;
+    }
+
+    /// <summary>
+    /// A unique string that identifies a cluster. The create-cluster com- mand returns this identifier. You can use the list-clusters command to get cluster IDs.
+    /// </summary>
     [CliOption("--cluster-id")]
-    public string? ClusterId { get; set; }
+    public string ClusterId { get; private init; }
 
 }

@@ -16,15 +16,15 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsPollyStartSpeechSynthesisTaskEngine
 {
-    [EnumValue("standard")]
-    Standard = 1,
-
-    [EnumValue("neural")]
-    Neural = 2,
+    [EnumValue("generative")]
+    Generative,
 
     [EnumValue("long-form")]
-    LongForm = 3,
+    LongForm,
 
-    [EnumValue("generative")]
-    Generative = 4
+    [EnumValue("neural")]
+    Neural,
+
+    [EnumValue("standard")]
+    Standard
 }

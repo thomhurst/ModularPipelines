@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --appcategory.
+/// Allowed values for --app-category.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsLightsailGetBlueprintsAppCategory
 {
     [EnumValue("LfR")]
-    LfR = 1
+    LfR,
+
+    [EnumValue("o")]
+    O
 }

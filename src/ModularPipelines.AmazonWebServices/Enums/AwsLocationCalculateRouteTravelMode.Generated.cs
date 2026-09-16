@@ -11,23 +11,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --travelmode.
+/// Allowed values for --travel-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsLocationCalculateRouteTravelMode
 {
-    [EnumValue("Car")]
-    Car = 1,
-
-    [EnumValue("Truck")]
-    Truck = 2,
-
-    [EnumValue("Walking")]
-    Walking = 3,
-
     [EnumValue("Bicycle")]
-    Bicycle = 4,
+    Bicycle,
+
+    [EnumValue("Car")]
+    Car,
 
     [EnumValue("Motorcycle")]
-    Motorcycle = 5
+    Motorcycle,
+
+    [EnumValue("Truck")]
+    Truck,
+
+    [EnumValue("Walking")]
+    Walking
 }

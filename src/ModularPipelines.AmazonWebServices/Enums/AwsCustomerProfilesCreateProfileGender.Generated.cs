@@ -16,12 +16,12 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCustomerProfilesCreateProfileGender
 {
-    [EnumValue("MALE")]
-    Male = 1,
-
     [EnumValue("FEMALE")]
-    Female = 2,
+    Female,
+
+    [EnumValue("MALE")]
+    Male,
 
     [EnumValue("UNSPECIFIED")]
-    Unspecified = 3
+    Unspecified
 }

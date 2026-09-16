@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --usertype.
+/// Allowed values for --user-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDatazoneCreateUserProfileUserType
 {
-    [EnumValue("IAM_USER")]
-    IamUser = 1,
-
     [EnumValue("IAM_ROLE")]
-    IamRole = 2,
-
-    [EnumValue("SSO_USER")]
-    SsoUser = 3,
+    IamRole,
 
     [EnumValue("IAM_ROLE_SESSION")]
-    IamRoleSession = 4
+    IamRoleSession,
+
+    [EnumValue("IAM_USER")]
+    IamUser,
+
+    [EnumValue("SSO_USER")]
+    SsoUser
 }

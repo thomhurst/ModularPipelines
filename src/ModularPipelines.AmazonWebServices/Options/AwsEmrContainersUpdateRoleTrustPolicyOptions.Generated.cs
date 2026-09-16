@@ -21,14 +21,41 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("emr-containers", "update-role-trust-policy")]
 public record AwsEmrContainersUpdateRoleTrustPolicyOptions : AwsOptions
 {
+    /// <summary>
+    /// Updates the trust policy of given IAM role such that it can be used with Amazon EMR on EKS with the given namespace from the given EKS cluster. Note: To use the IAM Role with Amazon EMR on EKS, OIDC identity provider also needs to be created for the EKS cluster. This can be done using eksctl utils associate-iam-oidc-provider --cluster &lt;cluster_name&gt; --approve command. For information about in- stalling or upgrading eksctl, see Installing or upgrading eksctl in the Amazon EKS User Guide. The comm...
+    /// </summary>
+    /// <param name="ClusterName"></param>
+    /// <param name="Namespace"></param>
+    /// <param name="RoleName"></param>
+    public AwsEmrContainersUpdateRoleTrustPolicyOptions(
+        string ClusterName,
+        string Namespace,
+        string RoleName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+        global::System.ArgumentNullException.ThrowIfNull(Namespace);
+        this.Namespace = Namespace;
+        global::System.ArgumentNullException.ThrowIfNull(RoleName);
+        this.RoleName = RoleName;
+    }
+
+    public void Deconstruct(out string ClusterName, out string Namespace, out string RoleName)
+    {
+        ClusterName = this.ClusterName;
+        Namespace = this.Namespace;
+        RoleName = this.RoleName;
+    }
+
     [CliOption("--cluster-name")]
-    public string? ClusterName { get; set; }
+    public string ClusterName { get; private init; }
 
     [CliOption("--namespace")]
-    public string? Namespace { get; set; }
+    public string Namespace { get; private init; }
 
     [CliOption("--role-name")]
-    public string? RoleName { get; set; }
+    public string RoleName { get; private init; }
 
     [CliOption("--iam-endpoint")]
     public string? IamEndpoint { get; set; }

@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,16 +22,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("wellarchitected", "create-profile")]
-public record AwsWellarchitectedCreateProfileOptions : AwsOptions
+public record AwsWellarchitectedCreateProfileOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Create a profile. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ProfileName">Name of the profile. Constraints: o min: 3 o max: 100</param>
+    /// <param name="ProfileDescription">The profile description. Constraints: o min: 3 o max: 100</param>
+    /// <param name="ProfileQuestions">The profile questions. (structure) An update to a profile question. QuestionId -&gt; (string) The ID of the question. Constraints: o min: 1 o max: 128 SelectedChoiceIds -&gt; (list) The selected choices. (string) The ID of a choice. Constraints: o min: 1 o max: 64 Shorthand Syntax: QuestionId=string,SelectedChoiceIds=string,string ... JSON Syntax: [ { "QuestionId": "string", "SelectedChoiceIds": ["string", ...] } ... ]</param>
+    public AwsWellarchitectedCreateProfileOptions(
+        string ProfileName,
+        string ProfileDescription,
+        IEnumerable<string> ProfileQuestions
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProfileName);
+        this.ProfileName = ProfileName;
+        global::System.ArgumentNullException.ThrowIfNull(ProfileDescription);
+        this.ProfileDescription = ProfileDescription;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ProfileQuestions);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ProfileQuestions));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ProfileQuestions));
+            }
+
+            ProfileQuestions = materialized;
+        }
+        this.ProfileQuestions = ProfileQuestions;
+    }
+
+    private AwsWellarchitectedCreateProfileOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWellarchitectedCreateProfileOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWellarchitectedCreateProfileOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Name of the profile. Constraints: o min: 3 o max: 100
+    /// </summary>
     [CliOption("--profile-name")]
-    public string? ProfileName { get; set; }
+    public string? ProfileName { get; private init; }
 
+    /// <summary>
+    /// The profile description. Constraints: o min: 3 o max: 100
+    /// </summary>
     [CliOption("--profile-description")]
-    public string? ProfileDescription { get; set; }
+    public string? ProfileDescription { get; private init; }
 
+    /// <summary>
+    /// The profile questions. (structure) An update to a profile question. QuestionId -&gt; (string) The ID of the question. Constraints: o min: 1 o max: 128 SelectedChoiceIds -&gt; (list) The selected choices. (string) The ID of a choice. Constraints: o min: 1 o max: 64 Shorthand Syntax: QuestionId=string,SelectedChoiceIds=string,string ... JSON Syntax: [ { "QuestionId": "string", "SelectedChoiceIds": ["string", ...] } ... ]
+    /// </summary>
     [CliOption("--profile-questions", GroupValues = true)]
-    public IEnumerable<string>? ProfileQuestions { get; set; }
+    public IEnumerable<string>? ProfileQuestions { get; private init; }
 
     /// <summary>
     /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. WARNING: This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail. Constraints: o min: 1 o max: 2048 o pattern: [\x00-\x7F]*
@@ -50,5 +112,22 @@ public record AwsWellarchitectedCreateProfileOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

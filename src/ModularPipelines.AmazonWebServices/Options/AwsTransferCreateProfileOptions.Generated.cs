@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("transfer", "create-profile")]
-public record AwsTransferCreateProfileOptions : AwsOptions
+public record AwsTransferCreateProfileOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--as2-id")]
-    public string? As2Id { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates the local or partner profile to use for AS2 transfers. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="As2Id">The As2Id is the AS2-name , as defined in the RFC 4130 . For inbound transfers, this is the AS2-From header for the AS2 messages sent from the partner. For outbound connectors, this is the AS2-To header for the AS2 messages sent to the partner using the StartFileTransfer API operation. This ID cannot include spaces. Constraints: o min: 1 o max: 128 o pattern: [\u0020-\u007E\s]*</param>
+    /// <param name="ProfileType">Determines the type of profile to create: o Specify LOCAL to create a local profile. A local profile repre- sents the AS2-enabled Transfer Family server organization or party. o Specify PARTNER to create a partner profile. A partner profile represents a remote organization, external to Transfer Family. Possible values: o LOCAL o PARTNER</param>
+    public AwsTransferCreateProfileOptions(
+        string As2Id,
+        AwsTransferCreateProfileProfileType ProfileType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(As2Id);
+        this.As2Id = As2Id;
+        global::System.ArgumentNullException.ThrowIfNull(ProfileType);
+        this.ProfileType = ProfileType;
+    }
+
+    private AwsTransferCreateProfileOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTransferCreateProfileOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTransferCreateProfileOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The As2Id is the AS2-name , as defined in the RFC 4130 . For inbound transfers, this is the AS2-From header for the AS2 messages sent from the partner. For outbound connectors, this is the AS2-To header for the AS2 messages sent to the partner using the StartFileTransfer API operation. This ID cannot include spaces. Constraints: o min: 1 o max: 128 o pattern: [\u0020-\u007E\s]*
+    /// </summary>
+    [CliOption("--as2-id")]
+    public string? As2Id { get; private init; }
+
+    /// <summary>
+    /// Determines the type of profile to create: o Specify LOCAL to create a local profile. A local profile repre- sents the AS2-enabled Transfer Family server organization or party. o Specify PARTNER to create a partner profile. A partner profile represents a remote organization, external to Transfer Family. Possible values: o LOCAL o PARTNER
+    /// </summary>
     [CliOption("--profile-type")]
-    public string? ProfileType { get; set; }
+    public AwsTransferCreateProfileProfileType? ProfileType { get; private init; }
 
     /// <summary>
     /// An array of identifiers for the imported certificates. You use this identifier for working with profiles and partner profiles. (string) Constraints: o min: 22 o max: 22 o pattern: cert-([0-9a-f]{17}) Syntax: "string" "string" ...
@@ -44,5 +89,22 @@ public record AwsTransferCreateProfileOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

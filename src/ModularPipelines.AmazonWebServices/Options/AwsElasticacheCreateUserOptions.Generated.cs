@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elasticache", "create-user")]
-public record AwsElasticacheCreateUserOptions : AwsOptions
+public record AwsElasticacheCreateUserOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// For Valkey engine version 7.2 onwards and Redis OSS 6.0 to 7.1: Creates a user. For more information, see Using Role Based Access Control (RBAC) . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="UserId">The ID of the user. This value is stored as a lowercase string. Constraints: o min: 1 o pattern: [a-zA-Z][a-zA-Z0-9\-]*</param>
+    /// <param name="UserName">The username of the user. Constraints: o min: 1</param>
+    /// <param name="Engine">The options are valkey or redis. Constraints: o pattern: [a-zA-Z]*</param>
+    /// <param name="AccessString">Access permissions string used for this user. Constraints: o pattern: .*\S.*</param>
+    public AwsElasticacheCreateUserOptions(
+        string UserId,
+        string UserName,
+        string Engine,
+        string AccessString
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(UserId);
+        this.UserId = UserId;
+        global::System.ArgumentNullException.ThrowIfNull(UserName);
+        this.UserName = UserName;
+        global::System.ArgumentNullException.ThrowIfNull(Engine);
+        this.Engine = Engine;
+        global::System.ArgumentNullException.ThrowIfNull(AccessString);
+        this.AccessString = AccessString;
+    }
+
+    private AwsElasticacheCreateUserOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElasticacheCreateUserOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElasticacheCreateUserOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the user. This value is stored as a lowercase string. Constraints: o min: 1 o pattern: [a-zA-Z][a-zA-Z0-9\-]*
+    /// </summary>
     [CliOption("--user-id")]
-    public string? UserId { get; set; }
+    public string? UserId { get; private init; }
 
+    /// <summary>
+    /// The username of the user. Constraints: o min: 1
+    /// </summary>
     [CliOption("--user-name")]
-    public string? UserName { get; set; }
+    public string? UserName { get; private init; }
 
+    /// <summary>
+    /// The options are valkey or redis. Constraints: o pattern: [a-zA-Z]*
+    /// </summary>
     [CliOption("--engine")]
-    public string? Engine { get; set; }
+    public string? Engine { get; private init; }
+
+    /// <summary>
+    /// Access permissions string used for this user. Constraints: o pattern: .*\S.*
+    /// </summary>
+    [CliOption("--access-string")]
+    public string? AccessString { get; private init; }
 
     /// <summary>
     /// Passwords used for this user. You can create up to two passwords for each user. Constraints: o min: 1 (string) Syntax: "string" "string" ...
@@ -38,10 +99,10 @@ public record AwsElasticacheCreateUserOptions : AwsOptions
     [CliOption("--passwords", GroupValues = true)]
     public IEnumerable<string>? Passwords { get; set; }
 
-    [CliOption("--access-string")]
-    public string? AccessString { get; set; }
-
-    [CliFlag("--no-password-required")]
+    /// <summary>
+    /// Indicates a password is not required for this user.
+    /// </summary>
+    [CliFlag("--no-password-required", NegatedName = "--no-no-password-required")]
     public bool? NoPasswordRequired { get; set; }
 
     /// <summary>
@@ -61,5 +122,22 @@ public record AwsElasticacheCreateUserOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

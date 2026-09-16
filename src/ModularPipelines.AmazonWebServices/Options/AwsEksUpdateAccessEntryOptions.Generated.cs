@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eks", "update-access-entry")]
-public record AwsEksUpdateAccessEntryOptions : AwsOptions
+public record AwsEksUpdateAccessEntryOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--cluster-name")]
-    public string? ClusterName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates an access entry. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ClusterName">The name of your cluster.</param>
+    /// <param name="PrincipalArn">The ARN of the IAM principal for the AccessEntry .</param>
+    public AwsEksUpdateAccessEntryOptions(
+        string ClusterName,
+        string PrincipalArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+        global::System.ArgumentNullException.ThrowIfNull(PrincipalArn);
+        this.PrincipalArn = PrincipalArn;
+    }
+
+    private AwsEksUpdateAccessEntryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEksUpdateAccessEntryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEksUpdateAccessEntryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of your cluster.
+    /// </summary>
+    [CliOption("--cluster-name")]
+    public string? ClusterName { get; private init; }
+
+    /// <summary>
+    /// The ARN of the IAM principal for the AccessEntry .
+    /// </summary>
     [CliOption("--principal-arn")]
-    public string? PrincipalArn { get; set; }
+    public string? PrincipalArn { get; private init; }
 
     /// <summary>
     /// The value for name that you've specified for kind: Group as a sub- ject in a Kubernetes RoleBinding or ClusterRoleBinding object. Ama- zon EKS doesn't confirm that the value for name exists in any bind- ings on your cluster. You can specify one or more names. Kubernetes authorizes the principalArn of the access entry to access any cluster objects that you've specified in a Kubernetes Role or ClusterRole object that is also specified in a binding's roleRef . For more information about creating Kubernetes RoleBinding , Clus- terRoleBinding , Role , or ClusterRole objects, see Using RBAC Au- thorization in the Kubernetes documentation . If you want Amazon EKS to authorize the principalArn (instead of, or in addition to Kubernetes authorizing the principalArn ), you can associate one or more access policies to the access entry using As- sociateAccessPolicy . If you associate any access policies, the principalARN has all permissions assigned in the associated access policies and all permissions in any Kubernetes Role or ClusterRole objects that the group names are bound to. (string) Syntax: "string" "string" ...
@@ -52,5 +96,22 @@ public record AwsEksUpdateAccessEntryOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore-control", "synchronize-gateway-targets")]
-public record AwsBedrockAgentcoreControlSynchronizeGatewayTargetsOptions : AwsOptions
+public record AwsBedrockAgentcoreControlSynchronizeGatewayTargetsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--gateway-identifier")]
-    public string? GatewayIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Synchronizes the gateway targets by fetching the latest tool defini- tions from the target endpoints. You cannot synchronize a target that is in a pending authorization state (CREATE_PENDING_AUTH , UPDATE_PENDING_AUTH , or SYNCHRONIZE_PEND- ING_AUTH ). Wait for the authorization to complete or fail before syn- chronizing. You cannot synchronize a target that has a static tool schema (mcp- ToolSchema ) configured. Remove the static schema through an Update- GatewayTarget call to enable dynamic to...
+    /// </summary>
+    /// <param name="GatewayIdentifier">The gateway Identifier. Constraints: o pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}</param>
+    /// <param name="TargetIdList">The target ID list. Constraints: o min: 1 o max: 1 (string) Constraints: o pattern: [0-9a-zA-Z]{10} Syntax: "string" "string" ...</param>
+    public AwsBedrockAgentcoreControlSynchronizeGatewayTargetsOptions(
+        string GatewayIdentifier,
+        IEnumerable<string> TargetIdList
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GatewayIdentifier);
+        this.GatewayIdentifier = GatewayIdentifier;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(TargetIdList);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(TargetIdList));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(TargetIdList));
+            }
+
+            TargetIdList = materialized;
+        }
+        this.TargetIdList = TargetIdList;
+    }
+
+    private AwsBedrockAgentcoreControlSynchronizeGatewayTargetsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreControlSynchronizeGatewayTargetsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreControlSynchronizeGatewayTargetsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The gateway Identifier. Constraints: o pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}
+    /// </summary>
+    [CliOption("--gateway-identifier")]
+    public string? GatewayIdentifier { get; private init; }
+
+    /// <summary>
+    /// The target ID list. Constraints: o min: 1 o max: 1 (string) Constraints: o pattern: [0-9a-zA-Z]{10} Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--target-id-list", GroupValues = true)]
-    public IEnumerable<string>? TargetIdList { get; set; }
+    public IEnumerable<string>? TargetIdList { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

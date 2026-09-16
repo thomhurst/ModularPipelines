@@ -45,7 +45,10 @@ public record AwsRedshiftCreateSnapshotScheduleOptions : AwsOptions
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// --next-invocations (integer)
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>

@@ -11,19 +11,56 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Starts a refresh of the specified dashboard. Each time a dashboard is refreshed, CloudTrail runs queries to populate the dashboard's widgets. CloudTrail must be granted permissions to run the StartQuery operation on your behalf. To provide permissions, run the PutResourcePolicy operation to attach a resource-based policy to each event data store. For more information, see Example: Allow Cloud- Trail to run queries to populate a dashboard in the CloudTrail User Guide . See also: AWS API Documenta...
+/// WARNING: CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see CloudTrail Lake availability change . Starts a refresh of the specified dashboard. Each time a dashboard is refreshed, CloudTrail runs queries to populate the dashboard's widgets. CloudTrail must be granted permissions to run the StartQuery operation on ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudtrail", "start-dashboard-refresh")]
-public record AwsCloudtrailStartDashboardRefreshOptions : AwsOptions
+public record AwsCloudtrailStartDashboardRefreshOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// WARNING: CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see CloudTrail Lake availability change . Starts a refresh of the specified dashboard. Each time a dashboard is refreshed, CloudTrail runs queries to populate the dashboard's widgets. CloudTrail must be granted permissions to run the StartQuery operation on ...
+    /// </summary>
+    /// <param name="DashboardId">The name or ARN of the dashboard. Constraints: o pattern: ^[a-zA-Z0-9._/\-:]+$</param>
+    public AwsCloudtrailStartDashboardRefreshOptions(
+        string DashboardId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DashboardId);
+        this.DashboardId = DashboardId;
+    }
+
+    private AwsCloudtrailStartDashboardRefreshOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudtrailStartDashboardRefreshOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudtrailStartDashboardRefreshOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name or ARN of the dashboard. Constraints: o pattern: ^[a-zA-Z0-9._/\-:]+$
+    /// </summary>
     [CliOption("--dashboard-id")]
-    public string? DashboardId { get; set; }
+    public string? DashboardId { get; private init; }
 
     /// <summary>
     /// The query parameter values for the dashboard For custom dashboards, the following query parameters are valid: $StartTime$ , $EndTime$ , and $Period$ . For managed dashboards, the following query parameters are valid: $StartTime$ , $EndTime$ , $Period$ , and $EventDataStoreId$ . The $EventDataStoreId$ query parameter is required. key -&gt; (string) Constraints: o min: 3 o max: 128 o pattern: ^[a-zA-Z0-9._/\-:$]+$ value -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9._/\-:]+$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -36,5 +73,22 @@ public record AwsCloudtrailStartDashboardRefreshOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -21,11 +21,33 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("cloudformation", "deploy")]
 public record AwsCloudformationDeployOptions : AwsOptions
 {
+    /// <summary>
+    /// Deploys the specified AWS CloudFormation template by creating and then executing a change set. The command terminates after AWS CloudFormation executes the change set. If you want to view the change set before AWS CloudFormation executes it, use the --no-execute-changeset flag. To update a stack, specify the name of an existing stack. To create a new stack, specify a new stack name.
+    /// </summary>
+    /// <param name="TemplateFile"></param>
+    /// <param name="StackName"></param>
+    public AwsCloudformationDeployOptions(
+        string TemplateFile,
+        string StackName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TemplateFile);
+        this.TemplateFile = TemplateFile;
+        global::System.ArgumentNullException.ThrowIfNull(StackName);
+        this.StackName = StackName;
+    }
+
+    public void Deconstruct(out string TemplateFile, out string StackName)
+    {
+        TemplateFile = this.TemplateFile;
+        StackName = this.StackName;
+    }
+
     [CliOption("--template-file")]
-    public string? TemplateFile { get; set; }
+    public string TemplateFile { get; private init; }
 
     [CliOption("--stack-name")]
-    public string? StackName { get; set; }
+    public string StackName { get; private init; }
 
     [CliOption("--s3-bucket")]
     public string? S3Bucket { get; set; }
@@ -48,7 +70,7 @@ public record AwsCloudformationDeployOptions : AwsOptions
     [CliFlag("--no-execute-changeset")]
     public bool? NoExecuteChangeSet { get; set; }
 
-    [CliFlag("--disable-rollback")]
+    [CliFlag("--disable-rollback", NegatedName = "--no-disable-rollback")]
     public bool? DisableRollback { get; set; }
 
     [CliOption("--role-arn")]
@@ -57,11 +79,11 @@ public record AwsCloudformationDeployOptions : AwsOptions
     [CliOption("--notification-arns", GroupValues = true)]
     public IEnumerable<string>? NotificationArns { get; set; }
 
-    [CliFlag("--fail-on-empty-changeset")]
+    /// <summary>
+    /// Specify if the CLI should return a non-zero exit code when there are no changes to be made to the stack. By default, a zero exit code is re- turned, and this is the same behavior that occurs when
+    /// </summary>
+    [CliFlag("--fail-on-empty-changeset", NegatedName = "--no-fail-on-empty-changeset")]
     public bool? FailOnEmptyChangeSet { get; set; }
-
-    [CliFlag("--no-fail-on-empty-changeset")]
-    public bool? NoFailOnEmptyChangeSet { get; set; }
 
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

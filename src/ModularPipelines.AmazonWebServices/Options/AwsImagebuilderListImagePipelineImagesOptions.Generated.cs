@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("imagebuilder", "list-image-pipeline-images")]
-public record AwsImagebuilderListImagePipelineImagesOptions : AwsOptions
+public record AwsImagebuilderListImagePipelineImagesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a list of images created by the specified pipeline. See also: AWS API Documentation list-image-pipeline-images is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: imageSummaryList
+    /// </summary>
+    /// <param name="ImagePipelineArn">The Amazon Resource Name (ARN) of the image pipeline whose images you want to view. Constraints: o pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):im- age-pipeline/[a-z0-9-_]+$</param>
+    public AwsImagebuilderListImagePipelineImagesOptions(
+        string ImagePipelineArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ImagePipelineArn);
+        this.ImagePipelineArn = ImagePipelineArn;
+    }
+
+    private AwsImagebuilderListImagePipelineImagesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsImagebuilderListImagePipelineImagesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsImagebuilderListImagePipelineImagesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the image pipeline whose images you want to view. Constraints: o pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):im- age-pipeline/[a-z0-9-_]+$
+    /// </summary>
     [CliOption("--image-pipeline-arn")]
-    public string? ImagePipelineArn { get; set; }
+    public string? ImagePipelineArn { get; private init; }
 
     /// <summary>
     /// Use the following filters to streamline results: o name o version Constraints: o min: 1 o max: 10 (structure) A filter name and value pair that is used to return a more spe- cific list of results from a list operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. name -&gt; (string) The name of the filter. Filter names are case-sensitive. Constraints: o pattern: ^[a-zA-Z]{1,1024}$ values -&gt; (list) The filter values. Filter values are case-sensitive. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: ^[0-9a-zA-Z./_ :,{}"-]{1,1024}$ Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "string", "values": ["string", ...] } ... ]
@@ -55,5 +92,22 @@ public record AwsImagebuilderListImagePipelineImagesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

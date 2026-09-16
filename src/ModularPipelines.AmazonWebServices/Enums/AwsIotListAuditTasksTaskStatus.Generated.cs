@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --taskstatus.
+/// Allowed values for --task-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotListAuditTasksTaskStatus
 {
-    [EnumValue("IN_PROGRESS")]
-    InProgress = 1,
+    [EnumValue("CANCELED")]
+    Canceled,
 
     [EnumValue("COMPLETED")]
-    Completed = 2,
+    Completed,
 
     [EnumValue("FAILED")]
-    Failed = 3,
+    Failed,
 
-    [EnumValue("CANCELED")]
-    Canceled = 4
+    [EnumValue("IN_PROGRESS")]
+    InProgress
 }

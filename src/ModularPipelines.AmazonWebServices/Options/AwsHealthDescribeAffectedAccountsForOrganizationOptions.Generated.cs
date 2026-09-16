@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("health", "describe-affected-accounts-for-organization")]
-public record AwsHealthDescribeAffectedAccountsForOrganizationOptions : AwsOptions
+public record AwsHealthDescribeAffectedAccountsForOrganizationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a list of accounts in the organization from Organizations that are affected by the provided event. For more information about the dif- ferent types of Health events, see Event . Before you can call this operation, you must first enable Health to work with Organizations. To do this, call the EnableHealthServiceAccessForOrganization operation from your organiza- tion's management account. NOTE: This API operation uses pagination. Specify the nextToken parameter in the next request to retur...
+    /// </summary>
+    /// <param name="EventArn">The unique identifier for the event. The event ARN has the `` arn:aws:health:event-region ::event/SERVICE /EVENT_TYPE_CODE /EVENT_TYPE_PLUS_ID `` format. System Message: WARNING/2 (&lt;string&gt;:, line 89) Inline literal start-string without end-string. For example, an event ARN might look like the following: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIRE- MENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456 Constraints: o max: 1600 o pattern: arn:aws(-[a-z]+(-[a-z]+)?)?:health:[^:]*:[^:]*:event(?:/[\w-]+){3}</param>
+    public AwsHealthDescribeAffectedAccountsForOrganizationOptions(
+        string EventArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EventArn);
+        this.EventArn = EventArn;
+    }
+
+    private AwsHealthDescribeAffectedAccountsForOrganizationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsHealthDescribeAffectedAccountsForOrganizationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsHealthDescribeAffectedAccountsForOrganizationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for the event. The event ARN has the `` arn:aws:health:event-region ::event/SERVICE /EVENT_TYPE_CODE /EVENT_TYPE_PLUS_ID `` format. System Message: WARNING/2 (&lt;string&gt;:, line 89) Inline literal start-string without end-string. For example, an event ARN might look like the following: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIRE- MENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456 Constraints: o max: 1600 o pattern: arn:aws(-[a-z]+(-[a-z]+)?)?:health:[^:]*:[^:]*:event(?:/[\w-]+){3}
+    /// </summary>
     [CliOption("--event-arn")]
-    public string? EventArn { get; set; }
+    public string? EventArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -49,5 +86,22 @@ public record AwsHealthDescribeAffectedAccountsForOrganizationOptions : AwsOptio
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

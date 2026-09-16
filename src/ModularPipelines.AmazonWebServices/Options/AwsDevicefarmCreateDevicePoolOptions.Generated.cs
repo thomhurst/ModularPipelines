@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,22 +20,83 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("devicefarm", "create-device-pool")]
-public record AwsDevicefarmCreateDevicePoolOptions : AwsOptions
+public record AwsDevicefarmCreateDevicePoolOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--project-arn")]
-    public string? ProjectArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a device pool. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ProjectArn">The ARN of the project for the device pool. Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+</param>
+    /// <param name="Name">The device pool's name. Constraints: o min: 0 o max: 256</param>
+    /// <param name="Rules">The device pool's rules. (structure) Represents a condition for a device pool. attribute -&gt; (string) The rule's stringified attribute. For example, specify the value as "\"abc\"" . The supported operators for each attribute are provided in the following list. APPIUM_VERSION The Appium version for the test. Supported operators: CONTAINS ARN The Amazon Resource Name (ARN) of the device (for example, arn:aws:devicefarm:us-west-2::device:12345Example . Supported operators: EQUALS , IN , NOT_IN AVAILABILITY The current availability of the device. Valid values are AVAILABLE, HIGHLY_AVAILABLE, BUSY, or TEMPORARY_NOT_AVAIL- ABLE. Supported operators: EQUALS FLEET_TYPE The fleet type. Valid values are PUBLIC or PRIVATE. Supported operators: EQUALS FORM_FACTOR The device form factor. Valid values are PHONE or TABLET. Supported operators: EQUALS , IN , NOT_IN INSTANCE_ARN The Amazon Resource Name (ARN) of the device instance. Supported operators: IN , NOT_IN INSTANCE_LABELS The label of the device instance. Supported operators: CONTAINS MANUFACTURER The device manufacturer (for example, Apple). Supported operators: EQUALS , IN , NOT_IN MODEL The device model, such as Apple iPad Air 2 or Google Pixel. Supported operators: CONTAINS , EQUALS , IN , NOT_IN OS_VERSION The operating system version (for example, 10.3.2). Supported operators: EQUALS , GREATER_THAN , GREATER_THAN_OR_EQUALS , IN , LESS_THAN , LESS_THAN_OR_EQUALS , NOT_IN PLATFORM The device platform. Valid values are ANDROID or IOS. Supported operators: EQUALS , IN , NOT_IN REMOTE_ACCESS_ENABLED Whether the device is enabled for remote access. Valid values are TRUE or FALSE. Supported operators: EQUALS REMOTE_DEBUG_ENABLED Whether the device is enabled for remote debugging. Valid values are TRUE or FALSE. Supported operators: EQUALS Because remote debugging is no longer supported , this filter is ignored. Possible values: o ARN o PLATFORM o FORM_FACTOR o MANUFACTURER o REMOTE_ACCESS_ENABLED o REMOTE_DEBUG_ENABLED o APPIUM_VERSION o INSTANCE_ARN o INSTANCE_LABELS o FLEET_TYPE o OS_VERSION o MODEL o AVAILABILITY operator -&gt; (string) Specifies how Device Farm compares the rule's attribute to the value. For the operators that are supported by each at- tribute, see the attribute descriptions. Possible values: o EQUALS o LESS_THAN o LESS_THAN_OR_EQUALS o GREATER_THAN o GREATER_THAN_OR_EQUALS o IN o NOT_IN o CONTAINS value -&gt; (string) The rule's value. Shorthand Syntax: attribute=string,operator=string,value=string ... JSON Syntax: [ { "attribute": "ARN"|"PLATFORM"|"FORM_FACTOR"|"MANUFACTURER"|"REMOTE_ACCESS_ENABLED"|"REMOTE_DEBUG_ENABLED"|"APPIUM_VERSION"|"INSTANCE_ARN"|"INSTANCE_LABELS"|"FLEET_TYPE"|"OS_VERSION"|"MODEL"|"AVAILABILITY", "operator": "EQUALS"|"LESS_THAN"|"LESS_THAN_OR_EQUALS"|"GREATER_THAN"|"GREATER_THAN_OR_EQUALS"|"IN"|"NOT_IN"|"CONTAINS", "value": "string" } ... ]</param>
+    public AwsDevicefarmCreateDevicePoolOptions(
+        string ProjectArn,
+        string Name,
+        IEnumerable<string> Rules
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProjectArn);
+        this.ProjectArn = ProjectArn;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Rules);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Rules));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Rules));
+            }
+
+            Rules = materialized;
+        }
+        this.Rules = Rules;
+    }
+
+    private AwsDevicefarmCreateDevicePoolOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDevicefarmCreateDevicePoolOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDevicefarmCreateDevicePoolOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the project for the device pool. Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+
+    /// </summary>
+    [CliOption("--project-arn")]
+    public string? ProjectArn { get; private init; }
+
+    /// <summary>
+    /// The device pool's name. Constraints: o min: 0 o max: 256
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The device pool's rules. (structure) Represents a condition for a device pool. attribute -&gt; (string) The rule's stringified attribute. For example, specify the value as "\"abc\"" . The supported operators for each attribute are provided in the following list. APPIUM_VERSION The Appium version for the test. Supported operators: CONTAINS ARN The Amazon Resource Name (ARN) of the device (for example, arn:aws:devicefarm:us-west-2::device:12345Example . Supported operators: EQUALS , IN , NOT_IN AVAILABILITY The current availability of the device. Valid values are AVAILABLE, HIGHLY_AVAILABLE, BUSY, or TEMPORARY_NOT_AVAIL- ABLE. Supported operators: EQUALS FLEET_TYPE The fleet type. Valid values are PUBLIC or PRIVATE. Supported operators: EQUALS FORM_FACTOR The device form factor. Valid values are PHONE or TABLET. Supported operators: EQUALS , IN , NOT_IN INSTANCE_ARN The Amazon Resource Name (ARN) of the device instance. Supported operators: IN , NOT_IN INSTANCE_LABELS The label of the device instance. Supported operators: CONTAINS MANUFACTURER The device manufacturer (for example, Apple). Supported operators: EQUALS , IN , NOT_IN MODEL The device model, such as Apple iPad Air 2 or Google Pixel. Supported operators: CONTAINS , EQUALS , IN , NOT_IN OS_VERSION The operating system version (for example, 10.3.2). Supported operators: EQUALS , GREATER_THAN , GREATER_THAN_OR_EQUALS , IN , LESS_THAN , LESS_THAN_OR_EQUALS , NOT_IN PLATFORM The device platform. Valid values are ANDROID or IOS. Supported operators: EQUALS , IN , NOT_IN REMOTE_ACCESS_ENABLED Whether the device is enabled for remote access. Valid values are TRUE or FALSE. Supported operators: EQUALS REMOTE_DEBUG_ENABLED Whether the device is enabled for remote debugging. Valid values are TRUE or FALSE. Supported operators: EQUALS Because remote debugging is no longer supported , this filter is ignored. Possible values: o ARN o PLATFORM o FORM_FACTOR o MANUFACTURER o REMOTE_ACCESS_ENABLED o REMOTE_DEBUG_ENABLED o APPIUM_VERSION o INSTANCE_ARN o INSTANCE_LABELS o FLEET_TYPE o OS_VERSION o MODEL o AVAILABILITY operator -&gt; (string) Specifies how Device Farm compares the rule's attribute to the value. For the operators that are supported by each at- tribute, see the attribute descriptions. Possible values: o EQUALS o LESS_THAN o LESS_THAN_OR_EQUALS o GREATER_THAN o GREATER_THAN_OR_EQUALS o IN o NOT_IN o CONTAINS value -&gt; (string) The rule's value. Shorthand Syntax: attribute=string,operator=string,value=string ... JSON Syntax: [ { "attribute": "ARN"|"PLATFORM"|"FORM_FACTOR"|"MANUFACTURER"|"REMOTE_ACCESS_ENABLED"|"REMOTE_DEBUG_ENABLED"|"APPIUM_VERSION"|"INSTANCE_ARN"|"INSTANCE_LABELS"|"FLEET_TYPE"|"OS_VERSION"|"MODEL"|"AVAILABILITY", "operator": "EQUALS"|"LESS_THAN"|"LESS_THAN_OR_EQUALS"|"GREATER_THAN"|"GREATER_THAN_OR_EQUALS"|"IN"|"NOT_IN"|"CONTAINS", "value": "string" } ... ]
+    /// </summary>
+    [CliOption("--rules", GroupValues = true)]
+    public IEnumerable<string>? Rules { get; private init; }
 
     /// <summary>
     /// The device pool's description. Constraints: o min: 0 o max: 16384
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--rules", GroupValues = true)]
-    public IEnumerable<string>? Rules { get; set; }
 
     /// <summary>
     /// The number of devices that Device Farm can add to your device pool. Device Farm adds devices that are available and meet the criteria that you assign for the rules parameter. Depending on how many de- vices meet these constraints, your device pool might contain fewer devices than the value for this parameter. By specifying the maximum number of devices, you can control the costs that you incur by running tests.
@@ -47,5 +109,22 @@ public record AwsDevicefarmCreateDevicePoolOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

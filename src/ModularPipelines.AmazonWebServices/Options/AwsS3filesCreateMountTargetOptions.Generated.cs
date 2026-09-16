@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3files", "create-mount-target")]
-public record AwsS3filesCreateMountTargetOptions : AwsOptions
+public record AwsS3filesCreateMountTargetOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--file-system-id")]
-    public string? FileSystemId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a mount target resource as an endpoint for mounting the S3 File System from compute resources in a specific Availability Zone and VPC. Mount targets provide network access to the file system. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FileSystemId">The ID or Amazon Resource Name (ARN) of the S3 File System to create the mount target for. Constraints: o min: 0 o max: 128 o pattern: (arn:aws[-a-z]*:s3files:[0-9a-z-:]+:file-sys- tem/fs-[0-9a-f]{17,40}|fs-[0-9a-f]{17,40})</param>
+    /// <param name="SubnetId">The ID of the subnet where the mount target will be created. The subnet must be in the same Amazon Web Services Region as the file system. For file systems with regional availability, you can create mount targets in any subnet within the Region. The subnet determines the Availability Zone where the mount target will be located. Constraints: o min: 15 o max: 47 o pattern: subnet-[0-9a-f]{8,40}</param>
+    public AwsS3filesCreateMountTargetOptions(
+        string FileSystemId,
+        string SubnetId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FileSystemId);
+        this.FileSystemId = FileSystemId;
+        global::System.ArgumentNullException.ThrowIfNull(SubnetId);
+        this.SubnetId = SubnetId;
+    }
+
+    private AwsS3filesCreateMountTargetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3filesCreateMountTargetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3filesCreateMountTargetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID or Amazon Resource Name (ARN) of the S3 File System to create the mount target for. Constraints: o min: 0 o max: 128 o pattern: (arn:aws[-a-z]*:s3files:[0-9a-z-:]+:file-sys- tem/fs-[0-9a-f]{17,40}|fs-[0-9a-f]{17,40})
+    /// </summary>
+    [CliOption("--file-system-id")]
+    public string? FileSystemId { get; private init; }
+
+    /// <summary>
+    /// The ID of the subnet where the mount target will be created. The subnet must be in the same Amazon Web Services Region as the file system. For file systems with regional availability, you can create mount targets in any subnet within the Region. The subnet determines the Availability Zone where the mount target will be located. Constraints: o min: 15 o max: 47 o pattern: subnet-[0-9a-f]{8,40}
+    /// </summary>
     [CliOption("--subnet-id")]
-    public string? SubnetId { get; set; }
+    public string? SubnetId { get; private init; }
 
     /// <summary>
     /// A specific IPv4 address to assign to the mount target. If not speci- fied and the IP address type supports IPv4, an address is automati- cally assigned from the subnet's available IPv4 address range. The address must be within the subnet's CIDR block and not already in use. Constraints: o min: 7 o max: 15 o pattern: [0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}
@@ -57,5 +101,22 @@ public record AwsS3filesCreateMountTargetOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

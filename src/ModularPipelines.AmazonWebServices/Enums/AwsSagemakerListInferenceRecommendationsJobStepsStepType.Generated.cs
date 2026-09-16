@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --steptype.
+/// Allowed values for --step-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSagemakerListInferenceRecommendationsJobStepsStepType
 {
     [EnumValue("BENCHMARK")]
-    Benchmark = 1
+    Benchmark,
+
+    [EnumValue("o")]
+    O
 }

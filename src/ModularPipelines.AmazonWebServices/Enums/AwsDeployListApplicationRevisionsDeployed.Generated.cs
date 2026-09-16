@@ -16,12 +16,12 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDeployListApplicationRevisionsDeployed
 {
-    [EnumValue("include")]
-    Include = 1,
-
     [EnumValue("exclude")]
-    Exclude = 2,
+    Exclude,
 
     [EnumValue("ignore")]
-    Ignore = 3
+    Ignore,
+
+    [EnumValue("include")]
+    Include
 }

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsOpensearchUpdateDataSourceStatus
 {
     [EnumValue("ACTIVE")]
-    Active = 1,
+    Active,
 
     [EnumValue("DISABLED")]
-    Disabled = 2
+    Disabled
 }

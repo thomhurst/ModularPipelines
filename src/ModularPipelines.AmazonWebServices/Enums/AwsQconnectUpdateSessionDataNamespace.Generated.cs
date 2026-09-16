@@ -17,5 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsQconnectUpdateSessionDataNamespace
 {
     [EnumValue("Custom")]
-    Custom = 1
+    Custom,
+
+    [EnumValue("o")]
+    O
 }

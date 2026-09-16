@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --includekeymaterial.
+/// Allowed values for --include-key-material.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsKmsListKeyRotationsIncludeKeyMaterial
 {
     [EnumValue("ALL_KEY_MATERIAL")]
-    AllKeyMaterial = 1,
+    AllKeyMaterial,
 
     [EnumValue("ROTATIONS_ONLY")]
-    RotationsOnly = 2
+    RotationsOnly
 }

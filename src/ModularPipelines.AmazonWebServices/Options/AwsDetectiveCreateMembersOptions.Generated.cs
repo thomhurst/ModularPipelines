@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("detective", "create-members")]
-public record AwsDetectiveCreateMembersOptions : AwsOptions
+public record AwsDetectiveCreateMembersOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// CreateMembers is used to send invitations to accounts. For the orga- nization behavior graph, the Detective administrator account uses CreateMembers to enable organization accounts as member accounts. For invited accounts, CreateMembers sends a request to invite the spec- ified Amazon Web Services accounts to be member accounts in the behav- ior graph. This operation can only be called by the administrator ac- count for a behavior graph. CreateMembers verifies the accounts and then invites the v...
+    /// </summary>
+    /// <param name="GraphArn">The ARN of the behavior graph. Constraints: o pattern: ^arn:aws[-\w]{0,10}?:detec- tive:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$</param>
+    /// <param name="Accounts">The list of Amazon Web Services accounts to invite or to enable. You can invite or enable up to 50 accounts at a time. For each invited account, the account list contains the account identifier and the Amazon Web Services account root user email address. For organiza- tion accounts in the organization behavior graph, the email address is not required. Constraints: o min: 1 o max: 50 (structure) An Amazon Web Services account that is the administrator account of or a member of a behavior graph. AccountId -&gt; (string) [required] The account identifier of the Amazon Web Services account. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]+$ EmailAddress -&gt; (string) [required] The Amazon Web Services account root user email address for the Amazon Web Services account. Constraints: o min: 1 o max: 64 o pattern: ^.+@(?:(?:(?!-)[A-Za-z0-9-]{1,62})?[A-Za-z0-9]{1}\.)+[A-Za-z]{2,63}$ Shorthand Syntax: AccountId=string,EmailAddress=string ... JSON Syntax: [ { "AccountId": "string", "EmailAddress": "string" } ... ]</param>
+    public AwsDetectiveCreateMembersOptions(
+        string GraphArn,
+        IEnumerable<string> Accounts
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GraphArn);
+        this.GraphArn = GraphArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Accounts);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Accounts));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Accounts));
+            }
+
+            Accounts = materialized;
+        }
+        this.Accounts = Accounts;
+    }
+
+    private AwsDetectiveCreateMembersOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDetectiveCreateMembersOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDetectiveCreateMembersOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the behavior graph. Constraints: o pattern: ^arn:aws[-\w]{0,10}?:detec- tive:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$
+    /// </summary>
     [CliOption("--graph-arn")]
-    public string? GraphArn { get; set; }
+    public string? GraphArn { get; private init; }
+
+    /// <summary>
+    /// The list of Amazon Web Services accounts to invite or to enable. You can invite or enable up to 50 accounts at a time. For each invited account, the account list contains the account identifier and the Amazon Web Services account root user email address. For organiza- tion accounts in the organization behavior graph, the email address is not required. Constraints: o min: 1 o max: 50 (structure) An Amazon Web Services account that is the administrator account of or a member of a behavior graph. AccountId -&gt; (string) [required] The account identifier of the Amazon Web Services account. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]+$ EmailAddress -&gt; (string) [required] The Amazon Web Services account root user email address for the Amazon Web Services account. Constraints: o min: 1 o max: 64 o pattern: ^.+@(?:(?:(?!-)[A-Za-z0-9-]{1,62})?[A-Za-z0-9]{1}\.)+[A-Za-z]{2,63}$ Shorthand Syntax: AccountId=string,EmailAddress=string ... JSON Syntax: [ { "AccountId": "string", "EmailAddress": "string" } ... ]
+    /// </summary>
+    [CliOption("--accounts", GroupValues = true)]
+    public IEnumerable<string>? Accounts { get; private init; }
 
     /// <summary>
     /// Customized message text to include in the invitation email message to the invited member accounts. Constraints: o min: 1 o max: 1000
@@ -30,16 +88,33 @@ public record AwsDetectiveCreateMembersOptions : AwsOptions
     [CliOption("--message")]
     public string? Message { get; set; }
 
-    [CliFlag("--disable-email-notification")]
+    /// <summary>
+    /// if set to true , then the invited accounts do not receive email no- tifications. By default, this is set to false , and the invited ac- counts receive email notifications. Organization accounts in the organization behavior graph do not re- ceive email notifications.
+    /// </summary>
+    [CliFlag("--disable-email-notification", NegatedName = "--no-disable-email-notification")]
     public bool? DisableEmailNotification { get; set; }
-
-    [CliOption("--accounts", GroupValues = true)]
-    public IEnumerable<string>? Accounts { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

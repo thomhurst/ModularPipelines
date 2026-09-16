@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("xray", "tag-resource")]
-public record AwsXrayTagResourceOptions : AwsOptions
+public record AwsXrayTagResourceOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--resource-arn")]
-    public string? ResourceArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Applies tags to an existing Amazon Web Services X-Ray group or sampling rule. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceArn">The Amazon Resource Number (ARN) of an X-Ray group or sampling rule. Constraints: o min: 1 o max: 1011</param>
+    /// <param name="Tags">A map that contains one or more tag keys and tag values to attach to an X-Ray group or sampling rule. For more information about ways to use tags, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference . The following restrictions apply to tags: o Maximum number of user-applied tags per resource: 50 o Maximum tag key length: 128 Unicode characters o Maximum tag value length: 256 Unicode characters o Valid values for key and value: a-z, A-Z, 0-9, space, and the fol- lowing characters: _ . : / = + - and @ o Tag keys and values are case sensitive. o Don't use aws: as a prefix for keys; it's reserved for Amazon Web Services use. You cannot edit or delete system tags. Constraints: o min: 0 o max: 200 (structure) A map that contains tag keys and tag values to attach to an Ama- zon Web Services X-Ray group or sampling rule. For more informa- tion about ways to use tags, see Tagging Amazon Web Services re- sources in the Amazon Web Services General Reference . The following restrictions apply to tags: o Maximum number of user-applied tags per resource: 50 o Tag keys and values are case sensitive. o Don't use aws: as a prefix for keys; it's reserved for Amazon Web Services use. You cannot edit or delete system tags. Key -&gt; (string) [required] A tag key, such as Stage or Name . A tag key cannot be empty. The key can be a maximum of 128 characters, and can contain only Unicode letters, numbers, or separators, or the follow- ing special characters: + - = . _ : / Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] An optional tag value, such as Production or test-only . The value can be a maximum of 255 characters, and contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : / Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
+    public AwsXrayTagResourceOptions(
+        string ResourceArn,
+        IEnumerable<string> Tags
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
+        this.ResourceArn = ResourceArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Tags);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Tags));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Tags));
+            }
+
+            Tags = materialized;
+        }
+        this.Tags = Tags;
+    }
+
+    private AwsXrayTagResourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsXrayTagResourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsXrayTagResourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Number (ARN) of an X-Ray group or sampling rule. Constraints: o min: 1 o max: 1011
+    /// </summary>
+    [CliOption("--resource-arn")]
+    public string? ResourceArn { get; private init; }
+
+    /// <summary>
+    /// A map that contains one or more tag keys and tag values to attach to an X-Ray group or sampling rule. For more information about ways to use tags, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference . The following restrictions apply to tags: o Maximum number of user-applied tags per resource: 50 o Maximum tag key length: 128 Unicode characters o Maximum tag value length: 256 Unicode characters o Valid values for key and value: a-z, A-Z, 0-9, space, and the fol- lowing characters: _ . : / = + - and @ o Tag keys and values are case sensitive. o Don't use aws: as a prefix for keys; it's reserved for Amazon Web Services use. You cannot edit or delete system tags. Constraints: o min: 0 o max: 200 (structure) A map that contains tag keys and tag values to attach to an Ama- zon Web Services X-Ray group or sampling rule. For more informa- tion about ways to use tags, see Tagging Amazon Web Services re- sources in the Amazon Web Services General Reference . The following restrictions apply to tags: o Maximum number of user-applied tags per resource: 50 o Tag keys and values are case sensitive. o Don't use aws: as a prefix for keys; it's reserved for Amazon Web Services use. You cannot edit or delete system tags. Key -&gt; (string) [required] A tag key, such as Stage or Name . A tag key cannot be empty. The key can be a maximum of 128 characters, and can contain only Unicode letters, numbers, or separators, or the follow- ing special characters: + - = . _ : / Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] An optional tag value, such as Production or test-only . The value can be a maximum of 255 characters, and contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : / Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// </summary>
     [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    public IEnumerable<string>? Tags { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

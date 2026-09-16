@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,58 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-firewall", "disassociate-availability-zones")]
-public record AwsNetworkFirewallDisassociateAvailabilityZonesOptions : AwsOptions
+public record AwsNetworkFirewallDisassociateAvailabilityZonesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Removes the specified Availability Zone associations from a transit gateway-attached firewall. This removes the firewall endpoints from these Availability Zones and stops traffic filtering in those zones. Before removing an Availability Zone, ensure you've updated your tran- sit gateway route tables to redirect traffic appropriately. NOTE: If AvailabilityZoneChangeProtection is enabled, you must first dis- able it using UpdateAvailabilityZoneChangeProtection . To verify the status of your Availa...
+    /// </summary>
+    /// <param name="AvailabilityZoneMappings">Required. The Availability Zones to remove from the firewall's con- figuration. (structure) Defines the mapping between an Availability Zone and a firewall endpoint for a transit gateway-attached firewall. Each mapping represents where the firewall can process traffic. You use these mappings when calling CreateFirewall , AssociateAvailability- Zones , and DisassociateAvailabilityZones . To retrieve the current Availability Zone mappings for a fire- wall, use DescribeFirewall . AvailabilityZone -&gt; (string) [required] The ID of the Availability Zone where the firewall endpoint is located. For example, us-east-2a . The Availability Zone must be in the same Region as the transit gateway. Constraints: o min: 1 o max: 128 o pattern: \S+ Shorthand Syntax: AvailabilityZone=string ... JSON Syntax: [ { "AvailabilityZone": "string" } ... ]</param>
+    public AwsNetworkFirewallDisassociateAvailabilityZonesOptions(
+        IEnumerable<string> AvailabilityZoneMappings
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(AvailabilityZoneMappings);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(AvailabilityZoneMappings));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(AvailabilityZoneMappings));
+            }
+
+            AvailabilityZoneMappings = materialized;
+        }
+        this.AvailabilityZoneMappings = AvailabilityZoneMappings;
+    }
+
+    private AwsNetworkFirewallDisassociateAvailabilityZonesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNetworkFirewallDisassociateAvailabilityZonesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNetworkFirewallDisassociateAvailabilityZonesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Required. The Availability Zones to remove from the firewall's con- figuration. (structure) Defines the mapping between an Availability Zone and a firewall endpoint for a transit gateway-attached firewall. Each mapping represents where the firewall can process traffic. You use these mappings when calling CreateFirewall , AssociateAvailability- Zones , and DisassociateAvailabilityZones . To retrieve the current Availability Zone mappings for a fire- wall, use DescribeFirewall . AvailabilityZone -&gt; (string) [required] The ID of the Availability Zone where the firewall endpoint is located. For example, us-east-2a . The Availability Zone must be in the same Region as the transit gateway. Constraints: o min: 1 o max: 128 o pattern: \S+ Shorthand Syntax: AvailabilityZone=string ... JSON Syntax: [ { "AvailabilityZone": "string" } ... ]
+    /// </summary>
+    [CliOption("--availability-zone-mappings", GroupValues = true)]
+    public IEnumerable<string>? AvailabilityZoneMappings { get; private init; }
+
     /// <summary>
     /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request. To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException . If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the oper- ation again using the new token. Constraints: o min: 1 o max: 1024 o pattern: ^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$
     /// </summary>
@@ -41,13 +92,27 @@ public record AwsNetworkFirewallDisassociateAvailabilityZonesOptions : AwsOption
     [CliOption("--firewall-name")]
     public string? FirewallName { get; set; }
 
-    [CliOption("--availability-zone-mappings", GroupValues = true)]
-    public IEnumerable<string>? AvailabilityZoneMappings { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("support-app", "update-slack-channel-configuration")]
-public record AwsSupportAppUpdateSlackChannelConfigurationOptions : AwsOptions
+public record AwsSupportAppUpdateSlackChannelConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the configuration for a Slack channel, such as case update no- tifications. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ChannelId">The channel ID in Slack. This ID identifies a channel within a Slack workspace. Constraints: o min: 1 o max: 256 o pattern: ^\S+$</param>
+    /// <param name="TeamId">The team ID in Slack. This ID uniquely identifies a Slack workspace, such as T012ABCDEFG . Constraints: o min: 1 o max: 256 o pattern: ^\S+$</param>
+    public AwsSupportAppUpdateSlackChannelConfigurationOptions(
+        string ChannelId,
+        string TeamId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ChannelId);
+        this.ChannelId = ChannelId;
+        global::System.ArgumentNullException.ThrowIfNull(TeamId);
+        this.TeamId = TeamId;
+    }
+
+    private AwsSupportAppUpdateSlackChannelConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSupportAppUpdateSlackChannelConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSupportAppUpdateSlackChannelConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The channel ID in Slack. This ID identifies a channel within a Slack workspace. Constraints: o min: 1 o max: 256 o pattern: ^\S+$
+    /// </summary>
     [CliOption("--channel-id")]
-    public string? ChannelId { get; set; }
+    public string? ChannelId { get; private init; }
+
+    /// <summary>
+    /// The team ID in Slack. This ID uniquely identifies a Slack workspace, such as T012ABCDEFG . Constraints: o min: 1 o max: 256 o pattern: ^\S+$
+    /// </summary>
+    [CliOption("--team-id")]
+    public string? TeamId { get; private init; }
 
     /// <summary>
     /// The Slack channel name that you want to update. Constraints: o min: 1 o max: 256 o pattern: ^.+$
@@ -37,7 +84,10 @@ public record AwsSupportAppUpdateSlackChannelConfigurationOptions : AwsOptions
     [CliOption("--channel-role-arn")]
     public string? ChannelRoleArn { get; set; }
 
-    [CliFlag("--notify-on-add-correspondence-to-case")]
+    /// <summary>
+    /// dence-to-case (boolean) Whether you want to get notified when a support case has a new cor- respondence.
+    /// </summary>
+    [CliFlag("--notify-on-add-correspondence-to-case", NegatedName = "--no-notify-on-add-correspondence-to-case")]
     public bool? NotifyOnAddCorrespondenceToCase { get; set; }
 
     /// <summary>
@@ -46,19 +96,39 @@ public record AwsSupportAppUpdateSlackChannelConfigurationOptions : AwsOptions
     [CliOption("--notify-on-case-severity")]
     public AwsSupportAppUpdateSlackChannelConfigurationNotifyOnCaseSeverity? NotifyOnCaseSeverity { get; set; }
 
-    [CliFlag("--notify-on-create-or-reopen-case")]
+    /// <summary>
+    /// open-case (boolean) Whether you want to get notified when a support case is created or reopened.
+    /// </summary>
+    [CliFlag("--notify-on-create-or-reopen-case", NegatedName = "--no-notify-on-create-or-reopen-case")]
     public bool? NotifyOnCreateOrReopenCase { get; set; }
 
-    [CliFlag("--notify-on-resolve-case")]
+    /// <summary>
+    /// Whether you want to get notified when a support case is resolved.
+    /// </summary>
+    [CliFlag("--notify-on-resolve-case", NegatedName = "--no-notify-on-resolve-case")]
     public bool? NotifyOnResolveCase { get; set; }
-
-    [CliOption("--team-id")]
-    public string? TeamId { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

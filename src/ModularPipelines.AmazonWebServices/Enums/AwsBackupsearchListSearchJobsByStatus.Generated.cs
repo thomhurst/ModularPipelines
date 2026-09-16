@@ -11,23 +11,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --bystatus.
+/// Allowed values for --by-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsBackupsearchListSearchJobsByStatus
 {
-    [EnumValue("RUNNING")]
-    Running = 1,
-
     [EnumValue("COMPLETED")]
-    Completed = 2,
-
-    [EnumValue("STOPPING")]
-    Stopping = 3,
-
-    [EnumValue("STOPPED")]
-    Stopped = 4,
+    Completed,
 
     [EnumValue("FAILED")]
-    Failed = 5
+    Failed,
+
+    [EnumValue("RUNNING")]
+    Running,
+
+    [EnumValue("STOPPED")]
+    Stopped,
+
+    [EnumValue("STOPPING")]
+    Stopping
 }

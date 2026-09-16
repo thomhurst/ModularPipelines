@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lakeformation", "create-data-cells-filter")]
-public record AwsLakeformationCreateDataCellsFilterOptions : AwsOptions
+public record AwsLakeformationCreateDataCellsFilterOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a data cell filter to allow one to grant access to certain columns on certain rows. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TableData">A DataCellsFilter structure containing information about the data cells filter. TableCatalogId -&gt; (string) [required] The ID of the catalog to which the table belongs. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* DatabaseName -&gt; (string) [required] A database in the Glue Data Catalog. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* TableName -&gt; (string) [required] A table in the database. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Name -&gt; (string) [required] The name given by the user to the data filter cell. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* RowFilter -&gt; (structure) A PartiQL predicate. FilterExpression -&gt; (string) A filter expression. Constraints: o min: 0 o max: 2048 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* AllRowsWildcard -&gt; (structure) A wildcard for all rows. ColumnNames -&gt; (list) A list of column names and/or nested column attributes. When specifying nested attributes, use a qualified dot (.) delimited format such as "address"."zip". Nested attributes within this list may not exceed a depth of 5. (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* ColumnWildcard -&gt; (structure) A wildcard with exclusions. You must specify either a ColumnNames list or the ColumnWildCard . ExcludedColumnNames -&gt; (list) Excludes column names. Any column with this name will be ex- cluded. (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* VersionId -&gt; (string) The ID of the data cells filter version. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Shorthand Syntax: TableCatalogId=string,DatabaseName=string,TableName=string,Name=string,RowFilter={FilterExpression=string,AllRowsWildcard={}},ColumnNames=string,string,ColumnWildcard={ExcludedColumnNames=[string,string]},VersionId=string JSON Syntax: { "TableCatalogId": "string", "DatabaseName": "string", "TableName": "string", "Name": "string", "RowFilter": { "FilterExpression": "string", "AllRowsWildcard": { } }, "ColumnNames": ["string", ...], "ColumnWildcard": { "ExcludedColumnNames": ["string", ...] }, "VersionId": "string" }</param>
+    public AwsLakeformationCreateDataCellsFilterOptions(
+        string TableData
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TableData);
+        this.TableData = TableData;
+    }
+
+    private AwsLakeformationCreateDataCellsFilterOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLakeformationCreateDataCellsFilterOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLakeformationCreateDataCellsFilterOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A DataCellsFilter structure containing information about the data cells filter. TableCatalogId -&gt; (string) [required] The ID of the catalog to which the table belongs. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* DatabaseName -&gt; (string) [required] A database in the Glue Data Catalog. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* TableName -&gt; (string) [required] A table in the database. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Name -&gt; (string) [required] The name given by the user to the data filter cell. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* RowFilter -&gt; (structure) A PartiQL predicate. FilterExpression -&gt; (string) A filter expression. Constraints: o min: 0 o max: 2048 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* AllRowsWildcard -&gt; (structure) A wildcard for all rows. ColumnNames -&gt; (list) A list of column names and/or nested column attributes. When specifying nested attributes, use a qualified dot (.) delimited format such as "address"."zip". Nested attributes within this list may not exceed a depth of 5. (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* ColumnWildcard -&gt; (structure) A wildcard with exclusions. You must specify either a ColumnNames list or the ColumnWildCard . ExcludedColumnNames -&gt; (list) Excludes column names. Any column with this name will be ex- cluded. (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* VersionId -&gt; (string) The ID of the data cells filter version. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Shorthand Syntax: TableCatalogId=string,DatabaseName=string,TableName=string,Name=string,RowFilter={FilterExpression=string,AllRowsWildcard={}},ColumnNames=string,string,ColumnWildcard={ExcludedColumnNames=[string,string]},VersionId=string JSON Syntax: { "TableCatalogId": "string", "DatabaseName": "string", "TableName": "string", "Name": "string", "RowFilter": { "FilterExpression": "string", "AllRowsWildcard": { } }, "ColumnNames": ["string", ...], "ColumnWildcard": { "ExcludedColumnNames": ["string", ...] }, "VersionId": "string" }
+    /// </summary>
     [CliOption("--table-data")]
-    public string? TableData { get; set; }
+    public string? TableData { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sns", "list-endpoints-by-platform-application")]
-public record AwsSnsListEndpointsByPlatformApplicationOptions : AwsOptions
+public record AwsSnsListEndpointsByPlatformApplicationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists the endpoints and endpoint attributes for devices in a supported push notification service, such as GCM (Firebase Cloud Messaging) and APNS. The results for ListEndpointsByPlatformApplication are paginated and return a limited list of endpoints, up to 100. If additional records are available after the first page results, then a NextToken string will be returned. To receive the next page, you call ListEnd- pointsByPlatformApplication again using the NextToken string received from the previo...
+    /// </summary>
+    /// <param name="PlatformApplicationArn">PlatformApplicationArn for ListEndpointsByPlatformApplicationInput action.</param>
+    public AwsSnsListEndpointsByPlatformApplicationOptions(
+        string PlatformApplicationArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PlatformApplicationArn);
+        this.PlatformApplicationArn = PlatformApplicationArn;
+    }
+
+    private AwsSnsListEndpointsByPlatformApplicationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSnsListEndpointsByPlatformApplicationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSnsListEndpointsByPlatformApplicationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// PlatformApplicationArn for ListEndpointsByPlatformApplicationInput action.
+    /// </summary>
     [CliOption("--platform-application-arn")]
-    public string? PlatformApplicationArn { get; set; }
+    public string? PlatformApplicationArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -43,5 +80,22 @@ public record AwsSnsListEndpointsByPlatformApplicationOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

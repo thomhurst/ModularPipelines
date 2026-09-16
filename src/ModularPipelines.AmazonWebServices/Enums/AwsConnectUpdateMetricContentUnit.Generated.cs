@@ -16,15 +16,15 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsConnectUpdateMetricContentUnit
 {
-    [EnumValue("INTEGER")]
-    Integer = 1,
-
     [EnumValue("DOUBLE")]
-    Double = 2,
+    Double,
+
+    [EnumValue("INTEGER")]
+    Integer,
 
     [EnumValue("PERCENT")]
-    Percent = 3,
+    Percent,
 
     [EnumValue("SECONDS")]
-    Seconds = 4
+    Seconds
 }

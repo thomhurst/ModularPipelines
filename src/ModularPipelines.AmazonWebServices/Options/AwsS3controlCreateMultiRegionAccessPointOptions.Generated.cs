@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3control", "create-multi-region-access-point")]
-public record AwsS3controlCreateMultiRegionAccessPointOptions : AwsOptions
+public record AwsS3controlCreateMultiRegionAccessPointOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// NOTE: This operation is not supported by directory buckets. Creates a Multi-Region Access Point and associates it with the speci- fied buckets. For more information about creating Multi-Region Access Points, see Creating Multi-Region Access Points in the Amazon S3 User Guide . This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Re- gion Access Points, see Multi-Region Access Point restrictions and lim- itations i...
+    /// </summary>
+    /// <param name="AccountId">The Amazon Web Services account ID for the owner of the Multi-Region Access Point. The owner of the Multi-Region Access Point also must own the underlying buckets. Constraints: o max: 64 o pattern: ^\d{12}$</param>
+    /// <param name="Details">A container element containing details about the Multi-Region Access Point. Name -&gt; (string) [required] The name of the Multi-Region Access Point associated with this request. Constraints: o max: 50 o pattern: ^[a-z0-9][-a-z0-9]{1,48}[a-z0-9]$ PublicAccessBlock -&gt; (structure) The PublicAccessBlock configuration that you want to apply to this Amazon S3 account. You can enable the configuration options in any combination. For more information about when Amazon S3 considers a bucket or object public, see The Meaning of "Public" in the Amazon S3 User Guide . This data type is not supported for Amazon S3 on Outposts. BlockPublicAcls -&gt; (boolean) Specifies whether Amazon S3 should block public access con- trol lists (ACLs) for buckets in this account. Setting this element to TRUE causes the following behavior: o PutBucketAcl and PutObjectAcl calls fail if the specified ACL is public. o PUT Object calls fail if the request includes a public ACL. o PUT Bucket calls fail if the request includes a public ACL. Enabling this setting doesn't affect existing policies or ACLs. This property is not supported for Amazon S3 on Outposts. IgnorePublicAcls -&gt; (boolean) Specifies whether Amazon S3 should ignore public ACLs for buckets in this account. Setting this element to TRUE causes Amazon S3 to ignore all public ACLs on buckets in this ac- count and any objects that they contain. Enabling this setting doesn't affect the persistence of any existing ACLs and doesn't prevent new public ACLs from being set. This property is not supported for Amazon S3 on Outposts. BlockPublicPolicy -&gt; (boolean) Specifies whether Amazon S3 should block public bucket poli- cies for buckets in this account. Setting this element to TRUE causes Amazon S3 to reject calls to PUT Bucket policy if the specified bucket policy allows public access. Enabling this setting doesn't affect existing bucket poli- cies. This property is not supported for Amazon S3 on Outposts. RestrictPublicBuckets -&gt; (boolean) Specifies whether Amazon S3 should restrict public bucket policies for buckets in this account. Setting this element to TRUE restricts access to buckets with public policies to only Amazon Web Services service principals and authorized users within this account. Enabling this setting doesn't affect previously stored bucket policies, except that public and cross-account access within any public bucket policy, including non-public delegation to specific accounts, is blocked. This property is not supported for Amazon S3 on Outposts. Regions -&gt; (list) [required] The buckets in different Regions that are associated with the Multi-Region Access Point. (structure) A Region that supports a Multi-Region Access Point as well as the associated bucket for the Region. Bucket -&gt; (string) [required] The name of the associated bucket for the Region. Constraints: o min: 3 o max: 255 BucketAccountId -&gt; (string) The Amazon Web Services account ID that owns the Amazon S3 bucket that's associated with this Multi-Region Access Point. Constraints: o max: 64 o pattern: ^\d{12}$ Shorthand Syntax: Name=string,PublicAccessBlock={BlockPublicAcls=boolean,IgnorePublicAcls=boolean,BlockPublicPolicy=boolean,RestrictPublicBuckets=boolean},Regions=[{Bucket=string,BucketAccountId=string},{Bucket=string,BucketAccountId=string}] JSON Syntax: { "Name": "string", "PublicAccessBlock": { "BlockPublicAcls": true|false, "IgnorePublicAcls": true|false, "BlockPublicPolicy": true|false, "RestrictPublicBuckets": true|false }, "Regions": [ { "Bucket": "string", "BucketAccountId": "string" } ... ] }</param>
+    public AwsS3controlCreateMultiRegionAccessPointOptions(
+        string AccountId,
+        string Details
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountId);
+        this.AccountId = AccountId;
+        global::System.ArgumentNullException.ThrowIfNull(Details);
+        this.Details = Details;
+    }
+
+    private AwsS3controlCreateMultiRegionAccessPointOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3controlCreateMultiRegionAccessPointOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3controlCreateMultiRegionAccessPointOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point. The owner of the Multi-Region Access Point also must own the underlying buckets. Constraints: o max: 64 o pattern: ^\d{12}$
+    /// </summary>
     [CliOption("--account-id")]
-    public string? AccountId { get; set; }
+    public string? AccountId { get; private init; }
+
+    /// <summary>
+    /// A container element containing details about the Multi-Region Access Point. Name -&gt; (string) [required] The name of the Multi-Region Access Point associated with this request. Constraints: o max: 50 o pattern: ^[a-z0-9][-a-z0-9]{1,48}[a-z0-9]$ PublicAccessBlock -&gt; (structure) The PublicAccessBlock configuration that you want to apply to this Amazon S3 account. You can enable the configuration options in any combination. For more information about when Amazon S3 considers a bucket or object public, see The Meaning of "Public" in the Amazon S3 User Guide . This data type is not supported for Amazon S3 on Outposts. BlockPublicAcls -&gt; (boolean) Specifies whether Amazon S3 should block public access con- trol lists (ACLs) for buckets in this account. Setting this element to TRUE causes the following behavior: o PutBucketAcl and PutObjectAcl calls fail if the specified ACL is public. o PUT Object calls fail if the request includes a public ACL. o PUT Bucket calls fail if the request includes a public ACL. Enabling this setting doesn't affect existing policies or ACLs. This property is not supported for Amazon S3 on Outposts. IgnorePublicAcls -&gt; (boolean) Specifies whether Amazon S3 should ignore public ACLs for buckets in this account. Setting this element to TRUE causes Amazon S3 to ignore all public ACLs on buckets in this ac- count and any objects that they contain. Enabling this setting doesn't affect the persistence of any existing ACLs and doesn't prevent new public ACLs from being set. This property is not supported for Amazon S3 on Outposts. BlockPublicPolicy -&gt; (boolean) Specifies whether Amazon S3 should block public bucket poli- cies for buckets in this account. Setting this element to TRUE causes Amazon S3 to reject calls to PUT Bucket policy if the specified bucket policy allows public access. Enabling this setting doesn't affect existing bucket poli- cies. This property is not supported for Amazon S3 on Outposts. RestrictPublicBuckets -&gt; (boolean) Specifies whether Amazon S3 should restrict public bucket policies for buckets in this account. Setting this element to TRUE restricts access to buckets with public policies to only Amazon Web Services service principals and authorized users within this account. Enabling this setting doesn't affect previously stored bucket policies, except that public and cross-account access within any public bucket policy, including non-public delegation to specific accounts, is blocked. This property is not supported for Amazon S3 on Outposts. Regions -&gt; (list) [required] The buckets in different Regions that are associated with the Multi-Region Access Point. (structure) A Region that supports a Multi-Region Access Point as well as the associated bucket for the Region. Bucket -&gt; (string) [required] The name of the associated bucket for the Region. Constraints: o min: 3 o max: 255 BucketAccountId -&gt; (string) The Amazon Web Services account ID that owns the Amazon S3 bucket that's associated with this Multi-Region Access Point. Constraints: o max: 64 o pattern: ^\d{12}$ Shorthand Syntax: Name=string,PublicAccessBlock={BlockPublicAcls=boolean,IgnorePublicAcls=boolean,BlockPublicPolicy=boolean,RestrictPublicBuckets=boolean},Regions=[{Bucket=string,BucketAccountId=string},{Bucket=string,BucketAccountId=string}] JSON Syntax: { "Name": "string", "PublicAccessBlock": { "BlockPublicAcls": true|false, "IgnorePublicAcls": true|false, "BlockPublicPolicy": true|false, "RestrictPublicBuckets": true|false }, "Regions": [ { "Bucket": "string", "BucketAccountId": "string" } ... ] }
+    /// </summary>
+    [CliOption("--details")]
+    public string? Details { get; private init; }
 
     /// <summary>
     /// An idempotency token used to identify the request and guarantee that requests are unique. Constraints: o max: 64 o pattern: \S+
@@ -32,13 +79,27 @@ public record AwsS3controlCreateMultiRegionAccessPointOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--details")]
-    public string? Details { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

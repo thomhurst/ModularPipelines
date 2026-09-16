@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore-control", "delete-registry")]
-public record AwsBedrockAgentcoreControlDeleteRegistryOptions : AwsOptions
+public record AwsBedrockAgentcoreControlDeleteRegistryOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes a registry. The registry must contain zero records before it can be deleted. This operation initiates the deletion process asynchro- nously. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RegistryId">The identifier of the registry to delete. You can specify either the Amazon Resource Name (ARN) or the ID of the registry. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]+)?:bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:registry/)?[a-zA-Z0-9]{12,16}</param>
+    public AwsBedrockAgentcoreControlDeleteRegistryOptions(
+        string RegistryId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RegistryId);
+        this.RegistryId = RegistryId;
+    }
+
+    private AwsBedrockAgentcoreControlDeleteRegistryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreControlDeleteRegistryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreControlDeleteRegistryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the registry to delete. You can specify either the Amazon Resource Name (ARN) or the ID of the registry. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]+)?:bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:registry/)?[a-zA-Z0-9]{12,16}
+    /// </summary>
     [CliOption("--registry-id")]
-    public string? RegistryId { get; set; }
+    public string? RegistryId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

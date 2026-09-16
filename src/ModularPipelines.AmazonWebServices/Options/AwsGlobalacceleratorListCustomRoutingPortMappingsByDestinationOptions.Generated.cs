@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("globalaccelerator", "list-custom-routing-port-mappings-by-destination")]
-public record AwsGlobalacceleratorListCustomRoutingPortMappingsByDestinationOptions : AwsOptions
+public record AwsGlobalacceleratorListCustomRoutingPortMappingsByDestinationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--endpoint-id")]
-    public string? EndpointId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// List the port mappings for a specific EC2 instance (destination) in a VPC subnet endpoint. The response is the mappings for one destination IP address. This is useful when your subnet endpoint has mappings that span multiple custom routing accelerators in your account, or for sce- narios where you only want to list the port mappings for a specific destination instance. See also: AWS API Documentation list-custom-routing-port-mappings-by-destination is a paginated opera- tion. Multiple API calls ...
+    /// </summary>
+    /// <param name="EndpointId">The ID for the virtual private cloud (VPC) subnet. Constraints: o max: 255</param>
+    /// <param name="DestinationAddress">The endpoint IP address in a virtual private cloud (VPC) subnet for which you want to receive back port mappings. Constraints: o max: 255</param>
+    public AwsGlobalacceleratorListCustomRoutingPortMappingsByDestinationOptions(
+        string EndpointId,
+        string DestinationAddress
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EndpointId);
+        this.EndpointId = EndpointId;
+        global::System.ArgumentNullException.ThrowIfNull(DestinationAddress);
+        this.DestinationAddress = DestinationAddress;
+    }
+
+    private AwsGlobalacceleratorListCustomRoutingPortMappingsByDestinationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlobalacceleratorListCustomRoutingPortMappingsByDestinationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlobalacceleratorListCustomRoutingPortMappingsByDestinationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID for the virtual private cloud (VPC) subnet. Constraints: o max: 255
+    /// </summary>
+    [CliOption("--endpoint-id")]
+    public string? EndpointId { get; private init; }
+
+    /// <summary>
+    /// The endpoint IP address in a virtual private cloud (VPC) subnet for which you want to receive back port mappings. Constraints: o max: 255
+    /// </summary>
     [CliOption("--destination-address")]
-    public string? DestinationAddress { get; set; }
+    public string? DestinationAddress { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -52,5 +96,22 @@ public record AwsGlobalacceleratorListCustomRoutingPortMappingsByDestinationOpti
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

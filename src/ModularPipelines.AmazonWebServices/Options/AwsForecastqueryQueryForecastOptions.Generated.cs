@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,10 +22,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("forecastquery", "query-forecast")]
-public record AwsForecastqueryQueryForecastOptions : AwsOptions
+public record AwsForecastqueryQueryForecastOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves a forecast for a single item, filtered by the supplied crite- ria. The criteria is a key-value pair. The key is either item_id (or the equivalent non-timestamp, non-target field) from the TARGET_TIME_SERIES dataset, or one of the forecast dimensions specified as part of the FeaturizationConfig object. By default, QueryForecast returns the complete date range for the fil- tered forecast. You can request a specific date range. To get the full forecast, use the CreateForecastExportJob ope...
+    /// </summary>
+    /// <param name="ForecastArn">The Amazon Resource Name (ARN) of the forecast to query. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+</param>
+    /// <param name="Filters">The filtering criteria to apply when retrieving the forecast. For example, to get the forecast for client_21 in the electricity usage dataset, specify the following: {"item_id" : "client_21"} To get the full forecast, use the CreateForecastExportJob operation. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o max: 256 o pattern: ^[a-zA-Z0-9\_\-]+$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    public AwsForecastqueryQueryForecastOptions(
+        string ForecastArn,
+        IReadOnlyList<KeyValue> Filters
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ForecastArn);
+        this.ForecastArn = ForecastArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Filters);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(Filters));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Filters));
+            }
+
+            Filters = materialized;
+        }
+        this.Filters = Filters;
+    }
+
+    private AwsForecastqueryQueryForecastOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsForecastqueryQueryForecastOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsForecastqueryQueryForecastOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the forecast to query. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
+    /// </summary>
     [CliOption("--forecast-arn")]
-    public string? ForecastArn { get; set; }
+    public string? ForecastArn { get; private init; }
+
+    /// <summary>
+    /// The filtering criteria to apply when retrieving the forecast. For example, to get the forecast for client_21 in the electricity usage dataset, specify the following: {"item_id" : "client_21"} To get the full forecast, use the CreateForecastExportJob operation. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o max: 256 o pattern: ^[a-zA-Z0-9\_\-]+$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// </summary>
+    [CliOption("--filters", CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Filters { get; private init; }
 
     /// <summary>
     /// The start date for the forecast. Specify the date using this format: yyyy-MM-dd'T'HH:mm:ss (ISO 8601 format). For example, 2015-01-01T08:00:00.
@@ -38,9 +96,6 @@ public record AwsForecastqueryQueryForecastOptions : AwsOptions
     [CliOption("--end-date")]
     public string? EndDate { get; set; }
 
-    [CliOption("--filters", CollectionSeparator = ",")]
-    public IReadOnlyList<KeyValue>? Filters { get; set; }
-
     /// <summary>
     /// If the result of the previous request was truncated, the response includes a NextToken . To retrieve the next set of results, use the token in the next request. Tokens expire after 24 hours. Constraints: o min: 1 o max: 3000
     /// </summary>
@@ -53,5 +108,22 @@ public record AwsForecastqueryQueryForecastOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

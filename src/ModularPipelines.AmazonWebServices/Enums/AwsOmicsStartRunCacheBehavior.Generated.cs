@@ -11,17 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --cachebehavior.
+/// Allowed values for --cache-behavior.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsOmicsStartRunCacheBehavior
 {
-    [EnumValue("CACHE_ON_FAILURE")]
-    CacheOnFailure = 1,
-
     [EnumValue("CACHE_ALWAYS")]
-    CacheAlways = 2,
+    CacheAlways,
 
-    [EnumValue("Constraints")]
-    Constraints = 3
+    [EnumValue("CACHE_ON_FAILURE")]
+    CacheOnFailure
 }

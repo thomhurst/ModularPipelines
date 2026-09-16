@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --availablesecurityupdatescompliancestatus.
+/// Allowed values for --available-security-updates-compliance-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSsmUpdatePatchBaselineAvailableSecurityUpdatesComplianceStatus
 {
     [EnumValue("COMPLIANT")]
-    Compliant = 1,
+    Compliant,
 
     [EnumValue("NON_COMPLIANT")]
-    NonCompliant = 2
+    NonCompliant
 }

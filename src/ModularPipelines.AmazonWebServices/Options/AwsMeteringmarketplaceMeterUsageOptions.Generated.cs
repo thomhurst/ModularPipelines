@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("meteringmarketplace", "meter-usage")]
-public record AwsMeteringmarketplaceMeterUsageOptions : AwsOptions
+public record AwsMeteringmarketplaceMeterUsageOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// As a seller, your software hosted in the buyer's Amazon Web Services account uses this API action to emit metering records directly to Ama- zon Web Services Marketplace. You must use the following buyer Amazon Web Services account credentials to sign the API request. o For Amazon EC2 deployments, your software must use the IAM role for Amazon EC2 to sign the API call for MeterUsage API operation. o For Amazon EKS deployments, your software must use IAM roles for ser- vice accounts (IRSA) to sign...
+    /// </summary>
+    /// <param name="ProductCode">Product code is used to uniquely identify a product in Amazon Web Services Marketplace. The product code should be the same as the one used during the publishing of a new product. Constraints: o min: 0 o max: 255 o pattern: ^[-a-zA-Z0-9/=:_.@]*$</param>
+    /// <param name="Timestamp">Timestamp, in UTC, for which the usage is being reported. Your ap- plication can meter usage for up to six hours in the past. Make sure the timestamp value is not before the start of the software usage.</param>
+    /// <param name="UsageDimension">It will be one of the fcp dimension name provided during the pub- lishing of the product. Constraints: o min: 1 o max: 255 o pattern: [\s\S]+</param>
+    public AwsMeteringmarketplaceMeterUsageOptions(
+        string ProductCode,
+        string Timestamp,
+        string UsageDimension
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProductCode);
+        this.ProductCode = ProductCode;
+        global::System.ArgumentNullException.ThrowIfNull(Timestamp);
+        this.Timestamp = Timestamp;
+        global::System.ArgumentNullException.ThrowIfNull(UsageDimension);
+        this.UsageDimension = UsageDimension;
+    }
+
+    private AwsMeteringmarketplaceMeterUsageOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMeteringmarketplaceMeterUsageOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMeteringmarketplaceMeterUsageOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Product code is used to uniquely identify a product in Amazon Web Services Marketplace. The product code should be the same as the one used during the publishing of a new product. Constraints: o min: 0 o max: 255 o pattern: ^[-a-zA-Z0-9/=:_.@]*$
+    /// </summary>
     [CliOption("--product-code")]
-    public string? ProductCode { get; set; }
+    public string? ProductCode { get; private init; }
 
+    /// <summary>
+    /// Timestamp, in UTC, for which the usage is being reported. Your ap- plication can meter usage for up to six hours in the past. Make sure the timestamp value is not before the start of the software usage.
+    /// </summary>
     [CliOption("--timestamp")]
-    public string? Timestamp { get; set; }
+    public string? Timestamp { get; private init; }
 
+    /// <summary>
+    /// It will be one of the fcp dimension name provided during the pub- lishing of the product. Constraints: o min: 1 o max: 255 o pattern: [\s\S]+
+    /// </summary>
     [CliOption("--usage-dimension")]
-    public string? UsageDimension { get; set; }
+    public string? UsageDimension { get; private init; }
 
     /// <summary>
     /// Consumption value for the hour. Defaults to 0 if not specified. Constraints: o min: 0 o max: 2147483647
@@ -37,7 +88,10 @@ public record AwsMeteringmarketplaceMeterUsageOptions : AwsOptions
     [CliOption("--usage-quantity")]
     public int? UsageQuantity { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the permissions required for the action, but does not make the request. If you have the permissions, the request returns DryRunOperation ; otherwise, it returns UnauthorizedExcep- tion . Defaults to false if not specified.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -58,5 +112,22 @@ public record AwsMeteringmarketplaceMeterUsageOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

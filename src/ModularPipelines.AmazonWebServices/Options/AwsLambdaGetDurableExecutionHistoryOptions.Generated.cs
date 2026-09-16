@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,12 +21,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lambda", "get-durable-execution-history")]
-public record AwsLambdaGetDurableExecutionHistoryOptions : AwsOptions
+public record AwsLambdaGetDurableExecutionHistoryOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--durable-execution-arn")]
-    public string? DurableExecutionArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--include-execution-data")]
+    /// <summary>
+    /// Retrieves the execution history for a durable execution , showing all the steps, callbacks, and events that occurred during the execution. This provides a detailed audit trail of the execution's progress over time. The history is available while the execution is running and for a re- tention period after it completes (1-90 days, default 30 days). You can control whether to include execution data such as step results and callback payloads. See also: AWS API Documentation get-durable-execution-his...
+    /// </summary>
+    /// <param name="DurableExecutionArn">The Amazon Resource Name (ARN) of the durable execution. Constraints: o min: 1 o max: 1024 o pattern: arn:([a-zA-Z0-9-]+):lambda:([a-zA-Z0-9-]+):(\d{12}):func- tion:([a-zA-Z0-9_-]+):(\$LATEST(?:\.PUB- LISHED)?|[0-9]+)/durable-execu- tion/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)</param>
+    public AwsLambdaGetDurableExecutionHistoryOptions(
+        string DurableExecutionArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DurableExecutionArn);
+        this.DurableExecutionArn = DurableExecutionArn;
+    }
+
+    private AwsLambdaGetDurableExecutionHistoryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLambdaGetDurableExecutionHistoryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLambdaGetDurableExecutionHistoryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the durable execution. Constraints: o min: 1 o max: 1024 o pattern: arn:([a-zA-Z0-9-]+):lambda:([a-zA-Z0-9-]+):(\d{12}):func- tion:([a-zA-Z0-9_-]+):(\$LATEST(?:\.PUB- LISHED)?|[0-9]+)/durable-execu- tion/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)
+    /// </summary>
+    [CliOption("--durable-execution-arn")]
+    public string? DurableExecutionArn { get; private init; }
+
+    /// <summary>
+    /// Specifies whether to include execution data such as step results and callback payloads in the history events. Set to true to include data, or false to exclude it for a more compact response. The de- fault is true .
+    /// </summary>
+    [CliFlag("--include-execution-data", NegatedName = "--no-include-execution-data")]
     public bool? IncludeExecutionData { get; set; }
 
     /// <summary>
@@ -34,7 +74,10 @@ public record AwsLambdaGetDurableExecutionHistoryOptions : AwsOptions
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CliFlag("--reverse-order")]
+    /// <summary>
+    /// When set to true , returns the history events in reverse chronologi- cal order (newest first). By default, events are returned in chrono- logical order (oldest first).
+    /// </summary>
+    [CliFlag("--reverse-order", NegatedName = "--no-reverse-order")]
     public bool? ReverseOrder { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -55,5 +98,22 @@ public record AwsLambdaGetDurableExecutionHistoryOptions : AwsOptions
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

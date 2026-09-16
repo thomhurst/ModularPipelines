@@ -11,23 +11,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --attachmenttype.
+/// Allowed values for --attachment-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsNetworkmanagerListAttachmentsAttachmentType
 {
     [EnumValue("CONNECT")]
-    Connect = 1,
-
-    [EnumValue("SITE_TO_SITE_VPN")]
-    SiteToSiteVpn = 2,
-
-    [EnumValue("VPC")]
-    Vpc = 3,
+    Connect,
 
     [EnumValue("DIRECT_CONNECT_GATEWAY")]
-    DirectConnectGateway = 4,
+    DirectConnectGateway,
+
+    [EnumValue("SITE_TO_SITE_VPN")]
+    SiteToSiteVpn,
 
     [EnumValue("TRANSIT_GATEWAY_ROUTE_TABLE")]
-    TransitGatewayRouteTable = 5
+    TransitGatewayRouteTable,
+
+    [EnumValue("VPC")]
+    Vpc
 }

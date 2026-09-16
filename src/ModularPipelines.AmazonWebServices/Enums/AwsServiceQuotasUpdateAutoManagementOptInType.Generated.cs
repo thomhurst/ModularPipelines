@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --optintype.
+/// Allowed values for --opt-in-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsServiceQuotasUpdateAutoManagementOptInType
 {
-    [EnumValue("NotifyOnly")]
-    NotifyOnly = 1,
-
     [EnumValue("NotifyAndAdjust")]
-    NotifyAndAdjust = 2
+    NotifyAndAdjust,
+
+    [EnumValue("NotifyOnly")]
+    NotifyOnly
 }

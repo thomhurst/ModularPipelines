@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("controltower", "update-enabled-baseline")]
-public record AwsControltowerUpdateEnabledBaselineOptions : AwsOptions
+public record AwsControltowerUpdateEnabledBaselineOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an EnabledBaseline resource's applied parameters or version. For usage examples, see ` the Amazon Web Services Control Tower User Guide https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html`__ . See also: AWS API Documentation update-enabled-baseline uses document type values. Document types fol- low the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are la...
+    /// </summary>
+    /// <param name="BaselineVersion">Specifies the new Baseline version, to which the EnabledBaseline should be updated. Constraints: o min: 1 o max: 10 o pattern: \d+(?:\.\d+){0,2}</param>
+    /// <param name="EnabledBaselineIdentifier">Specifies the EnabledBaseline resource to be updated. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[0-9a-zA-Z_\-:\/]+</param>
+    public AwsControltowerUpdateEnabledBaselineOptions(
+        string BaselineVersion,
+        string EnabledBaselineIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BaselineVersion);
+        this.BaselineVersion = BaselineVersion;
+        global::System.ArgumentNullException.ThrowIfNull(EnabledBaselineIdentifier);
+        this.EnabledBaselineIdentifier = EnabledBaselineIdentifier;
+    }
+
+    private AwsControltowerUpdateEnabledBaselineOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsControltowerUpdateEnabledBaselineOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsControltowerUpdateEnabledBaselineOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the new Baseline version, to which the EnabledBaseline should be updated. Constraints: o min: 1 o max: 10 o pattern: \d+(?:\.\d+){0,2}
+    /// </summary>
     [CliOption("--baseline-version")]
-    public string? BaselineVersion { get; set; }
+    public string? BaselineVersion { get; private init; }
+
+    /// <summary>
+    /// Specifies the EnabledBaseline resource to be updated. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[0-9a-zA-Z_\-:\/]+
+    /// </summary>
+    [CliOption("--enabled-baseline-identifier")]
+    public string? EnabledBaselineIdentifier { get; private init; }
 
     /// <summary>
     /// Parameters to apply when making an update. (structure) A key-value parameter to an EnabledBaseline resource. key -&gt; (string) [required] A string denoting the parameter key. value -&gt; (document) [required] A low-level Document object of any type (for example, a Java Object). Shorthand Syntax: key=string ... JSON Syntax: [ { "key": "string", "value": {...} } ... ]
@@ -30,13 +77,27 @@ public record AwsControltowerUpdateEnabledBaselineOptions : AwsOptions
     [CliOption("--parameters", GroupValues = true)]
     public IEnumerable<string>? Parameters { get; set; }
 
-    [CliOption("--enabled-baseline-identifier")]
-    public string? EnabledBaselineIdentifier { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

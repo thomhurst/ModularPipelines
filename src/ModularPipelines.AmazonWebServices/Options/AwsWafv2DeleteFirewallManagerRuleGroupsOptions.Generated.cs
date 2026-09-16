@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,79 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("wafv2", "delete-firewall-manager-rule-groups")]
-public record AwsWafv2DeleteFirewallManagerRuleGroupsOptions : AwsOptions
+public record AwsWafv2DeleteFirewallManagerRuleGroupsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--web-acl-arn")]
-    public string? WebAclArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deletes all rule groups that are managed by Firewall Manager from the specified WebACL . You can only use this if ManagedByFirewallManager and RetrofittedBy- FirewallManager are both false in the web ACL. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="WebAclArn">The Amazon Resource Name (ARN) of the web ACL. Constraints: o min: 20 o max: 2048 o pattern: .*\S.*</param>
+    /// <param name="WebAclLockToken">A token used for optimistic locking. WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the to- ken, you provide the token to operations like update and delete . WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException . If this happens, perform another get , and use the new token returned by that opera- tion. Constraints: o min: 1 o max: 36 o pattern: ^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$</param>
+    public AwsWafv2DeleteFirewallManagerRuleGroupsOptions(
+        string WebAclArn,
+        string WebAclLockToken
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WebAclArn);
+        this.WebAclArn = WebAclArn;
+        global::System.ArgumentNullException.ThrowIfNull(WebAclLockToken);
+        this.WebAclLockToken = WebAclLockToken;
+    }
+
+    private AwsWafv2DeleteFirewallManagerRuleGroupsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWafv2DeleteFirewallManagerRuleGroupsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWafv2DeleteFirewallManagerRuleGroupsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the web ACL. Constraints: o min: 20 o max: 2048 o pattern: .*\S.*
+    /// </summary>
+    [CliOption("--web-acl-arn")]
+    public string? WebAclArn { get; private init; }
+
+    /// <summary>
+    /// A token used for optimistic locking. WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the to- ken, you provide the token to operations like update and delete . WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException . If this happens, perform another get , and use the new token returned by that opera- tion. Constraints: o min: 1 o max: 36 o pattern: ^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$
+    /// </summary>
     [SecretValue]
     [CliOption("--web-acl-lock-token")]
-    public string? WebAclLockToken { get; set; }
+    public string? WebAclLockToken { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --s3tablegranularity.
+/// Allowed values for --s3-table-granularity.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsRedshiftServerlessUpdateNamespaceS3TableGranularity
 {
-    [EnumValue("namespace")]
-    Namespace = 1,
-
     [EnumValue("account")]
-    Account = 2
+    Account,
+
+    [EnumValue("namespace")]
+    Namespace
 }

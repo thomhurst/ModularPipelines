@@ -21,10 +21,49 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("iotwireless", "get-resource-position")]
 public record AwsIotwirelessGetResourcePositionOptions : AwsOptions
 {
-    [CliOption("--resource-identifier")]
-    public string? ResourceIdentifier { get; set; }
+    /// <summary>
+    /// Get the position information for a given wireless device or a wireless gateway resource. The position information uses the World Geodetic Sys- tem (WGS84) . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceIdentifier">The identifier of the resource for which position information is re- trieved. It can be the wireless device ID or the wireless gateway ID, depending on the resource type. Constraints: o pattern: [a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}</param>
+    /// <param name="ResourceType">The type of resource for which position information is retrieved, which can be a wireless device or a wireless gateway. Possible values: o WirelessDevice o WirelessGateway outfile (string) [required] Filename where the content will be saved</param>
+    /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
+    public AwsIotwirelessGetResourcePositionOptions(
+        string ResourceIdentifier,
+        string ResourceType,
+        string Outfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceIdentifier);
+        this.ResourceIdentifier = ResourceIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
+        this.ResourceType = ResourceType;
+        global::System.ArgumentNullException.ThrowIfNull(Outfile);
+        this.Outfile = Outfile;
+    }
 
+    public void Deconstruct(out string ResourceIdentifier, out string ResourceType, out string Outfile)
+    {
+        ResourceIdentifier = this.ResourceIdentifier;
+        ResourceType = this.ResourceType;
+        Outfile = this.Outfile;
+    }
+
+    /// <summary>
+    /// The identifier of the resource for which position information is re- trieved. It can be the wireless device ID or the wireless gateway ID, depending on the resource type. Constraints: o pattern: [a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}
+    /// </summary>
+    [CliOption("--resource-identifier")]
+    public string ResourceIdentifier { get; private init; }
+
+    /// <summary>
+    /// The type of resource for which position information is retrieved, which can be a wireless device or a wireless gateway. Possible values: o WirelessDevice o WirelessGateway outfile (string) [required] Filename where the content will be saved
+    /// </summary>
     [CliOption("--resource-type")]
-    public string? ResourceType { get; set; }
+    public string ResourceType { get; private init; }
+
+    /// <summary>
+    /// The &lt;outfile&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Outfile { get; private init; }
 
 }

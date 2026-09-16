@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +20,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("securitylake", "create-custom-log-source")]
-public record AwsSecuritylakeCreateCustomLogSourceOptions : AwsOptions
+public record AwsSecuritylakeCreateCustomLogSourceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Adds a third-party custom source in Amazon Security Lake, from the Ama- zon Web Services Region where you want to create a custom source. Secu- rity Lake can collect logs and events from third-party custom sources. After creating the appropriate IAM role to invoke Glue crawler, use this API to add a custom source name in Security Lake. This operation creates a partition in the Amazon S3 bucket for Security Lake as the target location for log files from the custom source. In addition, this operat...
+    /// </summary>
+    /// <param name="Configuration">The configuration used for the third-party custom source. crawlerConfiguration -&gt; (structure) [required] The configuration used for the Glue Crawler for a third-party custom source. roleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role to be used by the Glue crawler. The recommended IAM policies are: o The managed policy AWSGlueServiceRole o A custom policy granting access to your Amazon S3 Data Lake Constraints: o pattern: ^arn:(aws[a-zA-Z-]*)?:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+$ providerIdentity -&gt; (structure) [required] The identity of the log provider for the third-party custom source. externalId -&gt; (string) [required] The external ID used to establish trust relationship with the Amazon Web Services identity. Constraints: o min: 2 o max: 1224 o pattern: ^[\w+=,.@:\/-]*$ principal -&gt; (string) [required] The Amazon Web Services identity principal. Constraints: o pattern: ^([0-9]{12}|[a-z0-9\.\-]*\.(amazonaws|ama- zon)\.com)$ Shorthand Syntax: crawlerConfiguration={roleArn=string},providerIdentity={externalId=string,principal=string} JSON Syntax: { "crawlerConfiguration": { "roleArn": "string" }, "providerIdentity": { "externalId": "string", "principal": "string" } }</param>
+    /// <param name="SourceName">Specify the name for a third-party custom source. This must be a Re- gionally unique value. The sourceName you enter here, is used in the LogProviderRole name which follows the convention AmazonSecurity- Lake-Provider-{name of the custom source}-{region} . You must use a CustomLogSource name that is shorter than or equal to 20 characters. This ensures that the LogProviderRole name is below the 64 character limit. Constraints: o min: 1 o max: 64 o pattern: ^[\w\-\_\:\.]*$</param>
+    public AwsSecuritylakeCreateCustomLogSourceOptions(
+        string Configuration,
+        string SourceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Configuration);
+        this.Configuration = Configuration;
+        global::System.ArgumentNullException.ThrowIfNull(SourceName);
+        this.SourceName = SourceName;
+    }
+
+    private AwsSecuritylakeCreateCustomLogSourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSecuritylakeCreateCustomLogSourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSecuritylakeCreateCustomLogSourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The configuration used for the third-party custom source. crawlerConfiguration -&gt; (structure) [required] The configuration used for the Glue Crawler for a third-party custom source. roleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role to be used by the Glue crawler. The recommended IAM policies are: o The managed policy AWSGlueServiceRole o A custom policy granting access to your Amazon S3 Data Lake Constraints: o pattern: ^arn:(aws[a-zA-Z-]*)?:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+$ providerIdentity -&gt; (structure) [required] The identity of the log provider for the third-party custom source. externalId -&gt; (string) [required] The external ID used to establish trust relationship with the Amazon Web Services identity. Constraints: o min: 2 o max: 1224 o pattern: ^[\w+=,.@:\/-]*$ principal -&gt; (string) [required] The Amazon Web Services identity principal. Constraints: o pattern: ^([0-9]{12}|[a-z0-9\.\-]*\.(amazonaws|ama- zon)\.com)$ Shorthand Syntax: crawlerConfiguration={roleArn=string},providerIdentity={externalId=string,principal=string} JSON Syntax: { "crawlerConfiguration": { "roleArn": "string" }, "providerIdentity": { "externalId": "string", "principal": "string" } }
+    /// </summary>
     [CliOption("--configuration")]
-    public string? Configuration { get; set; }
+    public string? Configuration { get; private init; }
+
+    /// <summary>
+    /// Specify the name for a third-party custom source. This must be a Re- gionally unique value. The sourceName you enter here, is used in the LogProviderRole name which follows the convention AmazonSecurity- Lake-Provider-{name of the custom source}-{region} . You must use a CustomLogSource name that is shorter than or equal to 20 characters. This ensures that the LogProviderRole name is below the 64 character limit. Constraints: o min: 1 o max: 64 o pattern: ^[\w\-\_\:\.]*$
+    /// </summary>
+    [CliOption("--source-name")]
+    public string? SourceName { get; private init; }
 
     /// <summary>
     /// The Open Cybersecurity Schema Framework (OCSF) event classes which describes the type of data that the custom source will send to Secu- rity Lake. For the list of supported event classes, see the Amazon Security Lake User Guide . (string) Constraints: o pattern: ^[A-Z\_0-9]*$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--event-classes", GroupValues = true)]
     public IEnumerable<string>? EventClasses { get; set; }
-
-    [CliOption("--source-name")]
-    public string? SourceName { get; set; }
 
     /// <summary>
     /// Specify the source version for the third-party custom source, to limit log collection to a specific version of custom data source. Constraints: o min: 1 o max: 32 o pattern: ^[A-Za-z0-9\-\.\_]*$
@@ -44,5 +88,22 @@ public record AwsSecuritylakeCreateCustomLogSourceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

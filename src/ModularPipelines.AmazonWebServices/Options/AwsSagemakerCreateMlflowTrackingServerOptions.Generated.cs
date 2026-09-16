@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "create-mlflow-tracking-server")]
-public record AwsSagemakerCreateMlflowTrackingServerOptions : AwsOptions
+public record AwsSagemakerCreateMlflowTrackingServerOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--tracking-server-name")]
-    public string? TrackingServerName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an MLflow Tracking Server using a general purpose Amazon S3 bucket as the artifact store. For more information, see Create an MLflow Tracking Server . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TrackingServerName">A unique string identifying the tracking server name. This string is part of the tracking server ARN. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,255}</param>
+    /// <param name="ArtifactStoreUri">The S3 URI for a general purpose bucket to use as the MLflow Track- ing Server artifact store. Constraints: o min: 0 o max: 1024 o pattern: (https|s3)://([^/]+)/?(.*)</param>
+    /// <param name="RoleArn">The Amazon Resource Name (ARN) for an IAM role in your account that the MLflow Tracking Server uses to access the artifact store in Ama- zon S3. The role should have AmazonS3FullAccess permissions. For more information on IAM permissions for tracking server creation, see Set up IAM permissions for MLflow . Constraints: o min: 20 o max: 2048 o pattern: arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+</param>
+    public AwsSagemakerCreateMlflowTrackingServerOptions(
+        string TrackingServerName,
+        string ArtifactStoreUri,
+        string RoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TrackingServerName);
+        this.TrackingServerName = TrackingServerName;
+        global::System.ArgumentNullException.ThrowIfNull(ArtifactStoreUri);
+        this.ArtifactStoreUri = ArtifactStoreUri;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+    }
+
+    private AwsSagemakerCreateMlflowTrackingServerOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerCreateMlflowTrackingServerOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerCreateMlflowTrackingServerOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique string identifying the tracking server name. This string is part of the tracking server ARN. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,255}
+    /// </summary>
+    [CliOption("--tracking-server-name")]
+    public string? TrackingServerName { get; private init; }
+
+    /// <summary>
+    /// The S3 URI for a general purpose bucket to use as the MLflow Track- ing Server artifact store. Constraints: o min: 0 o max: 1024 o pattern: (https|s3)://([^/]+)/?(.*)
+    /// </summary>
     [CliOption("--artifact-store-uri")]
-    public string? ArtifactStoreUri { get; set; }
+    public string? ArtifactStoreUri { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) for an IAM role in your account that the MLflow Tracking Server uses to access the artifact store in Ama- zon S3. The role should have AmazonS3FullAccess permissions. For more information on IAM permissions for tracking server creation, see Set up IAM permissions for MLflow . Constraints: o min: 20 o max: 2048 o pattern: arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+
+    /// </summary>
+    [CliOption("--role-arn")]
+    public string? RoleArn { get; private init; }
 
     /// <summary>
     /// The size of the tracking server you want to create. You can choose between "Small" , "Medium" , and "Large" . The default MLflow Track- ing Server configuration size is "Small" . You can choose a size de- pending on the projected use of the tracking server such as the vol- ume of data logged, number of users, and frequency of use. We recommend using a small tracking server for teams of up to 25 users, a medium tracking server for teams of up to 50 users, and a large tracking server for teams of up to 100 users. Possible values: o Small o Medium o Large
@@ -40,10 +94,10 @@ public record AwsSagemakerCreateMlflowTrackingServerOptions : AwsOptions
     [CliOption("--mlflow-version")]
     public string? MlflowVersion { get; set; }
 
-    [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
-
-    [CliFlag("--automatic-model-registration")]
+    /// <summary>
+    /// Whether to enable or disable automatic registration of new MLflow models to the SageMaker Model Registry. To enable automatic model registration, set this value to True . To disable automatic model registration, set this value to False . If not specified, Automatic- ModelRegistration defaults to False .
+    /// </summary>
+    [CliFlag("--automatic-model-registration", NegatedName = "--no-automatic-model-registration")]
     public bool? AutomaticModelRegistration { get; set; }
 
     /// <summary>
@@ -64,7 +118,10 @@ public record AwsSagemakerCreateMlflowTrackingServerOptions : AwsOptions
     [CliOption("--s3-bucket-owner-account-id")]
     public string? S3BucketOwnerAccountId { get; set; }
 
-    [CliFlag("--s3-bucket-owner-verification")]
+    /// <summary>
+    /// Enable Amazon S3 Ownership checks when interacting with Amazon S3 buckets from a SageMaker Managed MLflow Tracking Server. Defaults to True if not provided.
+    /// </summary>
+    [CliFlag("--s3-bucket-owner-verification", NegatedName = "--no-s3-bucket-owner-verification")]
     public bool? S3BucketOwnerVerification { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -72,5 +129,22 @@ public record AwsSagemakerCreateMlflowTrackingServerOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

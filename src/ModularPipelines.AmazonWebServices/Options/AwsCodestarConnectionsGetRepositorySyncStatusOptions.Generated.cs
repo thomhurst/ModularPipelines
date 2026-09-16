@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codestar-connections", "get-repository-sync-status")]
-public record AwsCodestarConnectionsGetRepositorySyncStatusOptions : AwsOptions
+public record AwsCodestarConnectionsGetRepositorySyncStatusOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns details about the sync status for a repository. A repository sync uses Git sync to push and pull changes from your remote reposi- tory. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Branch">The branch of the repository link for the requested repository sync status. Constraints: o min: 1 o max: 255 o pattern: ^.*$</param>
+    /// <param name="RepositoryLinkId">The repository link ID for the requested repository sync status. Constraints: o pattern: ^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$</param>
+    /// <param name="SyncType">The sync type of the requested sync status. Possible values: o CFN_STACK_SYNC</param>
+    public AwsCodestarConnectionsGetRepositorySyncStatusOptions(
+        string Branch,
+        string RepositoryLinkId,
+        AwsCodestarConnectionsGetRepositorySyncStatusSyncType SyncType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Branch);
+        this.Branch = Branch;
+        global::System.ArgumentNullException.ThrowIfNull(RepositoryLinkId);
+        this.RepositoryLinkId = RepositoryLinkId;
+        global::System.ArgumentNullException.ThrowIfNull(SyncType);
+        this.SyncType = SyncType;
+    }
+
+    private AwsCodestarConnectionsGetRepositorySyncStatusOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodestarConnectionsGetRepositorySyncStatusOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodestarConnectionsGetRepositorySyncStatusOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The branch of the repository link for the requested repository sync status. Constraints: o min: 1 o max: 255 o pattern: ^.*$
+    /// </summary>
     [CliOption("--branch")]
-    public string? Branch { get; set; }
+    public string? Branch { get; private init; }
 
+    /// <summary>
+    /// The repository link ID for the requested repository sync status. Constraints: o pattern: ^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$
+    /// </summary>
     [CliOption("--repository-link-id")]
-    public string? RepositoryLinkId { get; set; }
+    public string? RepositoryLinkId { get; private init; }
 
+    /// <summary>
+    /// The sync type of the requested sync status. Possible values: o CFN_STACK_SYNC
+    /// </summary>
     [CliOption("--sync-type")]
-    public string? SyncType { get; set; }
+    public AwsCodestarConnectionsGetRepositorySyncStatusSyncType? SyncType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

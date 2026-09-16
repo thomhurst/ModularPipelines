@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,16 +22,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("globalaccelerator", "create-listener")]
-public record AwsGlobalacceleratorCreateListenerOptions : AwsOptions
+public record AwsGlobalacceleratorCreateListenerOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Create a listener to process inbound connections from clients to an ac- celerator. Connections arrive to assigned static IP addresses on a port, port range, or list of port ranges that you specify. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AcceleratorArn">The Amazon Resource Name (ARN) of your accelerator. Constraints: o max: 255</param>
+    /// <param name="PortRanges">The list of port ranges to support for connections from clients to your accelerator. Constraints: o min: 1 o max: 10 (structure) A complex type for a range of ports for a listener. FromPort -&gt; (integer) The first port in the range of ports, inclusive. Constraints: o min: 1 o max: 65535 ToPort -&gt; (integer) The last port in the range of ports, inclusive. Constraints: o min: 1 o max: 65535 Shorthand Syntax: FromPort=integer,ToPort=integer ... JSON Syntax: [ { "FromPort": integer, "ToPort": integer } ... ]</param>
+    /// <param name="Protocol">The protocol for connections from clients to your accelerator. Possible values: o TCP o UDP</param>
+    public AwsGlobalacceleratorCreateListenerOptions(
+        string AcceleratorArn,
+        IEnumerable<string> PortRanges,
+        AwsGlobalacceleratorCreateListenerProtocol Protocol
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AcceleratorArn);
+        this.AcceleratorArn = AcceleratorArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(PortRanges);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(PortRanges));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(PortRanges));
+            }
+
+            PortRanges = materialized;
+        }
+        this.PortRanges = PortRanges;
+        global::System.ArgumentNullException.ThrowIfNull(Protocol);
+        this.Protocol = Protocol;
+    }
+
+    private AwsGlobalacceleratorCreateListenerOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlobalacceleratorCreateListenerOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlobalacceleratorCreateListenerOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of your accelerator. Constraints: o max: 255
+    /// </summary>
     [CliOption("--accelerator-arn")]
-    public string? AcceleratorArn { get; set; }
+    public string? AcceleratorArn { get; private init; }
 
+    /// <summary>
+    /// The list of port ranges to support for connections from clients to your accelerator. Constraints: o min: 1 o max: 10 (structure) A complex type for a range of ports for a listener. FromPort -&gt; (integer) The first port in the range of ports, inclusive. Constraints: o min: 1 o max: 65535 ToPort -&gt; (integer) The last port in the range of ports, inclusive. Constraints: o min: 1 o max: 65535 Shorthand Syntax: FromPort=integer,ToPort=integer ... JSON Syntax: [ { "FromPort": integer, "ToPort": integer } ... ]
+    /// </summary>
     [CliOption("--port-ranges", GroupValues = true)]
-    public IEnumerable<string>? PortRanges { get; set; }
+    public IEnumerable<string>? PortRanges { get; private init; }
 
+    /// <summary>
+    /// The protocol for connections from clients to your accelerator. Possible values: o TCP o UDP
+    /// </summary>
     [CliOption("--protocol")]
-    public string? Protocol { get; set; }
+    public AwsGlobalacceleratorCreateListenerProtocol? Protocol { get; private init; }
 
     /// <summary>
     /// Client affinity lets you direct all requests from a user to the same endpoint, if you have stateful applications, regardless of the port and protocol of the client request. Client affinity gives you con- trol over whether to always route each client to the same specific endpoint. Global Accelerator uses a consistent-flow hashing algorithm to choose the optimal endpoint for a connection. If client affinity is NONE , Global Accelerator uses the "five-tuple" (5-tuple) proper- tiessource IP address, source port, destination IP address, destina- tion port, and protocolto select the hash value, and then chooses the best endpoint. However, with this setting, if someone uses dif- ferent ports to connect to Global Accelerator, their connections might not be always routed to the same endpoint because the hash value changes. If you want a given client to always be routed to the same endpoint, set client affinity to SOURCE_IP instead. When you use the SOURCE_IP setting, Global Accelerator uses the "two-tuple" (2-tuple) proper- ties source (client) IP address and destination IP addressto select the hash value. The default value is NONE . Possible values: o NONE o SOURCE_IP
@@ -50,5 +112,22 @@ public record AwsGlobalacceleratorCreateListenerOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

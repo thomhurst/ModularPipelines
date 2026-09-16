@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --rejectedpatchesaction.
+/// Allowed values for --rejected-patches-action.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSsmCreatePatchBaselineRejectedPatchesAction
 {
     [EnumValue("ALLOW_AS_DEPENDENCY")]
-    AllowAsDependency = 1,
+    AllowAsDependency,
 
     [EnumValue("BLOCK")]
-    Block = 2
+    Block
 }

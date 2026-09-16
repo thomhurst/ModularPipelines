@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workspaces-web", "create-user-access-logging-settings")]
-public record AwsWorkspacesWebCreateUserAccessLoggingSettingsOptions : AwsOptions
+public record AwsWorkspacesWebCreateUserAccessLoggingSettingsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a user access logging settings resource that can be associated with a web portal. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="KinesisStreamArn">The ARN of the Kinesis stream. Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=/,.@-]+:kine- sis:[a-zA-Z0-9\-]*:[a-zA-Z0-9]{1,12}:stream/.+</param>
+    public AwsWorkspacesWebCreateUserAccessLoggingSettingsOptions(
+        string KinesisStreamArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KinesisStreamArn);
+        this.KinesisStreamArn = KinesisStreamArn;
+    }
+
+    private AwsWorkspacesWebCreateUserAccessLoggingSettingsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkspacesWebCreateUserAccessLoggingSettingsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkspacesWebCreateUserAccessLoggingSettingsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the Kinesis stream. Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=/,.@-]+:kine- sis:[a-zA-Z0-9\-]*:[a-zA-Z0-9]{1,12}:stream/.+
+    /// </summary>
     [CliOption("--kinesis-stream-arn")]
-    public string? KinesisStreamArn { get; set; }
+    public string? KinesisStreamArn { get; private init; }
 
     /// <summary>
     /// The tags to add to the user settings resource. A tag is a key-value pair. Constraints: o min: 0 o max: 200 (structure) The tag. Key -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The value of the tag Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -43,5 +80,22 @@ public record AwsWorkspacesWebCreateUserAccessLoggingSettingsOptions : AwsOption
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

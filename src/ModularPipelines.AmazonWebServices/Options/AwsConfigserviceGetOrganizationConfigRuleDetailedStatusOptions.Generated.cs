@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("configservice", "get-organization-config-rule-detailed-status")]
-public record AwsConfigserviceGetOrganizationConfigRuleDetailedStatusOptions : AwsOptions
+public record AwsConfigserviceGetOrganizationConfigRuleDetailedStatusOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns detailed status for each member account within an organization for a given organization Config rule. See also: AWS API Documentation get-organization-config-rule-detailed-status is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults...
+    /// </summary>
+    /// <param name="OrganizationConfigRuleName">The name of your organization Config rule for which you want status details for member accounts. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9-_]+</param>
+    public AwsConfigserviceGetOrganizationConfigRuleDetailedStatusOptions(
+        string OrganizationConfigRuleName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OrganizationConfigRuleName);
+        this.OrganizationConfigRuleName = OrganizationConfigRuleName;
+    }
+
+    private AwsConfigserviceGetOrganizationConfigRuleDetailedStatusOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConfigserviceGetOrganizationConfigRuleDetailedStatusOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConfigserviceGetOrganizationConfigRuleDetailedStatusOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of your organization Config rule for which you want status details for member accounts. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9-_]+
+    /// </summary>
     [CliOption("--organization-config-rule-name")]
-    public string? OrganizationConfigRuleName { get; set; }
+    public string? OrganizationConfigRuleName { get; private init; }
 
     /// <summary>
     /// A StatusDetailFilters object. AccountId -&gt; (string) The 12-digit account ID of the member account within an organi- zation. Constraints: o pattern: \d{12} MemberAccountRuleStatus -&gt; (string) Indicates deployment status for Config rule in the member ac- count. When management account calls PutOrganizationConfigRule action for the first time, Config rule status is created in the member account. When management account calls PutOrganization- ConfigRule action for the second time, Config rule status is up- dated in the member account. Config rule status is deleted when the management account deletes OrganizationConfigRule and dis- ables service access for config-multiaccountsetup.amazonaws.com . Config sets the state of the rule to: o CREATE_SUCCESSFUL when Config rule has been created in the member account. o CREATE_IN_PROGRESS when Config rule is being created in the member account. o CREATE_FAILED when Config rule creation has failed in the mem- ber account. o DELETE_FAILED when Config rule deletion has failed in the mem- ber account. o DELETE_IN_PROGRESS when Config rule is being deleted in the member account. o DELETE_SUCCESSFUL when Config rule has been deleted in the member account. o UPDATE_SUCCESSFUL when Config rule has been updated in the member account. o UPDATE_IN_PROGRESS when Config rule is being updated in the member account. o UPDATE_FAILED when Config rule deletion has failed in the mem- ber account. Possible values: o CREATE_SUCCESSFUL o CREATE_IN_PROGRESS o CREATE_FAILED o DELETE_SUCCESSFUL o DELETE_FAILED o DELETE_IN_PROGRESS o UPDATE_SUCCESSFUL o UPDATE_IN_PROGRESS o UPDATE_FAILED Shorthand Syntax: AccountId=string,MemberAccountRuleStatus=string JSON Syntax: { "AccountId": "string", "MemberAccountRuleStatus": "CREATE_SUCCESSFUL"|"CREATE_IN_PROGRESS"|"CREATE_FAILED"|"DELETE_SUCCESSFUL"|"DELETE_FAILED"|"DELETE_IN_PROGRESS"|"UPDATE_SUCCESSFUL"|"UPDATE_IN_PROGRESS"|"UPDATE_FAILED" }
@@ -55,5 +92,22 @@ public record AwsConfigserviceGetOrganizationConfigRuleDetailedStatusOptions : A
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

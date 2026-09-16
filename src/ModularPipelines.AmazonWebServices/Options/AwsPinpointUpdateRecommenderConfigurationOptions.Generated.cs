@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pinpoint", "update-recommender-configuration")]
-public record AwsPinpointUpdateRecommenderConfigurationOptions : AwsOptions
+public record AwsPinpointUpdateRecommenderConfigurationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--recommender-id")]
-    public string? RecommenderId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates an Amazon Pinpoint configuration for a recommender model. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RecommenderId">The unique identifier for the recommender model configuration. This identifier is displayed as the Recommender ID on the Amazon Pinpoint console.</param>
+    /// <param name="UpdateRecommenderConfiguration">Specifies Amazon Pinpoint configuration settings for retrieving and processing recommendation data from a recommender model. Attributes -&gt; (map) A map of key-value pairs that defines 1-10 custom endpoint or user attributes, depending on the value for the Recommendation- ProviderIdType property. Each of these attributes temporarily stores a recommended item that's retrieved from the recommender model and sent to an AWS Lambda function for additional process- ing. Each attribute can be used as a message variable in a mes- sage template. In the map, the key is the name of a custom attribute and the value is a custom display name for that attribute. The display name appears in the Attribute finder of the template editor on the Amazon Pinpoint console. The following restrictions apply to these names: o An attribute name must start with a letter or number and it can contain up to 50 characters. The characters can be let- ters, numbers, underscores (_), or hyphens (-). Attribute names are case sensitive and must be unique. o An attribute display name must start with a letter or number and it can contain up to 25 characters. The characters can be letters, numbers, spaces, underscores (_), or hyphens (-). This object is required if the configuration invokes an AWS Lambda function (RecommendationTransformerUri) to process recom- mendation data. Otherwise, don't include this object in your re- quest. key -&gt; (string) value -&gt; (string) Description -&gt; (string) A custom description of the configuration for the recommender model. The description can contain up to 128 characters. The characters can be letters, numbers, spaces, or the following symbols: _ ; () , . Name -&gt; (string) A custom name of the configuration for the recommender model. The name must start with a letter or number and it can contain up to 128 characters. The characters can be letters, numbers, spaces, underscores (_), or hyphens (-). RecommendationProviderIdType -&gt; (string) The type of Amazon Pinpoint ID to associate with unique user IDs in the recommender model. This value enables the model to use attribute and event data thats specific to a particular endpoint or user in an Amazon Pinpoint application. Valid values are: o PINPOINT_ENDPOINT_ID - Associate each user in the model with a particular endpoint in Amazon Pinpoint. The data is correlated based on endpoint IDs in Amazon Pinpoint. This is the default value. o PINPOINT_USER_ID - Associate each user in the model with a particular user and endpoint in Amazon Pinpoint. The data is correlated based on user IDs in Amazon Pinpoint. If you spec- ify this value, an endpoint definition in Amazon Pinpoint has to specify both a user ID (UserId) and an endpoint ID. Other- wise, messages wont be sent to the user's endpoint. RecommendationProviderRoleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that authorizes Amazon Pinpoint to re- trieve recommendation data from the recommender model. RecommendationProviderUri -&gt; (string) [required] The Amazon Resource Name (ARN) of the recommender model to re- trieve recommendation data from. This value must match the ARN of an Amazon Personalize campaign. RecommendationTransformerUri -&gt; (string) The name or Amazon Resource Name (ARN) of the AWS Lambda func- tion to invoke for additional processing of recommendation data that's retrieved from the recommender model. RecommendationsDisplayName -&gt; (string) A custom display name for the standard endpoint or user at- tribute (RecommendationItems) that temporarily stores recom- mended items for each endpoint or user, depending on the value for the RecommendationProviderIdType property. This value is re- quired if the configuration doesn't invoke an AWS Lambda func- tion (RecommendationTransformerUri) to perform additional pro- cessing of recommendation data. This name appears in the Attribute finder of the template editor on the Amazon Pinpoint console. The name can contain up to 25 characters. The characters can be letters, numbers, spaces, un- derscores (_), or hyphens (-). These restrictions don't apply to attribute values. RecommendationsPerMessage -&gt; (integer) The number of recommended items to retrieve from the model for each endpoint or user, depending on the value for the Recommen- dationProviderIdType property. This number determines how many recommended items are available for use in message variables. The minimum value is 1. The maximum value is 5. The default value is 5. To use multiple recommended items and custom attributes with message variables, you have to use an AWS Lambda function (Rec- ommendationTransformerUri) to perform additional processing of recommendation data. Shorthand Syntax: Attributes={KeyName1=string,KeyName2=string},Description=string,Name=string,RecommendationProviderIdType=string,RecommendationProviderRoleArn=string,RecommendationProviderUri=string,RecommendationTransformerUri=string,RecommendationsDisplayName=string,RecommendationsPerMessage=integer JSON Syntax: { "Attributes": {"string": "string" ...}, "Description": "string", "Name": "string", "RecommendationProviderIdType": "string", "RecommendationProviderRoleArn": "string", "RecommendationProviderUri": "string", "RecommendationTransformerUri": "string", "RecommendationsDisplayName": "string", "RecommendationsPerMessage": integer }</param>
+    public AwsPinpointUpdateRecommenderConfigurationOptions(
+        string RecommenderId,
+        string UpdateRecommenderConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RecommenderId);
+        this.RecommenderId = RecommenderId;
+        global::System.ArgumentNullException.ThrowIfNull(UpdateRecommenderConfiguration);
+        this.UpdateRecommenderConfiguration = UpdateRecommenderConfiguration;
+    }
+
+    private AwsPinpointUpdateRecommenderConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPinpointUpdateRecommenderConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPinpointUpdateRecommenderConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for the recommender model configuration. This identifier is displayed as the Recommender ID on the Amazon Pinpoint console.
+    /// </summary>
+    [CliOption("--recommender-id")]
+    public string? RecommenderId { get; private init; }
+
+    /// <summary>
+    /// Specifies Amazon Pinpoint configuration settings for retrieving and processing recommendation data from a recommender model. Attributes -&gt; (map) A map of key-value pairs that defines 1-10 custom endpoint or user attributes, depending on the value for the Recommendation- ProviderIdType property. Each of these attributes temporarily stores a recommended item that's retrieved from the recommender model and sent to an AWS Lambda function for additional process- ing. Each attribute can be used as a message variable in a mes- sage template. In the map, the key is the name of a custom attribute and the value is a custom display name for that attribute. The display name appears in the Attribute finder of the template editor on the Amazon Pinpoint console. The following restrictions apply to these names: o An attribute name must start with a letter or number and it can contain up to 50 characters. The characters can be let- ters, numbers, underscores (_), or hyphens (-). Attribute names are case sensitive and must be unique. o An attribute display name must start with a letter or number and it can contain up to 25 characters. The characters can be letters, numbers, spaces, underscores (_), or hyphens (-). This object is required if the configuration invokes an AWS Lambda function (RecommendationTransformerUri) to process recom- mendation data. Otherwise, don't include this object in your re- quest. key -&gt; (string) value -&gt; (string) Description -&gt; (string) A custom description of the configuration for the recommender model. The description can contain up to 128 characters. The characters can be letters, numbers, spaces, or the following symbols: _ ; () , . Name -&gt; (string) A custom name of the configuration for the recommender model. The name must start with a letter or number and it can contain up to 128 characters. The characters can be letters, numbers, spaces, underscores (_), or hyphens (-). RecommendationProviderIdType -&gt; (string) The type of Amazon Pinpoint ID to associate with unique user IDs in the recommender model. This value enables the model to use attribute and event data thats specific to a particular endpoint or user in an Amazon Pinpoint application. Valid values are: o PINPOINT_ENDPOINT_ID - Associate each user in the model with a particular endpoint in Amazon Pinpoint. The data is correlated based on endpoint IDs in Amazon Pinpoint. This is the default value. o PINPOINT_USER_ID - Associate each user in the model with a particular user and endpoint in Amazon Pinpoint. The data is correlated based on user IDs in Amazon Pinpoint. If you spec- ify this value, an endpoint definition in Amazon Pinpoint has to specify both a user ID (UserId) and an endpoint ID. Other- wise, messages wont be sent to the user's endpoint. RecommendationProviderRoleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that authorizes Amazon Pinpoint to re- trieve recommendation data from the recommender model. RecommendationProviderUri -&gt; (string) [required] The Amazon Resource Name (ARN) of the recommender model to re- trieve recommendation data from. This value must match the ARN of an Amazon Personalize campaign. RecommendationTransformerUri -&gt; (string) The name or Amazon Resource Name (ARN) of the AWS Lambda func- tion to invoke for additional processing of recommendation data that's retrieved from the recommender model. RecommendationsDisplayName -&gt; (string) A custom display name for the standard endpoint or user at- tribute (RecommendationItems) that temporarily stores recom- mended items for each endpoint or user, depending on the value for the RecommendationProviderIdType property. This value is re- quired if the configuration doesn't invoke an AWS Lambda func- tion (RecommendationTransformerUri) to perform additional pro- cessing of recommendation data. This name appears in the Attribute finder of the template editor on the Amazon Pinpoint console. The name can contain up to 25 characters. The characters can be letters, numbers, spaces, un- derscores (_), or hyphens (-). These restrictions don't apply to attribute values. RecommendationsPerMessage -&gt; (integer) The number of recommended items to retrieve from the model for each endpoint or user, depending on the value for the Recommen- dationProviderIdType property. This number determines how many recommended items are available for use in message variables. The minimum value is 1. The maximum value is 5. The default value is 5. To use multiple recommended items and custom attributes with message variables, you have to use an AWS Lambda function (Rec- ommendationTransformerUri) to perform additional processing of recommendation data. Shorthand Syntax: Attributes={KeyName1=string,KeyName2=string},Description=string,Name=string,RecommendationProviderIdType=string,RecommendationProviderRoleArn=string,RecommendationProviderUri=string,RecommendationTransformerUri=string,RecommendationsDisplayName=string,RecommendationsPerMessage=integer JSON Syntax: { "Attributes": {"string": "string" ...}, "Description": "string", "Name": "string", "RecommendationProviderIdType": "string", "RecommendationProviderRoleArn": "string", "RecommendationProviderUri": "string", "RecommendationTransformerUri": "string", "RecommendationsDisplayName": "string", "RecommendationsPerMessage": integer }
+    /// </summary>
     [CliOption("--update-recommender-configuration")]
-    public string? UpdateRecommenderConfiguration { get; set; }
+    public string? UpdateRecommenderConfiguration { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

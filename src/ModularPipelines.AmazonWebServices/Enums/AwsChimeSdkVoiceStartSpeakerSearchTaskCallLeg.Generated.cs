@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --callleg.
+/// Allowed values for --call-leg.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsChimeSdkVoiceStartSpeakerSearchTaskCallLeg
 {
-    [EnumValue("Caller")]
-    Caller = 1,
-
     [EnumValue("Callee")]
-    Callee = 2
+    Callee,
+
+    [EnumValue("Caller")]
+    Caller
 }

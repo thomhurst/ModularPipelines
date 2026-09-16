@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,99 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("xray", "start-trace-retrieval")]
-public record AwsXrayStartTraceRetrievalOptions : AwsOptions
+public record AwsXrayStartTraceRetrievalOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Initiates a trace retrieval process using the specified time range and for the given trace IDs in the Transaction Search generated CloudWatch log group. For more information, see Transaction Search . API returns a RetrievalToken , which can be used with ListRetrieved- Traces or GetRetrievedTracesGraph to fetch results. Retrievals will time out after 60 minutes. To execute long time ranges, consider seg- menting into multiple retrievals. If you are using CloudWatch cross-account observability , y...
+    /// </summary>
+    /// <param name="TraceIds">Specify the trace IDs of the traces to be retrieved. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 1 o max: 35 Syntax: "string" "string" ...</param>
+    /// <param name="StartTime">The start of the time range to retrieve traces. The range is inclu- sive, so the specified start time is included in the query. Speci- fied as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC.</param>
+    /// <param name="EndTime">The end of the time range to retrieve traces. The range is inclu- sive, so the specified end time is included in the query. Specified as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC.</param>
+    public AwsXrayStartTraceRetrievalOptions(
+        IEnumerable<string> TraceIds,
+        string StartTime,
+        string EndTime
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(TraceIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(TraceIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(TraceIds));
+            }
+
+            TraceIds = materialized;
+        }
+        this.TraceIds = TraceIds;
+        global::System.ArgumentNullException.ThrowIfNull(StartTime);
+        this.StartTime = StartTime;
+        global::System.ArgumentNullException.ThrowIfNull(EndTime);
+        this.EndTime = EndTime;
+    }
+
+    private AwsXrayStartTraceRetrievalOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsXrayStartTraceRetrievalOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsXrayStartTraceRetrievalOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specify the trace IDs of the traces to be retrieved. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 1 o max: 35 Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--trace-ids", GroupValues = true)]
-    public IEnumerable<string>? TraceIds { get; set; }
+    public IEnumerable<string>? TraceIds { get; private init; }
 
+    /// <summary>
+    /// The start of the time range to retrieve traces. The range is inclu- sive, so the specified start time is included in the query. Speci- fied as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC.
+    /// </summary>
     [CliOption("--start-time")]
-    public string? StartTime { get; set; }
+    public string? StartTime { get; private init; }
 
+    /// <summary>
+    /// The end of the time range to retrieve traces. The range is inclu- sive, so the specified end time is included in the query. Specified as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC.
+    /// </summary>
     [CliOption("--end-time")]
-    public string? EndTime { get; set; }
+    public string? EndTime { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

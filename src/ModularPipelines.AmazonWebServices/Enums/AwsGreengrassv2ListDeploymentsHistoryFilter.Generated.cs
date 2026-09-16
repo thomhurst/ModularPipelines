@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --historyfilter.
+/// Allowed values for --history-filter.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGreengrassv2ListDeploymentsHistoryFilter
 {
     [EnumValue("ALL")]
-    All = 1,
+    All,
 
     [EnumValue("LATEST_ONLY")]
-    LatestOnly = 2
+    LatestOnly
 }

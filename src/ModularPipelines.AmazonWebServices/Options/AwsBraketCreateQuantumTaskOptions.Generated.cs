@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,8 +22,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("braket", "create-quantum-task")]
-public record AwsBraketCreateQuantumTaskOptions : AwsOptions
+public record AwsBraketCreateQuantumTaskOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a quantum task. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DeviceArn">The ARN of the device to run the quantum task on. Constraints: o min: 1 o max: 256</param>
+    /// <param name="Shots">The number of shots to use for the quantum task. Constraints: o min: 0</param>
+    /// <param name="OutputS3Bucket">The S3 bucket to store quantum task result files in. Constraints: o min: 3 o max: 63</param>
+    /// <param name="OutputS3KeyPrefix">The key prefix for the location in the S3 bucket to store quantum task results in. Constraints: o min: 1 o max: 1024</param>
+    /// <param name="Action">The action associated with the quantum task.</param>
+    public AwsBraketCreateQuantumTaskOptions(
+        string DeviceArn,
+        int Shots,
+        string OutputS3Bucket,
+        string OutputS3KeyPrefix,
+        string Action
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DeviceArn);
+        this.DeviceArn = DeviceArn;
+        this.Shots = Shots;
+        global::System.ArgumentNullException.ThrowIfNull(OutputS3Bucket);
+        this.OutputS3Bucket = OutputS3Bucket;
+        global::System.ArgumentNullException.ThrowIfNull(OutputS3KeyPrefix);
+        this.OutputS3KeyPrefix = OutputS3KeyPrefix;
+        global::System.ArgumentNullException.ThrowIfNull(Action);
+        this.Action = Action;
+    }
+
+    private AwsBraketCreateQuantumTaskOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBraketCreateQuantumTaskOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBraketCreateQuantumTaskOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the device to run the quantum task on. Constraints: o min: 1 o max: 256
+    /// </summary>
+    [CliOption("--device-arn")]
+    public string? DeviceArn { get; private init; }
+
+    /// <summary>
+    /// The number of shots to use for the quantum task. Constraints: o min: 0
+    /// </summary>
+    [CliOption("--shots")]
+    public int? Shots { get; private init; }
+
+    /// <summary>
+    /// The S3 bucket to store quantum task result files in. Constraints: o min: 3 o max: 63
+    /// </summary>
+    [CliOption("--output-s3-bucket")]
+    public string? OutputS3Bucket { get; private init; }
+
+    /// <summary>
+    /// The key prefix for the location in the S3 bucket to store quantum task results in. Constraints: o min: 1 o max: 1024
+    /// </summary>
+    [CliOption("--output-s3-key-prefix")]
+    public string? OutputS3KeyPrefix { get; private init; }
+
+    /// <summary>
+    /// The action associated with the quantum task.
+    /// </summary>
+    [CliOption("--action")]
+    public string? Action { get; private init; }
+
     /// <summary>
     /// The client token associated with the request. Constraints: o min: 1 o max: 64
     /// </summary>
@@ -30,26 +109,11 @@ public record AwsBraketCreateQuantumTaskOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--device-arn")]
-    public string? DeviceArn { get; set; }
-
     /// <summary>
     /// The parameters for the device to run the quantum task on. Constraints: o min: 1 o max: 48000
     /// </summary>
     [CliOption("--device-parameters")]
     public string? DeviceParameters { get; set; }
-
-    [CliOption("--shots")]
-    public int? Shots { get; set; }
-
-    [CliOption("--output-s3-bucket")]
-    public string? OutputS3Bucket { get; set; }
-
-    [CliOption("--output-s3-key-prefix")]
-    public string? OutputS3KeyPrefix { get; set; }
-
-    [CliOption("--action")]
-    public string? Action { get; set; }
 
     /// <summary>
     /// Tags to be added to the quantum task you're creating. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -81,5 +145,22 @@ public record AwsBraketCreateQuantumTaskOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -22,10 +23,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "create-notification")]
-public record AwsConnectCreateNotificationOptions : AwsOptions
+public record AwsConnectCreateNotificationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new notification to be delivered to specified recipients. No- tifications can include localized content with links, and an optional expiration time. Recipients can be specified as individual user ARNs or instance ARNs to target all users in an instance. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Amazon Connect instance. You can find the in- stance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="Recipients">A list of Amazon Resource Names (ARNs) identifying the recipients of the notification. Can include user ARNs or instance ARNs to target all users in an instance. Maximum of 200 recipients. Constraints: o max: 200 (string) Syntax: "string" "string" ...</param>
+    /// <param name="Content">The localized content of the notification. A map where keys are lo- cale codes and values are the notification text in that locale. Con- tent supports links. Maximum 250 characters per locale. key -&gt; (string) The locale code for localized content. Supported values include en_US, de_DE, es_ES, fr_FR, id_ID, it_IT, ja_JP, ko_KR, pt_BR, zh_CN, and zh_TW. Possible values: o en_US o de_DE o es_ES o fr_FR o id_ID o it_IT o ja_JP o ko_KR o pt_BR o zh_CN o zh_TW value -&gt; (string) A localized string value. Maximum length is 500 characters. Constraints: o min: 0 o max: 500 Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: en_US de_DE es_ES fr_FR id_ID it_IT ja_JP ko_KR pt_BR zh_CN zh_TW JSON Syntax: {"en_US"|"de_DE"|"es_ES"|"fr_FR"|"id_ID"|"it_IT"|"ja_JP"|"ko_KR"|"pt_BR"|"zh_CN"|"zh_TW": "string" ...}</param>
+    public AwsConnectCreateNotificationOptions(
+        string InstanceId,
+        IEnumerable<string> Recipients,
+        IReadOnlyList<KeyValue> Content
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Recipients);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Recipients));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Recipients));
+            }
+
+            Recipients = materialized;
+        }
+        this.Recipients = Recipients;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Content);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(Content));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Content));
+            }
+
+            Content = materialized;
+        }
+        this.Content = Content;
+    }
+
+    private AwsConnectCreateNotificationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectCreateNotificationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectCreateNotificationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Amazon Connect instance. You can find the in- stance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
+
+    /// <summary>
+    /// A list of Amazon Resource Names (ARNs) identifying the recipients of the notification. Can include user ARNs or instance ARNs to target all users in an instance. Maximum of 200 recipients. Constraints: o max: 200 (string) Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--recipients", GroupValues = true)]
+    public IEnumerable<string>? Recipients { get; private init; }
+
+    /// <summary>
+    /// The localized content of the notification. A map where keys are lo- cale codes and values are the notification text in that locale. Con- tent supports links. Maximum 250 characters per locale. key -&gt; (string) The locale code for localized content. Supported values include en_US, de_DE, es_ES, fr_FR, id_ID, it_IT, ja_JP, ko_KR, pt_BR, zh_CN, and zh_TW. Possible values: o en_US o de_DE o es_ES o fr_FR o id_ID o it_IT o ja_JP o ko_KR o pt_BR o zh_CN o zh_TW value -&gt; (string) A localized string value. Maximum length is 500 characters. Constraints: o min: 0 o max: 500 Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: en_US de_DE es_ES fr_FR id_ID it_IT ja_JP ko_KR pt_BR zh_CN zh_TW JSON Syntax: {"en_US"|"de_DE"|"es_ES"|"fr_FR"|"id_ID"|"it_IT"|"ja_JP"|"ko_KR"|"pt_BR"|"zh_CN"|"zh_TW": "string" ...}
+    /// </summary>
+    [CliOption("--content", CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Content { get; private init; }
 
     /// <summary>
     /// The timestamp when the notification should expire and no longer be displayed to users. If not specified, defaults to one week from cre- ation.
@@ -33,17 +112,11 @@ public record AwsConnectCreateNotificationOptions : AwsOptions
     [CliOption("--expires-at")]
     public string? ExpiresAt { get; set; }
 
-    [CliOption("--recipients", GroupValues = true)]
-    public IEnumerable<string>? Recipients { get; set; }
-
     /// <summary>
     /// The priority level of the notification. Valid values are HIGH and LOW. High priority notifications are displayed above low priority notifications. Possible values: o HIGH o LOW
     /// </summary>
     [CliOption("--priority")]
     public AwsConnectCreateNotificationPriority? Priority { get; set; }
-
-    [CliOption("--content", CollectionSeparator = ",")]
-    public IReadOnlyList<KeyValue>? Content { get; set; }
 
     /// <summary>
     /// The tags used to organize, track, or control access for this re- source. For example, { "Tags": {"key1":"value1", "key2":"value2"} } . Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -69,5 +142,22 @@ public record AwsConnectCreateNotificationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,79 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("shield", "associate-proactive-engagement-details")]
-public record AwsShieldAssociateProactiveEngagementDetailsOptions : AwsOptions
+public record AwsShieldAssociateProactiveEngagementDetailsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Initializes proactive engagement and sets the list of contacts for the Shield Response Team (SRT) to use. You must provide at least one phone number in the emergency contact list. After you have initialized proactive engagement using this call, to disable or enable proactive engagement, use the calls DisableProac- tiveEngagement and EnableProactiveEngagement . NOTE: This call defines the list of email addresses and phone numbers that the SRT can use to contact you for escalations to the SRT and ...
+    /// </summary>
+    /// <param name="EmergencyContactList">A list of email addresses and phone numbers that the Shield Response Team (SRT) can use to contact you for escalations to the SRT and to initiate proactive customer support. To enable proactive engagement, the contact list must include at least one phone number. NOTE: The contacts that you provide here replace any contacts that were already defined. If you already have contacts defined and want to use them, retrieve the list using DescribeEmergencyCon- tactSettings and then provide it here. Constraints: o min: 0 o max: 10 (structure) Contact information that the SRT can use to contact you if you have proactive engagement enabled, for escalations to the SRT and to initiate proactive customer support. EmailAddress -&gt; (string) [required] The email address for the contact. Constraints: o min: 1 o max: 150 o pattern: ^\S+@\S+\.\S+$ PhoneNumber -&gt; (string) The phone number for the contact. Constraints: o min: 1 o max: 16 o pattern: ^\+[1-9]\d{1,14}$ ContactNotes -&gt; (string) Additional notes regarding the contact. Constraints: o min: 1 o max: 1024 o pattern: ^[\w\s\.\-,:/()+@]*$ Shorthand Syntax: EmailAddress=string,PhoneNumber=string,ContactNotes=string ... JSON Syntax: [ { "EmailAddress": "string", "PhoneNumber": "string", "ContactNotes": "string" } ... ]</param>
+    public AwsShieldAssociateProactiveEngagementDetailsOptions(
+        IEnumerable<string> EmergencyContactList
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(EmergencyContactList);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(EmergencyContactList));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(EmergencyContactList));
+            }
+
+            EmergencyContactList = materialized;
+        }
+        this.EmergencyContactList = EmergencyContactList;
+    }
+
+    private AwsShieldAssociateProactiveEngagementDetailsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsShieldAssociateProactiveEngagementDetailsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsShieldAssociateProactiveEngagementDetailsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A list of email addresses and phone numbers that the Shield Response Team (SRT) can use to contact you for escalations to the SRT and to initiate proactive customer support. To enable proactive engagement, the contact list must include at least one phone number. NOTE: The contacts that you provide here replace any contacts that were already defined. If you already have contacts defined and want to use them, retrieve the list using DescribeEmergencyCon- tactSettings and then provide it here. Constraints: o min: 0 o max: 10 (structure) Contact information that the SRT can use to contact you if you have proactive engagement enabled, for escalations to the SRT and to initiate proactive customer support. EmailAddress -&gt; (string) [required] The email address for the contact. Constraints: o min: 1 o max: 150 o pattern: ^\S+@\S+\.\S+$ PhoneNumber -&gt; (string) The phone number for the contact. Constraints: o min: 1 o max: 16 o pattern: ^\+[1-9]\d{1,14}$ ContactNotes -&gt; (string) Additional notes regarding the contact. Constraints: o min: 1 o max: 1024 o pattern: ^[\w\s\.\-,:/()+@]*$ Shorthand Syntax: EmailAddress=string,PhoneNumber=string,ContactNotes=string ... JSON Syntax: [ { "EmailAddress": "string", "PhoneNumber": "string", "ContactNotes": "string" } ... ]
+    /// </summary>
     [CliOption("--emergency-contact-list", GroupValues = true)]
-    public IEnumerable<string>? EmergencyContactList { get; set; }
+    public IEnumerable<string>? EmergencyContactList { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

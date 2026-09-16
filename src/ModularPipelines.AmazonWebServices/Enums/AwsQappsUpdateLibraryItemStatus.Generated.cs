@@ -16,9 +16,9 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsQappsUpdateLibraryItemStatus
 {
-    [EnumValue("PUBLISHED")]
-    Published = 1,
-
     [EnumValue("DISABLED")]
-    Disabled = 2
+    Disabled,
+
+    [EnumValue("PUBLISHED")]
+    Published
 }

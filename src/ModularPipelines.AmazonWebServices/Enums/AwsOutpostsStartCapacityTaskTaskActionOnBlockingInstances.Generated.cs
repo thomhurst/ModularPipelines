@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --taskactiononblockinginstances.
+/// Allowed values for --task-action-on-blocking-instances.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsOutpostsStartCapacityTaskTaskActionOnBlockingInstances
 {
-    [EnumValue("WAIT_FOR_EVACUATION")]
-    WaitForEvacuation = 1,
-
     [EnumValue("FAIL_TASK")]
-    FailTask = 2
+    FailTask,
+
+    [EnumValue("WAIT_FOR_EVACUATION")]
+    WaitForEvacuation
 }

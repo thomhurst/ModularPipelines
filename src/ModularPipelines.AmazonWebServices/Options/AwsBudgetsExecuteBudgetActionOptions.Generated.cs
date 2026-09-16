@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +21,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("budgets", "execute-budget-action")]
-public record AwsBudgetsExecuteBudgetActionOptions : AwsOptions
+public record AwsBudgetsExecuteBudgetActionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Executes a budget action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AccountId">The account ID of the user. It's a 12-digit number. Constraints: o min: 12 o max: 12 o pattern: \d{12}</param>
+    /// <param name="BudgetName">A string that represents the budget name. The ":" and "" characters, and the "/action/" substring, aren't allowed. Budget names are validated for content. Names that contain phone numbers, URLs, or email addresses combined with certain terms may be rejected. Constraints: o min: 1 o max: 100 o pattern: ^(?![^:\\]*/action/|(?i).*&lt;script&gt;.*&lt;/script&gt;.*)[^:\\]+$</param>
+    /// <param name="ActionId">A system-generated universally unique identifier (UUID) for the ac- tion. Constraints: o min: 36 o max: 36 o pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$</param>
+    /// <param name="ExecutionType">The type of execution. Possible values: o APPROVE_BUDGET_ACTION o RETRY_BUDGET_ACTION o REVERSE_BUDGET_ACTION o RESET_BUDGET_ACTION</param>
+    public AwsBudgetsExecuteBudgetActionOptions(
+        string AccountId,
+        string BudgetName,
+        string ActionId,
+        AwsBudgetsExecuteBudgetActionExecutionType ExecutionType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountId);
+        this.AccountId = AccountId;
+        global::System.ArgumentNullException.ThrowIfNull(BudgetName);
+        this.BudgetName = BudgetName;
+        global::System.ArgumentNullException.ThrowIfNull(ActionId);
+        this.ActionId = ActionId;
+        global::System.ArgumentNullException.ThrowIfNull(ExecutionType);
+        this.ExecutionType = ExecutionType;
+    }
+
+    private AwsBudgetsExecuteBudgetActionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBudgetsExecuteBudgetActionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBudgetsExecuteBudgetActionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The account ID of the user. It's a 12-digit number. Constraints: o min: 12 o max: 12 o pattern: \d{12}
+    /// </summary>
     [CliOption("--account-id")]
-    public string? AccountId { get; set; }
+    public string? AccountId { get; private init; }
 
+    /// <summary>
+    /// A string that represents the budget name. The ":" and "" characters, and the "/action/" substring, aren't allowed. Budget names are validated for content. Names that contain phone numbers, URLs, or email addresses combined with certain terms may be rejected. Constraints: o min: 1 o max: 100 o pattern: ^(?![^:\\]*/action/|(?i).*&lt;script&gt;.*&lt;/script&gt;.*)[^:\\]+$
+    /// </summary>
     [CliOption("--budget-name")]
-    public string? BudgetName { get; set; }
+    public string? BudgetName { get; private init; }
 
+    /// <summary>
+    /// A system-generated universally unique identifier (UUID) for the ac- tion. Constraints: o min: 36 o max: 36 o pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+    /// </summary>
     [CliOption("--action-id")]
-    public string? ActionId { get; set; }
+    public string? ActionId { get; private init; }
 
+    /// <summary>
+    /// The type of execution. Possible values: o APPROVE_BUDGET_ACTION o RETRY_BUDGET_ACTION o REVERSE_BUDGET_ACTION o RESET_BUDGET_ACTION
+    /// </summary>
     [CliOption("--execution-type")]
-    public string? ExecutionType { get; set; }
+    public AwsBudgetsExecuteBudgetActionExecutionType? ExecutionType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

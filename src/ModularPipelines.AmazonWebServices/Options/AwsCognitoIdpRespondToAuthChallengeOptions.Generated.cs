@@ -11,6 +11,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognito-idp", "respond-to-auth-challenge")]
-public record AwsCognitoIdpRespondToAuthChallengeOptions : AwsOptions
+public record AwsCognitoIdpRespondToAuthChallengeOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--client-id")]
-    public string? ClientId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Some API operations in a user pool generate a challenge, like a prompt for an MFA code, for device authentication that bypasses MFA, or for a custom authentication challenge. A RespondToAuthChallenge API request provides the answer to that challenge, like a code or a secure remote password (SRP). The parameters of a response to an authentication chal- lenge vary with the type of challenge. For more information about custom authentication challenges, see Custom authentication challenge Lambda tri...
+    /// </summary>
+    /// <param name="ClientId">The ID of the app client where the user is signing in. Constraints: o min: 1 o max: 128 o pattern: [\w+]+</param>
+    /// <param name="ChallengeName">The name of the challenge that you are responding to. NOTE: You can't respond to an ADMIN_NO_SRP_AUTH challenge with this operation. Possible challenges include the following: NOTE: All of the following challenges require USERNAME and, when the app client has a client secret, SECRET_HASH in the parameters. Include a DEVICE_KEY for device authentication. o WEB_AUTHN : Respond to the challenge with the results of a suc- cessful authentication with a WebAuthn authenticator, or passkey, as CREDENTIAL . Examples of WebAuthn authenticators include bio- metric devices and security keys. o PASSWORD : Respond with the user's password as PASSWORD . o PASSWORD_SRP : Respond with the initial SRP secret as SRP_A . o SELECT_CHALLENGE : Respond with a challenge selection as ANSWER . It must be one of the challenge types in the AvailableChallenges response parameter. Add the parameters of the selected challenge, for example USERNAME and SMS_OTP . o SMS_MFA : Respond with the code that your user pool delivered in an SMS message, as SMS_MFA_CODE o EMAIL_MFA : Respond with the code that your user pool delivered in an email message, as EMAIL_MFA_CODE o EMAIL_OTP : Respond with the code that your user pool delivered in an email message, as EMAIL_OTP_CODE . o SMS_OTP : Respond with the code that your user pool delivered in an SMS message, as SMS_OTP_CODE . o PASSWORD_VERIFIER : Respond with the second stage of SRP secrets as PASSWORD_CLAIM_SIGNATURE , PASSWORD_CLAIM_SECRET_BLOCK , and TIMESTAMP . o CUSTOM_CHALLENGE : This is returned if your custom authentication flow determines that the user should pass another challenge before tokens are issued. The parameters of the challenge are determined by your Lambda function and issued in the ChallengeParameters of a challenge response. o DEVICE_SRP_AUTH : Respond with the initial parameters of device SRP authentication. For more information, see Signing in with a device . o DEVICE_PASSWORD_VERIFIER : Respond with PASSWORD_CLAIM_SIGNATURE , PASSWORD_CLAIM_SECRET_BLOCK , and TIMESTAMP after client-side SRP calculations. For more information, see Signing in with a device . o NEW_PASSWORD_REQUIRED : For users who are required to change their passwords after successful first login. Respond to this challenge with NEW_PASSWORD and any required attributes that Amazon Cognito returned in the requiredAttributes parameter. You can also set values for attributes that aren't required by your user pool and that your app client can write. Amazon Cognito only returns this challenge for users who have temporary passwords. When you create passwordless users, you must provide values for all required at- tributes. NOTE: In a NEW_PASSWORD_REQUIRED challenge response, you can't modify a required attribute that already has a value. In AdminRespond- ToAuthChallenge or RespondToAuthChallenge , set a value for any keys that Amazon Cognito returned in the requiredAttributes pa- rameter, then use the AdminUpdateUserAttributes or UpdateUserAt- tributes API operation to modify the value of any additional at- tributes. o MFA_SETUP : For users who are required to setup an MFA factor be- fore they can sign in. The MFA types activated for the user pool will be listed in the challenge parameters MFAS_CAN_SETUP value. To set up time-based one-time password (TOTP) MFA, use the session returned in this challenge from InitiateAuth or AdminInitiateAuth as an input to AssociateSoftwareToken . Then, use the session re- turned by VerifySoftwareToken as an input to RespondToAuthChal- lenge or AdminRespondToAuthChallenge with challenge name MFA_SETUP to complete sign-in. To set up SMS or email MFA, collect a phone_number or email attribute for the user. Then restart the au- thentication flow with an InitiateAuth or AdminInitiateAuth re- quest. Possible values: o SMS_MFA o EMAIL_OTP o SOFTWARE_TOKEN_MFA o SELECT_MFA_TYPE o MFA_SETUP o PASSWORD_VERIFIER o CUSTOM_CHALLENGE o SELECT_CHALLENGE o DEVICE_SRP_AUTH o DEVICE_PASSWORD_VERIFIER o ADMIN_NO_SRP_AUTH o NEW_PASSWORD_REQUIRED o SMS_OTP o PASSWORD o WEB_AUTHN o PASSWORD_SRP</param>
+    public AwsCognitoIdpRespondToAuthChallengeOptions(
+        string ClientId,
+        AwsCognitoIdpRespondToAuthChallengeChallengeName ChallengeName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClientId);
+        this.ClientId = ClientId;
+        global::System.ArgumentNullException.ThrowIfNull(ChallengeName);
+        this.ChallengeName = ChallengeName;
+    }
+
+    private AwsCognitoIdpRespondToAuthChallengeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCognitoIdpRespondToAuthChallengeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCognitoIdpRespondToAuthChallengeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the app client where the user is signing in. Constraints: o min: 1 o max: 128 o pattern: [\w+]+
+    /// </summary>
+    [CliOption("--client-id")]
+    public string? ClientId { get; private init; }
+
+    /// <summary>
+    /// The name of the challenge that you are responding to. NOTE: You can't respond to an ADMIN_NO_SRP_AUTH challenge with this operation. Possible challenges include the following: NOTE: All of the following challenges require USERNAME and, when the app client has a client secret, SECRET_HASH in the parameters. Include a DEVICE_KEY for device authentication. o WEB_AUTHN : Respond to the challenge with the results of a suc- cessful authentication with a WebAuthn authenticator, or passkey, as CREDENTIAL . Examples of WebAuthn authenticators include bio- metric devices and security keys. o PASSWORD : Respond with the user's password as PASSWORD . o PASSWORD_SRP : Respond with the initial SRP secret as SRP_A . o SELECT_CHALLENGE : Respond with a challenge selection as ANSWER . It must be one of the challenge types in the AvailableChallenges response parameter. Add the parameters of the selected challenge, for example USERNAME and SMS_OTP . o SMS_MFA : Respond with the code that your user pool delivered in an SMS message, as SMS_MFA_CODE o EMAIL_MFA : Respond with the code that your user pool delivered in an email message, as EMAIL_MFA_CODE o EMAIL_OTP : Respond with the code that your user pool delivered in an email message, as EMAIL_OTP_CODE . o SMS_OTP : Respond with the code that your user pool delivered in an SMS message, as SMS_OTP_CODE . o PASSWORD_VERIFIER : Respond with the second stage of SRP secrets as PASSWORD_CLAIM_SIGNATURE , PASSWORD_CLAIM_SECRET_BLOCK , and TIMESTAMP . o CUSTOM_CHALLENGE : This is returned if your custom authentication flow determines that the user should pass another challenge before tokens are issued. The parameters of the challenge are determined by your Lambda function and issued in the ChallengeParameters of a challenge response. o DEVICE_SRP_AUTH : Respond with the initial parameters of device SRP authentication. For more information, see Signing in with a device . o DEVICE_PASSWORD_VERIFIER : Respond with PASSWORD_CLAIM_SIGNATURE , PASSWORD_CLAIM_SECRET_BLOCK , and TIMESTAMP after client-side SRP calculations. For more information, see Signing in with a device . o NEW_PASSWORD_REQUIRED : For users who are required to change their passwords after successful first login. Respond to this challenge with NEW_PASSWORD and any required attributes that Amazon Cognito returned in the requiredAttributes parameter. You can also set values for attributes that aren't required by your user pool and that your app client can write. Amazon Cognito only returns this challenge for users who have temporary passwords. When you create passwordless users, you must provide values for all required at- tributes. NOTE: In a NEW_PASSWORD_REQUIRED challenge response, you can't modify a required attribute that already has a value. In AdminRespond- ToAuthChallenge or RespondToAuthChallenge , set a value for any keys that Amazon Cognito returned in the requiredAttributes pa- rameter, then use the AdminUpdateUserAttributes or UpdateUserAt- tributes API operation to modify the value of any additional at- tributes. o MFA_SETUP : For users who are required to setup an MFA factor be- fore they can sign in. The MFA types activated for the user pool will be listed in the challenge parameters MFAS_CAN_SETUP value. To set up time-based one-time password (TOTP) MFA, use the session returned in this challenge from InitiateAuth or AdminInitiateAuth as an input to AssociateSoftwareToken . Then, use the session re- turned by VerifySoftwareToken as an input to RespondToAuthChal- lenge or AdminRespondToAuthChallenge with challenge name MFA_SETUP to complete sign-in. To set up SMS or email MFA, collect a phone_number or email attribute for the user. Then restart the au- thentication flow with an InitiateAuth or AdminInitiateAuth re- quest. Possible values: o SMS_MFA o EMAIL_OTP o SOFTWARE_TOKEN_MFA o SELECT_MFA_TYPE o MFA_SETUP o PASSWORD_VERIFIER o CUSTOM_CHALLENGE o SELECT_CHALLENGE o DEVICE_SRP_AUTH o DEVICE_PASSWORD_VERIFIER o ADMIN_NO_SRP_AUTH o NEW_PASSWORD_REQUIRED o SMS_OTP o PASSWORD o WEB_AUTHN o PASSWORD_SRP
+    /// </summary>
     [CliOption("--challenge-name")]
-    public string? ChallengeName { get; set; }
+    public AwsCognitoIdpRespondToAuthChallengeChallengeName? ChallengeName { get; private init; }
 
     /// <summary>
     /// The session identifier that maintains the state of authentication requests and challenge responses. If an AdminInitiateAuth or Admin- RespondToAuthChallenge API request results in a determination that your application must pass another challenge, Amazon Cognito returns a session with other challenge parameters. Send this session identi- fier, unmodified, to the next AdminRespondToAuthChallenge request. Constraints: o min: 20 o max: 2048
@@ -63,5 +108,22 @@ public record AwsCognitoIdpRespondToAuthChallengeOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

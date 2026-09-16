@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appstream", "update-theme-for-stack")]
-public record AwsAppstreamUpdateThemeForStackOptions : AwsOptions
+public record AwsAppstreamUpdateThemeForStackOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates custom branding that customizes the appearance of the streaming application catalog page. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="StackName">The name of the stack for the theme. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
+    public AwsAppstreamUpdateThemeForStackOptions(
+        string StackName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StackName);
+        this.StackName = StackName;
+    }
+
+    private AwsAppstreamUpdateThemeForStackOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppstreamUpdateThemeForStackOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppstreamUpdateThemeForStackOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the stack for the theme. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
+    /// </summary>
     [CliOption("--stack-name")]
-    public string? StackName { get; set; }
+    public string? StackName { get; private init; }
 
     /// <summary>
     /// The links that are displayed in the footer of the streaming applica- tion catalog page. These links are helpful resources for users, such as the organization's IT support and product marketing sites. (structure) The website links that display in the catalog page footer. DisplayName -&gt; (string) The name of the websites that display in the catalog page footer. Constraints: o min: 1 o max: 300 o pattern: ^[-@./#&amp;+\w\s]*$ FooterLinkURL -&gt; (string) The URL of the websites that display in the catalog page footer. Constraints: o min: 1 o max: 1000 Shorthand Syntax: DisplayName=string,FooterLinkURL=string ... JSON Syntax: [ { "DisplayName": "string", "FooterLinkURL": "string" } ... ]
@@ -72,5 +109,22 @@ public record AwsAppstreamUpdateThemeForStackOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

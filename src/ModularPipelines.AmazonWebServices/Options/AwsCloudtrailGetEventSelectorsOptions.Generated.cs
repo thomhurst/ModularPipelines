@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudtrail", "get-event-selectors")]
-public record AwsCloudtrailGetEventSelectorsOptions : AwsOptions
+public record AwsCloudtrailGetEventSelectorsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Describes the settings for the event selectors that you configured for your trail. The information returned for your event selectors includes the following: o If your event selector includes read-only events, write-only events, or all events. This applies to management events, data events, and network activity events. o If your event selector includes management events. o If your event selector includes network activity events, the event sources for which you are logging network activity events....
+    /// </summary>
+    /// <param name="TrailName">Specifies the name of the trail or trail ARN. If you specify a trail name, the string must meet the following requirements: o Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-) o Start with a letter or number, and end with a letter or number o Be between 3 and 128 characters o Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are not valid. o Not be in IP address format (for example, 192.168.5.4) If you specify a trail ARN, it must be in the format: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail</param>
+    public AwsCloudtrailGetEventSelectorsOptions(
+        string TrailName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TrailName);
+        this.TrailName = TrailName;
+    }
+
+    private AwsCloudtrailGetEventSelectorsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudtrailGetEventSelectorsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudtrailGetEventSelectorsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the name of the trail or trail ARN. If you specify a trail name, the string must meet the following requirements: o Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-) o Start with a letter or number, and end with a letter or number o Be between 3 and 128 characters o Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are not valid. o Not be in IP address format (for example, 192.168.5.4) If you specify a trail ARN, it must be in the format: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
+    /// </summary>
     [CliOption("--trail-name")]
-    public string? TrailName { get; set; }
+    public string? TrailName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

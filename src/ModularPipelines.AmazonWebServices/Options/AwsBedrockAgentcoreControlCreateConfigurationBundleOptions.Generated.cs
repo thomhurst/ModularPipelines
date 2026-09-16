@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,8 +22,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore-control", "create-configuration-bundle")]
-public record AwsBedrockAgentcoreControlCreateConfigurationBundleOptions : AwsOptions
+public record AwsBedrockAgentcoreControlCreateConfigurationBundleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new configuration bundle resource. A configuration bundle stores versioned component configurations for agent evaluation work- flows. See also: AWS API Documentation create-configuration-bundle uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be pro- vided as JSON. Shorthand syntax does not suppo...
+    /// </summary>
+    /// <param name="BundleName">The name for the configuration bundle. Names must be unique within your account. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9_]{0,99}</param>
+    /// <param name="Components">A map of component identifiers to their configurations. Each compo- nent represents a configurable element within the bundle. key -&gt; (string) Constraints: o min: 1 o max: 2048 o pattern: [a-zA-Z][a-zA-Z0-9_:/.\-]{0,2047} value -&gt; (structure) The configuration for a component within a configuration bundle. The component type is inferred from the component identifier ARN. configuration -&gt; (document) [required] The configuration values as a flexible JSON document. Shorthand Syntax: KeyName1={},KeyName2={} JSON Syntax: {"string": { "configuration": {...} } ...}</param>
+    public AwsBedrockAgentcoreControlCreateConfigurationBundleOptions(
+        string BundleName,
+        IReadOnlyList<KeyValue> Components
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BundleName);
+        this.BundleName = BundleName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Components);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(Components));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Components));
+            }
+
+            Components = materialized;
+        }
+        this.Components = Components;
+    }
+
+    private AwsBedrockAgentcoreControlCreateConfigurationBundleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreControlCreateConfigurationBundleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreControlCreateConfigurationBundleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name for the configuration bundle. Names must be unique within your account. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9_]{0,99}
+    /// </summary>
+    [CliOption("--bundle-name")]
+    public string? BundleName { get; private init; }
+
+    /// <summary>
+    /// A map of component identifiers to their configurations. Each compo- nent represents a configurable element within the bundle. key -&gt; (string) Constraints: o min: 1 o max: 2048 o pattern: [a-zA-Z][a-zA-Z0-9_:/.\-]{0,2047} value -&gt; (structure) The configuration for a component within a configuration bundle. The component type is inferred from the component identifier ARN. configuration -&gt; (document) [required] The configuration values as a flexible JSON document. Shorthand Syntax: KeyName1={},KeyName2={} JSON Syntax: {"string": { "configuration": {...} } ...}
+    /// </summary>
+    [CliOption("--components", CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Components { get; private init; }
+
     /// <summary>
     /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previ- ous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency . Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
     /// </summary>
@@ -30,17 +91,11 @@ public record AwsBedrockAgentcoreControlCreateConfigurationBundleOptions : AwsOp
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--bundle-name")]
-    public string? BundleName { get; set; }
-
     /// <summary>
     /// The description for the configuration bundle. Constraints: o min: 1 o max: 500 o pattern: .+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--components", CollectionSeparator = ",")]
-    public IReadOnlyList<KeyValue>? Components { get; set; }
 
     /// <summary>
     /// The branch name for version tracking. Defaults to mainline if not specified. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z][a-zA-Z0-9_/-]{0,127}
@@ -77,5 +132,22 @@ public record AwsBedrockAgentcoreControlCreateConfigurationBundleOptions : AwsOp
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

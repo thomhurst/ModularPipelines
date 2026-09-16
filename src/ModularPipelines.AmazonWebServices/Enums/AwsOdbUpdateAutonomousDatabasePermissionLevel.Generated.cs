@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --permissionlevel.
+/// Allowed values for --permission-level.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsOdbUpdateAutonomousDatabasePermissionLevel
 {
     [EnumValue("RESTRICTED")]
-    Restricted = 1,
+    Restricted,
 
     [EnumValue("UNRESTRICTED")]
-    Unrestricted = 2
+    Unrestricted
 }

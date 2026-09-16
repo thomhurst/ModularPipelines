@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("machinelearning", "get-data-source")]
-public record AwsMachinelearningGetDataSourceOptions : AwsOptions
+public record AwsMachinelearningGetDataSourceOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--data-source-id")]
-    public string? DataSourceId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--verbose")]
+    /// <summary>
+    /// Returns a DataSource that includes metadata and data file information, as well as the current status of the DataSource . GetDataSource provides results in normal or verbose format. The ver- bose format adds the schema description and the list of files pointed to by the DataSource to the normal format. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DataSourceId">The ID assigned to the DataSource at creation. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+</param>
+    public AwsMachinelearningGetDataSourceOptions(
+        string DataSourceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataSourceId);
+        this.DataSourceId = DataSourceId;
+    }
+
+    private AwsMachinelearningGetDataSourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMachinelearningGetDataSourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMachinelearningGetDataSourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID assigned to the DataSource at creation. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
+    [CliOption("--data-source-id")]
+    public string? DataSourceId { get; private init; }
+
+    /// <summary>
+    /// Specifies whether the GetDataSource operation should return Data- SourceSchema . If true, DataSourceSchema is returned. If false, DataSourceSchema is not returned.
+    /// </summary>
+    [CliFlag("--verbose", NegatedName = "--no-verbose")]
     public bool? Verbose { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -32,5 +72,22 @@ public record AwsMachinelearningGetDataSourceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

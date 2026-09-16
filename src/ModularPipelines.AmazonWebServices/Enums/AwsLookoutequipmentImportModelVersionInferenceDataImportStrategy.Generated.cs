@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --inferencedataimportstrategy.
+/// Allowed values for --inference-data-import-strategy.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsLookoutequipmentImportModelVersionInferenceDataImportStrategy
 {
-    [EnumValue("NO_IMPORT")]
-    NoImport = 1,
-
     [EnumValue("ADD_WHEN_EMPTY")]
-    AddWhenEmpty = 2,
+    AddWhenEmpty,
+
+    [EnumValue("NO_IMPORT")]
+    NoImport,
 
     [EnumValue("OVERWRITE")]
-    Overwrite = 3
+    Overwrite
 }

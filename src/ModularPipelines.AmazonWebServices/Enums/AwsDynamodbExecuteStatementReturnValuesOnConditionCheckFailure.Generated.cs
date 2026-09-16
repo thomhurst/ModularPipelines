@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --returnvaluesonconditioncheckfailure.
+/// Allowed values for --return-values-on-condition-check-failure.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDynamodbExecuteStatementReturnValuesOnConditionCheckFailure
 {
     [EnumValue("ALL_OLD")]
-    AllOld = 1,
+    AllOld,
 
     [EnumValue("NONE")]
-    None = 2
+    None
 }

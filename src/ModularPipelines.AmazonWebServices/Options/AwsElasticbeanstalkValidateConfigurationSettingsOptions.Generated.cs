@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elasticbeanstalk", "validate-configuration-settings")]
-public record AwsElasticbeanstalkValidateConfigurationSettingsOptions : AwsOptions
+public record AwsElasticbeanstalkValidateConfigurationSettingsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Takes a set of configuration settings and either a configuration tem- plate or environment, and determines whether those values are valid. This action returns a list of messages indicating any errors or warn- ings associated with the selection of option values. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationName">The name of the application that the configuration template or envi- ronment belongs to. Constraints: o min: 1 o max: 100</param>
+    /// <param name="OptionSettings">A list of the options and desired values to evaluate. (structure) A specification identifying an individual configuration option along with its current value. For a list of possible namespaces and option values, see Option Values in the AWS Elastic Beanstalk Developer Guide . ResourceName -&gt; (string) A unique resource name for the option setting. Use it for a timebased scaling configuration option. Constraints: o min: 1 o max: 256 Namespace -&gt; (string) A unique namespace that identifies the option's associated AWS resource. OptionName -&gt; (string) The name of the configuration option. Value -&gt; (string) The current value for the configuration option. Shorthand Syntax: ResourceName=string,Namespace=string,OptionName=string,Value=string ... JSON Syntax: [ { "ResourceName": "string", "Namespace": "string", "OptionName": "string", "Value": "string" } ... ]</param>
+    public AwsElasticbeanstalkValidateConfigurationSettingsOptions(
+        string ApplicationName,
+        IEnumerable<string> OptionSettings
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationName);
+        this.ApplicationName = ApplicationName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(OptionSettings);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(OptionSettings));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(OptionSettings));
+            }
+
+            OptionSettings = materialized;
+        }
+        this.OptionSettings = OptionSettings;
+    }
+
+    private AwsElasticbeanstalkValidateConfigurationSettingsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElasticbeanstalkValidateConfigurationSettingsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElasticbeanstalkValidateConfigurationSettingsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the application that the configuration template or envi- ronment belongs to. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--application-name")]
-    public string? ApplicationName { get; set; }
+    public string? ApplicationName { get; private init; }
+
+    /// <summary>
+    /// A list of the options and desired values to evaluate. (structure) A specification identifying an individual configuration option along with its current value. For a list of possible namespaces and option values, see Option Values in the AWS Elastic Beanstalk Developer Guide . ResourceName -&gt; (string) A unique resource name for the option setting. Use it for a timebased scaling configuration option. Constraints: o min: 1 o max: 256 Namespace -&gt; (string) A unique namespace that identifies the option's associated AWS resource. OptionName -&gt; (string) The name of the configuration option. Value -&gt; (string) The current value for the configuration option. Shorthand Syntax: ResourceName=string,Namespace=string,OptionName=string,Value=string ... JSON Syntax: [ { "ResourceName": "string", "Namespace": "string", "OptionName": "string", "Value": "string" } ... ]
+    /// </summary>
+    [CliOption("--option-settings", GroupValues = true)]
+    public IEnumerable<string>? OptionSettings { get; private init; }
 
     /// <summary>
     /// The name of the configuration template to validate the settings against. Condition: You cannot specify both this and an environment name. Constraints: o min: 1 o max: 100
@@ -36,13 +94,27 @@ public record AwsElasticbeanstalkValidateConfigurationSettingsOptions : AwsOptio
     [CliOption("--environment-name")]
     public string? EnvironmentName { get; set; }
 
-    [CliOption("--option-settings", GroupValues = true)]
-    public IEnumerable<string>? OptionSettings { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

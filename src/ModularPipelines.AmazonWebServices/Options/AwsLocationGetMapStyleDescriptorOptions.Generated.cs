@@ -21,13 +21,44 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("location", "get-map-style-descriptor")]
 public record AwsLocationGetMapStyleDescriptorOptions : AwsOptions
 {
+    /// <summary>
+    /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend upgrading to ` GetStyleDescriptor https://docs.aws.amazon.com/location/latest/APIReference/API_geomaps_GetStyleDescriptor.html`__ unless you require Grab data. o GetMapStyleDescriptor is part of a previous Amazon Location Ser- vice Maps API (version 1) which has been superseded by a more in- tuitive, powerful, and complete API (version 2). o The version 2 GetStyleDescriptor operation gives a better u...
+    /// </summary>
+    /// <param name="MapName">The map resource to retrieve the style descriptor from. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+</param>
+    /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
+    public AwsLocationGetMapStyleDescriptorOptions(
+        string MapName,
+        string Outfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MapName);
+        this.MapName = MapName;
+        global::System.ArgumentNullException.ThrowIfNull(Outfile);
+        this.Outfile = Outfile;
+    }
+
+    public void Deconstruct(out string MapName, out string Outfile)
+    {
+        MapName = this.MapName;
+        Outfile = this.Outfile;
+    }
+
+    /// <summary>
+    /// The map resource to retrieve the style descriptor from. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+
+    /// </summary>
     [CliOption("--map-name")]
-    public string? MapName { get; set; }
+    public string MapName { get; private init; }
 
     /// <summary>
     /// The optional API key to authorize the request. Constraints: o min: 0 o max: 1000 outfile (string) [required] Filename where the content will be saved
     /// </summary>
     [CliOption("--key")]
     public string? Key { get; set; }
+
+    /// <summary>
+    /// The &lt;outfile&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Outfile { get; private init; }
 
 }

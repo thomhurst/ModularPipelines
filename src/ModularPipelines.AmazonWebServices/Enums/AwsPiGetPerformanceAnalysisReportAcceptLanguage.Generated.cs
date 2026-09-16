@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --acceptlanguage.
+/// Allowed values for --accept-language.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsPiGetPerformanceAnalysisReportAcceptLanguage
 {
     [EnumValue("EN_US")]
-    EnUs = 1
+    EnUs,
+
+    [EnumValue("o")]
+    O
 }

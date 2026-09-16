@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,22 +21,83 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chime-sdk-messaging", "batch-create-channel-membership")]
-public record AwsChimeSdkMessagingBatchCreateChannelMembershipOptions : AwsOptions
+public record AwsChimeSdkMessagingBatchCreateChannelMembershipOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Adds a specified number of users and bots to a channel. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ChannelArn">The ARN of the channel to which you're adding users or bots. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
+    /// <param name="MemberArns">The ARNs of the members you want to add to the channel. Only AppIn- stanceUsers and AppInstanceBots can be added as a channel member. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023} Syntax: "string" "string" ...</param>
+    /// <param name="ChimeBearer">The ARN of the AppInstanceUser or AppInstanceBot that makes the API call. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
+    public AwsChimeSdkMessagingBatchCreateChannelMembershipOptions(
+        string ChannelArn,
+        IEnumerable<string> MemberArns,
+        string ChimeBearer
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ChannelArn);
+        this.ChannelArn = ChannelArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(MemberArns);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(MemberArns));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(MemberArns));
+            }
+
+            MemberArns = materialized;
+        }
+        this.MemberArns = MemberArns;
+        global::System.ArgumentNullException.ThrowIfNull(ChimeBearer);
+        this.ChimeBearer = ChimeBearer;
+    }
+
+    private AwsChimeSdkMessagingBatchCreateChannelMembershipOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChimeSdkMessagingBatchCreateChannelMembershipOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChimeSdkMessagingBatchCreateChannelMembershipOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the channel to which you're adding users or bots. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
+    /// </summary>
     [CliOption("--channel-arn")]
-    public string? ChannelArn { get; set; }
+    public string? ChannelArn { get; private init; }
+
+    /// <summary>
+    /// The ARNs of the members you want to add to the channel. Only AppIn- stanceUsers and AppInstanceBots can be added as a channel member. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023} Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--member-arns", GroupValues = true)]
+    public IEnumerable<string>? MemberArns { get; private init; }
+
+    /// <summary>
+    /// The ARN of the AppInstanceUser or AppInstanceBot that makes the API call. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
+    /// </summary>
+    [CliOption("--chime-bearer")]
+    public string? ChimeBearer { get; private init; }
 
     /// <summary>
     /// The membership type of a user, DEFAULT or HIDDEN . Default members are always returned as part of ListChannelMemberships . Hidden mem- bers are only returned if the type filter in ListChannelMemberships equals HIDDEN . Otherwise hidden members are not returned. This is only supported by moderators. Possible values: o DEFAULT o HIDDEN
     /// </summary>
     [CliOption("--type")]
     public AwsChimeSdkMessagingBatchCreateChannelMembershipType? Type { get; set; }
-
-    [CliOption("--member-arns", GroupValues = true)]
-    public IEnumerable<string>? MemberArns { get; set; }
-
-    [CliOption("--chime-bearer")]
-    public string? ChimeBearer { get; set; }
 
     /// <summary>
     /// The ID of the SubChannel in the request. NOTE: Only required when creating membership in a SubChannel for a moderator in an elastic channel. Constraints: o min: 1 o max: 128 o pattern: [-_a-zA-Z0-9]*
@@ -48,5 +110,22 @@ public record AwsChimeSdkMessagingBatchCreateChannelMembershipOptions : AwsOptio
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

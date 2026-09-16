@@ -11,11 +11,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --dbinstancetype.
+/// Allowed values for --db-instance-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsTimestreamInfluxdbUpdateDbClusterDbInstanceType
 {
-    [EnumValue("db")]
-    Db = 1
+    [EnumValue("db.influx.12xlarge")]
+    DbInflux12Xlarge,
+
+    [EnumValue("db.influx.16xlarge")]
+    DbInflux16Xlarge,
+
+    [EnumValue("db.influx.24xlarge")]
+    DbInflux24Xlarge,
+
+    [EnumValue("db.influx.2xlarge")]
+    DbInflux2Xlarge,
+
+    [EnumValue("db.influx.4xlarge")]
+    DbInflux4Xlarge,
+
+    [EnumValue("db.influx.8xlarge")]
+    DbInflux8Xlarge,
+
+    [EnumValue("db.influx.large")]
+    DbInfluxLarge,
+
+    [EnumValue("db.influx.medium")]
+    DbInfluxMedium,
+
+    [EnumValue("db.influx.xlarge")]
+    DbInfluxXlarge
 }

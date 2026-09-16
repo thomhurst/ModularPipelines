@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --endpointmanagement.
+/// Allowed values for --endpoint-management.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsMwaaCreateEnvironmentEndpointManagement
 {
     [EnumValue("CUSTOMER")]
-    Customer = 1,
+    Customer,
 
     [EnumValue("SERVICE")]
-    Service = 2
+    Service
 }

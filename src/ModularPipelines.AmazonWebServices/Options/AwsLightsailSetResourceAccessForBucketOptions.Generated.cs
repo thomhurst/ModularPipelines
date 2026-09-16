@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lightsail", "set-resource-access-for-bucket")]
-public record AwsLightsailSetResourceAccessForBucketOptions : AwsOptions
+public record AwsLightsailSetResourceAccessForBucketOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Sets the Amazon Lightsail resources that can access the specified Lightsail bucket. Lightsail buckets currently support setting access for Lightsail in- stances in the same Amazon Web Services Region. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceName">The name of the Lightsail instance for which to set bucket access. The instance must be in a running or stopped state. Constraints: o pattern: \w[\w\-]*\w</param>
+    /// <param name="BucketName">The name of the bucket for which to set access to another Lightsail resource. Constraints: o min: 3 o max: 54 o pattern: ^[a-z0-9][a-z0-9-]{1,52}[a-z0-9]$</param>
+    /// <param name="Access">The access setting. The following access settings are available: o allow - Allows access to the bucket and its objects. o deny - Denies access to the bucket and its objects. Use this set- ting to remove access for a resource previously set to allow . Possible values: o allow o deny</param>
+    public AwsLightsailSetResourceAccessForBucketOptions(
+        string ResourceName,
+        string BucketName,
+        AwsLightsailSetResourceAccessForBucketAccess Access
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceName);
+        this.ResourceName = ResourceName;
+        global::System.ArgumentNullException.ThrowIfNull(BucketName);
+        this.BucketName = BucketName;
+        global::System.ArgumentNullException.ThrowIfNull(Access);
+        this.Access = Access;
+    }
+
+    private AwsLightsailSetResourceAccessForBucketOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLightsailSetResourceAccessForBucketOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLightsailSetResourceAccessForBucketOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the Lightsail instance for which to set bucket access. The instance must be in a running or stopped state. Constraints: o pattern: \w[\w\-]*\w
+    /// </summary>
     [CliOption("--resource-name")]
-    public string? ResourceName { get; set; }
+    public string? ResourceName { get; private init; }
 
+    /// <summary>
+    /// The name of the bucket for which to set access to another Lightsail resource. Constraints: o min: 3 o max: 54 o pattern: ^[a-z0-9][a-z0-9-]{1,52}[a-z0-9]$
+    /// </summary>
     [CliOption("--bucket-name")]
-    public string? BucketName { get; set; }
+    public string? BucketName { get; private init; }
 
+    /// <summary>
+    /// The access setting. The following access settings are available: o allow - Allows access to the bucket and its objects. o deny - Denies access to the bucket and its objects. Use this set- ting to remove access for a resource previously set to allow . Possible values: o allow o deny
+    /// </summary>
     [CliOption("--access")]
-    public string? Access { get; set; }
+    public AwsLightsailSetResourceAccessForBucketAccess? Access { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

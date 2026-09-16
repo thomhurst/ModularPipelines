@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudfront", "update-vpc-origin")]
-public record AwsCloudfrontUpdateVpcOriginOptions : AwsOptions
+public record AwsCloudfrontUpdateVpcOriginOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Update an Amazon CloudFront VPC origin in your account. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="VpcOriginEndpointConfig">The VPC origin endpoint configuration. Name -&gt; (string) [required] The name of the CloudFront VPC origin endpoint configuration. Arn -&gt; (string) [required] The ARN of the CloudFront VPC origin endpoint configuration. HTTPPort -&gt; (integer) [required] The HTTP port for the CloudFront VPC origin endpoint configura- tion. The default value is 80 . HTTPSPort -&gt; (integer) [required] The HTTPS port of the CloudFront VPC origin endpoint configura- tion. The default value is 443 . OriginProtocolPolicy -&gt; (string) [required] The origin protocol policy for the CloudFront VPC origin end- point configuration. Possible values: o http-only o match-viewer o https-only OriginSslProtocols -&gt; (structure) A complex type that contains information about the SSL/TLS pro- tocols that CloudFront can use when establishing an HTTPS con- nection with your origin. Quantity -&gt; (integer) [required] The number of SSL/TLS protocols that you want to allow Cloud- Front to use when establishing an HTTPS connection with this origin. Items -&gt; (list) [required] A list that contains allowed SSL/TLS protocols for this dis- tribution. (string) Possible values: o SSLv3 o TLSv1 o TLSv1.1 o TLSv1.2 Shorthand Syntax: Name=string,Arn=string,HTTPPort=integer,HTTPSPort=integer,OriginProtocolPolicy=string,OriginSslProtocols={Quantity=integer,Items=[string,string]} JSON Syntax: { "Name": "string", "Arn": "string", "HTTPPort": integer, "HTTPSPort": integer, "OriginProtocolPolicy": "http-only"|"match-viewer"|"https-only", "OriginSslProtocols": { "Quantity": integer, "Items": ["SSLv3"|"TLSv1"|"TLSv1.1"|"TLSv1.2", ...] } }</param>
+    /// <param name="Id">The VPC origin ID.</param>
+    /// <param name="IfMatch">The VPC origin to update, if a match occurs.</param>
+    public AwsCloudfrontUpdateVpcOriginOptions(
+        string VpcOriginEndpointConfig,
+        string Id,
+        string IfMatch
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VpcOriginEndpointConfig);
+        this.VpcOriginEndpointConfig = VpcOriginEndpointConfig;
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+        global::System.ArgumentNullException.ThrowIfNull(IfMatch);
+        this.IfMatch = IfMatch;
+    }
+
+    private AwsCloudfrontUpdateVpcOriginOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudfrontUpdateVpcOriginOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudfrontUpdateVpcOriginOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The VPC origin endpoint configuration. Name -&gt; (string) [required] The name of the CloudFront VPC origin endpoint configuration. Arn -&gt; (string) [required] The ARN of the CloudFront VPC origin endpoint configuration. HTTPPort -&gt; (integer) [required] The HTTP port for the CloudFront VPC origin endpoint configura- tion. The default value is 80 . HTTPSPort -&gt; (integer) [required] The HTTPS port of the CloudFront VPC origin endpoint configura- tion. The default value is 443 . OriginProtocolPolicy -&gt; (string) [required] The origin protocol policy for the CloudFront VPC origin end- point configuration. Possible values: o http-only o match-viewer o https-only OriginSslProtocols -&gt; (structure) A complex type that contains information about the SSL/TLS pro- tocols that CloudFront can use when establishing an HTTPS con- nection with your origin. Quantity -&gt; (integer) [required] The number of SSL/TLS protocols that you want to allow Cloud- Front to use when establishing an HTTPS connection with this origin. Items -&gt; (list) [required] A list that contains allowed SSL/TLS protocols for this dis- tribution. (string) Possible values: o SSLv3 o TLSv1 o TLSv1.1 o TLSv1.2 Shorthand Syntax: Name=string,Arn=string,HTTPPort=integer,HTTPSPort=integer,OriginProtocolPolicy=string,OriginSslProtocols={Quantity=integer,Items=[string,string]} JSON Syntax: { "Name": "string", "Arn": "string", "HTTPPort": integer, "HTTPSPort": integer, "OriginProtocolPolicy": "http-only"|"match-viewer"|"https-only", "OriginSslProtocols": { "Quantity": integer, "Items": ["SSLv3"|"TLSv1"|"TLSv1.1"|"TLSv1.2", ...] } }
+    /// </summary>
     [CliOption("--vpc-origin-endpoint-config")]
-    public string? VpcOriginEndpointConfig { get; set; }
+    public string? VpcOriginEndpointConfig { get; private init; }
 
+    /// <summary>
+    /// The VPC origin ID.
+    /// </summary>
     [CliOption("--id")]
-    public string? Id { get; set; }
+    public string? Id { get; private init; }
 
+    /// <summary>
+    /// The VPC origin to update, if a match occurs.
+    /// </summary>
     [CliOption("--if-match")]
-    public string? IfMatch { get; set; }
+    public string? IfMatch { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

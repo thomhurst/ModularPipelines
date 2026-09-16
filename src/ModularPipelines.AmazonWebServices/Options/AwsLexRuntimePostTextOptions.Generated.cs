@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lex-runtime", "post-text")]
-public record AwsLexRuntimePostTextOptions : AwsOptions
+public record AwsLexRuntimePostTextOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Sends user input to Amazon Lex. Client applications can use this API to send requests to Amazon Lex at runtime. Amazon Lex then interprets the user input using the machine learning model it built for the bot. In response, Amazon Lex returns the next message to convey to the user an optional responseCard to display. Consider the following example messages: o For a user input "I would like a pizza", Amazon Lex might return a response with a message eliciting slot data (for example, PizzaSize): "Wh...
+    /// </summary>
+    /// <param name="BotName">The name of the Amazon Lex bot.</param>
+    /// <param name="BotAlias">The alias of the Amazon Lex bot.</param>
+    /// <param name="UserId">The ID of the client application user. Amazon Lex uses this to iden- tify a user's conversation with your bot. At runtime, each request must contain the userID field. To decide the user ID to use for your application, consider the fol- lowing factors. o The userID field must not contain any personally identifiable in- formation of the user, for example, name, personal identification numbers, or other end user personal information. o If you want a user to start a conversation on one device and con- tinue on another device, use a user-specific identifier. o If you want the same user to be able to have two independent con- versations on two different devices, choose a device-specific identifier. o A user can't have two independent conversations with two different versions of the same bot. For example, a user can't have a conver- sation with the PROD and BETA versions of the same bot. If you an- ticipate that a user will need to have conversation with two dif- ferent versions, for example, while testing, include the bot alias in the user ID to separate the two conversations. Constraints: o min: 2 o max: 100 o pattern: [0-9a-zA-Z._:-]+</param>
+    /// <param name="InputText">The text that the user entered (Amazon Lex interprets this text). Constraints: o min: 1 o max: 1024</param>
+    public AwsLexRuntimePostTextOptions(
+        string BotName,
+        string BotAlias,
+        string UserId,
+        string InputText
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BotName);
+        this.BotName = BotName;
+        global::System.ArgumentNullException.ThrowIfNull(BotAlias);
+        this.BotAlias = BotAlias;
+        global::System.ArgumentNullException.ThrowIfNull(UserId);
+        this.UserId = UserId;
+        global::System.ArgumentNullException.ThrowIfNull(InputText);
+        this.InputText = InputText;
+    }
+
+    private AwsLexRuntimePostTextOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLexRuntimePostTextOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLexRuntimePostTextOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the Amazon Lex bot.
+    /// </summary>
     [CliOption("--bot-name")]
-    public string? BotName { get; set; }
+    public string? BotName { get; private init; }
 
+    /// <summary>
+    /// The alias of the Amazon Lex bot.
+    /// </summary>
     [CliOption("--bot-alias")]
-    public string? BotAlias { get; set; }
+    public string? BotAlias { get; private init; }
 
+    /// <summary>
+    /// The ID of the client application user. Amazon Lex uses this to iden- tify a user's conversation with your bot. At runtime, each request must contain the userID field. To decide the user ID to use for your application, consider the fol- lowing factors. o The userID field must not contain any personally identifiable in- formation of the user, for example, name, personal identification numbers, or other end user personal information. o If you want a user to start a conversation on one device and con- tinue on another device, use a user-specific identifier. o If you want the same user to be able to have two independent con- versations on two different devices, choose a device-specific identifier. o A user can't have two independent conversations with two different versions of the same bot. For example, a user can't have a conver- sation with the PROD and BETA versions of the same bot. If you an- ticipate that a user will need to have conversation with two dif- ferent versions, for example, while testing, include the bot alias in the user ID to separate the two conversations. Constraints: o min: 2 o max: 100 o pattern: [0-9a-zA-Z._:-]+
+    /// </summary>
     [CliOption("--user-id")]
-    public string? UserId { get; set; }
+    public string? UserId { get; private init; }
+
+    /// <summary>
+    /// The text that the user entered (Amazon Lex interprets this text). Constraints: o min: 1 o max: 1024
+    /// </summary>
+    [CliOption("--input-text")]
+    public string? InputText { get; private init; }
 
     /// <summary>
     /// Application-specific information passed between Amazon Lex and a client application. For more information, see Setting Session Attributes . key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -43,9 +104,6 @@ public record AwsLexRuntimePostTextOptions : AwsOptions
     [CliOption("--request-attributes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? RequestAttributes { get; set; }
 
-    [CliOption("--input-text")]
-    public string? InputText { get; set; }
-
     /// <summary>
     /// A list of contexts active for the request. A context can be acti- vated when a previous intent is fulfilled, or by including the con- text in the request, If you don't specify a list of contexts, Amazon Lex will use the current list of contexts for the session. If you specify an empty list, all contexts for the session are cleared. Constraints: o min: 0 o max: 20 (structure) A context is a variable that contains information about the cur- rent state of the conversation between a user and Amazon Lex. Context can be set automatically by Amazon Lex when an intent is fulfilled, or it can be set at runtime using the PutContent , PutText , or PutSession operation. name -&gt; (string) [required] The name of the context. Constraints: o min: 1 o max: 100 o pattern: ^([A-Za-z]_?)+$ timeToLive -&gt; (structure) [required] The length of time or number of turns that a context remains active. timeToLiveInSeconds -&gt; (integer) The number of seconds that the context should be active after it is first sent in a PostContent or PostText re- sponse. You can set the value between 5 and 86,400 sec- onds (24 hours). Constraints: o min: 5 o max: 86400 turnsToLive -&gt; (integer) The number of conversation turns that the context should be active. A conversation turn is one PostContent or PostText request and the corresponding response from Ama- zon Lex. Constraints: o min: 1 o max: 20 parameters -&gt; (map) [required] State variables for the current context. You can use these values as default values for slots in subsequent events. Constraints: o min: 0 o max: 10 key -&gt; (string) Constraints: o min: 1 o max: 100 value -&gt; (string) Constraints: o min: 1 o max: 1024 Shorthand Syntax: name=string,timeToLive={timeToLiveInSeconds=integer,turnsToLive=integer},parameters={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "name": "string", "timeToLive": { "timeToLiveInSeconds": integer, "turnsToLive": integer }, "parameters": {"string": "string" ...} } ... ]
     /// </summary>
@@ -57,5 +115,22 @@ public record AwsLexRuntimePostTextOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

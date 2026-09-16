@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,84 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "create-restore-testing-selection")]
-public record AwsBackupCreateRestoreTestingSelectionOptions : AwsOptions
+public record AwsBackupCreateRestoreTestingSelectionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This request can be sent after CreateRestoreTestingPlan request returns successfully. This is the second part of creating a resource testing plan, and it must be completed sequentially. This consists of RestoreTestingSelectionName , ProtectedResourceType , and one of the following: o ProtectedResourceArns o ProtectedResourceConditions Each protected resource type can have one single value. A restore testing selection can include a wildcard value ("*") for Pro- tectedResourceArns along with Prote...
+    /// </summary>
+    /// <param name="RestoreTestingPlanName">Input the restore testing plan name that was returned from the re- lated CreateRestoreTestingPlan request.</param>
+    /// <param name="RestoreTestingSelection">This consists of RestoreTestingSelectionName , ProtectedResourceType , and one of the following: o ProtectedResourceArns o ProtectedResourceConditions Each protected resource type can have one single value. A restore testing selection can include a wildcard value ("*") for ProtectedResourceArns along with ProtectedResourceConditions . Al- ternatively, you can include up to 30 specific protected resource ARNs in ProtectedResourceArns . IamRoleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the IAM role that Backup uses to create the target resource; for example: arn:aws:iam::123456789012:role/S3Access . ProtectedResourceArns -&gt; (list) Each protected resource can be filtered by its specific ARNs, such as ProtectedResourceArns: ["arn:aws:...", "arn:aws:..."] or by a wildcard: ProtectedResourceArns: ["*"] , but not both. (string) ProtectedResourceConditions -&gt; (structure) If you have included the wildcard in ProtectedResourceArns, you can include resource conditions, such as ProtectedResourceCondi- tions: { StringEquals: [{ key: "XXXX", value: "YYYY" }] . StringEquals -&gt; (list) Filters the values of your tagged resources for only those resources that you tagged with the same value. Also called "exact matching." (structure) Pair of two related strings. Allowed characters are let- ters, white space, and numbers that can be represented in UTF-8 and the following characters: + - = . _ : / Key -&gt; (string) [required] The tag key (String). The key can't start with aws: . Length Constraints: Minimum length of 1. Maximum length of 128. Pattern: ^(?![aA]{1}[wW]{1}[sS]{1}:)([\p{L}\p{Z}\p{N}_.:/=+\-@]+)$ Value -&gt; (string) [required] The value of the key. Length Constraints: Maximum length of 256. Pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ StringNotEquals -&gt; (list) Filters the values of your tagged resources for only those resources that you tagged that do not have the same value. Also called "negated matching." (structure) Pair of two related strings. Allowed characters are let- ters, white space, and numbers that can be represented in UTF-8 and the following characters: + - = . _ : / Key -&gt; (string) [required] The tag key (String). The key can't start with aws: . Length Constraints: Minimum length of 1. Maximum length of 128. Pattern: ^(?![aA]{1}[wW]{1}[sS]{1}:)([\p{L}\p{Z}\p{N}_.:/=+\-@]+)$ Value -&gt; (string) [required] The value of the key. Length Constraints: Maximum length of 256. Pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ ProtectedResourceType -&gt; (string) [required] The type of Amazon Web Services resource included in a restore testing selection; for example, an Amazon EBS volume or an Ama- zon RDS database. Supported resource types accepted include: o Aurora for Amazon Aurora o DocumentDB for Amazon DocumentDB (with MongoDB compatibility) o DynamoDB for Amazon DynamoDB o EBS for Amazon Elastic Block Store o EC2 for Amazon Elastic Compute Cloud o EFS for Amazon Elastic File System o FSx for Amazon FSx o Neptune for Amazon Neptune o RDS for Amazon Relational Database Service o S3 for Amazon S3 RestoreMetadataOverrides -&gt; (map) You can override certain restore metadata keys by including the parameter RestoreMetadataOverrides in the body of RestoreTest- ingSelection . Key values are not case sensitive. See the complete list of restore testing inferred metadata . key -&gt; (string) value -&gt; (string) RestoreTestingSelectionName -&gt; (string) [required] The unique name of the restore testing selection that belongs to the related restore testing plan. The name consists of only alphanumeric characters and under- scores. Maximum length is 50. ValidationWindowHours -&gt; (integer) This is amount of hours (0 to 168) available to run a validation script on the data. The data will be deleted upon the completion of the validation script or the end of the specified retention period, whichever comes first. JSON Syntax: { "IamRoleArn": "string", "ProtectedResourceArns": ["string", ...], "ProtectedResourceConditions": { "StringEquals": [ { "Key": "string", "Value": "string" } ... ], "StringNotEquals": [ { "Key": "string", "Value": "string" } ... ] }, "ProtectedResourceType": "string", "RestoreMetadataOverrides": {"string": "string" ...}, "RestoreTestingSelectionName": "string", "ValidationWindowHours": integer }</param>
+    public AwsBackupCreateRestoreTestingSelectionOptions(
+        string RestoreTestingPlanName,
+        string RestoreTestingSelection
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RestoreTestingPlanName);
+        this.RestoreTestingPlanName = RestoreTestingPlanName;
+        global::System.ArgumentNullException.ThrowIfNull(RestoreTestingSelection);
+        this.RestoreTestingSelection = RestoreTestingSelection;
+    }
+
+    private AwsBackupCreateRestoreTestingSelectionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBackupCreateRestoreTestingSelectionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBackupCreateRestoreTestingSelectionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Input the restore testing plan name that was returned from the re- lated CreateRestoreTestingPlan request.
+    /// </summary>
+    [CliOption("--restore-testing-plan-name")]
+    public string? RestoreTestingPlanName { get; private init; }
+
+    /// <summary>
+    /// This consists of RestoreTestingSelectionName , ProtectedResourceType , and one of the following: o ProtectedResourceArns o ProtectedResourceConditions Each protected resource type can have one single value. A restore testing selection can include a wildcard value ("*") for ProtectedResourceArns along with ProtectedResourceConditions . Al- ternatively, you can include up to 30 specific protected resource ARNs in ProtectedResourceArns . IamRoleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the IAM role that Backup uses to create the target resource; for example: arn:aws:iam::123456789012:role/S3Access . ProtectedResourceArns -&gt; (list) Each protected resource can be filtered by its specific ARNs, such as ProtectedResourceArns: ["arn:aws:...", "arn:aws:..."] or by a wildcard: ProtectedResourceArns: ["*"] , but not both. (string) ProtectedResourceConditions -&gt; (structure) If you have included the wildcard in ProtectedResourceArns, you can include resource conditions, such as ProtectedResourceCondi- tions: { StringEquals: [{ key: "XXXX", value: "YYYY" }] . StringEquals -&gt; (list) Filters the values of your tagged resources for only those resources that you tagged with the same value. Also called "exact matching." (structure) Pair of two related strings. Allowed characters are let- ters, white space, and numbers that can be represented in UTF-8 and the following characters: + - = . _ : / Key -&gt; (string) [required] The tag key (String). The key can't start with aws: . Length Constraints: Minimum length of 1. Maximum length of 128. Pattern: ^(?![aA]{1}[wW]{1}[sS]{1}:)([\p{L}\p{Z}\p{N}_.:/=+\-@]+)$ Value -&gt; (string) [required] The value of the key. Length Constraints: Maximum length of 256. Pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ StringNotEquals -&gt; (list) Filters the values of your tagged resources for only those resources that you tagged that do not have the same value. Also called "negated matching." (structure) Pair of two related strings. Allowed characters are let- ters, white space, and numbers that can be represented in UTF-8 and the following characters: + - = . _ : / Key -&gt; (string) [required] The tag key (String). The key can't start with aws: . Length Constraints: Minimum length of 1. Maximum length of 128. Pattern: ^(?![aA]{1}[wW]{1}[sS]{1}:)([\p{L}\p{Z}\p{N}_.:/=+\-@]+)$ Value -&gt; (string) [required] The value of the key. Length Constraints: Maximum length of 256. Pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ ProtectedResourceType -&gt; (string) [required] The type of Amazon Web Services resource included in a restore testing selection; for example, an Amazon EBS volume or an Ama- zon RDS database. Supported resource types accepted include: o Aurora for Amazon Aurora o DocumentDB for Amazon DocumentDB (with MongoDB compatibility) o DynamoDB for Amazon DynamoDB o EBS for Amazon Elastic Block Store o EC2 for Amazon Elastic Compute Cloud o EFS for Amazon Elastic File System o FSx for Amazon FSx o Neptune for Amazon Neptune o RDS for Amazon Relational Database Service o S3 for Amazon S3 RestoreMetadataOverrides -&gt; (map) You can override certain restore metadata keys by including the parameter RestoreMetadataOverrides in the body of RestoreTest- ingSelection . Key values are not case sensitive. See the complete list of restore testing inferred metadata . key -&gt; (string) value -&gt; (string) RestoreTestingSelectionName -&gt; (string) [required] The unique name of the restore testing selection that belongs to the related restore testing plan. The name consists of only alphanumeric characters and under- scores. Maximum length is 50. ValidationWindowHours -&gt; (integer) This is amount of hours (0 to 168) available to run a validation script on the data. The data will be deleted upon the completion of the validation script or the end of the specified retention period, whichever comes first. JSON Syntax: { "IamRoleArn": "string", "ProtectedResourceArns": ["string", ...], "ProtectedResourceConditions": { "StringEquals": [ { "Key": "string", "Value": "string" } ... ], "StringNotEquals": [ { "Key": "string", "Value": "string" } ... ] }, "ProtectedResourceType": "string", "RestoreMetadataOverrides": {"string": "string" ...}, "RestoreTestingSelectionName": "string", "ValidationWindowHours": integer }
+    /// </summary>
+    [CliOption("--restore-testing-selection")]
+    public string? RestoreTestingSelection { get; private init; }
+
     /// <summary>
     /// This is an optional unique string that identifies the request and allows failed requests to be retried without the risk of running the operation twice. If used, this parameter must contain 1 to 50 al- phanumeric or '-_.' characters.
     /// </summary>
     [CliOption("--creator-request-id")]
     public string? CreatorRequestId { get; set; }
 
-    [CliOption("--restore-testing-plan-name")]
-    public string? RestoreTestingPlanName { get; set; }
-
-    [CliOption("--restore-testing-selection")]
-    public string? RestoreTestingSelection { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

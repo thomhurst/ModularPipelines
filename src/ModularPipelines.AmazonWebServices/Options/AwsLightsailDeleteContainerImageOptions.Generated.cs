@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lightsail", "delete-container-image")]
-public record AwsLightsailDeleteContainerImageOptions : AwsOptions
+public record AwsLightsailDeleteContainerImageOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--service-name")]
-    public string? ServiceName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deletes a container image that is registered to your Amazon Lightsail container service. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ServiceName">The name of the container service for which to delete a registered container image. Constraints: o min: 1 o max: 63 o pattern: ^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$</param>
+    /// <param name="Image">The name of the container image to delete from the container ser- vice. Use the GetContainerImages action to get the name of the container images that are registered to a container service. NOTE: Container images sourced from your Lightsail container service, that are registered and stored on your service, start with a colon (: ). For example, :container-service-1.mystaticwebsite.1 . Container images sourced from a public registry like Docker Hub don't start with a colon. For example, nginx:latest or nginx .</param>
+    public AwsLightsailDeleteContainerImageOptions(
+        string ServiceName,
+        string Image
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceName);
+        this.ServiceName = ServiceName;
+        global::System.ArgumentNullException.ThrowIfNull(Image);
+        this.Image = Image;
+    }
+
+    private AwsLightsailDeleteContainerImageOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLightsailDeleteContainerImageOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLightsailDeleteContainerImageOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the container service for which to delete a registered container image. Constraints: o min: 1 o max: 63 o pattern: ^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$
+    /// </summary>
+    [CliOption("--service-name")]
+    public string? ServiceName { get; private init; }
+
+    /// <summary>
+    /// The name of the container image to delete from the container ser- vice. Use the GetContainerImages action to get the name of the container images that are registered to a container service. NOTE: Container images sourced from your Lightsail container service, that are registered and stored on your service, start with a colon (: ). For example, :container-service-1.mystaticwebsite.1 . Container images sourced from a public registry like Docker Hub don't start with a colon. For example, nginx:latest or nginx .
+    /// </summary>
     [CliOption("--image")]
-    public string? Image { get; set; }
+    public string? Image { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

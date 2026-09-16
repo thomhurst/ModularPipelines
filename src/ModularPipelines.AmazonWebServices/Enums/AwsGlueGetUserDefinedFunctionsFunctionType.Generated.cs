@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --functiontype.
+/// Allowed values for --function-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGlueGetUserDefinedFunctionsFunctionType
 {
-    [EnumValue("REGULAR_FUNCTION")]
-    RegularFunction = 1,
-
     [EnumValue("AGGREGATE_FUNCTION")]
-    AggregateFunction = 2,
+    AggregateFunction,
+
+    [EnumValue("REGULAR_FUNCTION")]
+    RegularFunction,
 
     [EnumValue("STORED_PROCEDURE")]
-    StoredProcedure = 3
+    StoredProcedure
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "modify-ipam-prefix-list-resolver-target")]
-public record AwsEc2ModifyIpamPrefixListResolverTargetOptions : AwsOptions
+public record AwsEc2ModifyIpamPrefixListResolverTargetOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--dry-run")]
-    public bool? DryRun { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Modifies an IPAM prefix list resolver target. You can update version tracking settings and the desired version of the target prefix list. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="IpamPrefixListResolverTargetId">The ID of the IPAM prefix list resolver target to modify.</param>
+    public AwsEc2ModifyIpamPrefixListResolverTargetOptions(
+        string IpamPrefixListResolverTargetId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IpamPrefixListResolverTargetId);
+        this.IpamPrefixListResolverTargetId = IpamPrefixListResolverTargetId;
+    }
+
+    private AwsEc2ModifyIpamPrefixListResolverTargetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2ModifyIpamPrefixListResolverTargetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2ModifyIpamPrefixListResolverTargetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the IPAM prefix list resolver target to modify.
+    /// </summary>
     [CliOption("--ipam-prefix-list-resolver-target-id")]
-    public string? IpamPrefixListResolverTargetId { get; set; }
+    public string? IpamPrefixListResolverTargetId { get; private init; }
+
+    /// <summary>
+    /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
+    public bool? DryRun { get; set; }
 
     /// <summary>
     /// The desired version of the prefix list to target. This allows you to pin the target to a specific version.
@@ -34,7 +74,10 @@ public record AwsEc2ModifyIpamPrefixListResolverTargetOptions : AwsOptions
     [CliOption("--desired-version")]
     public int? DesiredVersion { get; set; }
 
-    [CliFlag("--track-latest-version")]
+    /// <summary>
+    /// Indicates whether the resolver target should automatically track the latest version of the prefix list. When enabled, the target will al- ways synchronize with the most current version. Choose this for automatic updates when you want your prefix lists to stay current with infrastructure changes without manual interven- tion.
+    /// </summary>
+    [CliFlag("--track-latest-version", NegatedName = "--no-track-latest-version")]
     public bool? TrackLatestVersion { get; set; }
 
     /// <summary>
@@ -49,5 +92,22 @@ public record AwsEc2ModifyIpamPrefixListResolverTargetOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

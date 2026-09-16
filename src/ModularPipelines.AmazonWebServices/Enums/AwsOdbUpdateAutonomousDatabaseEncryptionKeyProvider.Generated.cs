@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --encryptionkeyprovider.
+/// Allowed values for --encryption-key-provider.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsOdbUpdateAutonomousDatabaseEncryptionKeyProvider
 {
-    [EnumValue("ORACLE_MANAGED")]
-    OracleManaged = 1,
-
     [EnumValue("AWS_KMS")]
-    AwsKms = 2
+    AwsKms,
+
+    [EnumValue("ORACLE_MANAGED")]
+    OracleManaged
 }

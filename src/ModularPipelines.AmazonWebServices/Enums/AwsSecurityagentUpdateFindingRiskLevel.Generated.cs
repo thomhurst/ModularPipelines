@@ -11,26 +11,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --risklevel.
+/// Allowed values for --risk-level.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSecurityagentUpdateFindingRiskLevel
 {
-    [EnumValue("UNKNOWN")]
-    Unknown = 1,
-
-    [EnumValue("INFORMATIONAL")]
-    Informational = 2,
-
-    [EnumValue("LOW")]
-    Low = 3,
-
-    [EnumValue("MEDIUM")]
-    Medium = 4,
+    [EnumValue("CRITICAL")]
+    Critical,
 
     [EnumValue("HIGH")]
-    High = 5,
+    High,
 
-    [EnumValue("CRITICAL")]
-    Critical = 6
+    [EnumValue("INFORMATIONAL")]
+    Informational,
+
+    [EnumValue("LOW")]
+    Low,
+
+    [EnumValue("MEDIUM")]
+    Medium,
+
+    [EnumValue("UNKNOWN")]
+    Unknown
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("securityhub", "update-aggregator-v2")]
-public record AwsSecurityhubUpdateAggregatorV2Options : AwsOptions
+public record AwsSecurityhubUpdateAggregatorV2Options : AwsOptions, IValidatableObject
 {
-    [CliOption("--aggregator-v2-arn")]
-    public string? AggregatorV2Arn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Udpates the configuration for the Aggregator V2. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AggregatorV2Arn">The ARN of the Aggregator V2. Constraints: o pattern: .*\S.*</param>
+    /// <param name="RegionLinkingMode">Determines how Amazon Web Services Regions should be linked to the Aggregator V2. Constraints: o pattern: .*\S.*</param>
+    public AwsSecurityhubUpdateAggregatorV2Options(
+        string AggregatorV2Arn,
+        string RegionLinkingMode
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AggregatorV2Arn);
+        this.AggregatorV2Arn = AggregatorV2Arn;
+        global::System.ArgumentNullException.ThrowIfNull(RegionLinkingMode);
+        this.RegionLinkingMode = RegionLinkingMode;
+    }
+
+    private AwsSecurityhubUpdateAggregatorV2Options()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSecurityhubUpdateAggregatorV2Options FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSecurityhubUpdateAggregatorV2Options ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the Aggregator V2. Constraints: o pattern: .*\S.*
+    /// </summary>
+    [CliOption("--aggregator-v2-arn")]
+    public string? AggregatorV2Arn { get; private init; }
+
+    /// <summary>
+    /// Determines how Amazon Web Services Regions should be linked to the Aggregator V2. Constraints: o pattern: .*\S.*
+    /// </summary>
     [CliOption("--region-linking-mode")]
-    public string? RegionLinkingMode { get; set; }
+    public string? RegionLinkingMode { get; private init; }
 
     /// <summary>
     /// A list of Amazon Web Services Regions linked to the aggegation Re- gion. (string) Constraints: o pattern: .*\S.* Syntax: "string" "string" ...
@@ -38,5 +82,22 @@ public record AwsSecurityhubUpdateAggregatorV2Options : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

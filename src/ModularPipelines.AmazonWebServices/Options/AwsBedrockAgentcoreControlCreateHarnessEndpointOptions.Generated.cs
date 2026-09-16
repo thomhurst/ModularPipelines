@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore-control", "create-harness-endpoint")]
-public record AwsBedrockAgentcoreControlCreateHarnessEndpointOptions : AwsOptions
+public record AwsBedrockAgentcoreControlCreateHarnessEndpointOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--harness-id")]
-    public string? HarnessId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Operation to create a harness endpoint. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="HarnessId">The ID of the harness to create an endpoint for. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9_]{0,39}-[a-zA-Z0-9]{10}</param>
+    /// <param name="EndpointName">The name of the endpoint. Must start with a letter and contain only alphanumeric characters and underscores. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}</param>
+    public AwsBedrockAgentcoreControlCreateHarnessEndpointOptions(
+        string HarnessId,
+        string EndpointName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HarnessId);
+        this.HarnessId = HarnessId;
+        global::System.ArgumentNullException.ThrowIfNull(EndpointName);
+        this.EndpointName = EndpointName;
+    }
+
+    private AwsBedrockAgentcoreControlCreateHarnessEndpointOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreControlCreateHarnessEndpointOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreControlCreateHarnessEndpointOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the harness to create an endpoint for. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9_]{0,39}-[a-zA-Z0-9]{10}
+    /// </summary>
+    [CliOption("--harness-id")]
+    public string? HarnessId { get; private init; }
+
+    /// <summary>
+    /// The name of the endpoint. Must start with a letter and contain only alphanumeric characters and underscores. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}
+    /// </summary>
     [CliOption("--endpoint-name")]
-    public string? EndpointName { get; set; }
+    public string? EndpointName { get; private init; }
 
     /// <summary>
     /// The harness version that the endpoint points to and serves invoca- tions from. Constraints: o min: 1 o max: 5 o pattern: ([1-9][0-9]{0,4})
@@ -59,5 +103,22 @@ public record AwsBedrockAgentcoreControlCreateHarnessEndpointOptions : AwsOption
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("fsx", "update-storage-virtual-machine")]
-public record AwsFsxUpdateStorageVirtualMachineOptions : AwsOptions
+public record AwsFsxUpdateStorageVirtualMachineOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an FSx for ONTAP storage virtual machine (SVM). See also: AWS API Documentation
+    /// </summary>
+    /// <param name="StorageVirtualMachineId">The ID of the SVM that you want to update, in the format svm-0123456789abcdef0 . Constraints: o min: 21 o max: 21 o pattern: ^(svm-[0-9a-f]{17,})$</param>
+    public AwsFsxUpdateStorageVirtualMachineOptions(
+        string StorageVirtualMachineId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StorageVirtualMachineId);
+        this.StorageVirtualMachineId = StorageVirtualMachineId;
+    }
+
+    private AwsFsxUpdateStorageVirtualMachineOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFsxUpdateStorageVirtualMachineOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFsxUpdateStorageVirtualMachineOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the SVM that you want to update, in the format svm-0123456789abcdef0 . Constraints: o min: 21 o max: 21 o pattern: ^(svm-[0-9a-f]{17,})$
+    /// </summary>
+    [CliOption("--storage-virtual-machine-id")]
+    public string? StorageVirtualMachineId { get; private init; }
+
     /// <summary>
     /// Specifies updates to an SVM's Microsoft Active Directory (AD) con- figuration. SelfManagedActiveDirectoryConfiguration -&gt; (structure) Specifies changes you are making to the self-managed Microsoft Active Directory configuration to which an FSx for Windows File Server file system or an FSx for ONTAP SVM is joined. UserName -&gt; (string) Specifies the updated user name for the service account on your self-managed Active Directory domain. Amazon FSx uses this account to join to your self-managed Active Directory domain. This account must have the permissions required to join com- puters to the domain in the organizational unit provided in OrganizationalUnitDistinguishedName . Constraints: o min: 1 o max: 256 o pattern: ^[^\u0000\u0085\u2028\u2029\r\n]{1,256}$ Password -&gt; (string) Specifies the updated password for the service account on your self-managed Active Directory domain. Amazon FSx uses this account to join to your self-managed Active Directory domain. Constraints: o min: 1 o max: 256 o pattern: ^.{1,256}$ DnsIps -&gt; (list) A list of up to three DNS server or domain controller IP ad- dresses in your self-managed Active Directory domain. Constraints: o min: 1 o max: 3 (string) Constraints: o min: 1 o max: 45 o pattern: (^((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))$|^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$) DomainName -&gt; (string) Specifies an updated fully qualified domain name of your self-managed Active Directory configuration. Constraints: o min: 1 o max: 255 o pattern: ^[^\u0000\u0085\u2028\u2029\r\n]{1,255}$ OrganizationalUnitDistinguishedName -&gt; (string) Specifies an updated fully qualified distinguished name of the organization unit within your self-managed Active Direc- tory. Constraints: o min: 1 o max: 2000 o pattern: ^[^\u0000\u0085\u2028\u2029\r\n]{1,2000}$ FileSystemAdministratorsGroup -&gt; (string) For FSx for ONTAP file systems only - Specifies the updated name of the self-managed Active Directory domain group whose members are granted administrative privileges for the Amazon FSx resource. Constraints: o min: 1 o max: 256 o pattern: ^[^\u0000\u0085\u2028\u2029\r\n]{1,256}$ DomainJoinServiceAccountSecret -&gt; (string) Specifies the updated Amazon Resource Name (ARN) of the Ama- zon Web Services Secrets Manager secret containing the self-managed Active Directory domain join service account credentials. Amazon FSx uses this account to join to your self-managed Active Directory domain. Constraints: o min: 64 o max: 1024 o pattern: ^arn:[^:]{1,63}:secretsman- ager:[a-z0-9-]+:[0-9]{12}:se- cret:[a-zA-Z0-9/_+=.@-]+-[a-zA-Z0-9]{6}$ NetBiosName -&gt; (string) Specifies an updated NetBIOS name of the AD computer object Net- BiosName to which an SVM is joined. Constraints: o min: 1 o max: 15 o pattern: ^[^\u0000\u0085\u2028\u2029\r\n]{1,255}$ Shorthand Syntax: SelfManagedActiveDirectoryConfiguration={UserName=string,Password=string,DnsIps=[string,string],DomainName=string,OrganizationalUnitDistinguishedName=string,FileSystemAdministratorsGroup=string,DomainJoinServiceAccountSecret=string},NetBiosName=string JSON Syntax: { "SelfManagedActiveDirectoryConfiguration": { "UserName": "string", "Password": "string", "DnsIps": ["string", ...], "DomainName": "string", "OrganizationalUnitDistinguishedName": "string", "FileSystemAdministratorsGroup": "string", "DomainJoinServiceAccountSecret": "string" }, "NetBiosName": "string" }
     /// </summary>
@@ -35,9 +75,6 @@ public record AwsFsxUpdateStorageVirtualMachineOptions : AwsOptions
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CliOption("--storage-virtual-machine-id")]
-    public string? StorageVirtualMachineId { get; set; }
-
     /// <summary>
     /// Specifies a new SvmAdminPassword. Constraints: o min: 8 o max: 50 o pattern: ^[^\u0000\u0085\u2028\u2029\r\n]{8,50}$
     /// </summary>
@@ -50,5 +87,22 @@ public record AwsFsxUpdateStorageVirtualMachineOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

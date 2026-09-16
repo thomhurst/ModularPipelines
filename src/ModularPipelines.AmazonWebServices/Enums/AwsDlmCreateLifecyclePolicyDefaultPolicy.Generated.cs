@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --defaultpolicy.
+/// Allowed values for --default-policy.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDlmCreateLifecyclePolicyDefaultPolicy
 {
-    [EnumValue("VOLUME")]
-    Volume = 1,
-
     [EnumValue("INSTANCE")]
-    Instance = 2
+    Instance,
+
+    [EnumValue("VOLUME")]
+    Volume
 }

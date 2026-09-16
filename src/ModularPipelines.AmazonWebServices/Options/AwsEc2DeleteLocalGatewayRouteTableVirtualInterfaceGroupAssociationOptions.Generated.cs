@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "delete-local-gateway-route-table-virtual-interface-group-association")]
-public record AwsEc2DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationOptions : AwsOptions
+public record AwsEc2DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--local-gateway-route-table-virtual-interface-group-association-id")]
-    public string? LocalGatewayRouteTableVirtualInterfaceGroupAssociationId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Deletes a local gateway route table virtual interface group associa- tion. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LocalGatewayRouteTableVirtualInterfaceGroupAssociationId">The ID of the local gateway route table virtual interface group as- sociation.</param>
+    public AwsEc2DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationOptions(
+        string LocalGatewayRouteTableVirtualInterfaceGroupAssociationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LocalGatewayRouteTableVirtualInterfaceGroupAssociationId);
+        this.LocalGatewayRouteTableVirtualInterfaceGroupAssociationId = LocalGatewayRouteTableVirtualInterfaceGroupAssociationId;
+    }
+
+    private AwsEc2DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the local gateway route table virtual interface group as- sociation.
+    /// </summary>
+    [CliOption("--local-gateway-route-table-virtual-interface-group-association-id")]
+    public string? LocalGatewayRouteTableVirtualInterfaceGroupAssociationId { get; private init; }
+
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -32,5 +72,22 @@ public record AwsEc2DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociation
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

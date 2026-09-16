@@ -11,11 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --viewerminimumtlsprotocolversion.
+/// Allowed values for --viewer-minimum-tls-protocol-version.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsLightsailUpdateDistributionViewerMinimumTlsProtocolVersion
 {
-    [EnumValue("TLSv1")]
-    TlSv1 = 1
+    [EnumValue("TLSv1.1_2016")]
+    TlSv112016,
+
+    [EnumValue("TLSv1.2_2018")]
+    TlSv122018,
+
+    [EnumValue("TLSv1.2_2019")]
+    TlSv122019,
+
+    [EnumValue("TLSv1.2_2021")]
+    TlSv122021
 }

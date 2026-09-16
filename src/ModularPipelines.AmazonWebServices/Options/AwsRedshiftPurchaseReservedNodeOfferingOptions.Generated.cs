@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift", "purchase-reserved-node-offering")]
-public record AwsRedshiftPurchaseReservedNodeOfferingOptions : AwsOptions
+public record AwsRedshiftPurchaseReservedNodeOfferingOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Allows you to purchase reserved nodes. Amazon Redshift offers a prede- fined set of reserved node offerings. You can purchase one or more of the offerings. You can call the DescribeReservedNodeOfferings API to obtain the available reserved node offerings. You can call this API by providing a specific reserved node offering and the number of nodes you want to reserve. For more information about reserved node offerings, go to Purchasing Reserved Nodes in the Amazon Redshift Cluster Management Guid...
+    /// </summary>
+    /// <param name="ReservedNodeOfferingId">The unique identifier of the reserved node offering you want to pur- chase. Constraints: o max: 2147483647</param>
+    public AwsRedshiftPurchaseReservedNodeOfferingOptions(
+        string ReservedNodeOfferingId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReservedNodeOfferingId);
+        this.ReservedNodeOfferingId = ReservedNodeOfferingId;
+    }
+
+    private AwsRedshiftPurchaseReservedNodeOfferingOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftPurchaseReservedNodeOfferingOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftPurchaseReservedNodeOfferingOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the reserved node offering you want to pur- chase. Constraints: o max: 2147483647
+    /// </summary>
     [CliOption("--reserved-node-offering-id")]
-    public string? ReservedNodeOfferingId { get; set; }
+    public string? ReservedNodeOfferingId { get; private init; }
 
     /// <summary>
     /// The number of reserved nodes that you want to purchase. Default: 1
@@ -35,5 +72,22 @@ public record AwsRedshiftPurchaseReservedNodeOfferingOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

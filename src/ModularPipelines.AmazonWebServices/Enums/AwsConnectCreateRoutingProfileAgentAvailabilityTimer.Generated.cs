@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --agentavailabilitytimer.
+/// Allowed values for --agent-availability-timer.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsConnectCreateRoutingProfileAgentAvailabilityTimer
 {
     [EnumValue("TIME_SINCE_LAST_ACTIVITY")]
-    TimeSinceLastActivity = 1,
+    TimeSinceLastActivity,
 
     [EnumValue("TIME_SINCE_LAST_INBOUND")]
-    TimeSinceLastInbound = 2
+    TimeSinceLastInbound
 }

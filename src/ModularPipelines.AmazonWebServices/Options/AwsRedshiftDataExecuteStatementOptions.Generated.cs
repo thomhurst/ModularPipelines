@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift-data", "execute-statement")]
-public record AwsRedshiftDataExecuteStatementOptions : AwsOptions
+public record AwsRedshiftDataExecuteStatementOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Runs an SQL statement, which can be data manipulation language (DML) or data definition language (DDL). This statement must be a single SQL statement. Depending on the authorization method, use one of the fol- lowing combinations of request parameters: o Secrets Manager - when connecting to a cluster, provide the se- cret-arn of a secret stored in Secrets Manager which has username and password . The specified secret contains credentials to connect to the database you specify. When you are conne...
+    /// </summary>
+    /// <param name="Sql">The SQL statement text to run.</param>
+    public AwsRedshiftDataExecuteStatementOptions(
+        string Sql
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Sql);
+        this.Sql = Sql;
+    }
+
+    private AwsRedshiftDataExecuteStatementOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftDataExecuteStatementOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftDataExecuteStatementOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The SQL statement text to run.
+    /// </summary>
     [CliOption("--sql")]
-    public string? Sql { get; set; }
+    public string? Sql { get; private init; }
 
     /// <summary>
     /// The cluster identifier. This parameter is required when connecting to a cluster and authenticating using either Secrets Manager or tem- porary credentials. Constraints: o min: 1 o max: 63 o pattern: [a-z][a-z0-9]*(-[a-z0-9]+)*
@@ -51,7 +88,10 @@ public record AwsRedshiftDataExecuteStatementOptions : AwsOptions
     [CliOption("--database")]
     public string? Database { get; set; }
 
-    [CliFlag("--with-event")]
+    /// <summary>
+    /// A value that indicates whether to send an event to the Amazon Event- Bridge event bus after the SQL statement runs.
+    /// </summary>
+    [CliFlag("--with-event", NegatedName = "--no-with-event")]
     public bool? WithEvent { get; set; }
 
     /// <summary>
@@ -108,5 +148,22 @@ public record AwsRedshiftDataExecuteStatementOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift", "authorize-data-share")]
-public record AwsRedshiftAuthorizeDataShareOptions : AwsOptions
+public record AwsRedshiftAuthorizeDataShareOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// From a data producer account, authorizes the sharing of a datashare with one or more consumer accounts or managing entities. To authorize a datashare for a data consumer, the producer account must have the cor- rect access permissions. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DataShareArn">The Amazon Resource Name (ARN) of the datashare namespace that pro- ducers are to authorize sharing for. Constraints: o max: 2147483647</param>
+    /// <param name="ConsumerIdentifier">The identifier of the data consumer that is authorized to access the datashare. This identifier is an Amazon Web Services account ID or a keyword, such as ADX. Constraints: o max: 2147483647</param>
+    public AwsRedshiftAuthorizeDataShareOptions(
+        string DataShareArn,
+        string ConsumerIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataShareArn);
+        this.DataShareArn = DataShareArn;
+        global::System.ArgumentNullException.ThrowIfNull(ConsumerIdentifier);
+        this.ConsumerIdentifier = ConsumerIdentifier;
+    }
+
+    private AwsRedshiftAuthorizeDataShareOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftAuthorizeDataShareOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftAuthorizeDataShareOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the datashare namespace that pro- ducers are to authorize sharing for. Constraints: o max: 2147483647
+    /// </summary>
     [CliOption("--data-share-arn")]
-    public string? DataShareArn { get; set; }
+    public string? DataShareArn { get; private init; }
 
+    /// <summary>
+    /// The identifier of the data consumer that is authorized to access the datashare. This identifier is an Amazon Web Services account ID or a keyword, such as ADX. Constraints: o max: 2147483647
+    /// </summary>
     [CliOption("--consumer-identifier")]
-    public string? ConsumerIdentifier { get; set; }
+    public string? ConsumerIdentifier { get; private init; }
 
-    [CliFlag("--allow-writes")]
+    /// <summary>
+    /// If set to true, allows write operations for a datashare.
+    /// </summary>
+    [CliFlag("--allow-writes", NegatedName = "--no-allow-writes")]
     public bool? AllowWrites { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -35,5 +82,22 @@ public record AwsRedshiftAuthorizeDataShareOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

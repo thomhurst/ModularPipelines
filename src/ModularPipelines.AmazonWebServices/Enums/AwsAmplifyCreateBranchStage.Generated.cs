@@ -16,18 +16,18 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsAmplifyCreateBranchStage
 {
-    [EnumValue("PRODUCTION")]
-    Production = 1,
-
     [EnumValue("BETA")]
-    Beta = 2,
+    Beta,
 
     [EnumValue("DEVELOPMENT")]
-    Development = 3,
+    Development,
 
     [EnumValue("EXPERIMENTAL")]
-    Experimental = 4,
+    Experimental,
+
+    [EnumValue("PRODUCTION")]
+    Production,
 
     [EnumValue("PULL_REQUEST")]
-    PullRequest = 5
+    PullRequest
 }

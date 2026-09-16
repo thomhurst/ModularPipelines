@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("efs", "create-access-point")]
-public record AwsEfsCreateAccessPointOptions : AwsOptions
+public record AwsEfsCreateAccessPointOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an EFS access point. An access point is an application-specific view into an EFS file system that applies an operating system user and group, and a file system path, to any file system request made through the access point. The operating system user and group override any identity information provided by the NFS client. The file system path is exposed as the access point's root directory. Applications using the access point can only access data in the application's own directory and any ...
+    /// </summary>
+    /// <param name="FileSystemId">The ID of the EFS file system that the access point provides access to. Constraints: o max: 128 o pattern: ^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-sys- tem/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$</param>
+    public AwsEfsCreateAccessPointOptions(
+        string FileSystemId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FileSystemId);
+        this.FileSystemId = FileSystemId;
+    }
+
+    private AwsEfsCreateAccessPointOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEfsCreateAccessPointOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEfsCreateAccessPointOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the EFS file system that the access point provides access to. Constraints: o max: 128 o pattern: ^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-sys- tem/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$
+    /// </summary>
+    [CliOption("--file-system-id")]
+    public string? FileSystemId { get; private init; }
+
     /// <summary>
     /// A string of up to 64 ASCII characters that Amazon EFS uses to ensure idempotent creation. Constraints: o min: 1 o max: 64 o pattern: .+
     /// </summary>
@@ -34,9 +74,6 @@ public record AwsEfsCreateAccessPointOptions : AwsOptions
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
-
-    [CliOption("--file-system-id")]
-    public string? FileSystemId { get; set; }
 
     /// <summary>
     /// The operating system user and group applied to all file system re- quests made using the access point. Uid -&gt; (long) [required] The POSIX user ID used for all file system operations using this access point. Constraints: o min: 0 o max: 4294967295 Gid -&gt; (long) [required] The POSIX group ID used for all file system operations using this access point. Constraints: o min: 0 o max: 4294967295 SecondaryGids -&gt; (list) Secondary POSIX group IDs used for all file system operations using this access point. Constraints: o min: 0 o max: 16 (long) Constraints: o min: 0 o max: 4294967295 Shorthand Syntax: Uid=long,Gid=long,SecondaryGids=long,long JSON Syntax: { "Uid": long, "Gid": long, "SecondaryGids": [long, ...] }
@@ -55,5 +92,22 @@ public record AwsEfsCreateAccessPointOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

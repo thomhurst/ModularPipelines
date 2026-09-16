@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "describe-view")]
-public record AwsConnectDescribeViewOptions : AwsOptions
+public record AwsConnectDescribeViewOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Retrieves the view for the specified Connect Customer instance and view identifier. The view identifier can be supplied as a ViewId or ARN. $SAVED needs to be supplied if a view is unpublished. The view identifier can contain an optional qualifier, for example, &lt;view-id&gt;:$SAVED , which is either an actual version number or an Con- nect Customer managed qualifier $SAVED | $LATEST . If it is not sup- plied, then $LATEST is assumed for customer managed views and an error is returned if there is no ...
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9\_\-:\/]+$</param>
+    /// <param name="ViewId">The ViewId of the view. This must be an ARN for Amazon Web Services managed views. Constraints: o min: 1 o max: 500 o pattern: ^[a-zA-Z0-9\_\-:\/$]+$</param>
+    public AwsConnectDescribeViewOptions(
+        string InstanceId,
+        string ViewId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(ViewId);
+        this.ViewId = ViewId;
+    }
+
+    private AwsConnectDescribeViewOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectDescribeViewOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectDescribeViewOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9\_\-:\/]+$
+    /// </summary>
+    [CliOption("--instance-id")]
+    public string? InstanceId { get; private init; }
+
+    /// <summary>
+    /// The ViewId of the view. This must be an ARN for Amazon Web Services managed views. Constraints: o min: 1 o max: 500 o pattern: ^[a-zA-Z0-9\_\-:\/$]+$
+    /// </summary>
     [CliOption("--view-id")]
-    public string? ViewId { get; set; }
+    public string? ViewId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

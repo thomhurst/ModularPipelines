@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,22 +22,83 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("application-signals", "list-audit-findings")]
-public record AwsApplicationSignalsListAuditFindingsOptions : AwsOptions
+public record AwsApplicationSignalsListAuditFindingsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--start-time")]
-    public string? StartTime { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Returns a list of audit findings that provide automated analysis of service behavior and root cause analysis. These findings help identify the most significant observations about your services, including per- formance issues, anomalies, and potential problems. The findings are generated using heuristic algorithms based on established troubleshoot- ing patterns. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="StartTime">The start of the time period to retrieve audit findings for. When used in a raw HTTP Query API, it is formatted as epoch time in sec- onds. For example, 1698778057</param>
+    /// <param name="EndTime">The end of the time period to retrieve audit findings for. When used in a raw HTTP Query API, it is formatted as epoch time in seconds. For example, 1698778057</param>
+    /// <param name="AuditTargets">A list of audit targets to filter the findings by. You can specify services, SLOs, or service operations to limit the audit findings to specific entities. Constraints: o min: 1 o max: 10 (structure) A structure that specifies the target entity for audit analysis, such as a service , SLO , service_operation , or canary . Type -&gt; (string) [required] The type of entity being audited, such as service , SLO , service_operation , or canary . Data -&gt; (tagged union structure) [required] The specific data identifying the audit target entity. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: Service, Slo, ServiceOper- ation, Canary. Service -&gt; (structure) Service entity information when the audit target is a service. Type -&gt; (string) The type of the service entity. Name -&gt; (string) The name of the service. Environment -&gt; (string) The environment where the service is deployed. AwsAccountId -&gt; (string) The Amazon Web Services account ID where the service is located. Provide this value only for cross-account access. Slo -&gt; (structure) SLO entity information when the audit target is a service level objective. SloName -&gt; (string) The name of the service level objective. SloArn -&gt; (string) The ARN of the service level objective. The SLO must be provided with ARN for cross-account access. ServiceOperation -&gt; (structure) Service operation entity information when the audit tar- get is a specific service operation. Service -&gt; (structure) The service entity that contains this operation. Type -&gt; (string) The type of the service entity. Name -&gt; (string) The name of the service. Environment -&gt; (string) The environment where the service is deployed. AwsAccountId -&gt; (string) The Amazon Web Services account ID where the ser- vice is located. Provide this value only for cross-account access. Operation -&gt; (string) The name of the operation. MetricType -&gt; (string) The type of metric associated with this service opera- tion. Canary -&gt; (structure) Canary entity information when the audit target is a CloudWatch Synthetics canary. CanaryName -&gt; (string) [required] The name of the CloudWatch Synthetics canary. JSON Syntax: [ { "Type": "string", "Data": { "Service": { "Type": "string", "Name": "string", "Environment": "string", "AwsAccountId": "string" }, "Slo": { "SloName": "string", "SloArn": "string" }, "ServiceOperation": { "Service": { "Type": "string", "Name": "string", "Environment": "string", "AwsAccountId": "string" }, "Operation": "string", "MetricType": "string" }, "Canary": { "CanaryName": "string" } } } ... ]</param>
+    public AwsApplicationSignalsListAuditFindingsOptions(
+        string StartTime,
+        string EndTime,
+        IEnumerable<string> AuditTargets
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StartTime);
+        this.StartTime = StartTime;
+        global::System.ArgumentNullException.ThrowIfNull(EndTime);
+        this.EndTime = EndTime;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(AuditTargets);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(AuditTargets));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(AuditTargets));
+            }
+
+            AuditTargets = materialized;
+        }
+        this.AuditTargets = AuditTargets;
+    }
+
+    private AwsApplicationSignalsListAuditFindingsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApplicationSignalsListAuditFindingsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApplicationSignalsListAuditFindingsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The start of the time period to retrieve audit findings for. When used in a raw HTTP Query API, it is formatted as epoch time in sec- onds. For example, 1698778057
+    /// </summary>
+    [CliOption("--start-time")]
+    public string? StartTime { get; private init; }
+
+    /// <summary>
+    /// The end of the time period to retrieve audit findings for. When used in a raw HTTP Query API, it is formatted as epoch time in seconds. For example, 1698778057
+    /// </summary>
     [CliOption("--end-time")]
-    public string? EndTime { get; set; }
+    public string? EndTime { get; private init; }
+
+    /// <summary>
+    /// A list of audit targets to filter the findings by. You can specify services, SLOs, or service operations to limit the audit findings to specific entities. Constraints: o min: 1 o max: 10 (structure) A structure that specifies the target entity for audit analysis, such as a service , SLO , service_operation , or canary . Type -&gt; (string) [required] The type of entity being audited, such as service , SLO , service_operation , or canary . Data -&gt; (tagged union structure) [required] The specific data identifying the audit target entity. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: Service, Slo, ServiceOper- ation, Canary. Service -&gt; (structure) Service entity information when the audit target is a service. Type -&gt; (string) The type of the service entity. Name -&gt; (string) The name of the service. Environment -&gt; (string) The environment where the service is deployed. AwsAccountId -&gt; (string) The Amazon Web Services account ID where the service is located. Provide this value only for cross-account access. Slo -&gt; (structure) SLO entity information when the audit target is a service level objective. SloName -&gt; (string) The name of the service level objective. SloArn -&gt; (string) The ARN of the service level objective. The SLO must be provided with ARN for cross-account access. ServiceOperation -&gt; (structure) Service operation entity information when the audit tar- get is a specific service operation. Service -&gt; (structure) The service entity that contains this operation. Type -&gt; (string) The type of the service entity. Name -&gt; (string) The name of the service. Environment -&gt; (string) The environment where the service is deployed. AwsAccountId -&gt; (string) The Amazon Web Services account ID where the ser- vice is located. Provide this value only for cross-account access. Operation -&gt; (string) The name of the operation. MetricType -&gt; (string) The type of metric associated with this service opera- tion. Canary -&gt; (structure) Canary entity information when the audit target is a CloudWatch Synthetics canary. CanaryName -&gt; (string) [required] The name of the CloudWatch Synthetics canary. JSON Syntax: [ { "Type": "string", "Data": { "Service": { "Type": "string", "Name": "string", "Environment": "string", "AwsAccountId": "string" }, "Slo": { "SloName": "string", "SloArn": "string" }, "ServiceOperation": { "Service": { "Type": "string", "Name": "string", "Environment": "string", "AwsAccountId": "string" }, "Operation": "string", "MetricType": "string" }, "Canary": { "CanaryName": "string" } } } ... ]
+    /// </summary>
+    [CliOption("--audit-targets", GroupValues = true)]
+    public IEnumerable<string>? AuditTargets { get; private init; }
 
     /// <summary>
     /// A list of auditor names to filter the findings by. Only findings generated by the specified auditors will be returned. The following auditors are available for configuration: o slo - SloAuditor: Identifies SLO violations and detects breached thresholds during the Assessment phase. o operation_metric - OperationMetricAuditor: Detects anomalies in service operation metrics from Application Signals RED metrics during the Assessment phase NOTE: Anomaly detection is not supported for sparse metrics (those missing more than 80% of datapoints within the given time pe- riod). o service_quota - ServiceQuotaAuditor: Monitors resource utilization against service quotas during the Assessment phase o trace - TraceAuditor: Performs deep-dive analysis of distributed traces, correlating traces with breached SLOs or abnormal RED met- rics during the Analysis phase o dependency_metric - CriticalPathAuditor: Analyzes service depen- dency impacts and maps dependency relationships from Application Signals RED metrics during the Analysis phase o top_contributor - TopContributorAuditor: Identifies infrastruc- ture-level contributors to issues by analyzing EMF logs of Appli- cation Signals RED metrics during the Analysis phase o log - LogAuditor: Extracts insights from application logs, catego- rizing error types and ranking severity by frequency during the Analysis phase o change_indicator - ChangeIndicatorAuditor: Detects change events (deployments, configuration changes) that occurred within 10 min- utes before and during a detected anomaly, and surfaces them as findings with deployment timestamps in the Analysis phase. When changes are detected, the top_contributor auditor skips its analy- sis to avoid redundancy. NOTE: InitAuditor and Summarizer auditors are not configurable as they are automatically triggered during the audit process. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--auditors", GroupValues = true)]
     public IEnumerable<string>? Auditors { get; set; }
-
-    [CliOption("--audit-targets", GroupValues = true)]
-    public IEnumerable<string>? AuditTargets { get; set; }
 
     /// <summary>
     /// The level of details of the audit findings. Supported values: BRIEF , DETAILED . Possible values: o BRIEF o DETAILED
@@ -62,5 +124,22 @@ public record AwsApplicationSignalsListAuditFindingsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

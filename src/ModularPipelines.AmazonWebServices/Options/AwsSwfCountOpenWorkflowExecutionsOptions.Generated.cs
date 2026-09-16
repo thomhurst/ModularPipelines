@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("swf", "count-open-workflow-executions")]
-public record AwsSwfCountOpenWorkflowExecutionsOptions : AwsOptions
+public record AwsSwfCountOpenWorkflowExecutionsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--domain")]
-    public string? Domain { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Returns the number of open workflow executions within the given domain that meet the specified filtering criteria. NOTE: This operation is eventually consistent. The results are best effort and may not exactly reflect recent updates and changes. Access Control You can use IAM policies to control this action's access to Amazon SWF resources as follows: o Use a Resource element with the domain name to limit the action to only specified domains. o Use an Action element to allow or deny permission t...
+    /// </summary>
+    /// <param name="Domain">The name of the domain containing the workflow executions to count. Constraints: o min: 1 o max: 256</param>
+    /// <param name="StartTimeFilter">Specifies the start time criteria that workflow executions must meet in order to be counted. oldestDate -&gt; (timestamp) [required] Specifies the oldest start or close date and time to return. latestDate -&gt; (timestamp) Specifies the latest start or close date and time to return. Shorthand Syntax: oldestDate=timestamp,latestDate=timestamp JSON Syntax: { "oldestDate": timestamp, "latestDate": timestamp }</param>
+    public AwsSwfCountOpenWorkflowExecutionsOptions(
+        string Domain,
+        string StartTimeFilter
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Domain);
+        this.Domain = Domain;
+        global::System.ArgumentNullException.ThrowIfNull(StartTimeFilter);
+        this.StartTimeFilter = StartTimeFilter;
+    }
+
+    private AwsSwfCountOpenWorkflowExecutionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSwfCountOpenWorkflowExecutionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSwfCountOpenWorkflowExecutionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the domain containing the workflow executions to count. Constraints: o min: 1 o max: 256
+    /// </summary>
+    [CliOption("--domain")]
+    public string? Domain { get; private init; }
+
+    /// <summary>
+    /// Specifies the start time criteria that workflow executions must meet in order to be counted. oldestDate -&gt; (timestamp) [required] Specifies the oldest start or close date and time to return. latestDate -&gt; (timestamp) Specifies the latest start or close date and time to return. Shorthand Syntax: oldestDate=timestamp,latestDate=timestamp JSON Syntax: { "oldestDate": timestamp, "latestDate": timestamp }
+    /// </summary>
     [CliOption("--start-time-filter")]
-    public string? StartTimeFilter { get; set; }
+    public string? StartTimeFilter { get; private init; }
 
     /// <summary>
     /// Specifies the type of the workflow executions to be counted. NOTE: executionFilter , typeFilter and tagFilter are mutually exclu- sive. You can specify at most one of these in a request. name -&gt; (string) [required] Name of the workflow type. Constraints: o min: 1 o max: 256 version -&gt; (string) Version of the workflow type. Constraints: o max: 64 Shorthand Syntax: name=string,version=string JSON Syntax: { "name": "string", "version": "string" }
@@ -50,5 +94,22 @@ public record AwsSwfCountOpenWorkflowExecutionsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

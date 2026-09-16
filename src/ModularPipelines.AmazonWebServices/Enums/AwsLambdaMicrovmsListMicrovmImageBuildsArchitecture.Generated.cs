@@ -17,5 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsLambdaMicrovmsListMicrovmImageBuildsArchitecture
 {
     [EnumValue("ARM_64")]
-    Arm_64 = 1
+    Arm64,
+
+    [EnumValue("o")]
+    O
 }

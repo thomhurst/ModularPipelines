@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,8 +20,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elasticache", "batch-stop-update-action")]
-public record AwsElasticacheBatchStopUpdateActionOptions : AwsOptions
+public record AwsElasticacheBatchStopUpdateActionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Stop the service update. For more information on service updates and stopping them, see Stopping Service Updates . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ServiceUpdateName">The unique ID of the service update</param>
+    public AwsElasticacheBatchStopUpdateActionOptions(
+        string ServiceUpdateName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceUpdateName);
+        this.ServiceUpdateName = ServiceUpdateName;
+    }
+
+    private AwsElasticacheBatchStopUpdateActionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElasticacheBatchStopUpdateActionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElasticacheBatchStopUpdateActionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique ID of the service update
+    /// </summary>
+    [CliOption("--service-update-name")]
+    public string? ServiceUpdateName { get; private init; }
+
     /// <summary>
     /// The replication group IDs Constraints: o max: 20 (string) Syntax: "string" "string" ...
     /// </summary>
@@ -33,13 +73,27 @@ public record AwsElasticacheBatchStopUpdateActionOptions : AwsOptions
     [CliOption("--cache-cluster-ids", GroupValues = true)]
     public IEnumerable<string>? CacheClusterIds { get; set; }
 
-    [CliOption("--service-update-name")]
-    public string? ServiceUpdateName { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

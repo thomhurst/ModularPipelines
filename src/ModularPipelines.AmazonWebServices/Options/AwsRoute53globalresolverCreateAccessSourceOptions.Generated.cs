@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -22,10 +23,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53globalresolver", "create-access-source")]
-public record AwsRoute53globalresolverCreateAccessSourceOptions : AwsOptions
+public record AwsRoute53globalresolverCreateAccessSourceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an access source for a DNS view. Access sources define IP ad- dresses or CIDR ranges that are allowed to send DNS queries to the Route 53 Global Resolver, along with the permitted DNS protocols. WARNING: Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Am...
+    /// </summary>
+    /// <param name="Cidr">The IP address or CIDR range that is allowed to send DNS queries to the Route 53 Global Resolver. Constraints: o min: 1 o max: 43</param>
+    /// <param name="DnsViewId">The ID of the DNS view to associate with this access source. Constraints: o min: 1 o max: 64 o pattern: [-.a-zA-Z0-9]+</param>
+    /// <param name="Protocol">The DNS protocol that is permitted for this access source. Valid values are Do53 (DNS over port 53), DoT (DNS over TLS), and DoH (DNS over HTTPS). Possible values: o DO53 o DOH o DOT</param>
+    public AwsRoute53globalresolverCreateAccessSourceOptions(
+        string Cidr,
+        string DnsViewId,
+        AwsRoute53globalresolverCreateAccessSourceProtocol Protocol
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Cidr);
+        this.Cidr = Cidr;
+        global::System.ArgumentNullException.ThrowIfNull(DnsViewId);
+        this.DnsViewId = DnsViewId;
+        global::System.ArgumentNullException.ThrowIfNull(Protocol);
+        this.Protocol = Protocol;
+    }
+
+    private AwsRoute53globalresolverCreateAccessSourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53globalresolverCreateAccessSourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53globalresolverCreateAccessSourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The IP address or CIDR range that is allowed to send DNS queries to the Route 53 Global Resolver. Constraints: o min: 1 o max: 43
+    /// </summary>
     [CliOption("--cidr")]
-    public string? Cidr { get; set; }
+    public string? Cidr { get; private init; }
+
+    /// <summary>
+    /// The ID of the DNS view to associate with this access source. Constraints: o min: 1 o max: 64 o pattern: [-.a-zA-Z0-9]+
+    /// </summary>
+    [CliOption("--dns-view-id")]
+    public string? DnsViewId { get; private init; }
+
+    /// <summary>
+    /// The DNS protocol that is permitted for this access source. Valid values are Do53 (DNS over port 53), DoT (DNS over TLS), and DoH (DNS over HTTPS). Possible values: o DO53 o DOH o DOT
+    /// </summary>
+    [CliOption("--protocol")]
+    public AwsRoute53globalresolverCreateAccessSourceProtocol? Protocol { get; private init; }
 
     /// <summary>
     /// A unique string that identifies the request and ensures idempotency. Constraints: o min: 1 o max: 256
@@ -46,12 +103,6 @@ public record AwsRoute53globalresolverCreateAccessSourceOptions : AwsOptions
     [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CliOption("--dns-view-id")]
-    public string? DnsViewId { get; set; }
-
-    [CliOption("--protocol")]
-    public string? Protocol { get; set; }
-
     /// <summary>
     /// Tags to associate with the access source. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
@@ -63,5 +114,22 @@ public record AwsRoute53globalresolverCreateAccessSourceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

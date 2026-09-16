@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --collectiontype.
+/// Allowed values for --collection-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsWorkdocsGetResourcesCollectionType
 {
+    [EnumValue("o")]
+    O,
+
     [EnumValue("SHARED_WITH_ME")]
-    SharedWithMe = 1
+    SharedWithMe
 }

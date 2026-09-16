@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("auditmanager", "create-control")]
-public record AwsAuditManagerCreateControlOptions : AwsOptions
+public record AwsAuditManagerCreateControlOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new custom control in Audit Manager. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the control. Constraints: o min: 1 o max: 300 o pattern: ^[^\\]*$</param>
+    /// <param name="ControlMappingSources">The data mapping sources for the control. Constraints: o min: 1 (structure) The mapping attributes that determine the evidence source for a given control, along with related parameters and metadata. This doesn't contain mappingID . sourceName -&gt; (string) The name of the control mapping data source. Constraints: o min: 1 o max: 300 sourceDescription -&gt; (string) The description of the data source that determines where Au- dit Manager collects evidence from for the control. Constraints: o max: 1000 o pattern: ^[\w\W\s\S]*$ sourceSetUpOption -&gt; (string) The setup option for the data source. This option reflects if the evidence collection method is automated or manual. If you dont provide a value for sourceSetUpOption , Audit Manager automatically infers and populates the correct value based on the sourceType that you specify. Possible values: o System_Controls_Mapping o Procedural_Controls_Mapping sourceType -&gt; (string) Specifies which type of data source is used to collect evi- dence. o The source can be an individual data source type, such as AWS_Cloudtrail , AWS_Config , AWS_Security_Hub , AWS_API_Call , or MANUAL . o The source can also be a managed grouping of data sources, such as a Core_Control or a Common_Control . Possible values: o AWS_Cloudtrail o AWS_Config o AWS_Security_Hub o AWS_API_Call o MANUAL o Common_Control o Core_Control sourceKeyword -&gt; (structure) A keyword that relates to the control data source. For manual evidence, this keyword indicates if the manual ev- idence is a file or text. For automated evidence, this keyword identifies a specific CloudTrail event, Config rule, Security Hub CSPM control, or Amazon Web Services API name. To learn more about the supported keywords that you can use when mapping a control data source, see the following pages in the Audit Manager User Guide : o Config rules supported by Audit Manager o Security Hub CSPM controls supported by Audit Manager o API calls supported by Audit Manager o CloudTrail event names supported by Audit Manager keywordInputType -&gt; (string) The input method for the keyword. o SELECT_FROM_LIST is used when mapping a data source for automated evidence. o When keywordInputType is SELECT_FROM_LIST , a keyword must be selected to collect automated evidence. For example, this keyword can be a CloudTrail event name, a rule name for Config, a Security Hub CSPM control, or the name of an Amazon Web Services API call. o UPLOAD_FILE and INPUT_TEXT are only used when mapping a data source for manual evidence. o When keywordInputType is UPLOAD_FILE , a file must be uploaded as manual evidence. o When keywordInputType is INPUT_TEXT , text must be entered as manual evidence. Possible values: o SELECT_FROM_LIST o UPLOAD_FILE o INPUT_TEXT keywordValue -&gt; (string) The value of the keyword that's used when mapping a con- trol data source. For example, this can be a CloudTrail event name, a rule name for Config, a Security Hub CSPM control, or the name of an Amazon Web Services API call. If youre mapping a data source to a rule in Config, the keywordValue that you specify depends on the type of rule: o For managed rules , you can use the rule identifier as the keywordValue . You can find the rule identifier from the list of Config managed rules . For some rules, the rule identifier is different from the rule name. For example, the rule name restricted-ssh has the fol- lowing rule identifier: INCOMING_SSH_DISABLED . Make sure to use the rule identifier, not the rule name. Keyword example for managed rules: o Managed rule name: s3-bucket-acl-prohibited key- wordValue : S3_BUCKET_ACL_PROHIBITED o For custom rules , you form the keywordValue by adding the Custom_ prefix to the rule name. This prefix dis- tinguishes the custom rule from a managed rule. Key- word example for custom rules: o Custom rule name: my-custom-config-rule keywordValue : Custom_my-custom-config-rule o For service-linked rules , you form the keywordValue by adding the Custom_ prefix to the rule name. In addi- tion, you remove the suffix ID that appears at the end of the rule name. Keyword examples for service-linked rules: o Service-linked rule name: CustomRuleForAccount-con- formance-pack-szsm1uv0w keywordValue : Custom_Cus- tomRuleForAccount-conformance-pack o Service-linked rule name: OrgConfi- gRule-s3-bucket-versioning-enabled-dbgzf8ba keyword- Value : Custom_OrgConfigRule-s3-bucket-versioning-en- abled WARNING: The keywordValue is case sensitive. If you enter a value incorrectly, Audit Manager might not recognize the data source mapping. As a result, you might not successfully collect evidence from that data source as intended. Keep in mind the following requirements, depending on the data source type that you're using. o For Config: o For managed rules, make sure that the keywordValue is the rule identifier in ALL_CAPS_WITH_UNDER- SCORES . For example, CLOUDWATCH_LOG_GROUP_EN- CRYPTED . For accuracy, we recommend that you ref- erence the list of supported Config managed rules . o For custom rules, make sure that the keywordValue has the Custom_ prefix followed by the custom rule name. The format of the custom rule name itself may vary. For accuracy, we recommend that you visit the Config console to verify your custom rule name. o For Security Hub CSPM: The format varies for Secu- rity Hub CSPM control names. For accuracy, we recom- mend that you reference the list of supported Secu- rity Hub CSPM controls . o For Amazon Web Services API calls: Make sure that the keywordValue is written as serviceprefix_Action- Name . For example, iam_ListGroups . For accuracy, we recommend that you reference the list of supported API calls . o For CloudTrail: Make sure that the keywordValue is written as serviceprefix_ActionName . For example, cloudtrail_StartLogging . For accuracy, we recommend that you review the Amazon Web Services service pre- fix and action names in the Service Authorization Reference . Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z_0-9-\s().:\/]+$ sourceFrequency -&gt; (string) Specifies how often evidence is collected from the control mapping source. Possible values: o DAILY o WEEKLY o MONTHLY troubleshootingText -&gt; (string) The instructions for troubleshooting the control. Constraints: o max: 1000 o pattern: ^[\w\W\s\S]*$ Shorthand Syntax: sourceName=string,sourceDescription=string,sourceSetUpOption=string,sourceType=string,sourceKeyword={keywordInputType=string,keywordValue=string},sourceFrequency=string,troubleshootingText=string ... JSON Syntax: [ { "sourceName": "string", "sourceDescription": "string", "sourceSetUpOption": "System_Controls_Mapping"|"Procedural_Controls_Mapping", "sourceType": "AWS_Cloudtrail"|"AWS_Config"|"AWS_Security_Hub"|"AWS_API_Call"|"MANUAL"|"Common_Control"|"Core_Control", "sourceKeyword": { "keywordInputType": "SELECT_FROM_LIST"|"UPLOAD_FILE"|"INPUT_TEXT", "keywordValue": "string" }, "sourceFrequency": "DAILY"|"WEEKLY"|"MONTHLY", "troubleshootingText": "string" } ... ]</param>
+    public AwsAuditManagerCreateControlOptions(
+        string Name,
+        IEnumerable<string> ControlMappingSources
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ControlMappingSources);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ControlMappingSources));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ControlMappingSources));
+            }
+
+            ControlMappingSources = materialized;
+        }
+        this.ControlMappingSources = ControlMappingSources;
+    }
+
+    private AwsAuditManagerCreateControlOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAuditManagerCreateControlOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAuditManagerCreateControlOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the control. Constraints: o min: 1 o max: 300 o pattern: ^[^\\]*$
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The data mapping sources for the control. Constraints: o min: 1 (structure) The mapping attributes that determine the evidence source for a given control, along with related parameters and metadata. This doesn't contain mappingID . sourceName -&gt; (string) The name of the control mapping data source. Constraints: o min: 1 o max: 300 sourceDescription -&gt; (string) The description of the data source that determines where Au- dit Manager collects evidence from for the control. Constraints: o max: 1000 o pattern: ^[\w\W\s\S]*$ sourceSetUpOption -&gt; (string) The setup option for the data source. This option reflects if the evidence collection method is automated or manual. If you dont provide a value for sourceSetUpOption , Audit Manager automatically infers and populates the correct value based on the sourceType that you specify. Possible values: o System_Controls_Mapping o Procedural_Controls_Mapping sourceType -&gt; (string) Specifies which type of data source is used to collect evi- dence. o The source can be an individual data source type, such as AWS_Cloudtrail , AWS_Config , AWS_Security_Hub , AWS_API_Call , or MANUAL . o The source can also be a managed grouping of data sources, such as a Core_Control or a Common_Control . Possible values: o AWS_Cloudtrail o AWS_Config o AWS_Security_Hub o AWS_API_Call o MANUAL o Common_Control o Core_Control sourceKeyword -&gt; (structure) A keyword that relates to the control data source. For manual evidence, this keyword indicates if the manual ev- idence is a file or text. For automated evidence, this keyword identifies a specific CloudTrail event, Config rule, Security Hub CSPM control, or Amazon Web Services API name. To learn more about the supported keywords that you can use when mapping a control data source, see the following pages in the Audit Manager User Guide : o Config rules supported by Audit Manager o Security Hub CSPM controls supported by Audit Manager o API calls supported by Audit Manager o CloudTrail event names supported by Audit Manager keywordInputType -&gt; (string) The input method for the keyword. o SELECT_FROM_LIST is used when mapping a data source for automated evidence. o When keywordInputType is SELECT_FROM_LIST , a keyword must be selected to collect automated evidence. For example, this keyword can be a CloudTrail event name, a rule name for Config, a Security Hub CSPM control, or the name of an Amazon Web Services API call. o UPLOAD_FILE and INPUT_TEXT are only used when mapping a data source for manual evidence. o When keywordInputType is UPLOAD_FILE , a file must be uploaded as manual evidence. o When keywordInputType is INPUT_TEXT , text must be entered as manual evidence. Possible values: o SELECT_FROM_LIST o UPLOAD_FILE o INPUT_TEXT keywordValue -&gt; (string) The value of the keyword that's used when mapping a con- trol data source. For example, this can be a CloudTrail event name, a rule name for Config, a Security Hub CSPM control, or the name of an Amazon Web Services API call. If youre mapping a data source to a rule in Config, the keywordValue that you specify depends on the type of rule: o For managed rules , you can use the rule identifier as the keywordValue . You can find the rule identifier from the list of Config managed rules . For some rules, the rule identifier is different from the rule name. For example, the rule name restricted-ssh has the fol- lowing rule identifier: INCOMING_SSH_DISABLED . Make sure to use the rule identifier, not the rule name. Keyword example for managed rules: o Managed rule name: s3-bucket-acl-prohibited key- wordValue : S3_BUCKET_ACL_PROHIBITED o For custom rules , you form the keywordValue by adding the Custom_ prefix to the rule name. This prefix dis- tinguishes the custom rule from a managed rule. Key- word example for custom rules: o Custom rule name: my-custom-config-rule keywordValue : Custom_my-custom-config-rule o For service-linked rules , you form the keywordValue by adding the Custom_ prefix to the rule name. In addi- tion, you remove the suffix ID that appears at the end of the rule name. Keyword examples for service-linked rules: o Service-linked rule name: CustomRuleForAccount-con- formance-pack-szsm1uv0w keywordValue : Custom_Cus- tomRuleForAccount-conformance-pack o Service-linked rule name: OrgConfi- gRule-s3-bucket-versioning-enabled-dbgzf8ba keyword- Value : Custom_OrgConfigRule-s3-bucket-versioning-en- abled WARNING: The keywordValue is case sensitive. If you enter a value incorrectly, Audit Manager might not recognize the data source mapping. As a result, you might not successfully collect evidence from that data source as intended. Keep in mind the following requirements, depending on the data source type that you're using. o For Config: o For managed rules, make sure that the keywordValue is the rule identifier in ALL_CAPS_WITH_UNDER- SCORES . For example, CLOUDWATCH_LOG_GROUP_EN- CRYPTED . For accuracy, we recommend that you ref- erence the list of supported Config managed rules . o For custom rules, make sure that the keywordValue has the Custom_ prefix followed by the custom rule name. The format of the custom rule name itself may vary. For accuracy, we recommend that you visit the Config console to verify your custom rule name. o For Security Hub CSPM: The format varies for Secu- rity Hub CSPM control names. For accuracy, we recom- mend that you reference the list of supported Secu- rity Hub CSPM controls . o For Amazon Web Services API calls: Make sure that the keywordValue is written as serviceprefix_Action- Name . For example, iam_ListGroups . For accuracy, we recommend that you reference the list of supported API calls . o For CloudTrail: Make sure that the keywordValue is written as serviceprefix_ActionName . For example, cloudtrail_StartLogging . For accuracy, we recommend that you review the Amazon Web Services service pre- fix and action names in the Service Authorization Reference . Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z_0-9-\s().:\/]+$ sourceFrequency -&gt; (string) Specifies how often evidence is collected from the control mapping source. Possible values: o DAILY o WEEKLY o MONTHLY troubleshootingText -&gt; (string) The instructions for troubleshooting the control. Constraints: o max: 1000 o pattern: ^[\w\W\s\S]*$ Shorthand Syntax: sourceName=string,sourceDescription=string,sourceSetUpOption=string,sourceType=string,sourceKeyword={keywordInputType=string,keywordValue=string},sourceFrequency=string,troubleshootingText=string ... JSON Syntax: [ { "sourceName": "string", "sourceDescription": "string", "sourceSetUpOption": "System_Controls_Mapping"|"Procedural_Controls_Mapping", "sourceType": "AWS_Cloudtrail"|"AWS_Config"|"AWS_Security_Hub"|"AWS_API_Call"|"MANUAL"|"Common_Control"|"Core_Control", "sourceKeyword": { "keywordInputType": "SELECT_FROM_LIST"|"UPLOAD_FILE"|"INPUT_TEXT", "keywordValue": "string" }, "sourceFrequency": "DAILY"|"WEEKLY"|"MONTHLY", "troubleshootingText": "string" } ... ]
+    /// </summary>
+    [CliOption("--control-mapping-sources", GroupValues = true)]
+    public IEnumerable<string>? ControlMappingSources { get; private init; }
 
     /// <summary>
     /// The description of the control. Constraints: o max: 1000 o pattern: ^[\w\W\s\S]*$
@@ -49,9 +107,6 @@ public record AwsAuditManagerCreateControlOptions : AwsOptions
     [CliOption("--action-plan-instructions")]
     public string? ActionPlanInstructions { get; set; }
 
-    [CliOption("--control-mapping-sources", GroupValues = true)]
-    public IEnumerable<string>? ControlMappingSources { get; set; }
-
     /// <summary>
     /// The tags that are associated with the control. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: .{0,255} Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
@@ -63,5 +118,22 @@ public record AwsAuditManagerCreateControlOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appmesh", "list-virtual-services")]
-public record AwsAppmeshListVirtualServicesOptions : AwsOptions
+public record AwsAppmeshListVirtualServicesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a list of existing virtual services in a service mesh. See also: AWS API Documentation list-virtual-services is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: virtualServices
+    /// </summary>
+    /// <param name="MeshName">The name of the service mesh to list virtual services in. Constraints: o min: 1 o max: 255</param>
+    public AwsAppmeshListVirtualServicesOptions(
+        string MeshName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MeshName);
+        this.MeshName = MeshName;
+    }
+
+    private AwsAppmeshListVirtualServicesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppmeshListVirtualServicesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppmeshListVirtualServicesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the service mesh to list virtual services in. Constraints: o min: 1 o max: 255
+    /// </summary>
     [CliOption("--mesh-name")]
-    public string? MeshName { get; set; }
+    public string? MeshName { get; private init; }
 
     /// <summary>
     /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes . Constraints: o min: 12 o max: 12
@@ -55,5 +92,22 @@ public record AwsAppmeshListVirtualServicesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

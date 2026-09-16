@@ -12,6 +12,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,23 +23,103 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("finspace", "create-kx-cluster")]
-public record AwsFinspaceCreateKxClusterOptions : AwsOptions
+public record AwsFinspaceCreateKxClusterOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new kdb cluster. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EnvironmentId">A unique identifier for the kdb environment. Constraints: o min: 1 o max: 32 o pattern: ^[a-z0-9]+$</param>
+    /// <param name="ClusterName">A unique name for the cluster that you want to create. Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$</param>
+    /// <param name="ClusterType">Specifies the type of KDB database that is being created. The fol- lowing types are available: o HDB A Historical Database. The data is only accessible with read-only permissions from one of the FinSpace managed kdb data- bases mounted to the cluster. o RDB A Realtime Database. This type of database captures all the data from a ticker plant and stores it in memory until the end of day, after which it writes all of its data to a disk and reloads the HDB. This cluster type requires local storage for temporary storage of data during the savedown process. If you specify this field in your request, you must provide the savedownStorageConfig- uration parameter. o GATEWAY A gateway cluster allows you to access data across processes in kdb systems. It allows you to create your own routing logic using the initialization scripts and custom code. This type of cluster does not require a writable local storage. o GP A general purpose cluster allows you to quickly iterate on code during development by granting greater access to system com- mands and enabling a fast reload of custom code. This cluster type can optionally mount databases including cache and savedown stor- age. For this cluster type, the node count is fixed at 1. It does not support autoscaling and supports only SINGLE AZ mode. o Tickerplant A tickerplant cluster allows you to subscribe to feed handlers based on IAM permissions. It can publish to RDBs, other Tickerplants, and real-time subscribers (RTS). Tickerplants can persist messages to log, which is readable by any RDB environment. It supports only single-node that is only one kdb process. Possible values: o HDB o RDB o GATEWAY o GP o TICKERPLANT</param>
+    /// <param name="ReleaseLabel">The version of FinSpace managed kdb to run. Constraints: o min: 1 o max: 16 o pattern: ^[a-zA-Z0-9._-]+$</param>
+    /// <param name="VpcConfiguration">Configuration details about the network where the Privatelink end- point of the cluster resides. vpcId -&gt; (string) The identifier of the VPC endpoint. Constraints: o min: 1 o max: 1024 o pattern: ^vpc-([a-z0-9]{8}$|[a-z0-9]{17}$) securityGroupIds -&gt; (list) The unique identifier of the VPC security group applied to the VPC endpoint ENI for the cluster. (string) Constraints: o min: 1 o max: 1024 o pattern: ^sg-([a-z0-9]{8}$|[a-z0-9]{17}$) subnetIds -&gt; (list) The identifier of the subnet that the Privatelink VPC endpoint uses to connect to the cluster. (string) Constraints: o min: 1 o max: 1024 o pattern: ^subnet-([a-z0-9]{8}$|[a-z0-9]{17}$) ipAddressType -&gt; (string) The IP address type for cluster network configuration parame- ters. The following type is available: o IP_V4 IP address version 4 Possible values: o IP_V4 Shorthand Syntax: vpcId=string,securityGroupIds=string,string,subnetIds=string,string,ipAddressType=string JSON Syntax: { "vpcId": "string", "securityGroupIds": ["string", ...], "subnetIds": ["string", ...], "ipAddressType": "IP_V4" }</param>
+    /// <param name="AzMode">The number of availability zones you want to assign per cluster. This can be one of the following o SINGLE Assigns one availability zone per cluster. o MULTI Assigns all the availability zones per cluster. Possible values: o SINGLE o MULTI</param>
+    public AwsFinspaceCreateKxClusterOptions(
+        string EnvironmentId,
+        string ClusterName,
+        AwsFinspaceCreateKxClusterClusterType ClusterType,
+        string ReleaseLabel,
+        string VpcConfiguration,
+        AwsFinspaceCreateKxClusterAzMode AzMode
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentId);
+        this.EnvironmentId = EnvironmentId;
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+        global::System.ArgumentNullException.ThrowIfNull(ClusterType);
+        this.ClusterType = ClusterType;
+        global::System.ArgumentNullException.ThrowIfNull(ReleaseLabel);
+        this.ReleaseLabel = ReleaseLabel;
+        global::System.ArgumentNullException.ThrowIfNull(VpcConfiguration);
+        this.VpcConfiguration = VpcConfiguration;
+        global::System.ArgumentNullException.ThrowIfNull(AzMode);
+        this.AzMode = AzMode;
+    }
+
+    private AwsFinspaceCreateKxClusterOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFinspaceCreateKxClusterOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFinspaceCreateKxClusterOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier for the kdb environment. Constraints: o min: 1 o max: 32 o pattern: ^[a-z0-9]+$
+    /// </summary>
+    [CliOption("--environment-id")]
+    public string? EnvironmentId { get; private init; }
+
+    /// <summary>
+    /// A unique name for the cluster that you want to create. Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$
+    /// </summary>
+    [CliOption("--cluster-name")]
+    public string? ClusterName { get; private init; }
+
+    /// <summary>
+    /// Specifies the type of KDB database that is being created. The fol- lowing types are available: o HDB A Historical Database. The data is only accessible with read-only permissions from one of the FinSpace managed kdb data- bases mounted to the cluster. o RDB A Realtime Database. This type of database captures all the data from a ticker plant and stores it in memory until the end of day, after which it writes all of its data to a disk and reloads the HDB. This cluster type requires local storage for temporary storage of data during the savedown process. If you specify this field in your request, you must provide the savedownStorageConfig- uration parameter. o GATEWAY A gateway cluster allows you to access data across processes in kdb systems. It allows you to create your own routing logic using the initialization scripts and custom code. This type of cluster does not require a writable local storage. o GP A general purpose cluster allows you to quickly iterate on code during development by granting greater access to system com- mands and enabling a fast reload of custom code. This cluster type can optionally mount databases including cache and savedown stor- age. For this cluster type, the node count is fixed at 1. It does not support autoscaling and supports only SINGLE AZ mode. o Tickerplant A tickerplant cluster allows you to subscribe to feed handlers based on IAM permissions. It can publish to RDBs, other Tickerplants, and real-time subscribers (RTS). Tickerplants can persist messages to log, which is readable by any RDB environment. It supports only single-node that is only one kdb process. Possible values: o HDB o RDB o GATEWAY o GP o TICKERPLANT
+    /// </summary>
+    [CliOption("--cluster-type")]
+    public AwsFinspaceCreateKxClusterClusterType? ClusterType { get; private init; }
+
+    /// <summary>
+    /// The version of FinSpace managed kdb to run. Constraints: o min: 1 o max: 16 o pattern: ^[a-zA-Z0-9._-]+$
+    /// </summary>
+    [CliOption("--release-label")]
+    public string? ReleaseLabel { get; private init; }
+
+    /// <summary>
+    /// Configuration details about the network where the Privatelink end- point of the cluster resides. vpcId -&gt; (string) The identifier of the VPC endpoint. Constraints: o min: 1 o max: 1024 o pattern: ^vpc-([a-z0-9]{8}$|[a-z0-9]{17}$) securityGroupIds -&gt; (list) The unique identifier of the VPC security group applied to the VPC endpoint ENI for the cluster. (string) Constraints: o min: 1 o max: 1024 o pattern: ^sg-([a-z0-9]{8}$|[a-z0-9]{17}$) subnetIds -&gt; (list) The identifier of the subnet that the Privatelink VPC endpoint uses to connect to the cluster. (string) Constraints: o min: 1 o max: 1024 o pattern: ^subnet-([a-z0-9]{8}$|[a-z0-9]{17}$) ipAddressType -&gt; (string) The IP address type for cluster network configuration parame- ters. The following type is available: o IP_V4 IP address version 4 Possible values: o IP_V4 Shorthand Syntax: vpcId=string,securityGroupIds=string,string,subnetIds=string,string,ipAddressType=string JSON Syntax: { "vpcId": "string", "securityGroupIds": ["string", ...], "subnetIds": ["string", ...], "ipAddressType": "IP_V4" }
+    /// </summary>
+    [CliOption("--vpc-configuration")]
+    public string? VpcConfiguration { get; private init; }
+
+    /// <summary>
+    /// The number of availability zones you want to assign per cluster. This can be one of the following o SINGLE Assigns one availability zone per cluster. o MULTI Assigns all the availability zones per cluster. Possible values: o SINGLE o MULTI
+    /// </summary>
+    [CliOption("--az-mode")]
+    public AwsFinspaceCreateKxClusterAzMode? AzMode { get; private init; }
+
     /// <summary>
     /// A token that ensures idempotency. This token expires in 10 minutes. Constraints: o min: 1 o max: 36 o pattern: .*\S.*
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--environment-id")]
-    public string? EnvironmentId { get; set; }
-
-    [CliOption("--cluster-name")]
-    public string? ClusterName { get; set; }
-
-    [CliOption("--cluster-type")]
-    public string? ClusterType { get; set; }
 
     /// <summary>
     /// A configuration to store Tickerplant logs. It consists of a list of volumes that will be mounted to your cluster. For the cluster type Tickerplant , the location of the TP volume on the cluster will be available by using the global variable .aws.tp_log_path . tickerplantLogVolumes -&gt; (list) The name of the volumes for tickerplant logs. (string) Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$ Shorthand Syntax: tickerplantLogVolumes=string,string JSON Syntax: { "tickerplantLogVolumes": ["string", ...] }
@@ -75,12 +157,6 @@ public record AwsFinspaceCreateKxClusterOptions : AwsOptions
     [CliOption("--capacity-configuration")]
     public string? CapacityConfiguration { get; set; }
 
-    [CliOption("--release-label")]
-    public string? ReleaseLabel { get; set; }
-
-    [CliOption("--vpc-configuration")]
-    public string? VpcConfiguration { get; set; }
-
     /// <summary>
     /// Specifies a Q program that will be run at launch of a cluster. It is a relative path within .zip file that contains the custom code, which will be loaded on the cluster. It must include the file name itself. For example, somedir/init.q . Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9\_\-\.\/\\]+$
     /// </summary>
@@ -111,9 +187,6 @@ public record AwsFinspaceCreateKxClusterOptions : AwsOptions
     [CliOption("--savedown-storage-configuration")]
     public string? SavedownStorageConfiguration { get; set; }
 
-    [CliOption("--az-mode")]
-    public string? AzMode { get; set; }
-
     /// <summary>
     /// The availability zone identifiers for the requested regions. Constraints: o min: 8 o max: 12 o pattern: ^[a-zA-Z0-9-]+$
     /// </summary>
@@ -137,5 +210,22 @@ public record AwsFinspaceCreateKxClusterOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

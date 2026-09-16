@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("devicefarm", "renew-offering")]
-public record AwsDevicefarmRenewOfferingOptions : AwsOptions
+public record AwsDevicefarmRenewOfferingOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--offering-id")]
-    public string? OfferingId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Explicitly sets the quantity of devices to renew for an offering, starting from the effectiveDate of the next period. The API returns a NotEligible error if the user is not permitted to invoke the operation. If you must be able to invoke this operation, contact aws-devicefarm-support@amazon.com . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="OfferingId">The ID of a request to renew an offering. Constraints: o min: 32</param>
+    /// <param name="Quantity">The quantity requested in an offering renewal.</param>
+    public AwsDevicefarmRenewOfferingOptions(
+        string OfferingId,
+        int Quantity
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OfferingId);
+        this.OfferingId = OfferingId;
+        this.Quantity = Quantity;
+    }
+
+    private AwsDevicefarmRenewOfferingOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDevicefarmRenewOfferingOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDevicefarmRenewOfferingOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of a request to renew an offering. Constraints: o min: 32
+    /// </summary>
+    [CliOption("--offering-id")]
+    public string? OfferingId { get; private init; }
+
+    /// <summary>
+    /// The quantity requested in an offering renewal.
+    /// </summary>
     [CliOption("--quantity")]
-    public int? Quantity { get; set; }
+    public int? Quantity { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

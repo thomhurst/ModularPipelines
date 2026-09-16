@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elbv2", "describe-listener-certificates")]
-public record AwsElbv2DescribeListenerCertificatesOptions : AwsOptions
+public record AwsElbv2DescribeListenerCertificatesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Describes the default certificate and the certificate list for the specified HTTPS or TLS listener. If the default certificate is also in the certificate list, it appears twice in the results (once with IsDefault set to true and once with Is- Default set to false). For more information, see SSL certificates in the Application Load Bal- ancers Guide or Server certificates in the Network Load Balancers Guide . See also: AWS API Documentation describe-listener-certificates is a paginated operation....
+    /// </summary>
+    /// <param name="ListenerArn">The Amazon Resource Names (ARN) of the listener.</param>
+    public AwsElbv2DescribeListenerCertificatesOptions(
+        string ListenerArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ListenerArn);
+        this.ListenerArn = ListenerArn;
+    }
+
+    private AwsElbv2DescribeListenerCertificatesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElbv2DescribeListenerCertificatesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElbv2DescribeListenerCertificatesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Names (ARN) of the listener.
+    /// </summary>
     [CliOption("--listener-arn")]
-    public string? ListenerArn { get; set; }
+    public string? ListenerArn { get; private init; }
 
     /// <summary>
     /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 400
@@ -49,5 +86,22 @@ public record AwsElbv2DescribeListenerCertificatesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

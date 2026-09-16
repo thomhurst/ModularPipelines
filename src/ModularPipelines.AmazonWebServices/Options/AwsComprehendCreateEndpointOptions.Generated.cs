@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("comprehend", "create-endpoint")]
-public record AwsComprehendCreateEndpointOptions : AwsOptions
+public record AwsComprehendCreateEndpointOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a model-specific endpoint for synchronous inference for a pre- viously trained custom model For information about endpoints, see Managing endpoints . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EndpointName">This is the descriptive suffix that becomes part of the EndpointArn used for all subsequent requests to this resource. Constraints: o max: 40 o pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9])*$</param>
+    /// <param name="DesiredInferenceUnits">The desired number of inference units to be used by the model using this endpoint. Each inference unit represents of a throughput of 100 characters per second. Constraints: o min: 1</param>
+    public AwsComprehendCreateEndpointOptions(
+        string EndpointName,
+        int DesiredInferenceUnits
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EndpointName);
+        this.EndpointName = EndpointName;
+        this.DesiredInferenceUnits = DesiredInferenceUnits;
+    }
+
+    private AwsComprehendCreateEndpointOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsComprehendCreateEndpointOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsComprehendCreateEndpointOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// This is the descriptive suffix that becomes part of the EndpointArn used for all subsequent requests to this resource. Constraints: o max: 40 o pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9])*$
+    /// </summary>
     [CliOption("--endpoint-name")]
-    public string? EndpointName { get; set; }
+    public string? EndpointName { get; private init; }
+
+    /// <summary>
+    /// The desired number of inference units to be used by the model using this endpoint. Each inference unit represents of a throughput of 100 characters per second. Constraints: o min: 1
+    /// </summary>
+    [CliOption("--desired-inference-units")]
+    public int? DesiredInferenceUnits { get; private init; }
 
     /// <summary>
     /// The Amazon Resource Number (ARN) of the model to which the endpoint will be attached. Constraints: o max: 256 o pattern: arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:(doc- ument-classifier|entity-recog- nizer)/[a-zA-Z0-9](-*[a-zA-Z0-9])*(/ver- sion/[a-zA-Z0-9](-*[a-zA-Z0-9])*)?
     /// </summary>
     [CliOption("--model-arn")]
     public string? ModelArn { get; set; }
-
-    [CliOption("--desired-inference-units")]
-    public int? DesiredInferenceUnits { get; set; }
 
     /// <summary>
     /// An idempotency token provided by the customer. If this token matches a previous endpoint creation request, Amazon Comprehend will not re- turn a ResourceInUseException . Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-]+$
@@ -64,5 +107,22 @@ public record AwsComprehendCreateEndpointOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --blockresponse.
+/// Allowed values for --block-response.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsRoute53globalresolverCreateFirewallRuleBlockResponse
 {
     [EnumValue("NODATA")]
-    Nodata = 1,
+    Nodata,
 
     [EnumValue("NXDOMAIN")]
-    Nxdomain = 2,
+    Nxdomain,
 
     [EnumValue("OVERRIDE")]
-    Override = 3
+    Override
 }

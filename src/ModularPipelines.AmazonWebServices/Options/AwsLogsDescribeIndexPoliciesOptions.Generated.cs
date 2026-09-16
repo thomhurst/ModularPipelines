@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logs", "describe-index-policies")]
-public record AwsLogsDescribeIndexPoliciesOptions : AwsOptions
+public record AwsLogsDescribeIndexPoliciesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns the field index policies of the specified log group. For more information about field index policies, see PutIndexPolicy . If a specified log group has a log-group level index policy, that pol- icy is returned by this operation. If a specified log group doesn't have a log-group level index policy, but an account-wide index policy applies to it, that account-wide pol- icy is returned by this operation. To find information about only account-level policies, use DescribeAccountPolicies inst...
+    /// </summary>
+    /// <param name="LogGroupIdentifiers">An array containing the name or ARN of the log group that you want to retrieve field index policies for. Constraints: o min: 1 o max: 1 (string) Constraints: o min: 1 o max: 2048 o pattern: [\w#+=/:,.@-]* Syntax: "string" "string" ...</param>
+    public AwsLogsDescribeIndexPoliciesOptions(
+        IEnumerable<string> LogGroupIdentifiers
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(LogGroupIdentifiers);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(LogGroupIdentifiers));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(LogGroupIdentifiers));
+            }
+
+            LogGroupIdentifiers = materialized;
+        }
+        this.LogGroupIdentifiers = LogGroupIdentifiers;
+    }
+
+    private AwsLogsDescribeIndexPoliciesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLogsDescribeIndexPoliciesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLogsDescribeIndexPoliciesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// An array containing the name or ARN of the log group that you want to retrieve field index policies for. Constraints: o min: 1 o max: 1 (string) Constraints: o min: 1 o max: 2048 o pattern: [\w#+=/:,.@-]* Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--log-group-identifiers", GroupValues = true)]
-    public IEnumerable<string>? LogGroupIdentifiers { get; set; }
+    public IEnumerable<string>? LogGroupIdentifiers { get; private init; }
 
     /// <summary>
     /// The token for the next set of items to return. The token expires af- ter 24 hours. Constraints: o min: 1
@@ -37,5 +85,22 @@ public record AwsLogsDescribeIndexPoliciesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

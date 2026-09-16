@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --deploymenttype.
+/// Allowed values for --deployment-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsTimestreamInfluxdbCreateDbClusterDeploymentType
 {
     [EnumValue("MULTI_NODE_READ_REPLICAS")]
-    MultiNodeReadReplicas = 1
+    MultiNodeReadReplicas,
+
+    [EnumValue("o")]
+    O
 }

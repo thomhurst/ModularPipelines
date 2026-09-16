@@ -35,7 +35,10 @@ public record AwsIamCreateLoginProfileOptions : AwsOptions
     [CliOption("--password")]
     public string? Password { get; set; }
 
-    [CliFlag("--password-reset-required")]
+    /// <summary>
+    /// Specifies whether the user is required to set a new password on next sign-in.
+    /// </summary>
+    [CliFlag("--password-reset-required", NegatedName = "--no-password-reset-required")]
     public bool? PasswordResetRequired { get; set; }
 
     [CliOption("--cli-input-json")]

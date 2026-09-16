@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mturk", "reject-qualification-request")]
-public record AwsMturkRejectQualificationRequestOptions : AwsOptions
+public record AwsMturkRejectQualificationRequestOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// The RejectQualificationRequest operation rejects a user's request for a Qualification. You can provide a text message explaining why the request was rejected. The Worker who made the request can see this message. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="QualificationRequestId">The ID of the Qualification request, as returned by the ListQualifi- cationRequests operation.</param>
+    public AwsMturkRejectQualificationRequestOptions(
+        string QualificationRequestId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(QualificationRequestId);
+        this.QualificationRequestId = QualificationRequestId;
+    }
+
+    private AwsMturkRejectQualificationRequestOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMturkRejectQualificationRequestOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMturkRejectQualificationRequestOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Qualification request, as returned by the ListQualifi- cationRequests operation.
+    /// </summary>
     [CliOption("--qualification-request-id")]
-    public string? QualificationRequestId { get; set; }
+    public string? QualificationRequestId { get; private init; }
 
     /// <summary>
     /// A text message explaining why the request was rejected, to be shown to the Worker who made the request.
@@ -35,5 +72,22 @@ public record AwsMturkRejectQualificationRequestOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

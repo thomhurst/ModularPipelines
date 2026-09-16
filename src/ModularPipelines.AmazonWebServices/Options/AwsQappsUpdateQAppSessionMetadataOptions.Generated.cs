@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("qapps", "update-q-app-session-metadata")]
-public record AwsQappsUpdateQAppSessionMetadataOptions : AwsOptions
+public record AwsQappsUpdateQAppSessionMetadataOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the configuration metadata of a session for a given Q App ses- sionId . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The unique identifier of the Amazon Q Business application environ- ment instance.</param>
+    /// <param name="SessionId">The unique identifier of the Q App session to update configuration for. Constraints: o pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12}</param>
+    /// <param name="SharingConfiguration">The new sharing configuration for the Q App data collection session. enabled -&gt; (boolean) [required] Indicates whether an Q App session is shareable with other users. acceptResponses -&gt; (boolean) Indicates whether an Q App session can accept responses from users. revealCards -&gt; (boolean) Indicates whether collected responses for an Q App session are revealed for all users. Shorthand Syntax: enabled=boolean,acceptResponses=boolean,revealCards=boolean JSON Syntax: { "enabled": true|false, "acceptResponses": true|false, "revealCards": true|false }</param>
+    public AwsQappsUpdateQAppSessionMetadataOptions(
+        string InstanceId,
+        string SessionId,
+        string SharingConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(SessionId);
+        this.SessionId = SessionId;
+        global::System.ArgumentNullException.ThrowIfNull(SharingConfiguration);
+        this.SharingConfiguration = SharingConfiguration;
+    }
+
+    private AwsQappsUpdateQAppSessionMetadataOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQappsUpdateQAppSessionMetadataOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQappsUpdateQAppSessionMetadataOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the Amazon Q Business application environ- ment instance.
+    /// </summary>
+    [CliOption("--instance-id")]
+    public string? InstanceId { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the Q App session to update configuration for. Constraints: o pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12}
+    /// </summary>
     [CliOption("--session-id")]
-    public string? SessionId { get; set; }
+    public string? SessionId { get; private init; }
+
+    /// <summary>
+    /// The new sharing configuration for the Q App data collection session. enabled -&gt; (boolean) [required] Indicates whether an Q App session is shareable with other users. acceptResponses -&gt; (boolean) Indicates whether an Q App session can accept responses from users. revealCards -&gt; (boolean) Indicates whether collected responses for an Q App session are revealed for all users. Shorthand Syntax: enabled=boolean,acceptResponses=boolean,revealCards=boolean JSON Syntax: { "enabled": true|false, "acceptResponses": true|false, "revealCards": true|false }
+    /// </summary>
+    [CliOption("--sharing-configuration")]
+    public string? SharingConfiguration { get; private init; }
 
     /// <summary>
     /// The new name for the Q App session. Constraints: o min: 0 o max: 100
@@ -33,13 +87,27 @@ public record AwsQappsUpdateQAppSessionMetadataOptions : AwsOptions
     [CliOption("--session-name")]
     public string? SessionName { get; set; }
 
-    [CliOption("--sharing-configuration")]
-    public string? SharingConfiguration { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

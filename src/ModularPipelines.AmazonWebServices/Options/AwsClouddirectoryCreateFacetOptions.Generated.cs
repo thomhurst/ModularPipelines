@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("clouddirectory", "create-facet")]
-public record AwsClouddirectoryCreateFacetOptions : AwsOptions
+public record AwsClouddirectoryCreateFacetOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--schema-arn")]
-    public string? SchemaArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a new Facet in a schema. Facet creation is allowed only in de- velopment or applied schemas. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SchemaArn">The schema ARN in which the new Facet will be created. For more in- formation, see arns .</param>
+    /// <param name="Name">The name of the Facet , which is unique for a given schema. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9._-]*$</param>
+    public AwsClouddirectoryCreateFacetOptions(
+        string SchemaArn,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SchemaArn);
+        this.SchemaArn = SchemaArn;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsClouddirectoryCreateFacetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsClouddirectoryCreateFacetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsClouddirectoryCreateFacetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The schema ARN in which the new Facet will be created. For more in- formation, see arns .
+    /// </summary>
+    [CliOption("--schema-arn")]
+    public string? SchemaArn { get; private init; }
+
+    /// <summary>
+    /// The name of the Facet , which is unique for a given schema. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9._-]*$
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
     /// <summary>
     /// The attributes that are associated with the Facet . (structure) An attribute that is associated with the Facet . Name -&gt; (string) [required] The name of the facet attribute. Constraints: o min: 1 o max: 230 o pattern: ^[a-zA-Z0-9._:-]*$ AttributeDefinition -&gt; (structure) A facet attribute consists of either a definition or a refer- ence. This structure contains the attribute definition. See Attribute References for more information. Type -&gt; (string) [required] The type of the attribute. Possible values: o STRING o BINARY o BOOLEAN o NUMBER o DATETIME o VARIANT DefaultValue -&gt; (structure) The default value of the attribute (if configured). StringValue -&gt; (string) A string data value. BinaryValue -&gt; (blob) A binary data value. BooleanValue -&gt; (boolean) A Boolean data value. NumberValue -&gt; (string) A number data value. DatetimeValue -&gt; (timestamp) A date and time value. IsImmutable -&gt; (boolean) Whether the attribute is mutable or not. Rules -&gt; (map) Validation rules attached to the attribute definition. key -&gt; (string) Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9._-]*$ value -&gt; (structure) Contains an Amazon Resource Name (ARN) and parameters that are associated with the rule. Type -&gt; (string) The type of attribute validation rule. Possible values: o BINARY_LENGTH o NUMBER_COMPARISON o STRING_FROM_SET o STRING_LENGTH Parameters -&gt; (map) The minimum and maximum parameters that are asso- ciated with the rule. key -&gt; (string) value -&gt; (string) AttributeReference -&gt; (structure) An attribute reference that is associated with the attribute. See Attribute References for more information. TargetFacetName -&gt; (string) [required] The target facet name that is associated with the facet reference. See Attribute References for more information. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9._-]*$ TargetAttributeName -&gt; (string) [required] The target attribute name that is associated with the facet reference. See Attribute References for more infor- mation. Constraints: o min: 1 o max: 230 o pattern: ^[a-zA-Z0-9._:-]*$ RequiredBehavior -&gt; (string) The required behavior of the FacetAttribute . Possible values: o REQUIRED_ALWAYS o NOT_REQUIRED JSON Syntax: [ { "Name": "string", "AttributeDefinition": { "Type": "STRING"|"BINARY"|"BOOLEAN"|"NUMBER"|"DATETIME"|"VARIANT", "DefaultValue": { "StringValue": "string", "BinaryValue": blob, "BooleanValue": true|false, "NumberValue": "string", "DatetimeValue": timestamp }, "IsImmutable": true|false, "Rules": {"string": { "Type": "BINARY_LENGTH"|"NUMBER_COMPARISON"|"STRING_FROM_SET"|"STRING_LENGTH", "Parameters": {"string": "string" ...} } ...} }, "AttributeReference": { "TargetFacetName": "string", "TargetAttributeName": "string" }, "RequiredBehavior": "REQUIRED_ALWAYS"|"NOT_REQUIRED" } ... ]
@@ -51,5 +95,22 @@ public record AwsClouddirectoryCreateFacetOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

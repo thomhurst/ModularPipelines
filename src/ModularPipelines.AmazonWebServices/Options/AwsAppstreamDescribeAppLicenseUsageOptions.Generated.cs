@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appstream", "describe-app-license-usage")]
-public record AwsAppstreamDescribeAppLicenseUsageOptions : AwsOptions
+public record AwsAppstreamDescribeAppLicenseUsageOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves license included application usage information. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BillingPeriod">Billing period for the usage record. Specify the value in yyyy-mm format. For example, for August 2025, use 2025-08 . Constraints: o min: 1</param>
+    public AwsAppstreamDescribeAppLicenseUsageOptions(
+        string BillingPeriod
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BillingPeriod);
+        this.BillingPeriod = BillingPeriod;
+    }
+
+    private AwsAppstreamDescribeAppLicenseUsageOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppstreamDescribeAppLicenseUsageOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppstreamDescribeAppLicenseUsageOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Billing period for the usage record. Specify the value in yyyy-mm format. For example, for August 2025, use 2025-08 . Constraints: o min: 1
+    /// </summary>
     [CliOption("--billing-period")]
-    public string? BillingPeriod { get; set; }
+    public string? BillingPeriod { get; private init; }
 
     /// <summary>
     /// The maximum number of results to return.
@@ -43,5 +80,22 @@ public record AwsAppstreamDescribeAppLicenseUsageOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

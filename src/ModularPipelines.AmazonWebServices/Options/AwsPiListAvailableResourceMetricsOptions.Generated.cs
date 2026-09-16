@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +22,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pi", "list-available-resource-metrics")]
-public record AwsPiListAvailableResourceMetricsOptions : AwsOptions
+public record AwsPiListAvailableResourceMetricsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieve metrics of the specified types that can be queried for a spec- ified DB instance. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ServiceType">The Amazon Web Services service for which Performance Insights re- turns metrics. Possible values: o RDS o DOCDB</param>
+    /// <param name="Identifier">An immutable identifier for a data source that is unique within an Amazon Web Services Region. Performance Insights gathers metrics from this data source. To use an Amazon RDS DB instance as a data source, specify its DbiResourceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VWZ . Constraints: o min: 0 o max: 256 o pattern: ^[a-zA-Z0-9-]+$</param>
+    /// <param name="MetricTypes">The types of metrics to return in the response. Valid values in the array include the following: o os (OS counter metrics) - All engines o db (DB load metrics) - All engines except for Amazon DocumentDB o db.sql.stats (per-SQL metrics) - All engines except for Amazon DocumentDB o db.sql_tokenized.stats (per-SQL digest metrics) - All engines ex- cept for Amazon DocumentDB (string) A generic string type that forbids characters that could expose our service (or services downstream) to security risks around injections. Constraints: o min: 0 o max: 256 o pattern: ^[a-zA-Z0-9-_\.:/*)( ]+$ Syntax: "string" "string" ...</param>
+    public AwsPiListAvailableResourceMetricsOptions(
+        AwsPiListAvailableResourceMetricsServiceType ServiceType,
+        string Identifier,
+        IEnumerable<string> MetricTypes
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceType);
+        this.ServiceType = ServiceType;
+        global::System.ArgumentNullException.ThrowIfNull(Identifier);
+        this.Identifier = Identifier;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(MetricTypes);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(MetricTypes));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(MetricTypes));
+            }
+
+            MetricTypes = materialized;
+        }
+        this.MetricTypes = MetricTypes;
+    }
+
+    private AwsPiListAvailableResourceMetricsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPiListAvailableResourceMetricsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPiListAvailableResourceMetricsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Web Services service for which Performance Insights re- turns metrics. Possible values: o RDS o DOCDB
+    /// </summary>
     [CliOption("--service-type")]
-    public string? ServiceType { get; set; }
+    public AwsPiListAvailableResourceMetricsServiceType? ServiceType { get; private init; }
 
+    /// <summary>
+    /// An immutable identifier for a data source that is unique within an Amazon Web Services Region. Performance Insights gathers metrics from this data source. To use an Amazon RDS DB instance as a data source, specify its DbiResourceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VWZ . Constraints: o min: 0 o max: 256 o pattern: ^[a-zA-Z0-9-]+$
+    /// </summary>
     [CliOption("--identifier")]
-    public string? Identifier { get; set; }
+    public string? Identifier { get; private init; }
 
+    /// <summary>
+    /// The types of metrics to return in the response. Valid values in the array include the following: o os (OS counter metrics) - All engines o db (DB load metrics) - All engines except for Amazon DocumentDB o db.sql.stats (per-SQL metrics) - All engines except for Amazon DocumentDB o db.sql_tokenized.stats (per-SQL digest metrics) - All engines ex- cept for Amazon DocumentDB (string) A generic string type that forbids characters that could expose our service (or services downstream) to security risks around injections. Constraints: o min: 0 o max: 256 o pattern: ^[a-zA-Z0-9-_\.:/*)( ]+$ Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--metric-types", GroupValues = true)]
-    public IEnumerable<string>? MetricTypes { get; set; }
+    public IEnumerable<string>? MetricTypes { get; private init; }
 
     /// <summary>
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the token, up to the value specified by MaxRecords . Constraints: o min: 1 o max: 8192 o pattern: ^[a-zA-Z0-9_=-]+$
@@ -49,5 +112,22 @@ public record AwsPiListAvailableResourceMetricsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

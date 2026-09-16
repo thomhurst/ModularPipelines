@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --networkmode.
+/// Allowed values for --network-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEcsRegisterTaskDefinitionNetworkMode
 {
+    [EnumValue("awsvpc")]
+    Awsvpc,
+
     [EnumValue("bridge")]
-    Bridge = 1,
+    Bridge,
 
     [EnumValue("host")]
-    Host = 2,
-
-    [EnumValue("awsvpc")]
-    Awsvpc = 3,
+    Host,
 
     [EnumValue("none")]
-    None = 4
+    None
 }

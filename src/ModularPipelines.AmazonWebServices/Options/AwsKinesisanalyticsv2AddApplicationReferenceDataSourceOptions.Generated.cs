@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kinesisanalyticsv2", "add-application-reference-data-source")]
-public record AwsKinesisanalyticsv2AddApplicationReferenceDataSourceOptions : AwsOptions
+public record AwsKinesisanalyticsv2AddApplicationReferenceDataSourceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Adds a reference data source to an existing SQL-based Kinesis Data Ana- lytics application. Kinesis Data Analytics reads reference data (that is, an Amazon S3 ob- ject) and creates an in-application table within your application. In the request, you provide the source (S3 bucket name and object key name), name of the in-application table to create, and the necessary mapping information that describes how data in an Amazon S3 object maps to columns in the resulting in-application table. See also:...
+    /// </summary>
+    /// <param name="ApplicationName">The name of an existing application. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="CurrentApplicationVersionId">The version of the application for which you are adding the refer- ence data source. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is re- turned. Constraints: o min: 1 o max: 999999999</param>
+    /// <param name="ReferenceDataSource">The reference data source can be an object in your Amazon S3 bucket. Kinesis Data Analytics reads the object and copies the data into the in-application table that is created. You provide an S3 bucket, ob- ject key name, and the resulting in-application table that is cre- ated. TableName -&gt; (string) [required] The name of the in-application table to create. Constraints: o min: 1 o max: 32 S3ReferenceDataSource -&gt; (structure) Identifies the S3 bucket and object that contains the reference data. A SQL-based Kinesis Data Analytics application loads ref- erence data only once. If the data changes, you call the Up- dateApplication operation to trigger reloading of data into your application. BucketARN -&gt; (string) The Amazon Resource Name (ARN) of the S3 bucket. Constraints: o min: 1 o max: 2048 o pattern: arn:.* FileKey -&gt; (string) The object key name containing the reference data. Constraints: o min: 1 o max: 1024 ReferenceSchema -&gt; (structure) [required] Describes the format of the data in the streaming source, and how each data element maps to corresponding columns created in the in-application stream. RecordFormat -&gt; (structure) [required] Specifies the format of the records on the streaming source. RecordFormatType -&gt; (string) [required] The type of record format. Possible values: o JSON o CSV MappingParameters -&gt; (structure) When you configure application input at the time of cre- ating or updating an application, provides additional mapping information specific to the record format (such as JSON, CSV, or record fields delimited by some delim- iter) on the streaming source. JSONMappingParameters -&gt; (structure) Provides additional mapping information when JSON is the record format on the streaming source. RecordRowPath -&gt; (string) [required] The path to the top-level parent that contains the records. Constraints: o min: 1 o max: 65535 o pattern: ^(?=^\$)(?=^\S+$).*$ CSVMappingParameters -&gt; (structure) Provides additional mapping information when the record format uses delimiters (for example, CSV). RecordRowDelimiter -&gt; (string) [required] The row delimiter. For example, in a CSV format, 'n' is the typical row delimiter. Constraints: o min: 1 o max: 1024 RecordColumnDelimiter -&gt; (string) [required] The column delimiter. For example, in a CSV for- mat, a comma (",") is the typical column delim- iter. Constraints: o min: 1 o max: 1024 RecordEncoding -&gt; (string) Specifies the encoding of the records in the streaming source. For example, UTF-8. Constraints: o min: 5 o max: 5 o pattern: UTF-8 RecordColumns -&gt; (list) [required] A list of RecordColumn objects. Constraints: o min: 1 o max: 1000 (structure) For a SQL-based Kinesis Data Analytics application, de- scribes the mapping of each data element in the streaming source to the corresponding column in the in-application stream. Also used to describe the format of the reference data source. Name -&gt; (string) [required] The name of the column that is created in the in-ap- plication input stream or reference table. Constraints: o min: 1 o max: 256 o pattern: [^-\s&lt;&gt;&amp;]* Mapping -&gt; (string) A reference to the data element in the streaming input or the reference data source. Constraints: o min: 0 o max: 65535 SqlType -&gt; (string) [required] The type of column created in the in-application input stream or reference table. Constraints: o min: 1 o max: 100 JSON Syntax: { "TableName": "string", "S3ReferenceDataSource": { "BucketARN": "string", "FileKey": "string" }, "ReferenceSchema": { "RecordFormat": { "RecordFormatType": "JSON"|"CSV", "MappingParameters": { "JSONMappingParameters": { "RecordRowPath": "string" }, "CSVMappingParameters": { "RecordRowDelimiter": "string", "RecordColumnDelimiter": "string" } } }, "RecordEncoding": "string", "RecordColumns": [ { "Name": "string", "Mapping": "string", "SqlType": "string" } ... ] } }</param>
+    public AwsKinesisanalyticsv2AddApplicationReferenceDataSourceOptions(
+        string ApplicationName,
+        int CurrentApplicationVersionId,
+        string ReferenceDataSource
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationName);
+        this.ApplicationName = ApplicationName;
+        this.CurrentApplicationVersionId = CurrentApplicationVersionId;
+        global::System.ArgumentNullException.ThrowIfNull(ReferenceDataSource);
+        this.ReferenceDataSource = ReferenceDataSource;
+    }
+
+    private AwsKinesisanalyticsv2AddApplicationReferenceDataSourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKinesisanalyticsv2AddApplicationReferenceDataSourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKinesisanalyticsv2AddApplicationReferenceDataSourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of an existing application. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
     [CliOption("--application-name")]
-    public string? ApplicationName { get; set; }
+    public string? ApplicationName { get; private init; }
 
+    /// <summary>
+    /// The version of the application for which you are adding the refer- ence data source. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is re- turned. Constraints: o min: 1 o max: 999999999
+    /// </summary>
     [CliOption("--current-application-version-id")]
-    public int? CurrentApplicationVersionId { get; set; }
+    public int? CurrentApplicationVersionId { get; private init; }
 
+    /// <summary>
+    /// The reference data source can be an object in your Amazon S3 bucket. Kinesis Data Analytics reads the object and copies the data into the in-application table that is created. You provide an S3 bucket, ob- ject key name, and the resulting in-application table that is cre- ated. TableName -&gt; (string) [required] The name of the in-application table to create. Constraints: o min: 1 o max: 32 S3ReferenceDataSource -&gt; (structure) Identifies the S3 bucket and object that contains the reference data. A SQL-based Kinesis Data Analytics application loads ref- erence data only once. If the data changes, you call the Up- dateApplication operation to trigger reloading of data into your application. BucketARN -&gt; (string) The Amazon Resource Name (ARN) of the S3 bucket. Constraints: o min: 1 o max: 2048 o pattern: arn:.* FileKey -&gt; (string) The object key name containing the reference data. Constraints: o min: 1 o max: 1024 ReferenceSchema -&gt; (structure) [required] Describes the format of the data in the streaming source, and how each data element maps to corresponding columns created in the in-application stream. RecordFormat -&gt; (structure) [required] Specifies the format of the records on the streaming source. RecordFormatType -&gt; (string) [required] The type of record format. Possible values: o JSON o CSV MappingParameters -&gt; (structure) When you configure application input at the time of cre- ating or updating an application, provides additional mapping information specific to the record format (such as JSON, CSV, or record fields delimited by some delim- iter) on the streaming source. JSONMappingParameters -&gt; (structure) Provides additional mapping information when JSON is the record format on the streaming source. RecordRowPath -&gt; (string) [required] The path to the top-level parent that contains the records. Constraints: o min: 1 o max: 65535 o pattern: ^(?=^\$)(?=^\S+$).*$ CSVMappingParameters -&gt; (structure) Provides additional mapping information when the record format uses delimiters (for example, CSV). RecordRowDelimiter -&gt; (string) [required] The row delimiter. For example, in a CSV format, 'n' is the typical row delimiter. Constraints: o min: 1 o max: 1024 RecordColumnDelimiter -&gt; (string) [required] The column delimiter. For example, in a CSV for- mat, a comma (",") is the typical column delim- iter. Constraints: o min: 1 o max: 1024 RecordEncoding -&gt; (string) Specifies the encoding of the records in the streaming source. For example, UTF-8. Constraints: o min: 5 o max: 5 o pattern: UTF-8 RecordColumns -&gt; (list) [required] A list of RecordColumn objects. Constraints: o min: 1 o max: 1000 (structure) For a SQL-based Kinesis Data Analytics application, de- scribes the mapping of each data element in the streaming source to the corresponding column in the in-application stream. Also used to describe the format of the reference data source. Name -&gt; (string) [required] The name of the column that is created in the in-ap- plication input stream or reference table. Constraints: o min: 1 o max: 256 o pattern: [^-\s&lt;&gt;&amp;]* Mapping -&gt; (string) A reference to the data element in the streaming input or the reference data source. Constraints: o min: 0 o max: 65535 SqlType -&gt; (string) [required] The type of column created in the in-application input stream or reference table. Constraints: o min: 1 o max: 100 JSON Syntax: { "TableName": "string", "S3ReferenceDataSource": { "BucketARN": "string", "FileKey": "string" }, "ReferenceSchema": { "RecordFormat": { "RecordFormatType": "JSON"|"CSV", "MappingParameters": { "JSONMappingParameters": { "RecordRowPath": "string" }, "CSVMappingParameters": { "RecordRowDelimiter": "string", "RecordColumnDelimiter": "string" } } }, "RecordEncoding": "string", "RecordColumns": [ { "Name": "string", "Mapping": "string", "SqlType": "string" } ... ] } }
+    /// </summary>
     [CliOption("--reference-data-source")]
-    public string? ReferenceDataSource { get; set; }
+    public string? ReferenceDataSource { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

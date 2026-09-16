@@ -11,26 +11,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --querystatus.
+/// Allowed values for --query-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCloudtrailListQueriesQueryStatus
 {
-    [EnumValue("QUEUED")]
-    Queued = 1,
-
-    [EnumValue("RUNNING")]
-    Running = 2,
-
-    [EnumValue("FINISHED")]
-    Finished = 3,
+    [EnumValue("CANCELLED")]
+    Cancelled,
 
     [EnumValue("FAILED")]
-    Failed = 4,
+    Failed,
 
-    [EnumValue("CANCELLED")]
-    Cancelled = 5,
+    [EnumValue("FINISHED")]
+    Finished,
+
+    [EnumValue("QUEUED")]
+    Queued,
+
+    [EnumValue("RUNNING")]
+    Running,
 
     [EnumValue("TIMED_OUT")]
-    TimedOut = 6
+    TimedOut
 }

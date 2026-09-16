@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +21,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("organizations", "create-policy")]
-public record AwsOrganizationsCreatePolicyOptions : AwsOptions
+public record AwsOrganizationsCreatePolicyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a policy of a specified type that you can attach to a root, an organizational unit (OU), or an individual Amazon Web Services account. For more information about policies and their use, see Managing Organi- zations policies . If the request includes tags, then the requester must have the organi- zations:TagResource permission. You can only call this operation from the management account or a mem- ber account that is a delegated administrator. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Content">The policy text content to add to the new policy. The text that you supply must adhere to the rules of the policy type you specify in the Type parameter. The maximum size of a policy document depends on the policy's type. For more information, see Maximum and minimum values in the Organi- zations User Guide . Constraints: o min: 1 o pattern: [\s\S]*</param>
+    /// <param name="Description">An optional description to assign to the policy. Constraints: o max: 512 o pattern: [\s\S]*</param>
+    /// <param name="Name">The friendly name to assign to the policy. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range. Constraints: o min: 1 o max: 128 o pattern: [\s\S]*</param>
+    /// <param name="Type">The type of policy to create. You can specify one of the following values: o SERVICE_CONTROL_POLICY o RESOURCE_CONTROL_POLICY o DECLARATIVE_POLICY_EC2 o BACKUP_POLICY o TAG_POLICY o CHATBOT_POLICY o AISERVICES_OPT_OUT_POLICY o SECURITYHUB_POLICY o UPGRADE_ROLLOUT_POLICY o INSPECTOR_POLICY o BEDROCK_POLICY o S3_POLICY o NETWORK_SECURITY_DIRECTOR_POLICY Possible values: o SERVICE_CONTROL_POLICY o RESOURCE_CONTROL_POLICY o TAG_POLICY o BACKUP_POLICY o AISERVICES_OPT_OUT_POLICY o CHATBOT_POLICY o DECLARATIVE_POLICY_EC2 o SECURITYHUB_POLICY o INSPECTOR_POLICY o UPGRADE_ROLLOUT_POLICY o BEDROCK_POLICY o S3_POLICY o NETWORK_SECURITY_DIRECTOR_POLICY</param>
+    public AwsOrganizationsCreatePolicyOptions(
+        string Content,
+        string Description,
+        string Name,
+        AwsOrganizationsCreatePolicyType Type
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Content);
+        this.Content = Content;
+        global::System.ArgumentNullException.ThrowIfNull(Description);
+        this.Description = Description;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+    }
+
+    private AwsOrganizationsCreatePolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOrganizationsCreatePolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOrganizationsCreatePolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The policy text content to add to the new policy. The text that you supply must adhere to the rules of the policy type you specify in the Type parameter. The maximum size of a policy document depends on the policy's type. For more information, see Maximum and minimum values in the Organi- zations User Guide . Constraints: o min: 1 o pattern: [\s\S]*
+    /// </summary>
     [CliOption("--content")]
-    public string? Content { get; set; }
+    public string? Content { get; private init; }
 
+    /// <summary>
+    /// An optional description to assign to the policy. Constraints: o max: 512 o pattern: [\s\S]*
+    /// </summary>
     [CliOption("--description")]
-    public string? Description { get; set; }
+    public string? Description { get; private init; }
 
+    /// <summary>
+    /// The friendly name to assign to the policy. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range. Constraints: o min: 1 o max: 128 o pattern: [\s\S]*
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The type of policy to create. You can specify one of the following values: o SERVICE_CONTROL_POLICY o RESOURCE_CONTROL_POLICY o DECLARATIVE_POLICY_EC2 o BACKUP_POLICY o TAG_POLICY o CHATBOT_POLICY o AISERVICES_OPT_OUT_POLICY o SECURITYHUB_POLICY o UPGRADE_ROLLOUT_POLICY o INSPECTOR_POLICY o BEDROCK_POLICY o S3_POLICY o NETWORK_SECURITY_DIRECTOR_POLICY Possible values: o SERVICE_CONTROL_POLICY o RESOURCE_CONTROL_POLICY o TAG_POLICY o BACKUP_POLICY o AISERVICES_OPT_OUT_POLICY o CHATBOT_POLICY o DECLARATIVE_POLICY_EC2 o SECURITYHUB_POLICY o INSPECTOR_POLICY o UPGRADE_ROLLOUT_POLICY o BEDROCK_POLICY o S3_POLICY o NETWORK_SECURITY_DIRECTOR_POLICY
+    /// </summary>
     [CliOption("--type")]
-    public string? Type { get; set; }
+    public AwsOrganizationsCreatePolicyType? Type { get; private init; }
 
     /// <summary>
     /// A list of tags that you want to attach to the newly created policy. For each tag in the list, you must specify both a tag key and a value. You can set the value to an empty string, but you can't set it to null . For more information about tagging, see Tagging Organi- zations resources in the Organizations User Guide. NOTE: If any one of the tags is not valid or if you exceed the allowed number of tags for a policy, then the entire request fails and the policy is not created. (structure) A custom key-value pair associated with a resource within your organization. You can attach tags to any of the following organization re- sources. o Amazon Web Services account o Organizational unit (OU) o Organization root o Policy Key -&gt; (string) [required] The key identifier, or name, of the tag. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The string value that's associated with the key of the tag. You can set the value of a tag to an empty string, but you can't set the value of a tag to null. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -44,5 +103,22 @@ public record AwsOrganizationsCreatePolicyOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

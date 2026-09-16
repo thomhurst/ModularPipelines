@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --eventtype.
+/// Allowed values for --event-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEc2DescribeSpotFleetRequestHistoryEventType
 {
-    [EnumValue("instanceChange")]
-    InstanceChange = 1,
+    [EnumValue("error")]
+    Error,
 
     [EnumValue("fleetRequestChange")]
-    FleetRequestChange = 2,
-
-    [EnumValue("error")]
-    Error = 3,
+    FleetRequestChange,
 
     [EnumValue("information")]
-    Information = 4
+    Information,
+
+    [EnumValue("instanceChange")]
+    InstanceChange
 }

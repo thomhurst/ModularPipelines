@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mturk", "disassociate-qualification-from-worker")]
-public record AwsMturkDisassociateQualificationFromWorkerOptions : AwsOptions
+public record AwsMturkDisassociateQualificationFromWorkerOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--worker-id")]
-    public string? WorkerId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// The DisassociateQualificationFromWorker revokes a previously granted Qualification from a user. You can provide a text message explaining why the Qualification was re- voked. The user who had the Qualification can see this message. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="WorkerId">The ID of the Worker who possesses the Qualification to be revoked. Constraints: o min: 1 o max: 64 o pattern: ^A[A-Z0-9]+$</param>
+    /// <param name="QualificationTypeId">The ID of the Qualification type of the Qualification to be revoked. Constraints: o min: 1 o max: 64 o pattern: ^[A-Z0-9]+$</param>
+    public AwsMturkDisassociateQualificationFromWorkerOptions(
+        string WorkerId,
+        string QualificationTypeId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkerId);
+        this.WorkerId = WorkerId;
+        global::System.ArgumentNullException.ThrowIfNull(QualificationTypeId);
+        this.QualificationTypeId = QualificationTypeId;
+    }
+
+    private AwsMturkDisassociateQualificationFromWorkerOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMturkDisassociateQualificationFromWorkerOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMturkDisassociateQualificationFromWorkerOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Worker who possesses the Qualification to be revoked. Constraints: o min: 1 o max: 64 o pattern: ^A[A-Z0-9]+$
+    /// </summary>
+    [CliOption("--worker-id")]
+    public string? WorkerId { get; private init; }
+
+    /// <summary>
+    /// The ID of the Qualification type of the Qualification to be revoked. Constraints: o min: 1 o max: 64 o pattern: ^[A-Z0-9]+$
+    /// </summary>
     [CliOption("--qualification-type-id")]
-    public string? QualificationTypeId { get; set; }
+    public string? QualificationTypeId { get; private init; }
 
     /// <summary>
     /// A text message that explains why the Qualification was revoked. The user who had the Qualification sees this message.
@@ -38,5 +82,22 @@ public record AwsMturkDisassociateQualificationFromWorkerOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

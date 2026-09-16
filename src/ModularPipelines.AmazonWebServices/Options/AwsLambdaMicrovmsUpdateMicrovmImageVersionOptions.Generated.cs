@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lambda-microvms", "update-microvm-image-version")]
-public record AwsLambdaMicrovmsUpdateMicrovmImageVersionOptions : AwsOptions
+public record AwsLambdaMicrovmsUpdateMicrovmImageVersionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the status of a specific MicroVM image version. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ImageIdentifier">The unique identifier (ARN or ID) of the MicroVM image. Constraints: o min: 1 o max: 256</param>
+    /// <param name="ImageVersion">The version of the MicroVM image to update. Constraints: o min: 1 o max: 2048 o pattern: [^\s]+</param>
+    /// <param name="Status">The new status to set for the MicroVM image version. Possible values: o ACTIVE o INACTIVE</param>
+    public AwsLambdaMicrovmsUpdateMicrovmImageVersionOptions(
+        string ImageIdentifier,
+        string ImageVersion,
+        AwsLambdaMicrovmsUpdateMicrovmImageVersionStatus Status
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ImageIdentifier);
+        this.ImageIdentifier = ImageIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(ImageVersion);
+        this.ImageVersion = ImageVersion;
+        global::System.ArgumentNullException.ThrowIfNull(Status);
+        this.Status = Status;
+    }
+
+    private AwsLambdaMicrovmsUpdateMicrovmImageVersionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLambdaMicrovmsUpdateMicrovmImageVersionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLambdaMicrovmsUpdateMicrovmImageVersionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier (ARN or ID) of the MicroVM image. Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--image-identifier")]
-    public string? ImageIdentifier { get; set; }
+    public string? ImageIdentifier { get; private init; }
 
+    /// <summary>
+    /// The version of the MicroVM image to update. Constraints: o min: 1 o max: 2048 o pattern: [^\s]+
+    /// </summary>
     [CliOption("--image-version")]
-    public string? ImageVersion { get; set; }
+    public string? ImageVersion { get; private init; }
 
+    /// <summary>
+    /// The new status to set for the MicroVM image version. Possible values: o ACTIVE o INACTIVE
+    /// </summary>
     [CliOption("--status")]
-    public string? Status { get; set; }
+    public AwsLambdaMicrovmsUpdateMicrovmImageVersionStatus? Status { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

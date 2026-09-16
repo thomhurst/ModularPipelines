@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("docdb", "describe-orderable-db-instance-options")]
-public record AwsDocdbDescribeOrderableDbInstanceOptionsOptions : AwsOptions
+public record AwsDocdbDescribeOrderableDbInstanceOptionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a list of orderable instance options for the specified engine. See also: AWS API Documentation describe-orderable-db-instance-options is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: Order...
+    /// </summary>
+    /// <param name="Engine">The name of the engine to retrieve instance options for.</param>
+    public AwsDocdbDescribeOrderableDbInstanceOptionsOptions(
+        string Engine
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Engine);
+        this.Engine = Engine;
+    }
+
+    private AwsDocdbDescribeOrderableDbInstanceOptionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDocdbDescribeOrderableDbInstanceOptionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDocdbDescribeOrderableDbInstanceOptionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the engine to retrieve instance options for.
+    /// </summary>
     [CliOption("--engine")]
-    public string? Engine { get; set; }
+    public string? Engine { get; private init; }
 
     /// <summary>
     /// The engine version filter value. Specify this parameter to show only the available offerings that match the specified engine version.
@@ -43,7 +80,10 @@ public record AwsDocdbDescribeOrderableDbInstanceOptionsOptions : AwsOptions
     [CliOption("--license-model")]
     public string? LicenseModel { get; set; }
 
-    [CliFlag("--vpc")]
+    /// <summary>
+    /// The virtual private cloud (VPC) filter value. Specify this parameter to show only the available VPC or non-VPC offerings.
+    /// </summary>
+    [CliFlag("--vpc", NegatedName = "--no-vpc")]
     public bool? Vpc { get; set; }
 
     /// <summary>
@@ -76,5 +116,22 @@ public record AwsDocdbDescribeOrderableDbInstanceOptionsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

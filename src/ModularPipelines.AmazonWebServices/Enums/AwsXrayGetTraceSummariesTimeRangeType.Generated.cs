@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --timerangetype.
+/// Allowed values for --time-range-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsXrayGetTraceSummariesTimeRangeType
 {
-    [EnumValue("TraceId")]
-    TraceId = 1,
-
     [EnumValue("Event")]
-    Event = 2,
+    Event,
 
     [EnumValue("Service")]
-    Service = 3
+    Service,
+
+    [EnumValue("TraceId")]
+    TraceId
 }

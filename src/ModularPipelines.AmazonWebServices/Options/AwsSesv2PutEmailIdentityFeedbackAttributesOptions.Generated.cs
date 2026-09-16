@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sesv2", "put-email-identity-feedback-attributes")]
-public record AwsSesv2PutEmailIdentityFeedbackAttributesOptions : AwsOptions
+public record AwsSesv2PutEmailIdentityFeedbackAttributesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--email-identity")]
-    public string? EmailIdentity { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--email-forwarding-enabled")]
+    /// <summary>
+    /// Used to enable or disable feedback forwarding for an identity. This setting determines what happens when an identity is used to send an email that results in a bounce or complaint event. If the value is true , you receive email notifications when bounce or complaint events occur. These notifications are sent to the address that you specified in the Return-Path header of the original email. You're required to have a method of tracking bounces and complaints. If you haven't set up another mechanis...
+    /// </summary>
+    /// <param name="EmailIdentity">The email identity. Constraints: o min: 1</param>
+    public AwsSesv2PutEmailIdentityFeedbackAttributesOptions(
+        string EmailIdentity
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EmailIdentity);
+        this.EmailIdentity = EmailIdentity;
+    }
+
+    private AwsSesv2PutEmailIdentityFeedbackAttributesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSesv2PutEmailIdentityFeedbackAttributesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSesv2PutEmailIdentityFeedbackAttributesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The email identity. Constraints: o min: 1
+    /// </summary>
+    [CliOption("--email-identity")]
+    public string? EmailIdentity { get; private init; }
+
+    /// <summary>
+    /// Sets the feedback forwarding configuration for the identity. If the value is true , you receive email notifications when bounce or complaint events occur. These notifications are sent to the ad- dress that you specified in the Return-Path header of the original email. You're required to have a method of tracking bounces and complaints. If you haven't set up another mechanism for receiving bounce or com- plaint notifications (for example, by setting up an event destina- tion), you receive an email notification when these events occur (even if this setting is disabled).
+    /// </summary>
+    [CliFlag("--email-forwarding-enabled", NegatedName = "--no-email-forwarding-enabled")]
     public bool? EmailForwardingEnabled { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -32,5 +72,22 @@ public record AwsSesv2PutEmailIdentityFeedbackAttributesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

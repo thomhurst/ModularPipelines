@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,83 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "create-maintenance-window")]
-public record AwsSsmCreateMaintenanceWindowOptions : AwsOptions
+public record AwsSsmCreateMaintenanceWindowOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new maintenance window. NOTE: The value you specify for Duration determines the specific end time for the maintenance window based on the time it begins. No mainte- nance window tasks are permitted to start after the resulting end- time minus the number of hours you specify for Cutoff . For example, if the maintenance window starts at 3 PM, the duration is three hours, and the value you specify for Cutoff is one hour, no mainte- nance window tasks can start after 5 PM. See also: AWS AP...
+    /// </summary>
+    /// <param name="Name">The name of the maintenance window. Constraints: o min: 3 o max: 128 o pattern: ^[a-zA-Z0-9_\-.]{3,128}$</param>
+    /// <param name="Schedule">The schedule of the maintenance window in the form of a cron or rate expression. Constraints: o min: 1 o max: 256</param>
+    /// <param name="Duration">The duration of the maintenance window in hours. Constraints: o min: 1 o max: 24</param>
+    /// <param name="Cutoff">The number of hours before the end of the maintenance window that Amazon Web Services Systems Manager stops scheduling new tasks for execution. Constraints: o min: 0 o max: 23</param>
+    /// <param name="AllowUnassociatedTargets">Enables a maintenance window task to run on managed nodes, even if you haven't registered those nodes as targets. If enabled, then you must specify the unregistered managed nodes (by node ID) when you register a task with the maintenance window. If you don't enable this option, then you must specify previ- ously-registered targets when you register a task with the mainte- nance window.</param>
+    public AwsSsmCreateMaintenanceWindowOptions(
+        string Name,
+        string Schedule,
+        int Duration,
+        int Cutoff,
+        bool AllowUnassociatedTargets
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Schedule);
+        this.Schedule = Schedule;
+        this.Duration = Duration;
+        this.Cutoff = Cutoff;
+        this.AllowUnassociatedTargets = AllowUnassociatedTargets;
+    }
+
+    private AwsSsmCreateMaintenanceWindowOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmCreateMaintenanceWindowOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmCreateMaintenanceWindowOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the maintenance window. Constraints: o min: 3 o max: 128 o pattern: ^[a-zA-Z0-9_\-.]{3,128}$
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The schedule of the maintenance window in the form of a cron or rate expression. Constraints: o min: 1 o max: 256
+    /// </summary>
+    [CliOption("--schedule")]
+    public string? Schedule { get; private init; }
+
+    /// <summary>
+    /// The duration of the maintenance window in hours. Constraints: o min: 1 o max: 24
+    /// </summary>
+    [CliOption("--duration")]
+    public int? Duration { get; private init; }
+
+    /// <summary>
+    /// The number of hours before the end of the maintenance window that Amazon Web Services Systems Manager stops scheduling new tasks for execution. Constraints: o min: 0 o max: 23
+    /// </summary>
+    [CliOption("--cutoff")]
+    public int? Cutoff { get; private init; }
+
+    /// <summary>
+    /// Enables a maintenance window task to run on managed nodes, even if you haven't registered those nodes as targets. If enabled, then you must specify the unregistered managed nodes (by node ID) when you register a task with the maintenance window. If you don't enable this option, then you must specify previ- ously-registered targets when you register a task with the mainte- nance window.
+    /// </summary>
+    [CliFlag("--allow-unassociated-targets", NegatedName = "--no-allow-unassociated-targets")]
+    public bool? AllowUnassociatedTargets { get; private init; }
 
     /// <summary>
     /// An optional description for the maintenance window. We recommend specifying a description to help you organize your maintenance win- dows. Constraints: o min: 1 o max: 128
@@ -43,9 +117,6 @@ public record AwsSsmCreateMaintenanceWindowOptions : AwsOptions
     [CliOption("--end-date")]
     public string? EndDate { get; set; }
 
-    [CliOption("--schedule")]
-    public string? Schedule { get; set; }
-
     /// <summary>
     /// The time zone that the scheduled maintenance window executions are based on, in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "UTC", or "Asia/Seoul". For more in- formation, see the Time Zone Database on the IANA website.
     /// </summary>
@@ -57,15 +128,6 @@ public record AwsSsmCreateMaintenanceWindowOptions : AwsOptions
     /// </summary>
     [CliOption("--schedule-offset")]
     public int? ScheduleOffset { get; set; }
-
-    [CliOption("--duration")]
-    public int? Duration { get; set; }
-
-    [CliOption("--cutoff")]
-    public int? Cutoff { get; set; }
-
-    [CliFlag("--allow-unassociated-targets")]
-    public bool? AllowUnassociatedTargets { get; set; }
 
     /// <summary>
     /// User-provided idempotency token. Constraints: o min: 1 o max: 64
@@ -85,5 +147,22 @@ public record AwsSsmCreateMaintenanceWindowOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,9 +21,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apigateway", "import-rest-api")]
-public record AwsApigatewayImportRestApiOptions : AwsOptions
+public record AwsApigatewayImportRestApiOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--fail-on-warnings")]
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// A feature of the API Gateway control service for creating a new API from an external API definition file. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Body">The POST request body containing external API definitions. Cur- rently, only OpenAPI definition JSON/YAML files are supported. The maximum size of the API definition file is 6MB.</param>
+    public AwsApigatewayImportRestApiOptions(
+        string Body
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Body);
+        this.Body = Body;
+    }
+
+    private AwsApigatewayImportRestApiOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApigatewayImportRestApiOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApigatewayImportRestApiOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The POST request body containing external API definitions. Cur- rently, only OpenAPI definition JSON/YAML files are supported. The maximum size of the API definition file is 6MB.
+    /// </summary>
+    [CliOption("--body")]
+    public string? Body { get; private init; }
+
+    /// <summary>
+    /// A query parameter to indicate whether to rollback the API creation (true ) or not (false ) when a warning is encountered. The default value is false .
+    /// </summary>
+    [CliFlag("--fail-on-warnings", NegatedName = "--no-fail-on-warnings")]
     public bool? FailOnWarnings { get; set; }
 
     /// <summary>
@@ -31,13 +74,27 @@ public record AwsApigatewayImportRestApiOptions : AwsOptions
     [CliOption("--parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Parameters { get; set; }
 
-    [CliOption("--body")]
-    public string? Body { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

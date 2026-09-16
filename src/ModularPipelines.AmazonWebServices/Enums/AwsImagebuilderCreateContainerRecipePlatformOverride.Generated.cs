@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --platformoverride.
+/// Allowed values for --platform-override.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsImagebuilderCreateContainerRecipePlatformOverride
 {
-    [EnumValue("Windows")]
-    Windows = 1,
-
     [EnumValue("Linux")]
-    Linux = 2,
+    Linux,
 
     [EnumValue("macOS")]
-    MacOs = 3
+    MacOs,
+
+    [EnumValue("Windows")]
+    Windows
 }

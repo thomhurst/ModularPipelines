@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logs", "test-metric-filter")]
-public record AwsLogsTestMetricFilterOptions : AwsOptions
+public record AwsLogsTestMetricFilterOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--filter-pattern")]
-    public string? FilterPattern { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Tests the filter pattern of a metric filter against a sample of log event messages. You can use this operation to validate the correctness of a metric filter pattern. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FilterPattern">A symbolic description of how CloudWatch Logs should interpret the data in each log event. For example, a log event can contain time- stamps, IP addresses, strings, and so on. You use the filter pattern to specify what to look for in the log event message. Constraints: o min: 0 o max: 1024</param>
+    /// <param name="LogEventMessages">The log event messages to test. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 Syntax: "string" "string" ...</param>
+    public AwsLogsTestMetricFilterOptions(
+        string FilterPattern,
+        IEnumerable<string> LogEventMessages
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FilterPattern);
+        this.FilterPattern = FilterPattern;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(LogEventMessages);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(LogEventMessages));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(LogEventMessages));
+            }
+
+            LogEventMessages = materialized;
+        }
+        this.LogEventMessages = LogEventMessages;
+    }
+
+    private AwsLogsTestMetricFilterOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLogsTestMetricFilterOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLogsTestMetricFilterOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A symbolic description of how CloudWatch Logs should interpret the data in each log event. For example, a log event can contain time- stamps, IP addresses, strings, and so on. You use the filter pattern to specify what to look for in the log event message. Constraints: o min: 0 o max: 1024
+    /// </summary>
+    [CliOption("--filter-pattern")]
+    public string? FilterPattern { get; private init; }
+
+    /// <summary>
+    /// The log event messages to test. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--log-event-messages", GroupValues = true)]
-    public IEnumerable<string>? LogEventMessages { get; set; }
+    public IEnumerable<string>? LogEventMessages { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

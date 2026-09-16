@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,99 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("quicksight", "update-dashboard-links")]
-public record AwsQuicksightUpdateDashboardLinksOptions : AwsOptions
+public record AwsQuicksightUpdateDashboardLinksOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the linked analyses on a dashboard. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the dash- board whose links you want to update. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="DashboardId">The ID for the dashboard. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+</param>
+    /// <param name="LinkEntities">list of analysis Amazon Resource Names (ARNs) to be linked to the dashboard. Constraints: o max: 5 (string) Constraints: o min: 1 o max: 1024 o pattern: ^arn:aws[\w\-]*:quicksight:[\w\-]+:\d+:analy- sis/[\w\-]{1,512} Syntax: "string" "string" ...</param>
+    public AwsQuicksightUpdateDashboardLinksOptions(
+        string AwsAccountId,
+        string DashboardId,
+        IEnumerable<string> LinkEntities
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
+        this.AwsAccountId = AwsAccountId;
+        global::System.ArgumentNullException.ThrowIfNull(DashboardId);
+        this.DashboardId = DashboardId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(LinkEntities);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(LinkEntities));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(LinkEntities));
+            }
+
+            LinkEntities = materialized;
+        }
+        this.LinkEntities = LinkEntities;
+    }
+
+    private AwsQuicksightUpdateDashboardLinksOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQuicksightUpdateDashboardLinksOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQuicksightUpdateDashboardLinksOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Amazon Web Services account that contains the dash- board whose links you want to update. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// </summary>
     [CliOption("--aws-account-id")]
-    public string? AwsAccountId { get; set; }
+    public string? AwsAccountId { get; private init; }
 
+    /// <summary>
+    /// The ID for the dashboard. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+
+    /// </summary>
     [CliOption("--dashboard-id")]
-    public string? DashboardId { get; set; }
+    public string? DashboardId { get; private init; }
 
+    /// <summary>
+    /// list of analysis Amazon Resource Names (ARNs) to be linked to the dashboard. Constraints: o max: 5 (string) Constraints: o min: 1 o max: 1024 o pattern: ^arn:aws[\w\-]*:quicksight:[\w\-]+:\d+:analy- sis/[\w\-]{1,512} Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--link-entities", GroupValues = true)]
-    public IEnumerable<string>? LinkEntities { get; set; }
+    public IEnumerable<string>? LinkEntities { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

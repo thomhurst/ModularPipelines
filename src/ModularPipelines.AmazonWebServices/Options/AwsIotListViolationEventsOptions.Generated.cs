@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "list-violation-events")]
-public record AwsIotListViolationEventsOptions : AwsOptions
+public record AwsIotListViolationEventsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--start-time")]
-    public string? StartTime { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Devel- oper Guide. There is no change to IoT Device Defender audit avail- ability. Lists the Device Defender security profile violations discovered during the g...
+    /// </summary>
+    /// <param name="StartTime">The start time for the alerts to be listed.</param>
+    /// <param name="EndTime">The end time for the alerts to be listed.</param>
+    public AwsIotListViolationEventsOptions(
+        string StartTime,
+        string EndTime
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StartTime);
+        this.StartTime = StartTime;
+        global::System.ArgumentNullException.ThrowIfNull(EndTime);
+        this.EndTime = EndTime;
+    }
+
+    private AwsIotListViolationEventsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotListViolationEventsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotListViolationEventsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The start time for the alerts to be listed.
+    /// </summary>
+    [CliOption("--start-time")]
+    public string? StartTime { get; private init; }
+
+    /// <summary>
+    /// The end time for the alerts to be listed.
+    /// </summary>
     [CliOption("--end-time")]
-    public string? EndTime { get; set; }
+    public string? EndTime { get; private init; }
 
     /// <summary>
     /// A filter to limit results to those alerts caused by the specified thing. Constraints: o min: 1 o max: 128
@@ -47,7 +91,10 @@ public record AwsIotListViolationEventsOptions : AwsOptions
     [CliOption("--behavior-criteria-type")]
     public AwsIotListViolationEventsBehaviorCriteriaType? BehaviorCriteriaType { get; set; }
 
-    [CliFlag("--list-suppressed-alerts")]
+    /// <summary>
+    /// A list of all suppressed alerts.
+    /// </summary>
+    [CliFlag("--list-suppressed-alerts", NegatedName = "--no-list-suppressed-alerts")]
     public bool? ListSuppressedAlerts { get; set; }
 
     /// <summary>
@@ -80,5 +127,22 @@ public record AwsIotListViolationEventsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -40,11 +40,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AssociateOriginationIdentityAsync(
-        AwsPinpointSmsVoiceV2AssociateOriginationIdentityOptions? options = null,
+        AwsPinpointSmsVoiceV2AssociateOriginationIdentityOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2AssociateOriginationIdentityOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -55,11 +55,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AssociateProtectConfigurationAsync(
-        AwsPinpointSmsVoiceV2AssociateProtectConfigurationOptions? options = null,
+        AwsPinpointSmsVoiceV2AssociateProtectConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2AssociateProtectConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -70,11 +70,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CarrierLookupAsync(
-        AwsPinpointSmsVoiceV2CarrierLookupOptions? options = null,
+        AwsPinpointSmsVoiceV2CarrierLookupOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2CarrierLookupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -85,11 +85,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateConfigurationSetAsync(
-        AwsPinpointSmsVoiceV2CreateConfigurationSetOptions? options = null,
+        AwsPinpointSmsVoiceV2CreateConfigurationSetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2CreateConfigurationSetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -100,11 +100,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateEventDestinationAsync(
-        AwsPinpointSmsVoiceV2CreateEventDestinationOptions? options = null,
+        AwsPinpointSmsVoiceV2CreateEventDestinationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2CreateEventDestinationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -115,11 +115,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateNotifyConfigurationAsync(
-        AwsPinpointSmsVoiceV2CreateNotifyConfigurationOptions? options = null,
+        AwsPinpointSmsVoiceV2CreateNotifyConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2CreateNotifyConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -130,11 +130,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateOptOutListAsync(
-        AwsPinpointSmsVoiceV2CreateOptOutListOptions? options = null,
+        AwsPinpointSmsVoiceV2CreateOptOutListOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2CreateOptOutListOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -145,11 +145,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreatePoolAsync(
-        AwsPinpointSmsVoiceV2CreatePoolOptions? options = null,
+        AwsPinpointSmsVoiceV2CreatePoolOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2CreatePoolOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -164,7 +164,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2CreateProtectConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2CreateProtectConfigurationOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -179,7 +179,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2CreateRcsAgentOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2CreateRcsAgentOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -190,15 +190,15 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateRegistrationAssociationAsync(
-        AwsPinpointSmsVoiceV2CreateRegistrationAssociationOptions? options = null,
+        AwsPinpointSmsVoiceV2CreateRegistrationAssociationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2CreateRegistrationAssociationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
-    /// Create a new registration attachment to use for uploading a file or a URL to a file. The maximum file size is 500KB and valid file extensions are PDF, JPEG and PNG. For example, many sender ID registrations re- quire a signed letter of authorization (LOA) to be submitted. Use either AttachmentUrl or AttachmentBody to upload your attachment. If both are specified then an exception is returned. See also: AWS API Documentation
+    /// Create a new registration attachment to use for uploading a file or a URL to a file. The maximum file size is 5MB and valid file extensions are PDF, JPEG and PNG. For example, many sender ID registrations re- quire a signed letter of authorization (LOA) to be submitted. Use either AttachmentUrl or AttachmentBody to upload your attachment. If both are specified then an exception is returned. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -209,7 +209,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2CreateRegistrationAttachmentOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2CreateRegistrationAttachmentOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -220,11 +220,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateRegistrationAsync(
-        AwsPinpointSmsVoiceV2CreateRegistrationOptions? options = null,
+        AwsPinpointSmsVoiceV2CreateRegistrationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2CreateRegistrationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -235,11 +235,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateRegistrationVersionAsync(
-        AwsPinpointSmsVoiceV2CreateRegistrationVersionOptions? options = null,
+        AwsPinpointSmsVoiceV2CreateRegistrationVersionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2CreateRegistrationVersionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -250,11 +250,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateVerifiedDestinationNumberAsync(
-        AwsPinpointSmsVoiceV2CreateVerifiedDestinationNumberOptions? options = null,
+        AwsPinpointSmsVoiceV2CreateVerifiedDestinationNumberOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2CreateVerifiedDestinationNumberOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -269,7 +269,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DeleteAccountDefaultProtectConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DeleteAccountDefaultProtectConfigurationOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -280,11 +280,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteConfigurationSetAsync(
-        AwsPinpointSmsVoiceV2DeleteConfigurationSetOptions? options = null,
+        AwsPinpointSmsVoiceV2DeleteConfigurationSetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DeleteConfigurationSetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -295,11 +295,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteDefaultMessageTypeAsync(
-        AwsPinpointSmsVoiceV2DeleteDefaultMessageTypeOptions? options = null,
+        AwsPinpointSmsVoiceV2DeleteDefaultMessageTypeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DeleteDefaultMessageTypeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -310,11 +310,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteDefaultSenderIdAsync(
-        AwsPinpointSmsVoiceV2DeleteDefaultSenderIdOptions? options = null,
+        AwsPinpointSmsVoiceV2DeleteDefaultSenderIdOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DeleteDefaultSenderIdOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -325,11 +325,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteEventDestinationAsync(
-        AwsPinpointSmsVoiceV2DeleteEventDestinationOptions? options = null,
+        AwsPinpointSmsVoiceV2DeleteEventDestinationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DeleteEventDestinationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -340,11 +340,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteKeywordAsync(
-        AwsPinpointSmsVoiceV2DeleteKeywordOptions? options = null,
+        AwsPinpointSmsVoiceV2DeleteKeywordOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DeleteKeywordOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -359,7 +359,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DeleteMediaMessageSpendLimitOverrideOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DeleteMediaMessageSpendLimitOverrideOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -370,11 +370,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteNotifyConfigurationAsync(
-        AwsPinpointSmsVoiceV2DeleteNotifyConfigurationOptions? options = null,
+        AwsPinpointSmsVoiceV2DeleteNotifyConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DeleteNotifyConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -389,7 +389,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DeleteNotifyMessageSpendLimitOverrideOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DeleteNotifyMessageSpendLimitOverrideOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -400,11 +400,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteOptedOutNumberAsync(
-        AwsPinpointSmsVoiceV2DeleteOptedOutNumberOptions? options = null,
+        AwsPinpointSmsVoiceV2DeleteOptedOutNumberOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DeleteOptedOutNumberOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -415,11 +415,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteOptOutListAsync(
-        AwsPinpointSmsVoiceV2DeleteOptOutListOptions? options = null,
+        AwsPinpointSmsVoiceV2DeleteOptOutListOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DeleteOptOutListOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -430,11 +430,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeletePoolAsync(
-        AwsPinpointSmsVoiceV2DeletePoolOptions? options = null,
+        AwsPinpointSmsVoiceV2DeletePoolOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DeletePoolOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -445,11 +445,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteProtectConfigurationAsync(
-        AwsPinpointSmsVoiceV2DeleteProtectConfigurationOptions? options = null,
+        AwsPinpointSmsVoiceV2DeleteProtectConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DeleteProtectConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -460,11 +460,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteProtectConfigurationRuleSetNumberOverrideAsync(
-        AwsPinpointSmsVoiceV2DeleteProtectConfigurationRuleSetNumberOverrideOptions? options = null,
+        AwsPinpointSmsVoiceV2DeleteProtectConfigurationRuleSetNumberOverrideOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DeleteProtectConfigurationRuleSetNumberOverrideOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -475,11 +475,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteRcsAgentAsync(
-        AwsPinpointSmsVoiceV2DeleteRcsAgentOptions? options = null,
+        AwsPinpointSmsVoiceV2DeleteRcsAgentOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DeleteRcsAgentOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -494,7 +494,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DeleteRcsMessageSpendLimitOverrideOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DeleteRcsMessageSpendLimitOverrideOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -505,11 +505,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteRegistrationAttachmentAsync(
-        AwsPinpointSmsVoiceV2DeleteRegistrationAttachmentOptions? options = null,
+        AwsPinpointSmsVoiceV2DeleteRegistrationAttachmentOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DeleteRegistrationAttachmentOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -520,11 +520,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteRegistrationFieldValueAsync(
-        AwsPinpointSmsVoiceV2DeleteRegistrationFieldValueOptions? options = null,
+        AwsPinpointSmsVoiceV2DeleteRegistrationFieldValueOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DeleteRegistrationFieldValueOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -535,11 +535,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteRegistrationAsync(
-        AwsPinpointSmsVoiceV2DeleteRegistrationOptions? options = null,
+        AwsPinpointSmsVoiceV2DeleteRegistrationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DeleteRegistrationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -550,11 +550,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteResourcePolicyAsync(
-        AwsPinpointSmsVoiceV2DeleteResourcePolicyOptions? options = null,
+        AwsPinpointSmsVoiceV2DeleteResourcePolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DeleteResourcePolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -569,7 +569,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DeleteTextMessageSpendLimitOverrideOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DeleteTextMessageSpendLimitOverrideOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -580,11 +580,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteVerifiedDestinationNumberAsync(
-        AwsPinpointSmsVoiceV2DeleteVerifiedDestinationNumberOptions? options = null,
+        AwsPinpointSmsVoiceV2DeleteVerifiedDestinationNumberOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DeleteVerifiedDestinationNumberOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -599,7 +599,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DeleteVoiceMessageSpendLimitOverrideOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DeleteVoiceMessageSpendLimitOverrideOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -614,7 +614,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DescribeAccountAttributesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DescribeAccountAttributesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -629,7 +629,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DescribeAccountLimitsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DescribeAccountLimitsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -644,7 +644,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DescribeConfigurationSetsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DescribeConfigurationSetsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -655,11 +655,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeKeywordsAsync(
-        AwsPinpointSmsVoiceV2DescribeKeywordsOptions? options = null,
+        AwsPinpointSmsVoiceV2DescribeKeywordsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DescribeKeywordsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -674,7 +674,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DescribeNotifyConfigurationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DescribeNotifyConfigurationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -689,7 +689,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DescribeNotifyTemplatesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DescribeNotifyTemplatesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -700,11 +700,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeOptedOutNumbersAsync(
-        AwsPinpointSmsVoiceV2DescribeOptedOutNumbersOptions? options = null,
+        AwsPinpointSmsVoiceV2DescribeOptedOutNumbersOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DescribeOptedOutNumbersOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -719,7 +719,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DescribeOptOutListsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DescribeOptOutListsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -734,7 +734,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DescribePhoneNumbersOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DescribePhoneNumbersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -749,7 +749,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DescribePoolsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DescribePoolsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -764,7 +764,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DescribeProtectConfigurationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DescribeProtectConfigurationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -775,11 +775,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeRcsAgentCountryLaunchStatusAsync(
-        AwsPinpointSmsVoiceV2DescribeRcsAgentCountryLaunchStatusOptions? options = null,
+        AwsPinpointSmsVoiceV2DescribeRcsAgentCountryLaunchStatusOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DescribeRcsAgentCountryLaunchStatusOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -794,7 +794,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DescribeRcsAgentsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DescribeRcsAgentsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -809,7 +809,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DescribeRegistrationAttachmentsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DescribeRegistrationAttachmentsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -820,11 +820,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeRegistrationFieldDefinitionsAsync(
-        AwsPinpointSmsVoiceV2DescribeRegistrationFieldDefinitionsOptions? options = null,
+        AwsPinpointSmsVoiceV2DescribeRegistrationFieldDefinitionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DescribeRegistrationFieldDefinitionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -835,11 +835,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeRegistrationFieldValuesAsync(
-        AwsPinpointSmsVoiceV2DescribeRegistrationFieldValuesOptions? options = null,
+        AwsPinpointSmsVoiceV2DescribeRegistrationFieldValuesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DescribeRegistrationFieldValuesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -850,11 +850,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeRegistrationSectionDefinitionsAsync(
-        AwsPinpointSmsVoiceV2DescribeRegistrationSectionDefinitionsOptions? options = null,
+        AwsPinpointSmsVoiceV2DescribeRegistrationSectionDefinitionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DescribeRegistrationSectionDefinitionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -869,7 +869,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DescribeRegistrationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DescribeRegistrationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -884,7 +884,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DescribeRegistrationTypeDefinitionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DescribeRegistrationTypeDefinitionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -895,11 +895,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeRegistrationVersionsAsync(
-        AwsPinpointSmsVoiceV2DescribeRegistrationVersionsOptions? options = null,
+        AwsPinpointSmsVoiceV2DescribeRegistrationVersionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DescribeRegistrationVersionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -914,7 +914,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DescribeSenderIdsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DescribeSenderIdsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -929,7 +929,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DescribeSpendLimitsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DescribeSpendLimitsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -944,7 +944,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DescribeVerifiedDestinationNumbersOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DescribeVerifiedDestinationNumbersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -955,11 +955,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisassociateOriginationIdentityAsync(
-        AwsPinpointSmsVoiceV2DisassociateOriginationIdentityOptions? options = null,
+        AwsPinpointSmsVoiceV2DisassociateOriginationIdentityOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DisassociateOriginationIdentityOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -970,11 +970,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisassociateProtectConfigurationAsync(
-        AwsPinpointSmsVoiceV2DisassociateProtectConfigurationOptions? options = null,
+        AwsPinpointSmsVoiceV2DisassociateProtectConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DisassociateProtectConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -985,11 +985,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DiscardRegistrationVersionAsync(
-        AwsPinpointSmsVoiceV2DiscardRegistrationVersionOptions? options = null,
+        AwsPinpointSmsVoiceV2DiscardRegistrationVersionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DiscardRegistrationVersionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1000,11 +1000,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetProtectConfigurationCountryRuleSetAsync(
-        AwsPinpointSmsVoiceV2GetProtectConfigurationCountryRuleSetOptions? options = null,
+        AwsPinpointSmsVoiceV2GetProtectConfigurationCountryRuleSetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2GetProtectConfigurationCountryRuleSetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1015,11 +1015,26 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetResourcePolicyAsync(
-        AwsPinpointSmsVoiceV2GetResourcePolicyOptions? options = null,
+        AwsPinpointSmsVoiceV2GetResourcePolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2GetResourcePolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Search available phone numbers from aggregator inventory, optionally filtered by pattern. If NumberPreference is omitted, returns unfiltered available numbers. Returns empty list (not an exception) when no num- bers match. ResourceNotFoundException is thrown only for invalid Regis- trationId (campaign not found). See also: AWS API Documentation list-available-phone-numbers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can di...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAvailablePhoneNumbersAsync(
+        AwsPinpointSmsVoiceV2ListAvailablePhoneNumbersOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1034,7 +1049,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2ListNotifyCountriesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2ListNotifyCountriesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1045,11 +1060,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListPoolOriginationIdentitiesAsync(
-        AwsPinpointSmsVoiceV2ListPoolOriginationIdentitiesOptions? options = null,
+        AwsPinpointSmsVoiceV2ListPoolOriginationIdentitiesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2ListPoolOriginationIdentitiesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1060,11 +1075,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListProtectConfigurationRuleSetNumberOverridesAsync(
-        AwsPinpointSmsVoiceV2ListProtectConfigurationRuleSetNumberOverridesOptions? options = null,
+        AwsPinpointSmsVoiceV2ListProtectConfigurationRuleSetNumberOverridesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2ListProtectConfigurationRuleSetNumberOverridesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1075,11 +1090,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListRegistrationAssociationsAsync(
-        AwsPinpointSmsVoiceV2ListRegistrationAssociationsOptions? options = null,
+        AwsPinpointSmsVoiceV2ListRegistrationAssociationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2ListRegistrationAssociationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1090,11 +1105,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListTagsForResourceAsync(
-        AwsPinpointSmsVoiceV2ListTagsForResourceOptions? options = null,
+        AwsPinpointSmsVoiceV2ListTagsForResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2ListTagsForResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1105,11 +1120,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutKeywordAsync(
-        AwsPinpointSmsVoiceV2PutKeywordOptions? options = null,
+        AwsPinpointSmsVoiceV2PutKeywordOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2PutKeywordOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1120,11 +1135,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutMessageFeedbackAsync(
-        AwsPinpointSmsVoiceV2PutMessageFeedbackOptions? options = null,
+        AwsPinpointSmsVoiceV2PutMessageFeedbackOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2PutMessageFeedbackOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1135,11 +1150,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutOptedOutNumberAsync(
-        AwsPinpointSmsVoiceV2PutOptedOutNumberOptions? options = null,
+        AwsPinpointSmsVoiceV2PutOptedOutNumberOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2PutOptedOutNumberOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1150,11 +1165,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutProtectConfigurationRuleSetNumberOverrideAsync(
-        AwsPinpointSmsVoiceV2PutProtectConfigurationRuleSetNumberOverrideOptions? options = null,
+        AwsPinpointSmsVoiceV2PutProtectConfigurationRuleSetNumberOverrideOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2PutProtectConfigurationRuleSetNumberOverrideOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1165,11 +1180,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutRegistrationFieldValueAsync(
-        AwsPinpointSmsVoiceV2PutRegistrationFieldValueOptions? options = null,
+        AwsPinpointSmsVoiceV2PutRegistrationFieldValueOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2PutRegistrationFieldValueOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1180,11 +1195,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutResourcePolicyAsync(
-        AwsPinpointSmsVoiceV2PutResourcePolicyOptions? options = null,
+        AwsPinpointSmsVoiceV2PutResourcePolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2PutResourcePolicyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1195,11 +1210,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ReleasePhoneNumberAsync(
-        AwsPinpointSmsVoiceV2ReleasePhoneNumberOptions? options = null,
+        AwsPinpointSmsVoiceV2ReleasePhoneNumberOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2ReleasePhoneNumberOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1210,11 +1225,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ReleaseSenderIdAsync(
-        AwsPinpointSmsVoiceV2ReleaseSenderIdOptions? options = null,
+        AwsPinpointSmsVoiceV2ReleaseSenderIdOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2ReleaseSenderIdOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1225,11 +1240,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RequestPhoneNumberAsync(
-        AwsPinpointSmsVoiceV2RequestPhoneNumberOptions? options = null,
+        AwsPinpointSmsVoiceV2RequestPhoneNumberOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2RequestPhoneNumberOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1240,11 +1255,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RequestSenderIdAsync(
-        AwsPinpointSmsVoiceV2RequestSenderIdOptions? options = null,
+        AwsPinpointSmsVoiceV2RequestSenderIdOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2RequestSenderIdOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1255,11 +1270,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SendDestinationNumberVerificationCodeAsync(
-        AwsPinpointSmsVoiceV2SendDestinationNumberVerificationCodeOptions? options = null,
+        AwsPinpointSmsVoiceV2SendDestinationNumberVerificationCodeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2SendDestinationNumberVerificationCodeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1270,11 +1285,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SendMediaMessageAsync(
-        AwsPinpointSmsVoiceV2SendMediaMessageOptions? options = null,
+        AwsPinpointSmsVoiceV2SendMediaMessageOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2SendMediaMessageOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1285,11 +1300,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SendNotifyTextMessageAsync(
-        AwsPinpointSmsVoiceV2SendNotifyTextMessageOptions? options = null,
+        AwsPinpointSmsVoiceV2SendNotifyTextMessageOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2SendNotifyTextMessageOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1300,11 +1315,26 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SendNotifyVoiceMessageAsync(
-        AwsPinpointSmsVoiceV2SendNotifyVoiceMessageOptions? options = null,
+        AwsPinpointSmsVoiceV2SendNotifyVoiceMessageOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2SendNotifyVoiceMessageOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Creates a new RCS message and sends it to a recipient's phone number. RCS messages support rich content including text, files, rich cards, and carousels with interactive suggested actions. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> SendRcsMessageAsync(
+        AwsPinpointSmsVoiceV2SendRcsMessageOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1315,11 +1345,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SendTextMessageAsync(
-        AwsPinpointSmsVoiceV2SendTextMessageOptions? options = null,
+        AwsPinpointSmsVoiceV2SendTextMessageOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2SendTextMessageOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1330,11 +1360,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SendVoiceMessageAsync(
-        AwsPinpointSmsVoiceV2SendVoiceMessageOptions? options = null,
+        AwsPinpointSmsVoiceV2SendVoiceMessageOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2SendVoiceMessageOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1345,11 +1375,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetAccountDefaultProtectConfigurationAsync(
-        AwsPinpointSmsVoiceV2SetAccountDefaultProtectConfigurationOptions? options = null,
+        AwsPinpointSmsVoiceV2SetAccountDefaultProtectConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2SetAccountDefaultProtectConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1360,11 +1390,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetDefaultMessageFeedbackEnabledAsync(
-        AwsPinpointSmsVoiceV2SetDefaultMessageFeedbackEnabledOptions? options = null,
+        AwsPinpointSmsVoiceV2SetDefaultMessageFeedbackEnabledOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2SetDefaultMessageFeedbackEnabledOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1375,11 +1405,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetDefaultMessageTypeAsync(
-        AwsPinpointSmsVoiceV2SetDefaultMessageTypeOptions? options = null,
+        AwsPinpointSmsVoiceV2SetDefaultMessageTypeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2SetDefaultMessageTypeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1390,11 +1420,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetDefaultSenderIdAsync(
-        AwsPinpointSmsVoiceV2SetDefaultSenderIdOptions? options = null,
+        AwsPinpointSmsVoiceV2SetDefaultSenderIdOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2SetDefaultSenderIdOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1405,11 +1435,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetMediaMessageSpendLimitOverrideAsync(
-        AwsPinpointSmsVoiceV2SetMediaMessageSpendLimitOverrideOptions? options = null,
+        AwsPinpointSmsVoiceV2SetMediaMessageSpendLimitOverrideOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2SetMediaMessageSpendLimitOverrideOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1420,11 +1450,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetNotifyMessageSpendLimitOverrideAsync(
-        AwsPinpointSmsVoiceV2SetNotifyMessageSpendLimitOverrideOptions? options = null,
+        AwsPinpointSmsVoiceV2SetNotifyMessageSpendLimitOverrideOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2SetNotifyMessageSpendLimitOverrideOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1435,11 +1465,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetRcsMessageSpendLimitOverrideAsync(
-        AwsPinpointSmsVoiceV2SetRcsMessageSpendLimitOverrideOptions? options = null,
+        AwsPinpointSmsVoiceV2SetRcsMessageSpendLimitOverrideOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2SetRcsMessageSpendLimitOverrideOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1450,11 +1480,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetTextMessageSpendLimitOverrideAsync(
-        AwsPinpointSmsVoiceV2SetTextMessageSpendLimitOverrideOptions? options = null,
+        AwsPinpointSmsVoiceV2SetTextMessageSpendLimitOverrideOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2SetTextMessageSpendLimitOverrideOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1465,11 +1495,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetVoiceMessageSpendLimitOverrideAsync(
-        AwsPinpointSmsVoiceV2SetVoiceMessageSpendLimitOverrideOptions? options = null,
+        AwsPinpointSmsVoiceV2SetVoiceMessageSpendLimitOverrideOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2SetVoiceMessageSpendLimitOverrideOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1480,11 +1510,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SubmitRegistrationVersionAsync(
-        AwsPinpointSmsVoiceV2SubmitRegistrationVersionOptions? options = null,
+        AwsPinpointSmsVoiceV2SubmitRegistrationVersionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2SubmitRegistrationVersionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1495,11 +1525,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> TagResourceAsync(
-        AwsPinpointSmsVoiceV2TagResourceOptions? options = null,
+        AwsPinpointSmsVoiceV2TagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2TagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1510,11 +1540,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UntagResourceAsync(
-        AwsPinpointSmsVoiceV2UntagResourceOptions? options = null,
+        AwsPinpointSmsVoiceV2UntagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2UntagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1525,11 +1555,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateEventDestinationAsync(
-        AwsPinpointSmsVoiceV2UpdateEventDestinationOptions? options = null,
+        AwsPinpointSmsVoiceV2UpdateEventDestinationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2UpdateEventDestinationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1540,11 +1570,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateNotifyConfigurationAsync(
-        AwsPinpointSmsVoiceV2UpdateNotifyConfigurationOptions? options = null,
+        AwsPinpointSmsVoiceV2UpdateNotifyConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2UpdateNotifyConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1555,11 +1585,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdatePhoneNumberAsync(
-        AwsPinpointSmsVoiceV2UpdatePhoneNumberOptions? options = null,
+        AwsPinpointSmsVoiceV2UpdatePhoneNumberOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2UpdatePhoneNumberOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1570,11 +1600,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdatePoolAsync(
-        AwsPinpointSmsVoiceV2UpdatePoolOptions? options = null,
+        AwsPinpointSmsVoiceV2UpdatePoolOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2UpdatePoolOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1585,11 +1615,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateProtectConfigurationCountryRuleSetAsync(
-        AwsPinpointSmsVoiceV2UpdateProtectConfigurationCountryRuleSetOptions? options = null,
+        AwsPinpointSmsVoiceV2UpdateProtectConfigurationCountryRuleSetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2UpdateProtectConfigurationCountryRuleSetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1600,11 +1630,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateProtectConfigurationAsync(
-        AwsPinpointSmsVoiceV2UpdateProtectConfigurationOptions? options = null,
+        AwsPinpointSmsVoiceV2UpdateProtectConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2UpdateProtectConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1615,11 +1645,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateRcsAgentAsync(
-        AwsPinpointSmsVoiceV2UpdateRcsAgentOptions? options = null,
+        AwsPinpointSmsVoiceV2UpdateRcsAgentOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2UpdateRcsAgentOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1630,11 +1660,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateSenderIdAsync(
-        AwsPinpointSmsVoiceV2UpdateSenderIdOptions? options = null,
+        AwsPinpointSmsVoiceV2UpdateSenderIdOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2UpdateSenderIdOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1645,11 +1675,11 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> VerifyDestinationNumberAsync(
-        AwsPinpointSmsVoiceV2VerifyDestinationNumberOptions? options = null,
+        AwsPinpointSmsVoiceV2VerifyDestinationNumberOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2VerifyDestinationNumberOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

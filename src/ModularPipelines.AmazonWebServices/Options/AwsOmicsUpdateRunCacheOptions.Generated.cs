@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,8 +21,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("omics", "update-run-cache")]
-public record AwsOmicsUpdateRunCacheOptions : AwsOptions
+public record AwsOmicsUpdateRunCacheOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a run cache using its ID and returns a response with no body if the operation is successful. You can update the run cache description, name, or the default run cache behavior with CACHE_ON_FAILURE or CACHE_ALWAYS . To confirm that your run cache settings have been prop- erly updated, use the GetRunCache API operation. For more information, see How call caching works in the Amazon Web Ser- vices HealthOmics User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Id">The identifier of the run cache you want to update. Constraints: o min: 1 o max: 18 o pattern: [0-9]+</param>
+    public AwsOmicsUpdateRunCacheOptions(
+        string Id
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+    }
+
+    private AwsOmicsUpdateRunCacheOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOmicsUpdateRunCacheOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOmicsUpdateRunCacheOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the run cache you want to update. Constraints: o min: 1 o max: 18 o pattern: [0-9]+
+    /// </summary>
+    [CliOption("--id")]
+    public string? Id { get; private init; }
+
     /// <summary>
     /// Update the default run cache behavior. Possible values: o CACHE_ON_FAILURE o CACHE_ALWAYS Constraints: o min: 1 o max: 64
     /// </summary>
@@ -34,9 +74,6 @@ public record AwsOmicsUpdateRunCacheOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--id")]
-    public string? Id { get; set; }
-
     /// <summary>
     /// Update the name of the run cache. Constraints: o min: 1 o max: 128 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
     /// </summary>
@@ -48,5 +85,22 @@ public record AwsOmicsUpdateRunCacheOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

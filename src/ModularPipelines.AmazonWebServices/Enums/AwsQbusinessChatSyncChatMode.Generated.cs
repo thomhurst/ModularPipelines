@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --chatmode.
+/// Allowed values for --chat-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsQbusinessChatSyncChatMode
 {
-    [EnumValue("RETRIEVAL_MODE")]
-    RetrievalMode = 1,
-
     [EnumValue("CREATOR_MODE")]
-    CreatorMode = 2,
+    CreatorMode,
 
     [EnumValue("PLUGIN_MODE")]
-    PluginMode = 3
+    PluginMode,
+
+    [EnumValue("RETRIEVAL_MODE")]
+    RetrievalMode
 }

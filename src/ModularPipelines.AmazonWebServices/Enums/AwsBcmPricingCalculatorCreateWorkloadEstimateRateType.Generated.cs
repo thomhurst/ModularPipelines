@@ -11,14 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --ratetype.
+/// Allowed values for --rate-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsBcmPricingCalculatorCreateWorkloadEstimateRateType
 {
-    [EnumValue("BEFORE_DISCOUNTS")]
-    BeforeDiscounts = 1,
-
     [EnumValue("AFTER_DISCOUNTS")]
-    AfterDiscounts = 2
+    AfterDiscounts,
+
+    [EnumValue("AFTER_DISCOUNTS_AND_COMMITMENTS")]
+    AfterDiscountsAndCommitments,
+
+    [EnumValue("BEFORE_DISCOUNTS")]
+    BeforeDiscounts
 }

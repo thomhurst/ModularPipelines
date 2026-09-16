@@ -11,47 +11,53 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --networktype.
+/// Allowed values for --network-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsRdsRestoreDbInstanceFromDbSnapshotNetworkType
 {
-    [EnumValue("IPV4")]
-    Ipv4 = 1,
-
-    [EnumValue("DUAL")]
-    Dual = 2,
-
-    [EnumValue("The")]
-    The = 3,
-
-    [EnumValue("network")]
-    Network = 4,
-
-    [EnumValue("type")]
-    Type = 5,
-
-    [EnumValue("is")]
-    Is = 6,
-
-    [EnumValue("determined")]
-    Determined = 7,
-
     [EnumValue("by")]
-    By = 8,
-
-    [EnumValue("DBSubnetGroup")]
-    DbSubnetGroup = 9,
-
-    [EnumValue("specified")]
-    Specified = 10,
-
-    [EnumValue("for")]
-    For = 11,
+    By,
 
     [EnumValue("DB")]
-    Db = 12,
+    Db,
+
+    [EnumValue("DBSubnetGroup")]
+    DbSubnetGroup,
+
+    [EnumValue("determined")]
+    Determined,
+
+    [EnumValue("DUAL")]
+    Dual,
+
+    [EnumValue("for")]
+    For,
 
     [EnumValue("instance")]
-    Instance = 13
+    Instance,
+
+    [EnumValue("IPV4")]
+    Ipv4,
+
+    [EnumValue("is")]
+    Is,
+
+    [EnumValue("network")]
+    Network,
+
+    [EnumValue("o")]
+    O,
+
+    [EnumValue("specified")]
+    Specified,
+
+    [EnumValue("the")]
+    The,
+
+    [EnumValue("The")]
+    TheAlternative,
+
+    [EnumValue("type")]
+    Type
 }

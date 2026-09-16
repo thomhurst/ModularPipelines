@@ -17,5 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSecurityhubCreateTicketV2Mode
 {
     [EnumValue("DRYRUN")]
-    Dryrun = 1
+    Dryrun,
+
+    [EnumValue("o")]
+    O
 }

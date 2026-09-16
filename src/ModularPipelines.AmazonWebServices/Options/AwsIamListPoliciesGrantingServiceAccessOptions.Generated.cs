@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,95 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "list-policies-granting-service-access")]
-public record AwsIamListPoliciesGrantingServiceAccessOptions : AwsOptions
+public record AwsIamListPoliciesGrantingServiceAccessOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves a list of policies that the IAM identity (user, group, or role) can use to access each specified service. NOTE: This operation does not use other policy types when determining whether a resource could access a service. These other policy types include resource-based policies, access control lists, Organizations policies, IAM permissions boundaries, and STS assume role policies. It only applies permissions policy logic. For more about the evalua- tion of policy types, see Evaluating pol...
+    /// </summary>
+    /// <param name="Arn">The ARN of the IAM identity (user, group, or role) whose policies you want to list. Constraints: o min: 20 o max: 2048</param>
+    /// <param name="ServiceNamespaces">The service namespace for the Amazon Web Services services whose policies you want to list. To learn the service namespace for a service, see Actions, re- sources, and condition keys for Amazon Web Services services in the IAM User Guide . Choose the name of the service to view details for that service. In the first paragraph, find the service prefix. For example, (service prefix: a4b) . For more information about service namespaces, see Amazon Web Services service namespaces in the Amazon Web Services General Reference . Constraints: o min: 1 o max: 200 (string) Constraints: o min: 1 o max: 64 o pattern: [\w-]* Syntax: "string" "string" ...</param>
+    public AwsIamListPoliciesGrantingServiceAccessOptions(
+        string Arn,
+        IEnumerable<string> ServiceNamespaces
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Arn);
+        this.Arn = Arn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ServiceNamespaces);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ServiceNamespaces));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ServiceNamespaces));
+            }
+
+            ServiceNamespaces = materialized;
+        }
+        this.ServiceNamespaces = ServiceNamespaces;
+    }
+
+    private AwsIamListPoliciesGrantingServiceAccessOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIamListPoliciesGrantingServiceAccessOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIamListPoliciesGrantingServiceAccessOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the IAM identity (user, group, or role) whose policies you want to list. Constraints: o min: 20 o max: 2048
+    /// </summary>
+    [CliOption("--arn")]
+    public string? Arn { get; private init; }
+
+    /// <summary>
+    /// The service namespace for the Amazon Web Services services whose policies you want to list. To learn the service namespace for a service, see Actions, re- sources, and condition keys for Amazon Web Services services in the IAM User Guide . Choose the name of the service to view details for that service. In the first paragraph, find the service prefix. For example, (service prefix: a4b) . For more information about service namespaces, see Amazon Web Services service namespaces in the Amazon Web Services General Reference . Constraints: o min: 1 o max: 200 (string) Constraints: o min: 1 o max: 64 o pattern: [\w-]* Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--service-namespaces", GroupValues = true)]
+    public IEnumerable<string>? ServiceNamespaces { get; private init; }
+
     /// <summary>
     /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start. Constraints: o min: 1 o max: 320 o pattern: [\u0020-\u00FF]+
     /// </summary>
     [CliOption("--marker")]
     public string? Marker { get; set; }
 
-    [CliOption("--arn")]
-    public string? Arn { get; set; }
-
-    [CliOption("--service-namespaces", GroupValues = true)]
-    public IEnumerable<string>? ServiceNamespaces { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

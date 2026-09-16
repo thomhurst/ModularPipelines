@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --lensstatus.
+/// Allowed values for --lens-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsWellarchitectedListLensesLensStatus
 {
     [EnumValue("ALL")]
-    All = 1,
+    All,
 
     [EnumValue("DRAFT")]
-    Draft = 2,
+    Draft,
 
     [EnumValue("PUBLISHED")]
-    Published = 3
+    Published
 }

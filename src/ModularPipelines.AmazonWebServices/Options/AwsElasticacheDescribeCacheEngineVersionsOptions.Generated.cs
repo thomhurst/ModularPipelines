@@ -40,7 +40,10 @@ public record AwsElasticacheDescribeCacheEngineVersionsOptions : AwsOptions
     [CliOption("--cache-parameter-group-family")]
     public string? CacheParameterGroupFamily { get; set; }
 
-    [CliFlag("--default-only")]
+    /// <summary>
+    /// If true , specifies that only the default version of the specified engine or engine and major version combination is to be returned.
+    /// </summary>
+    [CliFlag("--default-only", NegatedName = "--no-default-only")]
     public bool? DefaultOnly { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rds", "delete-db-instance")]
-public record AwsRdsDeleteDbInstanceOptions : AwsOptions
+public record AwsRdsDeleteDbInstanceOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--db-instance-identifier")]
-    public string? DbInstanceIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--skip-final-snapshot")]
+    /// <summary>
+    /// Deletes a previously provisioned DB instance. When you delete a DB in- stance, all automated backups for that instance are deleted and can't be recovered. However, manual DB snapshots of the DB instance aren't deleted. If you request a final DB snapshot, the status of the Amazon RDS DB in- stance is deleting until the DB snapshot is created. This operation can't be canceled or reverted after it begins. To monitor the status of this operation, use DescribeDBInstance . When a DB instance is in a f...
+    /// </summary>
+    /// <param name="DbInstanceIdentifier">The DB instance identifier for the DB instance to be deleted. This parameter isn't case-sensitive. Constraints: o Must match the name of an existing DB instance.</param>
+    public AwsRdsDeleteDbInstanceOptions(
+        string DbInstanceIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DbInstanceIdentifier);
+        this.DbInstanceIdentifier = DbInstanceIdentifier;
+    }
+
+    private AwsRdsDeleteDbInstanceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRdsDeleteDbInstanceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRdsDeleteDbInstanceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The DB instance identifier for the DB instance to be deleted. This parameter isn't case-sensitive. Constraints: o Must match the name of an existing DB instance.
+    /// </summary>
+    [CliOption("--db-instance-identifier")]
+    public string? DbInstanceIdentifier { get; private init; }
+
+    /// <summary>
+    /// Specifies whether to skip the creation of a final DB snapshot before deleting the instance. If you enable this parameter, RDS doesn't create a DB snapshot. If you don't enable this parameter, RDS cre- ates a DB snapshot before the DB instance is deleted. By default, skip isn't enabled, and the DB snapshot is created. NOTE: If you don't enable this parameter, you must specify the Fi- nalDBSnapshotIdentifier parameter. When a DB instance is in a failure state and has a status of failed , incompatible-restore , or incompatible-network , RDS can delete the instance only if you enable this parameter. If you delete a read replica or an RDS Custom instance, you must en- able this setting. This setting is required for RDS Custom.
+    /// </summary>
+    [CliFlag("--skip-final-snapshot", NegatedName = "--no-skip-final-snapshot")]
     public bool? SkipFinalSnapshot { get; set; }
 
     /// <summary>
@@ -33,7 +73,10 @@ public record AwsRdsDeleteDbInstanceOptions : AwsOptions
     [CliOption("--final-db-snapshot-identifier")]
     public string? FinalDbSnapshotIdentifier { get; set; }
 
-    [CliFlag("--delete-automated-backups")]
+    /// <summary>
+    /// Specifies whether to remove automated backups immediately after the DB instance is deleted. This parameter isn't case-sensitive. The de- fault is to remove automated backups immediately after the DB in- stance is deleted.
+    /// </summary>
+    [CliFlag("--delete-automated-backups", NegatedName = "--no-delete-automated-backups")]
     public bool? DeleteAutomatedBackups { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -41,5 +84,22 @@ public record AwsRdsDeleteDbInstanceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

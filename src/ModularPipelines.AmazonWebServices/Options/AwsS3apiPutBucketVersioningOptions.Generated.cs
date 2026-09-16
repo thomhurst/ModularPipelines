@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3api", "put-bucket-versioning")]
-public record AwsS3apiPutBucketVersioningOptions : AwsOptions
+public record AwsS3apiPutBucketVersioningOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// NOTE: This operation is not supported for directory buckets. NOTE: When you enable versioning on a bucket for the first time, it might take a short amount of time for the change to be fully propagated. While this change is propagating, you might encounter intermittent HTTP 404 NoSuchKey errors for requests to objects created or updated after enabling versioning. We recommend that you wait for 15 minutes after enabling versioning before issuing write operations (PUT or DELETE ) on objects in the ...
+    /// </summary>
+    /// <param name="Bucket">The bucket name.</param>
+    /// <param name="VersioningConfiguration">Container for setting the versioning state. MFADelete -&gt; (string) Specifies whether MFA delete is enabled in the bucket versioning configuration. This element is only returned if the bucket has been configured with MFA delete. If the bucket has never been so configured, this element is not returned. Possible values: o Enabled o Disabled Status -&gt; (string) The versioning state of the bucket. Possible values: o Enabled o Suspended Shorthand Syntax: MFADelete=string,Status=string JSON Syntax: { "MFADelete": "Enabled"|"Disabled", "Status": "Enabled"|"Suspended" }</param>
+    public AwsS3apiPutBucketVersioningOptions(
+        string Bucket,
+        string VersioningConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Bucket);
+        this.Bucket = Bucket;
+        global::System.ArgumentNullException.ThrowIfNull(VersioningConfiguration);
+        this.VersioningConfiguration = VersioningConfiguration;
+    }
+
+    private AwsS3apiPutBucketVersioningOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3apiPutBucketVersioningOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3apiPutBucketVersioningOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The bucket name.
+    /// </summary>
     [CliOption("--bucket")]
-    public string? Bucket { get; set; }
+    public string? Bucket { get; private init; }
+
+    /// <summary>
+    /// Container for setting the versioning state. MFADelete -&gt; (string) Specifies whether MFA delete is enabled in the bucket versioning configuration. This element is only returned if the bucket has been configured with MFA delete. If the bucket has never been so configured, this element is not returned. Possible values: o Enabled o Disabled Status -&gt; (string) The versioning state of the bucket. Possible values: o Enabled o Suspended Shorthand Syntax: MFADelete=string,Status=string JSON Syntax: { "MFADelete": "Enabled"|"Disabled", "Status": "Enabled"|"Suspended" }
+    /// </summary>
+    [CliOption("--versioning-configuration")]
+    public string? VersioningConfiguration { get; private init; }
 
     /// <summary>
     /// &gt;The Base64 encoded 128-bit MD5 digest of the data. You must use this header as a message integrity check to verify that the request body was not corrupted in transit. For more information, see RFC 1864 . For requests made using the Amazon Web Services Command Line Inter- face (CLI) or Amazon Web Services SDKs, this field is calculated au- tomatically.
@@ -43,9 +90,6 @@ public record AwsS3apiPutBucketVersioningOptions : AwsOptions
     [CliOption("--mfa")]
     public string? Mfa { get; set; }
 
-    [CliOption("--versioning-configuration")]
-    public string? VersioningConfiguration { get; set; }
-
     /// <summary>
     /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the re- quest fails with the HTTP status code 403 Forbidden (access denied).
     /// </summary>
@@ -57,5 +101,22 @@ public record AwsS3apiPutBucketVersioningOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

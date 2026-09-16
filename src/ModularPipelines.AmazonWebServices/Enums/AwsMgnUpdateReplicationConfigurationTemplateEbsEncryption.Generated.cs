@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --ebsencryption.
+/// Allowed values for --ebs-encryption.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsMgnUpdateReplicationConfigurationTemplateEbsEncryption
 {
-    [EnumValue("DEFAULT")]
-    Default = 1,
-
     [EnumValue("CUSTOM")]
-    Custom = 2
+    Custom,
+
+    [EnumValue("DEFAULT")]
+    Default
 }

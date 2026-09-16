@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deploy", "batch-get-deployment-targets")]
-public record AwsDeployBatchGetDeploymentTargetsOptions : AwsOptions
+public record AwsDeployBatchGetDeploymentTargetsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--deployment-id")]
-    public string? DeploymentId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Returns an array of one or more targets associated with a deployment. This method works with all compute types and should be used instead of the deprecated BatchGetDeploymentInstances . The maximum number of tar- gets that can be returned is 25. The type of targets returned depends on the deployment's compute plat- form or deployment method: o EC2/On-premises : Information about Amazon EC2 instance targets. o Lambda : Information about Lambda functions targets. o Amazon ECS : Information about A...
+    /// </summary>
+    /// <param name="DeploymentId">The unique ID of a deployment.</param>
+    /// <param name="TargetIds">The unique IDs of the deployment targets. The compute platform of the deployment determines the type of the targets and their formats. The maximum number of deployment target IDs you can specify is 25. o For deployments that use the EC2/On-premises compute platform, the target IDs are Amazon EC2 or on-premises instances IDs, and their target type is instanceTarget . o For deployments that use the Lambda compute platform, the target IDs are the names of Lambda functions, and their target type is instanceTarget . o For deployments that use the Amazon ECS compute platform, the tar- get IDs are pairs of Amazon ECS clusters and services specified using the format &lt;clustername&gt;:&lt;servicename&gt; . Their target type is ecsTarget . o For deployments that are deployed with CloudFormation, the target IDs are CloudFormation stack IDs. Their target type is cloudForma- tionTarget . (string) Syntax: "string" "string" ...</param>
+    public AwsDeployBatchGetDeploymentTargetsOptions(
+        string DeploymentId,
+        IEnumerable<string> TargetIds
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DeploymentId);
+        this.DeploymentId = DeploymentId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(TargetIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(TargetIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(TargetIds));
+            }
+
+            TargetIds = materialized;
+        }
+        this.TargetIds = TargetIds;
+    }
+
+    private AwsDeployBatchGetDeploymentTargetsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDeployBatchGetDeploymentTargetsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDeployBatchGetDeploymentTargetsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique ID of a deployment.
+    /// </summary>
+    [CliOption("--deployment-id")]
+    public string? DeploymentId { get; private init; }
+
+    /// <summary>
+    /// The unique IDs of the deployment targets. The compute platform of the deployment determines the type of the targets and their formats. The maximum number of deployment target IDs you can specify is 25. o For deployments that use the EC2/On-premises compute platform, the target IDs are Amazon EC2 or on-premises instances IDs, and their target type is instanceTarget . o For deployments that use the Lambda compute platform, the target IDs are the names of Lambda functions, and their target type is instanceTarget . o For deployments that use the Amazon ECS compute platform, the tar- get IDs are pairs of Amazon ECS clusters and services specified using the format &lt;clustername&gt;:&lt;servicename&gt; . Their target type is ecsTarget . o For deployments that are deployed with CloudFormation, the target IDs are CloudFormation stack IDs. Their target type is cloudForma- tionTarget . (string) Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--target-ids", GroupValues = true)]
-    public IEnumerable<string>? TargetIds { get; set; }
+    public IEnumerable<string>? TargetIds { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --publicipsource.
+/// Allowed values for --public-ip-source.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEc2CreateIpamPoolPublicIpSource
 {
     [EnumValue("amazon")]
-    Amazon = 1,
+    Amazon,
 
     [EnumValue("byoip")]
-    Byoip = 2
+    Byoip
 }

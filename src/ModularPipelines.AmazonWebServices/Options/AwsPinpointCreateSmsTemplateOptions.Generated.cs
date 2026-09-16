@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pinpoint", "create-sms-template")]
-public record AwsPinpointCreateSmsTemplateOptions : AwsOptions
+public record AwsPinpointCreateSmsTemplateOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--sms-template-request")]
-    public string? SmsTemplateRequest { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a message template for messages that are sent through the SMS channel. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SmsTemplateRequest">Specifies the content and settings for a message template that can be used in text messages that are sent through the SMS channel. Body -&gt; (string) The message body to use in text messages that are based on the message template. DefaultSubstitutions -&gt; (string) A JSON object that specifies the default values to use for mes- sage variables in the message template. This object is a set of key-value pairs. Each key defines a message variable in the tem- plate. The corresponding value defines the default value for that variable. When you create a message that's based on the template, you can override these defaults with message-specific and address-specific variables and values. RecommenderId -&gt; (string) The unique identifier for the recommender model to use for the message template. Amazon Pinpoint uses this value to determine how to retrieve and process data from a recommender model when it sends messages that use the template, if the template con- tains message variables for recommendation data. tags -&gt; (map) NOTE: As of 22-05-2023 tags has been deprecated for update opera- tions. After this date any value in tags is not processed and an error code is not returned. To manage tags we recommend using either Tags in the API Reference for Amazon Pinpoint , resourcegroupstaggingapi commands in the AWS Command Line In- terface Documentation or resourcegroupstaggingapi in the AWS SDK . (Deprecated) A string-to-string map of key-value pairs that de- fines the tags to associate with the message template. Each tag consists of a required tag key and an associated tag value. key -&gt; (string) value -&gt; (string) TemplateDescription -&gt; (string) A custom description of the message template. Shorthand Syntax: Body=string,DefaultSubstitutions=string,RecommenderId=string,tags={KeyName1=string,KeyName2=string},TemplateDescription=string JSON Syntax: { "Body": "string", "DefaultSubstitutions": "string", "RecommenderId": "string", "tags": {"string": "string" ...}, "TemplateDescription": "string" }</param>
+    /// <param name="TemplateName">The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.</param>
+    public AwsPinpointCreateSmsTemplateOptions(
+        string SmsTemplateRequest,
+        string TemplateName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SmsTemplateRequest);
+        this.SmsTemplateRequest = SmsTemplateRequest;
+        global::System.ArgumentNullException.ThrowIfNull(TemplateName);
+        this.TemplateName = TemplateName;
+    }
+
+    private AwsPinpointCreateSmsTemplateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPinpointCreateSmsTemplateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPinpointCreateSmsTemplateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the content and settings for a message template that can be used in text messages that are sent through the SMS channel. Body -&gt; (string) The message body to use in text messages that are based on the message template. DefaultSubstitutions -&gt; (string) A JSON object that specifies the default values to use for mes- sage variables in the message template. This object is a set of key-value pairs. Each key defines a message variable in the tem- plate. The corresponding value defines the default value for that variable. When you create a message that's based on the template, you can override these defaults with message-specific and address-specific variables and values. RecommenderId -&gt; (string) The unique identifier for the recommender model to use for the message template. Amazon Pinpoint uses this value to determine how to retrieve and process data from a recommender model when it sends messages that use the template, if the template con- tains message variables for recommendation data. tags -&gt; (map) NOTE: As of 22-05-2023 tags has been deprecated for update opera- tions. After this date any value in tags is not processed and an error code is not returned. To manage tags we recommend using either Tags in the API Reference for Amazon Pinpoint , resourcegroupstaggingapi commands in the AWS Command Line In- terface Documentation or resourcegroupstaggingapi in the AWS SDK . (Deprecated) A string-to-string map of key-value pairs that de- fines the tags to associate with the message template. Each tag consists of a required tag key and an associated tag value. key -&gt; (string) value -&gt; (string) TemplateDescription -&gt; (string) A custom description of the message template. Shorthand Syntax: Body=string,DefaultSubstitutions=string,RecommenderId=string,tags={KeyName1=string,KeyName2=string},TemplateDescription=string JSON Syntax: { "Body": "string", "DefaultSubstitutions": "string", "RecommenderId": "string", "tags": {"string": "string" ...}, "TemplateDescription": "string" }
+    /// </summary>
+    [CliOption("--sms-template-request")]
+    public string? SmsTemplateRequest { get; private init; }
+
+    /// <summary>
+    /// The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
+    /// </summary>
     [CliOption("--template-name")]
-    public string? TemplateName { get; set; }
+    public string? TemplateName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

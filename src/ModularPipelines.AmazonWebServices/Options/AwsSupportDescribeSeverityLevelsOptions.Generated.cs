@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the list of severity levels that you can assign to a support case. The severity level for a case is also a field in the CaseDetails data type that you include for a CreateCase request. NOTE: o You must have a Business, Enterprise On-Ramp, or Enterprise Sup- port plan to use the Amazon Web Services Support API. o If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException er...
+/// Returns the list of severity levels that you can assign to a support case. The severity level for a case is also a field in the CaseDetails data type that you include for a CreateCase request. NOTE: o You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Opera- tions plan to use the Amazon Web Services Support API. If you're in an Amazon Web Services Region that doesn't offer one of these Amazon Web Services Support plans, ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,10 +22,16 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSupportDescribeSeverityLevelsOptions : AwsOptions
 {
     /// <summary>
-    /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports Chinese (zh), English ("en"), Japanese ("ja") and Korean (ko). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
+    /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports Chinese (zh), English ("en"), Japanese ("ja") , Chinese ("zh"), Spanish ("es"), Portuguese ("pt"), French ("fr"), Korean (ko), and Turkish ("tr"). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
     /// </summary>
     [CliOption("--language")]
     public string? Language { get; set; }
+
+    /// <summary>
+    /// Specifies whether to validate the request without actually returning severity levels. When set to true , the request is validated but no severity levels are returned, and the operation returns a DryRunOp- erationException . When omitted or set to false , the request runs normally.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
+    public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

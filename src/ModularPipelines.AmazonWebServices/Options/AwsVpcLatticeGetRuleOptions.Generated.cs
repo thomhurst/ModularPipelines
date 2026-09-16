@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vpc-lattice", "get-rule")]
-public record AwsVpcLatticeGetRuleOptions : AwsOptions
+public record AwsVpcLatticeGetRuleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves information about the specified listener rules. You can also retrieve information about the default listener rule. For more informa- tion, see Listener rules in the Amazon VPC Lattice User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ServiceIdentifier">The ID or ARN of the service. Constraints: o min: 17 o max: 2048 o pattern: ((svc-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:service/svc-[0-9a-z]{17}))</param>
+    /// <param name="ListenerIdentifier">The ID or ARN of the listener. Constraints: o min: 20 o max: 2048 o pattern: ((listener-[0-9a-z]{17})|(^arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:service/svc-[0-9a-z]{17}/listener/lis- tener-[0-9a-z]{17}$))</param>
+    /// <param name="RuleIdentifier">The ID or ARN of the listener rule. Constraints: o min: 20 o max: 2048 o pattern: ((rule-[0-9a-z]{17})|(^arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:service/svc-[0-9a-z]{17}/listener/lis- tener-[0-9a-z]{17}/rule/rule-[0-9a-z]{17}$))</param>
+    public AwsVpcLatticeGetRuleOptions(
+        string ServiceIdentifier,
+        string ListenerIdentifier,
+        string RuleIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceIdentifier);
+        this.ServiceIdentifier = ServiceIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(ListenerIdentifier);
+        this.ListenerIdentifier = ListenerIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(RuleIdentifier);
+        this.RuleIdentifier = RuleIdentifier;
+    }
+
+    private AwsVpcLatticeGetRuleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsVpcLatticeGetRuleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsVpcLatticeGetRuleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID or ARN of the service. Constraints: o min: 17 o max: 2048 o pattern: ((svc-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:service/svc-[0-9a-z]{17}))
+    /// </summary>
     [CliOption("--service-identifier")]
-    public string? ServiceIdentifier { get; set; }
+    public string? ServiceIdentifier { get; private init; }
 
+    /// <summary>
+    /// The ID or ARN of the listener. Constraints: o min: 20 o max: 2048 o pattern: ((listener-[0-9a-z]{17})|(^arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:service/svc-[0-9a-z]{17}/listener/lis- tener-[0-9a-z]{17}$))
+    /// </summary>
     [CliOption("--listener-identifier")]
-    public string? ListenerIdentifier { get; set; }
+    public string? ListenerIdentifier { get; private init; }
 
+    /// <summary>
+    /// The ID or ARN of the listener rule. Constraints: o min: 20 o max: 2048 o pattern: ((rule-[0-9a-z]{17})|(^arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:service/svc-[0-9a-z]{17}/listener/lis- tener-[0-9a-z]{17}/rule/rule-[0-9a-z]{17}$))
+    /// </summary>
     [CliOption("--rule-identifier")]
-    public string? RuleIdentifier { get; set; }
+    public string? RuleIdentifier { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

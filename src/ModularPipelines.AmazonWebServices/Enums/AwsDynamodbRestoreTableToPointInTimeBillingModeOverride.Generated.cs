@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --billingmodeoverride.
+/// Allowed values for --billing-mode-override.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDynamodbRestoreTableToPointInTimeBillingModeOverride
 {
-    [EnumValue("PROVISIONED")]
-    Provisioned = 1,
-
     [EnumValue("PAY_PER_REQUEST")]
-    PayPerRequest = 2
+    PayPerRequest,
+
+    [EnumValue("PROVISIONED")]
+    Provisioned
 }

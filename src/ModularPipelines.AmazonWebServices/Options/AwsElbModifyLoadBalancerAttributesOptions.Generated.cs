@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elb", "modify-load-balancer-attributes")]
-public record AwsElbModifyLoadBalancerAttributesOptions : AwsOptions
+public record AwsElbModifyLoadBalancerAttributesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--load-balancer-name")]
-    public string? LoadBalancerName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Modifies the attributes of the specified load balancer. You can modify the load balancer attributes, such as AccessLogs , Con- nectionDraining , and CrossZoneLoadBalancing by either enabling or dis- abling them. Or, you can modify the load balancer attribute Connection- Settings by specifying an idle connection timeout value for your load balancer. For more information, see the following in the Classic Load Balancers Guide : o Cross-Zone Load Balancing o Connection Draining o Access Logs o Idle ...
+    /// </summary>
+    /// <param name="LoadBalancerName">The name of the load balancer.</param>
+    /// <param name="LoadBalancerAttributes">The attributes for the load balancer. CrossZoneLoadBalancing -&gt; (structure) If enabled, the load balancer routes the request traffic evenly across all instances regardless of the Availability Zones. For more information, see Configure Cross-Zone Load Balancing in the Classic Load Balancers Guide . Enabled -&gt; (boolean) [required] Specifies whether cross-zone load balancing is enabled for the load balancer. AccessLog -&gt; (structure) If enabled, the load balancer captures detailed information of all requests and delivers the information to the Amazon S3 bucket that you specify. For more information, see Enable Access Logs in the Classic Load Balancers Guide . Enabled -&gt; (boolean) [required] Specifies whether access logs are enabled for the load bal- ancer. S3BucketName -&gt; (string) The name of the Amazon S3 bucket where the access logs are stored. EmitInterval -&gt; (integer) The interval for publishing the access logs. You can specify an interval of either 5 minutes or 60 minutes. Default: 60 minutes S3BucketPrefix -&gt; (string) The logical hierarchy you created for your Amazon S3 bucket, for example my-bucket-prefix/prod . If the prefix is not pro- vided, the log is placed at the root level of the bucket. ConnectionDraining -&gt; (structure) If enabled, the load balancer allows existing requests to com- plete before the load balancer shifts traffic away from a dereg- istered or unhealthy instance. For more information, see Configure Connection Draining in the Classic Load Balancers Guide . Enabled -&gt; (boolean) [required] Specifies whether connection draining is enabled for the load balancer. Timeout -&gt; (integer) The maximum time, in seconds, to keep the existing connec- tions open before deregistering the instances. ConnectionSettings -&gt; (structure) If enabled, the load balancer allows the connections to remain idle (no data is sent over the connection) for the specified du- ration. By default, Elastic Load Balancing maintains a 60-second idle connection timeout for both front-end and back-end connections of your load balancer. For more information, see Configure Idle Connection Timeout in the Classic Load Balancers Guide . IdleTimeout -&gt; (integer) [required] The time, in seconds, that the connection is allowed to be idle (no data has been sent over the connection) before it is closed by the load balancer. Constraints: o min: 1 o max: 3600 AdditionalAttributes -&gt; (list) Any additional attributes. Constraints: o max: 10 (structure) Information about additional load balancer attributes. Key -&gt; (string) The name of the attribute. The following attribute is supported. o elb.http.desyncmitigationmode - Determines how the load balancer handles requests that might pose a security risk to your application. The possible values are moni- tor , defensive , and strictest . The default is defen- sive . Constraints: o max: 256 o pattern: ^[a-zA-Z0-9.]+$ Value -&gt; (string) This value of the attribute. Constraints: o max: 256 o pattern: ^[a-zA-Z0-9.]+$ Shorthand Syntax: CrossZoneLoadBalancing={Enabled=boolean},AccessLog={Enabled=boolean,S3BucketName=string,EmitInterval=integer,S3BucketPrefix=string},ConnectionDraining={Enabled=boolean,Timeout=integer},ConnectionSettings={IdleTimeout=integer},AdditionalAttributes=[{Key=string,Value=string},{Key=string,Value=string}] JSON Syntax: { "CrossZoneLoadBalancing": { "Enabled": true|false }, "AccessLog": { "Enabled": true|false, "S3BucketName": "string", "EmitInterval": integer, "S3BucketPrefix": "string" }, "ConnectionDraining": { "Enabled": true|false, "Timeout": integer }, "ConnectionSettings": { "IdleTimeout": integer }, "AdditionalAttributes": [ { "Key": "string", "Value": "string" } ... ] }</param>
+    public AwsElbModifyLoadBalancerAttributesOptions(
+        string LoadBalancerName,
+        string LoadBalancerAttributes
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LoadBalancerName);
+        this.LoadBalancerName = LoadBalancerName;
+        global::System.ArgumentNullException.ThrowIfNull(LoadBalancerAttributes);
+        this.LoadBalancerAttributes = LoadBalancerAttributes;
+    }
+
+    private AwsElbModifyLoadBalancerAttributesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElbModifyLoadBalancerAttributesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElbModifyLoadBalancerAttributesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the load balancer.
+    /// </summary>
+    [CliOption("--load-balancer-name")]
+    public string? LoadBalancerName { get; private init; }
+
+    /// <summary>
+    /// The attributes for the load balancer. CrossZoneLoadBalancing -&gt; (structure) If enabled, the load balancer routes the request traffic evenly across all instances regardless of the Availability Zones. For more information, see Configure Cross-Zone Load Balancing in the Classic Load Balancers Guide . Enabled -&gt; (boolean) [required] Specifies whether cross-zone load balancing is enabled for the load balancer. AccessLog -&gt; (structure) If enabled, the load balancer captures detailed information of all requests and delivers the information to the Amazon S3 bucket that you specify. For more information, see Enable Access Logs in the Classic Load Balancers Guide . Enabled -&gt; (boolean) [required] Specifies whether access logs are enabled for the load bal- ancer. S3BucketName -&gt; (string) The name of the Amazon S3 bucket where the access logs are stored. EmitInterval -&gt; (integer) The interval for publishing the access logs. You can specify an interval of either 5 minutes or 60 minutes. Default: 60 minutes S3BucketPrefix -&gt; (string) The logical hierarchy you created for your Amazon S3 bucket, for example my-bucket-prefix/prod . If the prefix is not pro- vided, the log is placed at the root level of the bucket. ConnectionDraining -&gt; (structure) If enabled, the load balancer allows existing requests to com- plete before the load balancer shifts traffic away from a dereg- istered or unhealthy instance. For more information, see Configure Connection Draining in the Classic Load Balancers Guide . Enabled -&gt; (boolean) [required] Specifies whether connection draining is enabled for the load balancer. Timeout -&gt; (integer) The maximum time, in seconds, to keep the existing connec- tions open before deregistering the instances. ConnectionSettings -&gt; (structure) If enabled, the load balancer allows the connections to remain idle (no data is sent over the connection) for the specified du- ration. By default, Elastic Load Balancing maintains a 60-second idle connection timeout for both front-end and back-end connections of your load balancer. For more information, see Configure Idle Connection Timeout in the Classic Load Balancers Guide . IdleTimeout -&gt; (integer) [required] The time, in seconds, that the connection is allowed to be idle (no data has been sent over the connection) before it is closed by the load balancer. Constraints: o min: 1 o max: 3600 AdditionalAttributes -&gt; (list) Any additional attributes. Constraints: o max: 10 (structure) Information about additional load balancer attributes. Key -&gt; (string) The name of the attribute. The following attribute is supported. o elb.http.desyncmitigationmode - Determines how the load balancer handles requests that might pose a security risk to your application. The possible values are moni- tor , defensive , and strictest . The default is defen- sive . Constraints: o max: 256 o pattern: ^[a-zA-Z0-9.]+$ Value -&gt; (string) This value of the attribute. Constraints: o max: 256 o pattern: ^[a-zA-Z0-9.]+$ Shorthand Syntax: CrossZoneLoadBalancing={Enabled=boolean},AccessLog={Enabled=boolean,S3BucketName=string,EmitInterval=integer,S3BucketPrefix=string},ConnectionDraining={Enabled=boolean,Timeout=integer},ConnectionSettings={IdleTimeout=integer},AdditionalAttributes=[{Key=string,Value=string},{Key=string,Value=string}] JSON Syntax: { "CrossZoneLoadBalancing": { "Enabled": true|false }, "AccessLog": { "Enabled": true|false, "S3BucketName": "string", "EmitInterval": integer, "S3BucketPrefix": "string" }, "ConnectionDraining": { "Enabled": true|false, "Timeout": integer }, "ConnectionSettings": { "IdleTimeout": integer }, "AdditionalAttributes": [ { "Key": "string", "Value": "string" } ... ] }
+    /// </summary>
     [CliOption("--load-balancer-attributes")]
-    public string? LoadBalancerAttributes { get; set; }
+    public string? LoadBalancerAttributes { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -16,9 +16,9 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEc2ModifyAccountVpcEncryptionControlLambda
 {
-    [EnumValue("enable")]
-    Enable = 1,
-
     [EnumValue("disable")]
-    Disable = 2
+    Disable,
+
+    [EnumValue("enable")]
+    Enable
 }

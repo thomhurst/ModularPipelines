@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lightsail", "create-relational-database-from-snapshot")]
-public record AwsLightsailCreateRelationalDatabaseFromSnapshotOptions : AwsOptions
+public record AwsLightsailCreateRelationalDatabaseFromSnapshotOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new database from an existing database snapshot in Amazon Lightsail. You can create a new database from a snapshot in if something goes wrong with your original database, or to change it to a different plan, such as a high availability or standard plan. The create relational database from snapshot operation supports tag-based access control via request tags and resource tags applied to the resource identified by relationalDatabaseSnapshotName. For more in- formation, see the Amazon Lig...
+    /// </summary>
+    /// <param name="RelationalDatabaseName">The name to use for your new Lightsail database resource. Constraints: o Must contain from 2 to 255 alphanumeric characters, or hyphens. o The first and last character must be a letter or number. Constraints: o pattern: \w[\w\-]*\w</param>
+    public AwsLightsailCreateRelationalDatabaseFromSnapshotOptions(
+        string RelationalDatabaseName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RelationalDatabaseName);
+        this.RelationalDatabaseName = RelationalDatabaseName;
+    }
+
+    private AwsLightsailCreateRelationalDatabaseFromSnapshotOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLightsailCreateRelationalDatabaseFromSnapshotOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLightsailCreateRelationalDatabaseFromSnapshotOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name to use for your new Lightsail database resource. Constraints: o Must contain from 2 to 255 alphanumeric characters, or hyphens. o The first and last character must be a letter or number. Constraints: o pattern: \w[\w\-]*\w
+    /// </summary>
     [CliOption("--relational-database-name")]
-    public string? RelationalDatabaseName { get; set; }
+    public string? RelationalDatabaseName { get; private init; }
 
     /// <summary>
     /// The Availability Zone in which to create your new database. Use the us-east-2a case-sensitive format. You can get a list of Availability Zones by using the get regions operation. Be sure to add the include relational database Availabil- ity Zones parameter to your request.
@@ -30,7 +67,10 @@ public record AwsLightsailCreateRelationalDatabaseFromSnapshotOptions : AwsOptio
     [CliOption("--availability-zone")]
     public string? AvailabilityZone { get; set; }
 
-    [CliFlag("--publicly-accessible")]
+    /// <summary>
+    /// Specifies the accessibility options for your new database. A value of true specifies a database that is available to resources outside of your Lightsail account. A value of false specifies a database that is available only to your Lightsail resources in the same re- gion as your database.
+    /// </summary>
+    [CliFlag("--publicly-accessible", NegatedName = "--no-publicly-accessible")]
     public bool? PubliclyAccessible { get; set; }
 
     /// <summary>
@@ -57,7 +97,10 @@ public record AwsLightsailCreateRelationalDatabaseFromSnapshotOptions : AwsOptio
     [CliOption("--restore-time")]
     public string? RestoreTime { get; set; }
 
-    [CliFlag("--use-latest-restorable-time")]
+    /// <summary>
+    /// Specifies whether your database is restored from the latest backup time. A value of true restores from the latest backup time. Default: false Constraints: Cannot be specified if the restore time parameter is provided.
+    /// </summary>
+    [CliFlag("--use-latest-restorable-time", NegatedName = "--no-use-latest-restorable-time")]
     public bool? UseLatestRestorableTime { get; set; }
 
     /// <summary>
@@ -71,5 +114,22 @@ public record AwsLightsailCreateRelationalDatabaseFromSnapshotOptions : AwsOptio
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

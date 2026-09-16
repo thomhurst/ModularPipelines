@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --growthtype.
+/// Allowed values for --growth-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsAppConfigCreateDeploymentStrategyGrowthType
 {
-    [EnumValue("LINEAR")]
-    Linear = 1,
-
     [EnumValue("EXPONENTIAL")]
-    Exponential = 2
+    Exponential,
+
+    [EnumValue("LINEAR")]
+    Linear
 }

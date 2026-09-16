@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --questionpriority.
+/// Allowed values for --question-priority.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsWellarchitectedListAnswersQuestionPriority
 {
-    [EnumValue("PRIORITIZED")]
-    Prioritized = 1,
-
     [EnumValue("NONE")]
-    None = 2
+    None,
+
+    [EnumValue("PRIORITIZED")]
+    Prioritized
 }

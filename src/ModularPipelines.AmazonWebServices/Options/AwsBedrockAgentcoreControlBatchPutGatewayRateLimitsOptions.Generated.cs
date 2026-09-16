@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore-control", "batch-put-gateway-rate-limits")]
-public record AwsBedrockAgentcoreControlBatchPutGatewayRateLimitsOptions : AwsOptions
+public record AwsBedrockAgentcoreControlBatchPutGatewayRateLimitsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Atomically creates or updates multiple rate limits for a gateway. The operation updates existing limits with matching keys and creates new limits for new keys. If the operation fails, the service applies no changes. Retry the request after resolving the issue. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="GatewayIdentifier">The unique identifier of the gateway. Constraints: o pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}</param>
+    /// <param name="RateLimits">The complete set of rate limits for this gateway. This operation re- places all existing rate limits in a single request. If the opera- tion fails, no rate limits are changed. Constraints: o min: 1 o max: 50 (structure) A rate limit definition within a batch put request. If you pro- vide a rateLimitId , the service uses it for upsert matching against existing rate limits. rateLimitId -&gt; (string) The unique identifier of the rate limit. If provided, the service uses it for upsert matching against existing rate limits. Constraints: o min: 2 o max: 64 o pattern: [a-zA-Z0-9][a-zA-Z0-9\-_\.]{0,62}[a-zA-Z0-9] description -&gt; (string) An optional human-readable description for this rate limit. If not provided, the rate limit is created without a descrip- tion. Constraints: o min: 0 o max: 512 dimensionKeys -&gt; (list) [required] The ordered list of dimension key names that define the scope of this rate limit. Constraints: o min: 1 o max: 10 (string) A dimension key specifying the scope dimension for rate limiting. Allowed values: targetName , toolName , qualifiedModelId , or context-path expressions: $.context.iam.principal , $.context.iam.sourceIdentity , $.context.jwt.&lt;claim&gt; where &lt;claim&gt; is a JWT claim name (for example, $.con- text.jwt.sub ). Validated server-side to enforce allowed prefixes and patterns. Constraints: o min: 1 o max: 80 o pattern: (targetName|toolName|qualifiedModelId|\$\.con- text\.iam\.principal|\$\.context\.iam\.sourceIden- tity|\$\.con- text\.jwt\.[a-zA-Z_][a-zA-Z0-9_\-\.]{0,61}[a-zA-Z0-9_]) entries -&gt; (list) [required] The list of rule entries that map dimension values to rate configurations. Constraints: o min: 1 o max: 1000 (structure) A single rule entry within a rate limit that maps dimen- sion values to rate configurations. Each entry defines the rate limits for a specific combination of dimension values. dimensions -&gt; (map) [required] A map of dimension names to dimension values for this rule entry. Keys must match the parent rate limit's dimension keys. Values may use * as a wildcard, but only in trailing positions based on the dimension keys ordering. Constraints: o min: 1 o max: 10 key -&gt; (string) A dimension key specifying the scope dimension for rate limiting. Allowed values: targetName , toolName , qualified- ModelId , or context-path expressions: $.con- text.iam.principal , $.context.iam.sourceIdentity , $.context.jwt.&lt;claim&gt; where &lt;claim&gt; is a JWT claim name (for example, $.context.jwt.sub ). Val- idated server-side to enforce allowed prefixes and patterns. Constraints: o min: 1 o max: 80 o pattern: (targetName|toolName|qualifiedMod- elId|\$\.context\.iam\.principal|\$\.con- text\.iam\.sourceIdentity|\$\.con- text\.jwt\.[a-zA-Z_][a-zA-Z0-9_\-\.]{0,61}[a-zA-Z0-9_]) value -&gt; (string) A dimension value in a rule entry (exact value or * wildcard). Constraints: o min: 1 o max: 256 requests -&gt; (list) The request rate limit configuration. Specifies the maximum number of requests allowed per time period. Constraints: o min: 1 o max: 1 (structure) Contains the rate configuration for a rate limit metric, specifying the allowed rate and time pe- riod. rate -&gt; (double) [required] The rate value for the limit. For request lim- its, this is the number of requests allowed per period. For token limits, this is the number of tokens allowed per period. For connection lim- its, this is the number of concurrent connec- tions allowed. Constraints: o min: 0 o max: 10000000 period -&gt; (string) [required] The time period for the rate limit. Valid val- ues: o second Measures the rate limit over a one-second window. o minute Measures the rate limit over a one-minute window. Possible values: o second o minute tokens -&gt; (list) The token rate limit configuration. Specifies the max- imum number of tokens allowed per time period. Constraints: o min: 1 o max: 1 (structure) Contains the rate configuration for a rate limit metric, specifying the allowed rate and time pe- riod. rate -&gt; (double) [required] The rate value for the limit. For request lim- its, this is the number of requests allowed per period. For token limits, this is the number of tokens allowed per period. For connection lim- its, this is the number of concurrent connec- tions allowed. Constraints: o min: 0 o max: 10000000 period -&gt; (string) [required] The time period for the rate limit. Valid val- ues: o second Measures the rate limit over a one-second window. o minute Measures the rate limit over a one-minute window. Possible values: o second o minute connections -&gt; (list) The connection rate limit configuration. Specifies the maximum number of concurrent connections allowed. Constraints: o min: 1 o max: 1 (structure) Contains the rate configuration for a rate limit metric, specifying the allowed rate and time pe- riod. rate -&gt; (double) [required] The rate value for the limit. For request lim- its, this is the number of requests allowed per period. For token limits, this is the number of tokens allowed per period. For connection lim- its, this is the number of concurrent connec- tions allowed. Constraints: o min: 0 o max: 10000000 period -&gt; (string) [required] The time period for the rate limit. Valid val- ues: o second Measures the rate limit over a one-second window. o minute Measures the rate limit over a one-minute window. Possible values: o second o minute JSON Syntax: [ { "rateLimitId": "string", "description": "string", "dimensionKeys": ["string", ...], "entries": [ { "dimensions": {"string": "string" ...}, "requests": [ { "rate": double, "period": "second"|"minute" } ... ], "tokens": [ { "rate": double, "period": "second"|"minute" } ... ], "connections": [ { "rate": double, "period": "second"|"minute" } ... ] } ... ] } ... ]</param>
+    public AwsBedrockAgentcoreControlBatchPutGatewayRateLimitsOptions(
+        string GatewayIdentifier,
+        IEnumerable<string> RateLimits
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GatewayIdentifier);
+        this.GatewayIdentifier = GatewayIdentifier;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(RateLimits);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(RateLimits));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(RateLimits));
+            }
+
+            RateLimits = materialized;
+        }
+        this.RateLimits = RateLimits;
+    }
+
+    private AwsBedrockAgentcoreControlBatchPutGatewayRateLimitsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreControlBatchPutGatewayRateLimitsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreControlBatchPutGatewayRateLimitsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the gateway. Constraints: o pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}
+    /// </summary>
     [CliOption("--gateway-identifier")]
-    public string? GatewayIdentifier { get; set; }
+    public string? GatewayIdentifier { get; private init; }
+
+    /// <summary>
+    /// The complete set of rate limits for this gateway. This operation re- places all existing rate limits in a single request. If the opera- tion fails, no rate limits are changed. Constraints: o min: 1 o max: 50 (structure) A rate limit definition within a batch put request. If you pro- vide a rateLimitId , the service uses it for upsert matching against existing rate limits. rateLimitId -&gt; (string) The unique identifier of the rate limit. If provided, the service uses it for upsert matching against existing rate limits. Constraints: o min: 2 o max: 64 o pattern: [a-zA-Z0-9][a-zA-Z0-9\-_\.]{0,62}[a-zA-Z0-9] description -&gt; (string) An optional human-readable description for this rate limit. If not provided, the rate limit is created without a descrip- tion. Constraints: o min: 0 o max: 512 dimensionKeys -&gt; (list) [required] The ordered list of dimension key names that define the scope of this rate limit. Constraints: o min: 1 o max: 10 (string) A dimension key specifying the scope dimension for rate limiting. Allowed values: targetName , toolName , qualifiedModelId , or context-path expressions: $.context.iam.principal , $.context.iam.sourceIdentity , $.context.jwt.&lt;claim&gt; where &lt;claim&gt; is a JWT claim name (for example, $.con- text.jwt.sub ). Validated server-side to enforce allowed prefixes and patterns. Constraints: o min: 1 o max: 80 o pattern: (targetName|toolName|qualifiedModelId|\$\.con- text\.iam\.principal|\$\.context\.iam\.sourceIden- tity|\$\.con- text\.jwt\.[a-zA-Z_][a-zA-Z0-9_\-\.]{0,61}[a-zA-Z0-9_]) entries -&gt; (list) [required] The list of rule entries that map dimension values to rate configurations. Constraints: o min: 1 o max: 1000 (structure) A single rule entry within a rate limit that maps dimen- sion values to rate configurations. Each entry defines the rate limits for a specific combination of dimension values. dimensions -&gt; (map) [required] A map of dimension names to dimension values for this rule entry. Keys must match the parent rate limit's dimension keys. Values may use * as a wildcard, but only in trailing positions based on the dimension keys ordering. Constraints: o min: 1 o max: 10 key -&gt; (string) A dimension key specifying the scope dimension for rate limiting. Allowed values: targetName , toolName , qualified- ModelId , or context-path expressions: $.con- text.iam.principal , $.context.iam.sourceIdentity , $.context.jwt.&lt;claim&gt; where &lt;claim&gt; is a JWT claim name (for example, $.context.jwt.sub ). Val- idated server-side to enforce allowed prefixes and patterns. Constraints: o min: 1 o max: 80 o pattern: (targetName|toolName|qualifiedMod- elId|\$\.context\.iam\.principal|\$\.con- text\.iam\.sourceIdentity|\$\.con- text\.jwt\.[a-zA-Z_][a-zA-Z0-9_\-\.]{0,61}[a-zA-Z0-9_]) value -&gt; (string) A dimension value in a rule entry (exact value or * wildcard). Constraints: o min: 1 o max: 256 requests -&gt; (list) The request rate limit configuration. Specifies the maximum number of requests allowed per time period. Constraints: o min: 1 o max: 1 (structure) Contains the rate configuration for a rate limit metric, specifying the allowed rate and time pe- riod. rate -&gt; (double) [required] The rate value for the limit. For request lim- its, this is the number of requests allowed per period. For token limits, this is the number of tokens allowed per period. For connection lim- its, this is the number of concurrent connec- tions allowed. Constraints: o min: 0 o max: 10000000 period -&gt; (string) [required] The time period for the rate limit. Valid val- ues: o second Measures the rate limit over a one-second window. o minute Measures the rate limit over a one-minute window. Possible values: o second o minute tokens -&gt; (list) The token rate limit configuration. Specifies the max- imum number of tokens allowed per time period. Constraints: o min: 1 o max: 1 (structure) Contains the rate configuration for a rate limit metric, specifying the allowed rate and time pe- riod. rate -&gt; (double) [required] The rate value for the limit. For request lim- its, this is the number of requests allowed per period. For token limits, this is the number of tokens allowed per period. For connection lim- its, this is the number of concurrent connec- tions allowed. Constraints: o min: 0 o max: 10000000 period -&gt; (string) [required] The time period for the rate limit. Valid val- ues: o second Measures the rate limit over a one-second window. o minute Measures the rate limit over a one-minute window. Possible values: o second o minute connections -&gt; (list) The connection rate limit configuration. Specifies the maximum number of concurrent connections allowed. Constraints: o min: 1 o max: 1 (structure) Contains the rate configuration for a rate limit metric, specifying the allowed rate and time pe- riod. rate -&gt; (double) [required] The rate value for the limit. For request lim- its, this is the number of requests allowed per period. For token limits, this is the number of tokens allowed per period. For connection lim- its, this is the number of concurrent connec- tions allowed. Constraints: o min: 0 o max: 10000000 period -&gt; (string) [required] The time period for the rate limit. Valid val- ues: o second Measures the rate limit over a one-second window. o minute Measures the rate limit over a one-minute window. Possible values: o second o minute JSON Syntax: [ { "rateLimitId": "string", "description": "string", "dimensionKeys": ["string", ...], "entries": [ { "dimensions": {"string": "string" ...}, "requests": [ { "rate": double, "period": "second"|"minute" } ... ], "tokens": [ { "rate": double, "period": "second"|"minute" } ... ], "connections": [ { "rate": double, "period": "second"|"minute" } ... ] } ... ] } ... ]
+    /// </summary>
+    [CliOption("--rate-limits", GroupValues = true)]
+    public IEnumerable<string>? RateLimits { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previ- ous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency . Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
@@ -32,13 +90,27 @@ public record AwsBedrockAgentcoreControlBatchPutGatewayRateLimitsOptions : AwsOp
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--rate-limits", GroupValues = true)]
-    public IEnumerable<string>? RateLimits { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

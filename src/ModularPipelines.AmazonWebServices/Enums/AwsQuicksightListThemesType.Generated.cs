@@ -16,12 +16,12 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsQuicksightListThemesType
 {
-    [EnumValue("QUICKSIGHT")]
-    Quicksight = 1,
+    [EnumValue("ALL")]
+    All,
 
     [EnumValue("CUSTOM")]
-    Custom = 2,
+    Custom,
 
-    [EnumValue("ALL")]
-    All = 3
+    [EnumValue("QUICKSIGHT")]
+    Quicksight
 }

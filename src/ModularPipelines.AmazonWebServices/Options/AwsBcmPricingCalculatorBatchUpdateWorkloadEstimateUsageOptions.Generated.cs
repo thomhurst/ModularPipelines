@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bcm-pricing-calculator", "batch-update-workload-estimate-usage")]
-public record AwsBcmPricingCalculatorBatchUpdateWorkloadEstimateUsageOptions : AwsOptions
+public record AwsBcmPricingCalculatorBatchUpdateWorkloadEstimateUsageOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--workload-estimate-id")]
-    public string? WorkloadEstimateId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Update a newly added or existing usage lines. You can update the usage amounts and usage group based on a usage ID and a Workload estimate ID. NOTE: The BatchUpdateWorkloadEstimateUsage operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission bcm-pricing-calculator:Update- WorkloadEstimateUsage in your policies. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="WorkloadEstimateId">The ID of the Workload estimate for which you want to modify the us- age lines. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="Usage">List of usage line amounts and usage group that you want to update in a Workload estimate identified by the usage ID. Constraints: o min: 1 o max: 25 (structure) Represents an entry in a batch operation to update workload es- timate usage. id -&gt; (string) [required] The unique identifier of the usage estimate to update. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} group -&gt; (string) The updated group identifier for the usage estimate. Constraints: o min: 0 o max: 30 o pattern: [a-zA-Z0-9-]* amount -&gt; (double) The updated estimated usage amount. Shorthand Syntax: id=string,group=string,amount=double ... JSON Syntax: [ { "id": "string", "group": "string", "amount": double } ... ]</param>
+    public AwsBcmPricingCalculatorBatchUpdateWorkloadEstimateUsageOptions(
+        string WorkloadEstimateId,
+        IEnumerable<string> Usage
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkloadEstimateId);
+        this.WorkloadEstimateId = WorkloadEstimateId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Usage);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Usage));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Usage));
+            }
+
+            Usage = materialized;
+        }
+        this.Usage = Usage;
+    }
+
+    private AwsBcmPricingCalculatorBatchUpdateWorkloadEstimateUsageOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBcmPricingCalculatorBatchUpdateWorkloadEstimateUsageOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBcmPricingCalculatorBatchUpdateWorkloadEstimateUsageOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Workload estimate for which you want to modify the us- age lines. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// </summary>
+    [CliOption("--workload-estimate-id")]
+    public string? WorkloadEstimateId { get; private init; }
+
+    /// <summary>
+    /// List of usage line amounts and usage group that you want to update in a Workload estimate identified by the usage ID. Constraints: o min: 1 o max: 25 (structure) Represents an entry in a batch operation to update workload es- timate usage. id -&gt; (string) [required] The unique identifier of the usage estimate to update. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} group -&gt; (string) The updated group identifier for the usage estimate. Constraints: o min: 0 o max: 30 o pattern: [a-zA-Z0-9-]* amount -&gt; (double) The updated estimated usage amount. Shorthand Syntax: id=string,group=string,amount=double ... JSON Syntax: [ { "id": "string", "group": "string", "amount": double } ... ]
+    /// </summary>
     [CliOption("--usage", GroupValues = true)]
-    public IEnumerable<string>? Usage { get; set; }
+    public IEnumerable<string>? Usage { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,8 +20,30 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logs", "tail")]
-public record AwsLogsTailOptions : AwsOptions
+public record AwsLogsTailOptions : AwsOptions, IValidatableObject
 {
+    /// <summary>
+    /// Tails the logs for a CloudWatch Logs group. By default, the command re- turns logs from all associated CloudWatch Logs streams during the past ten minutes. Note that there is no guarantee for exact timestamp order- ing of logs.
+    /// </summary>
+    /// <param name="GroupName">The group_name operand.</param>
+    /// <param name="Value">The &lt;value&gt; operand.</param>
+    public AwsLogsTailOptions(
+        string GroupName,
+        string Value
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GroupName);
+        this.GroupName = GroupName;
+        global::System.ArgumentNullException.ThrowIfNull(Value);
+        this.Value = Value;
+    }
+
+    public void Deconstruct(out string GroupName, out string Value)
+    {
+        GroupName = this.GroupName;
+        Value = this.Value;
+    }
+
     [CliOption("--since")]
     public string? Since { get; set; }
 
@@ -38,5 +61,27 @@ public record AwsLogsTailOptions : AwsOptions
 
     [CliOption("--log-stream-name-prefix")]
     public string? LogStreamNamePrefix { get; set; }
+
+    /// <summary>
+    /// The group_name operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string GroupName { get; private init; }
+
+    /// <summary>
+    /// The &lt;value&gt; operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Value { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Value) || !string.IsNullOrWhiteSpace(LogStreamNames)) && (!(!string.IsNullOrWhiteSpace(LogStreamNames))))
+        {
+            yield return new ValidationResult("LogStreamNames must be specified when other arguments in this group are specified.", [nameof(LogStreamNames)]);
+        }
+        yield break;
+    }
 
 }

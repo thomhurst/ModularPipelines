@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,30 +20,110 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("medical-imaging", "update-image-set-metadata")]
-public record AwsMedicalImagingUpdateImageSetMetadataOptions : AwsOptions
+public record AwsMedicalImagingUpdateImageSetMetadataOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Update image set metadata attributes. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DatastoreId">The data store identifier. Constraints: o pattern: [0-9a-z]{32}</param>
+    /// <param name="ImageSetId">The image set identifier. Constraints: o pattern: [0-9a-z]{32}</param>
+    /// <param name="LatestVersionId">The latest image set version identifier. Constraints: o pattern: \d+</param>
+    /// <param name="UpdateImageSetMetadataUpdates">Update image set metadata updates. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: DICOMUpdates, revertToVersionId. DICOMUpdates -&gt; (structure) The object containing removableAttributes and updatableAttrib- utes . removableAttributes -&gt; (blob) The DICOM tags to be removed from ImageSetMetadata . Constraints: o min: 1 o max: 30000 updatableAttributes -&gt; (blob) The DICOM tags that need to be updated in ImageSetMetadata . Constraints: o min: 1 o max: 30000 revertToVersionId -&gt; (string) Specifies the previous image set version ID to revert the cur- rent image set back to. NOTE: You must provide either revertToVersionId or DICOMUpdates in your request. A ValidationException error is thrown if both parameters are provided at the same time. Constraints: o pattern: \d+ Shorthand Syntax: DICOMUpdates={removableAttributes=blob,updatableAttributes=blob},revertToVersionId=string JSON Syntax: { "DICOMUpdates": { "removableAttributes": blob, "updatableAttributes": blob }, "revertToVersionId": "string" }</param>
+    public AwsMedicalImagingUpdateImageSetMetadataOptions(
+        string DatastoreId,
+        string ImageSetId,
+        string LatestVersionId,
+        string UpdateImageSetMetadataUpdates
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DatastoreId);
+        this.DatastoreId = DatastoreId;
+        global::System.ArgumentNullException.ThrowIfNull(ImageSetId);
+        this.ImageSetId = ImageSetId;
+        global::System.ArgumentNullException.ThrowIfNull(LatestVersionId);
+        this.LatestVersionId = LatestVersionId;
+        global::System.ArgumentNullException.ThrowIfNull(UpdateImageSetMetadataUpdates);
+        this.UpdateImageSetMetadataUpdates = UpdateImageSetMetadataUpdates;
+    }
+
+    private AwsMedicalImagingUpdateImageSetMetadataOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMedicalImagingUpdateImageSetMetadataOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMedicalImagingUpdateImageSetMetadataOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The data store identifier. Constraints: o pattern: [0-9a-z]{32}
+    /// </summary>
     [CliOption("--datastore-id")]
-    public string? DatastoreId { get; set; }
+    public string? DatastoreId { get; private init; }
 
+    /// <summary>
+    /// The image set identifier. Constraints: o pattern: [0-9a-z]{32}
+    /// </summary>
     [CliOption("--image-set-id")]
-    public string? ImageSetId { get; set; }
+    public string? ImageSetId { get; private init; }
 
+    /// <summary>
+    /// The latest image set version identifier. Constraints: o pattern: \d+
+    /// </summary>
     [CliOption("--latest-version-id")]
-    public string? LatestVersionId { get; set; }
+    public string? LatestVersionId { get; private init; }
 
-    [CliFlag("--force")]
+    /// <summary>
+    /// Update image set metadata updates. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: DICOMUpdates, revertToVersionId. DICOMUpdates -&gt; (structure) The object containing removableAttributes and updatableAttrib- utes . removableAttributes -&gt; (blob) The DICOM tags to be removed from ImageSetMetadata . Constraints: o min: 1 o max: 30000 updatableAttributes -&gt; (blob) The DICOM tags that need to be updated in ImageSetMetadata . Constraints: o min: 1 o max: 30000 revertToVersionId -&gt; (string) Specifies the previous image set version ID to revert the cur- rent image set back to. NOTE: You must provide either revertToVersionId or DICOMUpdates in your request. A ValidationException error is thrown if both parameters are provided at the same time. Constraints: o pattern: \d+ Shorthand Syntax: DICOMUpdates={removableAttributes=blob,updatableAttributes=blob},revertToVersionId=string JSON Syntax: { "DICOMUpdates": { "removableAttributes": blob, "updatableAttributes": blob }, "revertToVersionId": "string" }
+    /// </summary>
+    [CliOption("--update-image-set-metadata-updates")]
+    public string? UpdateImageSetMetadataUpdates { get; private init; }
+
+    /// <summary>
+    /// Setting this flag will force the UpdateImageSetMetadata operation for the following attributes: o Tag.StudyInstanceUID , Tag.SeriesInstanceUID , Tag.SOPInstanceUID , and Tag.StudyID o Adding, removing, or updating private tags for an individual SOP Instance
+    /// </summary>
+    [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
 
-    [CliFlag("--include-study-image-sets")]
+    /// <summary>
+    /// Flag to apply the metadata updates to all image sets in the same Study as the requested image set ID.
+    /// </summary>
+    [CliFlag("--include-study-image-sets", NegatedName = "--no-include-study-image-sets")]
     public bool? IncludeStudyImageSets { get; set; }
-
-    [CliOption("--update-image-set-metadata-updates")]
-    public string? UpdateImageSetMetadataUpdates { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

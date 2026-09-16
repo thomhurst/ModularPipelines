@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,14 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("partnercentral-benefits", "create-benefit-application")]
-public record AwsPartnercentralBenefitsCreateBenefitApplicationOptions : AwsOptions
+public record AwsPartnercentralBenefitsCreateBenefitApplicationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--catalog")]
-    public string? Catalog { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a new benefit application for a partner to request access to AWS benefits and programs. See also: AWS API Documentation create-benefit-application uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be pro- vided as JSON. Shorthand syntax does not support document types.
+    /// </summary>
+    /// <param name="Catalog">The catalog identifier that specifies which benefit catalog to cre- ate the application in. Constraints: o pattern: [A-Za-z0-9_-]+</param>
+    /// <param name="ClientToken">A unique, case-sensitive identifier to ensure idempotent processing of the creation request. Constraints: o min: 1 o max: 64 o pattern: [!-~]{1,64}</param>
+    /// <param name="BenefitIdentifier">The unique identifier of the benefit being requested in this appli- cation. Constraints: o pattern: (arn:.+|ben-[0-9a-z]{14})</param>
+    public AwsPartnercentralBenefitsCreateBenefitApplicationOptions(
+        string Catalog,
+        string ClientToken,
+        string BenefitIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+        global::System.ArgumentNullException.ThrowIfNull(ClientToken);
+        this.ClientToken = ClientToken;
+        global::System.ArgumentNullException.ThrowIfNull(BenefitIdentifier);
+        this.BenefitIdentifier = BenefitIdentifier;
+    }
+
+    private AwsPartnercentralBenefitsCreateBenefitApplicationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPartnercentralBenefitsCreateBenefitApplicationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPartnercentralBenefitsCreateBenefitApplicationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The catalog identifier that specifies which benefit catalog to cre- ate the application in. Constraints: o pattern: [A-Za-z0-9_-]+
+    /// </summary>
+    [CliOption("--catalog")]
+    public string? Catalog { get; private init; }
+
+    /// <summary>
+    /// A unique, case-sensitive identifier to ensure idempotent processing of the creation request. Constraints: o min: 1 o max: 64 o pattern: [!-~]{1,64}
+    /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
-    public string? ClientToken { get; set; }
+    public string? ClientToken { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the benefit being requested in this appli- cation. Constraints: o pattern: (arn:.+|ben-[0-9a-z]{14})
+    /// </summary>
+    [CliOption("--benefit-identifier")]
+    public string? BenefitIdentifier { get; private init; }
 
     /// <summary>
     /// A human-readable name for the benefit application. Constraints: o min: 1 o max: 255
@@ -40,9 +94,6 @@ public record AwsPartnercentralBenefitsCreateBenefitApplicationOptions : AwsOpti
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--benefit-identifier")]
-    public string? BenefitIdentifier { get; set; }
 
     /// <summary>
     /// The types of fulfillment requested for this benefit application (e.g., credits, access, disbursement). (string) Possible values: o CREDITS o CASH o ACCESS Syntax: "string" "string" ...
@@ -85,5 +136,22 @@ public record AwsPartnercentralBenefitsCreateBenefitApplicationOptions : AwsOpti
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

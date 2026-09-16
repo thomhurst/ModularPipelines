@@ -17,5 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEc2CreateCapacityReservationFleetTenancy
 {
     [EnumValue("default")]
-    Default = 1
+    Default,
+
+    [EnumValue("o")]
+    O
 }

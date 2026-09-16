@@ -16,30 +16,36 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEcsListAccountSettingsName
 {
-    [EnumValue("serviceLongArnFormat")]
-    ServiceLongArnFormat = 1,
-
-    [EnumValue("taskLongArnFormat")]
-    TaskLongArnFormat = 2,
-
     [EnumValue("awsvpcTrunking")]
-    AwsvpcTrunking = 3,
+    AwsvpcTrunking,
 
     [EnumValue("containerInsights")]
-    ContainerInsights = 4,
+    ContainerInsights,
 
-    [EnumValue("fargateFIPSMode")]
-    FargateFipsMode = 5,
-
-    [EnumValue("tagResourceAuthorization")]
-    TagResourceAuthorization = 6,
-
-    [EnumValue("guardDutyActivate")]
-    GuardDutyActivate = 7,
+    [EnumValue("containerInstanceLongArnFormat")]
+    ContainerInstanceLongArnFormat,
 
     [EnumValue("defaultLogDriverMode")]
-    DefaultLogDriverMode = 8,
+    DefaultLogDriverMode,
 
     [EnumValue("fargateEventWindows")]
-    FargateEventWindows = 9
+    FargateEventWindows,
+
+    [EnumValue("fargateFIPSMode")]
+    FargateFipsMode,
+
+    [EnumValue("fargateTaskRetirementWaitPeriod")]
+    FargateTaskRetirementWaitPeriod,
+
+    [EnumValue("guardDutyActivate")]
+    GuardDutyActivate,
+
+    [EnumValue("serviceLongArnFormat")]
+    ServiceLongArnFormat,
+
+    [EnumValue("tagResourceAuthorization")]
+    TagResourceAuthorization,
+
+    [EnumValue("taskLongArnFormat")]
+    TaskLongArnFormat
 }

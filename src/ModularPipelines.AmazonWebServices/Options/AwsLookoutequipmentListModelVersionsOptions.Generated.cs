@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lookoutequipment", "list-model-versions")]
-public record AwsLookoutequipmentListModelVersionsOptions : AwsOptions
+public record AwsLookoutequipmentListModelVersionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Generates a list of all model versions for a given model, including the model version, model version ARN, and status. To list a subset of ver- sions, use the MaxModelVersion and MinModelVersion fields. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ModelName">Then name of the machine learning model for which the model versions are to be listed. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$</param>
+    public AwsLookoutequipmentListModelVersionsOptions(
+        string ModelName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ModelName);
+        this.ModelName = ModelName;
+    }
+
+    private AwsLookoutequipmentListModelVersionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLookoutequipmentListModelVersionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLookoutequipmentListModelVersionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Then name of the machine learning model for which the model versions are to be listed. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$
+    /// </summary>
     [CliOption("--model-name")]
-    public string? ModelName { get; set; }
+    public string? ModelName { get; private init; }
 
     /// <summary>
     /// If the total number of results exceeds the limit that the response can display, the response returns an opaque pagination token indi- cating where to continue the listing of machine learning model ver- sions. Use this token in the NextToken field in the request to list the next page of results. Constraints: o max: 8192 o pattern: \p{ASCII}{0,8192}
@@ -80,5 +117,22 @@ public record AwsLookoutequipmentListModelVersionsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

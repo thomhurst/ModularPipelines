@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,17 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ds", "create-computer")]
-public record AwsDsCreateComputerOptions : AwsOptions
+public record AwsDsCreateComputerOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an Active Directory computer object in the specified directory. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DirectoryId">The identifier of the directory in which to create the computer ac- count. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="ComputerName">The name of the computer account. Constraints: o min: 1 o max: 15</param>
+    /// <param name="Password">A one-time password that is used to join the computer to the direc- tory. You should generate a random, strong password to use for this parameter. Constraints: o min: 8 o max: 64 o pattern: [\u0020-\u00FF]+</param>
+    public AwsDsCreateComputerOptions(
+        string DirectoryId,
+        string ComputerName,
+        string Password
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DirectoryId);
+        this.DirectoryId = DirectoryId;
+        global::System.ArgumentNullException.ThrowIfNull(ComputerName);
+        this.ComputerName = ComputerName;
+        global::System.ArgumentNullException.ThrowIfNull(Password);
+        this.Password = Password;
+    }
+
+    private AwsDsCreateComputerOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDsCreateComputerOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDsCreateComputerOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the directory in which to create the computer ac- count. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// </summary>
     [CliOption("--directory-id")]
-    public string? DirectoryId { get; set; }
+    public string? DirectoryId { get; private init; }
 
+    /// <summary>
+    /// The name of the computer account. Constraints: o min: 1 o max: 15
+    /// </summary>
     [CliOption("--computer-name")]
-    public string? ComputerName { get; set; }
+    public string? ComputerName { get; private init; }
 
+    /// <summary>
+    /// A one-time password that is used to join the computer to the direc- tory. You should generate a random, strong password to use for this parameter. Constraints: o min: 8 o max: 64 o pattern: [\u0020-\u00FF]+
+    /// </summary>
     [SecretValue]
     [CliOption("--password")]
-    public string? Password { get; set; }
+    public string? Password { get; private init; }
 
     /// <summary>
     /// The fully-qualified distinguished name of the organizational unit to place the computer account in. Constraints: o min: 1 o max: 2000
@@ -49,5 +100,22 @@ public record AwsDsCreateComputerOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

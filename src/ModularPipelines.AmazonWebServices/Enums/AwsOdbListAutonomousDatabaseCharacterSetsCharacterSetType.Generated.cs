@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --charactersettype.
+/// Allowed values for --character-set-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsOdbListAutonomousDatabaseCharacterSetsCharacterSetType
 {
     [EnumValue("DATABASE")]
-    Database = 1,
+    Database,
 
     [EnumValue("NATIONAL")]
-    National = 2
+    National
 }

@@ -11,41 +11,65 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --derivekeyusage.
+/// Allowed values for --derive-key-usage.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsPaymentCryptographyCreateKeyDeriveKeyUsage
 {
     [EnumValue("TR31_B0_BASE_DERIVATION_KEY")]
-    Tr31B0BaseDerivationKey = 1,
+    Tr31B0BaseDerivationKey,
 
     [EnumValue("TR31_C0_CARD_VERIFICATION_KEY")]
-    Tr31C0CardVerificationKey = 2,
+    Tr31C0CardVerificationKey,
+
+    [EnumValue("TR31_D0_SYMMETRIC_DATA_ENCRYPTION_KEY")]
+    Tr31D0SymmetricDataEncryptionKey,
+
+    [EnumValue("TR31_E0_EMV_MKEY_APP_CRYPTOGRAMS")]
+    Tr31E0EmvMkeyAppCryptograms,
+
+    [EnumValue("TR31_E1_EMV_MKEY_CONFIDENTIALITY")]
+    Tr31E1EmvMkeyConfidentiality,
 
     [EnumValue("TR31_E2_EMV_MKEY_INTEGRITY")]
-    Tr31E2EmvMkeyIntegrity = 3,
+    Tr31E2EmvMkeyIntegrity,
+
+    [EnumValue("TR31_E4_EMV_MKEY_DYNAMIC_NUMBERS")]
+    Tr31E4EmvMkeyDynamicNumbers,
+
+    [EnumValue("TR31_E5_EMV_MKEY_CARD_PERSONALIZATION")]
+    Tr31E5EmvMkeyCardPersonalization,
 
     [EnumValue("TR31_E6_EMV_MKEY_OTHER")]
-    Tr31E6EmvMkeyOther = 4,
+    Tr31E6EmvMkeyOther,
 
     [EnumValue("TR31_K0_KEY_ENCRYPTION_KEY")]
-    Tr31K0KeyEncryptionKey = 5,
+    Tr31K0KeyEncryptionKey,
 
-    [EnumValue("TR31_M3_ISO_9797_3_MAC_KEY")]
-    Tr31M3Iso_9797_3MacKey = 6,
+    [EnumValue("TR31_K1_KEY_BLOCK_PROTECTION_KEY")]
+    Tr31K1KeyBlockProtectionKey,
 
     [EnumValue("TR31_M1_ISO_9797_1_MAC_KEY")]
-    Tr31M1Iso_9797_1MacKey = 7,
+    Tr31M1Iso97971MacKey,
+
+    [EnumValue("TR31_M3_ISO_9797_3_MAC_KEY")]
+    Tr31M3Iso97973MacKey,
 
     [EnumValue("TR31_M6_ISO_9797_5_CMAC_KEY")]
-    Tr31M6Iso_9797_5CmacKey = 8,
+    Tr31M6Iso97975CmacKey,
 
     [EnumValue("TR31_M7_HMAC_KEY")]
-    Tr31M7HmacKey = 9,
+    Tr31M7HmacKey,
 
     [EnumValue("TR31_P0_PIN_ENCRYPTION_KEY")]
-    Tr31P0PinEncryptionKey = 10,
+    Tr31P0PinEncryptionKey,
 
     [EnumValue("TR31_P1_PIN_GENERATION_KEY")]
-    Tr31P1PinGenerationKey = 11
+    Tr31P1PinGenerationKey,
+
+    [EnumValue("TR31_V1_IBM3624_PIN_VERIFICATION_KEY")]
+    Tr31V1Ibm3624PinVerificationKey,
+
+    [EnumValue("TR31_V2_VISA_PIN_VERIFICATION_KEY")]
+    Tr31V2VisaPinVerificationKey
 }

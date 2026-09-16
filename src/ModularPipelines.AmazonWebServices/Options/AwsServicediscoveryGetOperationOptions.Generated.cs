@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("servicediscovery", "get-operation")]
-public record AwsServicediscoveryGetOperationOptions : AwsOptions
+public record AwsServicediscoveryGetOperationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Gets information about any operation that returns an operation ID in the response, such as a CreateHttpNamespace request. NOTE: To get a list of operations that match specified criteria, see ListOperations . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="OperationId">The ID of the operation that you want to get more information about. Constraints: o max: 255</param>
+    public AwsServicediscoveryGetOperationOptions(
+        string OperationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OperationId);
+        this.OperationId = OperationId;
+    }
+
+    private AwsServicediscoveryGetOperationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsServicediscoveryGetOperationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsServicediscoveryGetOperationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the operation that you want to get more information about. Constraints: o max: 255
+    /// </summary>
     [CliOption("--operation-id")]
-    public string? OperationId { get; set; }
+    public string? OperationId { get; private init; }
 
     /// <summary>
     /// The ID of the Amazon Web Services account that owns the namespace associated with the operation, as specified in the namespace Re- sourceOwner field. For operations associated with namespaces that are shared with your account, you must specify an OwnerAccount . Constraints: o min: 12 o max: 12
@@ -35,5 +72,22 @@ public record AwsServicediscoveryGetOperationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("trustedadvisor", "get-recommendation")]
-public record AwsTrustedadvisorGetRecommendationOptions : AwsOptions
+public record AwsTrustedadvisorGetRecommendationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Get a specific Recommendation. This API provides global recommenda- tions, eliminating the need to call the API in each AWS Region. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RecommendationIdentifier">The Recommendation identifier Constraints: o min: 20 o max: 200 o pattern: arn:[\w-]+:trustedadvisor::\d{12}:recommendation\/[\w-]+</param>
+    public AwsTrustedadvisorGetRecommendationOptions(
+        string RecommendationIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RecommendationIdentifier);
+        this.RecommendationIdentifier = RecommendationIdentifier;
+    }
+
+    private AwsTrustedadvisorGetRecommendationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTrustedadvisorGetRecommendationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTrustedadvisorGetRecommendationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Recommendation identifier Constraints: o min: 20 o max: 200 o pattern: arn:[\w-]+:trustedadvisor::\d{12}:recommendation\/[\w-]+
+    /// </summary>
     [CliOption("--recommendation-identifier")]
-    public string? RecommendationIdentifier { get; set; }
+    public string? RecommendationIdentifier { get; private init; }
 
     /// <summary>
     /// The ISO 639-1 code for the language that you want your recommenda- tions to appear in. Possible values: o en o ja o zh o fr o de o ko o zh_TW o it o es o pt_BR o id
@@ -36,5 +73,22 @@ public record AwsTrustedadvisorGetRecommendationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

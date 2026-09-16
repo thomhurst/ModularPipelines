@@ -6,6 +6,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -24,6 +25,7 @@ public record AwsAppsyncStartDataSourceIntrospectionOptions : AwsOptions
     /// <summary>
     /// The rdsDataApiConfig object data. resourceArn -&gt; (string) [required] The resource ARN of the RDS cluster. Constraints: o min: 20 o max: 2048 o pattern: ^arn:[a-z-]*:rds:[a-z0-9-]*:\d{12}:clus- ter:[0-9A-Za-z_/-]*$ secretArn -&gt; (string) [required] The secret's ARN that was obtained from Secrets Manager. A se- cret consists of secret information, the secret value, plus metadata about the secret. A secret value can be a string or bi- nary. It typically includes the ARN, secret name and descrip- tion, policies, tags, encryption key from the Key Management Service, and key rotation data. Constraints: o min: 20 o max: 2048 o pattern: ^arn:[a-z-]*:secretsmanager:[a-z0-9-]*:\d{12}:se- cret:[0-9A-Za-z_/+=.@!-]*$ databaseName -&gt; (string) [required] The name of the database in the cluster. Constraints: o min: 1 o max: 128 Shorthand Syntax: resourceArn=string,secretArn=string,databaseName=string JSON Syntax: { "resourceArn": "string", "secretArn": "string", "databaseName": "string" }
     /// </summary>
+    [SecretValue]
     [CliOption("--rds-data-api-config")]
     public string? RdsDataApiConfig { get; set; }
 

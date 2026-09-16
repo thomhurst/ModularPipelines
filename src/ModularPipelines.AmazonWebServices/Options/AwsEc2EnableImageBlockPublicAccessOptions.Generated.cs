@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +21,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "enable-image-block-public-access")]
-public record AwsEc2EnableImageBlockPublicAccessOptions : AwsOptions
+public record AwsEc2EnableImageBlockPublicAccessOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--image-block-public-access-state")]
-    public string? ImageBlockPublicAccessState { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Enables block public access for AMIs at the account level in the speci- fied Amazon Web Services Region. This prevents the public sharing of your AMIs. However, if you already have public AMIs, they will remain publicly available. The API can take up to 10 minutes to configure this setting. During this time, if you run GetImageBlockPublicAccessState , the response will be unblocked . When the API has completed the configuration, the response will be block-new-sharing . For more information, see ...
+    /// </summary>
+    /// <param name="ImageBlockPublicAccessState">Specify block-new-sharing to enable block public access for AMIs at the account level in the specified Region. This will block any at- tempt to publicly share your AMIs in the specified Region. Possible values: o block-new-sharing</param>
+    public AwsEc2EnableImageBlockPublicAccessOptions(
+        AwsEc2EnableImageBlockPublicAccessImageBlockPublicAccessState ImageBlockPublicAccessState
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ImageBlockPublicAccessState);
+        this.ImageBlockPublicAccessState = ImageBlockPublicAccessState;
+    }
+
+    private AwsEc2EnableImageBlockPublicAccessOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2EnableImageBlockPublicAccessOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2EnableImageBlockPublicAccessOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specify block-new-sharing to enable block public access for AMIs at the account level in the specified Region. This will block any at- tempt to publicly share your AMIs in the specified Region. Possible values: o block-new-sharing
+    /// </summary>
+    [CliOption("--image-block-public-access-state")]
+    public AwsEc2EnableImageBlockPublicAccessImageBlockPublicAccessState? ImageBlockPublicAccessState { get; private init; }
+
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -32,5 +73,22 @@ public record AwsEc2EnableImageBlockPublicAccessOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

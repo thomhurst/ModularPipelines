@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --licensetype.
+/// Allowed values for --license-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEksCreateEksAnywhereSubscriptionLicenseType
 {
     [EnumValue("Cluster")]
-    Cluster = 1
+    Cluster,
+
+    [EnumValue("o")]
+    O
 }

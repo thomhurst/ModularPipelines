@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,19 +21,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dynamodb", "update-contributor-insights")]
-public record AwsDynamodbUpdateContributorInsightsOptions : AwsOptions
+public record AwsDynamodbUpdateContributorInsightsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the status for contributor insights for a specific table or in- dex. CloudWatch Contributor Insights for DynamoDB graphs display the partition key and (if applicable) sort key of frequently accessed items and frequently throttled items in plaintext. If you require the use of Amazon Web Services Key Management Service (KMS) to encrypt this tables partition key and sort key data with an Amazon Web Services managed key or customer managed key, you should not enable CloudWatch Contributor In...
+    /// </summary>
+    /// <param name="TableName">The name of the table. You can also provide the Amazon Resource Name (ARN) of the table in this parameter. Constraints: o min: 1 o max: 1024</param>
+    /// <param name="ContributorInsightsAction">Represents the contributor insights action. Possible values: o ENABLE o DISABLE</param>
+    public AwsDynamodbUpdateContributorInsightsOptions(
+        string TableName,
+        AwsDynamodbUpdateContributorInsightsContributorInsightsAction ContributorInsightsAction
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TableName);
+        this.TableName = TableName;
+        global::System.ArgumentNullException.ThrowIfNull(ContributorInsightsAction);
+        this.ContributorInsightsAction = ContributorInsightsAction;
+    }
+
+    private AwsDynamodbUpdateContributorInsightsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDynamodbUpdateContributorInsightsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDynamodbUpdateContributorInsightsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the table. You can also provide the Amazon Resource Name (ARN) of the table in this parameter. Constraints: o min: 1 o max: 1024
+    /// </summary>
     [CliOption("--table-name")]
-    public string? TableName { get; set; }
+    public string? TableName { get; private init; }
+
+    /// <summary>
+    /// Represents the contributor insights action. Possible values: o ENABLE o DISABLE
+    /// </summary>
+    [CliOption("--contributor-insights-action")]
+    public AwsDynamodbUpdateContributorInsightsContributorInsightsAction? ContributorInsightsAction { get; private init; }
 
     /// <summary>
     /// The global secondary index name, if applicable. Constraints: o min: 3 o max: 255 o pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--index-name")]
     public string? IndexName { get; set; }
-
-    [CliOption("--contributor-insights-action")]
-    public string? ContributorInsightsAction { get; set; }
 
     /// <summary>
     /// Specifies whether to track all access and throttled events or throt- tled events only for the DynamoDB table or index. Possible values: o ACCESSED_AND_THROTTLED_KEYS o THROTTLED_KEYS
@@ -45,5 +89,22 @@ public record AwsDynamodbUpdateContributorInsightsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

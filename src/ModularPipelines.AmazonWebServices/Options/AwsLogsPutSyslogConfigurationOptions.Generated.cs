@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logs", "put-syslog-configuration")]
-public record AwsLogsPutSyslogConfigurationOptions : AwsOptions
+public record AwsLogsPutSyslogConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates or updates a syslog configuration for a log group. This enables ingestion of syslog data through the specified VPC endpoint into the log group. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LogGroupIdentifier">The name or ARN of the log group to associate with the syslog con- figuration. Constraints: o min: 1 o max: 2048 o pattern: [\w#+=/:,.@-]*</param>
+    public AwsLogsPutSyslogConfigurationOptions(
+        string LogGroupIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LogGroupIdentifier);
+        this.LogGroupIdentifier = LogGroupIdentifier;
+    }
+
+    private AwsLogsPutSyslogConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLogsPutSyslogConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLogsPutSyslogConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name or ARN of the log group to associate with the syslog con- figuration. Constraints: o min: 1 o max: 2048 o pattern: [\w#+=/:,.@-]*
+    /// </summary>
     [CliOption("--log-group-identifier")]
-    public string? LogGroupIdentifier { get; set; }
+    public string? LogGroupIdentifier { get; private init; }
 
     /// <summary>
     /// The ID of the VPC endpoint to use for syslog ingestion. Constraints: o pattern: ^vpce-[0-9a-f]{1,64}$
@@ -35,5 +72,22 @@ public record AwsLogsPutSyslogConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elbv2", "describe-load-balancer-attributes")]
-public record AwsElbv2DescribeLoadBalancerAttributesOptions : AwsOptions
+public record AwsElbv2DescribeLoadBalancerAttributesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Describes the attributes for the specified Application Load Balancer, Network Load Balancer, or Gateway Load Balancer. For more information, see the following: o Load balancer attributes in the Application Load Balancers Guide o Load balancer attributes in the Network Load Balancers Guide o Load balancer attributes in the Gateway Load Balancers Guide See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LoadBalancerArn">The Amazon Resource Name (ARN) of the load balancer.</param>
+    public AwsElbv2DescribeLoadBalancerAttributesOptions(
+        string LoadBalancerArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LoadBalancerArn);
+        this.LoadBalancerArn = LoadBalancerArn;
+    }
+
+    private AwsElbv2DescribeLoadBalancerAttributesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElbv2DescribeLoadBalancerAttributesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElbv2DescribeLoadBalancerAttributesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the load balancer.
+    /// </summary>
     [CliOption("--load-balancer-arn")]
-    public string? LoadBalancerArn { get; set; }
+    public string? LoadBalancerArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

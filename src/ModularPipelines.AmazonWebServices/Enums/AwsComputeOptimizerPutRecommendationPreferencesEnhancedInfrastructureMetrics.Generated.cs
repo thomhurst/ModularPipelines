@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --enhancedinfrastructuremetrics.
+/// Allowed values for --enhanced-infrastructure-metrics.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsComputeOptimizerPutRecommendationPreferencesEnhancedInfrastructureMetrics
 {
     [EnumValue("Active")]
-    Active = 1,
+    Active,
 
     [EnumValue("Inactive")]
-    Inactive = 2
+    Inactive
 }

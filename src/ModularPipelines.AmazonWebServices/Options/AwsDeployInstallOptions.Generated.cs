@@ -21,8 +21,25 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("deploy", "install")]
 public record AwsDeployInstallOptions : AwsOptions
 {
+    /// <summary>
+    /// Configures and installs the AWS CodeDeploy Agent on the on-premises in- stance.
+    /// </summary>
+    /// <param name="ConfigFile"></param>
+    public AwsDeployInstallOptions(
+        string ConfigFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConfigFile);
+        this.ConfigFile = ConfigFile;
+    }
+
+    public void Deconstruct(out string ConfigFile)
+    {
+        ConfigFile = this.ConfigFile;
+    }
+
     [CliOption("--config-file")]
-    public string? ConfigFile { get; set; }
+    public string ConfigFile { get; private init; }
 
     [CliFlag("--override-config")]
     public bool? OverrideConfig { get; set; }

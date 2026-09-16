@@ -6,12 +6,12 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -22,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot-managed-integrations", "update-managed-thing")]
-public record AwsIotManagedIntegrationsUpdateManagedThingOptions : AwsOptions
+public record AwsIotManagedIntegrationsUpdateManagedThingOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Update the attributes and capabilities associated with a managed thing. See also: AWS API Documentation update-managed-thing uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// </summary>
+    /// <param name="Identifier">The id of the managed thing. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9:_-]*</param>
+    public AwsIotManagedIntegrationsUpdateManagedThingOptions(
+        string Identifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Identifier);
+        this.Identifier = Identifier;
+    }
+
+    private AwsIotManagedIntegrationsUpdateManagedThingOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotManagedIntegrationsUpdateManagedThingOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotManagedIntegrationsUpdateManagedThingOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The id of the managed thing. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9:_-]*
+    /// </summary>
     [CliOption("--identifier")]
-    public string? Identifier { get; set; }
+    public string? Identifier { get; private init; }
 
     /// <summary>
     /// Owner of the device, usually an indication of whom the device be- longs to. This value should not contain personal identifiable infor- mation. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.,@-]+
@@ -36,7 +72,6 @@ public record AwsIotManagedIntegrationsUpdateManagedThingOptions : AwsOptions
     /// <summary>
     /// The identifier of the credential for the managed thing. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9]*
     /// </summary>
-    [SecretValue]
     [CliOption("--credential-locker-id")]
     public string? CredentialLockerId { get; set; }
 
@@ -111,5 +146,22 @@ public record AwsIotManagedIntegrationsUpdateManagedThingOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

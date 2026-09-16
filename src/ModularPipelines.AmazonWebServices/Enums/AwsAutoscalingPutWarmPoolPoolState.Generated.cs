@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --poolstate.
+/// Allowed values for --pool-state.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsAutoscalingPutWarmPoolPoolState
 {
-    [EnumValue("Stopped")]
-    Stopped = 1,
+    [EnumValue("Hibernated")]
+    Hibernated,
 
     [EnumValue("Running")]
-    Running = 2,
+    Running,
 
-    [EnumValue("Hibernated")]
-    Hibernated = 3
+    [EnumValue("Stopped")]
+    Stopped
 }

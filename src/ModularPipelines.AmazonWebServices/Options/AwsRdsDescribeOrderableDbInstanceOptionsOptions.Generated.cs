@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rds", "describe-orderable-db-instance-options")]
-public record AwsRdsDescribeOrderableDbInstanceOptionsOptions : AwsOptions
+public record AwsRdsDescribeOrderableDbInstanceOptionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Describes the orderable DB instance options for a specified DB engine. See also: AWS API Documentation describe-orderable-db-instance-options is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: Order...
+    /// </summary>
+    /// <param name="Engine">The name of the database engine to describe DB instance options for. Valid Values: o aurora-mysql o aurora-postgresql o custom-oracle-ee o custom-oracle-ee-cdb o custom-oracle-se2 o custom-oracle-se2-cdb o db2-ae o db2-ce o db2-se o mariadb o mysql o oracle-ee o oracle-ee-cdb o oracle-se2 o oracle-se2-cdb o postgres o sqlserver-ee o sqlserver-se o sqlserver-ex o sqlserver-web</param>
+    public AwsRdsDescribeOrderableDbInstanceOptionsOptions(
+        AwsRdsDescribeOrderableDbInstanceOptionsEngine Engine
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Engine);
+        this.Engine = Engine;
+    }
+
+    private AwsRdsDescribeOrderableDbInstanceOptionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRdsDescribeOrderableDbInstanceOptionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRdsDescribeOrderableDbInstanceOptionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the database engine to describe DB instance options for. Valid Values: o aurora-mysql o aurora-postgresql o custom-oracle-ee o custom-oracle-ee-cdb o custom-oracle-se2 o custom-oracle-se2-cdb o db2-ae o db2-ce o db2-se o mariadb o mysql o oracle-ee o oracle-ee-cdb o oracle-se2 o oracle-se2-cdb o postgres o sqlserver-ee o sqlserver-se o sqlserver-ex o sqlserver-web
+    /// </summary>
     [CliOption("--engine")]
-    public string? Engine { get; set; }
+    public AwsRdsDescribeOrderableDbInstanceOptionsEngine? Engine { get; private init; }
 
     /// <summary>
     /// A filter to include only the available options for the specified en- gine version.
@@ -49,7 +87,10 @@ public record AwsRdsDescribeOrderableDbInstanceOptionsOptions : AwsOptions
     [CliOption("--availability-zone-group")]
     public string? AvailabilityZoneGroup { get; set; }
 
-    [CliFlag("--vpc")]
+    /// <summary>
+    /// Specifies whether to show only VPC or non-VPC offerings. RDS Custom supports only VPC offerings. RDS Custom supports only VPC offerings. If you describe non-VPC of- ferings for RDS Custom, the output shows VPC offerings.
+    /// </summary>
+    [CliFlag("--vpc", NegatedName = "--no-vpc")]
     public bool? Vpc { get; set; }
 
     /// <summary>
@@ -82,5 +123,22 @@ public record AwsRdsDescribeOrderableDbInstanceOptionsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

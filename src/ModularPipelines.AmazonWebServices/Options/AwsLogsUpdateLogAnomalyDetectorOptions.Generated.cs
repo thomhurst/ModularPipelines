@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,55 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logs", "update-log-anomaly-detector")]
-public record AwsLogsUpdateLogAnomalyDetectorOptions : AwsOptions
+public record AwsLogsUpdateLogAnomalyDetectorOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an existing log anomaly detector. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AnomalyDetectorArn">The ARN of the anomaly detector that you want to update. Constraints: o min: 1 o pattern: [\w#+=/:,.@-]*</param>
+    /// <param name="Enabled">Use this parameter to pause or restart the anomaly detector.</param>
+    public AwsLogsUpdateLogAnomalyDetectorOptions(
+        string AnomalyDetectorArn,
+        bool Enabled
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AnomalyDetectorArn);
+        this.AnomalyDetectorArn = AnomalyDetectorArn;
+        this.Enabled = Enabled;
+    }
+
+    private AwsLogsUpdateLogAnomalyDetectorOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLogsUpdateLogAnomalyDetectorOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLogsUpdateLogAnomalyDetectorOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the anomaly detector that you want to update. Constraints: o min: 1 o pattern: [\w#+=/:,.@-]*
+    /// </summary>
     [CliOption("--anomaly-detector-arn")]
-    public string? AnomalyDetectorArn { get; set; }
+    public string? AnomalyDetectorArn { get; private init; }
+
+    /// <summary>
+    /// Use this parameter to pause or restart the anomaly detector.
+    /// </summary>
+    [CliFlag("--enabled", NegatedName = "--no-enabled")]
+    public bool? Enabled { get; private init; }
 
     /// <summary>
     /// Specifies how often the anomaly detector runs and look for anom- alies. Set this value according to the frequency that the log group receives new logs. For example, if the log group receives new log events every 10 minutes, then setting evaluationFrequency to FIF- TEEN_MIN might be appropriate. Possible values: o ONE_MIN o FIVE_MIN o TEN_MIN o FIFTEEN_MIN o THIRTY_MIN o ONE_HOUR
@@ -43,13 +89,27 @@ public record AwsLogsUpdateLogAnomalyDetectorOptions : AwsOptions
     [CliOption("--anomaly-visibility-time")]
     public int? AnomalyVisibilityTime { get; set; }
 
-    [CliFlag("--enabled")]
-    public bool? Enabled { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock", "delete-automated-reasoning-policy-test-case")]
-public record AwsBedrockDeleteAutomatedReasoningPolicyTestCaseOptions : AwsOptions
+public record AwsBedrockDeleteAutomatedReasoningPolicyTestCaseOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes an Automated Reasoning policy test. This operation is idempo- tent; if you delete a test more than once, each call succeeds. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PolicyArn">The Amazon Resource Name (ARN) of the Automated Reasoning policy that contains the test. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:auto- mated-reasoning-policy/[a-z0-9]{12}(:([1-9][0-9]{0,11}))?</param>
+    /// <param name="TestCaseId">The unique identifier of the test to delete. Constraints: o min: 0 o max: 12 o pattern: [0-9A-Z]{12}</param>
+    /// <param name="LastUpdatedAt">The timestamp when the test was last updated. This is used as a con- currency token to prevent conflicting modifications.</param>
+    public AwsBedrockDeleteAutomatedReasoningPolicyTestCaseOptions(
+        string PolicyArn,
+        string TestCaseId,
+        string LastUpdatedAt
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyArn);
+        this.PolicyArn = PolicyArn;
+        global::System.ArgumentNullException.ThrowIfNull(TestCaseId);
+        this.TestCaseId = TestCaseId;
+        global::System.ArgumentNullException.ThrowIfNull(LastUpdatedAt);
+        this.LastUpdatedAt = LastUpdatedAt;
+    }
+
+    private AwsBedrockDeleteAutomatedReasoningPolicyTestCaseOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockDeleteAutomatedReasoningPolicyTestCaseOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockDeleteAutomatedReasoningPolicyTestCaseOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the Automated Reasoning policy that contains the test. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:auto- mated-reasoning-policy/[a-z0-9]{12}(:([1-9][0-9]{0,11}))?
+    /// </summary>
     [CliOption("--policy-arn")]
-    public string? PolicyArn { get; set; }
+    public string? PolicyArn { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the test to delete. Constraints: o min: 0 o max: 12 o pattern: [0-9A-Z]{12}
+    /// </summary>
     [CliOption("--test-case-id")]
-    public string? TestCaseId { get; set; }
+    public string? TestCaseId { get; private init; }
 
+    /// <summary>
+    /// The timestamp when the test was last updated. This is used as a con- currency token to prevent conflicting modifications.
+    /// </summary>
     [CliOption("--last-updated-at")]
-    public string? LastUpdatedAt { get; set; }
+    public string? LastUpdatedAt { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

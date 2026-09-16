@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --accesstier.
+/// Allowed values for --access-tier.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDatasyncUpdateLocationAzureBlobAccessTier
 {
-    [EnumValue("HOT")]
-    Hot = 1,
+    [EnumValue("ARCHIVE")]
+    Archive,
 
     [EnumValue("COOL")]
-    Cool = 2,
+    Cool,
 
-    [EnumValue("ARCHIVE")]
-    Archive = 3
+    [EnumValue("HOT")]
+    Hot
 }

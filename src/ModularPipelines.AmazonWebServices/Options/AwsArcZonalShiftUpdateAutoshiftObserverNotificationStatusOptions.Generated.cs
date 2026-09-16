@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +21,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("arc-zonal-shift", "update-autoshift-observer-notification-status")]
-public record AwsArcZonalShiftUpdateAutoshiftObserverNotificationStatusOptions : AwsOptions
+public record AwsArcZonalShiftUpdateAutoshiftObserverNotificationStatusOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Update the status of autoshift observer notification. Autoshift ob- server notification enables you to be notified, through Amazon Event- Bridge, when there is an autoshift event for zonal autoshift. If the status is ENABLED , ARC includes all autoshift events when you use the EventBridge pattern Autoshift In Progress . When the status is DISABLED , ARC includes only autoshift events for autoshifts when one or more of your resources is included in the autoshift. For more information, see Notific...
+    /// </summary>
+    /// <param name="Status">The status to set for autoshift observer notification. If the status is ENABLED , ARC includes all autoshift events when you use the Ama- zon EventBridge pattern Autoshift In Progress . When the status is DISABLED , ARC includes only autoshift events for autoshifts when one or more of your resources is included in the autoshift. Possible values: o ENABLED o DISABLED</param>
+    public AwsArcZonalShiftUpdateAutoshiftObserverNotificationStatusOptions(
+        AwsArcZonalShiftUpdateAutoshiftObserverNotificationStatusStatus Status
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Status);
+        this.Status = Status;
+    }
+
+    private AwsArcZonalShiftUpdateAutoshiftObserverNotificationStatusOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsArcZonalShiftUpdateAutoshiftObserverNotificationStatusOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsArcZonalShiftUpdateAutoshiftObserverNotificationStatusOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The status to set for autoshift observer notification. If the status is ENABLED , ARC includes all autoshift events when you use the Ama- zon EventBridge pattern Autoshift In Progress . When the status is DISABLED , ARC includes only autoshift events for autoshifts when one or more of your resources is included in the autoshift. Possible values: o ENABLED o DISABLED
+    /// </summary>
     [CliOption("--status")]
-    public string? Status { get; set; }
+    public AwsArcZonalShiftUpdateAutoshiftObserverNotificationStatusStatus? Status { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

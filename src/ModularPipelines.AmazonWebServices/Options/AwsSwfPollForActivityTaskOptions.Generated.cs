@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("swf", "poll-for-activity-task")]
-public record AwsSwfPollForActivityTaskOptions : AwsOptions
+public record AwsSwfPollForActivityTaskOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--domain")]
-    public string? Domain { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Used by workers to get an ActivityTask from the specified activity taskList . This initiates a long poll, where the service holds the HTTP connection open and responds as soon as a task becomes available. The maximum time the service holds on to the request before responding is 60 seconds. If no task is available within 60 seconds, the poll returns an empty result. An empty result, in this context, means that an Activ- ityTask is returned, but that the value of taskToken is an empty string. If a...
+    /// </summary>
+    /// <param name="Domain">The name of the domain that contains the task lists being polled. Constraints: o min: 1 o max: 256</param>
+    /// <param name="TaskList">Specifies the task list to poll for activity tasks. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f ). Also, it must not be the literal string arn . name -&gt; (string) [required] The name of the task list. Constraints: o min: 1 o max: 256 Shorthand Syntax: name=string JSON Syntax: { "name": "string" }</param>
+    public AwsSwfPollForActivityTaskOptions(
+        string Domain,
+        string TaskList
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Domain);
+        this.Domain = Domain;
+        global::System.ArgumentNullException.ThrowIfNull(TaskList);
+        this.TaskList = TaskList;
+    }
+
+    private AwsSwfPollForActivityTaskOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSwfPollForActivityTaskOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSwfPollForActivityTaskOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the domain that contains the task lists being polled. Constraints: o min: 1 o max: 256
+    /// </summary>
+    [CliOption("--domain")]
+    public string? Domain { get; private init; }
+
+    /// <summary>
+    /// Specifies the task list to poll for activity tasks. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f ). Also, it must not be the literal string arn . name -&gt; (string) [required] The name of the task list. Constraints: o min: 1 o max: 256 Shorthand Syntax: name=string JSON Syntax: { "name": "string" }
+    /// </summary>
     [CliOption("--task-list")]
-    public string? TaskList { get; set; }
+    public string? TaskList { get; private init; }
 
     /// <summary>
     /// Identity of the worker making the request, recorded in the Activity- TaskStarted event in the workflow history. This enables diagnostic tracing when problems arise. The form of this identity is user de- fined. Constraints: o max: 256
@@ -38,5 +82,22 @@ public record AwsSwfPollForActivityTaskOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

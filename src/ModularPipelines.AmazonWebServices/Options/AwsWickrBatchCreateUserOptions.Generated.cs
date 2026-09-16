@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("wickr", "batch-create-user")]
-public record AwsWickrBatchCreateUserOptions : AwsOptions
+public record AwsWickrBatchCreateUserOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--network-id")]
-    public string? NetworkId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates multiple users in a specified Wickr network. This operation al- lows you to provision multiple user accounts simultaneously, optionally specifying security groups, and validation requirements for each user. NOTE: codeValidation , inviteCode , and inviteCodeTtl are restricted to networks under preview only. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="NetworkId">The ID of the Wickr network where users will be created. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}</param>
+    /// <param name="Users">A list of user objects containing the details for each user to be created, including username, name, security groups, and optional in- vite codes. Maximum 50 users per batch request. (structure) Contains the details for a single user to be created in a batch user creation request. NOTE: A user can only be assigned to a single security group. At- tempting to add a user to multiple security groups is not supported and will result in an error. NOTE: codeValidation , inviteCode , and inviteCodeTtl are re- stricted to networks under preview only. firstName -&gt; (string) The first name of the user. Constraints: o pattern: [\S\s]* lastName -&gt; (string) The last name of the user. Constraints: o pattern: [\S\s]* securityGroupIds -&gt; (list) [required] A list of security group IDs to which the user should be as- signed. (string) Constraints: o pattern: [\S]+ username -&gt; (string) [required] The email address or username for the user. Must be unique within the network. Constraints: o pattern: [\S\s]* inviteCode -&gt; (string) A custom invite code for the user. If not provided, one will be generated automatically. Constraints: o pattern: [\S\s]* inviteCodeTtl -&gt; (integer) The time-to-live for the invite code in days. After this pe- riod, the invite code will expire. codeValidation -&gt; (boolean) Indicates whether the user can be verified through a custom invite code. Shorthand Syntax: firstName=string,lastName=string,securityGroupIds=string,string,username=string,inviteCode=string,inviteCodeTtl=integer,codeValidation=boolean ... JSON Syntax: [ { "firstName": "string", "lastName": "string", "securityGroupIds": ["string", ...], "username": "string", "inviteCode": "string", "inviteCodeTtl": integer, "codeValidation": true|false } ... ]</param>
+    public AwsWickrBatchCreateUserOptions(
+        string NetworkId,
+        IEnumerable<string> Users
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NetworkId);
+        this.NetworkId = NetworkId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Users);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Users));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Users));
+            }
+
+            Users = materialized;
+        }
+        this.Users = Users;
+    }
+
+    private AwsWickrBatchCreateUserOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWickrBatchCreateUserOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWickrBatchCreateUserOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Wickr network where users will be created. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}
+    /// </summary>
+    [CliOption("--network-id")]
+    public string? NetworkId { get; private init; }
+
+    /// <summary>
+    /// A list of user objects containing the details for each user to be created, including username, name, security groups, and optional in- vite codes. Maximum 50 users per batch request. (structure) Contains the details for a single user to be created in a batch user creation request. NOTE: A user can only be assigned to a single security group. At- tempting to add a user to multiple security groups is not supported and will result in an error. NOTE: codeValidation , inviteCode , and inviteCodeTtl are re- stricted to networks under preview only. firstName -&gt; (string) The first name of the user. Constraints: o pattern: [\S\s]* lastName -&gt; (string) The last name of the user. Constraints: o pattern: [\S\s]* securityGroupIds -&gt; (list) [required] A list of security group IDs to which the user should be as- signed. (string) Constraints: o pattern: [\S]+ username -&gt; (string) [required] The email address or username for the user. Must be unique within the network. Constraints: o pattern: [\S\s]* inviteCode -&gt; (string) A custom invite code for the user. If not provided, one will be generated automatically. Constraints: o pattern: [\S\s]* inviteCodeTtl -&gt; (integer) The time-to-live for the invite code in days. After this pe- riod, the invite code will expire. codeValidation -&gt; (boolean) Indicates whether the user can be verified through a custom invite code. Shorthand Syntax: firstName=string,lastName=string,securityGroupIds=string,string,username=string,inviteCode=string,inviteCodeTtl=integer,codeValidation=boolean ... JSON Syntax: [ { "firstName": "string", "lastName": "string", "securityGroupIds": ["string", ...], "username": "string", "inviteCode": "string", "inviteCodeTtl": integer, "codeValidation": true|false } ... ]
+    /// </summary>
     [CliOption("--users", GroupValues = true)]
-    public IEnumerable<string>? Users { get; set; }
+    public IEnumerable<string>? Users { get; private init; }
 
     /// <summary>
     /// A unique identifier for this request to ensure idempotency. If you retry a request with the same client token, the service will return the same response without creating duplicate users. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-_:]+
@@ -40,5 +95,22 @@ public record AwsWickrBatchCreateUserOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "create-job-template")]
-public record AwsIotCreateJobTemplateOptions : AwsOptions
+public record AwsIotCreateJobTemplateOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a job template. Requires permission to access the CreateJobTemplate action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="JobTemplateId">A unique identifier for the job template. We recommend using a UUID. Alpha-numeric characters, "-", and "_" are valid for use here. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="Description">A description of the job document. Constraints: o max: 2028 o pattern: [^\p{C}]+</param>
+    public AwsIotCreateJobTemplateOptions(
+        string JobTemplateId,
+        string Description
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(JobTemplateId);
+        this.JobTemplateId = JobTemplateId;
+        global::System.ArgumentNullException.ThrowIfNull(Description);
+        this.Description = Description;
+    }
+
+    private AwsIotCreateJobTemplateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotCreateJobTemplateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotCreateJobTemplateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier for the job template. We recommend using a UUID. Alpha-numeric characters, "-", and "_" are valid for use here. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+
+    /// </summary>
     [CliOption("--job-template-id")]
-    public string? JobTemplateId { get; set; }
+    public string? JobTemplateId { get; private init; }
+
+    /// <summary>
+    /// A description of the job document. Constraints: o max: 2028 o pattern: [^\p{C}]+
+    /// </summary>
+    [CliOption("--description")]
+    public string? Description { get; private init; }
 
     /// <summary>
     /// The ARN of the job to use as the basis for the job template.
@@ -41,9 +88,6 @@ public record AwsIotCreateJobTemplateOptions : AwsOptions
     /// </summary>
     [CliOption("--document")]
     public string? Document { get; set; }
-
-    [CliOption("--description")]
-    public string? Description { get; set; }
 
     /// <summary>
     /// Configuration for pre-signed S3 URLs. roleArn -&gt; (string) The ARN of an IAM role that grants permission to download files from the S3 bucket where the job data/updates are stored. The role must also grant permission for IoT to download the files. WARNING: For information about addressing the confused deputy problem, see cross-service confused deputy prevention in the Amazon Web Services IoT Core developer guide . Constraints: o min: 20 o max: 2048 expiresInSec -&gt; (long) How long (in seconds) pre-signed URLs are valid. Valid values are 60 - 3600, the default value is 3600 seconds. Pre-signed URLs are generated when Jobs receives an MQTT request for the job document. Constraints: o min: 60 o max: 3600 Shorthand Syntax: roleArn=string,expiresInSec=long JSON Syntax: { "roleArn": "string", "expiresInSec": long }
@@ -98,5 +142,22 @@ public record AwsIotCreateJobTemplateOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

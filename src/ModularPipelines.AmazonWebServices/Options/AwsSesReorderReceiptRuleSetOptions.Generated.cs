@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ses", "reorder-receipt-rule-set")]
-public record AwsSesReorderReceiptRuleSetOptions : AwsOptions
+public record AwsSesReorderReceiptRuleSetOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--rule-set-name")]
-    public string? RuleSetName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Reorders the receipt rules within a receipt rule set. NOTE: All of the rules in the rule set must be represented in this re- quest. That is, it is error if the reorder request doesn't explic- itly position all of the rules. For information about managing receipt rule sets, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RuleSetName">The name of the receipt rule set to reorder.</param>
+    /// <param name="RuleNames">The specified receipt rule set's receipt rules, in order. (string) Syntax: "string" "string" ...</param>
+    public AwsSesReorderReceiptRuleSetOptions(
+        string RuleSetName,
+        IEnumerable<string> RuleNames
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RuleSetName);
+        this.RuleSetName = RuleSetName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(RuleNames);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(RuleNames));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(RuleNames));
+            }
+
+            RuleNames = materialized;
+        }
+        this.RuleNames = RuleNames;
+    }
+
+    private AwsSesReorderReceiptRuleSetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSesReorderReceiptRuleSetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSesReorderReceiptRuleSetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the receipt rule set to reorder.
+    /// </summary>
+    [CliOption("--rule-set-name")]
+    public string? RuleSetName { get; private init; }
+
+    /// <summary>
+    /// The specified receipt rule set's receipt rules, in order. (string) Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--rule-names", GroupValues = true)]
-    public IEnumerable<string>? RuleNames { get; set; }
+    public IEnumerable<string>? RuleNames { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

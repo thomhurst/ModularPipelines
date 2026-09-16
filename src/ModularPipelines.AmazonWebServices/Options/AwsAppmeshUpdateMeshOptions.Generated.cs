@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,17 +21,53 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appmesh", "update-mesh")]
-public record AwsAppmeshUpdateMeshOptions : AwsOptions
+public record AwsAppmeshUpdateMeshOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an existing service mesh. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="MeshName">The name of the service mesh to update. Constraints: o min: 1 o max: 255</param>
+    public AwsAppmeshUpdateMeshOptions(
+        string MeshName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MeshName);
+        this.MeshName = MeshName;
+    }
+
+    private AwsAppmeshUpdateMeshOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppmeshUpdateMeshOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppmeshUpdateMeshOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the service mesh to update. Constraints: o min: 1 o max: 255
+    /// </summary>
+    [CliOption("--mesh-name")]
+    public string? MeshName { get; private init; }
+
     /// <summary>
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--mesh-name")]
-    public string? MeshName { get; set; }
 
     /// <summary>
     /// The service mesh specification to apply. egressFilter -&gt; (structure) The egress filter rules for the service mesh. type -&gt; (string) [required] The egress filter type. By default, the type is DROP_ALL , which allows egress only from virtual nodes to other defined resources in the service mesh (and any traffic to *.amazon- aws.com for Amazon Web Services API calls). You can set the egress filter type to ALLOW_ALL to allow egress to any end- point inside or outside of the service mesh. Possible values: o ALLOW_ALL o DROP_ALL serviceDiscovery -&gt; (structure) An object that represents the service discovery information for a service mesh. ipPreference -&gt; (string) The IP version to use to control traffic within the mesh. Possible values: o IPv6_PREFERRED o IPv4_PREFERRED o IPv4_ONLY o IPv6_ONLY Shorthand Syntax: egressFilter={type=string},serviceDiscovery={ipPreference=string} JSON Syntax: { "egressFilter": { "type": "ALLOW_ALL"|"DROP_ALL" }, "serviceDiscovery": { "ipPreference": "IPv6_PREFERRED"|"IPv4_PREFERRED"|"IPv4_ONLY"|"IPv6_ONLY" } }
@@ -43,5 +80,22 @@ public record AwsAppmeshUpdateMeshOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

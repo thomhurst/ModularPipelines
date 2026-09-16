@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("timestream-write", "create-table")]
-public record AwsTimestreamWriteCreateTableOptions : AwsOptions
+public record AwsTimestreamWriteCreateTableOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--database-name")]
-    public string? DatabaseName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Adds a new table to an existing database in your account. In an Amazon Web Services account, table names must be at least unique within each Region if they are in the same database. You might have identical table names in the same Region if the tables are in separate databases. While creating the table, you must specify the table name, database name, and the retention properties. Service quotas apply . See code sample for details. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DatabaseName">The name of the Timestream database. Constraints: o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="TableName">The name of the Timestream table. Constraints: o pattern: [a-zA-Z0-9_.-]+</param>
+    public AwsTimestreamWriteCreateTableOptions(
+        string DatabaseName,
+        string TableName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DatabaseName);
+        this.DatabaseName = DatabaseName;
+        global::System.ArgumentNullException.ThrowIfNull(TableName);
+        this.TableName = TableName;
+    }
+
+    private AwsTimestreamWriteCreateTableOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTimestreamWriteCreateTableOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTimestreamWriteCreateTableOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the Timestream database. Constraints: o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
+    [CliOption("--database-name")]
+    public string? DatabaseName { get; private init; }
+
+    /// <summary>
+    /// The name of the Timestream table. Constraints: o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
     [CliOption("--table-name")]
-    public string? TableName { get; set; }
+    public string? TableName { get; private init; }
 
     /// <summary>
     /// The duration for which your time-series data must be stored in the memory store and the magnetic store. MemoryStoreRetentionPeriodInHours -&gt; (long) [required] The duration for which data must be stored in the memory store. Constraints: o min: 1 o max: 8766 MagneticStoreRetentionPeriodInDays -&gt; (long) [required] The duration for which data must be stored in the magnetic store. Constraints: o min: 1 o max: 73000 Shorthand Syntax: MemoryStoreRetentionPeriodInHours=long,MagneticStoreRetentionPeriodInDays=long JSON Syntax: { "MemoryStoreRetentionPeriodInHours": long, "MagneticStoreRetentionPeriodInDays": long }
@@ -56,5 +100,22 @@ public record AwsTimestreamWriteCreateTableOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

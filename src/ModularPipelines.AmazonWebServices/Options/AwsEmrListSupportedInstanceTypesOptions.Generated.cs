@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("emr", "list-supported-instance-types")]
-public record AwsEmrListSupportedInstanceTypesOptions : AwsOptions
+public record AwsEmrListSupportedInstanceTypesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// A list of the instance types that Amazon EMR supports. You can filter the list by Amazon Web Services Region and Amazon EMR release. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ReleaseLabel">The Amazon EMR release label determines the versions of open-source application packages that Amazon EMR has installed on the cluster. Release labels are in the format emr-x.x.x , where x.x.x is an Ama- zon EMR release number such as emr-6.10.0 . For more information about Amazon EMR releases and their included application versions and features, see the * Amazon EMR Release Guide * .</param>
+    public AwsEmrListSupportedInstanceTypesOptions(
+        string ReleaseLabel
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReleaseLabel);
+        this.ReleaseLabel = ReleaseLabel;
+    }
+
+    private AwsEmrListSupportedInstanceTypesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEmrListSupportedInstanceTypesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEmrListSupportedInstanceTypesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon EMR release label determines the versions of open-source application packages that Amazon EMR has installed on the cluster. Release labels are in the format emr-x.x.x , where x.x.x is an Ama- zon EMR release number such as emr-6.10.0 . For more information about Amazon EMR releases and their included application versions and features, see the * Amazon EMR Release Guide * .
+    /// </summary>
     [CliOption("--release-label")]
-    public string? ReleaseLabel { get; set; }
+    public string? ReleaseLabel { get; private init; }
 
     /// <summary>
     /// The pagination token that marks the next set of results to retrieve.
@@ -35,5 +72,22 @@ public record AwsEmrListSupportedInstanceTypesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

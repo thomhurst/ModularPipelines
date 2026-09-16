@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53", "delete-traffic-policy")]
-public record AwsRoute53DeleteTrafficPolicyOptions : AwsOptions
+public record AwsRoute53DeleteTrafficPolicyOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--id")]
-    public string? Id { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deletes a traffic policy. When you delete a traffic policy, Route 53 sets a flag on the policy to indicate that it has been deleted. However, Route 53 never fully deletes the traffic policy. Note the following: o Deleted traffic policies aren't listed if you run ListTrafficPolicies . o There's no way to get a list of deleted policies. o If you retain the ID of the policy, you can get information about the policy, including the traffic policy document, by running GetTrafficPolicy . See also: AWS ...
+    /// </summary>
+    /// <param name="Id">The ID of the traffic policy that you want to delete. Constraints: o min: 1 o max: 36</param>
+    /// <param name="TrafficPolicyVersion">The version number of the traffic policy that you want to delete. Constraints: o min: 1 o max: 1000</param>
+    public AwsRoute53DeleteTrafficPolicyOptions(
+        string Id,
+        int TrafficPolicyVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+        this.TrafficPolicyVersion = TrafficPolicyVersion;
+    }
+
+    private AwsRoute53DeleteTrafficPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53DeleteTrafficPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53DeleteTrafficPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the traffic policy that you want to delete. Constraints: o min: 1 o max: 36
+    /// </summary>
+    [CliOption("--id")]
+    public string? Id { get; private init; }
+
+    /// <summary>
+    /// The version number of the traffic policy that you want to delete. Constraints: o min: 1 o max: 1000
+    /// </summary>
     [CliOption("--traffic-policy-version")]
-    public int? TrafficPolicyVersion { get; set; }
+    public int? TrafficPolicyVersion { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("networkmanager", "deregister-transit-gateway")]
-public record AwsNetworkmanagerDeregisterTransitGatewayOptions : AwsOptions
+public record AwsNetworkmanagerDeregisterTransitGatewayOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--global-network-id")]
-    public string? GlobalNetworkId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deregisters a transit gateway from your global network. This action does not delete your transit gateway, or modify any of its attachments. This action removes any customer gateway associations. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="GlobalNetworkId">The ID of the global network. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*</param>
+    /// <param name="TransitGatewayArn">The Amazon Resource Name (ARN) of the transit gateway. Constraints: o min: 0 o max: 500 o pattern: [\s\S]*</param>
+    public AwsNetworkmanagerDeregisterTransitGatewayOptions(
+        string GlobalNetworkId,
+        string TransitGatewayArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GlobalNetworkId);
+        this.GlobalNetworkId = GlobalNetworkId;
+        global::System.ArgumentNullException.ThrowIfNull(TransitGatewayArn);
+        this.TransitGatewayArn = TransitGatewayArn;
+    }
+
+    private AwsNetworkmanagerDeregisterTransitGatewayOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNetworkmanagerDeregisterTransitGatewayOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNetworkmanagerDeregisterTransitGatewayOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the global network. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*
+    /// </summary>
+    [CliOption("--global-network-id")]
+    public string? GlobalNetworkId { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the transit gateway. Constraints: o min: 0 o max: 500 o pattern: [\s\S]*
+    /// </summary>
     [CliOption("--transit-gateway-arn")]
-    public string? TransitGatewayArn { get; set; }
+    public string? TransitGatewayArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

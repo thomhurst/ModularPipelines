@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --expressiontype.
+/// Allowed values for --expression-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotwirelessUpdateDestinationExpressionType
 {
-    [EnumValue("RuleName")]
-    RuleName = 1,
-
     [EnumValue("MqttTopic")]
-    MqttTopic = 2
+    MqttTopic,
+
+    [EnumValue("RuleName")]
+    RuleName
 }

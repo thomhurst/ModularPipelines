@@ -22,7 +22,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("pinpoint-sms-voice-v2", "create-rcs-agent")]
 public record AwsPinpointSmsVoiceV2CreateRcsAgentOptions : AwsOptions
 {
-    [CliFlag("--deletion-protection-enabled")]
+    /// <summary>
+    /// By default this is set to false. When set to true the RCS agent can't be deleted. You can change this value using the UpdateRc- sAgent action.
+    /// </summary>
+    [CliFlag("--deletion-protection-enabled", NegatedName = "--no-deletion-protection-enabled")]
     public bool? DeletionProtectionEnabled { get; set; }
 
     /// <summary>

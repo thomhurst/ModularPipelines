@@ -21,10 +21,49 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("geo-maps", "get-glyphs")]
 public record AwsGeoMapsGetGlyphsOptions : AwsOptions
 {
-    [CliOption("--font-stack")]
-    public string? FontStack { get; set; }
+    /// <summary>
+    /// GetGlyphs returns the map's glyphs. For more information, see Style labels with glyphs in the Amazon Loca- tion Service Developer Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FontStack">Name of the FontStack to retrieve. Example: Amazon Ember Bold,Noto Sans Bold . The supported font stacks are as follows: o Amazon Ember Bold o Amazon Ember Bold Italic o Amazon Ember Bold,Noto Sans Bold o Amazon Ember Bold,Noto Sans Bold,Noto Sans Arabic Bold o Amazon Ember Condensed RC BdItalic o Amazon Ember Condensed RC Bold o Amazon Ember Condensed RC Bold Italic o Amazon Ember Condensed RC Bold,Noto Sans Bold o Amazon Ember Condensed RC Bold,Noto Sans Bold,Noto Sans Arabic Condensed Bold o Amazon Ember Condensed RC Light o Amazon Ember Condensed RC Light Italic o Amazon Ember Condensed RC LtItalic o Amazon Ember Condensed RC Regular o Amazon Ember Condensed RC Regular Italic o Amazon Ember Condensed RC Regular,Noto Sans Regular o Amazon Ember Condensed RC Regular,Noto Sans Regular,Noto Sans Ara- bic Condensed Regular o Amazon Ember Condensed RC RgItalic o Amazon Ember Condensed RC ThItalic o Amazon Ember Condensed RC Thin o Amazon Ember Condensed RC Thin Italic o Amazon Ember Heavy o Amazon Ember Heavy Italic o Amazon Ember Light o Amazon Ember Light Italic o Amazon Ember Medium o Amazon Ember Medium Italic o Amazon Ember Medium,Noto Sans Medium o Amazon Ember Medium,Noto Sans Medium,Noto Sans Arabic Medium o Amazon Ember Regular o Amazon Ember Regular Italic o Amazon Ember Regular Italic,Noto Sans Italic o Amazon Ember Regular Italic,Noto Sans Italic,Noto Sans Arabic Reg- ular o Amazon Ember Regular,Noto Sans Regular o Amazon Ember Regular,Noto Sans Regular,Noto Sans Arabic Regular o Amazon Ember Thin o Amazon Ember Thin Italic o AmazonEmberCdRC_Bd o AmazonEmberCdRC_BdIt o AmazonEmberCdRC_Lt o AmazonEmberCdRC_LtIt o AmazonEmberCdRC_Rg o AmazonEmberCdRC_RgIt o AmazonEmberCdRC_Th o AmazonEmberCdRC_ThIt o AmazonEmber_Bd o AmazonEmber_BdIt o AmazonEmber_He o AmazonEmber_HeIt o AmazonEmber_Lt o AmazonEmber_LtIt o AmazonEmber_Md o AmazonEmber_MdIt o AmazonEmber_Rg o AmazonEmber_RgIt o AmazonEmber_Th o AmazonEmber_ThIt o Noto Sans Black o Noto Sans Black Italic o Noto Sans Bold o Noto Sans Bold Italic o Noto Sans Extra Bold o Noto Sans Extra Bold Italic o Noto Sans Extra Light o Noto Sans Extra Light Italic o Noto Sans Italic o Noto Sans Light o Noto Sans Light Italic o Noto Sans Medium o Noto Sans Medium Italic o Noto Sans Regular o Noto Sans Semi Bold o Noto Sans Semi Bold Italic o Noto Sans Thin o Noto Sans Thin Italic o NotoSans-Bold o NotoSans-Italic o NotoSans-Medium o NotoSans-Regular o Open Sans Regular,Arial Unicode MS Regular Constraints: o min: 0 o max: 1000</param>
+    /// <param name="FontUnicodeRange">A Unicode range of characters to download glyphs for. This must be aligned to multiples of 256. Example: 0-255.pbf Constraints: o min: 0 o max: 50 o pattern: [0-9]+-[0-9]+\.pbf outfile (string) [required] Filename where the content will be saved</param>
+    /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
+    public AwsGeoMapsGetGlyphsOptions(
+        string FontStack,
+        string FontUnicodeRange,
+        string Outfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FontStack);
+        this.FontStack = FontStack;
+        global::System.ArgumentNullException.ThrowIfNull(FontUnicodeRange);
+        this.FontUnicodeRange = FontUnicodeRange;
+        global::System.ArgumentNullException.ThrowIfNull(Outfile);
+        this.Outfile = Outfile;
+    }
 
+    public void Deconstruct(out string FontStack, out string FontUnicodeRange, out string Outfile)
+    {
+        FontStack = this.FontStack;
+        FontUnicodeRange = this.FontUnicodeRange;
+        Outfile = this.Outfile;
+    }
+
+    /// <summary>
+    /// Name of the FontStack to retrieve. Example: Amazon Ember Bold,Noto Sans Bold . The supported font stacks are as follows: o Amazon Ember Bold o Amazon Ember Bold Italic o Amazon Ember Bold,Noto Sans Bold o Amazon Ember Bold,Noto Sans Bold,Noto Sans Arabic Bold o Amazon Ember Condensed RC BdItalic o Amazon Ember Condensed RC Bold o Amazon Ember Condensed RC Bold Italic o Amazon Ember Condensed RC Bold,Noto Sans Bold o Amazon Ember Condensed RC Bold,Noto Sans Bold,Noto Sans Arabic Condensed Bold o Amazon Ember Condensed RC Light o Amazon Ember Condensed RC Light Italic o Amazon Ember Condensed RC LtItalic o Amazon Ember Condensed RC Regular o Amazon Ember Condensed RC Regular Italic o Amazon Ember Condensed RC Regular,Noto Sans Regular o Amazon Ember Condensed RC Regular,Noto Sans Regular,Noto Sans Ara- bic Condensed Regular o Amazon Ember Condensed RC RgItalic o Amazon Ember Condensed RC ThItalic o Amazon Ember Condensed RC Thin o Amazon Ember Condensed RC Thin Italic o Amazon Ember Heavy o Amazon Ember Heavy Italic o Amazon Ember Light o Amazon Ember Light Italic o Amazon Ember Medium o Amazon Ember Medium Italic o Amazon Ember Medium,Noto Sans Medium o Amazon Ember Medium,Noto Sans Medium,Noto Sans Arabic Medium o Amazon Ember Regular o Amazon Ember Regular Italic o Amazon Ember Regular Italic,Noto Sans Italic o Amazon Ember Regular Italic,Noto Sans Italic,Noto Sans Arabic Reg- ular o Amazon Ember Regular,Noto Sans Regular o Amazon Ember Regular,Noto Sans Regular,Noto Sans Arabic Regular o Amazon Ember Thin o Amazon Ember Thin Italic o AmazonEmberCdRC_Bd o AmazonEmberCdRC_BdIt o AmazonEmberCdRC_Lt o AmazonEmberCdRC_LtIt o AmazonEmberCdRC_Rg o AmazonEmberCdRC_RgIt o AmazonEmberCdRC_Th o AmazonEmberCdRC_ThIt o AmazonEmber_Bd o AmazonEmber_BdIt o AmazonEmber_He o AmazonEmber_HeIt o AmazonEmber_Lt o AmazonEmber_LtIt o AmazonEmber_Md o AmazonEmber_MdIt o AmazonEmber_Rg o AmazonEmber_RgIt o AmazonEmber_Th o AmazonEmber_ThIt o Noto Sans Black o Noto Sans Black Italic o Noto Sans Bold o Noto Sans Bold Italic o Noto Sans Extra Bold o Noto Sans Extra Bold Italic o Noto Sans Extra Light o Noto Sans Extra Light Italic o Noto Sans Italic o Noto Sans Light o Noto Sans Light Italic o Noto Sans Medium o Noto Sans Medium Italic o Noto Sans Regular o Noto Sans Semi Bold o Noto Sans Semi Bold Italic o Noto Sans Thin o Noto Sans Thin Italic o NotoSans-Bold o NotoSans-Italic o NotoSans-Medium o NotoSans-Regular o Open Sans Regular,Arial Unicode MS Regular Constraints: o min: 0 o max: 1000
+    /// </summary>
+    [CliOption("--font-stack")]
+    public string FontStack { get; private init; }
+
+    /// <summary>
+    /// A Unicode range of characters to download glyphs for. This must be aligned to multiples of 256. Example: 0-255.pbf Constraints: o min: 0 o max: 50 o pattern: [0-9]+-[0-9]+\.pbf outfile (string) [required] Filename where the content will be saved
+    /// </summary>
     [CliOption("--font-unicode-range")]
-    public string? FontUnicodeRange { get; set; }
+    public string FontUnicodeRange { get; private init; }
+
+    /// <summary>
+    /// The &lt;outfile&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Outfile { get; private init; }
 
 }

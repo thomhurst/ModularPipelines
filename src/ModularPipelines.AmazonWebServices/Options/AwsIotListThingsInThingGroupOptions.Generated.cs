@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,12 +21,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "list-things-in-thing-group")]
-public record AwsIotListThingsInThingGroupOptions : AwsOptions
+public record AwsIotListThingsInThingGroupOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--thing-group-name")]
-    public string? ThingGroupName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--recursive")]
+    /// <summary>
+    /// Lists the things in the specified group. Requires permission to access the ListThingsInThingGroup action. See also: AWS API Documentation list-things-in-thing-group is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query...
+    /// </summary>
+    /// <param name="ThingGroupName">The thing group name. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+</param>
+    public AwsIotListThingsInThingGroupOptions(
+        string ThingGroupName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ThingGroupName);
+        this.ThingGroupName = ThingGroupName;
+    }
+
+    private AwsIotListThingsInThingGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotListThingsInThingGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotListThingsInThingGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The thing group name. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+
+    /// </summary>
+    [CliOption("--thing-group-name")]
+    public string? ThingGroupName { get; private init; }
+
+    /// <summary>
+    /// When true, list things in this thing group and in all child groups as well.
+    /// </summary>
+    [CliFlag("--recursive", NegatedName = "--no-recursive")]
     public bool? Recursive { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -52,5 +92,22 @@ public record AwsIotListThingsInThingGroupOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

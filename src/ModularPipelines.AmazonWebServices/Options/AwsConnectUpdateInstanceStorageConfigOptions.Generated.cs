@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +22,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "update-instance-storage-config")]
-public record AwsConnectUpdateInstanceStorageConfigOptions : AwsOptions
+public record AwsConnectUpdateInstanceStorageConfigOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This API is in preview release for Connect Customer and is subject to change. Updates an existing configuration for a resource type. This API is idempotent. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="AssociationId">The existing association identifier that uniquely identifies the re- source type and storage config for the given instance ID. Constraints: o min: 1 o max: 100</param>
+    /// <param name="ResourceType">A valid resource type. Possible values: o CHAT_TRANSCRIPTS o CALL_RECORDINGS o SCHEDULED_REPORTS o MEDIA_STREAMS o CONTACT_TRACE_RECORDS o AGENT_EVENTS o REAL_TIME_CONTACT_ANALYSIS_SEGMENTS o ATTACHMENTS o CONTACT_EVALUATIONS o SCREEN_RECORDINGS o REAL_TIME_CONTACT_ANALYSIS_CHAT_SEGMENTS o REAL_TIME_CONTACT_ANALYSIS_VOICE_SEGMENTS o EMAIL_MESSAGES</param>
+    /// <param name="StorageConfig">The storage configuration for the instance. AssociationId -&gt; (string) The existing association identifier that uniquely identifies the resource type and storage config for the given instance ID. Constraints: o min: 1 o max: 100 StorageType -&gt; (string) [required] A valid storage type. Possible values: o S3 o KINESIS_VIDEO_STREAM o KINESIS_STREAM o KINESIS_FIREHOSE S3Config -&gt; (structure) The S3 bucket configuration. BucketName -&gt; (string) [required] The S3 bucket name. Constraints: o min: 1 o max: 128 BucketPrefix -&gt; (string) [required] The S3 bucket prefix. Constraints: o min: 1 o max: 128 EncryptionConfig -&gt; (structure) The Amazon S3 encryption configuration. EncryptionType -&gt; (string) [required] The type of encryption. Possible values: o KMS KeyId -&gt; (string) [required] The full ARN of the encryption key. NOTE: Be sure to provide the full ARN of the encryption key, not just the ID. Connect Customer supports only KMS keys with the de- fault key spec of ` SYMMETRIC_DEFAULT https://docs.aws.amazon.com/kms/latest/developerguide/asymmetric-key-specs.html#key-spec-symmetric-default`__ . Constraints: o min: 1 o max: 128 KinesisVideoStreamConfig -&gt; (structure) The configuration of the Kinesis video stream. Prefix -&gt; (string) [required] The prefix of the video stream. Constraints: o min: 1 o max: 128 RetentionPeriodHours -&gt; (integer) [required] The number of hours data is retained in the stream. Kinesis Video Streams retains the data in a data store that is asso- ciated with the stream. The default value is 0, indicating that the stream does not persist data. Constraints: o min: 0 o max: 87600 EncryptionConfig -&gt; (structure) [required] The encryption configuration. EncryptionType -&gt; (string) [required] The type of encryption. Possible values: o KMS KeyId -&gt; (string) [required] The full ARN of the encryption key. NOTE: Be sure to provide the full ARN of the encryption key, not just the ID. Connect Customer supports only KMS keys with the de- fault key spec of ` SYMMETRIC_DEFAULT https://docs.aws.amazon.com/kms/latest/developerguide/asymmetric-key-specs.html#key-spec-symmetric-default`__ . Constraints: o min: 1 o max: 128 KinesisStreamConfig -&gt; (structure) The configuration of the Kinesis data stream. StreamArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the data stream. KinesisFirehoseConfig -&gt; (structure) The configuration of the Kinesis Firehose delivery stream. FirehoseArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the delivery stream. Shorthand Syntax: AssociationId=string,StorageType=string,S3Config={BucketName=string,BucketPrefix=string,EncryptionConfig={EncryptionType=string,KeyId=string}},KinesisVideoStreamConfig={Prefix=string,RetentionPeriodHours=integer,EncryptionConfig={EncryptionType=string,KeyId=string}},KinesisStreamConfig={StreamArn=string},KinesisFirehoseConfig={FirehoseArn=string} JSON Syntax: { "AssociationId": "string", "StorageType": "S3"|"KINESIS_VIDEO_STREAM"|"KINESIS_STREAM"|"KINESIS_FIREHOSE", "S3Config": { "BucketName": "string", "BucketPrefix": "string", "EncryptionConfig": { "EncryptionType": "KMS", "KeyId": "string" } }, "KinesisVideoStreamConfig": { "Prefix": "string", "RetentionPeriodHours": integer, "EncryptionConfig": { "EncryptionType": "KMS", "KeyId": "string" } }, "KinesisStreamConfig": { "StreamArn": "string" }, "KinesisFirehoseConfig": { "FirehoseArn": "string" } }</param>
+    public AwsConnectUpdateInstanceStorageConfigOptions(
+        string InstanceId,
+        string AssociationId,
+        AwsConnectUpdateInstanceStorageConfigResourceType ResourceType,
+        string StorageConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(AssociationId);
+        this.AssociationId = AssociationId;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
+        this.ResourceType = ResourceType;
+        global::System.ArgumentNullException.ThrowIfNull(StorageConfig);
+        this.StorageConfig = StorageConfig;
+    }
+
+    private AwsConnectUpdateInstanceStorageConfigOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectUpdateInstanceStorageConfigOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectUpdateInstanceStorageConfigOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
+    /// <summary>
+    /// The existing association identifier that uniquely identifies the re- source type and storage config for the given instance ID. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--association-id")]
-    public string? AssociationId { get; set; }
+    public string? AssociationId { get; private init; }
 
+    /// <summary>
+    /// A valid resource type. Possible values: o CHAT_TRANSCRIPTS o CALL_RECORDINGS o SCHEDULED_REPORTS o MEDIA_STREAMS o CONTACT_TRACE_RECORDS o AGENT_EVENTS o REAL_TIME_CONTACT_ANALYSIS_SEGMENTS o ATTACHMENTS o CONTACT_EVALUATIONS o SCREEN_RECORDINGS o REAL_TIME_CONTACT_ANALYSIS_CHAT_SEGMENTS o REAL_TIME_CONTACT_ANALYSIS_VOICE_SEGMENTS o EMAIL_MESSAGES
+    /// </summary>
     [CliOption("--resource-type")]
-    public string? ResourceType { get; set; }
+    public AwsConnectUpdateInstanceStorageConfigResourceType? ResourceType { get; private init; }
 
+    /// <summary>
+    /// The storage configuration for the instance. AssociationId -&gt; (string) The existing association identifier that uniquely identifies the resource type and storage config for the given instance ID. Constraints: o min: 1 o max: 100 StorageType -&gt; (string) [required] A valid storage type. Possible values: o S3 o KINESIS_VIDEO_STREAM o KINESIS_STREAM o KINESIS_FIREHOSE S3Config -&gt; (structure) The S3 bucket configuration. BucketName -&gt; (string) [required] The S3 bucket name. Constraints: o min: 1 o max: 128 BucketPrefix -&gt; (string) [required] The S3 bucket prefix. Constraints: o min: 1 o max: 128 EncryptionConfig -&gt; (structure) The Amazon S3 encryption configuration. EncryptionType -&gt; (string) [required] The type of encryption. Possible values: o KMS KeyId -&gt; (string) [required] The full ARN of the encryption key. NOTE: Be sure to provide the full ARN of the encryption key, not just the ID. Connect Customer supports only KMS keys with the de- fault key spec of ` SYMMETRIC_DEFAULT https://docs.aws.amazon.com/kms/latest/developerguide/asymmetric-key-specs.html#key-spec-symmetric-default`__ . Constraints: o min: 1 o max: 128 KinesisVideoStreamConfig -&gt; (structure) The configuration of the Kinesis video stream. Prefix -&gt; (string) [required] The prefix of the video stream. Constraints: o min: 1 o max: 128 RetentionPeriodHours -&gt; (integer) [required] The number of hours data is retained in the stream. Kinesis Video Streams retains the data in a data store that is asso- ciated with the stream. The default value is 0, indicating that the stream does not persist data. Constraints: o min: 0 o max: 87600 EncryptionConfig -&gt; (structure) [required] The encryption configuration. EncryptionType -&gt; (string) [required] The type of encryption. Possible values: o KMS KeyId -&gt; (string) [required] The full ARN of the encryption key. NOTE: Be sure to provide the full ARN of the encryption key, not just the ID. Connect Customer supports only KMS keys with the de- fault key spec of ` SYMMETRIC_DEFAULT https://docs.aws.amazon.com/kms/latest/developerguide/asymmetric-key-specs.html#key-spec-symmetric-default`__ . Constraints: o min: 1 o max: 128 KinesisStreamConfig -&gt; (structure) The configuration of the Kinesis data stream. StreamArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the data stream. KinesisFirehoseConfig -&gt; (structure) The configuration of the Kinesis Firehose delivery stream. FirehoseArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the delivery stream. Shorthand Syntax: AssociationId=string,StorageType=string,S3Config={BucketName=string,BucketPrefix=string,EncryptionConfig={EncryptionType=string,KeyId=string}},KinesisVideoStreamConfig={Prefix=string,RetentionPeriodHours=integer,EncryptionConfig={EncryptionType=string,KeyId=string}},KinesisStreamConfig={StreamArn=string},KinesisFirehoseConfig={FirehoseArn=string} JSON Syntax: { "AssociationId": "string", "StorageType": "S3"|"KINESIS_VIDEO_STREAM"|"KINESIS_STREAM"|"KINESIS_FIREHOSE", "S3Config": { "BucketName": "string", "BucketPrefix": "string", "EncryptionConfig": { "EncryptionType": "KMS", "KeyId": "string" } }, "KinesisVideoStreamConfig": { "Prefix": "string", "RetentionPeriodHours": integer, "EncryptionConfig": { "EncryptionType": "KMS", "KeyId": "string" } }, "KinesisStreamConfig": { "StreamArn": "string" }, "KinesisFirehoseConfig": { "FirehoseArn": "string" } }
+    /// </summary>
     [CliOption("--storage-config")]
-    public string? StorageConfig { get; set; }
+    public string? StorageConfig { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o max: 500
@@ -46,5 +105,22 @@ public record AwsConnectUpdateInstanceStorageConfigOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

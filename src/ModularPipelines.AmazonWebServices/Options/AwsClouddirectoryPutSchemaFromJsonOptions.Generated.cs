@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("clouddirectory", "put-schema-from-json")]
-public record AwsClouddirectoryPutSchemaFromJsonOptions : AwsOptions
+public record AwsClouddirectoryPutSchemaFromJsonOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--schema-arn")]
-    public string? SchemaArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Allows a schema to be updated using JSON upload. Only available for de- velopment schemas. See JSON Schema Format for more information. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SchemaArn">The ARN of the schema to update.</param>
+    /// <param name="Document">The replacement JSON schema.</param>
+    public AwsClouddirectoryPutSchemaFromJsonOptions(
+        string SchemaArn,
+        string Document
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SchemaArn);
+        this.SchemaArn = SchemaArn;
+        global::System.ArgumentNullException.ThrowIfNull(Document);
+        this.Document = Document;
+    }
+
+    private AwsClouddirectoryPutSchemaFromJsonOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsClouddirectoryPutSchemaFromJsonOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsClouddirectoryPutSchemaFromJsonOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the schema to update.
+    /// </summary>
+    [CliOption("--schema-arn")]
+    public string? SchemaArn { get; private init; }
+
+    /// <summary>
+    /// The replacement JSON schema.
+    /// </summary>
     [CliOption("--document")]
-    public string? Document { get; set; }
+    public string? Document { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

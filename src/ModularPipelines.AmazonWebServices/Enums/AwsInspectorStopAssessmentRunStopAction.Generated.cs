@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --stopaction.
+/// Allowed values for --stop-action.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsInspectorStopAssessmentRunStopAction
 {
-    [EnumValue("START_EVALUATION")]
-    StartEvaluation = 1,
-
     [EnumValue("SKIP_EVALUATION")]
-    SkipEvaluation = 2
+    SkipEvaluation,
+
+    [EnumValue("START_EVALUATION")]
+    StartEvaluation
 }

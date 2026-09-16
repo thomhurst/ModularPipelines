@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eks", "activate-certificate-authority")]
-public record AwsEksActivateCertificateAuthorityOptions : AwsOptions
+public record AwsEksActivateCertificateAuthorityOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--cluster-name")]
-    public string? ClusterName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Activates a successor certificate authority (CA) as the signing cer- tificate authority for your cluster, completing a CA rotation. When you activate a successor CA, Amazon EKS promotes it to be the cluster's signer (its signingStatus becomes IN_USE ) and the outgoing CA is retired (NOT_USED ). The outgoing CA remains in the cluster's trust bundle but no longer signs certificates. The successor CA you ac- tivate must already be present on the cluster and fully distributed (its distributionStatus...
+    /// </summary>
+    /// <param name="ClusterName">The name of your cluster.</param>
+    /// <param name="CertificateAuthorityId">The ID of the certificate authority to activate as the cluster's signing certificate authority. This certificate authority must al- ready exist on the cluster and have a distributionStatus of COMPLETE .</param>
+    public AwsEksActivateCertificateAuthorityOptions(
+        string ClusterName,
+        string CertificateAuthorityId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+        global::System.ArgumentNullException.ThrowIfNull(CertificateAuthorityId);
+        this.CertificateAuthorityId = CertificateAuthorityId;
+    }
+
+    private AwsEksActivateCertificateAuthorityOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEksActivateCertificateAuthorityOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEksActivateCertificateAuthorityOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of your cluster.
+    /// </summary>
+    [CliOption("--cluster-name")]
+    public string? ClusterName { get; private init; }
+
+    /// <summary>
+    /// The ID of the certificate authority to activate as the cluster's signing certificate authority. This certificate authority must al- ready exist on the cluster and have a distributionStatus of COMPLETE .
+    /// </summary>
     [CliOption("--certificate-authority-id")]
-    public string? CertificateAuthorityId { get; set; }
+    public string? CertificateAuthorityId { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -40,5 +84,22 @@ public record AwsEksActivateCertificateAuthorityOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -12,6 +12,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,13 +23,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("drs", "start-recovery-plan-execution")]
-public record AwsDrsStartRecoveryPlanExecutionOptions : AwsOptions
+public record AwsDrsStartRecoveryPlanExecutionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--recovery-plan-arn")]
-    public string? RecoveryPlanArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Starts executing a Recovery Plan in DRILL or RECOVERY mode. A plan can- not have more than one execution in a non-terminal status at a time. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RecoveryPlanArn">The ARN of the Recovery Plan to execute. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+</param>
+    /// <param name="Mode">The execution mode (DRILL or RECOVERY ). Possible values: o DRILL o RECOVERY</param>
+    public AwsDrsStartRecoveryPlanExecutionOptions(
+        string RecoveryPlanArn,
+        AwsDrsStartRecoveryPlanExecutionMode Mode
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RecoveryPlanArn);
+        this.RecoveryPlanArn = RecoveryPlanArn;
+        global::System.ArgumentNullException.ThrowIfNull(Mode);
+        this.Mode = Mode;
+    }
+
+    private AwsDrsStartRecoveryPlanExecutionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDrsStartRecoveryPlanExecutionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDrsStartRecoveryPlanExecutionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the Recovery Plan to execute. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+
+    /// </summary>
+    [CliOption("--recovery-plan-arn")]
+    public string? RecoveryPlanArn { get; private init; }
+
+    /// <summary>
+    /// The execution mode (DRILL or RECOVERY ). Possible values: o DRILL o RECOVERY
+    /// </summary>
     [CliOption("--mode")]
-    public string? Mode { get; set; }
+    public AwsDrsStartRecoveryPlanExecutionMode? Mode { get; private init; }
 
     /// <summary>
     /// A unique string provided to ensure request idempotency. Constraints: o min: 0 o max: 64
@@ -53,5 +98,22 @@ public record AwsDrsStartRecoveryPlanExecutionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

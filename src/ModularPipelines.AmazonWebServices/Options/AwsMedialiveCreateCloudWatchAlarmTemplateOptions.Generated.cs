@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,103 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("medialive", "create-cloud-watch-alarm-template")]
-public record AwsMedialiveCreateCloudWatchAlarmTemplateOptions : AwsOptions
+public record AwsMedialiveCreateCloudWatchAlarmTemplateOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a cloudwatch alarm template to dynamically generate cloudwatch metric alarms on targeted resource types. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ComparisonOperator"></param>
+    /// <param name="EvaluationPeriods"></param>
+    /// <param name="GroupIdentifier"></param>
+    /// <param name="MetricName"></param>
+    /// <param name="Name"></param>
+    /// <param name="Period"></param>
+    /// <param name="Statistic"></param>
+    /// <param name="TargetResourceType"></param>
+    /// <param name="Threshold"></param>
+    /// <param name="TreatMissingData"></param>
+    public AwsMedialiveCreateCloudWatchAlarmTemplateOptions(
+        string ComparisonOperator,
+        int EvaluationPeriods,
+        string GroupIdentifier,
+        string MetricName,
+        string Name,
+        int Period,
+        string Statistic,
+        string TargetResourceType,
+        int Threshold,
+        string TreatMissingData
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ComparisonOperator);
+        this.ComparisonOperator = ComparisonOperator;
+        this.EvaluationPeriods = EvaluationPeriods;
+        global::System.ArgumentNullException.ThrowIfNull(GroupIdentifier);
+        this.GroupIdentifier = GroupIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(MetricName);
+        this.MetricName = MetricName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        this.Period = Period;
+        global::System.ArgumentNullException.ThrowIfNull(Statistic);
+        this.Statistic = Statistic;
+        global::System.ArgumentNullException.ThrowIfNull(TargetResourceType);
+        this.TargetResourceType = TargetResourceType;
+        this.Threshold = Threshold;
+        global::System.ArgumentNullException.ThrowIfNull(TreatMissingData);
+        this.TreatMissingData = TreatMissingData;
+    }
+
+    private AwsMedialiveCreateCloudWatchAlarmTemplateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMedialiveCreateCloudWatchAlarmTemplateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMedialiveCreateCloudWatchAlarmTemplateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
     [CliOption("--comparison-operator")]
-    public string? ComparisonOperator { get; set; }
+    public string? ComparisonOperator { get; private init; }
+
+    [CliOption("--evaluation-periods")]
+    public int? EvaluationPeriods { get; private init; }
+
+    [CliOption("--group-identifier")]
+    public string? GroupIdentifier { get; private init; }
+
+    [CliOption("--metric-name")]
+    public string? MetricName { get; private init; }
+
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    [CliOption("--period")]
+    public int? Period { get; private init; }
+
+    [CliOption("--statistic")]
+    public string? Statistic { get; private init; }
+
+    [CliOption("--target-resource-type")]
+    public string? TargetResourceType { get; private init; }
+
+    [CliOption("--threshold")]
+    public int? Threshold { get; private init; }
+
+    [CliOption("--treat-missing-data")]
+    public string? TreatMissingData { get; private init; }
 
     [CliOption("--datapoints-to-alarm")]
     public int? DatapointsToAlarm { get; set; }
@@ -31,35 +125,8 @@ public record AwsMedialiveCreateCloudWatchAlarmTemplateOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--evaluation-periods")]
-    public int? EvaluationPeriods { get; set; }
-
-    [CliOption("--group-identifier")]
-    public string? GroupIdentifier { get; set; }
-
-    [CliOption("--metric-name")]
-    public string? MetricName { get; set; }
-
-    [CliOption("--name")]
-    public string? Name { get; set; }
-
-    [CliOption("--period")]
-    public int? Period { get; set; }
-
-    [CliOption("--statistic")]
-    public string? Statistic { get; set; }
-
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
-
-    [CliOption("--target-resource-type")]
-    public string? TargetResourceType { get; set; }
-
-    [CliOption("--threshold")]
-    public int? Threshold { get; set; }
-
-    [CliOption("--treat-missing-data")]
-    public string? TreatMissingData { get; set; }
 
     [CliOption("--request-id")]
     public string? RequestId { get; set; }
@@ -69,5 +136,22 @@ public record AwsMedialiveCreateCloudWatchAlarmTemplateOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

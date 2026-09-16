@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,17 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rds-data", "batch-execute-statement")]
-public record AwsRdsDataBatchExecuteStatementOptions : AwsOptions
+public record AwsRdsDataBatchExecuteStatementOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--resource-arn")]
-    public string? ResourceArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Runs a batch SQL statement over an array of data. You can run bulk update and insert operations for multiple records us- ing a DML statement with different parameter sets. Bulk operations can provide a significant performance improvement over individual insert and update operations. NOTE: If a call isn't part of a transaction because it doesn't include the transactionID parameter, changes that result from the call are com- mitted automatically. There isn't a fixed upper limit on the number of pa...
+    /// </summary>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster. Constraints: o min: 11 o max: 570</param>
+    /// <param name="SecretArn">The ARN of the secret that enables access to the DB cluster. Enter the database user name and password for the credentials in the se- cret. For information about creating the secret, see Create a database se- cret . Constraints: o min: 11 o max: 570</param>
+    /// <param name="Sql">The SQL statement to run. Don't include a semicolon (;) at the end of the SQL statement. Constraints: o min: 0 o max: 65536</param>
+    public AwsRdsDataBatchExecuteStatementOptions(
+        string ResourceArn,
+        string SecretArn,
+        string Sql
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
+        this.ResourceArn = ResourceArn;
+        global::System.ArgumentNullException.ThrowIfNull(SecretArn);
+        this.SecretArn = SecretArn;
+        global::System.ArgumentNullException.ThrowIfNull(Sql);
+        this.Sql = Sql;
+    }
+
+    private AwsRdsDataBatchExecuteStatementOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRdsDataBatchExecuteStatementOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRdsDataBatchExecuteStatementOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster. Constraints: o min: 11 o max: 570
+    /// </summary>
+    [CliOption("--resource-arn")]
+    public string? ResourceArn { get; private init; }
+
+    /// <summary>
+    /// The ARN of the secret that enables access to the DB cluster. Enter the database user name and password for the credentials in the se- cret. For information about creating the secret, see Create a database se- cret . Constraints: o min: 11 o max: 570
+    /// </summary>
     [SecretValue]
     [CliOption("--secret-arn")]
-    public string? SecretArn { get; set; }
+    public string? SecretArn { get; private init; }
 
+    /// <summary>
+    /// The SQL statement to run. Don't include a semicolon (;) at the end of the SQL statement. Constraints: o min: 0 o max: 65536
+    /// </summary>
     [CliOption("--sql")]
-    public string? Sql { get; set; }
+    public string? Sql { get; private init; }
 
     /// <summary>
     /// The name of the database. Constraints: o min: 0 o max: 64
@@ -61,5 +112,22 @@ public record AwsRdsDataBatchExecuteStatementOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --targettype.
+/// Allowed values for --target-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsElbv2CreateTargetGroupTargetType
 {
+    [EnumValue("alb")]
+    Alb,
+
     [EnumValue("instance")]
-    Instance = 1,
+    Instance,
 
     [EnumValue("ip")]
-    Ip = 2,
+    Ip,
 
     [EnumValue("lambda")]
-    Lambda = 3,
-
-    [EnumValue("alb")]
-    Alb = 4
+    Lambda
 }

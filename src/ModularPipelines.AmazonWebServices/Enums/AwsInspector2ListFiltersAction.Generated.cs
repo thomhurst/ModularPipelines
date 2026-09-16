@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsInspector2ListFiltersAction
 {
     [EnumValue("NONE")]
-    None = 1,
+    None,
 
     [EnumValue("SUPPRESS")]
-    Suppress = 2
+    Suppress
 }

@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --partytype.
+/// Allowed values for --party-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCustomerProfilesCreateProfilePartyType
 {
-    [EnumValue("INDIVIDUAL")]
-    Individual = 1,
-
     [EnumValue("BUSINESS")]
-    Business = 2,
+    Business,
+
+    [EnumValue("INDIVIDUAL")]
+    Individual,
 
     [EnumValue("OTHER")]
-    Other = 3
+    Other
 }

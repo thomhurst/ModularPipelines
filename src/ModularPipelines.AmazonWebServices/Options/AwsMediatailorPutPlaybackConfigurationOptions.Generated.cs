@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,8 +22,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mediatailor", "put-playback-configuration")]
-public record AwsMediatailorPutPlaybackConfigurationOptions : AwsOptions
+public record AwsMediatailorPutPlaybackConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a playback configuration. For information about MediaTailor configurations, see Working with configurations in AWS Elemental Medi- aTailor . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The identifier for the playback configuration.</param>
+    public AwsMediatailorPutPlaybackConfigurationOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsMediatailorPutPlaybackConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMediatailorPutPlaybackConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMediatailorPutPlaybackConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier for the playback configuration.
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
     /// <summary>
     /// The URL for the ad decision server (ADS). This includes the specifi- cation of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and ses- sion-specific parameters as needed when calling the ADS. Alter- nately, for testing you can provide a static VAST URL. The maximum length is 25,000 characters.
     /// </summary>
@@ -77,9 +117,6 @@ public record AwsMediatailorPutPlaybackConfigurationOptions : AwsOptions
     [CliOption("--manifest-processing-rules")]
     public string? ManifestProcessingRules { get; set; }
 
-    [CliOption("--name")]
-    public string? Name { get; set; }
-
     /// <summary>
     /// Defines the maximum duration of underfilled ad time (in seconds) al- lowed in an ad break. If the duration of underfilled ad time exceeds the personalization threshold, then the personalization of the ad break is abandoned and the underlying content is shown. This feature applies to ad replacement in live and VOD streams, rather than ad insertion, because it relies on an underlying content stream. For more information about ad break behavior, including ad replacement and insertion, see Ad Behavior in AWS Elemental MediaTailor . Constraints: o min: 1
     /// </summary>
@@ -123,7 +160,13 @@ public record AwsMediatailorPutPlaybackConfigurationOptions : AwsOptions
     public string? AdDecisionServerConfiguration { get; set; }
 
     /// <summary>
-    /// A map of lifecycle hook event names to function identifiers. The function mapping specifies which function MediaTailor executes at each lifecycle hook during ad insertion. Valid keys are PRE_SES- SION_INITIALIZATION and PRE_ADS_REQUEST . For more information, see Functions lifecycle hooks in the MediaTailor User Guide . key -&gt; (string) Possible values: o PRE_SESSION_INITIALIZATION o PRE_ADS_REQUEST value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: PRE_SESSION_INITIALIZATION PRE_ADS_REQUEST JSON Syntax: {"PRE_SESSION_INITIALIZATION"|"PRE_ADS_REQUEST": "string" ...}
+    /// Configuration for Yield Optimization, which fills unsold ad inven- tory in ad breaks with programmatic ads from Amazon Publisher Ser- vices (APS). MinimumUnfilledDuration -&gt; (integer) [required] The minimum unfilled duration, in seconds, that must remain in an ad break before MediaTailor requests additional ads from Ama- zon Publisher Services (APS). For example, if set to 6 seconds, yield optimization triggers only when at least 6 seconds of un- filled time remains after the primary ad server response. Constraints: o min: 6 o max: 3600 PublisherId -&gt; (string) [required] Publisher ID for an existing Amazon Publisher Services configu- ration. This ID must be obtained by registering with APS prior to using the Yield Optimization feature. The Publisher ID iden- tifies your account in the APS system and is required for all bid requests. Constraints: o min: 1 o max: 36 o pattern: [a-z0-9-]+ Region -&gt; (string) [required] The Amazon Publisher Services (APS) region that MediaTailor sends bid requests to. Choose the region closest to your primary audience, because the selection affects both latency and the ad inventory available to you. This setting applies to the entire playback configuration, not to individual viewers. If you serve traffic across multiple regions, create a separate playback con- figuration for each APS region. Possible values: o AMERICAS o EUROPE o ASIA_PACIFIC OpenRtbTemplate -&gt; (string) [required] The OpenRTB bid request template, in JSON, that MediaTailor sends to Amazon Publisher Services (APS). The template must in- clude an imp array with one impression specifying bidfloor , an app object specifying bundle and storeurl , and a device object specifying ua and ip . Use double curly braces (for example, {{player_params.user_agent}} ) to insert session variables and player parameters. Constraints: o min: 1 o max: 102400 Shorthand Syntax: MinimumUnfilledDuration=integer,PublisherId=string,Region=string,OpenRtbTemplate=string JSON Syntax: { "MinimumUnfilledDuration": integer, "PublisherId": "string", "Region": "AMERICAS"|"EUROPE"|"ASIA_PACIFIC", "OpenRtbTemplate": "string" }
+    /// </summary>
+    [CliOption("--yield-optimization-configuration")]
+    public string? YieldOptimizationConfiguration { get; set; }
+
+    /// <summary>
+    /// A map of lifecycle hook event names to function identifiers. The function mapping specifies which function MediaTailor executes at each lifecycle hook during ad insertion. Valid keys are PRE_SES- SION_INITIALIZATION , PRE_ADS_REQUEST , POST_ADS_RESPONSE , and PRE_MANIFEST_INSERTION . For more information, see Functions lifecy- cle hooks in the MediaTailor User Guide . key -&gt; (string) Possible values: o PRE_SESSION_INITIALIZATION o PRE_ADS_REQUEST o POST_ADS_RESPONSE o PRE_MANIFEST_INSERTION value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: PRE_SESSION_INITIALIZATION PRE_ADS_REQUEST POST_ADS_RESPONSE PRE_MANIFEST_INSERTION JSON Syntax: {"PRE_SESSION_INITIALIZATION"|"PRE_ADS_REQUEST"|"POST_ADS_RESPONSE"|"PRE_MANIFEST_INSERTION": "string" ...}
     /// </summary>
     [CliOption("--function-mapping", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? FunctionMapping { get; set; }
@@ -145,5 +188,22 @@ public record AwsMediatailorPutPlaybackConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

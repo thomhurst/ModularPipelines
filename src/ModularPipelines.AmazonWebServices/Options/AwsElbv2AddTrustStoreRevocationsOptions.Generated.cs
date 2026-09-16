@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elbv2", "add-trust-store-revocations")]
-public record AwsElbv2AddTrustStoreRevocationsOptions : AwsOptions
+public record AwsElbv2AddTrustStoreRevocationsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Adds the specified revocation file to the specified trust store. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TrustStoreArn">The Amazon Resource Name (ARN) of the trust store.</param>
+    public AwsElbv2AddTrustStoreRevocationsOptions(
+        string TrustStoreArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TrustStoreArn);
+        this.TrustStoreArn = TrustStoreArn;
+    }
+
+    private AwsElbv2AddTrustStoreRevocationsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElbv2AddTrustStoreRevocationsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElbv2AddTrustStoreRevocationsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the trust store.
+    /// </summary>
     [CliOption("--trust-store-arn")]
-    public string? TrustStoreArn { get; set; }
+    public string? TrustStoreArn { get; private init; }
 
     /// <summary>
     /// The revocation file to add. (structure) Information about a revocation file. S3Bucket -&gt; (string) The Amazon S3 bucket for the revocation file. S3Key -&gt; (string) The Amazon S3 path for the revocation file. S3ObjectVersion -&gt; (string) The Amazon S3 object version of the revocation file. RevocationType -&gt; (string) The type of revocation file. Possible values: o CRL Shorthand Syntax: S3Bucket=string,S3Key=string,S3ObjectVersion=string,RevocationType=string ... JSON Syntax: [ { "S3Bucket": "string", "S3Key": "string", "S3ObjectVersion": "string", "RevocationType": "CRL" } ... ]
@@ -35,5 +72,22 @@ public record AwsElbv2AddTrustStoreRevocationsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

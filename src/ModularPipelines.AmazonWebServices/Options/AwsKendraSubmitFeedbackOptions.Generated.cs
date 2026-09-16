@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kendra", "submit-feedback")]
-public record AwsKendraSubmitFeedbackOptions : AwsOptions
+public record AwsKendraSubmitFeedbackOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--index-id")]
-    public string? IndexId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Enables you to provide feedback to Amazon Kendra to improve the perfor- mance of your index. SubmitFeedback is currently not supported in the Amazon Web Services GovCloud (US-West) region. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="IndexId">The identifier of the index that was queried. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
+    /// <param name="QueryId">The identifier of the specific query for which you are submitting feedback. The query ID is returned in the response to the Query API. Constraints: o min: 1 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
+    public AwsKendraSubmitFeedbackOptions(
+        string IndexId,
+        string QueryId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IndexId);
+        this.IndexId = IndexId;
+        global::System.ArgumentNullException.ThrowIfNull(QueryId);
+        this.QueryId = QueryId;
+    }
+
+    private AwsKendraSubmitFeedbackOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKendraSubmitFeedbackOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKendraSubmitFeedbackOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the index that was queried. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
+    /// </summary>
+    [CliOption("--index-id")]
+    public string? IndexId { get; private init; }
+
+    /// <summary>
+    /// The identifier of the specific query for which you are submitting feedback. The query ID is returned in the response to the Query API. Constraints: o min: 1 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
+    /// </summary>
     [CliOption("--query-id")]
-    public string? QueryId { get; set; }
+    public string? QueryId { get; private init; }
 
     /// <summary>
     /// Tells Amazon Kendra that a particular search result link was chosen by the user. (structure) Gathers information about when a particular result was clicked by a user. Your application uses the SubmitFeedback API to pro- vide click information. ResultId -&gt; (string) [required] The identifier of the search result that was clicked. Constraints: o min: 1 o max: 73 ClickTime -&gt; (timestamp) [required] The Unix timestamp when the result was clicked. Shorthand Syntax: ResultId=string,ClickTime=timestamp ... JSON Syntax: [ { "ResultId": "string", "ClickTime": timestamp } ... ]
@@ -44,5 +88,22 @@ public record AwsKendraSubmitFeedbackOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

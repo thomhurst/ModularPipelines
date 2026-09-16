@@ -11,35 +11,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --connectionstate.
+/// Allowed values for --connection-state.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEventsListConnectionsConnectionState
 {
-    [EnumValue("CREATING")]
-    Creating = 1,
-
-    [EnumValue("UPDATING")]
-    Updating = 2,
-
-    [EnumValue("DELETING")]
-    Deleting = 3,
+    [EnumValue("ACTIVE")]
+    Active,
 
     [EnumValue("AUTHORIZED")]
-    Authorized = 4,
-
-    [EnumValue("DEAUTHORIZED")]
-    Deauthorized = 5,
+    Authorized,
 
     [EnumValue("AUTHORIZING")]
-    Authorizing = 6,
+    Authorizing,
+
+    [EnumValue("CREATING")]
+    Creating,
+
+    [EnumValue("DEAUTHORIZED")]
+    Deauthorized,
 
     [EnumValue("DEAUTHORIZING")]
-    Deauthorizing = 7,
+    Deauthorizing,
 
-    [EnumValue("ACTIVE")]
-    Active = 8,
+    [EnumValue("DELETING")]
+    Deleting,
 
     [EnumValue("FAILED_CONNECTIVITY")]
-    FailedConnectivity = 9
+    FailedConnectivity,
+
+    [EnumValue("UPDATING")]
+    Updating
 }

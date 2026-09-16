@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("nova-act", "create-act")]
-public record AwsNovaActCreateActOptions : AwsOptions
+public record AwsNovaActCreateActOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new AI task (act) within a session that can interact with tools and perform specific actions. See also: AWS API Documentation create-act uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// </summary>
+    /// <param name="WorkflowDefinitionName">The name of the workflow definition containing the session. Constraints: o min: 1 o max: 40 o pattern: [a-zA-Z0-9_-]{1,40}</param>
+    /// <param name="WorkflowRunId">The unique identifier of the workflow run containing the session. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="SessionId">The unique identifier of the session to create the act in. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="Task">The task description that defines what the act should accomplish. Constraints: o min: 1 o max: 10000</param>
+    public AwsNovaActCreateActOptions(
+        string WorkflowDefinitionName,
+        string WorkflowRunId,
+        string SessionId,
+        string Task
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkflowDefinitionName);
+        this.WorkflowDefinitionName = WorkflowDefinitionName;
+        global::System.ArgumentNullException.ThrowIfNull(WorkflowRunId);
+        this.WorkflowRunId = WorkflowRunId;
+        global::System.ArgumentNullException.ThrowIfNull(SessionId);
+        this.SessionId = SessionId;
+        global::System.ArgumentNullException.ThrowIfNull(Task);
+        this.Task = Task;
+    }
+
+    private AwsNovaActCreateActOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNovaActCreateActOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNovaActCreateActOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the workflow definition containing the session. Constraints: o min: 1 o max: 40 o pattern: [a-zA-Z0-9_-]{1,40}
+    /// </summary>
     [CliOption("--workflow-definition-name")]
-    public string? WorkflowDefinitionName { get; set; }
+    public string? WorkflowDefinitionName { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the workflow run containing the session. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// </summary>
     [CliOption("--workflow-run-id")]
-    public string? WorkflowRunId { get; set; }
+    public string? WorkflowRunId { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the session to create the act in. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// </summary>
     [CliOption("--session-id")]
-    public string? SessionId { get; set; }
+    public string? SessionId { get; private init; }
 
+    /// <summary>
+    /// The task description that defines what the act should accomplish. Constraints: o min: 1 o max: 10000
+    /// </summary>
     [CliOption("--task")]
-    public string? Task { get; set; }
+    public string? Task { get; private init; }
 
     /// <summary>
     /// A list of tool specifications that the act can invoke to complete its task. Constraints: o min: 0 o max: 100 (structure) Specification for a tool that acts can invoke, including its name, description, and input schema. name -&gt; (string) [required] The unique name of the tool that acts will use to invoke it. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+ description -&gt; (string) [required] A description of what the tool does and how it should be used. Constraints: o min: 1 o max: 10000 inputSchema -&gt; (tagged union structure) [required] The JSON schema that defines the expected input format for the tool. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: json. json -&gt; (document) The JSON schema that defines the expected input format for the tool. Shorthand Syntax: name=string,description=string,inputSchema={} ... JSON Syntax: [ { "name": "string", "description": "string", "inputSchema": { "json": {...} } } ... ]
@@ -52,5 +110,22 @@ public record AwsNovaActCreateActOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

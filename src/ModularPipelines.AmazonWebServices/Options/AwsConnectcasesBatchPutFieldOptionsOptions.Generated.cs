@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,99 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connectcases", "batch-put-field-options")]
-public record AwsConnectcasesBatchPutFieldOptionsOptions : AwsOptions
+public record AwsConnectcasesBatchPutFieldOptionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates and updates a set of field options for a single select field in a Cases domain. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainId">The unique identifier of the Cases domain. Constraints: o min: 1 o max: 500</param>
+    /// <param name="FieldId">The unique identifier of a field. Constraints: o min: 1 o max: 500</param>
+    /// <param name="Options">A list of FieldOption objects. Constraints: o min: 0 o max: 50 (structure) Object for field Options information. name -&gt; (string) [required] FieldOptionName has max length 100 and disallows trailing spaces. Constraints: o min: 1 o max: 100 o pattern: .*[\S] value -&gt; (string) [required] FieldOptionValue has max length 100 and must be alphanu- meric with hyphens and underscores. Constraints: o min: 1 o max: 100 o pattern: .*[\S] active -&gt; (boolean) [required] Describes whether the FieldOption is active (displayed) or inactive. Shorthand Syntax: name=string,value=string,active=boolean ... JSON Syntax: [ { "name": "string", "value": "string", "active": true|false } ... ]</param>
+    public AwsConnectcasesBatchPutFieldOptionsOptions(
+        string DomainId,
+        string FieldId,
+        IEnumerable<string> Options
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainId);
+        this.DomainId = DomainId;
+        global::System.ArgumentNullException.ThrowIfNull(FieldId);
+        this.FieldId = FieldId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Options);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Options));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Options));
+            }
+
+            Options = materialized;
+        }
+        this.Options = Options;
+    }
+
+    private AwsConnectcasesBatchPutFieldOptionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectcasesBatchPutFieldOptionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectcasesBatchPutFieldOptionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the Cases domain. Constraints: o min: 1 o max: 500
+    /// </summary>
     [CliOption("--domain-id")]
-    public string? DomainId { get; set; }
+    public string? DomainId { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of a field. Constraints: o min: 1 o max: 500
+    /// </summary>
     [CliOption("--field-id")]
-    public string? FieldId { get; set; }
+    public string? FieldId { get; private init; }
 
+    /// <summary>
+    /// A list of FieldOption objects. Constraints: o min: 0 o max: 50 (structure) Object for field Options information. name -&gt; (string) [required] FieldOptionName has max length 100 and disallows trailing spaces. Constraints: o min: 1 o max: 100 o pattern: .*[\S] value -&gt; (string) [required] FieldOptionValue has max length 100 and must be alphanu- meric with hyphens and underscores. Constraints: o min: 1 o max: 100 o pattern: .*[\S] active -&gt; (boolean) [required] Describes whether the FieldOption is active (displayed) or inactive. Shorthand Syntax: name=string,value=string,active=boolean ... JSON Syntax: [ { "name": "string", "value": "string", "active": true|false } ... ]
+    /// </summary>
     [CliOption("--options", GroupValues = true)]
-    public IEnumerable<string>? Options { get; set; }
+    public IEnumerable<string>? Options { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

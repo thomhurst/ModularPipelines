@@ -11,6 +11,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,22 +22,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognito-idp", "create-terms")]
-public record AwsCognitoIdpCreateTermsOptions : AwsOptions
+public record AwsCognitoIdpCreateTermsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates terms documents for the requested app client. When Terms and conditions and Privacy policy documents are configured, the app client displays links to them in the sign-up page of managed login for the app client. You can provide URLs for terms documents in the languages that are sup- ported by managed login localization . Amazon Cognito directs users to the terms documents for their current language, with fallback to de- fault if no document exists for the language. Each request accepts o...
+    /// </summary>
+    /// <param name="UserPoolId">The ID of the user pool where you want to create terms documents. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+</param>
+    /// <param name="ClientId">The ID of the app client where you want to create terms documents. Must be an app client in the requested user pool. Constraints: o min: 1 o max: 128 o pattern: [\w+]+</param>
+    /// <param name="TermsName">A friendly name for the document that you want to create in the cur- rent request. Must begin with terms-of-use or privacy-policy as identification of the document type. Provide URLs for both terms-of-use and privacy-policy in separate requests. Constraints: o pattern: ^(terms-of-use|privacy-policy)$</param>
+    /// <param name="TermsSource">This parameter is reserved for future use and currently accepts only one value. Possible values: o LINK</param>
+    /// <param name="Enforcement">This parameter is reserved for future use and currently accepts only one value. Possible values: o NONE</param>
+    public AwsCognitoIdpCreateTermsOptions(
+        string UserPoolId,
+        string ClientId,
+        string TermsName,
+        AwsCognitoIdpCreateTermsTermsSource TermsSource,
+        AwsCognitoIdpCreateTermsEnforcement Enforcement
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(UserPoolId);
+        this.UserPoolId = UserPoolId;
+        global::System.ArgumentNullException.ThrowIfNull(ClientId);
+        this.ClientId = ClientId;
+        global::System.ArgumentNullException.ThrowIfNull(TermsName);
+        this.TermsName = TermsName;
+        global::System.ArgumentNullException.ThrowIfNull(TermsSource);
+        this.TermsSource = TermsSource;
+        global::System.ArgumentNullException.ThrowIfNull(Enforcement);
+        this.Enforcement = Enforcement;
+    }
+
+    private AwsCognitoIdpCreateTermsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCognitoIdpCreateTermsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCognitoIdpCreateTermsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the user pool where you want to create terms documents. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+
+    /// </summary>
     [CliOption("--user-pool-id")]
-    public string? UserPoolId { get; set; }
+    public string? UserPoolId { get; private init; }
 
+    /// <summary>
+    /// The ID of the app client where you want to create terms documents. Must be an app client in the requested user pool. Constraints: o min: 1 o max: 128 o pattern: [\w+]+
+    /// </summary>
     [CliOption("--client-id")]
-    public string? ClientId { get; set; }
+    public string? ClientId { get; private init; }
 
+    /// <summary>
+    /// A friendly name for the document that you want to create in the cur- rent request. Must begin with terms-of-use or privacy-policy as identification of the document type. Provide URLs for both terms-of-use and privacy-policy in separate requests. Constraints: o pattern: ^(terms-of-use|privacy-policy)$
+    /// </summary>
     [CliOption("--terms-name")]
-    public string? TermsName { get; set; }
+    public string? TermsName { get; private init; }
 
+    /// <summary>
+    /// This parameter is reserved for future use and currently accepts only one value. Possible values: o LINK
+    /// </summary>
     [CliOption("--terms-source")]
-    public string? TermsSource { get; set; }
+    public AwsCognitoIdpCreateTermsTermsSource? TermsSource { get; private init; }
 
+    /// <summary>
+    /// This parameter is reserved for future use and currently accepts only one value. Possible values: o NONE
+    /// </summary>
     [CliOption("--enforcement")]
-    public string? Enforcement { get; set; }
+    public AwsCognitoIdpCreateTermsEnforcement? Enforcement { get; private init; }
 
     /// <summary>
     /// A map of URLs to languages. For each localized language that will view the requested TermsName , assign a URL. A selection of cog- nito:default displays for all languages that don't have a lan- guage-specific URL. For example, "cognito:default": "https://terms.example.com", "cog- nito:spanish": "https://terms.example.com/es" . Constraints: o min: 1 o max: 13 key -&gt; (string) Constraints: o pattern: ^cognito:(default|dutch|english|french|spanish|ger- man|bahasa-indonesia|italian|japanese|korean|por- tuguese-brazil|chinese-(simplified|traditional))$ value -&gt; (string) Constraints: o min: 1 o max: 1024 o pattern: ^[\p{L}\p{M}\p{S}\p{N}\p{P}]+$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -48,5 +114,22 @@ public record AwsCognitoIdpCreateTermsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

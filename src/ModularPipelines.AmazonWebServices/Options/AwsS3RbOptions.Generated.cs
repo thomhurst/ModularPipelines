@@ -19,11 +19,32 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3", "rb")]
-public record AwsS3RbOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string S3Uri
-) : AwsOptions
+public record AwsS3RbOptions : AwsOptions
 {
+    /// <summary>
+    /// Deletes an empty S3 bucket. A bucket must be completely empty of ob- jects and versioned objects before it can be deleted. However, the --force parameter can be used to delete the non-versioned objects in the bucket before the bucket is deleted.
+    /// </summary>
+    /// <param name="S3Uri">S3 URI to operate on.</param>
+    public AwsS3RbOptions(
+        string S3Uri
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(S3Uri);
+        this.S3Uri = S3Uri;
+    }
+
+    public void Deconstruct(out string S3Uri)
+    {
+        S3Uri = this.S3Uri;
+    }
+
     [CliFlag("--force")]
     public bool? Force { get; set; }
+
+    /// <summary>
+    /// S3 URI to operate on.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string S3Uri { get; private init; }
 
 }

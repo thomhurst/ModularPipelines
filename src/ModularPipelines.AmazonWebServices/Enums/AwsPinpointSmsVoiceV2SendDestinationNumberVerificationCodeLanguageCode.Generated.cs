@@ -11,47 +11,47 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --languagecode.
+/// Allowed values for --language-code.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsPinpointSmsVoiceV2SendDestinationNumberVerificationCodeLanguageCode
 {
     [EnumValue("DE_DE")]
-    DeDe = 1,
+    DeDe,
 
     [EnumValue("EN_GB")]
-    EnGb = 2,
+    EnGb,
 
     [EnumValue("EN_US")]
-    EnUs = 3,
+    EnUs,
 
     [EnumValue("ES_419")]
-    Es_419 = 4,
+    Es419,
 
     [EnumValue("ES_ES")]
-    EsEs = 5,
+    EsEs,
 
     [EnumValue("FR_CA")]
-    FrCa = 6,
+    FrCa,
 
     [EnumValue("FR_FR")]
-    FrFr = 7,
+    FrFr,
 
     [EnumValue("IT_IT")]
-    ItIt = 8,
+    ItIt,
 
     [EnumValue("JA_JP")]
-    JaJp = 9,
+    JaJp,
 
     [EnumValue("KO_KR")]
-    KoKr = 10,
+    KoKr,
 
     [EnumValue("PT_BR")]
-    PtBr = 11,
+    PtBr,
 
     [EnumValue("ZH_CN")]
-    ZhCn = 12,
+    ZhCn,
 
     [EnumValue("ZH_TW")]
-    ZhTw = 13
+    ZhTw
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("quicksight", "update-identity-propagation-config")]
-public record AwsQuicksightUpdateIdentityPropagationConfigOptions : AwsOptions
+public record AwsQuicksightUpdateIdentityPropagationConfigOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--aws-account-id")]
-    public string? AwsAccountId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Adds or updates services and authorized targets to configure what the Quick Sight IAM Identity Center application can access. This operation is only supported for Quick Sight accounts using IAM Identity Center See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the identity propagation configuration that you want to update. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="Service">The name of the Amazon Web Services service that contains the autho- rized targets that you want to add or update. Possible values: o REDSHIFT o QBUSINESS o ATHENA o GLUE_DATA_CATALOG</param>
+    public AwsQuicksightUpdateIdentityPropagationConfigOptions(
+        string AwsAccountId,
+        AwsQuicksightUpdateIdentityPropagationConfigService Service
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
+        this.AwsAccountId = AwsAccountId;
+        global::System.ArgumentNullException.ThrowIfNull(Service);
+        this.Service = Service;
+    }
+
+    private AwsQuicksightUpdateIdentityPropagationConfigOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQuicksightUpdateIdentityPropagationConfigOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQuicksightUpdateIdentityPropagationConfigOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Amazon Web Services account that contains the identity propagation configuration that you want to update. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// </summary>
+    [CliOption("--aws-account-id")]
+    public string? AwsAccountId { get; private init; }
+
+    /// <summary>
+    /// The name of the Amazon Web Services service that contains the autho- rized targets that you want to add or update. Possible values: o REDSHIFT o QBUSINESS o ATHENA o GLUE_DATA_CATALOG
+    /// </summary>
     [CliOption("--service")]
-    public string? Service { get; set; }
+    public AwsQuicksightUpdateIdentityPropagationConfigService? Service { get; private init; }
 
     /// <summary>
     /// Specifies a list of application ARNs that represent the authorized targets for a service. (string) Syntax: "string" "string" ...
@@ -38,5 +83,22 @@ public record AwsQuicksightUpdateIdentityPropagationConfigOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --aggregationperiod.
+/// Allowed values for --aggregation-period.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsBackupListBackupJobSummariesAggregationPeriod
 {
+    [EnumValue("FOURTEEN_DAYS")]
+    FourteenDays,
+
     [EnumValue("ONE_DAY")]
-    OneDay = 1,
+    OneDay,
 
     [EnumValue("SEVEN_DAYS")]
-    SevenDays = 2,
-
-    [EnumValue("FOURTEEN_DAYS")]
-    FourteenDays = 3
+    SevenDays
 }

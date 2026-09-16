@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudtrail-data", "put-audit-events")]
-public record AwsCloudtrailDataPutAuditEventsOptions : AwsOptions
+public record AwsCloudtrailDataPutAuditEventsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--audit-events", GroupValues = true)]
-    public IEnumerable<string>? AuditEvents { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Ingests your application events into CloudTrail Lake. A required para- meter, auditEvents , accepts the JSON records (also called payload ) of events that you want CloudTrail to ingest. You can add up to 100 of these events (or up to 1 MB) per PutAuditEvents request. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AuditEvents">The JSON payload of events that you want to ingest. You can also point to the JSON event payload in a file. Constraints: o min: 1 o max: 100 (structure) An event from a source outside of Amazon Web Services that you want CloudTrail to log. eventData -&gt; (string) [required] The content of an audit event that comes from the event, such as userIdentity , userAgent , and eventSource . eventDataChecksum -&gt; (string) A checksum is a base64-SHA256 algorithm that helps you verify that CloudTrail receives the event that matches with the checksum. Calculate the checksum by running a command like the following: printf %s *$eventdata* | openssl dgst -binary -sha256 | base64 id -&gt; (string) [required] The original event ID from the source event. Constraints: o min: 1 o max: 128 o pattern: ^[-_A-Za-z0-9]+$ Shorthand Syntax: eventData=string,eventDataChecksum=string,id=string ... JSON Syntax: [ { "eventData": "string", "eventDataChecksum": "string", "id": "string" } ... ]</param>
+    /// <param name="ChannelArn">The ARN or ID (the ARN suffix) of a channel. Constraints: o pattern: ^arn:.*$</param>
+    public AwsCloudtrailDataPutAuditEventsOptions(
+        IEnumerable<string> AuditEvents,
+        string ChannelArn
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(AuditEvents);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(AuditEvents));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(AuditEvents));
+            }
+
+            AuditEvents = materialized;
+        }
+        this.AuditEvents = AuditEvents;
+        global::System.ArgumentNullException.ThrowIfNull(ChannelArn);
+        this.ChannelArn = ChannelArn;
+    }
+
+    private AwsCloudtrailDataPutAuditEventsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudtrailDataPutAuditEventsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudtrailDataPutAuditEventsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The JSON payload of events that you want to ingest. You can also point to the JSON event payload in a file. Constraints: o min: 1 o max: 100 (structure) An event from a source outside of Amazon Web Services that you want CloudTrail to log. eventData -&gt; (string) [required] The content of an audit event that comes from the event, such as userIdentity , userAgent , and eventSource . eventDataChecksum -&gt; (string) A checksum is a base64-SHA256 algorithm that helps you verify that CloudTrail receives the event that matches with the checksum. Calculate the checksum by running a command like the following: printf %s *$eventdata* | openssl dgst -binary -sha256 | base64 id -&gt; (string) [required] The original event ID from the source event. Constraints: o min: 1 o max: 128 o pattern: ^[-_A-Za-z0-9]+$ Shorthand Syntax: eventData=string,eventDataChecksum=string,id=string ... JSON Syntax: [ { "eventData": "string", "eventDataChecksum": "string", "id": "string" } ... ]
+    /// </summary>
+    [CliOption("--audit-events", GroupValues = true)]
+    public IEnumerable<string>? AuditEvents { get; private init; }
+
+    /// <summary>
+    /// The ARN or ID (the ARN suffix) of a channel. Constraints: o pattern: ^arn:.*$
+    /// </summary>
     [CliOption("--channel-arn")]
-    public string? ChannelArn { get; set; }
+    public string? ChannelArn { get; private init; }
 
     /// <summary>
     /// A unique identifier that is conditionally required when the chan- nel's resource policy includes an external ID. This value can be any string, such as a passphrase or account number. Constraints: o min: 2 o max: 1224 o pattern: ^[\w+=,.@:\/-]*$
@@ -38,5 +93,22 @@ public record AwsCloudtrailDataPutAuditEventsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

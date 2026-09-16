@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("savingsplans", "describe-savings-plan-rates")]
-public record AwsSavingsplansDescribeSavingsPlanRatesOptions : AwsOptions
+public record AwsSavingsplansDescribeSavingsPlanRatesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Describes the rates for a specific, existing Savings Plan. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SavingsPlanId">The ID of the Savings Plan.</param>
+    public AwsSavingsplansDescribeSavingsPlanRatesOptions(
+        string SavingsPlanId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SavingsPlanId);
+        this.SavingsPlanId = SavingsPlanId;
+    }
+
+    private AwsSavingsplansDescribeSavingsPlanRatesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSavingsplansDescribeSavingsPlanRatesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSavingsplansDescribeSavingsPlanRatesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Savings Plan.
+    /// </summary>
     [CliOption("--savings-plan-id")]
-    public string? SavingsPlanId { get; set; }
+    public string? SavingsPlanId { get; private init; }
 
     /// <summary>
     /// The filters. (structure) Information about a Savings Plan rate filter. name -&gt; (string) The filter name. Possible values: o region o instanceType o productDescription o tenancy o productType o serviceCode o usageType o operation values -&gt; (list) The filter values. (string) Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "region"|"instanceType"|"productDescription"|"tenancy"|"productType"|"serviceCode"|"usageType"|"operation", "values": ["string", ...] } ... ]
@@ -41,6 +78,7 @@ public record AwsSavingsplansDescribeSavingsPlanRatesOptions : AwsOptions
     /// <summary>
     /// The maximum number of results to return with a single call. To re- trieve additional results, make another call with the returned token value. Constraints: o min: 1 o max: 1000
     /// </summary>
+    [SecretValue]
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
@@ -49,5 +87,22 @@ public record AwsSavingsplansDescribeSavingsPlanRatesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

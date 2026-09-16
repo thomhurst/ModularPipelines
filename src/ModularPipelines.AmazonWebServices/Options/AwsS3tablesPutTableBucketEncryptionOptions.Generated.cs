@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3tables", "put-table-bucket-encryption")]
-public record AwsS3tablesPutTableBucketEncryptionOptions : AwsOptions
+public record AwsS3tablesPutTableBucketEncryptionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--table-bucket-arn")]
-    public string? TableBucketArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Sets the encryption configuration for a table bucket. Permissions You must have the s3tables:PutTableBucketEncryption permission to use this operation. NOTE: If you choose SSE-KMS encryption you must grant the S3 Tables main- tenance principal access to your KMS key. For more information, see Permissions requirements for S3 Tables SSE-KMS encryption in the Amazon Simple Storage Service User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TableBucketArn">The Amazon Resource Name (ARN) of the table bucket. Constraints: o pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})</param>
+    /// <param name="EncryptionConfiguration">The encryption configuration to apply to the table bucket. sseAlgorithm -&gt; (string) [required] The server-side encryption algorithm to use. Valid values are AES256 for S3-managed encryption keys, or aws:kms for Amazon Web Services KMS-managed encryption keys. If you choose SSE-KMS en- cryption you must grant the S3 Tables maintenance principal ac- cess to your KMS key. For more information, see Permissions re- quirements for S3 Tables SSE-KMS encryption . Possible values: o AES256 o aws:kms kmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the KMS key to use for encryp- tion. This field is required only when sseAlgorithm is set to aws:kms . Constraints: o min: 1 o max: 2048 o pattern: (arn:aws[-a-z0-9]*:kms:[-a-z0-9]*:[0-9]{12}:key/.+) Shorthand Syntax: sseAlgorithm=string,kmsKeyArn=string JSON Syntax: { "sseAlgorithm": "AES256"|"aws:kms", "kmsKeyArn": "string" }</param>
+    public AwsS3tablesPutTableBucketEncryptionOptions(
+        string TableBucketArn,
+        string EncryptionConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TableBucketArn);
+        this.TableBucketArn = TableBucketArn;
+        global::System.ArgumentNullException.ThrowIfNull(EncryptionConfiguration);
+        this.EncryptionConfiguration = EncryptionConfiguration;
+    }
+
+    private AwsS3tablesPutTableBucketEncryptionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3tablesPutTableBucketEncryptionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3tablesPutTableBucketEncryptionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the table bucket. Constraints: o pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})
+    /// </summary>
+    [CliOption("--table-bucket-arn")]
+    public string? TableBucketArn { get; private init; }
+
+    /// <summary>
+    /// The encryption configuration to apply to the table bucket. sseAlgorithm -&gt; (string) [required] The server-side encryption algorithm to use. Valid values are AES256 for S3-managed encryption keys, or aws:kms for Amazon Web Services KMS-managed encryption keys. If you choose SSE-KMS en- cryption you must grant the S3 Tables maintenance principal ac- cess to your KMS key. For more information, see Permissions re- quirements for S3 Tables SSE-KMS encryption . Possible values: o AES256 o aws:kms kmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the KMS key to use for encryp- tion. This field is required only when sseAlgorithm is set to aws:kms . Constraints: o min: 1 o max: 2048 o pattern: (arn:aws[-a-z0-9]*:kms:[-a-z0-9]*:[0-9]{12}:key/.+) Shorthand Syntax: sseAlgorithm=string,kmsKeyArn=string JSON Syntax: { "sseAlgorithm": "AES256"|"aws:kms", "kmsKeyArn": "string" }
+    /// </summary>
     [CliOption("--encryption-configuration")]
-    public string? EncryptionConfiguration { get; set; }
+    public string? EncryptionConfiguration { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

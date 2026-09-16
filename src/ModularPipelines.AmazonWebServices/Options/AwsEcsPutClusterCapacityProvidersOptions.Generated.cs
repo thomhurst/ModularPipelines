@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,110 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ecs", "put-cluster-capacity-providers")]
-public record AwsEcsPutClusterCapacityProvidersOptions : AwsOptions
+public record AwsEcsPutClusterCapacityProvidersOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies the available capacity providers and the default capacity provider strategy for a cluster. You must specify both the available capacity providers and a default capacity provider strategy for the cluster. If the specified cluster has existing capacity providers associated with it, you must specify all existing capacity providers in addition to any new ones you want to add. Any existing capacity providers that are associated with a cluster that are omitted from a PutClusterCapacityProvide...
+    /// </summary>
+    /// <param name="Cluster">The short name or full Amazon Resource Name (ARN) of the cluster to modify the capacity provider settings for. If you don't specify a cluster, the default cluster is assumed.</param>
+    /// <param name="CapacityProviders">The name of one or more capacity providers to associate with the cluster. If specifying a capacity provider that uses an Auto Scaling group, the capacity provider must already be created. New capacity providers can be created with the CreateCapacityProvider API opera- tion. To use a Fargate capacity provider, specify either the FARGATE or FARGATE_SPOT capacity providers. The Fargate capacity providers are available to all accounts and only need to be associated with a cluster to be used. (string) Syntax: "string" "string" ...</param>
+    /// <param name="DefaultCapacityProviderStrategy">The capacity provider strategy to use by default for the cluster. When creating a service or running a task on a cluster, if no capac- ity provider or launch type is specified then the default capacity provider strategy for the cluster is used. A capacity provider strategy consists of one or more capacity providers along with the base and weight to assign to them. A capac- ity provider must be associated with the cluster to be used in a ca- pacity provider strategy. The PutClusterCapacityProviders API is used to associate a capacity provider with a cluster. Only capacity providers with an ACTIVE or UPDATING status can be used. If specifying a capacity provider that uses an Auto Scaling group, the capacity provider must already be created. New capacity providers can be created with the CreateCapacityProvider API opera- tion. To use a Fargate capacity provider, specify either the FARGATE or FARGATE_SPOT capacity providers. The Fargate capacity providers are available to all accounts and only need to be associated with a cluster to be used. (structure) The details of a capacity provider strategy. A capacity provider strategy can be set when using the RunTask or CreateCluster APIs or as the default capacity provider strategy for a cluster with the CreateCluster API. Only capacity providers that are already associated with a clus- ter and have an ACTIVE or UPDATING status can be used in a ca- pacity provider strategy. The PutClusterCapacityProviders API is used to associate a capacity provider with a cluster. If specifying a capacity provider that uses an Auto Scaling group, the capacity provider must already be created. New Auto Scaling group capacity providers can be created with the CreateClusterCapacityProvider API operation. To use a Fargate capacity provider, specify either the FARGATE or FARGATE_SPOT capacity providers. The Fargate capacity providers are available to all accounts and only need to be as- sociated with a cluster to be used in a capacity provider strat- egy. With FARGATE_SPOT , you can run interruption tolerant tasks at a rate that's discounted compared to the FARGATE price. FAR- GATE_SPOT runs tasks on spare compute capacity. When Amazon Web Services needs the capacity back, your tasks are interrupted with a two-minute warning. FARGATE_SPOT supports Linux tasks with the X86_64 architecture on platform version 1.3.0 or later. FARGATE_SPOT supports Linux tasks with the ARM64 architecture on platform version 1.4.0 or later. A capacity provider strategy can contain a maximum of 20 capac- ity providers. capacityProvider -&gt; (string) [required] The short name of the capacity provider. weight -&gt; (integer) The weight value designates the relative percentage of the total number of tasks launched that should use the specified capacity provider. The weight value is taken into considera- tion after the base value, if defined, is satisfied. If no weight value is specified, the default value of 0 is used. When multiple capacity providers are specified within a capacity provider strategy, at least one of the capacity providers must have a weight value greater than zero and any capacity providers with a weight of 0 can't be used to place tasks. If you specify multiple capacity providers in a strat- egy that all have a weight of 0 , any RunTask or CreateSer- vice actions using the capacity provider strategy will fail. Weight value characteristics: o Weight is considered after the base value is satisfied o The default value is 0 if not specified o The valid range is 0 to 1,000 o At least one capacity provider must have a weight greater than zero o Capacity providers with weight of 0 cannot place tasks Task distribution logic: o Base satisfaction: The minimum number of tasks specified by the base value are placed on that capacity provider o Weight distribution: After base requirements are met, addi- tional tasks are distributed according to weight ratios Examples: Equal Distribution: Two capacity providers both with weight 1 will split tasks evenly after base requirements are met. Weighted Distribution: If capacityProviderA has weight 1 and capacityProviderB has weight 4 , then for every 1 task on A, 4 tasks will run on B. Constraints: o min: 0 o max: 1000 base -&gt; (integer) The base value designates how many tasks, at a minimum, to run on the specified capacity provider for each service. Only one capacity provider in a capacity provider strategy can have a base defined. If no value is specified, the default value of 0 is used. Base value characteristics: o Only one capacity provider in a strategy can have a base defined o The default value is 0 if not specified o The valid range is 0 to 100,000 o Base requirements are satisfied first before weight distri- bution Constraints: o min: 0 o max: 100000 Shorthand Syntax: capacityProvider=string,weight=integer,base=integer ... JSON Syntax: [ { "capacityProvider": "string", "weight": integer, "base": integer } ... ]</param>
+    public AwsEcsPutClusterCapacityProvidersOptions(
+        string Cluster,
+        IEnumerable<string> CapacityProviders,
+        IEnumerable<string> DefaultCapacityProviderStrategy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Cluster);
+        this.Cluster = Cluster;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(CapacityProviders);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(CapacityProviders));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(CapacityProviders));
+            }
+
+            CapacityProviders = materialized;
+        }
+        this.CapacityProviders = CapacityProviders;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(DefaultCapacityProviderStrategy);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(DefaultCapacityProviderStrategy));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(DefaultCapacityProviderStrategy));
+            }
+
+            DefaultCapacityProviderStrategy = materialized;
+        }
+        this.DefaultCapacityProviderStrategy = DefaultCapacityProviderStrategy;
+    }
+
+    private AwsEcsPutClusterCapacityProvidersOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEcsPutClusterCapacityProvidersOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEcsPutClusterCapacityProvidersOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The short name or full Amazon Resource Name (ARN) of the cluster to modify the capacity provider settings for. If you don't specify a cluster, the default cluster is assumed.
+    /// </summary>
     [CliOption("--cluster")]
-    public string? Cluster { get; set; }
+    public string? Cluster { get; private init; }
 
+    /// <summary>
+    /// The name of one or more capacity providers to associate with the cluster. If specifying a capacity provider that uses an Auto Scaling group, the capacity provider must already be created. New capacity providers can be created with the CreateCapacityProvider API opera- tion. To use a Fargate capacity provider, specify either the FARGATE or FARGATE_SPOT capacity providers. The Fargate capacity providers are available to all accounts and only need to be associated with a cluster to be used. (string) Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--capacity-providers", GroupValues = true)]
-    public IEnumerable<string>? CapacityProviders { get; set; }
+    public IEnumerable<string>? CapacityProviders { get; private init; }
 
+    /// <summary>
+    /// The capacity provider strategy to use by default for the cluster. When creating a service or running a task on a cluster, if no capac- ity provider or launch type is specified then the default capacity provider strategy for the cluster is used. A capacity provider strategy consists of one or more capacity providers along with the base and weight to assign to them. A capac- ity provider must be associated with the cluster to be used in a ca- pacity provider strategy. The PutClusterCapacityProviders API is used to associate a capacity provider with a cluster. Only capacity providers with an ACTIVE or UPDATING status can be used. If specifying a capacity provider that uses an Auto Scaling group, the capacity provider must already be created. New capacity providers can be created with the CreateCapacityProvider API opera- tion. To use a Fargate capacity provider, specify either the FARGATE or FARGATE_SPOT capacity providers. The Fargate capacity providers are available to all accounts and only need to be associated with a cluster to be used. (structure) The details of a capacity provider strategy. A capacity provider strategy can be set when using the RunTask or CreateCluster APIs or as the default capacity provider strategy for a cluster with the CreateCluster API. Only capacity providers that are already associated with a clus- ter and have an ACTIVE or UPDATING status can be used in a ca- pacity provider strategy. The PutClusterCapacityProviders API is used to associate a capacity provider with a cluster. If specifying a capacity provider that uses an Auto Scaling group, the capacity provider must already be created. New Auto Scaling group capacity providers can be created with the CreateClusterCapacityProvider API operation. To use a Fargate capacity provider, specify either the FARGATE or FARGATE_SPOT capacity providers. The Fargate capacity providers are available to all accounts and only need to be as- sociated with a cluster to be used in a capacity provider strat- egy. With FARGATE_SPOT , you can run interruption tolerant tasks at a rate that's discounted compared to the FARGATE price. FAR- GATE_SPOT runs tasks on spare compute capacity. When Amazon Web Services needs the capacity back, your tasks are interrupted with a two-minute warning. FARGATE_SPOT supports Linux tasks with the X86_64 architecture on platform version 1.3.0 or later. FARGATE_SPOT supports Linux tasks with the ARM64 architecture on platform version 1.4.0 or later. A capacity provider strategy can contain a maximum of 20 capac- ity providers. capacityProvider -&gt; (string) [required] The short name of the capacity provider. weight -&gt; (integer) The weight value designates the relative percentage of the total number of tasks launched that should use the specified capacity provider. The weight value is taken into considera- tion after the base value, if defined, is satisfied. If no weight value is specified, the default value of 0 is used. When multiple capacity providers are specified within a capacity provider strategy, at least one of the capacity providers must have a weight value greater than zero and any capacity providers with a weight of 0 can't be used to place tasks. If you specify multiple capacity providers in a strat- egy that all have a weight of 0 , any RunTask or CreateSer- vice actions using the capacity provider strategy will fail. Weight value characteristics: o Weight is considered after the base value is satisfied o The default value is 0 if not specified o The valid range is 0 to 1,000 o At least one capacity provider must have a weight greater than zero o Capacity providers with weight of 0 cannot place tasks Task distribution logic: o Base satisfaction: The minimum number of tasks specified by the base value are placed on that capacity provider o Weight distribution: After base requirements are met, addi- tional tasks are distributed according to weight ratios Examples: Equal Distribution: Two capacity providers both with weight 1 will split tasks evenly after base requirements are met. Weighted Distribution: If capacityProviderA has weight 1 and capacityProviderB has weight 4 , then for every 1 task on A, 4 tasks will run on B. Constraints: o min: 0 o max: 1000 base -&gt; (integer) The base value designates how many tasks, at a minimum, to run on the specified capacity provider for each service. Only one capacity provider in a capacity provider strategy can have a base defined. If no value is specified, the default value of 0 is used. Base value characteristics: o Only one capacity provider in a strategy can have a base defined o The default value is 0 if not specified o The valid range is 0 to 100,000 o Base requirements are satisfied first before weight distri- bution Constraints: o min: 0 o max: 100000 Shorthand Syntax: capacityProvider=string,weight=integer,base=integer ... JSON Syntax: [ { "capacityProvider": "string", "weight": integer, "base": integer } ... ]
+    /// </summary>
     [CliOption("--default-capacity-provider-strategy", GroupValues = true)]
-    public IEnumerable<string>? DefaultCapacityProviderStrategy { get; set; }
+    public IEnumerable<string>? DefaultCapacityProviderStrategy { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

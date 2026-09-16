@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("inspector2", "update-code-security-scan-configuration")]
-public record AwsInspector2UpdateCodeSecurityScanConfigurationOptions : AwsOptions
+public record AwsInspector2UpdateCodeSecurityScanConfigurationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--scan-configuration-arn")]
-    public string? ScanConfigurationArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates an existing code security scan configuration. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ScanConfigurationArn">The Amazon Resource Name (ARN) of the scan configuration to update. Constraints: o pattern: arn:(aws[a-zA-Z-]*)?:inspec- tor2:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:owner/(\d{12}|o-[a-z0-9]{10,32})/codese- curity-configuration/[a-f0-9-]{36}</param>
+    /// <param name="Configuration">The updated configuration settings for the code security scan. periodicScanConfiguration -&gt; (structure) Configuration settings for periodic scans that run on a sched- uled basis. frequency -&gt; (string) The frequency at which periodic scans are performed (such as weekly or monthly). If you don't provide the frequencyExpression Amazon Inspector chooses day for the scan to run. If you provide the frequen- cyExpression , the schedule must match the specified fre- quency . Possible values: o WEEKLY o MONTHLY o NEVER frequencyExpression -&gt; (string) The schedule expression for periodic scans, in cron format. Constraints: o min: 1 o max: 256 continuousIntegrationScanConfiguration -&gt; (structure) Configuration settings for continuous integration scans that run automatically when code changes are made. supportedEvents -&gt; (list) [required] The repository events that trigger continuous integration scans, such as pull requests or commits. Constraints: o min: 1 o max: 2 (string) Possible values: o PULL_REQUEST o PUSH ruleSetCategories -&gt; (list) [required] The categories of security rules to be applied during the scan. Constraints: o min: 1 o max: 3 (string) Possible values: o SAST o IAC o SCA Shorthand Syntax: periodicScanConfiguration={frequency=string,frequencyExpression=string},continuousIntegrationScanConfiguration={supportedEvents=[string,string]},ruleSetCategories=string,string JSON Syntax: { "periodicScanConfiguration": { "frequency": "WEEKLY"|"MONTHLY"|"NEVER", "frequencyExpression": "string" }, "continuousIntegrationScanConfiguration": { "supportedEvents": ["PULL_REQUEST"|"PUSH", ...] }, "ruleSetCategories": ["SAST"|"IAC"|"SCA", ...] }</param>
+    public AwsInspector2UpdateCodeSecurityScanConfigurationOptions(
+        string ScanConfigurationArn,
+        string Configuration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ScanConfigurationArn);
+        this.ScanConfigurationArn = ScanConfigurationArn;
+        global::System.ArgumentNullException.ThrowIfNull(Configuration);
+        this.Configuration = Configuration;
+    }
+
+    private AwsInspector2UpdateCodeSecurityScanConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsInspector2UpdateCodeSecurityScanConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsInspector2UpdateCodeSecurityScanConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the scan configuration to update. Constraints: o pattern: arn:(aws[a-zA-Z-]*)?:inspec- tor2:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:owner/(\d{12}|o-[a-z0-9]{10,32})/codese- curity-configuration/[a-f0-9-]{36}
+    /// </summary>
+    [CliOption("--scan-configuration-arn")]
+    public string? ScanConfigurationArn { get; private init; }
+
+    /// <summary>
+    /// The updated configuration settings for the code security scan. periodicScanConfiguration -&gt; (structure) Configuration settings for periodic scans that run on a sched- uled basis. frequency -&gt; (string) The frequency at which periodic scans are performed (such as weekly or monthly). If you don't provide the frequencyExpression Amazon Inspector chooses day for the scan to run. If you provide the frequen- cyExpression , the schedule must match the specified fre- quency . Possible values: o WEEKLY o MONTHLY o NEVER frequencyExpression -&gt; (string) The schedule expression for periodic scans, in cron format. Constraints: o min: 1 o max: 256 continuousIntegrationScanConfiguration -&gt; (structure) Configuration settings for continuous integration scans that run automatically when code changes are made. supportedEvents -&gt; (list) [required] The repository events that trigger continuous integration scans, such as pull requests or commits. Constraints: o min: 1 o max: 2 (string) Possible values: o PULL_REQUEST o PUSH ruleSetCategories -&gt; (list) [required] The categories of security rules to be applied during the scan. Constraints: o min: 1 o max: 3 (string) Possible values: o SAST o IAC o SCA Shorthand Syntax: periodicScanConfiguration={frequency=string,frequencyExpression=string},continuousIntegrationScanConfiguration={supportedEvents=[string,string]},ruleSetCategories=string,string JSON Syntax: { "periodicScanConfiguration": { "frequency": "WEEKLY"|"MONTHLY"|"NEVER", "frequencyExpression": "string" }, "continuousIntegrationScanConfiguration": { "supportedEvents": ["PULL_REQUEST"|"PUSH", ...] }, "ruleSetCategories": ["SAST"|"IAC"|"SCA", ...] }
+    /// </summary>
     [CliOption("--configuration")]
-    public string? Configuration { get; set; }
+    public string? Configuration { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

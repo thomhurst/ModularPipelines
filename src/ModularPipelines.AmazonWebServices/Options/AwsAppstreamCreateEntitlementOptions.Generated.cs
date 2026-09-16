@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +21,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appstream", "create-entitlement")]
-public record AwsAppstreamCreateEntitlementOptions : AwsOptions
+public record AwsAppstreamCreateEntitlementOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--name")]
-    public string? Name { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a new entitlement. Entitlements control access to specific ap- plications within a stack, based on user attributes. Entitlements apply to SAML 2.0 federated user identities. WorkSpaces Applications user pool and streaming URL users are entitled to all applications in a stack. Entitlements don't apply to the desktop stream view application, or to applications managed by a dynamic app provider using the Dynamic Application Framework. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the entitlement. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
+    /// <param name="StackName">The name of the stack with which the entitlement is associated. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
+    /// <param name="AppVisibility">Specifies whether all or selected apps are entitled. Possible values: o ALL o ASSOCIATED</param>
+    /// <param name="Attributes">The attributes of the entitlement. Constraints: o min: 1 (structure) An attribute associated with an entitlement. Application enti- tlements work by matching a supported SAML 2.0 attribute name to a value when a user identity federates to a WorkSpaces Applica- tions SAML application. Name -&gt; (string) [required] A supported AWS IAM SAML PrincipalTag attribute that is matched to the associated value when a user identity feder- ates into a WorkSpaces Applications SAML application. The following are valid values: o roles o department o organization o groups o title o costCenter o userType Constraints: o min: 1 Value -&gt; (string) [required] A value that is matched to a supported SAML attribute name when a user identity federates into a WorkSpaces Applications SAML application. Constraints: o min: 1 Shorthand Syntax: Name=string,Value=string ... JSON Syntax: [ { "Name": "string", "Value": "string" } ... ]</param>
+    public AwsAppstreamCreateEntitlementOptions(
+        string Name,
+        string StackName,
+        AwsAppstreamCreateEntitlementAppVisibility AppVisibility,
+        IEnumerable<string> Attributes
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(StackName);
+        this.StackName = StackName;
+        global::System.ArgumentNullException.ThrowIfNull(AppVisibility);
+        this.AppVisibility = AppVisibility;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Attributes);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Attributes));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Attributes));
+            }
+
+            Attributes = materialized;
+        }
+        this.Attributes = Attributes;
+    }
+
+    private AwsAppstreamCreateEntitlementOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppstreamCreateEntitlementOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppstreamCreateEntitlementOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the entitlement. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The name of the stack with which the entitlement is associated. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
+    /// </summary>
     [CliOption("--stack-name")]
-    public string? StackName { get; set; }
+    public string? StackName { get; private init; }
+
+    /// <summary>
+    /// Specifies whether all or selected apps are entitled. Possible values: o ALL o ASSOCIATED
+    /// </summary>
+    [CliOption("--app-visibility")]
+    public AwsAppstreamCreateEntitlementAppVisibility? AppVisibility { get; private init; }
+
+    /// <summary>
+    /// The attributes of the entitlement. Constraints: o min: 1 (structure) An attribute associated with an entitlement. Application enti- tlements work by matching a supported SAML 2.0 attribute name to a value when a user identity federates to a WorkSpaces Applica- tions SAML application. Name -&gt; (string) [required] A supported AWS IAM SAML PrincipalTag attribute that is matched to the associated value when a user identity feder- ates into a WorkSpaces Applications SAML application. The following are valid values: o roles o department o organization o groups o title o costCenter o userType Constraints: o min: 1 Value -&gt; (string) [required] A value that is matched to a supported SAML attribute name when a user identity federates into a WorkSpaces Applications SAML application. Constraints: o min: 1 Shorthand Syntax: Name=string,Value=string ... JSON Syntax: [ { "Name": "string", "Value": "string" } ... ]
+    /// </summary>
+    [CliOption("--attributes", GroupValues = true)]
+    public IEnumerable<string>? Attributes { get; private init; }
 
     /// <summary>
     /// The description of the entitlement. Constraints: o max: 256
@@ -33,16 +109,27 @@ public record AwsAppstreamCreateEntitlementOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--app-visibility")]
-    public string? AppVisibility { get; set; }
-
-    [CliOption("--attributes", GroupValues = true)]
-    public IEnumerable<string>? Attributes { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -16,9 +16,9 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSchemasUpdateSchemaType
 {
-    [EnumValue("OpenApi3")]
-    OpenApi3 = 1,
-
     [EnumValue("JSONSchemaDraft4")]
-    JsonSchemaDraft4 = 2
+    JsonSchemaDraft4,
+
+    [EnumValue("OpenApi3")]
+    OpenApi3
 }

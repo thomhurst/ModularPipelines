@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --fiberopticcabletype.
+/// Allowed values for --fiber-optic-cable-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsOutpostsUpdateSiteRackPhysicalPropertiesFiberOpticCableType
 {
-    [EnumValue("SINGLE_MODE")]
-    SingleMode = 1,
-
     [EnumValue("MULTI_MODE")]
-    MultiMode = 2
+    MultiMode,
+
+    [EnumValue("SINGLE_MODE")]
+    SingleMode
 }

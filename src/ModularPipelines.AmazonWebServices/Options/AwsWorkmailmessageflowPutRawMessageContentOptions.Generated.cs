@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workmailmessageflow", "put-raw-message-content")]
-public record AwsWorkmailmessageflowPutRawMessageContentOptions : AwsOptions
+public record AwsWorkmailmessageflowPutRawMessageContentOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--message-id")]
-    public string? MessageId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the raw content of an in-transit email message, in MIME format. This example describes how to update in-transit email message. For more information and examples for using this API, see Updating message con- tent with AWS Lambda . NOTE: Updates to an in-transit message only appear when you call Pu- tRawMessageContent from an AWS Lambda function configured with a synchronous Run Lambda rule. If you call PutRawMessageContent on a delivered or sent message, the message remains unchanged, eve...
+    /// </summary>
+    /// <param name="MessageId">The identifier of the email message being updated. Constraints: o min: 1 o max: 120 o pattern: [a-z0-9\-]*</param>
+    /// <param name="Content">Describes the raw message content of the updated email message. s3Reference -&gt; (structure) [required] The S3 reference of an email message. bucket -&gt; (string) [required] The S3 bucket name. Constraints: o min: 3 o max: 63 o pattern: ^[a-z0-9][a-z0-9\-]* key -&gt; (string) [required] The S3 key object name. Constraints: o min: 1 o max: 1024 o pattern: [a-zA-Z0-9\-/]* objectVersion -&gt; (string) If you enable versioning for the bucket, you can specify the object version. Constraints: o min: 1 o max: 1024 o pattern: .+ Shorthand Syntax: s3Reference={bucket=string,key=string,objectVersion=string} JSON Syntax: { "s3Reference": { "bucket": "string", "key": "string", "objectVersion": "string" } }</param>
+    public AwsWorkmailmessageflowPutRawMessageContentOptions(
+        string MessageId,
+        string Content
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MessageId);
+        this.MessageId = MessageId;
+        global::System.ArgumentNullException.ThrowIfNull(Content);
+        this.Content = Content;
+    }
+
+    private AwsWorkmailmessageflowPutRawMessageContentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkmailmessageflowPutRawMessageContentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkmailmessageflowPutRawMessageContentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the email message being updated. Constraints: o min: 1 o max: 120 o pattern: [a-z0-9\-]*
+    /// </summary>
+    [CliOption("--message-id")]
+    public string? MessageId { get; private init; }
+
+    /// <summary>
+    /// Describes the raw message content of the updated email message. s3Reference -&gt; (structure) [required] The S3 reference of an email message. bucket -&gt; (string) [required] The S3 bucket name. Constraints: o min: 3 o max: 63 o pattern: ^[a-z0-9][a-z0-9\-]* key -&gt; (string) [required] The S3 key object name. Constraints: o min: 1 o max: 1024 o pattern: [a-zA-Z0-9\-/]* objectVersion -&gt; (string) If you enable versioning for the bucket, you can specify the object version. Constraints: o min: 1 o max: 1024 o pattern: .+ Shorthand Syntax: s3Reference={bucket=string,key=string,objectVersion=string} JSON Syntax: { "s3Reference": { "bucket": "string", "key": "string", "objectVersion": "string" } }
+    /// </summary>
     [CliOption("--content")]
-    public string? Content { get; set; }
+    public string? Content { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

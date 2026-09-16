@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,8 +20,44 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("medialive", "start-update-signal-map")]
-public record AwsMedialiveStartUpdateSignalMapOptions : AwsOptions
+public record AwsMedialiveStartUpdateSignalMapOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Initiates an update for the specified signal map. Will discover a new signal map if a changed discoveryEntryPointArn is provided. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Identifier"></param>
+    public AwsMedialiveStartUpdateSignalMapOptions(
+        string Identifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Identifier);
+        this.Identifier = Identifier;
+    }
+
+    private AwsMedialiveStartUpdateSignalMapOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMedialiveStartUpdateSignalMapOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMedialiveStartUpdateSignalMapOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    [CliOption("--identifier")]
+    public string? Identifier { get; private init; }
+
     [CliOption("--cloud-watch-alarm-template-group-identifiers", GroupValues = true)]
     public IEnumerable<string>? CloudWatchAlarmTemplateGroupIdentifiers { get; set; }
 
@@ -33,11 +70,8 @@ public record AwsMedialiveStartUpdateSignalMapOptions : AwsOptions
     [CliOption("--event-bridge-rule-template-group-identifiers", GroupValues = true)]
     public IEnumerable<string>? EventBridgeRuleTemplateGroupIdentifiers { get; set; }
 
-    [CliFlag("--force-rediscovery")]
+    [CliFlag("--force-rediscovery", NegatedName = "--no-force-rediscovery")]
     public bool? ForceRediscovery { get; set; }
-
-    [CliOption("--identifier")]
-    public string? Identifier { get; set; }
 
     [CliOption("--name")]
     public string? Name { get; set; }
@@ -47,5 +81,22 @@ public record AwsMedialiveStartUpdateSignalMapOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

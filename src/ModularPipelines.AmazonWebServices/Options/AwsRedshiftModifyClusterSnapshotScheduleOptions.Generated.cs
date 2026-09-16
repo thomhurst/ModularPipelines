@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift", "modify-cluster-snapshot-schedule")]
-public record AwsRedshiftModifyClusterSnapshotScheduleOptions : AwsOptions
+public record AwsRedshiftModifyClusterSnapshotScheduleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies a snapshot schedule for a cluster. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ClusterIdentifier">A unique identifier for the cluster whose snapshot schedule you want to modify. Constraints: o max: 2147483647</param>
+    public AwsRedshiftModifyClusterSnapshotScheduleOptions(
+        string ClusterIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterIdentifier);
+        this.ClusterIdentifier = ClusterIdentifier;
+    }
+
+    private AwsRedshiftModifyClusterSnapshotScheduleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftModifyClusterSnapshotScheduleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftModifyClusterSnapshotScheduleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier for the cluster whose snapshot schedule you want to modify. Constraints: o max: 2147483647
+    /// </summary>
     [CliOption("--cluster-identifier")]
-    public string? ClusterIdentifier { get; set; }
+    public string? ClusterIdentifier { get; private init; }
 
     /// <summary>
     /// A unique alphanumeric identifier for the schedule that you want to associate with the cluster. Constraints: o max: 2147483647
@@ -30,7 +67,10 @@ public record AwsRedshiftModifyClusterSnapshotScheduleOptions : AwsOptions
     [CliOption("--schedule-identifier")]
     public string? ScheduleIdentifier { get; set; }
 
-    [CliFlag("--disassociate-schedule")]
+    /// <summary>
+    /// A boolean to indicate whether to remove the assoiciation between the cluster and the schedule.
+    /// </summary>
+    [CliFlag("--disassociate-schedule", NegatedName = "--no-disassociate-schedule")]
     public bool? DisassociateSchedule { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -38,5 +78,22 @@ public record AwsRedshiftModifyClusterSnapshotScheduleOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

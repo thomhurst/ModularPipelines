@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --stepactiontype.
+/// Allowed values for --step-action-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsMigrationhuborchestratorUpdateWorkflowStepStepActionType
 {
-    [EnumValue("MANUAL")]
-    Manual = 1,
-
     [EnumValue("AUTOMATED")]
-    Automated = 2
+    Automated,
+
+    [EnumValue("MANUAL")]
+    Manual
 }

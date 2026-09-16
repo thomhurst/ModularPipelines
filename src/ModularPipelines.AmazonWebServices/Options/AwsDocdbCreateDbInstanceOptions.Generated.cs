@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("docdb", "create-db-instance")]
-public record AwsDocdbCreateDbInstanceOptions : AwsOptions
+public record AwsDocdbCreateDbInstanceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new instance. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DbInstanceIdentifier">The instance identifier. This parameter is stored as a lowercase string. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens. o The first character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. Example: mydbinstance</param>
+    /// <param name="DbInstanceClass">The compute and memory capacity of the instance; for example, db.r5.large .</param>
+    /// <param name="Engine">The name of the database engine to be used for this instance. Valid value: docdb</param>
+    /// <param name="DbClusterIdentifier">The identifier of the cluster that the instance will belong to.</param>
+    public AwsDocdbCreateDbInstanceOptions(
+        string DbInstanceIdentifier,
+        string DbInstanceClass,
+        string Engine,
+        string DbClusterIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DbInstanceIdentifier);
+        this.DbInstanceIdentifier = DbInstanceIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(DbInstanceClass);
+        this.DbInstanceClass = DbInstanceClass;
+        global::System.ArgumentNullException.ThrowIfNull(Engine);
+        this.Engine = Engine;
+        global::System.ArgumentNullException.ThrowIfNull(DbClusterIdentifier);
+        this.DbClusterIdentifier = DbClusterIdentifier;
+    }
+
+    private AwsDocdbCreateDbInstanceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDocdbCreateDbInstanceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDocdbCreateDbInstanceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The instance identifier. This parameter is stored as a lowercase string. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens. o The first character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. Example: mydbinstance
+    /// </summary>
     [CliOption("--db-instance-identifier")]
-    public string? DbInstanceIdentifier { get; set; }
+    public string? DbInstanceIdentifier { get; private init; }
 
+    /// <summary>
+    /// The compute and memory capacity of the instance; for example, db.r5.large .
+    /// </summary>
     [CliOption("--db-instance-class")]
-    public string? DbInstanceClass { get; set; }
+    public string? DbInstanceClass { get; private init; }
 
+    /// <summary>
+    /// The name of the database engine to be used for this instance. Valid value: docdb
+    /// </summary>
     [CliOption("--engine")]
-    public string? Engine { get; set; }
+    public string? Engine { get; private init; }
+
+    /// <summary>
+    /// The identifier of the cluster that the instance will belong to.
+    /// </summary>
+    [CliOption("--db-cluster-identifier")]
+    public string? DbClusterIdentifier { get; private init; }
 
     /// <summary>
     /// The Amazon EC2 Availability Zone that the instance is created in. Default: A random, system-chosen Availability Zone in the endpoint's Amazon Web Services Region. Example: us-east-1d
@@ -42,7 +103,10 @@ public record AwsDocdbCreateDbInstanceOptions : AwsOptions
     [CliOption("--preferred-maintenance-window")]
     public string? PreferredMaintenanceWindow { get; set; }
 
-    [CliFlag("--auto-minor-version-upgrade")]
+    /// <summary>
+    /// This parameter does not apply to Amazon DocumentDB. Amazon Docu- mentDB does not perform minor version upgrades regardless of the value set. Default: false
+    /// </summary>
+    [CliFlag("--auto-minor-version-upgrade", NegatedName = "--no-auto-minor-version-upgrade")]
     public bool? AutoMinorVersionUpgrade { get; set; }
 
     /// <summary>
@@ -51,10 +115,10 @@ public record AwsDocdbCreateDbInstanceOptions : AwsOptions
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
-    [CliOption("--db-cluster-identifier")]
-    public string? DbClusterIdentifier { get; set; }
-
-    [CliFlag("--copy-tags-to-snapshot")]
+    /// <summary>
+    /// A value that indicates whether to copy tags from the DB instance to snapshots of the DB instance. By default, tags are not copied.
+    /// </summary>
+    [CliFlag("--copy-tags-to-snapshot", NegatedName = "--no-copy-tags-to-snapshot")]
     public bool? CopyTagsToSnapshot { get; set; }
 
     /// <summary>
@@ -63,7 +127,10 @@ public record AwsDocdbCreateDbInstanceOptions : AwsOptions
     [CliOption("--promotion-tier")]
     public int? PromotionTier { get; set; }
 
-    [CliFlag("--enable-performance-insights")]
+    /// <summary>
+    /// A value that indicates whether to enable Performance Insights for the DB Instance. For more information, see Using Amazon Performance Insights .
+    /// </summary>
+    [CliFlag("--enable-performance-insights", NegatedName = "--no-enable-performance-insights")]
     public bool? EnablePerformanceInsights { get; set; }
 
     /// <summary>
@@ -83,5 +150,22 @@ public record AwsDocdbCreateDbInstanceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

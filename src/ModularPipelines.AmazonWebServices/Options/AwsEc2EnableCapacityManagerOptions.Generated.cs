@@ -22,10 +22,16 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ec2", "enable-capacity-manager")]
 public record AwsEc2EnableCapacityManagerOptions : AwsOptions
 {
-    [CliFlag("--organizations-access")]
+    /// <summary>
+    /// Specifies whether to enable cross-account access for Amazon Web Ser- vices Organizations. When enabled, Capacity Manager can aggregate data from all accounts in your organization. Default is false.
+    /// </summary>
+    [CliFlag("--organizations-access", NegatedName = "--no-organizations-access")]
     public bool? OrganizationsAccess { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,74 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("glue", "put-data-catalog-encryption-settings")]
-public record AwsGluePutDataCatalogEncryptionSettingsOptions : AwsOptions
+public record AwsGluePutDataCatalogEncryptionSettingsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Sets the security configuration for a specified catalog. After the con- figuration has been set, the specified encryption is applied to every catalog write thereafter. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DataCatalogEncryptionSettings">The security configuration to set. EncryptionAtRest -&gt; (structure) Specifies the encryption-at-rest configuration for the Data Cat- alog. CatalogEncryptionMode -&gt; (string) [required] The encryption-at-rest mode for encrypting Data Catalog data. Possible values: o DISABLED o SSE-KMS o SSE-KMS-WITH-SERVICE-ROLE SseAwsKmsKeyId -&gt; (string) The ID of the KMS key to use for encryption at rest. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* CatalogEncryptionServiceRole -&gt; (string) The role that Glue assumes to encrypt and decrypt the Data Catalog objects on the caller's behalf. Constraints: o pattern: ^arn:aws(-(cn|us-gov|iso(-[bef])?))?:iam::[0-9]{12}:role/.+ ConnectionPasswordEncryption -&gt; (structure) When connection password protection is enabled, the Data Catalog uses a customer-provided key to encrypt the password as part of CreateConnection or UpdateConnection and store it in the EN- CRYPTED_PASSWORD field in the connection properties. You can en- able catalog encryption or only password encryption. ReturnConnectionPasswordEncrypted -&gt; (boolean) [required] When the ReturnConnectionPasswordEncrypted flag is set to "true", passwords remain encrypted in the responses of Get- Connection and GetConnections . This encryption takes effect independently from catalog encryption. AwsKmsKeyId -&gt; (string) An KMS key that is used to encrypt the connection password. If connection password protection is enabled, the caller of CreateConnection and UpdateConnection needs at least kms:En- crypt permission on the specified KMS key, to encrypt pass- words before storing them in the Data Catalog. You can set the decrypt permission to enable or restrict ac- cess on the password key according to your security require- ments. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Shorthand Syntax: EncryptionAtRest={CatalogEncryptionMode=string,SseAwsKmsKeyId=string,CatalogEncryptionServiceRole=string},ConnectionPasswordEncryption={ReturnConnectionPasswordEncrypted=boolean,AwsKmsKeyId=string} JSON Syntax: { "EncryptionAtRest": { "CatalogEncryptionMode": "DISABLED"|"SSE-KMS"|"SSE-KMS-WITH-SERVICE-ROLE", "SseAwsKmsKeyId": "string", "CatalogEncryptionServiceRole": "string" }, "ConnectionPasswordEncryption": { "ReturnConnectionPasswordEncrypted": true|false, "AwsKmsKeyId": "string" } }</param>
+    public AwsGluePutDataCatalogEncryptionSettingsOptions(
+        string DataCatalogEncryptionSettings
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataCatalogEncryptionSettings);
+        this.DataCatalogEncryptionSettings = DataCatalogEncryptionSettings;
+    }
+
+    private AwsGluePutDataCatalogEncryptionSettingsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGluePutDataCatalogEncryptionSettingsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGluePutDataCatalogEncryptionSettingsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The security configuration to set. EncryptionAtRest -&gt; (structure) Specifies the encryption-at-rest configuration for the Data Cat- alog. CatalogEncryptionMode -&gt; (string) [required] The encryption-at-rest mode for encrypting Data Catalog data. Possible values: o DISABLED o SSE-KMS o SSE-KMS-WITH-SERVICE-ROLE SseAwsKmsKeyId -&gt; (string) The ID of the KMS key to use for encryption at rest. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* CatalogEncryptionServiceRole -&gt; (string) The role that Glue assumes to encrypt and decrypt the Data Catalog objects on the caller's behalf. Constraints: o pattern: ^arn:aws(-(cn|us-gov|iso(-[bef])?))?:iam::[0-9]{12}:role/.+ ConnectionPasswordEncryption -&gt; (structure) When connection password protection is enabled, the Data Catalog uses a customer-provided key to encrypt the password as part of CreateConnection or UpdateConnection and store it in the EN- CRYPTED_PASSWORD field in the connection properties. You can en- able catalog encryption or only password encryption. ReturnConnectionPasswordEncrypted -&gt; (boolean) [required] When the ReturnConnectionPasswordEncrypted flag is set to "true", passwords remain encrypted in the responses of Get- Connection and GetConnections . This encryption takes effect independently from catalog encryption. AwsKmsKeyId -&gt; (string) An KMS key that is used to encrypt the connection password. If connection password protection is enabled, the caller of CreateConnection and UpdateConnection needs at least kms:En- crypt permission on the specified KMS key, to encrypt pass- words before storing them in the Data Catalog. You can set the decrypt permission to enable or restrict ac- cess on the password key according to your security require- ments. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Shorthand Syntax: EncryptionAtRest={CatalogEncryptionMode=string,SseAwsKmsKeyId=string,CatalogEncryptionServiceRole=string},ConnectionPasswordEncryption={ReturnConnectionPasswordEncrypted=boolean,AwsKmsKeyId=string} JSON Syntax: { "EncryptionAtRest": { "CatalogEncryptionMode": "DISABLED"|"SSE-KMS"|"SSE-KMS-WITH-SERVICE-ROLE", "SseAwsKmsKeyId": "string", "CatalogEncryptionServiceRole": "string" }, "ConnectionPasswordEncryption": { "ReturnConnectionPasswordEncrypted": true|false, "AwsKmsKeyId": "string" } }
+    /// </summary>
+    [CliOption("--data-catalog-encryption-settings")]
+    public string? DataCatalogEncryptionSettings { get; private init; }
+
     /// <summary>
     /// The ID of the Data Catalog to set the security configuration for. If none is provided, the Amazon Web Services account ID is used by de- fault. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--catalog-id")]
     public string? CatalogId { get; set; }
 
-    [CliOption("--data-catalog-encryption-settings")]
-    public string? DataCatalogEncryptionSettings { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

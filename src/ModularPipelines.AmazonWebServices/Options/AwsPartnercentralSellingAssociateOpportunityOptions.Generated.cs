@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +21,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("partnercentral-selling", "associate-opportunity")]
-public record AwsPartnercentralSellingAssociateOpportunityOptions : AwsOptions
+public record AwsPartnercentralSellingAssociateOpportunityOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Enables you to create a formal association between an Opportunity and various related entities, enriching the context and details of the op- portunity for better collaboration and decision making. You can asso- ciate an opportunity with the following entity types: o Partner Solution: A software product or consulting practice created and delivered by Partners. Partner Solutions help customers address business challenges using Amazon Web Services services. o Amazon Web Services Products: Amazon We...
+    /// </summary>
+    /// <param name="Catalog">Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox . The catalog determines which environment the opportunity association is made in. Use AWS to associate opportunities in the Amazon Web Services cata- log, and Sandbox for testing in secure, isolated environments. Constraints: o pattern: [a-zA-Z]+</param>
+    /// <param name="OpportunityIdentifier">Requires the Opportunity 's unique identifier when you want to asso- ciate it with a related entity. Provide the correct identifier so the intended opportunity is updated with the association. Constraints: o pattern: O[0-9]{1,19}</param>
+    /// <param name="RelatedEntityType">Specifies the entity type that you're associating with the Opportu- nity . This helps to categorize and properly process the associa- tion. Possible values: o Solutions o AwsProducts o AwsMarketplaceOffers o AwsMarketplaceOfferSets o AwsMarketplaceSolutions o AwsMarketplaceProducts</param>
+    /// <param name="RelatedEntityIdentifier">Requires the related entity's unique identifier when you want to as- sociate it with the Opportunity . For Amazon Web Services Market- place entities, provide the Amazon Resource Name (ARN). Use the Amazon Web Services Marketplace API to obtain the ARN. Constraints: o pattern: (?s).{1,255}</param>
+    public AwsPartnercentralSellingAssociateOpportunityOptions(
+        string Catalog,
+        string OpportunityIdentifier,
+        AwsPartnercentralSellingAssociateOpportunityRelatedEntityType RelatedEntityType,
+        string RelatedEntityIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+        global::System.ArgumentNullException.ThrowIfNull(OpportunityIdentifier);
+        this.OpportunityIdentifier = OpportunityIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(RelatedEntityType);
+        this.RelatedEntityType = RelatedEntityType;
+        global::System.ArgumentNullException.ThrowIfNull(RelatedEntityIdentifier);
+        this.RelatedEntityIdentifier = RelatedEntityIdentifier;
+    }
+
+    private AwsPartnercentralSellingAssociateOpportunityOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPartnercentralSellingAssociateOpportunityOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPartnercentralSellingAssociateOpportunityOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox . The catalog determines which environment the opportunity association is made in. Use AWS to associate opportunities in the Amazon Web Services cata- log, and Sandbox for testing in secure, isolated environments. Constraints: o pattern: [a-zA-Z]+
+    /// </summary>
     [CliOption("--catalog")]
-    public string? Catalog { get; set; }
+    public string? Catalog { get; private init; }
 
+    /// <summary>
+    /// Requires the Opportunity 's unique identifier when you want to asso- ciate it with a related entity. Provide the correct identifier so the intended opportunity is updated with the association. Constraints: o pattern: O[0-9]{1,19}
+    /// </summary>
     [CliOption("--opportunity-identifier")]
-    public string? OpportunityIdentifier { get; set; }
+    public string? OpportunityIdentifier { get; private init; }
 
+    /// <summary>
+    /// Specifies the entity type that you're associating with the Opportu- nity . This helps to categorize and properly process the associa- tion. Possible values: o Solutions o AwsProducts o AwsMarketplaceOffers o AwsMarketplaceOfferSets o AwsMarketplaceSolutions o AwsMarketplaceProducts
+    /// </summary>
     [CliOption("--related-entity-type")]
-    public string? RelatedEntityType { get; set; }
+    public AwsPartnercentralSellingAssociateOpportunityRelatedEntityType? RelatedEntityType { get; private init; }
 
+    /// <summary>
+    /// Requires the related entity's unique identifier when you want to as- sociate it with the Opportunity . For Amazon Web Services Market- place entities, provide the Amazon Resource Name (ARN). Use the Amazon Web Services Marketplace API to obtain the ARN. Constraints: o pattern: (?s).{1,255}
+    /// </summary>
     [CliOption("--related-entity-identifier")]
-    public string? RelatedEntityIdentifier { get; set; }
+    public string? RelatedEntityIdentifier { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

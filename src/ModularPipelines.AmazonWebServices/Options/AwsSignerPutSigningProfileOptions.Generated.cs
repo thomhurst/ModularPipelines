@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("signer", "put-signing-profile")]
-public record AwsSignerPutSigningProfileOptions : AwsOptions
+public record AwsSignerPutSigningProfileOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a signing profile. A signing profile is a code-signing template that can be used to carry out a pre-defined signing job. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ProfileName">The name of the signing profile to be created. Constraints: o min: 2 o max: 64 o pattern: ^[a-zA-Z0-9_]{2,}</param>
+    /// <param name="PlatformId">The ID of the signing platform to be created.</param>
+    public AwsSignerPutSigningProfileOptions(
+        string ProfileName,
+        string PlatformId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProfileName);
+        this.ProfileName = ProfileName;
+        global::System.ArgumentNullException.ThrowIfNull(PlatformId);
+        this.PlatformId = PlatformId;
+    }
+
+    private AwsSignerPutSigningProfileOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSignerPutSigningProfileOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSignerPutSigningProfileOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the signing profile to be created. Constraints: o min: 2 o max: 64 o pattern: ^[a-zA-Z0-9_]{2,}
+    /// </summary>
     [CliOption("--profile-name")]
-    public string? ProfileName { get; set; }
+    public string? ProfileName { get; private init; }
+
+    /// <summary>
+    /// The ID of the signing platform to be created.
+    /// </summary>
+    [CliOption("--platform-id")]
+    public string? PlatformId { get; private init; }
 
     /// <summary>
     /// The AWS Certificate Manager certificate that will be used to sign code with the new signing profile. certificateArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the certificates that is used to sign your code. Shorthand Syntax: certificateArn=string JSON Syntax: { "certificateArn": "string" }
@@ -36,9 +83,6 @@ public record AwsSignerPutSigningProfileOptions : AwsOptions
     /// </summary>
     [CliOption("--signature-validity-period")]
     public string? SignatureValidityPeriod { get; set; }
-
-    [CliOption("--platform-id")]
-    public string? PlatformId { get; set; }
 
     /// <summary>
     /// A subfield of platform . This specifies any different configuration options that you want to apply to the chosen platform (such as a different hash-algorithm or signing-algorithm ). signingConfiguration -&gt; (structure) A signing configuration that overrides the default encryption or hash algorithm of a signing job. encryptionAlgorithm -&gt; (string) A specified override of the default encryption algorithm that is used in a code-signing job. Possible values: o RSA o ECDSA hashAlgorithm -&gt; (string) A specified override of the default hash algorithm that is used in a code-signing job. Possible values: o SHA1 o SHA256 signingImageFormat -&gt; (string) A signed image is a JSON object. When overriding the default signing platform configuration, a customer can select either of two signing formats, JSONEmbedded or JSONDetached . (A third format value, JSON , is reserved for future use.) With JSONEm- bedded , the signing image has the payload embedded in it. With JSONDetached , the payload is not be embedded in the signing im- age. Possible values: o JSON o JSONEmbedded o JSONDetached Shorthand Syntax: signingConfiguration={encryptionAlgorithm=string,hashAlgorithm=string},signingImageFormat=string JSON Syntax: { "signingConfiguration": { "encryptionAlgorithm": "RSA"|"ECDSA", "hashAlgorithm": "SHA1"|"SHA256" }, "signingImageFormat": "JSON"|"JSONEmbedded"|"JSONDetached" }
@@ -63,5 +107,22 @@ public record AwsSignerPutSigningProfileOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

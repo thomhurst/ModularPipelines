@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gamelift", "update-container-group-definition")]
-public record AwsGameliftUpdateContainerGroupDefinitionOptions : AwsOptions
+public record AwsGameliftUpdateContainerGroupDefinitionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This API works with the following fleet types: Container Updates properties in an existing container group definition. This op- eration doesn't replace the definition. Instead, it creates a new ver- sion of the definition and saves it separately. You can access all ver- sions that you choose to retain. The only property you can't update is the container group type. Request options: o Update based on the latest version of the container group definition. Specify the container group definition name...
+    /// </summary>
+    /// <param name="Name">A descriptive identifier for the container group definition. The name value must be unique in an Amazon Web Services Region. Constraints: o min: 1 o max: 512 o pattern: ^[a-zA-Z0-9\-]+$|^arn:.*:containergroupdefini- tion\/[a-zA-Z0-9\-]+(:[0-9]+)?$</param>
+    public AwsGameliftUpdateContainerGroupDefinitionOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsGameliftUpdateContainerGroupDefinitionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGameliftUpdateContainerGroupDefinitionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGameliftUpdateContainerGroupDefinitionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A descriptive identifier for the container group definition. The name value must be unique in an Amazon Web Services Region. Constraints: o min: 1 o max: 512 o pattern: ^[a-zA-Z0-9\-]+$|^arn:.*:containergroupdefini- tion\/[a-zA-Z0-9\-]+(:[0-9]+)?$
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
     /// <summary>
     /// An updated definition for the game server container in this group. Define a game server container only when the container group type is GAME_SERVER . You can pass in your container definitions as a JSON file. ContainerName -&gt; (string) [required] A string that uniquely identifies the container definition within a container group. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9\-]+$ DependsOn -&gt; (list) Establishes dependencies between this container and the status of other containers in the same container group. A container can have dependencies on multiple different containers. You can use dependencies to establish a startup/shutdown se- quence across the container group. For example, you might spec- ify that ContainerB has a START dependency on ContainerA . This dependency means that ContainerB can't start until after Con- tainerA has started. This dependency is reversed on shutdown, which means that ContainerB must shut down before ContainerA can shut down. Constraints: o min: 1 o max: 10 (structure) A container's dependency on another container in the same container group. The dependency impacts how the dependent container is able to start or shut down based the status of the other container. For example, ContainerA is configured with the following de- pendency: a START dependency on ContainerB . This means that ContainerA can't start until ContainerB has started. It also means that ContainerA must shut down before ContainerB . Part of: GameServerContainerDefinition , GameServerContainerDefinitionInput , SupportContainerDefinition , SupportContainerDefinitionInput ContainerName -&gt; (string) [required] A descriptive label for the container definition that this container depends on. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9\-]+$ Condition -&gt; (string) [required] The condition that the dependency container must reach before the dependent container can start. Valid condi- tions include: o START - The dependency container must have started. o COMPLETE - The dependency container has run to comple- tion (exits). Use this condition with nonessential con- tainers, such as those that run a script and then exit. The dependency container can't be an essential con- tainer. o SUCCESS - The dependency container has run to comple- tion and exited with a zero status. The dependency con- tainer can't be an essential container. o HEALTHY - The dependency container has passed its Docker health check. Use this condition with dependency containers that have health checks configured. This condition is confirmed at container group startup only. Possible values: o START o COMPLETE o SUCCESS o HEALTHY MountPoints -&gt; (list) A mount point that binds a path inside the container to a file or directory on the host system and lets it access the file or directory. Constraints: o min: 1 o max: 10 (structure) A mount point that binds a container to a file or directory on the host system. Part of: GameServerContainerDefinition , https://docs.aws.amazon.com/gamelift/latest/apireference/API_GameServerContainerDefinitionInput.html , SupportContainerDefinition , https://docs.aws.amazon.com/gamelift/latest/apireference/API_SupportContainerDefinitionInput.html InstancePath -&gt; (string) [required] The path to the source file or directory. Constraints: o min: 1 o max: 1024 o pattern: ^\/[\s\S]*$ ContainerPath -&gt; (string) The mount path on the container. If this property isn't set, the instance path is used. Constraints: o min: 1 o max: 1024 o pattern: ^(\/+[^\/]+\/*)+$ AccessLevel -&gt; (string) The type of access for the container. Possible values: o READ_ONLY o READ_AND_WRITE EnvironmentOverride -&gt; (list) A set of environment variables to pass to the container on startup. See the ContainerDefinition::environment parameter in the Amazon Elastic Container Service API Reference . Constraints: o min: 1 o max: 20 (structure) An environment variable to set inside a container, in the form of a key-value pair. Part of: GameServerContainerDefinition , GameServerContainerDefinitionInput , SupportContainerDefinition , SupportContainerDefinitionInput Name -&gt; (string) [required] The environment variable name. Constraints: o min: 1 o max: 255 Value -&gt; (string) [required] The environment variable value. Constraints: o min: 1 o max: 255 ImageUri -&gt; (string) [required] The location of the container image to deploy to a container fleet. Provide an image in an Amazon Elastic Container Registry public or private repository. The repository must be in the same Amazon Web Services account and Amazon Web Services Region where you're creating the container group definition. For limits on image size, see Amazon GameLift Servers endpoints and quotas . You can use any of the following image URI formats: o Image ID only: [AWS account].dkr.ecr.[AWS region].amazon- aws.com/[repository ID] o Image ID and digest: [AWS account].dkr.ecr.[AWS region].ama- zonaws.com/[repository ID]@[digest] o Image ID and tag: [AWS account].dkr.ecr.[AWS region].amazon- aws.com/[repository ID]:[tag] Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9-_\.@\/:]+$ PortConfiguration -&gt; (structure) [required] A set of ports that Amazon GameLift Servers can assign to processes in a container. The container port configuration must have enough ports for each container process that accepts in- bound traffic connections. For example, a game server process requires a container port to allow game clients to connect to it. A container port configuration can have can have one or more container port ranges. Each range specifies starting and ending values as well as the supported network protocol. Container ports aren't directly accessed by inbound traffic. Amazon GameLift Servers maps each container port to an exter- nally accessible connection port (see the container fleet prop- erty ConnectionPortRange ). ContainerPortRanges -&gt; (list) [required] A set of one or more container port number ranges. The ranges can't overlap if the ranges' network protocols are the same. Overlapping ranges with different protocols is allowed but not recommended. Constraints: o min: 1 o max: 100 (structure) A set of one or more port numbers that can be opened on the container, and the supported network protocol. Part of: ContainerPortConfiguration FromPort -&gt; (integer) [required] A starting value for the range of allowed port num- bers. Constraints: o min: 1 o max: 60000 ToPort -&gt; (integer) [required] An ending value for the range of allowed port numbers. Port numbers are end-inclusive. This value must be equal to or greater than FromPort . Constraints: o min: 1 o max: 60000 Protocol -&gt; (string) [required] The network protocol that these ports support. Possible values: o TCP o UDP ServerSdkVersion -&gt; (string) [required] The Amazon GameLift Servers server SDK version that the game server is integrated with. Only game servers using 5.2.0 or higher are compatible with container fleets. Constraints: o max: 128 o pattern: ^\d+\.\d+\.\d+$ LinuxCapabilities -&gt; (structure) Linux-specific modifications that are applied to the default Docker container configuration, such as Linux capabilities. For more information see LinuxCapabilities . Include -&gt; (list) The list of Linux capabilities to add to the container's de- fault configuration. Specify each capability as a string from the set of supported capability names (for example, NET_BIND_SERVICE or SYS_PTRACE ). Constraints: o min: 0 o max: 37 (string) Possible values: o AUDIT_CONTROL o AUDIT_WRITE o BLOCK_SUSPEND o CHOWN o DAC_OVERRIDE o DAC_READ_SEARCH o FOWNER o FSETID o IPC_LOCK o IPC_OWNER o KILL o LEASE o LINUX_IMMUTABLE o MAC_ADMIN o MAC_OVERRIDE o MKNOD o NET_ADMIN o NET_BIND_SERVICE o NET_BROADCAST o NET_RAW o SETFCAP o SETGID o SETPCAP o SETUID o SYS_ADMIN o SYS_BOOT o SYS_CHROOT o SYS_MODULE o SYS_NICE o SYS_PACCT o SYS_PTRACE o SYS_RAWIO o SYS_RESOURCE o SYS_TIME o SYS_TTY_CONFIG o SYSLOG o WAKE_ALARM JSON Syntax: { "ContainerName": "string", "DependsOn": [ { "ContainerName": "string", "Condition": "START"|"COMPLETE"|"SUCCESS"|"HEALTHY" } ... ], "MountPoints": [ { "InstancePath": "string", "ContainerPath": "string", "AccessLevel": "READ_ONLY"|"READ_AND_WRITE" } ... ], "EnvironmentOverride": [ { "Name": "string", "Value": "string" } ... ], "ImageUri": "string", "PortConfiguration": { "ContainerPortRanges": [ { "FromPort": integer, "ToPort": integer, "Protocol": "TCP"|"UDP" } ... ] }, "ServerSdkVersion": "string", "LinuxCapabilities": { "Include": ["AUDIT_CONTROL"|"AUDIT_WRITE"|"BLOCK_SUSPEND"|"CHOWN"|"DAC_OVERRIDE"|"DAC_READ_SEARCH"|"FOWNER"|"FSETID"|"IPC_LOCK"|"IPC_OWNER"|"KILL"|"LEASE"|"LINUX_IMMUTABLE"|"MAC_ADMIN"|"MAC_OVERRIDE"|"MKNOD"|"NET_ADMIN"|"NET_BIND_SERVICE"|"NET_BROADCAST"|"NET_RAW"|"SETFCAP"|"SETGID"|"SETPCAP"|"SETUID"|"SYS_ADMIN"|"SYS_BOOT"|"SYS_CHROOT"|"SYS_MODULE"|"SYS_NICE"|"SYS_PACCT"|"SYS_PTRACE"|"SYS_RAWIO"|"SYS_RESOURCE"|"SYS_TIME"|"SYS_TTY_CONFIG"|"SYSLOG"|"WAKE_ALARM", ...] } }
@@ -72,5 +109,22 @@ public record AwsGameliftUpdateContainerGroupDefinitionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

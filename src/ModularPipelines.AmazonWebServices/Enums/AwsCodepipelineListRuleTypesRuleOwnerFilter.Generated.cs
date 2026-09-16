@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --ruleownerfilter.
+/// Allowed values for --rule-owner-filter.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCodepipelineListRuleTypesRuleOwnerFilter
 {
     [EnumValue("AWS")]
-    Aws = 1
+    Aws,
+
+    [EnumValue("o")]
+    O
 }

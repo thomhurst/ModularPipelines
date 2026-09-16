@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sesv2", "put-dedicated-ip-warmup-attributes")]
-public record AwsSesv2PutDedicatedIpWarmupAttributesOptions : AwsOptions
+public record AwsSesv2PutDedicatedIpWarmupAttributesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--ip")]
-    public string? Ip { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Ip">The dedicated IP address that you want to update the warm-up attrib- utes for.</param>
+    /// <param name="WarmupPercentage">The warm-up percentage that you want to associate with the dedicated IP address.</param>
+    public AwsSesv2PutDedicatedIpWarmupAttributesOptions(
+        string Ip,
+        int WarmupPercentage
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Ip);
+        this.Ip = Ip;
+        this.WarmupPercentage = WarmupPercentage;
+    }
+
+    private AwsSesv2PutDedicatedIpWarmupAttributesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSesv2PutDedicatedIpWarmupAttributesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSesv2PutDedicatedIpWarmupAttributesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The dedicated IP address that you want to update the warm-up attrib- utes for.
+    /// </summary>
+    [CliOption("--ip")]
+    public string? Ip { get; private init; }
+
+    /// <summary>
+    /// The warm-up percentage that you want to associate with the dedicated IP address.
+    /// </summary>
     [CliOption("--warmup-percentage")]
-    public int? WarmupPercentage { get; set; }
+    public int? WarmupPercentage { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

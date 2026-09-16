@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --networktype.
+/// Allowed values for --network-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsChimeSdkVoiceCreateVoiceConnectorNetworkType
 {
-    [EnumValue("IPV4_ONLY")]
-    Ipv4Only = 1,
-
     [EnumValue("DUAL_STACK")]
-    DualStack = 2
+    DualStack,
+
+    [EnumValue("IPV4_ONLY")]
+    Ipv4Only
 }

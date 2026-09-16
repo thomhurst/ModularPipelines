@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -22,8 +23,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apigatewayv2", "create-api")]
-public record AwsApigatewayv2CreateApiOptions : AwsOptions
+public record AwsApigatewayv2CreateApiOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an Api resource. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the API.</param>
+    /// <param name="ProtocolType">The API protocol. Possible values: o WEBSOCKET o HTTP</param>
+    public AwsApigatewayv2CreateApiOptions(
+        string Name,
+        AwsApigatewayv2CreateApiProtocolType ProtocolType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ProtocolType);
+        this.ProtocolType = ProtocolType;
+    }
+
+    private AwsApigatewayv2CreateApiOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApigatewayv2CreateApiOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApigatewayv2CreateApiOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the API.
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The API protocol. Possible values: o WEBSOCKET o HTTP
+    /// </summary>
+    [CliOption("--protocol-type")]
+    public AwsApigatewayv2CreateApiProtocolType? ProtocolType { get; private init; }
+
     /// <summary>
     /// An API key selection expression. Supported only for WebSocket APIs. See API Key Selection Expressions .
     /// </summary>
@@ -50,10 +100,16 @@ public record AwsApigatewayv2CreateApiOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliFlag("--disable-schema-validation")]
+    /// <summary>
+    /// Avoid validating models when creating a deployment. Supported only for WebSocket APIs.
+    /// </summary>
+    [CliFlag("--disable-schema-validation", NegatedName = "--no-disable-schema-validation")]
     public bool? DisableSchemaValidation { get; set; }
 
-    [CliFlag("--disable-execute-api-endpoint")]
+    /// <summary>
+    /// Specifies whether clients can invoke your API by using the default execute-api endpoint. By default, clients can invoke your API with the default https://{api_id}.execute-api.{region}.amazonaws.com end- point. To require that clients use a custom domain name to invoke your API, disable the default endpoint.
+    /// </summary>
+    [CliFlag("--disable-execute-api-endpoint", NegatedName = "--no-disable-execute-api-endpoint")]
     public bool? DisableExecuteApiEndpoint { get; set; }
 
     /// <summary>
@@ -61,12 +117,6 @@ public record AwsApigatewayv2CreateApiOptions : AwsOptions
     /// </summary>
     [CliOption("--ip-address-type")]
     public AwsApigatewayv2CreateApiIpAddressType? IpAddressType { get; set; }
-
-    [CliOption("--name")]
-    public string? Name { get; set; }
-
-    [CliOption("--protocol-type")]
-    public string? ProtocolType { get; set; }
 
     /// <summary>
     /// This property is part of quick create. If you don't specify a routeKey, a default route of $default is created. The $default route acts as a catch-all for any request made to your API, for a particu- lar stage. The $default route key can't be modified. You can add routes after creating the API, and you can update the route keys of additional routes. Supported only for HTTP APIs.
@@ -103,5 +153,22 @@ public record AwsApigatewayv2CreateApiOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

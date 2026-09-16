@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("qconnect", "update-quick-response")]
-public record AwsQconnectUpdateQuickResponseOptions : AwsOptions
+public record AwsQconnectUpdateQuickResponseOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--knowledge-base-id")]
-    public string? KnowledgeBaseId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates an existing Amazon Q in Connect quick response. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="KnowledgeBaseId">The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}</param>
+    /// <param name="QuickResponseId">The identifier of the quick response. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}</param>
+    public AwsQconnectUpdateQuickResponseOptions(
+        string KnowledgeBaseId,
+        string QuickResponseId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KnowledgeBaseId);
+        this.KnowledgeBaseId = KnowledgeBaseId;
+        global::System.ArgumentNullException.ThrowIfNull(QuickResponseId);
+        this.QuickResponseId = QuickResponseId;
+    }
+
+    private AwsQconnectUpdateQuickResponseOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQconnectUpdateQuickResponseOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQconnectUpdateQuickResponseOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}
+    /// </summary>
+    [CliOption("--knowledge-base-id")]
+    public string? KnowledgeBaseId { get; private init; }
+
+    /// <summary>
+    /// The identifier of the quick response. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}
+    /// </summary>
     [CliOption("--quick-response-id")]
-    public string? QuickResponseId { get; set; }
+    public string? QuickResponseId { get; private init; }
 
     /// <summary>
     /// The name of the quick response. Constraints: o min: 1 o max: 100
@@ -51,7 +95,10 @@ public record AwsQconnectUpdateQuickResponseOptions : AwsOptions
     [CliOption("--grouping-configuration")]
     public string? GroupingConfiguration { get; set; }
 
-    [CliFlag("--remove-grouping-configuration")]
+    /// <summary>
+    /// Whether to remove the grouping configuration of the quick response.
+    /// </summary>
+    [CliFlag("--remove-grouping-configuration", NegatedName = "--no-remove-grouping-configuration")]
     public bool? RemoveGroupingConfiguration { get; set; }
 
     /// <summary>
@@ -60,7 +107,10 @@ public record AwsQconnectUpdateQuickResponseOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliFlag("--remove-description")]
+    /// <summary>
+    /// Whether to remove the description from the quick response.
+    /// </summary>
+    [CliFlag("--remove-description", NegatedName = "--no-remove-description")]
     public bool? RemoveDescription { get; set; }
 
     /// <summary>
@@ -69,10 +119,16 @@ public record AwsQconnectUpdateQuickResponseOptions : AwsOptions
     [CliOption("--shortcut-key")]
     public string? ShortcutKey { get; set; }
 
-    [CliFlag("--remove-shortcut-key")]
+    /// <summary>
+    /// Whether to remove the shortcut key of the quick response.
+    /// </summary>
+    [CliFlag("--remove-shortcut-key", NegatedName = "--no-remove-shortcut-key")]
     public bool? RemoveShortcutKey { get; set; }
 
-    [CliFlag("--is-active")]
+    /// <summary>
+    /// Whether the quick response is active.
+    /// </summary>
+    [CliFlag("--is-active", NegatedName = "--no-is-active")]
     public bool? IsActive { get; set; }
 
     /// <summary>
@@ -92,5 +148,22 @@ public record AwsQconnectUpdateQuickResponseOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm-sap", "list-operation-events")]
-public record AwsSsmSapListOperationEventsOptions : AwsOptions
+public record AwsSsmSapListOperationEventsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a list of operations events. Available parameters include OperationID , as well as optional parame- ters MaxResults , NextToken , and Filters . See also: AWS API Documentation list-operation-events is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data ...
+    /// </summary>
+    /// <param name="OperationId">The ID of the operation. Constraints: o pattern: [{]?[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}[}]?</param>
+    public AwsSsmSapListOperationEventsOptions(
+        string OperationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OperationId);
+        this.OperationId = OperationId;
+    }
+
+    private AwsSsmSapListOperationEventsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmSapListOperationEventsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmSapListOperationEventsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the operation. Constraints: o pattern: [{]?[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}[}]?
+    /// </summary>
     [CliOption("--operation-id")]
-    public string? OperationId { get; set; }
+    public string? OperationId { get; private init; }
 
     /// <summary>
     /// Optionally specify filters to narrow the returned operation event items. Valid filter names include status , resourceID , and resourceType . The valid operator for all three filters is Equals . Constraints: o min: 1 o max: 10 (structure) A specific result obtained by specifying the name, value, and operator. Name -&gt; (string) [required] The name of the filter. Filter names are case-sensitive. Constraints: o min: 1 o max: 32 Value -&gt; (string) [required] The filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are joined with an OR, and the request returns all results that match any of the specified values Constraints: o min: 1 o max: 64 Operator -&gt; (string) [required] The operator for the filter. Possible values: o Equals o GreaterThanOrEquals o LessThanOrEquals Shorthand Syntax: Name=string,Value=string,Operator=string ... JSON Syntax: [ { "Name": "string", "Value": "string", "Operator": "Equals"|"GreaterThanOrEquals"|"LessThanOrEquals" } ... ]
@@ -55,5 +92,22 @@ public record AwsSsmSapListOperationEventsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

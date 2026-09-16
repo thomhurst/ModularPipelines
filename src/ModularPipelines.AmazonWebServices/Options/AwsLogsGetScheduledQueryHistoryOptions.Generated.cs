@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,64 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logs", "get-scheduled-query-history")]
-public record AwsLogsGetScheduledQueryHistoryOptions : AwsOptions
+public record AwsLogsGetScheduledQueryHistoryOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves the execution history of a scheduled query within a specified time range, including query results and destination processing status. See also: AWS API Documentation get-scheduled-query-history is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data...
+    /// </summary>
+    /// <param name="Identifier">The ARN or name of the scheduled query to retrieve history for. Constraints: o min: 1 o max: 300</param>
+    /// <param name="StartTime">The start time for the history query in Unix epoch format. Constraints: o min: 0</param>
+    /// <param name="EndTime">The end time for the history query in Unix epoch format. Constraints: o min: 0</param>
+    public AwsLogsGetScheduledQueryHistoryOptions(
+        string Identifier,
+        int StartTime,
+        int EndTime
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Identifier);
+        this.Identifier = Identifier;
+        this.StartTime = StartTime;
+        this.EndTime = EndTime;
+    }
+
+    private AwsLogsGetScheduledQueryHistoryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLogsGetScheduledQueryHistoryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLogsGetScheduledQueryHistoryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN or name of the scheduled query to retrieve history for. Constraints: o min: 1 o max: 300
+    /// </summary>
     [CliOption("--identifier")]
-    public string? Identifier { get; set; }
+    public string? Identifier { get; private init; }
 
+    /// <summary>
+    /// The start time for the history query in Unix epoch format. Constraints: o min: 0
+    /// </summary>
     [CliOption("--start-time")]
-    public int? StartTime { get; set; }
+    public int? StartTime { get; private init; }
 
+    /// <summary>
+    /// The end time for the history query in Unix epoch format. Constraints: o min: 0
+    /// </summary>
     [CliOption("--end-time")]
-    public int? EndTime { get; set; }
+    public int? EndTime { get; private init; }
 
     /// <summary>
     /// An array of execution statuses to filter the history results. Only executions with the specified statuses are returned. (string) Possible values: o Running o InvalidQuery o Complete o Failed o Timeout Syntax: "string" "string" ...
@@ -61,5 +110,22 @@ public record AwsLogsGetScheduledQueryHistoryOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("outposts", "start-outpost-decommission")]
-public record AwsOutpostsStartOutpostDecommissionOptions : AwsOptions
+public record AwsOutpostsStartOutpostDecommissionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--outpost-identifier")]
-    public string? OutpostIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--validate-only")]
+    /// <summary>
+    /// Starts the decommission process to return the Outposts racks or servers. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="OutpostIdentifier">The ID or ARN of the Outpost that you want to decommission. Constraints: o min: 1 o max: 180 o pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:out- post/)?op-[a-f0-9]{17}$</param>
+    public AwsOutpostsStartOutpostDecommissionOptions(
+        string OutpostIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OutpostIdentifier);
+        this.OutpostIdentifier = OutpostIdentifier;
+    }
+
+    private AwsOutpostsStartOutpostDecommissionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOutpostsStartOutpostDecommissionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOutpostsStartOutpostDecommissionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID or ARN of the Outpost that you want to decommission. Constraints: o min: 1 o max: 180 o pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:out- post/)?op-[a-f0-9]{17}$
+    /// </summary>
+    [CliOption("--outpost-identifier")]
+    public string? OutpostIdentifier { get; private init; }
+
+    /// <summary>
+    /// Validates the request without starting the decommission process.
+    /// </summary>
+    [CliFlag("--validate-only", NegatedName = "--no-validate-only")]
     public bool? ValidateOnly { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -32,5 +72,22 @@ public record AwsOutpostsStartOutpostDecommissionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

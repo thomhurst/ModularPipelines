@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --databaseedition.
+/// Allowed values for --database-edition.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsOdbCreateAutonomousDatabaseDatabaseEdition
 {
-    [EnumValue("STANDARD_EDITION")]
-    StandardEdition = 1,
-
     [EnumValue("ENTERPRISE_EDITION")]
-    EnterpriseEdition = 2
+    EnterpriseEdition,
+
+    [EnumValue("STANDARD_EDITION")]
+    StandardEdition
 }

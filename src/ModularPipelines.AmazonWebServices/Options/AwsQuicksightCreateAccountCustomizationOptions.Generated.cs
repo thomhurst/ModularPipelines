@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +20,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("quicksight", "create-account-customization")]
-public record AwsQuicksightCreateAccountCustomizationOptions : AwsOptions
+public record AwsQuicksightCreateAccountCustomizationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates Amazon Quick Sight customizations. Currently, you can add a custom default theme by using the CreateAccountCustomization or Up- dateAccountCustomization API operation. To further customize Amazon Quick Sight by removing Amazon Quick Sight sample assets and videos for all new users, see Customizing Quick Sight in the Amazon Quick Sight User Guide. You can create customizations for your Amazon Web Services account or, if you specify a namespace, for a Quick Sight namespace instead. Cus- to...
+    /// </summary>
+    /// <param name="AwsAccountId">The ID for the Amazon Web Services account that you want to cus- tomize Quick Sight for. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="AccountCustomization">The Quick Sight customizations you're adding. You can add these to an Amazon Web Services account and a QuickSight namespace. For example, you can add a default theme by setting AccountCus- tomization to the midnight theme: "AccountCustomization": { "De- faultTheme": "arn:aws:quicksight::aws:theme/MIDNIGHT" } . Or, you can add a custom theme by specifying "AccountCustomization": { "De- faultTheme": "arn:aws:quick- sight:us-west-2:111122223333:theme/bdb844d0-0fe9-4d9d-b520-0fe602d93639" } . DefaultTheme -&gt; (string) The default theme for this Quick Sight subscription. DefaultEmailCustomizationTemplate -&gt; (string) The default email customization template. Shorthand Syntax: DefaultTheme=string,DefaultEmailCustomizationTemplate=string JSON Syntax: { "DefaultTheme": "string", "DefaultEmailCustomizationTemplate": "string" }</param>
+    public AwsQuicksightCreateAccountCustomizationOptions(
+        string AwsAccountId,
+        string AccountCustomization
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
+        this.AwsAccountId = AwsAccountId;
+        global::System.ArgumentNullException.ThrowIfNull(AccountCustomization);
+        this.AccountCustomization = AccountCustomization;
+    }
+
+    private AwsQuicksightCreateAccountCustomizationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQuicksightCreateAccountCustomizationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQuicksightCreateAccountCustomizationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID for the Amazon Web Services account that you want to cus- tomize Quick Sight for. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// </summary>
     [CliOption("--aws-account-id")]
-    public string? AwsAccountId { get; set; }
+    public string? AwsAccountId { get; private init; }
+
+    /// <summary>
+    /// The Quick Sight customizations you're adding. You can add these to an Amazon Web Services account and a QuickSight namespace. For example, you can add a default theme by setting AccountCus- tomization to the midnight theme: "AccountCustomization": { "De- faultTheme": "arn:aws:quicksight::aws:theme/MIDNIGHT" } . Or, you can add a custom theme by specifying "AccountCustomization": { "De- faultTheme": "arn:aws:quick- sight:us-west-2:111122223333:theme/bdb844d0-0fe9-4d9d-b520-0fe602d93639" } . DefaultTheme -&gt; (string) The default theme for this Quick Sight subscription. DefaultEmailCustomizationTemplate -&gt; (string) The default email customization template. Shorthand Syntax: DefaultTheme=string,DefaultEmailCustomizationTemplate=string JSON Syntax: { "DefaultTheme": "string", "DefaultEmailCustomizationTemplate": "string" }
+    /// </summary>
+    [CliOption("--account-customization")]
+    public string? AccountCustomization { get; private init; }
 
     /// <summary>
     /// The Quick Sight namespace that you want to add customizations to. Constraints: o max: 64 o pattern: ^[a-zA-Z0-9._-]*$
     /// </summary>
     [CliOption("--namespace")]
     public string? Namespace { get; set; }
-
-    [CliOption("--account-customization")]
-    public string? AccountCustomization { get; set; }
 
     /// <summary>
     /// A list of the tags that you want to attach to this resource. Constraints: o min: 1 o max: 200 (structure) The key or keys of the key-value pairs for the resource tag or tags assigned to the resource. Key -&gt; (string) [required] Tag key. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] Tag value. Constraints: o min: 1 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -44,5 +88,22 @@ public record AwsQuicksightCreateAccountCustomizationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

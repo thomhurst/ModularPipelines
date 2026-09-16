@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codebuild", "create-report-group")]
-public record AwsCodebuildCreateReportGroupOptions : AwsOptions
+public record AwsCodebuildCreateReportGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a report group. A report group contains a collection of re- ports. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the report group. Constraints: o min: 2 o max: 128</param>
+    /// <param name="Type">The type of report group. Possible values: o TEST o CODE_COVERAGE</param>
+    /// <param name="ExportConfig">A ReportExportConfig object that contains information about where the report group test results are exported. exportConfigType -&gt; (string) The export configuration type. Valid values are: o S3 : The report results are exported to an S3 bucket. o NO_EXPORT : The report results are not exported. Possible values: o S3 o NO_EXPORT s3Destination -&gt; (structure) A S3ReportExportConfig object that contains information about the S3 bucket where the run of a report is exported. bucket -&gt; (string) The name of the S3 bucket where the raw data of a report are exported. Constraints: o min: 1 bucketOwner -&gt; (string) The Amazon Web Services account identifier of the owner of the Amazon S3 bucket. This allows report data to be exported to an Amazon S3 bucket that is owned by an account other than the account running the build. path -&gt; (string) The path to the exported report's raw data results. packaging -&gt; (string) The type of build output artifact to create. Valid values in- clude: o NONE : CodeBuild creates the raw data in the output bucket. This is the default if packaging is not specified. o ZIP : CodeBuild creates a ZIP file with the raw data in the output bucket. Possible values: o ZIP o NONE encryptionKey -&gt; (string) The encryption key for the report's encrypted raw data. Constraints: o min: 1 encryptionDisabled -&gt; (boolean) A boolean value that specifies if the results of a report are encrypted. Shorthand Syntax: exportConfigType=string,s3Destination={bucket=string,bucketOwner=string,path=string,packaging=string,encryptionKey=string,encryptionDisabled=boolean} JSON Syntax: { "exportConfigType": "S3"|"NO_EXPORT", "s3Destination": { "bucket": "string", "bucketOwner": "string", "path": "string", "packaging": "ZIP"|"NONE", "encryptionKey": "string", "encryptionDisabled": true|false } }</param>
+    public AwsCodebuildCreateReportGroupOptions(
+        string Name,
+        AwsCodebuildCreateReportGroupType Type,
+        string ExportConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+        global::System.ArgumentNullException.ThrowIfNull(ExportConfig);
+        this.ExportConfig = ExportConfig;
+    }
+
+    private AwsCodebuildCreateReportGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodebuildCreateReportGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodebuildCreateReportGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the report group. Constraints: o min: 2 o max: 128
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The type of report group. Possible values: o TEST o CODE_COVERAGE
+    /// </summary>
     [CliOption("--type")]
-    public string? Type { get; set; }
+    public AwsCodebuildCreateReportGroupType? Type { get; private init; }
 
+    /// <summary>
+    /// A ReportExportConfig object that contains information about where the report group test results are exported. exportConfigType -&gt; (string) The export configuration type. Valid values are: o S3 : The report results are exported to an S3 bucket. o NO_EXPORT : The report results are not exported. Possible values: o S3 o NO_EXPORT s3Destination -&gt; (structure) A S3ReportExportConfig object that contains information about the S3 bucket where the run of a report is exported. bucket -&gt; (string) The name of the S3 bucket where the raw data of a report are exported. Constraints: o min: 1 bucketOwner -&gt; (string) The Amazon Web Services account identifier of the owner of the Amazon S3 bucket. This allows report data to be exported to an Amazon S3 bucket that is owned by an account other than the account running the build. path -&gt; (string) The path to the exported report's raw data results. packaging -&gt; (string) The type of build output artifact to create. Valid values in- clude: o NONE : CodeBuild creates the raw data in the output bucket. This is the default if packaging is not specified. o ZIP : CodeBuild creates a ZIP file with the raw data in the output bucket. Possible values: o ZIP o NONE encryptionKey -&gt; (string) The encryption key for the report's encrypted raw data. Constraints: o min: 1 encryptionDisabled -&gt; (boolean) A boolean value that specifies if the results of a report are encrypted. Shorthand Syntax: exportConfigType=string,s3Destination={bucket=string,bucketOwner=string,path=string,packaging=string,encryptionKey=string,encryptionDisabled=boolean} JSON Syntax: { "exportConfigType": "S3"|"NO_EXPORT", "s3Destination": { "bucket": "string", "bucketOwner": "string", "path": "string", "packaging": "ZIP"|"NONE", "encryptionKey": "string", "encryptionDisabled": true|false } }
+    /// </summary>
     [CliOption("--export-config")]
-    public string? ExportConfig { get; set; }
+    public string? ExportConfig { get; private init; }
 
     /// <summary>
     /// A list of tag key and value pairs associated with this report group. These tags are available for use by Amazon Web Services services that support CodeBuild report group tags. Constraints: o min: 0 o max: 50 (structure) A tag, consisting of a key and a value. This tag is available for use by Amazon Web Services services that support tags in CodeBuild. key -&gt; (string) The tag's key. Constraints: o min: 1 o max: 127 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=@+\-]*)$ value -&gt; (string) The tag's value. Constraints: o min: 0 o max: 255 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=@+\-]*)$ Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
@@ -41,5 +93,22 @@ public record AwsCodebuildCreateReportGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

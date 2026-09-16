@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --preventuserexistenceerrors.
+/// Allowed values for --prevent-user-existence-errors.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCognitoIdpUpdateUserPoolClientPreventUserExistenceErrors
 {
-    [EnumValue("LEGACY")]
-    Legacy = 1,
-
     [EnumValue("ENABLED")]
-    Enabled = 2
+    Enabled,
+
+    [EnumValue("LEGACY")]
+    Legacy
 }

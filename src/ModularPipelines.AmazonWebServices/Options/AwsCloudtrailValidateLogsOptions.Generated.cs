@@ -21,11 +21,33 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("cloudtrail", "validate-logs")]
 public record AwsCloudtrailValidateLogsOptions : AwsOptions
 {
+    /// <summary>
+    /// Validates CloudTrail logs for a given period of time. This command uses the digest files delivered to your S3 bucket to perform the validation. It supports validation of both digest files and backfill digest files in a single run. The AWS CLI allows you to detect the following types of changes: o Modification or deletion of CloudTrail log files. o Modification or deletion of CloudTrail digest files. To validate log files with the AWS CLI, the following preconditions must be met: o You must have ...
+    /// </summary>
+    /// <param name="TrailArn"></param>
+    /// <param name="StartTime"></param>
+    public AwsCloudtrailValidateLogsOptions(
+        string TrailArn,
+        string StartTime
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TrailArn);
+        this.TrailArn = TrailArn;
+        global::System.ArgumentNullException.ThrowIfNull(StartTime);
+        this.StartTime = StartTime;
+    }
+
+    public void Deconstruct(out string TrailArn, out string StartTime)
+    {
+        TrailArn = this.TrailArn;
+        StartTime = this.StartTime;
+    }
+
     [CliOption("--trail-arn")]
-    public string? TrailArn { get; set; }
+    public string TrailArn { get; private init; }
 
     [CliOption("--start-time")]
-    public string? StartTime { get; set; }
+    public string StartTime { get; private init; }
 
     [CliOption("--end-time")]
     public string? EndTime { get; set; }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("schemas", "search-schemas")]
-public record AwsSchemasSearchSchemasOptions : AwsOptions
+public record AwsSchemasSearchSchemasOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--keywords")]
-    public string? Keywords { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Search the schemas See also: AWS API Documentation search-schemas is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Schemas
+    /// </summary>
+    /// <param name="Keywords">Specifying this limits the results to only schemas that include the provided keywords.</param>
+    /// <param name="RegistryName">The name of the registry.</param>
+    public AwsSchemasSearchSchemasOptions(
+        string Keywords,
+        string RegistryName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Keywords);
+        this.Keywords = Keywords;
+        global::System.ArgumentNullException.ThrowIfNull(RegistryName);
+        this.RegistryName = RegistryName;
+    }
+
+    private AwsSchemasSearchSchemasOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSchemasSearchSchemasOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSchemasSearchSchemasOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifying this limits the results to only schemas that include the provided keywords.
+    /// </summary>
+    [CliOption("--keywords")]
+    public string? Keywords { get; private init; }
+
+    /// <summary>
+    /// The name of the registry.
+    /// </summary>
     [CliOption("--registry-name")]
-    public string? RegistryName { get; set; }
+    public string? RegistryName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -52,5 +96,22 @@ public record AwsSchemasSearchSchemasOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

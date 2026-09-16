@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connectparticipant", "complete-attachment-upload")]
-public record AwsConnectparticipantCompleteAttachmentUploadOptions : AwsOptions
+public record AwsConnectparticipantCompleteAttachmentUploadOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Allows you to confirm that the attachment has been uploaded using the pre-signed URL provided in StartAttachmentUpload API. A conflict excep- tion is thrown when an attachment with that identifier is already being uploaded. For security recommendations, see Connect Customer Chat security best practices . NOTE: ConnectionToken is used for invoking this API instead of Partici- pantToken . The Amazon Connect Participant Service APIs do not use Signature Ver- sion 4 authentication . See also: AWS AP...
+    /// </summary>
+    /// <param name="AttachmentIds">A list of unique identifiers for the attachments. Constraints: o min: 1 o max: 1 (string) Constraints: o min: 1 o max: 256 Syntax: "string" "string" ...</param>
+    /// <param name="ConnectionToken">The authentication token associated with the participant's connec- tion. Constraints: o min: 1 o max: 1000</param>
+    public AwsConnectparticipantCompleteAttachmentUploadOptions(
+        IEnumerable<string> AttachmentIds,
+        string ConnectionToken
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(AttachmentIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(AttachmentIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(AttachmentIds));
+            }
+
+            AttachmentIds = materialized;
+        }
+        this.AttachmentIds = AttachmentIds;
+        global::System.ArgumentNullException.ThrowIfNull(ConnectionToken);
+        this.ConnectionToken = ConnectionToken;
+    }
+
+    private AwsConnectparticipantCompleteAttachmentUploadOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectparticipantCompleteAttachmentUploadOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectparticipantCompleteAttachmentUploadOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A list of unique identifiers for the attachments. Constraints: o min: 1 o max: 1 (string) Constraints: o min: 1 o max: 256 Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--attachment-ids", GroupValues = true)]
-    public IEnumerable<string>? AttachmentIds { get; set; }
+    public IEnumerable<string>? AttachmentIds { get; private init; }
+
+    /// <summary>
+    /// The authentication token associated with the participant's connec- tion. Constraints: o min: 1 o max: 1000
+    /// </summary>
+    [SecretValue]
+    [CliOption("--connection-token")]
+    public string? ConnectionToken { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o min: 1 o max: 500
@@ -32,14 +91,27 @@ public record AwsConnectparticipantCompleteAttachmentUploadOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [SecretValue]
-    [CliOption("--connection-token")]
-    public string? ConnectionToken { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

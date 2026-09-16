@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,69 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53domains", "update-domain-contact-privacy")]
-public record AwsRoute53domainsUpdateDomainContactPrivacyOptions : AwsOptions
+public record AwsRoute53domainsUpdateDomainContactPrivacyOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--domain-name")]
-    public string? DomainName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--admin-privacy")]
+    /// <summary>
+    /// This operation updates the specified domain contact's privacy setting. When privacy protection is enabled, your contact information is re- placed with contact information for the registrar or with the phrase "REDACTED FOR PRIVACY", or "On behalf of &lt;domain name&gt; owner." NOTE: While some domains may allow different privacy settings per contact, we recommend specifying the same privacy setting for all contacts. This operation affects only the contact information for the specified contact type (adm...
+    /// </summary>
+    /// <param name="DomainName">The name of the domain that you want to update the privacy setting for. Constraints: o max: 255</param>
+    public AwsRoute53domainsUpdateDomainContactPrivacyOptions(
+        string DomainName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainName);
+        this.DomainName = DomainName;
+    }
+
+    private AwsRoute53domainsUpdateDomainContactPrivacyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53domainsUpdateDomainContactPrivacyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53domainsUpdateDomainContactPrivacyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the domain that you want to update the privacy setting for. Constraints: o max: 255
+    /// </summary>
+    [CliOption("--domain-name")]
+    public string? DomainName { get; private init; }
+
+    /// <summary>
+    /// Whether you want to conceal contact information from WHOIS queries. If you specify true , WHOIS ("who is") queries return contact infor- mation either for Amazon Registrar or for our registrar associate, Gandi. If you specify false , WHOIS queries return the information that you entered for the admin contact. NOTE: You must specify the same privacy setting for the administra- tive, billing, registrant, and technical contacts.
+    /// </summary>
+    [CliFlag("--admin-privacy", NegatedName = "--no-admin-privacy")]
     public bool? AdminPrivacy { get; set; }
 
-    [CliFlag("--registrant-privacy")]
+    /// <summary>
+    /// Whether you want to conceal contact information from WHOIS queries. If you specify true , WHOIS ("who is") queries return contact infor- mation either for Amazon Registrar or for our registrar associate, Gandi. If you specify false , WHOIS queries return the information that you entered for the registrant contact (domain owner). NOTE: You must specify the same privacy setting for the administra- tive, billing, registrant, and technical contacts.
+    /// </summary>
+    [CliFlag("--registrant-privacy", NegatedName = "--no-registrant-privacy")]
     public bool? RegistrantPrivacy { get; set; }
 
-    [CliFlag("--tech-privacy")]
+    /// <summary>
+    /// Whether you want to conceal contact information from WHOIS queries. If you specify true , WHOIS ("who is") queries return contact infor- mation either for Amazon Registrar or for our registrar associate, Gandi. If you specify false , WHOIS queries return the information that you entered for the technical contact. NOTE: You must specify the same privacy setting for the administra- tive, billing, registrant, and technical contacts.
+    /// </summary>
+    [CliFlag("--tech-privacy", NegatedName = "--no-tech-privacy")]
     public bool? TechPrivacy { get; set; }
 
-    [CliFlag("--billing-privacy")]
+    /// <summary>
+    /// Whether you want to conceal contact information from WHOIS queries. If you specify true , WHOIS ("who is") queries return contact infor- mation either for Amazon Registrar or for our registrar associate, Gandi. If you specify false , WHOIS queries return the information that you entered for the billing contact. NOTE: You must specify the same privacy setting for the administra- tive, billing, registrant, and technical contacts.
+    /// </summary>
+    [CliFlag("--billing-privacy", NegatedName = "--no-billing-privacy")]
     public bool? BillingPrivacy { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -41,5 +90,22 @@ public record AwsRoute53domainsUpdateDomainContactPrivacyOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

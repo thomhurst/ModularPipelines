@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sesv2", "create-dedicated-ip-pool")]
-public record AwsSesv2CreateDedicatedIpPoolOptions : AwsOptions
+public record AwsSesv2CreateDedicatedIpPoolOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Create a new pool of dedicated IP addresses. A pool can include one or more dedicated IP addresses that are associated with your Amazon Web Services account. You can associate a pool with a configuration set. When you send an email that uses that configuration set, the message is sent from one of the addresses in the associated pool. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PoolName">The name of the dedicated IP pool.</param>
+    public AwsSesv2CreateDedicatedIpPoolOptions(
+        string PoolName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PoolName);
+        this.PoolName = PoolName;
+    }
+
+    private AwsSesv2CreateDedicatedIpPoolOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSesv2CreateDedicatedIpPoolOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSesv2CreateDedicatedIpPoolOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the dedicated IP pool.
+    /// </summary>
     [CliOption("--pool-name")]
-    public string? PoolName { get; set; }
+    public string? PoolName { get; private init; }
 
     /// <summary>
     /// An object that defines the tags (keys and values) that you want to associate with the pool. (structure) An object that defines the tags that are associated with a re- source. A tag is a label that you optionally define and asso- ciate with a resource. Tags can help you categorize and manage resources in different ways, such as by purpose, owner, environ- ment, or other criteria. A resource can have as many as 50 tags. Each tag consists of a required tag key and an associated tag value , both of which you define. A tag key is a general label that acts as a category for a more specific tag value. A tag value acts as a descriptor within a tag key. A tag key can con- tain as many as 128 characters. A tag value can contain as many as 256 characters. The characters can be Unicode letters, dig- its, white space, or one of the following symbols: _ . : / = + -. The following additional restrictions apply to tags: o Tag keys and values are case sensitive. o For each associated resource, each tag key must be unique and it can have only one value. o The aws: prefix is reserved for use by Amazon Web Services; you cant use it in any tag keys or values that you define. In addition, you can't edit or remove tag keys or values that use this prefix. Tags that use this prefix dont count against the limit of 50 tags per resource. o You can associate tags with public or shared resources, but the tags are available only for your Amazon Web Services ac- count, not any other accounts that share the resource. In ad- dition, the tags are available only for resources that are lo- cated in the specified Amazon Web Services Region for your Amazon Web Services account. Key -&gt; (string) [required] One part of a key-value pair that defines a tag. The maximum length of a tag key is 128 characters. The minimum length is 1 character. Value -&gt; (string) [required] The optional part of a key-value pair that defines a tag. The maximum length of a tag value is 256 characters. The minimum length is 0 characters. If you don't want a resource to have a specific tag value, don't specify a value for this parame- ter. If you don't specify a value, Amazon SES sets the value to an empty string. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -42,5 +79,22 @@ public record AwsSesv2CreateDedicatedIpPoolOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

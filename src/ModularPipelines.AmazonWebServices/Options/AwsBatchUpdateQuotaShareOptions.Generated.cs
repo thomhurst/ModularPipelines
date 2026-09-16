@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "update-quota-share")]
-public record AwsBatchUpdateQuotaShareOptions : AwsOptions
+public record AwsBatchUpdateQuotaShareOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a quota share. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="QuotaShareArn">The Amazon Resource Name (ARN) of the quota share to update.</param>
+    public AwsBatchUpdateQuotaShareOptions(
+        string QuotaShareArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(QuotaShareArn);
+        this.QuotaShareArn = QuotaShareArn;
+    }
+
+    private AwsBatchUpdateQuotaShareOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBatchUpdateQuotaShareOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBatchUpdateQuotaShareOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the quota share to update.
+    /// </summary>
     [CliOption("--quota-share-arn")]
-    public string? QuotaShareArn { get; set; }
+    public string? QuotaShareArn { get; private init; }
 
     /// <summary>
     /// A list that specifies the quantity and type of compute capacity al- located to the quota share. (structure) Defines the capacity limit for a quota share, or the type and maximum quantity of a particular resource that can be allocated to jobs in the quota share without borrowing. maxCapacity -&gt; (integer) [required] The maximum capacity available for the quota share. This value represents the maximum quantity of a resource that can be allocated to jobs in the quota share without borrowing. capacityUnit -&gt; (string) [required] The unit of compute capacity for the capacityLimit. For exam- ple, ml.m5.large . Shorthand Syntax: maxCapacity=integer,capacityUnit=string ... JSON Syntax: [ { "maxCapacity": integer, "capacityUnit": "string" } ... ]
@@ -54,5 +91,22 @@ public record AwsBatchUpdateQuotaShareOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

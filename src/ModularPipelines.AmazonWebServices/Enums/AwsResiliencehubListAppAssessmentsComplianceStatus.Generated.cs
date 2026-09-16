@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --compliancestatus.
+/// Allowed values for --compliance-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsResiliencehubListAppAssessmentsComplianceStatus
 {
-    [EnumValue("PolicyBreached")]
-    PolicyBreached = 1,
-
-    [EnumValue("PolicyMet")]
-    PolicyMet = 2,
+    [EnumValue("MissingPolicy")]
+    MissingPolicy,
 
     [EnumValue("NotApplicable")]
-    NotApplicable = 3,
+    NotApplicable,
 
-    [EnumValue("MissingPolicy")]
-    MissingPolicy = 4
+    [EnumValue("PolicyBreached")]
+    PolicyBreached,
+
+    [EnumValue("PolicyMet")]
+    PolicyMet
 }

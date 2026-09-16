@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("securityhub", "create-configuration-policy")]
-public record AwsSecurityhubCreateConfigurationPolicyOptions : AwsOptions
+public record AwsSecurityhubCreateConfigurationPolicyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a configuration policy with the defined configuration. Only the Security Hub CSPM delegated administrator can invoke this operation from the home Region. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the configuration policy. Alphanumeric characters and the following ASCII characters are permitted: -, ., !, *, / . Constraints: o pattern: .*\S.*</param>
+    /// <param name="ConfigurationPolicy">An object that defines how Security Hub CSPM is configured. It in- cludes whether Security Hub CSPM is enabled or disabled, a list of enabled security standards, a list of enabled or disabled security controls, and a list of custom parameter values for specified con- trols. If you provide a list of security controls that are enabled in the configuration policy, Security Hub CSPM disables all other controls (including newly released controls). If you provide a list of security controls that are disabled in the configuration policy, Security Hub CSPM enables all other controls (including newly re- leased controls). NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: SecurityHub. SecurityHub -&gt; (structure) The Amazon Web Services service that the configuration policy applies to. ServiceEnabled -&gt; (boolean) Indicates whether Security Hub CSPM is enabled in the policy. EnabledStandardIdentifiers -&gt; (list) A list that defines which security standards are enabled in the configuration policy. (string) Constraints: o pattern: .*\S.* SecurityControlsConfiguration -&gt; (structure) An object that defines which security controls are enabled in the configuration policy. The enablement status of a control is aligned across all of the enabled standards in an account. EnabledSecurityControlIdentifiers -&gt; (list) A list of security controls that are enabled in the con- figuration policy. Security Hub CSPM disables all other controls (including newly released controls) other than the listed controls. (string) Constraints: o pattern: .*\S.* DisabledSecurityControlIdentifiers -&gt; (list) A list of security controls that are disabled in the con- figuration policy. Security Hub CSPM enables all other controls (including newly released controls) other than the listed controls. (string) Constraints: o pattern: .*\S.* SecurityControlCustomParameters -&gt; (list) A list of security controls and control parameter values that are included in a configuration policy. (structure) A list of security controls and control parameter val- ues that are included in a configuration policy. SecurityControlId -&gt; (string) The ID of the security control. Constraints: o pattern: .*\S.* Parameters -&gt; (map) An object that specifies parameter values for a control in a configuration policy. key -&gt; (string) Constraints: o pattern: .*\S.* value -&gt; (structure) An object that provides the current value of a security control parameter and identifies whether it has been customized. ValueType -&gt; (string) [required] Identifies whether a control parameter uses a custom user-defined value or subscribes to the default Security Hub CSPM behavior. When ValueType is set equal to DEFAULT , the default behavior can be a specific Se- curity Hub CSPM default value, or the de- fault behavior can be to ignore a specific parameter. When ValueType is set equal to DEFAULT , Security Hub CSPM ignores user-provided input for the Value field. When ValueType is set equal to CUSTOM , the Value field can't be empty. Possible values: o DEFAULT o CUSTOM Value -&gt; (tagged union structure) The current value of a control parameter. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Integer, IntegerList, Double, String, StringList, Boolean, Enum, Enum- List. Integer -&gt; (integer) A control parameter that is an integer. IntegerList -&gt; (list) A control parameter that is a list of integers. (integer) Double -&gt; (double) A control parameter that is a double. String -&gt; (string) A control parameter that is a string. Constraints: o pattern: .*\S.* StringList -&gt; (list) A control parameter that is a list of strings. (string) Constraints: o pattern: .*\S.* Boolean -&gt; (boolean) A control parameter that is a boolean. Enum -&gt; (string) A control parameter that is an enum. Constraints: o pattern: .*\S.* EnumList -&gt; (list) A control parameter that is a list of enums. (string) Constraints: o pattern: .*\S.* JSON Syntax: { "SecurityHub": { "ServiceEnabled": true|false, "EnabledStandardIdentifiers": ["string", ...], "SecurityControlsConfiguration": { "EnabledSecurityControlIdentifiers": ["string", ...], "DisabledSecurityControlIdentifiers": ["string", ...], "SecurityControlCustomParameters": [ { "SecurityControlId": "string", "Parameters": {"string": { "ValueType": "DEFAULT"|"CUSTOM", "Value": { "Integer": integer, "IntegerList": [integer, ...], "Double": double, "String": "string", "StringList": ["string", ...], "Boolean": true|false, "Enum": "string", "EnumList": ["string", ...] } } ...} } ... ] } } }</param>
+    public AwsSecurityhubCreateConfigurationPolicyOptions(
+        string Name,
+        string ConfigurationPolicy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ConfigurationPolicy);
+        this.ConfigurationPolicy = ConfigurationPolicy;
+    }
+
+    private AwsSecurityhubCreateConfigurationPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSecurityhubCreateConfigurationPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSecurityhubCreateConfigurationPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the configuration policy. Alphanumeric characters and the following ASCII characters are permitted: -, ., !, *, / . Constraints: o pattern: .*\S.*
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// An object that defines how Security Hub CSPM is configured. It in- cludes whether Security Hub CSPM is enabled or disabled, a list of enabled security standards, a list of enabled or disabled security controls, and a list of custom parameter values for specified con- trols. If you provide a list of security controls that are enabled in the configuration policy, Security Hub CSPM disables all other controls (including newly released controls). If you provide a list of security controls that are disabled in the configuration policy, Security Hub CSPM enables all other controls (including newly re- leased controls). NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: SecurityHub. SecurityHub -&gt; (structure) The Amazon Web Services service that the configuration policy applies to. ServiceEnabled -&gt; (boolean) Indicates whether Security Hub CSPM is enabled in the policy. EnabledStandardIdentifiers -&gt; (list) A list that defines which security standards are enabled in the configuration policy. (string) Constraints: o pattern: .*\S.* SecurityControlsConfiguration -&gt; (structure) An object that defines which security controls are enabled in the configuration policy. The enablement status of a control is aligned across all of the enabled standards in an account. EnabledSecurityControlIdentifiers -&gt; (list) A list of security controls that are enabled in the con- figuration policy. Security Hub CSPM disables all other controls (including newly released controls) other than the listed controls. (string) Constraints: o pattern: .*\S.* DisabledSecurityControlIdentifiers -&gt; (list) A list of security controls that are disabled in the con- figuration policy. Security Hub CSPM enables all other controls (including newly released controls) other than the listed controls. (string) Constraints: o pattern: .*\S.* SecurityControlCustomParameters -&gt; (list) A list of security controls and control parameter values that are included in a configuration policy. (structure) A list of security controls and control parameter val- ues that are included in a configuration policy. SecurityControlId -&gt; (string) The ID of the security control. Constraints: o pattern: .*\S.* Parameters -&gt; (map) An object that specifies parameter values for a control in a configuration policy. key -&gt; (string) Constraints: o pattern: .*\S.* value -&gt; (structure) An object that provides the current value of a security control parameter and identifies whether it has been customized. ValueType -&gt; (string) [required] Identifies whether a control parameter uses a custom user-defined value or subscribes to the default Security Hub CSPM behavior. When ValueType is set equal to DEFAULT , the default behavior can be a specific Se- curity Hub CSPM default value, or the de- fault behavior can be to ignore a specific parameter. When ValueType is set equal to DEFAULT , Security Hub CSPM ignores user-provided input for the Value field. When ValueType is set equal to CUSTOM , the Value field can't be empty. Possible values: o DEFAULT o CUSTOM Value -&gt; (tagged union structure) The current value of a control parameter. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Integer, IntegerList, Double, String, StringList, Boolean, Enum, Enum- List. Integer -&gt; (integer) A control parameter that is an integer. IntegerList -&gt; (list) A control parameter that is a list of integers. (integer) Double -&gt; (double) A control parameter that is a double. String -&gt; (string) A control parameter that is a string. Constraints: o pattern: .*\S.* StringList -&gt; (list) A control parameter that is a list of strings. (string) Constraints: o pattern: .*\S.* Boolean -&gt; (boolean) A control parameter that is a boolean. Enum -&gt; (string) A control parameter that is an enum. Constraints: o pattern: .*\S.* EnumList -&gt; (list) A control parameter that is a list of enums. (string) Constraints: o pattern: .*\S.* JSON Syntax: { "SecurityHub": { "ServiceEnabled": true|false, "EnabledStandardIdentifiers": ["string", ...], "SecurityControlsConfiguration": { "EnabledSecurityControlIdentifiers": ["string", ...], "DisabledSecurityControlIdentifiers": ["string", ...], "SecurityControlCustomParameters": [ { "SecurityControlId": "string", "Parameters": {"string": { "ValueType": "DEFAULT"|"CUSTOM", "Value": { "Integer": integer, "IntegerList": [integer, ...], "Double": double, "String": "string", "StringList": ["string", ...], "Boolean": true|false, "Enum": "string", "EnumList": ["string", ...] } } ...} } ... ] } } }
+    /// </summary>
+    [CliOption("--configuration-policy")]
+    public string? ConfigurationPolicy { get; private init; }
 
     /// <summary>
     /// The description of the configuration policy. Constraints: o pattern: .*\S.*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--configuration-policy")]
-    public string? ConfigurationPolicy { get; set; }
 
     /// <summary>
     /// User-defined tags associated with a configuration policy. For more information, see Tagging Security Hub CSPM resources in the Security Hub CSPM user guide . Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -45,5 +89,22 @@ public record AwsSecurityhubCreateConfigurationPolicyOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

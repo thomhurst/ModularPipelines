@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,16 +22,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ce", "get-anomalies")]
-public record AwsCeGetAnomaliesOptions : AwsOptions
+public record AwsCeGetAnomaliesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves all of the cost anomalies detected on your account during the time period that's specified by the DateInterval object. Anomalies are available for up to 90 days. See also: AWS API Documentation get-anomalies is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument mu...
+    /// </summary>
+    /// <param name="DateInterval">Assigns the start and end dates for retrieving cost anomalies. The returned anomaly object will have an AnomalyEndDate in the specified time range. StartDate -&gt; (string) [required] The first date an anomaly was observed. Constraints: o min: 0 o max: 40 o pattern: (\d{4}-\d{2}-\d{2})(T\d{2}:\d{2}:\d{2}Z)? EndDate -&gt; (string) The last date an anomaly was observed. Constraints: o min: 0 o max: 40 o pattern: (\d{4}-\d{2}-\d{2})(T\d{2}:\d{2}:\d{2}Z)? Shorthand Syntax: StartDate=string,EndDate=string JSON Syntax: { "StartDate": "string", "EndDate": "string" }</param>
+    public AwsCeGetAnomaliesOptions(
+        string DateInterval
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DateInterval);
+        this.DateInterval = DateInterval;
+    }
+
+    private AwsCeGetAnomaliesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCeGetAnomaliesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCeGetAnomaliesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Assigns the start and end dates for retrieving cost anomalies. The returned anomaly object will have an AnomalyEndDate in the specified time range. StartDate -&gt; (string) [required] The first date an anomaly was observed. Constraints: o min: 0 o max: 40 o pattern: (\d{4}-\d{2}-\d{2})(T\d{2}:\d{2}:\d{2}Z)? EndDate -&gt; (string) The last date an anomaly was observed. Constraints: o min: 0 o max: 40 o pattern: (\d{4}-\d{2}-\d{2})(T\d{2}:\d{2}:\d{2}Z)? Shorthand Syntax: StartDate=string,EndDate=string JSON Syntax: { "StartDate": "string", "EndDate": "string" }
+    /// </summary>
+    [CliOption("--date-interval")]
+    public string? DateInterval { get; private init; }
+
     /// <summary>
     /// Retrieves all of the cost anomalies detected for a specific cost anomaly monitor Amazon Resource Name (ARN). Constraints: o min: 0 o max: 1024 o pattern: [\S\s]*
     /// </summary>
     [CliOption("--monitor-arn")]
     public string? MonitorArn { get; set; }
-
-    [CliOption("--date-interval")]
-    public string? DateInterval { get; set; }
 
     /// <summary>
     /// Filters anomaly results by the feedback field on the anomaly object. Possible values: o YES o NO o PLANNED_ACTIVITY
@@ -68,5 +105,22 @@ public record AwsCeGetAnomaliesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

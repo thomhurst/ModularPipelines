@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -33,6 +33,21 @@ public class AwsKinesisWait
     #region Commands
 
     /// <summary>
+    /// Wait until JMESPath query ChannelDescription.ChannelStatus returns AC- TIVE when polling with describe-channel. It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 18 failed checks. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ChannelActiveAsync(
+        AwsKinesisWaitChannelActiveOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Wait until JMESPath query StreamDescription.StreamStatus returns ACTIVE when polling with describe-stream. It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 18 failed checks. See also: AWS API Documentation stream-exists is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text ...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -44,7 +59,7 @@ public class AwsKinesisWait
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsKinesisWaitStreamExistsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsKinesisWaitStreamExistsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -59,7 +74,7 @@ public class AwsKinesisWait
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsKinesisWaitStreamNotExistsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsKinesisWaitStreamNotExistsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

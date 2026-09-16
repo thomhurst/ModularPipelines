@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,79 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("securityhub", "batch-get-automation-rules")]
-public record AwsSecurityhubBatchGetAutomationRulesOptions : AwsOptions
+public record AwsSecurityhubBatchGetAutomationRulesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves a list of details for automation rules based on rule Amazon Resource Names (ARNs). See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AutomationRulesArns">A list of rule ARNs to get details for. Constraints: o min: 1 o max: 100 (string) Constraints: o pattern: .*\S.* Syntax: "string" "string" ...</param>
+    public AwsSecurityhubBatchGetAutomationRulesOptions(
+        IEnumerable<string> AutomationRulesArns
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(AutomationRulesArns);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(AutomationRulesArns));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(AutomationRulesArns));
+            }
+
+            AutomationRulesArns = materialized;
+        }
+        this.AutomationRulesArns = AutomationRulesArns;
+    }
+
+    private AwsSecurityhubBatchGetAutomationRulesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSecurityhubBatchGetAutomationRulesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSecurityhubBatchGetAutomationRulesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A list of rule ARNs to get details for. Constraints: o min: 1 o max: 100 (string) Constraints: o pattern: .*\S.* Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--automation-rules-arns", GroupValues = true)]
-    public IEnumerable<string>? AutomationRulesArns { get; set; }
+    public IEnumerable<string>? AutomationRulesArns { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

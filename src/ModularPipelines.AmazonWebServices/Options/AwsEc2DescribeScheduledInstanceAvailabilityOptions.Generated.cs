@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,9 +21,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "describe-scheduled-instance-availability")]
-public record AwsEc2DescribeScheduledInstanceAvailabilityOptions : AwsOptions
+public record AwsEc2DescribeScheduledInstanceAvailabilityOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--dry-run")]
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Finds available schedules that meet the specified criteria. You can search for an available schedule no more than 3 months in ad- vance. You must meet the minimum required duration of 1,200 hours per year. For example, the minimum daily schedule is 4 hours, the minimum weekly schedule is 24 hours, and the minimum monthly schedule is 100 hours. After you find a schedule that meets your needs, call PurchaseSched- uledInstances to purchase Scheduled Instances with that schedule. See also: AWS API D...
+    /// </summary>
+    /// <param name="FirstSlotStartTimeRange">The time period for the first schedule to start. EarliestTime -&gt; (timestamp) [required] The earliest date and time, in UTC, for the Scheduled Instance to start. LatestTime -&gt; (timestamp) [required] The latest date and time, in UTC, for the Scheduled Instance to start. This value must be later than or equal to the earliest date and at most three months in the future. Shorthand Syntax: EarliestTime=timestamp,LatestTime=timestamp JSON Syntax: { "EarliestTime": timestamp, "LatestTime": timestamp }</param>
+    /// <param name="Recurrence">The schedule recurrence. Frequency -&gt; (string) The frequency (Daily , Weekly , or Monthly ). Interval -&gt; (integer) The interval quantity. The interval unit depends on the value of Frequency . For example, every 2 weeks or every 2 months. OccurrenceDays -&gt; (list) The days. For a monthly schedule, this is one or more days of the month (1-31). For a weekly schedule, this is one or more days of the week (1-7, where 1 is Sunday). You can't specify this value with a daily schedule. If the occurrence is relative to the end of the month, you can specify only a single day. (integer) OccurrenceRelativeToEnd -&gt; (boolean) Indicates whether the occurrence is relative to the end of the specified week or month. You can't specify this value with a daily schedule. OccurrenceUnit -&gt; (string) The unit for OccurrenceDays (DayOfWeek or DayOfMonth ). This value is required for a monthly schedule. You can't specify Day- OfWeek with a weekly schedule. You can't specify this value with a daily schedule. Shorthand Syntax: Frequency=string,Interval=integer,OccurrenceDays=integer,integer,OccurrenceRelativeToEnd=boolean,OccurrenceUnit=string JSON Syntax: { "Frequency": "string", "Interval": integer, "OccurrenceDays": [integer, ...], "OccurrenceRelativeToEnd": true|false, "OccurrenceUnit": "string" }</param>
+    public AwsEc2DescribeScheduledInstanceAvailabilityOptions(
+        string FirstSlotStartTimeRange,
+        string Recurrence
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FirstSlotStartTimeRange);
+        this.FirstSlotStartTimeRange = FirstSlotStartTimeRange;
+        global::System.ArgumentNullException.ThrowIfNull(Recurrence);
+        this.Recurrence = Recurrence;
+    }
+
+    private AwsEc2DescribeScheduledInstanceAvailabilityOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2DescribeScheduledInstanceAvailabilityOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2DescribeScheduledInstanceAvailabilityOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The time period for the first schedule to start. EarliestTime -&gt; (timestamp) [required] The earliest date and time, in UTC, for the Scheduled Instance to start. LatestTime -&gt; (timestamp) [required] The latest date and time, in UTC, for the Scheduled Instance to start. This value must be later than or equal to the earliest date and at most three months in the future. Shorthand Syntax: EarliestTime=timestamp,LatestTime=timestamp JSON Syntax: { "EarliestTime": timestamp, "LatestTime": timestamp }
+    /// </summary>
+    [CliOption("--first-slot-start-time-range")]
+    public string? FirstSlotStartTimeRange { get; private init; }
+
+    /// <summary>
+    /// The schedule recurrence. Frequency -&gt; (string) The frequency (Daily , Weekly , or Monthly ). Interval -&gt; (integer) The interval quantity. The interval unit depends on the value of Frequency . For example, every 2 weeks or every 2 months. OccurrenceDays -&gt; (list) The days. For a monthly schedule, this is one or more days of the month (1-31). For a weekly schedule, this is one or more days of the week (1-7, where 1 is Sunday). You can't specify this value with a daily schedule. If the occurrence is relative to the end of the month, you can specify only a single day. (integer) OccurrenceRelativeToEnd -&gt; (boolean) Indicates whether the occurrence is relative to the end of the specified week or month. You can't specify this value with a daily schedule. OccurrenceUnit -&gt; (string) The unit for OccurrenceDays (DayOfWeek or DayOfMonth ). This value is required for a monthly schedule. You can't specify Day- OfWeek with a weekly schedule. You can't specify this value with a daily schedule. Shorthand Syntax: Frequency=string,Interval=integer,OccurrenceDays=integer,integer,OccurrenceRelativeToEnd=boolean,OccurrenceUnit=string JSON Syntax: { "Frequency": "string", "Interval": integer, "OccurrenceDays": [integer, ...], "OccurrenceRelativeToEnd": true|false, "OccurrenceUnit": "string" }
+    /// </summary>
+    [CliOption("--recurrence")]
+    public string? Recurrence { get; private init; }
+
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -30,9 +83,6 @@ public record AwsEc2DescribeScheduledInstanceAvailabilityOptions : AwsOptions
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
-
-    [CliOption("--first-slot-start-time-range")]
-    public string? FirstSlotStartTimeRange { get; set; }
 
     /// <summary>
     /// The maximum available duration, in hours. This value must be greater than MinSlotDurationInHours and less than 1,720.
@@ -45,9 +95,6 @@ public record AwsEc2DescribeScheduledInstanceAvailabilityOptions : AwsOptions
     /// </summary>
     [CliOption("--min-slot-duration-in-hours")]
     public int? MinSlotDurationInHours { get; set; }
-
-    [CliOption("--recurrence")]
-    public string? Recurrence { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -73,5 +120,22 @@ public record AwsEc2DescribeScheduledInstanceAvailabilityOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

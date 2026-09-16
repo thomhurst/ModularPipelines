@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,10 +22,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "create-user")]
-public record AwsConnectCreateUserOptions : AwsOptions
+public record AwsConnectCreateUserOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a user account for the specified Connect Customer instance. WARNING: Certain UserIdentityInfo parameters are required in some situations. For example, Email , FirstName and LastName are required if you are using Connect Customer or SAML for identity management. NOTE: Fields in PhoneConfig cannot be set simultaneously with their corre- sponding channel-specific configuration parameters. Specifically: o PhoneConfig.AutoAccept conflicts with AutoAcceptConfigs o PhoneConfig.AfterContactWorkT...
+    /// </summary>
+    /// <param name="Username">The user name for the account. For instances not using SAML for identity management, the user name can include up to 20 characters. If you are using SAML for identity management, the user name can in- clude up to 64 characters from [ a-zA-Z0-9_ -.@]+. Username can include @ only if used in an email format. For example: o Correct: testuser o Correct: testuser@example.com o Incorrect: testuser@example Constraints: o min: 1 o max: 100</param>
+    /// <param name="SecurityProfileIds">The identifier of the security profile for the user. Constraints: o min: 1 o max: 10 (string) Syntax: "string" "string" ...</param>
+    /// <param name="RoutingProfileId">The identifier of the routing profile for the user.</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    public AwsConnectCreateUserOptions(
+        string Username,
+        IEnumerable<string> SecurityProfileIds,
+        string RoutingProfileId,
+        string InstanceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Username);
+        this.Username = Username;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SecurityProfileIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SecurityProfileIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SecurityProfileIds));
+            }
+
+            SecurityProfileIds = materialized;
+        }
+        this.SecurityProfileIds = SecurityProfileIds;
+        global::System.ArgumentNullException.ThrowIfNull(RoutingProfileId);
+        this.RoutingProfileId = RoutingProfileId;
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+    }
+
+    private AwsConnectCreateUserOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectCreateUserOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectCreateUserOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The user name for the account. For instances not using SAML for identity management, the user name can include up to 20 characters. If you are using SAML for identity management, the user name can in- clude up to 64 characters from [ a-zA-Z0-9_ -.@]+. Username can include @ only if used in an email format. For example: o Correct: testuser o Correct: testuser@example.com o Incorrect: testuser@example Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--username")]
-    public string? Username { get; set; }
+    public string? Username { get; private init; }
+
+    /// <summary>
+    /// The identifier of the security profile for the user. Constraints: o min: 1 o max: 10 (string) Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--security-profile-ids", GroupValues = true)]
+    public IEnumerable<string>? SecurityProfileIds { get; private init; }
+
+    /// <summary>
+    /// The identifier of the routing profile for the user.
+    /// </summary>
+    [CliOption("--routing-profile-id")]
+    public string? RoutingProfileId { get; private init; }
+
+    /// <summary>
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
+    [CliOption("--instance-id")]
+    public string? InstanceId { get; private init; }
 
     /// <summary>
     /// The password for the user account. A password is required if you are using Connect Customer for identity management. Otherwise, it is an error to include a password. Constraints: o pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d\S]{8,64}$/
@@ -51,20 +129,11 @@ public record AwsConnectCreateUserOptions : AwsOptions
     [CliOption("--directory-user-id")]
     public string? DirectoryUserId { get; set; }
 
-    [CliOption("--security-profile-ids", GroupValues = true)]
-    public IEnumerable<string>? SecurityProfileIds { get; set; }
-
-    [CliOption("--routing-profile-id")]
-    public string? RoutingProfileId { get; set; }
-
     /// <summary>
     /// The identifier of the hierarchy group for the user.
     /// </summary>
     [CliOption("--hierarchy-group-id")]
     public string? HierarchyGroupId { get; set; }
-
-    [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
 
     /// <summary>
     /// The list of auto-accept configuration settings for each channel. (structure) Configuration settings for auto-accept for a specific channel. Channel -&gt; (string) [required] The channel for this auto-accept configuration. Valid values: VOICE, CHAT, TASK, EMAIL. Possible values: o VOICE o CHAT o TASK o EMAIL AutoAccept -&gt; (boolean) [required] Indicates whether auto-accept is enabled for this channel. When enabled, available agents are automatically connected to contacts from this channel. AgentFirstCallbackAutoAccept -&gt; (boolean) Indicates whether auto-accept is enabled for agent-first callbacks. This setting only applies to the VOICE channel. Shorthand Syntax: Channel=string,AutoAccept=boolean,AgentFirstCallbackAutoAccept=boolean ... JSON Syntax: [ { "Channel": "VOICE"|"CHAT"|"TASK"|"EMAIL", "AutoAccept": true|false, "AgentFirstCallbackAutoAccept": true|false } ... ]
@@ -107,5 +176,22 @@ public record AwsConnectCreateUserOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

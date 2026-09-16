@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gamelift", "update-runtime-configuration")]
-public record AwsGameliftUpdateRuntimeConfigurationOptions : AwsOptions
+public record AwsGameliftUpdateRuntimeConfigurationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--fleet-id")]
-    public string? FleetId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// This API works with the following fleet types: EC2 Updates the runtime configuration for the specified fleet. The runtime configuration tells Amazon GameLift Servers how to launch server processes on computes in managed EC2 and Anywhere fleets. You can up- date a fleet's runtime configuration at any time after the fleet is created; it does not need to be in ACTIVE status. To update runtime configuration, specify the fleet ID and provide a RuntimeConfiguration with an updated set of server proces...
+    /// </summary>
+    /// <param name="FleetId">A unique identifier for the fleet to update runtime configuration for. You can use either the fleet ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$</param>
+    /// <param name="RuntimeConfiguration">Instructions for launching server processes on fleet computes. Server processes run either a custom game build executable or a Ama- zon GameLift Servers Realtime script. The runtime configuration lists the types of server processes to run, how to launch them, and the number of processes to run concurrently. ServerProcesses -&gt; (list) A collection of server process configurations that identify what server processes to run on fleet computes. Constraints: o min: 1 o max: 50 (structure) A set of instructions for launching server processes on fleet computes. Server processes run either an executable in a cus- tom game build or a Amazon GameLift Servers Realtime script. Server process configurations are part of a fleet's runtime configuration. LaunchPath -&gt; (string) [required] The location of a game build executable or Realtime script. Game builds and Realtime scripts are installed on instances at the root: o Windows (custom game builds only): C:\game . Example: "C:\game\MyGame\server.exe " o Linux: /local/game . Examples: "/lo- cal/game/MyGame/server.exe " or "/local/game/MyReal- timeScript.js " NOTE: Amazon GameLift Servers doesn't support the use of setup scripts that launch the game executable. For custom game builds, this parameter must indicate the executable that calls the server SDK operations initSDK() and ProcessReady() . Constraints: o min: 1 o max: 1024 o pattern: ^[A-Za-z0-9_:.+\/\\\- ]+$ Parameters -&gt; (string) An optional list of parameters to pass to the server exe- cutable or Realtime script on launch. Constraints: o min: 1 o max: 1024 o pattern: ^[A-Za-z0-9_:.+\/\\\- =@;{},?'\[\]"]+$ ConcurrentExecutions -&gt; (integer) [required] The number of server processes using this configuration that run concurrently on each instance or compute. Constraints: o min: 1 MaxConcurrentGameSessionActivations -&gt; (integer) The number of game sessions in status ACTIVATING to allow on an instance or compute. This setting limits the instance resources that can be used for new game activations at any one time. Constraints: o min: 1 o max: 2147483647 GameSessionActivationTimeoutSeconds -&gt; (integer) The maximum amount of time (in seconds) allowed to launch a new game session and have it report ready to host players. During this time, the game session is in status ACTIVATING . If the game session does not become active before the timeout, it is ended and the game session status is changed to TERMINATED . Constraints: o min: 1 o max: 600 Shorthand Syntax: ServerProcesses=[{LaunchPath=string,Parameters=string,ConcurrentExecutions=integer},{LaunchPath=string,Parameters=string,ConcurrentExecutions=integer}],MaxConcurrentGameSessionActivations=integer,GameSessionActivationTimeoutSeconds=integer JSON Syntax: { "ServerProcesses": [ { "LaunchPath": "string", "Parameters": "string", "ConcurrentExecutions": integer } ... ], "MaxConcurrentGameSessionActivations": integer, "GameSessionActivationTimeoutSeconds": integer }</param>
+    public AwsGameliftUpdateRuntimeConfigurationOptions(
+        string FleetId,
+        string RuntimeConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FleetId);
+        this.FleetId = FleetId;
+        global::System.ArgumentNullException.ThrowIfNull(RuntimeConfiguration);
+        this.RuntimeConfiguration = RuntimeConfiguration;
+    }
+
+    private AwsGameliftUpdateRuntimeConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGameliftUpdateRuntimeConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGameliftUpdateRuntimeConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier for the fleet to update runtime configuration for. You can use either the fleet ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$
+    /// </summary>
+    [CliOption("--fleet-id")]
+    public string? FleetId { get; private init; }
+
+    /// <summary>
+    /// Instructions for launching server processes on fleet computes. Server processes run either a custom game build executable or a Ama- zon GameLift Servers Realtime script. The runtime configuration lists the types of server processes to run, how to launch them, and the number of processes to run concurrently. ServerProcesses -&gt; (list) A collection of server process configurations that identify what server processes to run on fleet computes. Constraints: o min: 1 o max: 50 (structure) A set of instructions for launching server processes on fleet computes. Server processes run either an executable in a cus- tom game build or a Amazon GameLift Servers Realtime script. Server process configurations are part of a fleet's runtime configuration. LaunchPath -&gt; (string) [required] The location of a game build executable or Realtime script. Game builds and Realtime scripts are installed on instances at the root: o Windows (custom game builds only): C:\game . Example: "C:\game\MyGame\server.exe " o Linux: /local/game . Examples: "/lo- cal/game/MyGame/server.exe " or "/local/game/MyReal- timeScript.js " NOTE: Amazon GameLift Servers doesn't support the use of setup scripts that launch the game executable. For custom game builds, this parameter must indicate the executable that calls the server SDK operations initSDK() and ProcessReady() . Constraints: o min: 1 o max: 1024 o pattern: ^[A-Za-z0-9_:.+\/\\\- ]+$ Parameters -&gt; (string) An optional list of parameters to pass to the server exe- cutable or Realtime script on launch. Constraints: o min: 1 o max: 1024 o pattern: ^[A-Za-z0-9_:.+\/\\\- =@;{},?'\[\]"]+$ ConcurrentExecutions -&gt; (integer) [required] The number of server processes using this configuration that run concurrently on each instance or compute. Constraints: o min: 1 MaxConcurrentGameSessionActivations -&gt; (integer) The number of game sessions in status ACTIVATING to allow on an instance or compute. This setting limits the instance resources that can be used for new game activations at any one time. Constraints: o min: 1 o max: 2147483647 GameSessionActivationTimeoutSeconds -&gt; (integer) The maximum amount of time (in seconds) allowed to launch a new game session and have it report ready to host players. During this time, the game session is in status ACTIVATING . If the game session does not become active before the timeout, it is ended and the game session status is changed to TERMINATED . Constraints: o min: 1 o max: 600 Shorthand Syntax: ServerProcesses=[{LaunchPath=string,Parameters=string,ConcurrentExecutions=integer},{LaunchPath=string,Parameters=string,ConcurrentExecutions=integer}],MaxConcurrentGameSessionActivations=integer,GameSessionActivationTimeoutSeconds=integer JSON Syntax: { "ServerProcesses": [ { "LaunchPath": "string", "Parameters": "string", "ConcurrentExecutions": integer } ... ], "MaxConcurrentGameSessionActivations": integer, "GameSessionActivationTimeoutSeconds": integer }
+    /// </summary>
     [CliOption("--runtime-configuration")]
-    public string? RuntimeConfiguration { get; set; }
+    public string? RuntimeConfiguration { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

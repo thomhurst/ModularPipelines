@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,19 +21,58 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "allocate-ipam-pool-cidr")]
-public record AwsEc2AllocateIpamPoolCidrOptions : AwsOptions
+public record AwsEc2AllocateIpamPoolCidrOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--dry-run")]
-    public bool? DryRun { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Allocate a CIDR from an IPAM pool. The Region you use should be the IPAM pool locale. The locale is the Amazon Web Services Region where this IPAM pool is available for allocations. In IPAM, an allocation is a CIDR assignment from an IPAM pool to an- other IPAM pool or to a resource. For more information, see Allocate CIDRs in the Amazon VPC IPAM User Guide . NOTE: This action creates an allocation with strong consistency. The re- turned CIDR will not overlap with any other allocations from the ...
+    /// </summary>
+    /// <param name="IpamPoolId">The ID of the IPAM pool from which you would like to allocate a CIDR.</param>
+    public AwsEc2AllocateIpamPoolCidrOptions(
+        string IpamPoolId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IpamPoolId);
+        this.IpamPoolId = IpamPoolId;
+    }
+
+    private AwsEc2AllocateIpamPoolCidrOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2AllocateIpamPoolCidrOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2AllocateIpamPoolCidrOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the IPAM pool from which you would like to allocate a CIDR.
+    /// </summary>
     [CliOption("--ipam-pool-id")]
-    public string? IpamPoolId { get; set; }
+    public string? IpamPoolId { get; private init; }
+
+    /// <summary>
+    /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
+    public bool? DryRun { get; set; }
 
     /// <summary>
     /// The CIDR you would like to allocate from the IPAM pool. Note the following: o If there is no DefaultNetmaskLength allocation rule set on the pool, you must specify either the NetmaskLength or the CIDR. o If the DefaultNetmaskLength allocation rule is set on the pool, you can specify either the NetmaskLength or the CIDR and the De- faultNetmaskLength allocation rule will be ignored. Possible values: Any available IPv4 or IPv6 CIDR.
     /// </summary>
     [CliOption("--cidr")]
-    public AwsEc2AllocateIpamPoolCidrCidr? Cidr { get; set; }
+    public string? Cidr { get; set; }
 
     /// <summary>
     /// The netmask length of the CIDR you would like to allocate from the IPAM pool. Note the following: o If there is no DefaultNetmaskLength allocation rule set on the pool, you must specify either the NetmaskLength or the CIDR. o If the DefaultNetmaskLength allocation rule is set on the pool, you can specify either the NetmaskLength or the CIDR and the De- faultNetmaskLength allocation rule will be ignored. Possible netmask lengths for IPv4 addresses are 0 - 32. Possible netmask lengths for IPv6 addresses are 0 - 128.
@@ -54,7 +93,10 @@ public record AwsEc2AllocateIpamPoolCidrOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliFlag("--preview-next-cidr")]
+    /// <summary>
+    /// A preview of the next available CIDR in a pool.
+    /// </summary>
+    [CliFlag("--preview-next-cidr", NegatedName = "--no-preview-next-cidr")]
     public bool? PreviewNextCidr { get; set; }
 
     /// <summary>
@@ -80,5 +122,22 @@ public record AwsEc2AllocateIpamPoolCidrOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --origintype.
+/// Allowed values for --origin-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCodeartifactListPackageVersionsOriginType
 {
-    [EnumValue("INTERNAL")]
-    Internal = 1,
-
     [EnumValue("EXTERNAL")]
-    External = 2,
+    External,
+
+    [EnumValue("INTERNAL")]
+    Internal,
 
     [EnumValue("UNKNOWN")]
-    Unknown = 3
+    Unknown
 }

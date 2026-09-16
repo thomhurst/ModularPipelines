@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute-optimizer", "get-recommendation-preferences")]
-public record AwsComputeOptimizerGetRecommendationPreferencesOptions : AwsOptions
+public record AwsComputeOptimizerGetRecommendationPreferencesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns existing recommendation preferences, such as enhanced infra- structure metrics. Use the scope parameter to specify which preferences to return. You can specify to return preferences for an organization, a specific account ID, or a specific EC2 instance or Auto Scaling group Amazon Resource Name (ARN). For more information, see Activating enhanced infrastructure metrics in the Compute Optimizer User Guide . See also: AWS API Documentation get-recommendation-preferences is a paginated oper...
+    /// </summary>
+    /// <param name="ResourceType">The target resource type of the recommendation preference for which to return preferences. The Ec2Instance option encompasses standalone instances and in- stances that are part of Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Auto Scaling group. Possible values: o Ec2Instance o AutoScalingGroup o EbsVolume o LambdaFunction o NotApplicable o EcsService o License o RdsDBInstance o AuroraDBClusterStorage o Idle</param>
+    public AwsComputeOptimizerGetRecommendationPreferencesOptions(
+        AwsComputeOptimizerGetRecommendationPreferencesResourceType ResourceType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
+        this.ResourceType = ResourceType;
+    }
+
+    private AwsComputeOptimizerGetRecommendationPreferencesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsComputeOptimizerGetRecommendationPreferencesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsComputeOptimizerGetRecommendationPreferencesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The target resource type of the recommendation preference for which to return preferences. The Ec2Instance option encompasses standalone instances and in- stances that are part of Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Auto Scaling group. Possible values: o Ec2Instance o AutoScalingGroup o EbsVolume o LambdaFunction o NotApplicable o EcsService o License o RdsDBInstance o AuroraDBClusterStorage o Idle
+    /// </summary>
     [CliOption("--resource-type")]
-    public string? ResourceType { get; set; }
+    public AwsComputeOptimizerGetRecommendationPreferencesResourceType? ResourceType { get; private init; }
 
     /// <summary>
     /// An object that describes the scope of the recommendation preference to return. You can return recommendation preferences that are created at the organization level (for management accounts of an organization only), account level, and resource level. For more information, see Activating enhanced infrastructure metrics in the Compute Optimizer User Guide . name -&gt; (string) The name of the scope. The following scopes are possible: o Organization - Specifies that the recommendation preference applies at the organization level, for all member accounts of an organization. o AccountId - Specifies that the recommendation preference ap- plies at the account level, for all resources of a given re- source type in an account. o ResourceArn - Specifies that the recommendation preference ap- plies at the individual resource level. Possible values: o Organization o AccountId o ResourceArn value -&gt; (string) The value of the scope. If you specified the name of the scope as: o Organization - The value must be ALL_ACCOUNTS . o AccountId - The value must be a 12-digit Amazon Web Services account ID. o ResourceArn - The value must be the Amazon Resource Name (ARN) of an EC2 instance or an Auto Scaling group. Only EC2 instance and Auto Scaling group ARNs are currently sup- ported. Shorthand Syntax: name=string,value=string JSON Syntax: { "name": "Organization"|"AccountId"|"ResourceArn", "value": "string" }
@@ -55,5 +93,22 @@ public record AwsComputeOptimizerGetRecommendationPreferencesOptions : AwsOption
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

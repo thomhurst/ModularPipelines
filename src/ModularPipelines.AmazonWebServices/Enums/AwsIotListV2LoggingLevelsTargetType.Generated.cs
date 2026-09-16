@@ -11,23 +11,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --targettype.
+/// Allowed values for --target-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotListV2LoggingLevelsTargetType
 {
-    [EnumValue("DEFAULT")]
-    Default = 1,
-
-    [EnumValue("THING_GROUP")]
-    ThingGroup = 2,
-
     [EnumValue("CLIENT_ID")]
-    ClientId = 3,
+    ClientId,
 
-    [EnumValue("SOURCE_IP")]
-    SourceIp = 4,
+    [EnumValue("DEFAULT")]
+    Default,
 
     [EnumValue("PRINCIPAL_ID")]
-    PrincipalId = 5
+    PrincipalId,
+
+    [EnumValue("SOURCE_IP")]
+    SourceIp,
+
+    [EnumValue("THING_GROUP")]
+    ThingGroup
 }

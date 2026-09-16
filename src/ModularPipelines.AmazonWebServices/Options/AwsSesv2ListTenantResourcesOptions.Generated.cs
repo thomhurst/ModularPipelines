@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sesv2", "list-tenant-resources")]
-public record AwsSesv2ListTenantResourcesOptions : AwsOptions
+public record AwsSesv2ListTenantResourcesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// List all resources associated with a specific tenant. This operation returns a list of resources (email identities, configu- ration sets, or email templates) that are associated with the specified tenant. You can optionally filter the results by resource type. See also: AWS API Documentation list-tenant-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When ...
+    /// </summary>
+    /// <param name="TenantName">The name of the tenant to list resources for. Constraints: o min: 1</param>
+    public AwsSesv2ListTenantResourcesOptions(
+        string TenantName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TenantName);
+        this.TenantName = TenantName;
+    }
+
+    private AwsSesv2ListTenantResourcesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSesv2ListTenantResourcesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSesv2ListTenantResourcesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the tenant to list resources for. Constraints: o min: 1
+    /// </summary>
     [CliOption("--tenant-name")]
-    public string? TenantName { get; set; }
+    public string? TenantName { get; private init; }
 
     /// <summary>
     /// A map of filter keys and values for filtering the list of tenant re- sources. Currently, the only supported filter key is RESOURCE_TYPE . key -&gt; (string) The key used to filter tenant resources. Currently, the only supported filter key is RESOURCE_TYPE . Possible values: o RESOURCE_TYPE value -&gt; (string) The value used to filter tenant resources. When filtering by RE- SOURCE_TYPE , valid values are EMAIL_IDENTITY , CONFIGURA- TION_SET , or EMAIL_TEMPLATE . Constraints: o min: 1 o max: 512 Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: RESOURCE_TYPE JSON Syntax: {"RESOURCE_TYPE": "string" ...}
@@ -56,5 +93,22 @@ public record AwsSesv2ListTenantResourcesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

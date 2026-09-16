@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3api", "delete-object-annotation")]
-public record AwsS3apiDeleteObjectAnnotationOptions : AwsOptions
+public record AwsS3apiDeleteObjectAnnotationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes a specific annotation from an Amazon S3 object. Use the x-amz-object-if-match header to perform a conditional delete that only succeeds if the object's ETag matches the provided value, preventing race conditions during concurrent updates. Deleting an annotation is permanent. Annotations are not independently versioned, so there is no delete marker or way to recover a deleted an- notation. To use this operation, you must have the s3:DeleteObjectAnnotation per- mission. If the object is pr...
+    /// </summary>
+    /// <param name="Bucket">The name of the bucket that contains the object.</param>
+    /// <param name="Key">The object key. Constraints: o min: 1</param>
+    /// <param name="AnnotationName">The name of the annotation to delete. Annotation names are UTF-8 en- coded and cannot start with aws or s3 (case-insensitive). Length Constraints: Minimum length of 1. Maximum length of 512 bytes.</param>
+    public AwsS3apiDeleteObjectAnnotationOptions(
+        string Bucket,
+        string Key,
+        string AnnotationName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Bucket);
+        this.Bucket = Bucket;
+        global::System.ArgumentNullException.ThrowIfNull(Key);
+        this.Key = Key;
+        global::System.ArgumentNullException.ThrowIfNull(AnnotationName);
+        this.AnnotationName = AnnotationName;
+    }
+
+    private AwsS3apiDeleteObjectAnnotationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3apiDeleteObjectAnnotationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3apiDeleteObjectAnnotationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the bucket that contains the object.
+    /// </summary>
     [CliOption("--bucket")]
-    public string? Bucket { get; set; }
+    public string? Bucket { get; private init; }
 
+    /// <summary>
+    /// The object key. Constraints: o min: 1
+    /// </summary>
     [CliOption("--key")]
-    public string? Key { get; set; }
+    public string? Key { get; private init; }
 
+    /// <summary>
+    /// The name of the annotation to delete. Annotation names are UTF-8 en- coded and cannot start with aws or s3 (case-insensitive). Length Constraints: Minimum length of 1. Maximum length of 512 bytes.
+    /// </summary>
     [CliOption("--annotation-name")]
-    public string? AnnotationName { get; set; }
+    public string? AnnotationName { get; private init; }
 
     /// <summary>
     /// The version ID of the object.
@@ -60,5 +111,22 @@ public record AwsS3apiDeleteObjectAnnotationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

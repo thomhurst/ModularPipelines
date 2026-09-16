@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +21,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("partnercentral-selling", "disassociate-opportunity")]
-public record AwsPartnercentralSellingDisassociateOpportunityOptions : AwsOptions
+public record AwsPartnercentralSellingDisassociateOpportunityOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Allows you to remove an existing association between an Opportunity and related entities, such as a Partner Solution, Amazon Web Services prod- uct, or an Amazon Web Services Marketplace offer. This operation is the counterpart to AssociateOpportunity , and it provides flexibility to manage associations as business needs change. Use this operation to update the associations of an Opportunity due to changes in the related entities, or if an association was made in er- ror. Ensuring accurate assoc...
+    /// </summary>
+    /// <param name="Catalog">Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox . The catalog determines which environment the opportunity disassociation is made in. Use AWS to disassociate opportunities in the Amazon Web Services catalog, and Sandbox for testing in secure, isolated environments. Constraints: o pattern: [a-zA-Z]+</param>
+    /// <param name="OpportunityIdentifier">The opportunity's unique identifier for when you want to disassoci- ate it from related entities. This identifier helps to ensure that the correct opportunity is updated. Validation: Ensure that the provided identifier corresponds to an existing opportunity in the Amazon Web Services system because in- correct identifiers result in an error and no changes are made. Constraints: o pattern: O[0-9]{1,19}</param>
+    /// <param name="RelatedEntityType">The type of the entity that you're disassociating from the opportu- nity. When you specify the entity type, it helps the system cor- rectly process the disassociation request to ensure that the right connections are removed. Examples of entity types include Partner Solution, Amazon Web Ser- vices product, and Amazon Web Services Marketplaceoffer. Ensure that the value matches one of the expected entity types. Validation: Provide a valid entity type to help ensure successful disassociation. An invalid or incorrect entity type results in an error. Possible values: o Solutions o AwsProducts o AwsMarketplaceOffers o AwsMarketplaceOfferSets o AwsMarketplaceSolutions o AwsMarketplaceProducts</param>
+    /// <param name="RelatedEntityIdentifier">The related entity's identifier that you want to disassociate from the opportunity. Depending on the type of entity, this could be a simple identifier or an Amazon Resource Name (ARN) for entities man- aged through Amazon Web Services Marketplace. For Amazon Web Services Marketplace entities, use the Amazon Web Services Marketplace API to obtain the necessary ARNs. For guidance on retrieving these ARNs, see Amazon Web Services MarketplaceUsing the Amazon Web Services Marketplace Catalog API . Validation: Ensure the identifier or ARN is valid and corresponds to an existing entity. An incorrect or invalid identifier results in an error. Constraints: o pattern: (?s).{1,255}</param>
+    public AwsPartnercentralSellingDisassociateOpportunityOptions(
+        string Catalog,
+        string OpportunityIdentifier,
+        AwsPartnercentralSellingDisassociateOpportunityRelatedEntityType RelatedEntityType,
+        string RelatedEntityIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+        global::System.ArgumentNullException.ThrowIfNull(OpportunityIdentifier);
+        this.OpportunityIdentifier = OpportunityIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(RelatedEntityType);
+        this.RelatedEntityType = RelatedEntityType;
+        global::System.ArgumentNullException.ThrowIfNull(RelatedEntityIdentifier);
+        this.RelatedEntityIdentifier = RelatedEntityIdentifier;
+    }
+
+    private AwsPartnercentralSellingDisassociateOpportunityOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPartnercentralSellingDisassociateOpportunityOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPartnercentralSellingDisassociateOpportunityOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox . The catalog determines which environment the opportunity disassociation is made in. Use AWS to disassociate opportunities in the Amazon Web Services catalog, and Sandbox for testing in secure, isolated environments. Constraints: o pattern: [a-zA-Z]+
+    /// </summary>
     [CliOption("--catalog")]
-    public string? Catalog { get; set; }
+    public string? Catalog { get; private init; }
 
+    /// <summary>
+    /// The opportunity's unique identifier for when you want to disassoci- ate it from related entities. This identifier helps to ensure that the correct opportunity is updated. Validation: Ensure that the provided identifier corresponds to an existing opportunity in the Amazon Web Services system because in- correct identifiers result in an error and no changes are made. Constraints: o pattern: O[0-9]{1,19}
+    /// </summary>
     [CliOption("--opportunity-identifier")]
-    public string? OpportunityIdentifier { get; set; }
+    public string? OpportunityIdentifier { get; private init; }
 
+    /// <summary>
+    /// The type of the entity that you're disassociating from the opportu- nity. When you specify the entity type, it helps the system cor- rectly process the disassociation request to ensure that the right connections are removed. Examples of entity types include Partner Solution, Amazon Web Ser- vices product, and Amazon Web Services Marketplaceoffer. Ensure that the value matches one of the expected entity types. Validation: Provide a valid entity type to help ensure successful disassociation. An invalid or incorrect entity type results in an error. Possible values: o Solutions o AwsProducts o AwsMarketplaceOffers o AwsMarketplaceOfferSets o AwsMarketplaceSolutions o AwsMarketplaceProducts
+    /// </summary>
     [CliOption("--related-entity-type")]
-    public string? RelatedEntityType { get; set; }
+    public AwsPartnercentralSellingDisassociateOpportunityRelatedEntityType? RelatedEntityType { get; private init; }
 
+    /// <summary>
+    /// The related entity's identifier that you want to disassociate from the opportunity. Depending on the type of entity, this could be a simple identifier or an Amazon Resource Name (ARN) for entities man- aged through Amazon Web Services Marketplace. For Amazon Web Services Marketplace entities, use the Amazon Web Services Marketplace API to obtain the necessary ARNs. For guidance on retrieving these ARNs, see Amazon Web Services MarketplaceUsing the Amazon Web Services Marketplace Catalog API . Validation: Ensure the identifier or ARN is valid and corresponds to an existing entity. An incorrect or invalid identifier results in an error. Constraints: o pattern: (?s).{1,255}
+    /// </summary>
     [CliOption("--related-entity-identifier")]
-    public string? RelatedEntityIdentifier { get; set; }
+    public string? RelatedEntityIdentifier { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

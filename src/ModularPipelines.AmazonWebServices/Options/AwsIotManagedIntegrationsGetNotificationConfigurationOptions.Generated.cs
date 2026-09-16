@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +21,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot-managed-integrations", "get-notification-configuration")]
-public record AwsIotManagedIntegrationsGetNotificationConfigurationOptions : AwsOptions
+public record AwsIotManagedIntegrationsGetNotificationConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Get a notification configuration for a specified event type. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EventType">The type of event triggering a device notification to the cus- tomer-managed destination. Possible values: o DEVICE_COMMAND o DEVICE_COMMAND_REQUEST o DEVICE_DISCOVERY_STATUS o DEVICE_EVENT o DEVICE_LIFE_CYCLE o DEVICE_STATE o DEVICE_OTA o DEVICE_WSS o CONNECTOR_ASSOCIATION o ACCOUNT_ASSOCIATION o CONNECTOR_ERROR_REPORT</param>
+    public AwsIotManagedIntegrationsGetNotificationConfigurationOptions(
+        AwsIotManagedIntegrationsGetNotificationConfigurationEventType EventType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EventType);
+        this.EventType = EventType;
+    }
+
+    private AwsIotManagedIntegrationsGetNotificationConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotManagedIntegrationsGetNotificationConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotManagedIntegrationsGetNotificationConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The type of event triggering a device notification to the cus- tomer-managed destination. Possible values: o DEVICE_COMMAND o DEVICE_COMMAND_REQUEST o DEVICE_DISCOVERY_STATUS o DEVICE_EVENT o DEVICE_LIFE_CYCLE o DEVICE_STATE o DEVICE_OTA o DEVICE_WSS o CONNECTOR_ASSOCIATION o ACCOUNT_ASSOCIATION o CONNECTOR_ERROR_REPORT
+    /// </summary>
     [CliOption("--event-type")]
-    public string? EventType { get; set; }
+    public AwsIotManagedIntegrationsGetNotificationConfigurationEventType? EventType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

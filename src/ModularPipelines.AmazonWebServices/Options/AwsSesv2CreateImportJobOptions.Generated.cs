@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sesv2", "create-import-job")]
-public record AwsSesv2CreateImportJobOptions : AwsOptions
+public record AwsSesv2CreateImportJobOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--import-destination")]
-    public string? ImportDestination { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an import job for a data destination. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ImportDestination">The destination for the import job. SuppressionListDestination -&gt; (structure) An object that contains the action of the import job towards suppression list. SuppressionListImportAction -&gt; (string) [required] The type of action to perform on the address. The following are possible values: o PUT: add the addresses to the suppression list. If the record already exists, it will override it with the new value. o DELETE: remove the addresses from the suppression list. Possible values: o DELETE o PUT ContactListDestination -&gt; (structure) An object that contains the action of the import job towards a contact list. ContactListName -&gt; (string) [required] The name of the contact list. ContactListImportAction -&gt; (string) [required] &gt;The type of action to perform on the addresses. The follow- ing are the possible values: o PUT: add the addresses to the contact list. If the record already exists, it will override it with the new value. o DELETE: remove the addresses from the contact list. Possible values: o DELETE o PUT Shorthand Syntax: SuppressionListDestination={SuppressionListImportAction=string},ContactListDestination={ContactListName=string,ContactListImportAction=string} JSON Syntax: { "SuppressionListDestination": { "SuppressionListImportAction": "DELETE"|"PUT" }, "ContactListDestination": { "ContactListName": "string", "ContactListImportAction": "DELETE"|"PUT" } }</param>
+    /// <param name="ImportDataSource">The data source for the import job. S3Url -&gt; (string) [required] An Amazon S3 URL in the format s3://&lt;bucket_name&gt; /&lt;object&gt; . Constraints: o pattern: ^s3:\/\/([^\/]+)\/(.*?([^\/]+)\/?)$ DataFormat -&gt; (string) [required] The data format of the import job's data source. Possible values: o CSV o JSON Shorthand Syntax: S3Url=string,DataFormat=string JSON Syntax: { "S3Url": "string", "DataFormat": "CSV"|"JSON" }</param>
+    public AwsSesv2CreateImportJobOptions(
+        string ImportDestination,
+        string ImportDataSource
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ImportDestination);
+        this.ImportDestination = ImportDestination;
+        global::System.ArgumentNullException.ThrowIfNull(ImportDataSource);
+        this.ImportDataSource = ImportDataSource;
+    }
+
+    private AwsSesv2CreateImportJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSesv2CreateImportJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSesv2CreateImportJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The destination for the import job. SuppressionListDestination -&gt; (structure) An object that contains the action of the import job towards suppression list. SuppressionListImportAction -&gt; (string) [required] The type of action to perform on the address. The following are possible values: o PUT: add the addresses to the suppression list. If the record already exists, it will override it with the new value. o DELETE: remove the addresses from the suppression list. Possible values: o DELETE o PUT ContactListDestination -&gt; (structure) An object that contains the action of the import job towards a contact list. ContactListName -&gt; (string) [required] The name of the contact list. ContactListImportAction -&gt; (string) [required] &gt;The type of action to perform on the addresses. The follow- ing are the possible values: o PUT: add the addresses to the contact list. If the record already exists, it will override it with the new value. o DELETE: remove the addresses from the contact list. Possible values: o DELETE o PUT Shorthand Syntax: SuppressionListDestination={SuppressionListImportAction=string},ContactListDestination={ContactListName=string,ContactListImportAction=string} JSON Syntax: { "SuppressionListDestination": { "SuppressionListImportAction": "DELETE"|"PUT" }, "ContactListDestination": { "ContactListName": "string", "ContactListImportAction": "DELETE"|"PUT" } }
+    /// </summary>
+    [CliOption("--import-destination")]
+    public string? ImportDestination { get; private init; }
+
+    /// <summary>
+    /// The data source for the import job. S3Url -&gt; (string) [required] An Amazon S3 URL in the format s3://&lt;bucket_name&gt; /&lt;object&gt; . Constraints: o pattern: ^s3:\/\/([^\/]+)\/(.*?([^\/]+)\/?)$ DataFormat -&gt; (string) [required] The data format of the import job's data source. Possible values: o CSV o JSON Shorthand Syntax: S3Url=string,DataFormat=string JSON Syntax: { "S3Url": "string", "DataFormat": "CSV"|"JSON" }
+    /// </summary>
     [CliOption("--import-data-source")]
-    public string? ImportDataSource { get; set; }
+    public string? ImportDataSource { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

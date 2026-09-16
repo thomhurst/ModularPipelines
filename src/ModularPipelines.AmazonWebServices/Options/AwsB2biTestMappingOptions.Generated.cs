@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("b2bi", "test-mapping")]
-public record AwsB2biTestMappingOptions : AwsOptions
+public record AwsB2biTestMappingOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Maps the input file according to the provided template file. The API call downloads the file contents from the Amazon S3 location, and passes the contents in as a string, to the inputFileContent parameter. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InputFileContent">Specify the contents of the EDI (electronic data interchange) XML or JSON file that is used as input for the transform. Constraints: o min: 0 o max: 5000000</param>
+    /// <param name="MappingTemplate">Specifies the mapping template for the transformer. This template is used to map the parsed EDI file using JSONata or XSLT. NOTE: This parameter is available for backwards compatibility. Use the Mapping data type instead. Constraints: o min: 0 o max: 350000</param>
+    /// <param name="FileFormat">Specifies that the currently supported file formats for EDI trans- formations are JSON and XML . Possible values: o XML o JSON o NOT_USED</param>
+    public AwsB2biTestMappingOptions(
+        string InputFileContent,
+        string MappingTemplate,
+        AwsB2biTestMappingFileFormat FileFormat
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InputFileContent);
+        this.InputFileContent = InputFileContent;
+        global::System.ArgumentNullException.ThrowIfNull(MappingTemplate);
+        this.MappingTemplate = MappingTemplate;
+        global::System.ArgumentNullException.ThrowIfNull(FileFormat);
+        this.FileFormat = FileFormat;
+    }
+
+    private AwsB2biTestMappingOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsB2biTestMappingOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsB2biTestMappingOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specify the contents of the EDI (electronic data interchange) XML or JSON file that is used as input for the transform. Constraints: o min: 0 o max: 5000000
+    /// </summary>
     [CliOption("--input-file-content")]
-    public string? InputFileContent { get; set; }
+    public string? InputFileContent { get; private init; }
 
+    /// <summary>
+    /// Specifies the mapping template for the transformer. This template is used to map the parsed EDI file using JSONata or XSLT. NOTE: This parameter is available for backwards compatibility. Use the Mapping data type instead. Constraints: o min: 0 o max: 350000
+    /// </summary>
     [CliOption("--mapping-template")]
-    public string? MappingTemplate { get; set; }
+    public string? MappingTemplate { get; private init; }
 
+    /// <summary>
+    /// Specifies that the currently supported file formats for EDI trans- formations are JSON and XML . Possible values: o XML o JSON o NOT_USED
+    /// </summary>
     [CliOption("--file-format")]
-    public string? FileFormat { get; set; }
+    public AwsB2biTestMappingFileFormat? FileFormat { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

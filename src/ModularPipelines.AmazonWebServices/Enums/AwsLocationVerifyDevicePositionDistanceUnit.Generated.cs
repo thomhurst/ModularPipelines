@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --distanceunit.
+/// Allowed values for --distance-unit.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsLocationVerifyDevicePositionDistanceUnit
 {
     [EnumValue("Kilometers")]
-    Kilometers = 1,
+    Kilometers,
 
     [EnumValue("Miles")]
-    Miles = 2
+    Miles
 }

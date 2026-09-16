@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --workspacetype.
+/// Allowed values for --workspace-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsWorkspacesRegisterWorkspaceDirectoryWorkspaceType
 {
     [EnumValue("PERSONAL")]
-    Personal = 1,
+    Personal,
 
     [EnumValue("POOLS")]
-    Pools = 2
+    Pools
 }

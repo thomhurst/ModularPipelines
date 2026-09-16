@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +22,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore", "create-payment-instrument")]
-public record AwsBedrockAgentcoreCreatePaymentInstrumentOptions : AwsOptions
+public record AwsBedrockAgentcoreCreatePaymentInstrumentOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Create a new payment instrument for a connector. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PaymentManagerArn">The ARN of the payment manager that owns this payment instrument. Constraints: o min: 66 o max: 2048 o pattern: arn:(aws|aws-[a-z0-9-]+):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:payment-man- ager/[a-z0-9]([a-z0-9-]{0,47}[a-z0-9])?-[a-z0-9]{10}</param>
+    /// <param name="PaymentConnectorId">The ID of the payment connector to use for this instrument. Constraints: o min: 12 o max: 211 o pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}</param>
+    /// <param name="PaymentInstrumentType">The type of payment instrument being created. Possible values: o EMBEDDED_CRYPTO_WALLET</param>
+    /// <param name="PaymentInstrumentDetails">The details of the payment instrument. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: embeddedCryptoWallet. embeddedCryptoWallet -&gt; (structure) Embedded crypto wallet managed directly by end user. network -&gt; (string) [required] The blockchain network for this embedded crypto wallet. Sup- ported networks: ETHEREUM, SOLANA. Possible values: o ETHEREUM o SOLANA linkedAccounts -&gt; (list) [required] List of linked accounts linked to this wallet. Each repre- sents a way the end user can authenticate to this wallet. Constraints: o min: 0 o max: 1 (tagged union structure) Represents different linked accounts that can be linked to an embedded wallet. Supports email, SMS, JWT, and OAuth2 approaches. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: email, sms, develop- erJwt, oAuth2. email -&gt; (structure) Email-based linked account. emailAddress -&gt; (string) [required] The email address used for the linked account. Must be a valid email format. Constraints: o min: 1 o max: 254 o pattern: [a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,} sms -&gt; (structure) SMS-based linked account using phone number. phoneNumber -&gt; (string) [required] The phone number in E.164 format (e.g., +1234567890). Constraints: o min: 3 o max: 16 o pattern: \+[1-9]\d{1,14} developerJwt -&gt; (structure) Developer JWT linked account with key ID and subject. kid -&gt; (string) [required] The key ID (kid) from the JWT header. Identifies which key was used to sign the JWT. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_-]{1,255} sub -&gt; (string) [required] The subject (sub) claim from the JWT payload. Identifies the principal that is the subject of the JWT. Constraints: o min: 1 o max: 255 oAuth2 -&gt; (tagged union structure) OAuth2 provider linked account (Google, Apple, X, Telegram, GitHub). NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: google, ap- ple, x, telegram, github. google -&gt; (structure) Google OAuth2 authentication. sub -&gt; (string) [required] The subject (sub) claim from the OAuth2 provider. Uniquely identifies the user at the provider. Constraints: o min: 1 o max: 255 emailAddress -&gt; (string) The email address from the OAuth2 provider. Constraints: o min: 1 o max: 254 o pattern: [a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,} name -&gt; (string) The user's name from the OAuth2 provider. Constraints: o min: 1 o max: 255 username -&gt; (string) The username from the OAuth2 provider. Constraints: o min: 1 o max: 255 apple -&gt; (structure) Apple OAuth2 authentication. sub -&gt; (string) [required] The subject (sub) claim from the OAuth2 provider. Uniquely identifies the user at the provider. Constraints: o min: 1 o max: 255 emailAddress -&gt; (string) The email address from the OAuth2 provider. Constraints: o min: 1 o max: 254 o pattern: [a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,} name -&gt; (string) The user's name from the OAuth2 provider. Constraints: o min: 1 o max: 255 username -&gt; (string) The username from the OAuth2 provider. Constraints: o min: 1 o max: 255 x -&gt; (structure) X (formerly Twitter) OAuth2 authentication. sub -&gt; (string) [required] The subject (sub) claim from the OAuth2 provider. Uniquely identifies the user at the provider. Constraints: o min: 1 o max: 255 emailAddress -&gt; (string) The email address from the OAuth2 provider. Constraints: o min: 1 o max: 254 o pattern: [a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,} name -&gt; (string) The user's name from the OAuth2 provider. Constraints: o min: 1 o max: 255 username -&gt; (string) The username from the OAuth2 provider. Constraints: o min: 1 o max: 255 telegram -&gt; (structure) Telegram OAuth2 authentication. sub -&gt; (string) [required] The subject (sub) claim from the OAuth2 provider. Uniquely identifies the user at the provider. Constraints: o min: 1 o max: 255 emailAddress -&gt; (string) The email address from the OAuth2 provider. Constraints: o min: 1 o max: 254 o pattern: [a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,} name -&gt; (string) The user's name from the OAuth2 provider. Constraints: o min: 1 o max: 255 username -&gt; (string) The username from the OAuth2 provider. Constraints: o min: 1 o max: 255 github -&gt; (structure) GitHub OAuth2 authentication. sub -&gt; (string) [required] The subject (sub) claim from the OAuth2 provider. Uniquely identifies the user at the provider. Constraints: o min: 1 o max: 255 emailAddress -&gt; (string) The email address from the OAuth2 provider. Constraints: o min: 1 o max: 254 o pattern: [a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,} name -&gt; (string) The user's name from the OAuth2 provider. Constraints: o min: 1 o max: 255 username -&gt; (string) The username from the OAuth2 provider. Constraints: o min: 1 o max: 255 walletAddress -&gt; (string) The wallet address on the specified blockchain network. redirectUrl -&gt; (string) URL for the end user to complete a provider-specific action such as wallet linking or onboarding. Constraints: o min: 0 o max: 2048 JSON Syntax: { "embeddedCryptoWallet": { "network": "ETHEREUM"|"SOLANA", "linkedAccounts": [ { "email": { "emailAddress": "string" }, "sms": { "phoneNumber": "string" }, "developerJwt": { "kid": "string", "sub": "string" }, "oAuth2": { "google": { "sub": "string", "emailAddress": "string", "name": "string", "username": "string" }, "apple": { "sub": "string", "emailAddress": "string", "name": "string", "username": "string" }, "x": { "sub": "string", "emailAddress": "string", "name": "string", "username": "string" }, "telegram": { "sub": "string", "emailAddress": "string", "name": "string", "username": "string" }, "github": { "sub": "string", "emailAddress": "string", "name": "string", "username": "string" } } } ... ], "walletAddress": "string", "redirectUrl": "string" } }</param>
+    public AwsBedrockAgentcoreCreatePaymentInstrumentOptions(
+        string PaymentManagerArn,
+        string PaymentConnectorId,
+        AwsBedrockAgentcoreCreatePaymentInstrumentPaymentInstrumentType PaymentInstrumentType,
+        string PaymentInstrumentDetails
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PaymentManagerArn);
+        this.PaymentManagerArn = PaymentManagerArn;
+        global::System.ArgumentNullException.ThrowIfNull(PaymentConnectorId);
+        this.PaymentConnectorId = PaymentConnectorId;
+        global::System.ArgumentNullException.ThrowIfNull(PaymentInstrumentType);
+        this.PaymentInstrumentType = PaymentInstrumentType;
+        global::System.ArgumentNullException.ThrowIfNull(PaymentInstrumentDetails);
+        this.PaymentInstrumentDetails = PaymentInstrumentDetails;
+    }
+
+    private AwsBedrockAgentcoreCreatePaymentInstrumentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreCreatePaymentInstrumentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreCreatePaymentInstrumentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the payment manager that owns this payment instrument. Constraints: o min: 66 o max: 2048 o pattern: arn:(aws|aws-[a-z0-9-]+):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:payment-man- ager/[a-z0-9]([a-z0-9-]{0,47}[a-z0-9])?-[a-z0-9]{10}
+    /// </summary>
+    [CliOption("--payment-manager-arn")]
+    public string? PaymentManagerArn { get; private init; }
+
+    /// <summary>
+    /// The ID of the payment connector to use for this instrument. Constraints: o min: 12 o max: 211 o pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}
+    /// </summary>
+    [CliOption("--payment-connector-id")]
+    public string? PaymentConnectorId { get; private init; }
+
+    /// <summary>
+    /// The type of payment instrument being created. Possible values: o EMBEDDED_CRYPTO_WALLET
+    /// </summary>
+    [CliOption("--payment-instrument-type")]
+    public AwsBedrockAgentcoreCreatePaymentInstrumentPaymentInstrumentType? PaymentInstrumentType { get; private init; }
+
+    /// <summary>
+    /// The details of the payment instrument. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: embeddedCryptoWallet. embeddedCryptoWallet -&gt; (structure) Embedded crypto wallet managed directly by end user. network -&gt; (string) [required] The blockchain network for this embedded crypto wallet. Sup- ported networks: ETHEREUM, SOLANA. Possible values: o ETHEREUM o SOLANA linkedAccounts -&gt; (list) [required] List of linked accounts linked to this wallet. Each repre- sents a way the end user can authenticate to this wallet. Constraints: o min: 0 o max: 1 (tagged union structure) Represents different linked accounts that can be linked to an embedded wallet. Supports email, SMS, JWT, and OAuth2 approaches. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: email, sms, develop- erJwt, oAuth2. email -&gt; (structure) Email-based linked account. emailAddress -&gt; (string) [required] The email address used for the linked account. Must be a valid email format. Constraints: o min: 1 o max: 254 o pattern: [a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,} sms -&gt; (structure) SMS-based linked account using phone number. phoneNumber -&gt; (string) [required] The phone number in E.164 format (e.g., +1234567890). Constraints: o min: 3 o max: 16 o pattern: \+[1-9]\d{1,14} developerJwt -&gt; (structure) Developer JWT linked account with key ID and subject. kid -&gt; (string) [required] The key ID (kid) from the JWT header. Identifies which key was used to sign the JWT. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_-]{1,255} sub -&gt; (string) [required] The subject (sub) claim from the JWT payload. Identifies the principal that is the subject of the JWT. Constraints: o min: 1 o max: 255 oAuth2 -&gt; (tagged union structure) OAuth2 provider linked account (Google, Apple, X, Telegram, GitHub). NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: google, ap- ple, x, telegram, github. google -&gt; (structure) Google OAuth2 authentication. sub -&gt; (string) [required] The subject (sub) claim from the OAuth2 provider. Uniquely identifies the user at the provider. Constraints: o min: 1 o max: 255 emailAddress -&gt; (string) The email address from the OAuth2 provider. Constraints: o min: 1 o max: 254 o pattern: [a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,} name -&gt; (string) The user's name from the OAuth2 provider. Constraints: o min: 1 o max: 255 username -&gt; (string) The username from the OAuth2 provider. Constraints: o min: 1 o max: 255 apple -&gt; (structure) Apple OAuth2 authentication. sub -&gt; (string) [required] The subject (sub) claim from the OAuth2 provider. Uniquely identifies the user at the provider. Constraints: o min: 1 o max: 255 emailAddress -&gt; (string) The email address from the OAuth2 provider. Constraints: o min: 1 o max: 254 o pattern: [a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,} name -&gt; (string) The user's name from the OAuth2 provider. Constraints: o min: 1 o max: 255 username -&gt; (string) The username from the OAuth2 provider. Constraints: o min: 1 o max: 255 x -&gt; (structure) X (formerly Twitter) OAuth2 authentication. sub -&gt; (string) [required] The subject (sub) claim from the OAuth2 provider. Uniquely identifies the user at the provider. Constraints: o min: 1 o max: 255 emailAddress -&gt; (string) The email address from the OAuth2 provider. Constraints: o min: 1 o max: 254 o pattern: [a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,} name -&gt; (string) The user's name from the OAuth2 provider. Constraints: o min: 1 o max: 255 username -&gt; (string) The username from the OAuth2 provider. Constraints: o min: 1 o max: 255 telegram -&gt; (structure) Telegram OAuth2 authentication. sub -&gt; (string) [required] The subject (sub) claim from the OAuth2 provider. Uniquely identifies the user at the provider. Constraints: o min: 1 o max: 255 emailAddress -&gt; (string) The email address from the OAuth2 provider. Constraints: o min: 1 o max: 254 o pattern: [a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,} name -&gt; (string) The user's name from the OAuth2 provider. Constraints: o min: 1 o max: 255 username -&gt; (string) The username from the OAuth2 provider. Constraints: o min: 1 o max: 255 github -&gt; (structure) GitHub OAuth2 authentication. sub -&gt; (string) [required] The subject (sub) claim from the OAuth2 provider. Uniquely identifies the user at the provider. Constraints: o min: 1 o max: 255 emailAddress -&gt; (string) The email address from the OAuth2 provider. Constraints: o min: 1 o max: 254 o pattern: [a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,} name -&gt; (string) The user's name from the OAuth2 provider. Constraints: o min: 1 o max: 255 username -&gt; (string) The username from the OAuth2 provider. Constraints: o min: 1 o max: 255 walletAddress -&gt; (string) The wallet address on the specified blockchain network. redirectUrl -&gt; (string) URL for the end user to complete a provider-specific action such as wallet linking or onboarding. Constraints: o min: 0 o max: 2048 JSON Syntax: { "embeddedCryptoWallet": { "network": "ETHEREUM"|"SOLANA", "linkedAccounts": [ { "email": { "emailAddress": "string" }, "sms": { "phoneNumber": "string" }, "developerJwt": { "kid": "string", "sub": "string" }, "oAuth2": { "google": { "sub": "string", "emailAddress": "string", "name": "string", "username": "string" }, "apple": { "sub": "string", "emailAddress": "string", "name": "string", "username": "string" }, "x": { "sub": "string", "emailAddress": "string", "name": "string", "username": "string" }, "telegram": { "sub": "string", "emailAddress": "string", "name": "string", "username": "string" }, "github": { "sub": "string", "emailAddress": "string", "name": "string", "username": "string" } } } ... ], "walletAddress": "string", "redirectUrl": "string" } }
+    /// </summary>
+    [CliOption("--payment-instrument-details")]
+    public string? PaymentInstrumentDetails { get; private init; }
+
     /// <summary>
     /// The user ID associated with this payment instrument. Constraints: o min: 0 o max: 120
     /// </summary>
@@ -33,18 +104,6 @@ public record AwsBedrockAgentcoreCreatePaymentInstrumentOptions : AwsOptions
     /// </summary>
     [CliOption("--agent-name")]
     public string? AgentName { get; set; }
-
-    [CliOption("--payment-manager-arn")]
-    public string? PaymentManagerArn { get; set; }
-
-    [CliOption("--payment-connector-id")]
-    public string? PaymentConnectorId { get; set; }
-
-    [CliOption("--payment-instrument-type")]
-    public string? PaymentInstrumentType { get; set; }
-
-    [CliOption("--payment-instrument-details")]
-    public string? PaymentInstrumentDetails { get; set; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
@@ -58,5 +117,22 @@ public record AwsBedrockAgentcoreCreatePaymentInstrumentOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

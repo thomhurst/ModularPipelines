@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("guardduty", "accept-administrator-invitation")]
-public record AwsGuarddutyAcceptAdministratorInvitationOptions : AwsOptions
+public record AwsGuarddutyAcceptAdministratorInvitationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Accepts the invitation to be a member account and get monitored by a GuardDuty administrator account that sent the invitation. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DetectorId">The unique ID of the detector of the GuardDuty member account. Constraints: o min: 1 o max: 300</param>
+    /// <param name="AdministratorId">The account ID of the GuardDuty administrator account whose invita- tion you're accepting.</param>
+    /// <param name="InvitationId">The value that is used to validate the administrator account to the member account.</param>
+    public AwsGuarddutyAcceptAdministratorInvitationOptions(
+        string DetectorId,
+        string AdministratorId,
+        string InvitationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DetectorId);
+        this.DetectorId = DetectorId;
+        global::System.ArgumentNullException.ThrowIfNull(AdministratorId);
+        this.AdministratorId = AdministratorId;
+        global::System.ArgumentNullException.ThrowIfNull(InvitationId);
+        this.InvitationId = InvitationId;
+    }
+
+    private AwsGuarddutyAcceptAdministratorInvitationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGuarddutyAcceptAdministratorInvitationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGuarddutyAcceptAdministratorInvitationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique ID of the detector of the GuardDuty member account. Constraints: o min: 1 o max: 300
+    /// </summary>
     [CliOption("--detector-id")]
-    public string? DetectorId { get; set; }
+    public string? DetectorId { get; private init; }
 
+    /// <summary>
+    /// The account ID of the GuardDuty administrator account whose invita- tion you're accepting.
+    /// </summary>
     [CliOption("--administrator-id")]
-    public string? AdministratorId { get; set; }
+    public string? AdministratorId { get; private init; }
 
+    /// <summary>
+    /// The value that is used to validate the administrator account to the member account.
+    /// </summary>
     [CliOption("--invitation-id")]
-    public string? InvitationId { get; set; }
+    public string? InvitationId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

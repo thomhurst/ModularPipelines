@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,20 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("emr-containers", "get-managed-endpoint-session-credentials")]
-public record AwsEmrContainersGetManagedEndpointSessionCredentialsOptions : AwsOptions
+public record AwsEmrContainersGetManagedEndpointSessionCredentialsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Generate a session token to connect to a managed endpoint. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EndpointIdentifier">The ARN of the managed endpoint for which the request is submitted. Constraints: o min: 1 o max: 2048 o pattern: .*\S.*</param>
+    /// <param name="VirtualClusterIdentifier">The ARN of the Virtual Cluster which the Managed Endpoint belongs to. Constraints: o min: 1 o max: 2048 o pattern: .*\S.*</param>
+    /// <param name="ExecutionRoleArn">The IAM Execution Role ARN that will be used by the job run. Constraints: o min: 20 o max: 2048 o pattern: ^arn:(aws[a-zA-Z0-9-]*):iam::(\d{12})?:(role((\u002F)|(\u002F[\u0021-\u007F]+\u002F))[\w+=,.@-]+)$</param>
+    /// <param name="CredentialType">Type of the token requested. Currently supported and default value of this field is TOKEN. Constraints: o min: 1 o max: 64 o pattern: ^.*\S.*$</param>
+    public AwsEmrContainersGetManagedEndpointSessionCredentialsOptions(
+        string EndpointIdentifier,
+        string VirtualClusterIdentifier,
+        string ExecutionRoleArn,
+        string CredentialType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EndpointIdentifier);
+        this.EndpointIdentifier = EndpointIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(VirtualClusterIdentifier);
+        this.VirtualClusterIdentifier = VirtualClusterIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(ExecutionRoleArn);
+        this.ExecutionRoleArn = ExecutionRoleArn;
+        global::System.ArgumentNullException.ThrowIfNull(CredentialType);
+        this.CredentialType = CredentialType;
+    }
+
+    private AwsEmrContainersGetManagedEndpointSessionCredentialsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEmrContainersGetManagedEndpointSessionCredentialsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEmrContainersGetManagedEndpointSessionCredentialsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the managed endpoint for which the request is submitted. Constraints: o min: 1 o max: 2048 o pattern: .*\S.*
+    /// </summary>
     [CliOption("--endpoint-identifier")]
-    public string? EndpointIdentifier { get; set; }
+    public string? EndpointIdentifier { get; private init; }
 
+    /// <summary>
+    /// The ARN of the Virtual Cluster which the Managed Endpoint belongs to. Constraints: o min: 1 o max: 2048 o pattern: .*\S.*
+    /// </summary>
     [CliOption("--virtual-cluster-identifier")]
-    public string? VirtualClusterIdentifier { get; set; }
+    public string? VirtualClusterIdentifier { get; private init; }
 
+    /// <summary>
+    /// The IAM Execution Role ARN that will be used by the job run. Constraints: o min: 20 o max: 2048 o pattern: ^arn:(aws[a-zA-Z0-9-]*):iam::(\d{12})?:(role((\u002F)|(\u002F[\u0021-\u007F]+\u002F))[\w+=,.@-]+)$
+    /// </summary>
     [CliOption("--execution-role-arn")]
-    public string? ExecutionRoleArn { get; set; }
+    public string? ExecutionRoleArn { get; private init; }
 
+    /// <summary>
+    /// Type of the token requested. Currently supported and default value of this field is TOKEN. Constraints: o min: 1 o max: 64 o pattern: ^.*\S.*$
+    /// </summary>
     [SecretValue]
     [CliOption("--credential-type")]
-    public string? CredentialType { get; set; }
+    public string? CredentialType { get; private init; }
 
     /// <summary>
     /// Duration in seconds for which the session token is valid. The de- fault duration is 15 minutes and the maximum is 12 hours.
@@ -59,5 +117,22 @@ public record AwsEmrContainersGetManagedEndpointSessionCredentialsOptions : AwsO
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

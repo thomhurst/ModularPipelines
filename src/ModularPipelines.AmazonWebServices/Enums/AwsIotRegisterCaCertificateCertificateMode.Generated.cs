@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --certificatemode.
+/// Allowed values for --certificate-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotRegisterCaCertificateCertificateMode
 {
     [EnumValue("DEFAULT")]
-    Default = 1,
+    Default,
 
     [EnumValue("SNI_ONLY")]
-    SniOnly = 2
+    SniOnly
 }

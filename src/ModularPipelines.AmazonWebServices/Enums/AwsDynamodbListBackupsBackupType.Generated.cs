@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --backuptype.
+/// Allowed values for --backup-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDynamodbListBackupsBackupType
 {
-    [EnumValue("USER")]
-    User = 1,
-
-    [EnumValue("SYSTEM")]
-    System = 2,
+    [EnumValue("ALL")]
+    All,
 
     [EnumValue("AWS_BACKUP")]
-    AwsBackup = 3,
+    AwsBackup,
 
-    [EnumValue("ALL")]
-    All = 4
+    [EnumValue("SYSTEM")]
+    System,
+
+    [EnumValue("USER")]
+    User
 }

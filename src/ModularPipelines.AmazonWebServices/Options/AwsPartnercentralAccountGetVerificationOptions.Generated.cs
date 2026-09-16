@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +21,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("partnercentral-account", "get-verification")]
-public record AwsPartnercentralAccountGetVerificationOptions : AwsOptions
+public record AwsPartnercentralAccountGetVerificationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves the current status and details of a verification process for a partner account. This operation allows partners to check the progress and results of business or registrant verification processes. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="VerificationType">The type of verification to retrieve information for. Valid values include business verification for company registration details and registrant verification for individual identity confirmation. Possible values: o BUSINESS_VERIFICATION o REGISTRANT_VERIFICATION</param>
+    public AwsPartnercentralAccountGetVerificationOptions(
+        AwsPartnercentralAccountGetVerificationVerificationType VerificationType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VerificationType);
+        this.VerificationType = VerificationType;
+    }
+
+    private AwsPartnercentralAccountGetVerificationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPartnercentralAccountGetVerificationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPartnercentralAccountGetVerificationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The type of verification to retrieve information for. Valid values include business verification for company registration details and registrant verification for individual identity confirmation. Possible values: o BUSINESS_VERIFICATION o REGISTRANT_VERIFICATION
+    /// </summary>
     [CliOption("--verification-type")]
-    public string? VerificationType { get; set; }
+    public AwsPartnercentralAccountGetVerificationVerificationType? VerificationType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,20 +10,56 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new event data store. See also: AWS API Documentation
+/// WARNING: CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see CloudTrail Lake availability change . Creates a new event data store. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudtrail", "create-event-data-store")]
-public record AwsCloudtrailCreateEventDataStoreOptions : AwsOptions
+public record AwsCloudtrailCreateEventDataStoreOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// WARNING: CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see CloudTrail Lake availability change . Creates a new event data store. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the event data store. Constraints: o min: 3 o max: 128 o pattern: ^[a-zA-Z0-9._\-]+$</param>
+    public AwsCloudtrailCreateEventDataStoreOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsCloudtrailCreateEventDataStoreOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudtrailCreateEventDataStoreOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudtrailCreateEventDataStoreOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the event data store. Constraints: o min: 3 o max: 128 o pattern: ^[a-zA-Z0-9._\-]+$
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
     /// <summary>
     /// The advanced event selectors to use to select the events for the data store. You can configure up to five advanced event selectors for each event data store. For more information about how to use advanced event selectors to log CloudTrail events, see Log events by using advanced event selec- tors in the CloudTrail User Guide. For more information about how to use advanced event selectors to include Config configuration items in your event data store, see Create an event data store for Config configuration items in the CloudTrail User Guide. For more information about how to use advanced event selectors to include events outside of Amazon Web Services events in your event data store, see Create an integration to log events from outside Amazon Web Services in the CloudTrail User Guide. (structure) Advanced event selectors let you create fine-grained selectors for CloudTrail management, data, and network activity events. They help you control costs by logging only those events that are important to you. For more information about configuring ad- vanced event selectors, see the Logging data events , Logging network activity events , and Logging management events topics in the CloudTrail User Guide . You cannot apply both event selectors and advanced event selec- tors to a trail. For information about configurable advanced event selector fields, see AdvancedEventSelector in the CloudTrail API Refer- ence . Name -&gt; (string) An optional, descriptive name for an advanced event selector, such as "Log data events for only two S3 buckets". Constraints: o min: 0 o max: 1000 o pattern: .* FieldSelectors -&gt; (list) [required] Contains all selector statements in an advanced event selec- tor. Constraints: o min: 1 (structure) A single selector statement in an advanced event selec- tor. Field -&gt; (string) [required] A field in a CloudTrail event record on which to fil- ter events to be logged. For event data stores for CloudTrail Insights events, Config configuration items, Audit Manager evidence, or events outside of Amazon Web Services, the field is used only for se- lecting events as filtering is not supported. For more information, see AdvancedFieldSelector in the CloudTrail API Reference . NOTE: Selectors don't support the use of wildcards like * . To match multiple values with a single condi- tion, you may use StartsWith , EndsWith , Not- StartsWith , or NotEndsWith to explicitly match the beginning or end of the event field. Constraints: o min: 1 o max: 1000 o pattern: [\w|\d|\.|_]+ Equals -&gt; (list) An operator that includes events that match the exact value of the event record field specified as the value of Field . This is the only valid operator that you can use with the readOnly , eventCategory , and re- sources.type fields. Constraints: o min: 1 (string) Constraints: o min: 1 o max: 2048 o pattern: .+ StartsWith -&gt; (list) An operator that includes events that match the first few characters of the event record field specified as the value of Field . Constraints: o min: 1 (string) Constraints: o min: 1 o max: 2048 o pattern: .+ EndsWith -&gt; (list) An operator that includes events that match the last few characters of the event record field specified as the value of Field . Constraints: o min: 1 (string) Constraints: o min: 1 o max: 2048 o pattern: .+ NotEquals -&gt; (list) An operator that excludes events that match the exact value of the event record field specified as the value of Field . Constraints: o min: 1 (string) Constraints: o min: 1 o max: 2048 o pattern: .+ NotStartsWith -&gt; (list) An operator that excludes events that match the first few characters of the event record field specified as the value of Field . Constraints: o min: 1 (string) Constraints: o min: 1 o max: 2048 o pattern: .+ NotEndsWith -&gt; (list) An operator that excludes events that match the last few characters of the event record field specified as the value of Field . Constraints: o min: 1 (string) Constraints: o min: 1 o max: 2048 o pattern: .+ JSON Syntax: [ { "Name": "string", "FieldSelectors": [ { "Field": "string", "Equals": ["string", ...], "StartsWith": ["string", ...], "EndsWith": ["string", ...], "NotEquals": ["string", ...], "NotStartsWith": ["string", ...], "NotEndsWith": ["string", ...] } ... ] } ... ]
@@ -31,10 +67,16 @@ public record AwsCloudtrailCreateEventDataStoreOptions : AwsOptions
     [CliOption("--advanced-event-selectors", GroupValues = true)]
     public IEnumerable<string>? AdvancedEventSelectors { get; set; }
 
-    [CliFlag("--multi-region-enabled")]
+    /// <summary>
+    /// Specifies whether the event data store includes events from all Re- gions, or only from the Region in which the event data store is cre- ated.
+    /// </summary>
+    [CliFlag("--multi-region-enabled", NegatedName = "--no-multi-region-enabled")]
     public bool? MultiRegionEnabled { get; set; }
 
-    [CliFlag("--organization-enabled")]
+    /// <summary>
+    /// Specifies whether an event data store collects events logged for an organization in Organizations.
+    /// </summary>
+    [CliFlag("--organization-enabled", NegatedName = "--no-organization-enabled")]
     public bool? OrganizationEnabled { get; set; }
 
     /// <summary>
@@ -43,7 +85,10 @@ public record AwsCloudtrailCreateEventDataStoreOptions : AwsOptions
     [CliOption("--retention-period")]
     public int? RetentionPeriod { get; set; }
 
-    [CliFlag("--termination-protection-enabled")]
+    /// <summary>
+    /// Specifies whether termination protection is enabled for the event data store. If termination protection is enabled, you cannot delete the event data store until termination protection is disabled.
+    /// </summary>
+    [CliFlag("--termination-protection-enabled", NegatedName = "--no-termination-protection-enabled")]
     public bool? TerminationProtectionEnabled { get; set; }
 
     /// <summary>
@@ -58,19 +103,39 @@ public record AwsCloudtrailCreateEventDataStoreOptions : AwsOptions
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
-    [CliFlag("--start-ingestion")]
+    /// <summary>
+    /// Specifies whether the event data store should start ingesting live events. The default is true.
+    /// </summary>
+    [CliFlag("--start-ingestion", NegatedName = "--no-start-ingestion")]
     public bool? StartIngestion { get; set; }
 
     /// <summary>
     /// The billing mode for the event data store determines the cost for ingesting events and the default and maximum retention period for the event data store. The following are the possible values: o EXTENDABLE_RETENTION_PRICING - This billing mode is generally rec- ommended if you want a flexible retention period of up to 3653 days (about 10 years). The default retention period for this billing mode is 366 days. o FIXED_RETENTION_PRICING - This billing mode is recommended if you expect to ingest more than 25 TB of event data per month and need a retention period of up to 2557 days (about 7 years). The default retention period for this billing mode is 2557 days. The default value is EXTENDABLE_RETENTION_PRICING . For more information about CloudTrail pricing, see CloudTrail Pric- ing and Managing CloudTrail Lake costs . Possible values: o EXTENDABLE_RETENTION_PRICING o FIXED_RETENTION_PRICING
     /// </summary>
     [CliOption("--billing-mode")]
-    public AwsCloudtrailCreateEventDataStoreBillingMode? BillingMode { get; set; }
+    public string? BillingMode { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

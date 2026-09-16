@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,22 +21,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("grafana", "delete-workspace-service-account-token")]
-public record AwsGrafanaDeleteWorkspaceServiceAccountTokenOptions : AwsOptions
+public record AwsGrafanaDeleteWorkspaceServiceAccountTokenOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes a token for the workspace service account. This will disable the key associated with the token. If any automation is currently using the key, it will no longer be authenticated or au- thorized to perform actions with the Grafana HTTP APIs. Service accounts are only available for workspaces that are compatible with Grafana version 9 and above. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TokenId">The ID of the token to delete.</param>
+    /// <param name="ServiceAccountId">The ID of the service account from which to delete the token.</param>
+    /// <param name="WorkspaceId">The ID of the workspace from which to delete the token. Constraints: o pattern: g-[0-9a-f]{10}</param>
+    public AwsGrafanaDeleteWorkspaceServiceAccountTokenOptions(
+        string TokenId,
+        string ServiceAccountId,
+        string WorkspaceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TokenId);
+        this.TokenId = TokenId;
+        global::System.ArgumentNullException.ThrowIfNull(ServiceAccountId);
+        this.ServiceAccountId = ServiceAccountId;
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceId);
+        this.WorkspaceId = WorkspaceId;
+    }
+
+    private AwsGrafanaDeleteWorkspaceServiceAccountTokenOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGrafanaDeleteWorkspaceServiceAccountTokenOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGrafanaDeleteWorkspaceServiceAccountTokenOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the token to delete.
+    /// </summary>
     [SecretValue]
     [CliOption("--token-id")]
-    public string? TokenId { get; set; }
+    public string? TokenId { get; private init; }
 
+    /// <summary>
+    /// The ID of the service account from which to delete the token.
+    /// </summary>
     [CliOption("--service-account-id")]
-    public string? ServiceAccountId { get; set; }
+    public string? ServiceAccountId { get; private init; }
 
+    /// <summary>
+    /// The ID of the workspace from which to delete the token. Constraints: o pattern: g-[0-9a-f]{10}
+    /// </summary>
     [CliOption("--workspace-id")]
-    public string? WorkspaceId { get; set; }
+    public string? WorkspaceId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

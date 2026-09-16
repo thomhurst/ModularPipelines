@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --detaillevel.
+/// Allowed values for --detail-level.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsApplicationSignalsListAuditFindingsDetailLevel
 {
     [EnumValue("BRIEF")]
-    Brief = 1,
+    Brief,
 
     [EnumValue("DETAILED")]
-    Detailed = 2
+    Detailed
 }

@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apigatewayv2", "create-domain-name")]
-public record AwsApigatewayv2CreateDomainNameOptions : AwsOptions
+public record AwsApigatewayv2CreateDomainNameOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a domain name. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainName">The domain name.</param>
+    public AwsApigatewayv2CreateDomainNameOptions(
+        string DomainName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainName);
+        this.DomainName = DomainName;
+    }
+
+    private AwsApigatewayv2CreateDomainNameOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApigatewayv2CreateDomainNameOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApigatewayv2CreateDomainNameOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The domain name.
+    /// </summary>
     [CliOption("--domain-name")]
-    public string? DomainName { get; set; }
+    public string? DomainName { get; private init; }
 
     /// <summary>
     /// The domain name configurations. (structure) The domain name configuration. ApiGatewayDomainName -&gt; (string) A domain name for the API. CertificateArn -&gt; (string) An AWS-managed certificate that will be used by the edge-op- timized endpoint for this domain name. AWS Certificate Man- ager is the only supported source. CertificateName -&gt; (string) The user-friendly name of the certificate that will be used by the edge-optimized endpoint for this domain name. CertificateUploadDate -&gt; (timestamp) The timestamp when the certificate that was used by edge-op- timized endpoint for this domain name was uploaded. DomainNameStatus -&gt; (string) The status of the domain name migration. The valid values are AVAILABLE, UPDATING, PENDING_CERTIFICATE_REIMPORT, and PEND- ING_OWNERSHIP_VERIFICATION. If the status is UPDATING, the domain cannot be modified further until the existing opera- tion is complete. If it is AVAILABLE, the domain can be up- dated. Possible values: o AVAILABLE o UPDATING o PENDING_CERTIFICATE_REIMPORT o PENDING_OWNERSHIP_VERIFICATION DomainNameStatusMessage -&gt; (string) An optional text message containing detailed information about status of the domain name migration. EndpointType -&gt; (string) The endpoint type. Possible values: o REGIONAL o EDGE HostedZoneId -&gt; (string) The Amazon Route 53 Hosted Zone ID of the endpoint. IpAddressType -&gt; (string) The IP address types that can invoke the domain name. Use ipv4 to allow only IPv4 addresses to invoke your domain name, or use dualstack to allow both IPv4 and IPv6 addresses to in- voke your domain name. Possible values: o ipv4 o dualstack SecurityPolicy -&gt; (string) The Transport Layer Security (TLS) version of the security policy for this domain name. The valid values are TLS_1_0 and TLS_1_2. Possible values: o TLS_1_0 o TLS_1_2 OwnershipVerificationCertificateArn -&gt; (string) The ARN of the public certificate issued by ACM to validate ownership of your custom domain. Only required when configur- ing mutual TLS and using an ACM imported or private CA cer- tificate ARN as the regionalCertificateArn Shorthand Syntax: ApiGatewayDomainName=string,CertificateArn=string,CertificateName=string,CertificateUploadDate=timestamp,DomainNameStatus=string,DomainNameStatusMessage=string,EndpointType=string,HostedZoneId=string,IpAddressType=string,SecurityPolicy=string,OwnershipVerificationCertificateArn=string ... JSON Syntax: [ { "ApiGatewayDomainName": "string", "CertificateArn": "string", "CertificateName": "string", "CertificateUploadDate": timestamp, "DomainNameStatus": "AVAILABLE"|"UPDATING"|"PENDING_CERTIFICATE_REIMPORT"|"PENDING_OWNERSHIP_VERIFICATION", "DomainNameStatusMessage": "string", "EndpointType": "REGIONAL"|"EDGE", "HostedZoneId": "string", "IpAddressType": "ipv4"|"dualstack", "SecurityPolicy": "TLS_1_0"|"TLS_1_2", "OwnershipVerificationCertificateArn": "string" } ... ]
@@ -55,5 +92,22 @@ public record AwsApigatewayv2CreateDomainNameOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,12 +21,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "list-recovery-points-by-resource")]
-public record AwsBackupListRecoveryPointsByResourceOptions : AwsOptions
+public record AwsBackupListRecoveryPointsByResourceOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--resource-arn")]
-    public string? ResourceArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--managed-by-aws-backup-only")]
+    /// <summary>
+    /// The information about the recovery points of the type specified by a resource Amazon Resource Name (ARN). NOTE: For Amazon EFS and Amazon EC2, this action only lists recovery points created by Backup. See also: AWS API Documentation list-recovery-points-by-resource is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument ...
+    /// </summary>
+    /// <param name="ResourceArn">An ARN that uniquely identifies a resource. The format of the ARN depends on the resource type.</param>
+    public AwsBackupListRecoveryPointsByResourceOptions(
+        string ResourceArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
+        this.ResourceArn = ResourceArn;
+    }
+
+    private AwsBackupListRecoveryPointsByResourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBackupListRecoveryPointsByResourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBackupListRecoveryPointsByResourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// An ARN that uniquely identifies a resource. The format of the ARN depends on the resource type.
+    /// </summary>
+    [CliOption("--resource-arn")]
+    public string? ResourceArn { get; private init; }
+
+    /// <summary>
+    /// This attribute filters recovery points based on ownership. If this is set to TRUE , the response will contain recovery points associated with the selected resources that are managed by Backup. If this is set to FALSE , the response will contain all recovery points associated with the selected resource, except for EBS snap- shots copied within the same Region and account. Type: Boolean
+    /// </summary>
+    [CliFlag("--managed-by-aws-backup-only", NegatedName = "--no-managed-by-aws-backup-only")]
     public bool? ManagedByAwsBackupOnly { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -52,5 +92,22 @@ public record AwsBackupListRecoveryPointsByResourceOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("textract", "analyze-document")]
-public record AwsTextractAnalyzeDocumentOptions : AwsOptions
+public record AwsTextractAnalyzeDocumentOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--document")]
-    public string? Document { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Analyzes an input document for relationships between detected items. The types of information returned are as follows: o Form data (key-value pairs). The related information is returned in two Block objects, each of type KEY_VALUE_SET : a KEY Block object and a VALUE Block object. For example, Name: Ana Silva Carolina con- tains a key and value. Name: is the key. Ana Silva Carolina is the value. o Table and table cell data. A TABLE Block object contains information about a detected table. A CELL...
+    /// </summary>
+    /// <param name="Document">The input document as base64-encoded bytes or an Amazon S3 object. If you use the AWS CLI to call Amazon Textract operations, you can't pass image bytes. The document must be an image in JPEG, PNG, PDF, or TIFF format. If you're using an AWS SDK to call Amazon Textract, you might not need to base64-encode image bytes that are passed using the Bytes field. Bytes -&gt; (blob) A blob of base64-encoded document bytes. The maximum size of a document that's provided in a blob of bytes is 5 MB. The docu- ment bytes must be in PNG or JPEG format. If you're using an AWS SDK to call Amazon Textract, you might not need to base64-encode image bytes passed using the Bytes field. Constraints: o min: 1 o max: 10485760 S3Object -&gt; (structure) Identifies an S3 object as the document source. The maximum size of a document that's stored in an S3 bucket is 5 MB. Bucket -&gt; (string) The name of the S3 bucket. Note that the # character is not valid in the file name. Constraints: o min: 3 o max: 255 o pattern: [0-9A-Za-z\.\-_]* Name -&gt; (string) The file name of the input document. Image files may be in PDF, TIFF, JPEG, or PNG format. Constraints: o min: 1 o max: 1024 o pattern: .*\S.* Version -&gt; (string) If the bucket has versioning enabled, you can specify the ob- ject version. Constraints: o min: 1 o max: 1024 o pattern: .*\S.* Shorthand Syntax: Bytes=blob,S3Object={Bucket=string,Name=string,Version=string} JSON Syntax: { "Bytes": blob, "S3Object": { "Bucket": "string", "Name": "string", "Version": "string" } }</param>
+    /// <param name="FeatureTypes">A list of the types of analysis to perform. Add TABLES to the list to return information about the tables that are detected in the in- put document. Add FORMS to return detected form data. Add SIGNATURES to return the locations of detected signatures. Add LAYOUT to the list to return information about the layout of the document. All lines and words detected in the document are included in the re- sponse (including text that isn't related to the value of Feature- Types ). (string) Possible values: o TABLES o FORMS o QUERIES o SIGNATURES o LAYOUT Syntax: "string" "string" ...</param>
+    public AwsTextractAnalyzeDocumentOptions(
+        string Document,
+        IEnumerable<string> FeatureTypes
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Document);
+        this.Document = Document;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(FeatureTypes);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(FeatureTypes));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(FeatureTypes));
+            }
+
+            FeatureTypes = materialized;
+        }
+        this.FeatureTypes = FeatureTypes;
+    }
+
+    private AwsTextractAnalyzeDocumentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTextractAnalyzeDocumentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTextractAnalyzeDocumentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The input document as base64-encoded bytes or an Amazon S3 object. If you use the AWS CLI to call Amazon Textract operations, you can't pass image bytes. The document must be an image in JPEG, PNG, PDF, or TIFF format. If you're using an AWS SDK to call Amazon Textract, you might not need to base64-encode image bytes that are passed using the Bytes field. Bytes -&gt; (blob) A blob of base64-encoded document bytes. The maximum size of a document that's provided in a blob of bytes is 5 MB. The docu- ment bytes must be in PNG or JPEG format. If you're using an AWS SDK to call Amazon Textract, you might not need to base64-encode image bytes passed using the Bytes field. Constraints: o min: 1 o max: 10485760 S3Object -&gt; (structure) Identifies an S3 object as the document source. The maximum size of a document that's stored in an S3 bucket is 5 MB. Bucket -&gt; (string) The name of the S3 bucket. Note that the # character is not valid in the file name. Constraints: o min: 3 o max: 255 o pattern: [0-9A-Za-z\.\-_]* Name -&gt; (string) The file name of the input document. Image files may be in PDF, TIFF, JPEG, or PNG format. Constraints: o min: 1 o max: 1024 o pattern: .*\S.* Version -&gt; (string) If the bucket has versioning enabled, you can specify the ob- ject version. Constraints: o min: 1 o max: 1024 o pattern: .*\S.* Shorthand Syntax: Bytes=blob,S3Object={Bucket=string,Name=string,Version=string} JSON Syntax: { "Bytes": blob, "S3Object": { "Bucket": "string", "Name": "string", "Version": "string" } }
+    /// </summary>
+    [CliOption("--document")]
+    public string? Document { get; private init; }
+
+    /// <summary>
+    /// A list of the types of analysis to perform. Add TABLES to the list to return information about the tables that are detected in the in- put document. Add FORMS to return detected form data. Add SIGNATURES to return the locations of detected signatures. Add LAYOUT to the list to return information about the layout of the document. All lines and words detected in the document are included in the re- sponse (including text that isn't related to the value of Feature- Types ). (string) Possible values: o TABLES o FORMS o QUERIES o SIGNATURES o LAYOUT Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--feature-types", GroupValues = true)]
-    public IEnumerable<string>? FeatureTypes { get; set; }
+    public IEnumerable<string>? FeatureTypes { get; private init; }
 
     /// <summary>
     /// Sets the configuration for the human in the loop workflow for ana- lyzing documents. NOTE: Amazon Textract uses Amazon Augmented AI (A2I) to run the human review workflows that you specify in HumanLoopConfig . A2I en- tered maintenance mode in July 2026 and no longer accepts new customers. If your account is not an existing A2I customer, re- quests fail with an InvalidParameterException . For more infor- mation, see AWS service availability . If you're an existing A2I customer but receive this error, contact AWS Support and request assistance from the A2I team. HumanLoopName -&gt; (string) [required] The name of the human workflow used for this image. This should be kept unique within a region. Constraints: o min: 1 o max: 63 o pattern: ^[a-z0-9](-*[a-z0-9])* FlowDefinitionArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the flow definition. Constraints: o max: 256 DataAttributes -&gt; (structure) Sets attributes of the input data. ContentClassifiers -&gt; (list) Sets whether the input image is free of personally identifi- able information or adult content. Constraints: o max: 256 (string) Possible values: o FreeOfPersonallyIdentifiableInformation o FreeOfAdultContent Shorthand Syntax: HumanLoopName=string,FlowDefinitionArn=string,DataAttributes={ContentClassifiers=[string,string]} JSON Syntax: { "HumanLoopName": "string", "FlowDefinitionArn": "string", "DataAttributes": { "ContentClassifiers": ["FreeOfPersonallyIdentifiableInformation"|"FreeOfAdultContent", ...] } }
@@ -50,5 +105,22 @@ public record AwsTextractAnalyzeDocumentOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

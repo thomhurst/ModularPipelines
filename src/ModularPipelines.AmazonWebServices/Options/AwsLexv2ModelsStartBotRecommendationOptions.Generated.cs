@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +20,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lexv2-models", "start-bot-recommendation")]
-public record AwsLexv2ModelsStartBotRecommendationOptions : AwsOptions
+public record AwsLexv2ModelsStartBotRecommendationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Use this to provide your transcript data, and to start the bot recom- mendation process. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BotId">The unique identifier of the bot containing the bot recommendation. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="BotVersion">The version of the bot containing the bot recommendation. Constraints: o min: 5 o max: 5 o pattern: ^DRAFT$</param>
+    /// <param name="LocaleId">The identifier of the language and locale of the bot recommendation to start. The string must match one of the supported locales. For more information, see Supported languages</param>
+    /// <param name="TranscriptSourceSetting">The object representing the Amazon S3 bucket containing the tran- script, as well as the associated metadata. s3BucketTranscriptSource -&gt; (structure) Indicates the setting of the Amazon S3 bucket where the tran- script is stored. s3BucketName -&gt; (string) [required] The name of the bucket containing the transcript and the as- sociated metadata. Constraints: o min: 3 o max: 63 o pattern: ^[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9]$ pathFormat -&gt; (structure) The object that contains a path format that will be applied when Amazon Lex reads the transcript file in the bucket you provide. Specify this object if you only want Lex to read a subset of files in your Amazon S3 bucket. objectPrefixes -&gt; (list) A list of Amazon S3 prefixes that points to sub-folders in the Amazon S3 bucket. Specify this list if you only want Lex to read the files under this set of sub-folders. Constraints: o min: 1 o max: 2 (string) Constraints: o min: 1 o pattern: ^[\/]?+[a-zA-Z0-9!_.*'()-]+(\/[a-zA-Z0-9!_.*'()-]+)*$ transcriptFormat -&gt; (string) [required] The format of the transcript content. Currently, Genie only supports the Amazon Lex transcript format. Possible values: o Lex transcriptFilter -&gt; (structure) The object that contains the filter which will be applied when Amazon Lex reads through the Amazon S3 bucket. Specify this object if you want Amazon Lex to read only a subset of the Amazon S3 bucket based on the filter you provide. lexTranscriptFilter -&gt; (structure) The object representing the filter that Amazon Lex will use to select the appropriate transcript when the tran- script format is the Amazon Lex format. dateRangeFilter -&gt; (structure) The object that contains a date range filter that will be applied to the transcript. Specify this object if you want Amazon Lex to only read the files that are within the date range. startDateTime -&gt; (timestamp) [required] A timestamp indicating the start date for the date range filter. endDateTime -&gt; (timestamp) [required] A timestamp indicating the end date for the date range filter. kmsKeyArn -&gt; (string) The ARN of the KMS key that customer use to encrypt their Amazon S3 bucket. Only use this field if your bucket is en- crypted using a customer managed KMS key. Constraints: o min: 20 o max: 2048 o pattern: ^arn:[\w\-]+:kms:[\w\-]+:[\d]{12}:(?:key\/[\w\-]+|alias\/[a-zA-Z0-9:\/_\-]{1,256})$ JSON Syntax: { "s3BucketTranscriptSource": { "s3BucketName": "string", "pathFormat": { "objectPrefixes": ["string", ...] }, "transcriptFormat": "Lex", "transcriptFilter": { "lexTranscriptFilter": { "dateRangeFilter": { "startDateTime": timestamp, "endDateTime": timestamp } } }, "kmsKeyArn": "string" } }</param>
+    public AwsLexv2ModelsStartBotRecommendationOptions(
+        string BotId,
+        string BotVersion,
+        string LocaleId,
+        string TranscriptSourceSetting
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BotId);
+        this.BotId = BotId;
+        global::System.ArgumentNullException.ThrowIfNull(BotVersion);
+        this.BotVersion = BotVersion;
+        global::System.ArgumentNullException.ThrowIfNull(LocaleId);
+        this.LocaleId = LocaleId;
+        global::System.ArgumentNullException.ThrowIfNull(TranscriptSourceSetting);
+        this.TranscriptSourceSetting = TranscriptSourceSetting;
+    }
+
+    private AwsLexv2ModelsStartBotRecommendationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLexv2ModelsStartBotRecommendationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLexv2ModelsStartBotRecommendationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the bot containing the bot recommendation. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// </summary>
     [CliOption("--bot-id")]
-    public string? BotId { get; set; }
+    public string? BotId { get; private init; }
 
+    /// <summary>
+    /// The version of the bot containing the bot recommendation. Constraints: o min: 5 o max: 5 o pattern: ^DRAFT$
+    /// </summary>
     [CliOption("--bot-version")]
-    public string? BotVersion { get; set; }
+    public string? BotVersion { get; private init; }
 
+    /// <summary>
+    /// The identifier of the language and locale of the bot recommendation to start. The string must match one of the supported locales. For more information, see Supported languages
+    /// </summary>
     [CliOption("--locale-id")]
-    public string? LocaleId { get; set; }
+    public string? LocaleId { get; private init; }
 
+    /// <summary>
+    /// The object representing the Amazon S3 bucket containing the tran- script, as well as the associated metadata. s3BucketTranscriptSource -&gt; (structure) Indicates the setting of the Amazon S3 bucket where the tran- script is stored. s3BucketName -&gt; (string) [required] The name of the bucket containing the transcript and the as- sociated metadata. Constraints: o min: 3 o max: 63 o pattern: ^[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9]$ pathFormat -&gt; (structure) The object that contains a path format that will be applied when Amazon Lex reads the transcript file in the bucket you provide. Specify this object if you only want Lex to read a subset of files in your Amazon S3 bucket. objectPrefixes -&gt; (list) A list of Amazon S3 prefixes that points to sub-folders in the Amazon S3 bucket. Specify this list if you only want Lex to read the files under this set of sub-folders. Constraints: o min: 1 o max: 2 (string) Constraints: o min: 1 o pattern: ^[\/]?+[a-zA-Z0-9!_.*'()-]+(\/[a-zA-Z0-9!_.*'()-]+)*$ transcriptFormat -&gt; (string) [required] The format of the transcript content. Currently, Genie only supports the Amazon Lex transcript format. Possible values: o Lex transcriptFilter -&gt; (structure) The object that contains the filter which will be applied when Amazon Lex reads through the Amazon S3 bucket. Specify this object if you want Amazon Lex to read only a subset of the Amazon S3 bucket based on the filter you provide. lexTranscriptFilter -&gt; (structure) The object representing the filter that Amazon Lex will use to select the appropriate transcript when the tran- script format is the Amazon Lex format. dateRangeFilter -&gt; (structure) The object that contains a date range filter that will be applied to the transcript. Specify this object if you want Amazon Lex to only read the files that are within the date range. startDateTime -&gt; (timestamp) [required] A timestamp indicating the start date for the date range filter. endDateTime -&gt; (timestamp) [required] A timestamp indicating the end date for the date range filter. kmsKeyArn -&gt; (string) The ARN of the KMS key that customer use to encrypt their Amazon S3 bucket. Only use this field if your bucket is en- crypted using a customer managed KMS key. Constraints: o min: 20 o max: 2048 o pattern: ^arn:[\w\-]+:kms:[\w\-]+:[\d]{12}:(?:key\/[\w\-]+|alias\/[a-zA-Z0-9:\/_\-]{1,256})$ JSON Syntax: { "s3BucketTranscriptSource": { "s3BucketName": "string", "pathFormat": { "objectPrefixes": ["string", ...] }, "transcriptFormat": "Lex", "transcriptFilter": { "lexTranscriptFilter": { "dateRangeFilter": { "startDateTime": timestamp, "endDateTime": timestamp } } }, "kmsKeyArn": "string" } }
+    /// </summary>
     [CliOption("--transcript-source-setting")]
-    public string? TranscriptSourceSetting { get; set; }
+    public string? TranscriptSourceSetting { get; private init; }
 
     /// <summary>
     /// The object representing the passwords that will be used to encrypt the data related to the bot recommendation results, as well as the KMS key ARN used to encrypt the associated metadata. kmsKeyArn -&gt; (string) The KMS key ARN used to encrypt the metadata associated with the bot recommendation. Constraints: o min: 20 o max: 2048 o pattern: ^arn:[\w\-]+:kms:[\w\-]+:[\d]{12}:(?:key\/[\w\-]+|alias\/[a-zA-Z0-9:\/_\-]{1,256})$ botLocaleExportPassword -&gt; (string) The password used to encrypt the recommended bot recommendation file. Constraints: o min: 0 o max: 1024 associatedTranscriptsPassword -&gt; (string) The password used to encrypt the associated transcript file. Constraints: o min: 0 o max: 1024 Shorthand Syntax: kmsKeyArn=string,botLocaleExportPassword=string,associatedTranscriptsPassword=string JSON Syntax: { "kmsKeyArn": "string", "botLocaleExportPassword": "string", "associatedTranscriptsPassword": "string" }
@@ -44,5 +102,22 @@ public record AwsLexv2ModelsStartBotRecommendationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }
