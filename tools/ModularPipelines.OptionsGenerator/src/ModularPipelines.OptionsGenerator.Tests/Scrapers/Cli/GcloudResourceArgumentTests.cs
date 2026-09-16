@@ -9,6 +9,28 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers.Cli;
 public class GcloudResourceArgumentTests
 {
     [Test]
+    public async Task Positional_Section_Groups_Are_Not_Deferred_As_Option_Only_Metadata()
+    {
+        const string help = """
+            SYNOPSIS
+                gcloud example create RESOURCE ((--a=A --x=X):--b=B)
+            POSITIONAL ARGUMENTS
+                 At least one of these must be specified:
+                   RESOURCE
+                      The resource operand.
+                   --a=A
+                      The first option.
+                   --x=X
+                      The second option.
+                   --b=B
+                      The third option.
+            """;
+        await Assert.That(() => new TestScraper().Parse(["gcloud", "example", "create"], help))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("unsupported required option-only colon group");
+    }
+
+    [Test]
     [Arguments("gcloud-ai-custom-jobs-local-run.txt")]
     [Arguments("gcloud-ai-platform-local-train.txt")]
     [Arguments("gcloud-app-instances-scp.txt")]
