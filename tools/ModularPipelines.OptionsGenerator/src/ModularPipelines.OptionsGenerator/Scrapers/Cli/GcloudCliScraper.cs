@@ -392,6 +392,7 @@ public partial class GcloudCliScraper : CliScraperBase
         }
         else if (group.Arguments.Any(ArgumentIsConditionallyRequired))
         {
+            // Optional bundles still require their mandatory members when any member is supplied.
             requiredAlternativeGroups.Add(CreateAlternativeConstraint(group, options, positionalArguments) with { IsRequired = false });
             return;
         }
