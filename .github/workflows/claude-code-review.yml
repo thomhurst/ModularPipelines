@@ -103,7 +103,10 @@ jobs:
             - Compare the current state of the PR against any previous PR comments to make sure they have been addressed.
             - Return a nonempty summary and a findings array containing every actionable concern.
               Each finding must explain the problem, source location, and proposed correction.
-              Use an empty findings array only when no actionable finding remains.
+              Use findings only for corrections needed in this PR. Put optional observations
+              and suggestions for separate follow-up work in notes, never in findings.
+              Use an empty findings array only when no actionable finding remains; optional
+              notes do not prevent that. Return an empty notes array when there are no notes.
             - Do not post comments, invoke a review plugin, or include a REVIEW_VERDICT marker.
               A trusted workflow step validates and publishes your structured result.
             - When you find issues, ALWAYS suggest better approaches or architectural improvements, not just minor optimizations.
@@ -117,7 +120,7 @@ jobs:
 
           claude_args: |
             --add-dir pr-head --allowedTools "Read,Glob,Grep,Bash(gh pr view:*),Bash(gh pr diff:*),Bash(git diff:*),Bash(git log:*),Bash(git show:*)"
-            --json-schema '{"type":"object","properties":{"summary":{"type":"string","minLength":1},"findings":{"type":"array","items":{"type":"string","minLength":1}}},"required":["summary","findings"],"additionalProperties":false}'
+            --json-schema '{"type":"object","properties":{"summary":{"type":"string","minLength":1},"findings":{"type":"array","items":{"type":"string","minLength":1}},"notes":{"type":"array","items":{"type":"string","minLength":1}}},"required":["summary","findings","notes"],"additionalProperties":false}'
           allowed_bots: 'dependabot[bot]'
 
       - name: Publish validated review

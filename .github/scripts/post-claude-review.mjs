@@ -14,21 +14,22 @@ export function buildReview(rawReview, headSha) {
   }
 
   const validText = value => typeof value === 'string' && value.trim().length > 0;
+  const notes = review?.notes ?? [];
   if (!review || !validText(review.summary) || !Array.isArray(review.findings)
-    || !review.findings.every(validText)) {
-    throw new Error('The review requires a summary and an array of nonempty findings.');
+    || !review.findings.every(validText) || !Array.isArray(notes) || !notes.every(validText)) {
+    throw new Error('The review requires a summary and arrays of nonempty findings and notes.');
   }
 
   // Reviews may discuss the verdict format. Render model-supplied HTML comments
   // literally so only the publisher's footer can act as a machine-readable verdict.
-  const sections = [review.summary, ...review.findings]
-    .map(section => section.trim().replaceAll('<!--', '&lt;!--'));
+  const render = text => text.trim().replaceAll('<!--', '&lt;!--');
 
   const verdict = review.findings.length === 0 ? 'CLEAR' : 'BLOCKING';
   const body = [
     '## Claude Review',
-    sections[0],
-    review.findings.length === 0 ? 'No actionable findings.' : sections.slice(1).join('\n\n'),
+    render(review.summary),
+    review.findings.length === 0 ? 'No actionable findings.' : review.findings.map(render).join('\n\n'),
+    ...(notes.length === 0 ? [] : ['### Optional follow-up notes', notes.map(render).join('\n\n')]),
     `<!-- REVIEW_VERDICT: ${verdict} HEAD: ${headSha} -->`,
   ].join('\n\n');
   if (Buffer.byteLength(body, 'utf8') > 60000) {
