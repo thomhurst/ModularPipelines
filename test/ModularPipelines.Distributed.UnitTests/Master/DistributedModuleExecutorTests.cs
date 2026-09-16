@@ -740,7 +740,8 @@ public class DistributedModuleExecutorTests
     }
 
     [Test]
-    [Timeout(40_000)]
+    // Cover the 5-second overlap, 30-second completion, and 30-second cleanup budgets.
+    [Timeout(70_000)]
     // Exercise the ordering repeatedly under the same parallel CI load as #5101.
     [Repeat(49)]
     public async Task Cache_Lookups_For_Ready_Modules_Run_Concurrently(
@@ -750,7 +751,6 @@ public class DistributedModuleExecutorTests
         var progress = new ConcurrentQueue<string>();
         void Record(string stage) => progress.Enqueue($"{elapsed.Elapsed.TotalMilliseconds:F1} ms: {stage}");
         using var overlapDeadline = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-        overlapDeadline.CancelAfter(TimeSpan.FromSeconds(5));
         Record("fixture setup");
         var first = new CachedDistributedModule();
         var second = new AnotherCachedDistributedModule();
@@ -807,6 +807,7 @@ public class DistributedModuleExecutorTests
             applicationStopping: cancellationToken);
 
         Record("execute called");
+        overlapDeadline.CancelAfter(TimeSpan.FromSeconds(5));
         var execution = executor.ExecuteAsync([first, second]);
         Record("execute returned task");
         Exception? failure = null;
