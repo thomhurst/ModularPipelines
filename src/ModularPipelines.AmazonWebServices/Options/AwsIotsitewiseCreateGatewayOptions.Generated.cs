@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotsitewise", "create-gateway")]
-public record AwsIotsitewiseCreateGatewayOptions : AwsOptions
+public record AwsIotsitewiseCreateGatewayOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--gateway-name")]
-    public string? GatewayName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a gateway, which is a virtual or edge device that delivers in- dustrial data streams from local servers to IoT SiteWise. For more in- formation, see Ingesting data using a gateway in the IoT SiteWise User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="GatewayName">A unique name for the gateway. Constraints: o min: 1 o max: 256 o pattern: [^\u0000-\u001F\u007F]+</param>
+    /// <param name="GatewayPlatform">The gateway's platform. You can only specify one platform in a gate- way. greengrass -&gt; (structure) A gateway that runs on IoT Greengrass. groupArn -&gt; (string) [required] The ARN of the Greengrass group. For more information about how to find a group's ARN, see ListGroups and GetGroup in the IoT Greengrass V1 API Reference . Constraints: o min: 1 o max: 1600 o pattern: ^arn:aws(-cn|-us-gov)?:[a-zA-Z0-9-:\/_\.]+$ greengrassV2 -&gt; (structure) A gateway that runs on IoT Greengrass V2. coreDeviceThingName -&gt; (string) [required] The name of the IoT thing for your IoT Greengrass V2 core de- vice. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9:_-]+$ coreDeviceOperatingSystem -&gt; (string) The operating system of the core device in IoT Greengrass V2. Specifying the operating system is required for MQTT-enabled, V3 gateways (gatewayVersion 3 ) and not applicable for Clas- sic stream, V2 gateways (gatewayVersion 2 ). Possible values: o LINUX_AARCH64 o LINUX_AMD64 o WINDOWS_AMD64 siemensIE -&gt; (structure) A SiteWise Edge gateway that runs on a Siemens Industrial Edge Device. iotCoreThingName -&gt; (string) [required] The name of the IoT Thing for your SiteWise Edge gateway. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9:_-]+$ Shorthand Syntax: greengrass={groupArn=string},greengrassV2={coreDeviceThingName=string,coreDeviceOperatingSystem=string},siemensIE={iotCoreThingName=string} JSON Syntax: { "greengrass": { "groupArn": "string" }, "greengrassV2": { "coreDeviceThingName": "string", "coreDeviceOperatingSystem": "LINUX_AARCH64"|"LINUX_AMD64"|"WINDOWS_AMD64" }, "siemensIE": { "iotCoreThingName": "string" } }</param>
+    public AwsIotsitewiseCreateGatewayOptions(
+        string GatewayName,
+        string GatewayPlatform
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GatewayName);
+        this.GatewayName = GatewayName;
+        global::System.ArgumentNullException.ThrowIfNull(GatewayPlatform);
+        this.GatewayPlatform = GatewayPlatform;
+    }
+
+    private AwsIotsitewiseCreateGatewayOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotsitewiseCreateGatewayOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotsitewiseCreateGatewayOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique name for the gateway. Constraints: o min: 1 o max: 256 o pattern: [^\u0000-\u001F\u007F]+
+    /// </summary>
+    [CliOption("--gateway-name")]
+    public string? GatewayName { get; private init; }
+
+    /// <summary>
+    /// The gateway's platform. You can only specify one platform in a gate- way. greengrass -&gt; (structure) A gateway that runs on IoT Greengrass. groupArn -&gt; (string) [required] The ARN of the Greengrass group. For more information about how to find a group's ARN, see ListGroups and GetGroup in the IoT Greengrass V1 API Reference . Constraints: o min: 1 o max: 1600 o pattern: ^arn:aws(-cn|-us-gov)?:[a-zA-Z0-9-:\/_\.]+$ greengrassV2 -&gt; (structure) A gateway that runs on IoT Greengrass V2. coreDeviceThingName -&gt; (string) [required] The name of the IoT thing for your IoT Greengrass V2 core de- vice. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9:_-]+$ coreDeviceOperatingSystem -&gt; (string) The operating system of the core device in IoT Greengrass V2. Specifying the operating system is required for MQTT-enabled, V3 gateways (gatewayVersion 3 ) and not applicable for Clas- sic stream, V2 gateways (gatewayVersion 2 ). Possible values: o LINUX_AARCH64 o LINUX_AMD64 o WINDOWS_AMD64 siemensIE -&gt; (structure) A SiteWise Edge gateway that runs on a Siemens Industrial Edge Device. iotCoreThingName -&gt; (string) [required] The name of the IoT Thing for your SiteWise Edge gateway. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9:_-]+$ Shorthand Syntax: greengrass={groupArn=string},greengrassV2={coreDeviceThingName=string,coreDeviceOperatingSystem=string},siemensIE={iotCoreThingName=string} JSON Syntax: { "greengrass": { "groupArn": "string" }, "greengrassV2": { "coreDeviceThingName": "string", "coreDeviceOperatingSystem": "LINUX_AARCH64"|"LINUX_AMD64"|"WINDOWS_AMD64" }, "siemensIE": { "iotCoreThingName": "string" } }
+    /// </summary>
     [CliOption("--gateway-platform")]
-    public string? GatewayPlatform { get; set; }
+    public string? GatewayPlatform { get; private init; }
 
     /// <summary>
     /// The version of the gateway to create. Specify 3 to create an MQTT-enabled, V3 gateway and 2 to create a Classic streams, V2 gate- way. If not specified, the default is 2 (Classic streams, V2 gate- way). NOTE: When creating a V3 gateway (gatewayVersion=3 ) with the Green- grassV2 platform, you must also specify the coreDeviceOperat- ingSystem parameter. We recommend creating an MQTT-enabled gateway for self-hosted gate- ways and Siemens Industrial Edge gateways. For more information on gateway versions, see Use Amazon Web Services IoT SiteWise Edge Edge gateways . Constraints: o min: 1 o max: 1024 o pattern: ^[0-9]+$
@@ -45,5 +89,22 @@ public record AwsIotsitewiseCreateGatewayOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,23 +11,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --resourcesharestatus.
+/// Allowed values for --resource-share-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsRamGetResourceSharesResourceShareStatus
 {
-    [EnumValue("PENDING")]
-    Pending = 1,
-
     [EnumValue("ACTIVE")]
-    Active = 2,
-
-    [EnumValue("FAILED")]
-    Failed = 3,
-
-    [EnumValue("DELETING")]
-    Deleting = 4,
+    Active,
 
     [EnumValue("DELETED")]
-    Deleted = 5
+    Deleted,
+
+    [EnumValue("DELETING")]
+    Deleting,
+
+    [EnumValue("FAILED")]
+    Failed,
+
+    [EnumValue("PENDING")]
+    Pending
 }

@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --sortby.
+/// Allowed values for --sort-by.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsInspector2ListCisScanConfigurationsSortBy
 {
-    [EnumValue("SCAN_NAME")]
-    ScanName = 1,
-
     [EnumValue("SCAN_CONFIGURATION_ARN")]
-    ScanConfigurationArn = 2
+    ScanConfigurationArn,
+
+    [EnumValue("SCAN_NAME")]
+    ScanName
 }

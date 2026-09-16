@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("migrationhuborchestrator", "create-workflow")]
-public record AwsMigrationhuborchestratorCreateWorkflowOptions : AwsOptions
+public record AwsMigrationhuborchestratorCreateWorkflowOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Create a workflow to orchestrate your migrations. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the migration workflow. Constraints: o min: 1 o max: 100 o pattern: [-a-zA-Z0-9_.+]+[-a-zA-Z0-9_.+ ]*</param>
+    /// <param name="TemplateId">The ID of the template. Constraints: o min: 1 o max: 100 o pattern: [-a-zA-Z0-9_.+]+[-a-zA-Z0-9_.+ ]*</param>
+    /// <param name="InputParameters">The input parameters required to create a migration workflow. key -&gt; (string) Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-_ ()]+ value -&gt; (tagged union structure) A map of key value pairs that is generated when you create a mi- gration workflow. The key value pairs will differ based on your selection of the template. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: integerValue, stringValue, listOf- StringsValue, mapOfStringValue. integerValue -&gt; (integer) The value of the integer. stringValue -&gt; (string) String value. Constraints: o min: 0 o max: 100 listOfStringsValue -&gt; (list) List of string values. (string) Constraints: o min: 0 o max: 500 mapOfStringValue -&gt; (map) Map of string values. key -&gt; (string) Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-_ ()]+ value -&gt; (string) Constraints: o min: 0 o max: 100 Shorthand Syntax: KeyName1={integerValue=integer,stringValue=string,listOfStringsValue=[string,string],mapOfStringValue={KeyName1=string,KeyName2=string}},KeyName2={integerValue=integer,stringValue=string,listOfStringsValue=[string,string],mapOfStringValue={KeyName1=string,KeyName2=string}} JSON Syntax: {"string": { "integerValue": integer, "stringValue": "string", "listOfStringsValue": ["string", ...], "mapOfStringValue": {"string": "string" ...} } ...}</param>
+    public AwsMigrationhuborchestratorCreateWorkflowOptions(
+        string Name,
+        string TemplateId,
+        IReadOnlyList<KeyValue> InputParameters
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(TemplateId);
+        this.TemplateId = TemplateId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(InputParameters);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(InputParameters));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(InputParameters));
+            }
+
+            InputParameters = materialized;
+        }
+        this.InputParameters = InputParameters;
+    }
+
+    private AwsMigrationhuborchestratorCreateWorkflowOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMigrationhuborchestratorCreateWorkflowOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMigrationhuborchestratorCreateWorkflowOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the migration workflow. Constraints: o min: 1 o max: 100 o pattern: [-a-zA-Z0-9_.+]+[-a-zA-Z0-9_.+ ]*
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The ID of the template. Constraints: o min: 1 o max: 100 o pattern: [-a-zA-Z0-9_.+]+[-a-zA-Z0-9_.+ ]*
+    /// </summary>
+    [CliOption("--template-id")]
+    public string? TemplateId { get; private init; }
+
+    /// <summary>
+    /// The input parameters required to create a migration workflow. key -&gt; (string) Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-_ ()]+ value -&gt; (tagged union structure) A map of key value pairs that is generated when you create a mi- gration workflow. The key value pairs will differ based on your selection of the template. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: integerValue, stringValue, listOf- StringsValue, mapOfStringValue. integerValue -&gt; (integer) The value of the integer. stringValue -&gt; (string) String value. Constraints: o min: 0 o max: 100 listOfStringsValue -&gt; (list) List of string values. (string) Constraints: o min: 0 o max: 500 mapOfStringValue -&gt; (map) Map of string values. key -&gt; (string) Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-_ ()]+ value -&gt; (string) Constraints: o min: 0 o max: 100 Shorthand Syntax: KeyName1={integerValue=integer,stringValue=string,listOfStringsValue=[string,string],mapOfStringValue={KeyName1=string,KeyName2=string}},KeyName2={integerValue=integer,stringValue=string,listOfStringsValue=[string,string],mapOfStringValue={KeyName1=string,KeyName2=string}} JSON Syntax: {"string": { "integerValue": integer, "stringValue": "string", "listOfStringsValue": ["string", ...], "mapOfStringValue": {"string": "string" ...} } ...}
+    /// </summary>
+    [CliOption("--input-parameters", CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? InputParameters { get; private init; }
 
     /// <summary>
     /// The description of the migration workflow. Constraints: o min: 0 o max: 500 o pattern: [-a-zA-Z0-9_.+, ]*
@@ -31,17 +99,11 @@ public record AwsMigrationhuborchestratorCreateWorkflowOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--template-id")]
-    public string? TemplateId { get; set; }
-
     /// <summary>
     /// The configuration ID of the application configured in Application Discovery Service. Constraints: o min: 0 o max: 100 o pattern: [-a-zA-Z0-9_.+]*
     /// </summary>
     [CliOption("--application-configuration-id")]
     public string? ApplicationConfigurationId { get; set; }
-
-    [CliOption("--input-parameters", CollectionSeparator = ",")]
-    public IReadOnlyList<KeyValue>? InputParameters { get; set; }
 
     /// <summary>
     /// The servers on which a step will be run. (string) Constraints: o min: 0 o max: 500 Syntax: "string" "string" ...
@@ -60,5 +122,22 @@ public record AwsMigrationhuborchestratorCreateWorkflowOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

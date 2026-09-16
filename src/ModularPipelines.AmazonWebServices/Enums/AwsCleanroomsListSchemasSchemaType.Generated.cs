@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --schematype.
+/// Allowed values for --schema-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCleanroomsListSchemasSchemaType
 {
-    [EnumValue("TABLE")]
-    Table = 1,
-
     [EnumValue("ID_MAPPING_TABLE")]
-    IdMappingTable = 2,
+    IdMappingTable,
 
     [EnumValue("INTERMEDIATE_TABLE")]
-    IntermediateTable = 3
+    IntermediateTable,
+
+    [EnumValue("TABLE")]
+    Table
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,28 +21,106 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connecthealth", "start-patient-insights-job")]
-public record AwsConnecthealthStartPatientInsightsJobOptions : AwsOptions
+public record AwsConnecthealthStartPatientInsightsJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts a new patient insights job. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainId">Constraints: o min: 20 o max: 25 o pattern: (hai-|dom-)[a-z0-9]+</param>
+    /// <param name="PatientContext">patientId -&gt; (string) [required] Unique identifier of the patient Constraints: o pattern: .*[\s\S]*\S[\s\S]*.* dateOfBirth -&gt; (string) Date of birth of the patient. Constraints: o pattern: \d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]) pronouns -&gt; (string) Pronouns preferred by the patient. Possible values: o HE_HIM o SHE_HER o THEY_THEM Shorthand Syntax: patientId=string,dateOfBirth=string,pronouns=string JSON Syntax: { "patientId": "string", "dateOfBirth": "string", "pronouns": "HE_HIM"|"SHE_HER"|"THEY_THEM" }</param>
+    /// <param name="InsightsContext">insightsType -&gt; (string) [required] Possible values: o PRE_VISIT Shorthand Syntax: insightsType=string JSON Syntax: { "insightsType": "PRE_VISIT" }</param>
+    /// <param name="EncounterContext">encounterReason -&gt; (string) [required] Chief complaint for the visit Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9 .,-]+ Shorthand Syntax: encounterReason=string JSON Syntax: { "encounterReason": "string" }</param>
+    /// <param name="UserContext">role -&gt; (string) [required] Possible values: o CLINICIAN userId -&gt; (string) [required] Unique identifier of the user Constraints: o pattern: .*[\s\S]*\S[\s\S]*.* specialty -&gt; (string) Possible values: o PRIMARY_CARE Shorthand Syntax: role=string,userId=string,specialty=string JSON Syntax: { "role": "CLINICIAN", "userId": "string", "specialty": "PRIMARY_CARE" }</param>
+    /// <param name="InputDataConfig">fhirServer -&gt; (structure) FHIR server configuration to retrieve patient data. fhirEndpoint -&gt; (string) [required] FHIR server endpoint URL for accessing patient data. Constraints: o pattern: https?://[a-zA-Z0-9\-._~:/?#\[\]@!$&amp;'()*+,;=%]+ oauthToken -&gt; (string) OAuth token for authenticating with the FHIR server. Constraints: o pattern: .*[\s\S]*\S[\s\S]*.* s3Sources -&gt; (list) List of S3 sources containing patient data. Constraints: o min: 0 o max: 10 (structure) S3 uri for input data source uri -&gt; (string) [required] The S3 URI. Constraints: o min: 0 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? Shorthand Syntax: fhirServer={fhirEndpoint=string,oauthToken=string},s3Sources=[{uri=string},{uri=string}] JSON Syntax: { "fhirServer": { "fhirEndpoint": "string", "oauthToken": "string" }, "s3Sources": [ { "uri": "string" } ... ] }</param>
+    /// <param name="OutputDataConfig">s3OutputPath -&gt; (string) [required] S3 URI where the insights output will be stored. Constraints: o min: 0 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? Shorthand Syntax: s3OutputPath=string JSON Syntax: { "s3OutputPath": "string" }</param>
+    public AwsConnecthealthStartPatientInsightsJobOptions(
+        string DomainId,
+        string PatientContext,
+        string InsightsContext,
+        string EncounterContext,
+        string UserContext,
+        string InputDataConfig,
+        string OutputDataConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainId);
+        this.DomainId = DomainId;
+        global::System.ArgumentNullException.ThrowIfNull(PatientContext);
+        this.PatientContext = PatientContext;
+        global::System.ArgumentNullException.ThrowIfNull(InsightsContext);
+        this.InsightsContext = InsightsContext;
+        global::System.ArgumentNullException.ThrowIfNull(EncounterContext);
+        this.EncounterContext = EncounterContext;
+        global::System.ArgumentNullException.ThrowIfNull(UserContext);
+        this.UserContext = UserContext;
+        global::System.ArgumentNullException.ThrowIfNull(InputDataConfig);
+        this.InputDataConfig = InputDataConfig;
+        global::System.ArgumentNullException.ThrowIfNull(OutputDataConfig);
+        this.OutputDataConfig = OutputDataConfig;
+    }
+
+    private AwsConnecthealthStartPatientInsightsJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnecthealthStartPatientInsightsJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnecthealthStartPatientInsightsJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Constraints: o min: 20 o max: 25 o pattern: (hai-|dom-)[a-z0-9]+
+    /// </summary>
     [CliOption("--domain-id")]
-    public string? DomainId { get; set; }
+    public string? DomainId { get; private init; }
 
+    /// <summary>
+    /// patientId -&gt; (string) [required] Unique identifier of the patient Constraints: o pattern: .*[\s\S]*\S[\s\S]*.* dateOfBirth -&gt; (string) Date of birth of the patient. Constraints: o pattern: \d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]) pronouns -&gt; (string) Pronouns preferred by the patient. Possible values: o HE_HIM o SHE_HER o THEY_THEM Shorthand Syntax: patientId=string,dateOfBirth=string,pronouns=string JSON Syntax: { "patientId": "string", "dateOfBirth": "string", "pronouns": "HE_HIM"|"SHE_HER"|"THEY_THEM" }
+    /// </summary>
     [CliOption("--patient-context")]
-    public string? PatientContext { get; set; }
+    public string? PatientContext { get; private init; }
 
+    /// <summary>
+    /// insightsType -&gt; (string) [required] Possible values: o PRE_VISIT Shorthand Syntax: insightsType=string JSON Syntax: { "insightsType": "PRE_VISIT" }
+    /// </summary>
     [CliOption("--insights-context")]
-    public string? InsightsContext { get; set; }
+    public string? InsightsContext { get; private init; }
 
+    /// <summary>
+    /// encounterReason -&gt; (string) [required] Chief complaint for the visit Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9 .,-]+ Shorthand Syntax: encounterReason=string JSON Syntax: { "encounterReason": "string" }
+    /// </summary>
     [CliOption("--encounter-context")]
-    public string? EncounterContext { get; set; }
+    public string? EncounterContext { get; private init; }
 
+    /// <summary>
+    /// role -&gt; (string) [required] Possible values: o CLINICIAN userId -&gt; (string) [required] Unique identifier of the user Constraints: o pattern: .*[\s\S]*\S[\s\S]*.* specialty -&gt; (string) Possible values: o PRIMARY_CARE Shorthand Syntax: role=string,userId=string,specialty=string JSON Syntax: { "role": "CLINICIAN", "userId": "string", "specialty": "PRIMARY_CARE" }
+    /// </summary>
     [CliOption("--user-context")]
-    public string? UserContext { get; set; }
+    public string? UserContext { get; private init; }
 
+    /// <summary>
+    /// fhirServer -&gt; (structure) FHIR server configuration to retrieve patient data. fhirEndpoint -&gt; (string) [required] FHIR server endpoint URL for accessing patient data. Constraints: o pattern: https?://[a-zA-Z0-9\-._~:/?#\[\]@!$&amp;'()*+,;=%]+ oauthToken -&gt; (string) OAuth token for authenticating with the FHIR server. Constraints: o pattern: .*[\s\S]*\S[\s\S]*.* s3Sources -&gt; (list) List of S3 sources containing patient data. Constraints: o min: 0 o max: 10 (structure) S3 uri for input data source uri -&gt; (string) [required] The S3 URI. Constraints: o min: 0 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? Shorthand Syntax: fhirServer={fhirEndpoint=string,oauthToken=string},s3Sources=[{uri=string},{uri=string}] JSON Syntax: { "fhirServer": { "fhirEndpoint": "string", "oauthToken": "string" }, "s3Sources": [ { "uri": "string" } ... ] }
+    /// </summary>
     [CliOption("--input-data-config")]
-    public string? InputDataConfig { get; set; }
+    public string? InputDataConfig { get; private init; }
 
+    /// <summary>
+    /// s3OutputPath -&gt; (string) [required] S3 URI where the insights output will be stored. Constraints: o min: 0 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? Shorthand Syntax: s3OutputPath=string JSON Syntax: { "s3OutputPath": "string" }
+    /// </summary>
     [CliOption("--output-data-config")]
-    public string? OutputDataConfig { get; set; }
+    public string? OutputDataConfig { get; private init; }
 
     /// <summary>
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o pattern: .*[\s\S]*\S[\s\S]*.*
@@ -55,5 +134,22 @@ public record AwsConnecthealthStartPatientInsightsJobOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

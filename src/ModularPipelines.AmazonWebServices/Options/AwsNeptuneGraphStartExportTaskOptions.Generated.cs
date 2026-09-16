@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,22 +22,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("neptune-graph", "start-export-task")]
-public record AwsNeptuneGraphStartExportTaskOptions : AwsOptions
+public record AwsNeptuneGraphStartExportTaskOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Export data from an existing Neptune Analytics graph to Amazon S3. The graph state should be AVAILABLE . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="GraphIdentifier">The source graph identifier of the export task. Constraints: o pattern: g-[a-z0-9]{10}</param>
+    /// <param name="RoleArn">The ARN of the IAM role that will allow data to be exported to the destination. Constraints: o pattern: arn:aws[^:]*:iam::\d{12}:(role|role/ser- vice-role)(/[\w+=,.@-]+)+</param>
+    /// <param name="Format">The format of the export task. Possible values: o PARQUET o CSV</param>
+    /// <param name="Destination">The Amazon S3 URI where data will be exported to. Constraints: o min: 1 o max: 1024</param>
+    /// <param name="KmsKeyIdentifier">The KMS key identifier of the export task. Constraints: o min: 1 o max: 1024 o pattern: arn:aws[^:]*:kms:[a-zA-Z0-9-]*:[0-9]{12}:key/[a-zA-Z0-9-]{36}</param>
+    public AwsNeptuneGraphStartExportTaskOptions(
+        string GraphIdentifier,
+        string RoleArn,
+        AwsNeptuneGraphStartExportTaskFormat Format,
+        string Destination,
+        string KmsKeyIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GraphIdentifier);
+        this.GraphIdentifier = GraphIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+        global::System.ArgumentNullException.ThrowIfNull(Format);
+        this.Format = Format;
+        global::System.ArgumentNullException.ThrowIfNull(Destination);
+        this.Destination = Destination;
+        global::System.ArgumentNullException.ThrowIfNull(KmsKeyIdentifier);
+        this.KmsKeyIdentifier = KmsKeyIdentifier;
+    }
+
+    private AwsNeptuneGraphStartExportTaskOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNeptuneGraphStartExportTaskOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNeptuneGraphStartExportTaskOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The source graph identifier of the export task. Constraints: o pattern: g-[a-z0-9]{10}
+    /// </summary>
     [CliOption("--graph-identifier")]
-    public string? GraphIdentifier { get; set; }
+    public string? GraphIdentifier { get; private init; }
 
+    /// <summary>
+    /// The ARN of the IAM role that will allow data to be exported to the destination. Constraints: o pattern: arn:aws[^:]*:iam::\d{12}:(role|role/ser- vice-role)(/[\w+=,.@-]+)+
+    /// </summary>
     [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
+    public string? RoleArn { get; private init; }
 
+    /// <summary>
+    /// The format of the export task. Possible values: o PARQUET o CSV
+    /// </summary>
     [CliOption("--format")]
-    public string? Format { get; set; }
+    public AwsNeptuneGraphStartExportTaskFormat? Format { get; private init; }
 
+    /// <summary>
+    /// The Amazon S3 URI where data will be exported to. Constraints: o min: 1 o max: 1024
+    /// </summary>
     [CliOption("--destination")]
-    public string? Destination { get; set; }
+    public string? Destination { get; private init; }
 
+    /// <summary>
+    /// The KMS key identifier of the export task. Constraints: o min: 1 o max: 1024 o pattern: arn:aws[^:]*:kms:[a-zA-Z0-9-]*:[0-9]{12}:key/[a-zA-Z0-9-]{36}
+    /// </summary>
     [CliOption("--kms-key-identifier")]
-    public string? KmsKeyIdentifier { get; set; }
+    public string? KmsKeyIdentifier { get; private init; }
 
     /// <summary>
     /// The parquet type of the export task. Possible values: o COLUMNAR
@@ -61,5 +126,22 @@ public record AwsNeptuneGraphStartExportTaskOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

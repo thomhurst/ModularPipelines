@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "update-command")]
-public record AwsIotUpdateCommandOptions : AwsOptions
+public record AwsIotUpdateCommandOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Update information about a command or mark a command for deprecation. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CommandId">The unique identifier of the command to be updated. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+</param>
+    public AwsIotUpdateCommandOptions(
+        string CommandId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CommandId);
+        this.CommandId = CommandId;
+    }
+
+    private AwsIotUpdateCommandOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotUpdateCommandOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotUpdateCommandOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the command to be updated. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+
+    /// </summary>
     [CliOption("--command-id")]
-    public string? CommandId { get; set; }
+    public string? CommandId { get; private init; }
 
     /// <summary>
     /// The new user-friendly name to use in the console for the command. Constraints: o max: 64 o pattern: [^\p{C}]*
@@ -36,7 +73,10 @@ public record AwsIotUpdateCommandOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliFlag("--deprecated")]
+    /// <summary>
+    /// A boolean that you can use to specify whether to deprecate a com- mand.
+    /// </summary>
+    [CliFlag("--deprecated", NegatedName = "--no-deprecated")]
     public bool? Deprecated { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -44,5 +84,22 @@ public record AwsIotUpdateCommandOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

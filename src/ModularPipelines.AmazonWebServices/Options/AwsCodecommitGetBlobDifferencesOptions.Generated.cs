@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codecommit", "get-blob-differences")]
-public record AwsCodecommitGetBlobDifferencesOptions : AwsOptions
+public record AwsCodecommitGetBlobDifferencesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--repository-name")]
-    public string? RepositoryName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Returns a structured, line-level diff between two blob versions in a repository. The diff is returned as an ordered list of hunks, where each hunk represents a contiguous run of changed lines together with any surrounding unchanged context lines. Results are paginated. Use MaxResults and NextToken to retrieve addi- tional pages. For the typical usage workflow, see GetDifferences . See also: AWS API Documentation get-blob-differences is a paginated operation. Multiple API calls may be issued in o...
+    /// </summary>
+    /// <param name="RepositoryName">The name of the repository that contains the blobs to compare. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+</param>
+    /// <param name="AfterBlobId">The ID of the "after" (destination) blob in the diff. Typically the value of afterBlob.blobId from a Difference object returned by Get- Differences .</param>
+    public AwsCodecommitGetBlobDifferencesOptions(
+        string RepositoryName,
+        string AfterBlobId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RepositoryName);
+        this.RepositoryName = RepositoryName;
+        global::System.ArgumentNullException.ThrowIfNull(AfterBlobId);
+        this.AfterBlobId = AfterBlobId;
+    }
+
+    private AwsCodecommitGetBlobDifferencesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodecommitGetBlobDifferencesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodecommitGetBlobDifferencesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the repository that contains the blobs to compare. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+
+    /// </summary>
+    [CliOption("--repository-name")]
+    public string? RepositoryName { get; private init; }
+
+    /// <summary>
+    /// The ID of the "after" (destination) blob in the diff. Typically the value of afterBlob.blobId from a Difference object returned by Get- Differences .
+    /// </summary>
     [CliOption("--after-blob-id")]
-    public string? AfterBlobId { get; set; }
+    public string? AfterBlobId { get; private init; }
 
     /// <summary>
     /// The ID of the "before" (source) blob in the diff. Typically the value of beforeBlob.blobId from a Difference object returned by GetDifferences . If you do not specify a value, the operation returns a diff against an empty before-state. This is equivalent to treating the file as newly added.
@@ -40,7 +84,10 @@ public record AwsCodecommitGetBlobDifferencesOptions : AwsOptions
     [CliOption("--context-lines")]
     public int? ContextLines { get; set; }
 
-    [CliFlag("--ignore-whitespace")]
+    /// <summary>
+    /// Specifies whether to ignore whitespace-only changes when computing the diff. When true , the operation treats lines that differ only in whitespace as unchanged. Defaults to false .
+    /// </summary>
+    [CliFlag("--ignore-whitespace", NegatedName = "--no-ignore-whitespace")]
     public bool? IgnoreWhitespace { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -67,5 +114,22 @@ public record AwsCodecommitGetBlobDifferencesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

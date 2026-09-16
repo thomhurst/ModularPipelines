@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --eventcategory.
+/// Allowed values for --event-category.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCloudtrailLookupEventsEventCategory
 {
     [EnumValue("insight")]
-    Insight = 1
+    Insight,
+
+    [EnumValue("o")]
+    O
 }

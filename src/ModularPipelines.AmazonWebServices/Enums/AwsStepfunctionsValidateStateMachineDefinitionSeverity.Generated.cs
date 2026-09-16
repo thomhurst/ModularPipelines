@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsStepfunctionsValidateStateMachineDefinitionSeverity
 {
     [EnumValue("ERROR")]
-    Error = 1,
+    Error,
 
     [EnumValue("WARNING")]
-    Warning = 2
+    Warning
 }

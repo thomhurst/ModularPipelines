@@ -28,10 +28,16 @@ public record AwsEc2WaitInstanceRunningOptions : AwsOptions
     [CliOption("--instance-ids", GroupValues = true)]
     public IEnumerable<string>? InstanceIds { get; set; }
 
-    [CliFlag("--include-managed-resources")]
+    /// <summary>
+    /// Indicates whether to include managed resources in the output. If this parameter is set to true , the output includes resources that are managed by Amazon Web Services services, even if managed re- source visibility is set to hidden.
+    /// </summary>
+    [CliFlag("--include-managed-resources", NegatedName = "--no-include-managed-resources")]
     public bool? IncludeManagedResources { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>

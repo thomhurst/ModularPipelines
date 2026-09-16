@@ -16,12 +16,12 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEksDescribeClusterVersionsStatus
 {
-    [EnumValue("unsupported")]
-    Unsupported = 1,
+    [EnumValue("extended-support")]
+    ExtendedSupport,
 
     [EnumValue("standard-support")]
-    StandardSupport = 2,
+    StandardSupport,
 
-    [EnumValue("extended-support")]
-    ExtendedSupport = 3
+    [EnumValue("unsupported")]
+    Unsupported
 }

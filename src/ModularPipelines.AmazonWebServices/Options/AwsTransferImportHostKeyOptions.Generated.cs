@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("transfer", "import-host-key")]
-public record AwsTransferImportHostKeyOptions : AwsOptions
+public record AwsTransferImportHostKeyOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--server-id")]
-    public string? ServerId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Adds a host key to the server that's specified by the ServerId parame- ter. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ServerId">The identifier of the server that contains the host key that you are importing. Constraints: o min: 19 o max: 19 o pattern: s-([0-9a-f]{17})</param>
+    /// <param name="HostKeyBody">The private key portion of an SSH key pair. Transfer Family accepts RSA, ECDSA, and ED25519 keys. Constraints: o min: 0 o max: 4096</param>
+    public AwsTransferImportHostKeyOptions(
+        string ServerId,
+        string HostKeyBody
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServerId);
+        this.ServerId = ServerId;
+        global::System.ArgumentNullException.ThrowIfNull(HostKeyBody);
+        this.HostKeyBody = HostKeyBody;
+    }
+
+    private AwsTransferImportHostKeyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTransferImportHostKeyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTransferImportHostKeyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the server that contains the host key that you are importing. Constraints: o min: 19 o max: 19 o pattern: s-([0-9a-f]{17})
+    /// </summary>
+    [CliOption("--server-id")]
+    public string? ServerId { get; private init; }
+
+    /// <summary>
+    /// The private key portion of an SSH key pair. Transfer Family accepts RSA, ECDSA, and ED25519 keys. Constraints: o min: 0 o max: 4096
+    /// </summary>
     [CliOption("--host-key-body")]
-    public string? HostKeyBody { get; set; }
+    public string? HostKeyBody { get; private init; }
 
     /// <summary>
     /// The text description that identifies this host key. Constraints: o min: 0 o max: 200 o pattern: [\p{Print}]*
@@ -44,5 +88,22 @@ public record AwsTransferImportHostKeyOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

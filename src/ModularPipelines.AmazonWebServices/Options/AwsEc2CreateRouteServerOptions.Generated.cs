@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,45 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "create-route-server")]
-public record AwsEc2CreateRouteServerOptions : AwsOptions
+public record AwsEc2CreateRouteServerOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new route server to manage dynamic routing in a VPC. Amazon VPC Route Server simplifies routing for traffic between work- loads that are deployed within a VPC and its internet gateways. With this feature, VPC Route Server dynamically updates VPC and internet gateway route tables with your preferred IPv4 or IPv6 routes to achieve routing fault tolerance for those workloads. This enables you to auto- matically reroute traffic within a VPC, which increases the manageabil- ity of VPC routi...
+    /// </summary>
+    /// <param name="AmazonSideAsn">The private Autonomous System Number (ASN) for the Amazon side of the BGP session. Valid values are from 1 to 4294967295. We recommend using a private ASN in the 6451265534 (16-bit ASN) or 42000000004294967294 (32-bit ASN) range.</param>
+    public AwsEc2CreateRouteServerOptions(
+        int AmazonSideAsn
+    )
+    {
+        this.AmazonSideAsn = AmazonSideAsn;
+    }
+
+    private AwsEc2CreateRouteServerOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2CreateRouteServerOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2CreateRouteServerOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The private Autonomous System Number (ASN) for the Amazon side of the BGP session. Valid values are from 1 to 4294967295. We recommend using a private ASN in the 6451265534 (16-bit ASN) or 42000000004294967294 (32-bit ASN) range.
+    /// </summary>
     [CliOption("--amazon-side-asn")]
-    public int? AmazonSideAsn { get; set; }
+    public int? AmazonSideAsn { get; private init; }
 
     /// <summary>
     /// Unique, case-sensitive identifier to ensure idempotency of the re- quest.
@@ -33,7 +69,10 @@ public record AwsEc2CreateRouteServerOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -48,7 +87,10 @@ public record AwsEc2CreateRouteServerOptions : AwsOptions
     [CliOption("--persist-routes-duration")]
     public int? PersistRoutesDuration { get; set; }
 
-    [CliFlag("--sns-notifications-enabled")]
+    /// <summary>
+    /// Indicates whether SNS notifications should be enabled for route server events. Enabling SNS notifications persists BGP status changes to an SNS topic provisioned by Amazon Web Services.
+    /// </summary>
+    [CliFlag("--sns-notifications-enabled", NegatedName = "--no-sns-notifications-enabled")]
     public bool? SnsNotificationsEnabled { get; set; }
 
     /// <summary>
@@ -62,5 +104,22 @@ public record AwsEc2CreateRouteServerOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

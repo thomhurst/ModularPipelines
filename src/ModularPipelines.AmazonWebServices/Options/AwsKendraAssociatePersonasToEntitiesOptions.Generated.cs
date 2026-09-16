@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,99 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kendra", "associate-personas-to-entities")]
-public record AwsKendraAssociatePersonasToEntitiesOptions : AwsOptions
+public record AwsKendraAssociatePersonasToEntitiesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Defines the specific permissions of users or groups in your IAM Iden- tity Center identity source with access to your Amazon Kendra experi- ence. You can create an Amazon Kendra experience such as a search ap- plication. For more information on creating a search application expe- rience, see Building a search experience with no code . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Id">The identifier of your Amazon Kendra experience. Constraints: o min: 1 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*</param>
+    /// <param name="IndexId">The identifier of the index for your Amazon Kendra experience. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
+    /// <param name="Personas">The personas that define the specific permissions of users or groups in your IAM Identity Center identity source. The available personas or access roles are Owner and Viewer . For more information on these personas, see Providing access to your search page . Constraints: o min: 1 o max: 25 (structure) Provides the configuration information for users or groups in your IAM Identity Center identity source for access to your Ama- zon Kendra experience. Specific permissions are defined for each user or group once they are granted access to your Amazon Kendra experience. EntityId -&gt; (string) [required] The identifier of a user or group in your IAM Identity Center identity source. For example, a user ID could be an email. Constraints: o min: 1 o max: 47 o pattern: ^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$ Persona -&gt; (string) [required] The persona that defines the specific permissions of the user or group in your IAM Identity Center identity source. The available personas or access roles are Owner and Viewer . For more information on these personas, see Providing access to your search page . Possible values: o OWNER o VIEWER Shorthand Syntax: EntityId=string,Persona=string ... JSON Syntax: [ { "EntityId": "string", "Persona": "OWNER"|"VIEWER" } ... ]</param>
+    public AwsKendraAssociatePersonasToEntitiesOptions(
+        string Id,
+        string IndexId,
+        IEnumerable<string> Personas
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+        global::System.ArgumentNullException.ThrowIfNull(IndexId);
+        this.IndexId = IndexId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Personas);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Personas));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Personas));
+            }
+
+            Personas = materialized;
+        }
+        this.Personas = Personas;
+    }
+
+    private AwsKendraAssociatePersonasToEntitiesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKendraAssociatePersonasToEntitiesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKendraAssociatePersonasToEntitiesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of your Amazon Kendra experience. Constraints: o min: 1 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
+    /// </summary>
     [CliOption("--id")]
-    public string? Id { get; set; }
+    public string? Id { get; private init; }
 
+    /// <summary>
+    /// The identifier of the index for your Amazon Kendra experience. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
+    /// </summary>
     [CliOption("--index-id")]
-    public string? IndexId { get; set; }
+    public string? IndexId { get; private init; }
 
+    /// <summary>
+    /// The personas that define the specific permissions of users or groups in your IAM Identity Center identity source. The available personas or access roles are Owner and Viewer . For more information on these personas, see Providing access to your search page . Constraints: o min: 1 o max: 25 (structure) Provides the configuration information for users or groups in your IAM Identity Center identity source for access to your Ama- zon Kendra experience. Specific permissions are defined for each user or group once they are granted access to your Amazon Kendra experience. EntityId -&gt; (string) [required] The identifier of a user or group in your IAM Identity Center identity source. For example, a user ID could be an email. Constraints: o min: 1 o max: 47 o pattern: ^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$ Persona -&gt; (string) [required] The persona that defines the specific permissions of the user or group in your IAM Identity Center identity source. The available personas or access roles are Owner and Viewer . For more information on these personas, see Providing access to your search page . Possible values: o OWNER o VIEWER Shorthand Syntax: EntityId=string,Persona=string ... JSON Syntax: [ { "EntityId": "string", "Persona": "OWNER"|"VIEWER" } ... ]
+    /// </summary>
     [CliOption("--personas", GroupValues = true)]
-    public IEnumerable<string>? Personas { get; set; }
+    public IEnumerable<string>? Personas { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

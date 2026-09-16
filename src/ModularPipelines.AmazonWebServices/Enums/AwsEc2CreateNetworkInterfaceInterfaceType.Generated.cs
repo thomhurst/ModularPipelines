@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --interfacetype.
+/// Allowed values for --interface-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEc2CreateNetworkInterfaceInterfaceType
 {
+    [EnumValue("branch")]
+    Branch,
+
     [EnumValue("efa")]
-    Efa = 1,
+    Efa,
 
     [EnumValue("efa-only")]
-    EfaOnly = 2,
-
-    [EnumValue("branch")]
-    Branch = 3,
+    EfaOnly,
 
     [EnumValue("trunk")]
-    Trunk = 4
+    Trunk
 }

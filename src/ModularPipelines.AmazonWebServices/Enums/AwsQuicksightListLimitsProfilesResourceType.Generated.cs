@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --resourcetype.
+/// Allowed values for --resource-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsQuicksightListLimitsProfilesResourceType
 {
-    [EnumValue("INDEX_STORAGE")]
-    IndexStorage = 1,
-
     [EnumValue("AGENT_HOURS")]
-    AgentHours = 2
+    AgentHours,
+
+    [EnumValue("INDEX_STORAGE")]
+    IndexStorage
 }

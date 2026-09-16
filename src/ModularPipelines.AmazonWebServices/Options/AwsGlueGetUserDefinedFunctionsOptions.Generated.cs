@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,8 +22,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("glue", "get-user-defined-functions")]
-public record AwsGlueGetUserDefinedFunctionsOptions : AwsOptions
+public record AwsGlueGetUserDefinedFunctionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves multiple function definitions from the Data Catalog. See also: AWS API Documentation get-user-defined-functions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: UserDefinedFunctions
+    /// </summary>
+    /// <param name="Pattern">An optional function-name pattern string that filters the function definitions returned. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    public AwsGlueGetUserDefinedFunctionsOptions(
+        string Pattern
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Pattern);
+        this.Pattern = Pattern;
+    }
+
+    private AwsGlueGetUserDefinedFunctionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlueGetUserDefinedFunctionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlueGetUserDefinedFunctionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// An optional function-name pattern string that filters the function definitions returned. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// </summary>
+    [CliOption("--pattern")]
+    public string? Pattern { get; private init; }
+
     /// <summary>
     /// The ID of the Data Catalog where the functions to be retrieved are located. If none is provided, the Amazon Web Services account ID is used by default. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
@@ -34,9 +74,6 @@ public record AwsGlueGetUserDefinedFunctionsOptions : AwsOptions
     /// </summary>
     [CliOption("--database-name")]
     public string? DatabaseName { get; set; }
-
-    [CliOption("--pattern")]
-    public string? Pattern { get; set; }
 
     /// <summary>
     /// An optional function-type pattern string that filters the function definitions returned from Amazon Redshift Federated Permissions Cat- alog. Specify a value of REGULAR_FUNCTION or STORED_PROCEDURE . The STORED_PROCEDURE function type is only compatible with Amazon Red- shift Federated Permissions Catalog. Possible values: o REGULAR_FUNCTION o AGGREGATE_FUNCTION o STORED_PROCEDURE
@@ -68,5 +105,22 @@ public record AwsGlueGetUserDefinedFunctionsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

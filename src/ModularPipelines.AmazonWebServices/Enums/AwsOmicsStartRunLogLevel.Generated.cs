@@ -11,23 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --loglevel.
+/// Allowed values for --log-level.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsOmicsStartRunLogLevel
 {
-    [EnumValue("OFF")]
-    Off = 1,
-
-    [EnumValue("FATAL")]
-    Fatal = 2,
+    [EnumValue("ALL")]
+    All,
 
     [EnumValue("ERROR")]
-    Error = 3,
+    Error,
 
-    [EnumValue("ALL")]
-    All = 4,
+    [EnumValue("FATAL")]
+    Fatal,
 
-    [EnumValue("Constraints")]
-    Constraints = 5
+    [EnumValue("OFF")]
+    Off
 }

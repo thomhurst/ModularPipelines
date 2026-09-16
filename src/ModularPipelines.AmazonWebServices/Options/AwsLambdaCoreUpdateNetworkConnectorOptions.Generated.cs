@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lambda-core", "update-network-connector")]
-public record AwsLambdaCoreUpdateNetworkConnectorOptions : AwsOptions
+public record AwsLambdaCoreUpdateNetworkConnectorOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the VPC configuration or operator role of an existing network connector. You can modify the subnet IDs, security group IDs, network protocol, or operator role. The connector must be in ACTIVE state to accept updates. This operation is asynchronous. The connector remains in ACTIVE state during the update existing workloads that reference this connector are not disrupted. Use GetNetworkConnector to monitor the LastUpdateStatus field, which transitions through InProgress to Successful or Fa...
+    /// </summary>
+    /// <param name="Identifier">A flexible identifier that accepts a network connector ID, name, or ARN Constraints: o min: 1 o max: 140</param>
+    public AwsLambdaCoreUpdateNetworkConnectorOptions(
+        string Identifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Identifier);
+        this.Identifier = Identifier;
+    }
+
+    private AwsLambdaCoreUpdateNetworkConnectorOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLambdaCoreUpdateNetworkConnectorOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLambdaCoreUpdateNetworkConnectorOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A flexible identifier that accepts a network connector ID, name, or ARN Constraints: o min: 1 o max: 140
+    /// </summary>
     [CliOption("--identifier")]
-    public string? Identifier { get; set; }
+    public string? Identifier { get; private init; }
 
     /// <summary>
     /// The updated network configuration for the connector. Provide the full VpcEgressConfiguration including all subnet IDs and security group IDs this replaces the existing configuration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: VpcEgressConfiguration. VpcEgressConfiguration -&gt; (structure) Configuration for a VPC egress network connector. Specifies the subnets, security groups, and network protocol for routing out- bound traffic through your VPC. SubnetIds -&gt; (list) The IDs of the VPC subnets where Lambda provisions elastic network interfaces (ENIs). Specify 1 to 16 subnets. All sub- nets must be in the same VPC. Constraints: o min: 1 o max: 16 (string) Constraints: o min: 0 o max: 1024 o pattern: subnet-[0-9a-z]* SecurityGroupIds -&gt; (list) The IDs of the VPC security groups to attach to the ENIs. Specify 0 to 5 security groups. All security groups must be in the same VPC as the subnets. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 0 o max: 1024 o pattern: sg-[0-9a-zA-Z]* NetworkProtocol -&gt; (string) The network protocol for the connector. Specify IPv4 for IPv4-only networking, or DualStack for both IPv4 and IPv6. Possible values: o IPv4 o DualStack AssociatedComputeResourceTypes -&gt; (list) The types of Lambda compute resources that can use this con- nector. Currently, only MicroVm is supported. Constraints: o min: 1 o max: 1 (string) Possible values: o MicroVm Shorthand Syntax: VpcEgressConfiguration={SubnetIds=[string,string],SecurityGroupIds=[string,string],NetworkProtocol=string,AssociatedComputeResourceTypes=[string,string]} JSON Syntax: { "VpcEgressConfiguration": { "SubnetIds": ["string", ...], "SecurityGroupIds": ["string", ...], "NetworkProtocol": "IPv4"|"DualStack", "AssociatedComputeResourceTypes": ["MicroVm", ...] } }
@@ -49,5 +86,22 @@ public record AwsLambdaCoreUpdateNetworkConnectorOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --integrationtype.
+/// Allowed values for --integration-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsLogsListIntegrationsIntegrationType
 {
+    [EnumValue("o")]
+    O,
+
     [EnumValue("OPENSEARCH")]
-    Opensearch = 1
+    Opensearch
 }

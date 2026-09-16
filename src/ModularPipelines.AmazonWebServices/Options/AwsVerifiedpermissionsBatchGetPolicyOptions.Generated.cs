@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,79 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("verifiedpermissions", "batch-get-policy")]
-public record AwsVerifiedpermissionsBatchGetPolicyOptions : AwsOptions
+public record AwsVerifiedpermissionsBatchGetPolicyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves information about a group (batch) of policies. NOTE: The BatchGetPolicy operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission verifiedpermissions:GetPolicy in their IAM policies. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Requests">An array of up to 100 policies you want information about. Constraints: o min: 1 o max: 100 (structure) Information about a policy that you include in a BatchGetPolicy API request. policyStoreId -&gt; (string) [required] The identifier of the policy store where the policy you want information about is stored. Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9-/_]* policyId -&gt; (string) [required] The identifier of the policy you want information about. You can use the policy name in place of the policy ID. When using a name, prefix it with name/ . For example: o ID: SPEXAMPLEabcdefg111111 o Name: name/example-policy Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9-/_]* Shorthand Syntax: policyStoreId=string,policyId=string ... JSON Syntax: [ { "policyStoreId": "string", "policyId": "string" } ... ]</param>
+    public AwsVerifiedpermissionsBatchGetPolicyOptions(
+        IEnumerable<string> Requests
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Requests);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Requests));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Requests));
+            }
+
+            Requests = materialized;
+        }
+        this.Requests = Requests;
+    }
+
+    private AwsVerifiedpermissionsBatchGetPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsVerifiedpermissionsBatchGetPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsVerifiedpermissionsBatchGetPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// An array of up to 100 policies you want information about. Constraints: o min: 1 o max: 100 (structure) Information about a policy that you include in a BatchGetPolicy API request. policyStoreId -&gt; (string) [required] The identifier of the policy store where the policy you want information about is stored. Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9-/_]* policyId -&gt; (string) [required] The identifier of the policy you want information about. You can use the policy name in place of the policy ID. When using a name, prefix it with name/ . For example: o ID: SPEXAMPLEabcdefg111111 o Name: name/example-policy Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9-/_]* Shorthand Syntax: policyStoreId=string,policyId=string ... JSON Syntax: [ { "policyStoreId": "string", "policyId": "string" } ... ]
+    /// </summary>
     [CliOption("--requests", GroupValues = true)]
-    public IEnumerable<string>? Requests { get; set; }
+    public IEnumerable<string>? Requests { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

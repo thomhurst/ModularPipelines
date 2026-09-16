@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "list-jobs")]
-public record AwsSagemakerListJobsOptions : AwsOptions
+public record AwsSagemakerListJobsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists jobs in a specified category. You can filter results by creation time, last modified time, name, and status. Results are sorted by the field you specify in SortBy . Use pagination to retrieve large result sets efficiently. The following operations are related to ListJobs : o CreateJob o DescribeJob See also: AWS API Documentation list-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagi- nation by providin...
+    /// </summary>
+    /// <param name="JobCategory">The category of jobs to list. Possible values: o AgentRFT o AgentRFTEvaluation</param>
+    public AwsSagemakerListJobsOptions(
+        AwsSagemakerListJobsJobCategory JobCategory
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(JobCategory);
+        this.JobCategory = JobCategory;
+    }
+
+    private AwsSagemakerListJobsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerListJobsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerListJobsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The category of jobs to list. Possible values: o AgentRFT o AgentRFTEvaluation
+    /// </summary>
     [CliOption("--job-category")]
-    public string? JobCategory { get; set; }
+    public AwsSagemakerListJobsJobCategory? JobCategory { get; private init; }
 
     /// <summary>
     /// A filter that returns only jobs created after the specified time.
@@ -98,5 +135,22 @@ public record AwsSagemakerListJobsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -16,12 +16,12 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsResiliencehubv2ListFailureModeFindingsSeverity
 {
+    [EnumValue("HIGH")]
+    High,
+
     [EnumValue("LOW")]
-    Low = 1,
+    Low,
 
     [EnumValue("MEDIUM")]
-    Medium = 2,
-
-    [EnumValue("HIGH")]
-    High = 3
+    Medium
 }

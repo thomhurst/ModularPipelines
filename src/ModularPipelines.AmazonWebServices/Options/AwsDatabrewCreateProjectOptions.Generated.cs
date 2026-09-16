@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,25 +21,82 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("databrew", "create-project")]
-public record AwsDatabrewCreateProjectOptions : AwsOptions
+public record AwsDatabrewCreateProjectOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new DataBrew project. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DataSetName">The name of an existing dataset to associate this project with. Constraints: o min: 1 o max: 255</param>
+    /// <param name="Name">A unique name for the new project. Valid characters are alphanumeric (A-Z, a-z, 0-9), hyphen (-), period (.), and space. Constraints: o min: 1 o max: 255</param>
+    /// <param name="RecipeName">The name of an existing recipe to associate with the project. Constraints: o min: 1 o max: 255</param>
+    /// <param name="RoleArn">The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role to be assumed for this request. Constraints: o min: 20 o max: 2048</param>
+    public AwsDatabrewCreateProjectOptions(
+        string DataSetName,
+        string Name,
+        string RecipeName,
+        string RoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataSetName);
+        this.DataSetName = DataSetName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(RecipeName);
+        this.RecipeName = RecipeName;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+    }
+
+    private AwsDatabrewCreateProjectOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatabrewCreateProjectOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatabrewCreateProjectOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of an existing dataset to associate this project with. Constraints: o min: 1 o max: 255
+    /// </summary>
     [CliOption("--dataset-name")]
-    public string? DataSetName { get; set; }
+    public string? DataSetName { get; private init; }
 
+    /// <summary>
+    /// A unique name for the new project. Valid characters are alphanumeric (A-Z, a-z, 0-9), hyphen (-), period (.), and space. Constraints: o min: 1 o max: 255
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The name of an existing recipe to associate with the project. Constraints: o min: 1 o max: 255
+    /// </summary>
     [CliOption("--recipe-name")]
-    public string? RecipeName { get; set; }
+    public string? RecipeName { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role to be assumed for this request. Constraints: o min: 20 o max: 2048
+    /// </summary>
+    [CliOption("--role-arn")]
+    public string? RoleArn { get; private init; }
 
     /// <summary>
     /// Represents the sample size and sampling type for DataBrew to use for interactive data analysis. Size -&gt; (integer) The number of rows in the sample. Constraints: o min: 1 o max: 5000 Type -&gt; (string) [required] The way in which DataBrew obtains rows from a dataset. Possible values: o FIRST_N o LAST_N o RANDOM Shorthand Syntax: Size=integer,Type=string JSON Syntax: { "Size": integer, "Type": "FIRST_N"|"LAST_N"|"RANDOM" }
     /// </summary>
     [CliOption("--sample")]
     public string? Sample { get; set; }
-
-    [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
 
     /// <summary>
     /// Metadata tags to apply to this project. Constraints: o min: 1 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -51,5 +109,22 @@ public record AwsDatabrewCreateProjectOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

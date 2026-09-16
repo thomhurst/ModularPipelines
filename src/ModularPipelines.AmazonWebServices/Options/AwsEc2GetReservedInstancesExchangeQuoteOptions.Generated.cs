@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,63 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "get-reserved-instances-exchange-quote")]
-public record AwsEc2GetReservedInstancesExchangeQuoteOptions : AwsOptions
+public record AwsEc2GetReservedInstancesExchangeQuoteOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--dry-run")]
-    public bool? DryRun { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Returns a quote and exchange information for exchanging one or more specified Convertible Reserved Instances for a new Convertible Reserved Instance. If the exchange cannot be performed, the reason is returned in the response. Use AcceptReservedInstancesExchangeQuote to perform the exchange. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ReservedInstanceIds">The IDs of the Convertible Reserved Instances to exchange. (string) Syntax: "string" "string" ...</param>
+    public AwsEc2GetReservedInstancesExchangeQuoteOptions(
+        IEnumerable<string> ReservedInstanceIds
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ReservedInstanceIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ReservedInstanceIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ReservedInstanceIds));
+            }
+
+            ReservedInstanceIds = materialized;
+        }
+        this.ReservedInstanceIds = ReservedInstanceIds;
+    }
+
+    private AwsEc2GetReservedInstancesExchangeQuoteOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2GetReservedInstancesExchangeQuoteOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2GetReservedInstancesExchangeQuoteOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The IDs of the Convertible Reserved Instances to exchange. (string) Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--reserved-instance-ids", GroupValues = true)]
-    public IEnumerable<string>? ReservedInstanceIds { get; set; }
+    public IEnumerable<string>? ReservedInstanceIds { get; private init; }
+
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
+    public bool? DryRun { get; set; }
 
     /// <summary>
     /// The configuration of the target Convertible Reserved Instance to ex- change for your current Convertible Reserved Instances. (structure) Details about the target configuration. InstanceCount -&gt; (integer) The number of instances the Convertible Reserved Instance of- fering can be applied to. This parameter is reserved and can- not be specified in a request OfferingId -&gt; (string) [required] The Convertible Reserved Instance offering ID. Shorthand Syntax: InstanceCount=integer,OfferingId=string ... JSON Syntax: [ { "InstanceCount": integer, "OfferingId": "string" } ... ]
@@ -38,5 +89,22 @@ public record AwsEc2GetReservedInstancesExchangeQuoteOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -19,14 +19,35 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3", "website")]
-public record AwsS3WebsiteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string S3Uri
-) : AwsOptions
+public record AwsS3WebsiteOptions : AwsOptions
 {
+    /// <summary>
+    /// Set the website configuration for a bucket.
+    /// </summary>
+    /// <param name="S3Uri">S3 URI to operate on.</param>
+    public AwsS3WebsiteOptions(
+        string S3Uri
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(S3Uri);
+        this.S3Uri = S3Uri;
+    }
+
+    public void Deconstruct(out string S3Uri)
+    {
+        S3Uri = this.S3Uri;
+    }
+
     [CliOption("--index-document")]
     public string? IndexDocument { get; set; }
 
     [CliOption("--error-document")]
     public string? ErrorDocument { get; set; }
+
+    /// <summary>
+    /// S3 URI to operate on.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string S3Uri { get; private init; }
 
 }

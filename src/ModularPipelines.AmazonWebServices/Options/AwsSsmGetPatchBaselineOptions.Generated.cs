@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "get-patch-baseline")]
-public record AwsSsmGetPatchBaselineOptions : AwsOptions
+public record AwsSsmGetPatchBaselineOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves information about a patch baseline. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BaselineId">The ID of the patch baseline to retrieve. NOTE: To retrieve information about an Amazon Web Services managed patch baseline, specify the full Amazon Resource Name (ARN) of the baseline. For example, for the baseline AWS-AmazonLinuxDe- faultPatchBaseline , specify arn:aws:ssm:us-east-2:733109147000:patchbase- line/pb-0e392de35e7c563b7 instead of pb-0e392de35e7c563b7 . Constraints: o min: 20 o max: 128 o pattern: ^[a-zA-Z0-9_\-:/]{20,128}$</param>
+    public AwsSsmGetPatchBaselineOptions(
+        string BaselineId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BaselineId);
+        this.BaselineId = BaselineId;
+    }
+
+    private AwsSsmGetPatchBaselineOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmGetPatchBaselineOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmGetPatchBaselineOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the patch baseline to retrieve. NOTE: To retrieve information about an Amazon Web Services managed patch baseline, specify the full Amazon Resource Name (ARN) of the baseline. For example, for the baseline AWS-AmazonLinuxDe- faultPatchBaseline , specify arn:aws:ssm:us-east-2:733109147000:patchbase- line/pb-0e392de35e7c563b7 instead of pb-0e392de35e7c563b7 . Constraints: o min: 20 o max: 128 o pattern: ^[a-zA-Z0-9_\-:/]{20,128}$
+    /// </summary>
     [CliOption("--baseline-id")]
-    public string? BaselineId { get; set; }
+    public string? BaselineId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

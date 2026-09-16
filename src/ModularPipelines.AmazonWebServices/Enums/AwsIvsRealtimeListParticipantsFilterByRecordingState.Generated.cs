@@ -11,23 +11,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --filterbyrecordingstate.
+/// Allowed values for --filter-by-recording-state.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIvsRealtimeListParticipantsFilterByRecordingState
 {
-    [EnumValue("STARTING")]
-    Starting = 1,
-
     [EnumValue("ACTIVE")]
-    Active = 2,
-
-    [EnumValue("STOPPING")]
-    Stopping = 3,
-
-    [EnumValue("STOPPED")]
-    Stopped = 4,
+    Active,
 
     [EnumValue("FAILED")]
-    Failed = 5
+    Failed,
+
+    [EnumValue("STARTING")]
+    Starting,
+
+    [EnumValue("STOPPED")]
+    Stopped,
+
+    [EnumValue("STOPPING")]
+    Stopping
 }

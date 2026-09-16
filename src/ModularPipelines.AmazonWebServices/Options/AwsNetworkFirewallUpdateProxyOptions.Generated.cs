@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-firewall", "update-proxy")]
-public record AwsNetworkFirewallUpdateProxyOptions : AwsOptions
+public record AwsNetworkFirewallUpdateProxyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the properties of the specified proxy. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="NatGatewayId">The NAT Gateway the proxy is attached to. Constraints: o min: 1</param>
+    /// <param name="UpdateToken">A token used for optimistic locking. Network Firewall returns a to- ken to your requests that access the proxy. The token marks the state of the proxy resource at the time of the request. To make changes to the proxy, you provide the token in your request. Network Firewall uses the token to ensure that the proxy hasn't changed since you last retrieved it. If it has changed, the opera- tion fails with an InvalidTokenException . If this happens, retrieve the proxy again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token. Constraints: o min: 1 o max: 1024 o pattern: ^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$</param>
+    public AwsNetworkFirewallUpdateProxyOptions(
+        string NatGatewayId,
+        string UpdateToken
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NatGatewayId);
+        this.NatGatewayId = NatGatewayId;
+        global::System.ArgumentNullException.ThrowIfNull(UpdateToken);
+        this.UpdateToken = UpdateToken;
+    }
+
+    private AwsNetworkFirewallUpdateProxyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNetworkFirewallUpdateProxyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNetworkFirewallUpdateProxyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The NAT Gateway the proxy is attached to. Constraints: o min: 1
+    /// </summary>
     [CliOption("--nat-gateway-id")]
-    public string? NatGatewayId { get; set; }
+    public string? NatGatewayId { get; private init; }
+
+    /// <summary>
+    /// A token used for optimistic locking. Network Firewall returns a to- ken to your requests that access the proxy. The token marks the state of the proxy resource at the time of the request. To make changes to the proxy, you provide the token in your request. Network Firewall uses the token to ensure that the proxy hasn't changed since you last retrieved it. If it has changed, the opera- tion fails with an InvalidTokenException . If this happens, retrieve the proxy again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token. Constraints: o min: 1 o max: 1024 o pattern: ^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$
+    /// </summary>
+    [SecretValue]
+    [CliOption("--update-token")]
+    public string? UpdateToken { get; private init; }
 
     /// <summary>
     /// The descriptive name of the proxy. You can't change the name of a proxy after you create it. You must specify the ARN or the name, and you can specify both. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-]+$
@@ -55,14 +103,27 @@ public record AwsNetworkFirewallUpdateProxyOptions : AwsOptions
     [CliOption("--tls-intercept-properties")]
     public string? TlsInterceptProperties { get; set; }
 
-    [SecretValue]
-    [CliOption("--update-token")]
-    public string? UpdateToken { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

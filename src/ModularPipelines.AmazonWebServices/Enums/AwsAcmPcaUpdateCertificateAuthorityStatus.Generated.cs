@@ -16,24 +16,24 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsAcmPcaUpdateCertificateAuthorityStatus
 {
-    [EnumValue("CREATING")]
-    Creating = 1,
-
-    [EnumValue("PENDING_CERTIFICATE")]
-    PendingCertificate = 2,
-
     [EnumValue("ACTIVE")]
-    Active = 3,
+    Active,
+
+    [EnumValue("CREATING")]
+    Creating,
 
     [EnumValue("DELETED")]
-    Deleted = 4,
+    Deleted,
 
     [EnumValue("DISABLED")]
-    Disabled = 5,
+    Disabled,
 
     [EnumValue("EXPIRED")]
-    Expired = 6,
+    Expired,
 
     [EnumValue("FAILED")]
-    Failed = 7
+    Failed,
+
+    [EnumValue("PENDING_CERTIFICATE")]
+    PendingCertificate
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chime-sdk-media-pipelines", "create-media-pipeline-kinesis-video-stream-pool")]
-public record AwsChimeSdkMediaPipelinesCreateMediaPipelineKinesisVideoStreamPoolOptions : AwsOptions
+public record AwsChimeSdkMediaPipelinesCreateMediaPipelineKinesisVideoStreamPoolOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--stream-configuration")]
-    public string? StreamConfiguration { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an Amazon Kinesis Video Stream pool for use with media stream pipelines. NOTE: If a meeting uses an opt-in Region as its MediaRegion , the KVS stream must be in that same Region. For example, if a meeting uses the af-south-1 Region, the KVS stream must also be in af-south-1 . However, if the meeting uses a Region that AWS turns on by default, the KVS stream can be in any available Region, including an opt-in Region. For example, if the meeting uses ca-central-1 , the KVS stream can be in...
+    /// </summary>
+    /// <param name="StreamConfiguration">The configuration settings for the stream. Region -&gt; (string) [required] The Amazon Web Services Region of the video stream. Constraints: o min: 1 o max: 32 o pattern: ^([a-z]+-){2,}\d+$ DataRetentionInHours -&gt; (integer) The amount of time that data is retained. Constraints: o min: 0 Shorthand Syntax: Region=string,DataRetentionInHours=integer JSON Syntax: { "Region": "string", "DataRetentionInHours": integer }</param>
+    /// <param name="PoolName">The name of the pool. Constraints: o min: 1 o max: 128 o pattern: ^[0-9a-zA-Z._-]+</param>
+    public AwsChimeSdkMediaPipelinesCreateMediaPipelineKinesisVideoStreamPoolOptions(
+        string StreamConfiguration,
+        string PoolName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StreamConfiguration);
+        this.StreamConfiguration = StreamConfiguration;
+        global::System.ArgumentNullException.ThrowIfNull(PoolName);
+        this.PoolName = PoolName;
+    }
+
+    private AwsChimeSdkMediaPipelinesCreateMediaPipelineKinesisVideoStreamPoolOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChimeSdkMediaPipelinesCreateMediaPipelineKinesisVideoStreamPoolOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChimeSdkMediaPipelinesCreateMediaPipelineKinesisVideoStreamPoolOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The configuration settings for the stream. Region -&gt; (string) [required] The Amazon Web Services Region of the video stream. Constraints: o min: 1 o max: 32 o pattern: ^([a-z]+-){2,}\d+$ DataRetentionInHours -&gt; (integer) The amount of time that data is retained. Constraints: o min: 0 Shorthand Syntax: Region=string,DataRetentionInHours=integer JSON Syntax: { "Region": "string", "DataRetentionInHours": integer }
+    /// </summary>
+    [CliOption("--stream-configuration")]
+    public string? StreamConfiguration { get; private init; }
+
+    /// <summary>
+    /// The name of the pool. Constraints: o min: 1 o max: 128 o pattern: ^[0-9a-zA-Z._-]+
+    /// </summary>
     [CliOption("--pool-name")]
-    public string? PoolName { get; set; }
+    public string? PoolName { get; private init; }
 
     /// <summary>
     /// The token assigned to the client making the request. Constraints: o min: 2 o max: 64 o pattern: [-_a-zA-Z0-9]*
@@ -46,5 +90,22 @@ public record AwsChimeSdkMediaPipelinesCreateMediaPipelineKinesisVideoStreamPool
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

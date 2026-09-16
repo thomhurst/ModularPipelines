@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore", "start-memory-extraction-job")]
-public record AwsBedrockAgentcoreStartMemoryExtractionJobOptions : AwsOptions
+public record AwsBedrockAgentcoreStartMemoryExtractionJobOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--memory-id")]
-    public string? MemoryId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Starts a memory extraction job that processes events that failed ex- traction previously in an AgentCore Memory resource and produces struc- tured memory records. When earlier extraction attempts have left events unprocessed, this job will pick up and extract those as well. To use this operation, you must have the bedrock-agentcore:StartMemo- ryExtractionJob permission. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="MemoryId">The unique identifier of the memory for which to start extraction jobs. Constraints: o min: 12 o pattern: (arn:(aws|aws-cn|aws-us-gov):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:mem- ory/)?[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}</param>
+    /// <param name="ExtractionJob">Extraction job to start in this operation. jobId -&gt; (string) [required] The unique identifier of the extraction job. Shorthand Syntax: jobId=string JSON Syntax: { "jobId": "string" }</param>
+    public AwsBedrockAgentcoreStartMemoryExtractionJobOptions(
+        string MemoryId,
+        string ExtractionJob
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MemoryId);
+        this.MemoryId = MemoryId;
+        global::System.ArgumentNullException.ThrowIfNull(ExtractionJob);
+        this.ExtractionJob = ExtractionJob;
+    }
+
+    private AwsBedrockAgentcoreStartMemoryExtractionJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreStartMemoryExtractionJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreStartMemoryExtractionJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the memory for which to start extraction jobs. Constraints: o min: 12 o pattern: (arn:(aws|aws-cn|aws-us-gov):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:mem- ory/)?[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}
+    /// </summary>
+    [CliOption("--memory-id")]
+    public string? MemoryId { get; private init; }
+
+    /// <summary>
+    /// Extraction job to start in this operation. jobId -&gt; (string) [required] The unique identifier of the extraction job. Shorthand Syntax: jobId=string JSON Syntax: { "jobId": "string" }
+    /// </summary>
     [CliOption("--extraction-job")]
-    public string? ExtractionJob { get; set; }
+    public string? ExtractionJob { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier to ensure idempotent processing of the request.
@@ -40,5 +84,22 @@ public record AwsBedrockAgentcoreStartMemoryExtractionJobOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

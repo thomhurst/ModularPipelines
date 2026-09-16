@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudformation", "update-stack")]
-public record AwsCloudformationUpdateStackOptions : AwsOptions
+public record AwsCloudformationUpdateStackOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a stack as specified in the template. After the call completes successfully, the stack update starts. You can check the status of the stack through the DescribeStacks action. To get a copy of the template for an existing stack, you can use the GetTemplate action. For more information about updating a stack and monitoring the progress of the update, see Managing Amazon Web Services resources as a single unit with CloudFormation stacks in the CloudFormation User Guide . See also: AWS API D...
+    /// </summary>
+    /// <param name="StackName">The name or unique stack ID of the stack to update.</param>
+    public AwsCloudformationUpdateStackOptions(
+        string StackName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StackName);
+        this.StackName = StackName;
+    }
+
+    private AwsCloudformationUpdateStackOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudformationUpdateStackOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudformationUpdateStackOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name or unique stack ID of the stack to update.
+    /// </summary>
     [CliOption("--stack-name")]
-    public string? StackName { get; set; }
+    public string? StackName { get; private init; }
 
     /// <summary>
     /// Structure that contains the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes. Conditional: You must specify only one of the following parameters: TemplateBody , TemplateURL , or set the UsePreviousTemplate to true . Constraints: o min: 1
@@ -37,7 +74,10 @@ public record AwsCloudformationUpdateStackOptions : AwsOptions
     [CliOption("--template-url")]
     public string? TemplateUrl { get; set; }
 
-    [CliFlag("--use-previous-template")]
+    /// <summary>
+    /// Reuse the existing template that is associated with the stack that you are updating. When using templates with the AWS::LanguageExtensions transform, provide the template instead of using UsePreviousTemplate to ensure new parameter values and Systems Manager parameter updates are ap- plied correctly. For more information, see AWS::LanguageExtensions transform . Conditional: You must specify only one of the following parameters: TemplateBody , TemplateURL , or set the UsePreviousTemplate to true .
+    /// </summary>
+    [CliFlag("--use-previous-template", NegatedName = "--no-use-previous-template")]
     public bool? UsePreviousTemplate { get; set; }
 
     /// <summary>
@@ -106,7 +146,10 @@ public record AwsCloudformationUpdateStackOptions : AwsOptions
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
-    [CliFlag("--disable-rollback")]
+    /// <summary>
+    /// Preserve the state of previously provisioned resources when an oper- ation fails. Default: False
+    /// </summary>
+    [CliFlag("--disable-rollback", NegatedName = "--no-disable-rollback")]
     public bool? DisableRollback { get; set; }
 
     /// <summary>
@@ -116,7 +159,10 @@ public record AwsCloudformationUpdateStackOptions : AwsOptions
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CliFlag("--retain-except-on-create")]
+    /// <summary>
+    /// When set to true , newly created resources are deleted when the op- eration rolls back. This includes newly created resources marked with a deletion policy of Retain . Default: false
+    /// </summary>
+    [CliFlag("--retain-except-on-create", NegatedName = "--no-retain-except-on-create")]
     public bool? RetainExceptOnCreate { get; set; }
 
     /// <summary>
@@ -125,7 +171,10 @@ public record AwsCloudformationUpdateStackOptions : AwsOptions
     [CliOption("--deployment-config")]
     public string? DeploymentConfig { get; set; }
 
-    [CliFlag("--disable-validation")]
+    /// <summary>
+    /// Set to true to disable pre-deployment validations in changeset or stack operations. Default: false
+    /// </summary>
+    [CliFlag("--disable-validation", NegatedName = "--no-disable-validation")]
     public bool? DisableValidation { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -133,5 +182,22 @@ public record AwsCloudformationUpdateStackOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

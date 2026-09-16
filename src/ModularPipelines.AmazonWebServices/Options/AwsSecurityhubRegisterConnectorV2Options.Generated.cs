@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("securityhub", "register-connector-v2")]
-public record AwsSecurityhubRegisterConnectorV2Options : AwsOptions
+public record AwsSecurityhubRegisterConnectorV2Options : AwsOptions, IValidatableObject
 {
-    [CliOption("--auth-code")]
-    public string? AuthCode { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Grants permission to complete the authorization based on input parame- ters. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AuthCode">The authCode retrieved from authUrl to complete the OAuth 2.0 autho- rization code flow. Constraints: o pattern: .*\S.*</param>
+    /// <param name="AuthState">The authState retrieved from authUrl to complete the OAuth 2.0 au- thorization code flow. Constraints: o pattern: .*\S.*</param>
+    public AwsSecurityhubRegisterConnectorV2Options(
+        string AuthCode,
+        string AuthState
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AuthCode);
+        this.AuthCode = AuthCode;
+        global::System.ArgumentNullException.ThrowIfNull(AuthState);
+        this.AuthState = AuthState;
+    }
+
+    private AwsSecurityhubRegisterConnectorV2Options()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSecurityhubRegisterConnectorV2Options FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSecurityhubRegisterConnectorV2Options ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The authCode retrieved from authUrl to complete the OAuth 2.0 autho- rization code flow. Constraints: o pattern: .*\S.*
+    /// </summary>
+    [CliOption("--auth-code")]
+    public string? AuthCode { get; private init; }
+
+    /// <summary>
+    /// The authState retrieved from authUrl to complete the OAuth 2.0 au- thorization code flow. Constraints: o pattern: .*\S.*
+    /// </summary>
     [CliOption("--auth-state")]
-    public string? AuthState { get; set; }
+    public string? AuthState { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lakeformation", "assume-decorated-role-with-saml")]
-public record AwsLakeformationAssumeDecoratedRoleWithSamlOptions : AwsOptions
+public record AwsLakeformationAssumeDecoratedRoleWithSamlOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Allows a caller to assume an IAM role decorated as the SAML user speci- fied in the SAML assertion included in the request. This decoration al- lows Lake Formation to enforce access policies against the SAML users and groups. This API operation requires SAML federation setup in the callers account as it can only be called with valid SAML assertions. Lake Formation does not scope down the permission of the assumed role. All permissions attached to the role via the SAML federation setup will be in...
+    /// </summary>
+    /// <param name="SamlAssertion">A SAML assertion consisting of an assertion statement for the user who needs temporary credentials. This must match the SAML assertion that was issued to IAM. This must be Base64 encoded. Constraints: o min: 4 o max: 100000</param>
+    /// <param name="RoleArn">The role that represents an IAM principal whose scope down policy allows it to call credential vending APIs such as GetTemporaryTable- Credentials . The caller must also have iam:PassRole permission on this role. Constraints: o pattern: arn:aws:iam::[0-9]*:role/.*</param>
+    /// <param name="PrincipalArn">The Amazon Resource Name (ARN) of the SAML provider in IAM that de- scribes the IdP. Constraints: o pattern: arn:aws:iam::[0-9]*:saml-provider/.*</param>
+    public AwsLakeformationAssumeDecoratedRoleWithSamlOptions(
+        string SamlAssertion,
+        string RoleArn,
+        string PrincipalArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SamlAssertion);
+        this.SamlAssertion = SamlAssertion;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+        global::System.ArgumentNullException.ThrowIfNull(PrincipalArn);
+        this.PrincipalArn = PrincipalArn;
+    }
+
+    private AwsLakeformationAssumeDecoratedRoleWithSamlOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLakeformationAssumeDecoratedRoleWithSamlOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLakeformationAssumeDecoratedRoleWithSamlOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A SAML assertion consisting of an assertion statement for the user who needs temporary credentials. This must match the SAML assertion that was issued to IAM. This must be Base64 encoded. Constraints: o min: 4 o max: 100000
+    /// </summary>
     [CliOption("--saml-assertion")]
-    public string? SamlAssertion { get; set; }
+    public string? SamlAssertion { get; private init; }
 
+    /// <summary>
+    /// The role that represents an IAM principal whose scope down policy allows it to call credential vending APIs such as GetTemporaryTable- Credentials . The caller must also have iam:PassRole permission on this role. Constraints: o pattern: arn:aws:iam::[0-9]*:role/.*
+    /// </summary>
     [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
+    public string? RoleArn { get; private init; }
 
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the SAML provider in IAM that de- scribes the IdP. Constraints: o pattern: arn:aws:iam::[0-9]*:saml-provider/.*
+    /// </summary>
     [CliOption("--principal-arn")]
-    public string? PrincipalArn { get; set; }
+    public string? PrincipalArn { get; private init; }
 
     /// <summary>
     /// The time period, between 900 and 43,200 seconds, for the timeout of the temporary credentials. Constraints: o min: 900 o max: 43200
@@ -41,5 +92,22 @@ public record AwsLakeformationAssumeDecoratedRoleWithSamlOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

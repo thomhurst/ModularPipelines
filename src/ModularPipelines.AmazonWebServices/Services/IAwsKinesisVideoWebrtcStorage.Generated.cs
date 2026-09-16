@@ -28,7 +28,7 @@ public interface IAwsKinesisVideoWebrtcStorage
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> JoinStorageSessionAsViewerAsync(AwsKinesisVideoWebrtcStorageJoinStorageSessionAsViewerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> JoinStorageSessionAsViewerAsync(AwsKinesisVideoWebrtcStorageJoinStorageSessionAsViewerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -38,7 +38,7 @@ public interface IAwsKinesisVideoWebrtcStorage
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> JoinStorageSessionAsync(AwsKinesisVideoWebrtcStorageJoinStorageSessionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> JoinStorageSessionAsync(AwsKinesisVideoWebrtcStorageJoinStorageSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
 }

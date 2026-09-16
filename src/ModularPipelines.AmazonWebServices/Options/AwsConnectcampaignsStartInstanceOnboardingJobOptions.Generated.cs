@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connectcampaigns", "start-instance-onboarding-job")]
-public record AwsConnectcampaignsStartInstanceOnboardingJobOptions : AwsOptions
+public record AwsConnectcampaignsStartInstanceOnboardingJobOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--connect-instance-id")]
-    public string? ConnectInstanceId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Onboard the specific Amazon Connect instance to Connect Campaigns. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ConnectInstanceId">Amazon Connect Instance Id Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9_\-.]*</param>
+    /// <param name="EncryptionConfig">Encryption config for Connect Instance. Note that sensitive data will always be encrypted. If disabled, service will perform encryp- tion with its own key. If enabled, a KMS key id needs to be provided and KMS charges will apply. KMS is only type supported enabled -&gt; (boolean) [required] Boolean to indicate if custom encryption has been enabled. encryptionType -&gt; (string) Server-side encryption type. Possible values: o KMS keyArn -&gt; (string) KMS key id/arn for encryption config. Constraints: o min: 0 o max: 500 Shorthand Syntax: enabled=boolean,encryptionType=string,keyArn=string JSON Syntax: { "enabled": true|false, "encryptionType": "KMS", "keyArn": "string" }</param>
+    public AwsConnectcampaignsStartInstanceOnboardingJobOptions(
+        string ConnectInstanceId,
+        string EncryptionConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConnectInstanceId);
+        this.ConnectInstanceId = ConnectInstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(EncryptionConfig);
+        this.EncryptionConfig = EncryptionConfig;
+    }
+
+    private AwsConnectcampaignsStartInstanceOnboardingJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectcampaignsStartInstanceOnboardingJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectcampaignsStartInstanceOnboardingJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Amazon Connect Instance Id Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9_\-.]*
+    /// </summary>
+    [CliOption("--connect-instance-id")]
+    public string? ConnectInstanceId { get; private init; }
+
+    /// <summary>
+    /// Encryption config for Connect Instance. Note that sensitive data will always be encrypted. If disabled, service will perform encryp- tion with its own key. If enabled, a KMS key id needs to be provided and KMS charges will apply. KMS is only type supported enabled -&gt; (boolean) [required] Boolean to indicate if custom encryption has been enabled. encryptionType -&gt; (string) Server-side encryption type. Possible values: o KMS keyArn -&gt; (string) KMS key id/arn for encryption config. Constraints: o min: 0 o max: 500 Shorthand Syntax: enabled=boolean,encryptionType=string,keyArn=string JSON Syntax: { "enabled": true|false, "encryptionType": "KMS", "keyArn": "string" }
+    /// </summary>
     [CliOption("--encryption-config")]
-    public string? EncryptionConfig { get; set; }
+    public string? EncryptionConfig { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

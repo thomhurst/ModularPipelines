@@ -22,7 +22,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("codeguruprofiler", "list-profiling-groups")]
 public record AwsCodeguruprofilerListProfilingGroupsOptions : AwsOptions
 {
-    [CliFlag("--include-description")]
+    /// <summary>
+    /// A Boolean value indicating whether to include a description. If true , then a list of ` ProfilingGroupDescription https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ProfilingGroupDescription.html`__ objects that contain detailed information about profiling groups is returned. If false , then a list of profiling group names is re- turned.
+    /// </summary>
+    [CliFlag("--include-description", NegatedName = "--no-include-description")]
     public bool? IncludeDescription { get; set; }
 
     /// <summary>

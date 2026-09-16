@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --addressnamesmode.
+/// Allowed values for --address-names-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGeoPlacesGeocodeAddressNamesMode
 {
-    [EnumValue("Matched")]
-    Matched = 1,
-
     [EnumValue("Administrative")]
-    Administrative = 2
+    Administrative,
+
+    [EnumValue("Matched")]
+    Matched
 }

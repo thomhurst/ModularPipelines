@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +20,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift", "copy-cluster-snapshot")]
-public record AwsRedshiftCopyClusterSnapshotOptions : AwsOptions
+public record AwsRedshiftCopyClusterSnapshotOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Copies the specified automated cluster snapshot to a new manual cluster snapshot. The source must be an automated snapshot and it must be in the available state. When you delete a cluster, Amazon Redshift deletes any automated snap- shots of the cluster. Also, when the retention period of the snapshot expires, Amazon Redshift automatically deletes it. If you want to keep an automated snapshot for a longer period, you can make a manual copy of the snapshot. Manual snapshots are retained until you...
+    /// </summary>
+    /// <param name="SourceSnapshotIdentifier">The identifier for the source snapshot. Constraints: o Must be the identifier for a valid automated snapshot whose state is available . Constraints: o max: 2147483647</param>
+    /// <param name="TargetSnapshotIdentifier">The identifier given to the new manual snapshot. Constraints: o Cannot be null, empty, or blank. o Must contain from 1 to 255 alphanumeric characters or hyphens. o First character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. o Must be unique for the Amazon Web Services account that is making the request. Constraints: o max: 2147483647</param>
+    public AwsRedshiftCopyClusterSnapshotOptions(
+        string SourceSnapshotIdentifier,
+        string TargetSnapshotIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceSnapshotIdentifier);
+        this.SourceSnapshotIdentifier = SourceSnapshotIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(TargetSnapshotIdentifier);
+        this.TargetSnapshotIdentifier = TargetSnapshotIdentifier;
+    }
+
+    private AwsRedshiftCopyClusterSnapshotOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftCopyClusterSnapshotOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftCopyClusterSnapshotOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier for the source snapshot. Constraints: o Must be the identifier for a valid automated snapshot whose state is available . Constraints: o max: 2147483647
+    /// </summary>
     [CliOption("--source-snapshot-identifier")]
-    public string? SourceSnapshotIdentifier { get; set; }
+    public string? SourceSnapshotIdentifier { get; private init; }
+
+    /// <summary>
+    /// The identifier given to the new manual snapshot. Constraints: o Cannot be null, empty, or blank. o Must contain from 1 to 255 alphanumeric characters or hyphens. o First character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. o Must be unique for the Amazon Web Services account that is making the request. Constraints: o max: 2147483647
+    /// </summary>
+    [CliOption("--target-snapshot-identifier")]
+    public string? TargetSnapshotIdentifier { get; private init; }
 
     /// <summary>
     /// The identifier of the cluster the source snapshot was created from. This parameter is required if your IAM user has a policy containing a snapshot resource element that specifies anything other than * for the cluster name. Constraints: o Must be the identifier for a valid cluster. Constraints: o max: 2147483647
     /// </summary>
     [CliOption("--source-snapshot-cluster-identifier")]
     public string? SourceSnapshotClusterIdentifier { get; set; }
-
-    [CliOption("--target-snapshot-identifier")]
-    public string? TargetSnapshotIdentifier { get; set; }
 
     /// <summary>
     /// The number of days that a manual snapshot is retained. If the value is -1, the manual snapshot is retained indefinitely. The value must be either -1 or an integer between 1 and 3,653. The default value is -1.
@@ -44,5 +88,22 @@ public record AwsRedshiftCopyClusterSnapshotOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

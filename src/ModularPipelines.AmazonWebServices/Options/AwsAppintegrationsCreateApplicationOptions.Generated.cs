@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -22,22 +23,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appintegrations", "create-application")]
-public record AwsAppintegrationsCreateApplicationOptions : AwsOptions
+public record AwsAppintegrationsCreateApplicationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--name")]
-    public string? Name { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates and persists an Application resource. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the application. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9\/\._ \-]+$</param>
+    /// <param name="Namespace">The namespace of the application. Constraints: o min: 1 o max: 211 o pattern: ^[a-zA-Z0-9\/\._\-]+$</param>
+    /// <param name="ApplicationSourceConfig">The configuration for where the application should be loaded from. ExternalUrlConfig -&gt; (structure) The external URL source for the application. AccessUrl -&gt; (string) [required] The URL to access the application. Constraints: o min: 1 o max: 1000 o pattern: ^\w+\:\/\/.*$ ApprovedOrigins -&gt; (list) Additional URLs to allow list if different than the access URL. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: ^\w+\:\/\/.*$ Shorthand Syntax: ExternalUrlConfig={AccessUrl=string,ApprovedOrigins=[string,string]} JSON Syntax: { "ExternalUrlConfig": { "AccessUrl": "string", "ApprovedOrigins": ["string", ...] } }</param>
+    public AwsAppintegrationsCreateApplicationOptions(
+        string Name,
+        string Namespace,
+        string ApplicationSourceConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Namespace);
+        this.Namespace = Namespace;
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationSourceConfig);
+        this.ApplicationSourceConfig = ApplicationSourceConfig;
+    }
+
+    private AwsAppintegrationsCreateApplicationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppintegrationsCreateApplicationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppintegrationsCreateApplicationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the application. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9\/\._ \-]+$
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The namespace of the application. Constraints: o min: 1 o max: 211 o pattern: ^[a-zA-Z0-9\/\._\-]+$
+    /// </summary>
     [CliOption("--namespace")]
-    public string? Namespace { get; set; }
+    public string? Namespace { get; private init; }
+
+    /// <summary>
+    /// The configuration for where the application should be loaded from. ExternalUrlConfig -&gt; (structure) The external URL source for the application. AccessUrl -&gt; (string) [required] The URL to access the application. Constraints: o min: 1 o max: 1000 o pattern: ^\w+\:\/\/.*$ ApprovedOrigins -&gt; (list) Additional URLs to allow list if different than the access URL. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: ^\w+\:\/\/.*$ Shorthand Syntax: ExternalUrlConfig={AccessUrl=string,ApprovedOrigins=[string,string]} JSON Syntax: { "ExternalUrlConfig": { "AccessUrl": "string", "ApprovedOrigins": ["string", ...] } }
+    /// </summary>
+    [CliOption("--application-source-config")]
+    public string? ApplicationSourceConfig { get; private init; }
 
     /// <summary>
     /// The description of the application. Constraints: o min: 0 o max: 1000 o pattern: .*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--application-source-config")]
-    public string? ApplicationSourceConfig { get; set; }
 
     /// <summary>
     /// The events that the application subscribes. Constraints: o min: 0 o max: 50 (structure) The configuration of an event that the application subscribes. Event -&gt; (string) [required] The name of the subscription. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9\/\._\-]+::[a-zA-Z0-9\/\._\-]+(?:\*)?$ Description -&gt; (string) The description of the subscription. Constraints: o min: 0 o max: 1000 o pattern: .* Shorthand Syntax: Event=string,Description=string ... JSON Syntax: [ { "Event": "string", "Description": "string" } ... ]
@@ -70,7 +121,10 @@ public record AwsAppintegrationsCreateApplicationOptions : AwsOptions
     [CliOption("--permissions", GroupValues = true)]
     public IEnumerable<string>? Permissions { get; set; }
 
-    [CliFlag("--is-service")]
+    /// <summary>
+    /// Indicates whether the application is a service.
+    /// </summary>
+    [CliFlag("--is-service", NegatedName = "--no-is-service")]
     public bool? IsService { get; set; }
 
     /// <summary>
@@ -102,5 +156,22 @@ public record AwsAppintegrationsCreateApplicationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

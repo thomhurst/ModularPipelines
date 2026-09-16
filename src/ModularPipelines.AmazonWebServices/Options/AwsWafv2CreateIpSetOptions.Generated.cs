@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,25 +21,93 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("wafv2", "create-ip-set")]
-public record AwsWafv2CreateIpSetOptions : AwsOptions
+public record AwsWafv2CreateIpSetOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--name")]
-    public string? Name { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an IPSet , which you use to identify web requests that origi- nate from specific IP addresses or ranges of IP addresses. For example, if you're receiving a lot of requests from a ranges of IP addresses, you can configure WAF to block them using an IPSet that lists those IP addresses. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the IP set. You cannot change the name of an IPSet after you create it. Constraints: o min: 1 o max: 128 o pattern: ^[\w\-]+$</param>
+    /// <param name="Scope">Specifies whether this is for a global resource type, such as a Ama- zon CloudFront distribution. For an Amplify application, use CLOUD- FRONT . To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows: o CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1 . o API and SDKs - For all calls, use the Region endpoint us-east-1. Possible values: o CLOUDFRONT o REGIONAL</param>
+    /// <param name="IpAddressVersion">The version of the IP addresses, either IPV4 or IPV6 . Possible values: o IPV4 o IPV6</param>
+    /// <param name="Addresses">Contains an array of strings that specifies zero or more IP ad- dresses or blocks of IP addresses that you want WAF to inspect for in incoming requests. All addresses must be specified using Class- less Inter-Domain Routing (CIDR) notation. WAF supports all IPv4 and IPv6 CIDR ranges except for /0 . Example address strings: o For requests that originated from the IP address 192.0.2.44, spec- ify 192.0.2.44/32 . o For requests that originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24 . o For requests that originated from the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128 . o For requests that originated from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64 . For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing . Example JSON Addresses specifications: o Empty array: "Addresses": [] o Array with one address: "Addresses": ["192.0.2.44/32"] o Array with three addresses: "Addresses": ["192.0.2.44/32", "192.0.2.0/24", "192.0.0.0/16"] o INVALID specification: "Addresses": [""] INVALID (string) Constraints: o min: 1 o max: 50 o pattern: .*\S.* Syntax: "string" "string" ...</param>
+    public AwsWafv2CreateIpSetOptions(
+        string Name,
+        AwsWafv2CreateIpSetScope Scope,
+        AwsWafv2CreateIpSetIpAddressVersion IpAddressVersion,
+        IEnumerable<string> Addresses
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Scope);
+        this.Scope = Scope;
+        global::System.ArgumentNullException.ThrowIfNull(IpAddressVersion);
+        this.IpAddressVersion = IpAddressVersion;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Addresses);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Addresses));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Addresses));
+            }
+
+            Addresses = materialized;
+        }
+        this.Addresses = Addresses;
+    }
+
+    private AwsWafv2CreateIpSetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWafv2CreateIpSetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWafv2CreateIpSetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the IP set. You cannot change the name of an IPSet after you create it. Constraints: o min: 1 o max: 128 o pattern: ^[\w\-]+$
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// Specifies whether this is for a global resource type, such as a Ama- zon CloudFront distribution. For an Amplify application, use CLOUD- FRONT . To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows: o CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1 . o API and SDKs - For all calls, use the Region endpoint us-east-1. Possible values: o CLOUDFRONT o REGIONAL
+    /// </summary>
     [CliOption("--scope")]
-    public string? Scope { get; set; }
+    public AwsWafv2CreateIpSetScope? Scope { get; private init; }
+
+    /// <summary>
+    /// The version of the IP addresses, either IPV4 or IPV6 . Possible values: o IPV4 o IPV6
+    /// </summary>
+    [CliOption("--ip-address-version")]
+    public AwsWafv2CreateIpSetIpAddressVersion? IpAddressVersion { get; private init; }
+
+    /// <summary>
+    /// Contains an array of strings that specifies zero or more IP ad- dresses or blocks of IP addresses that you want WAF to inspect for in incoming requests. All addresses must be specified using Class- less Inter-Domain Routing (CIDR) notation. WAF supports all IPv4 and IPv6 CIDR ranges except for /0 . Example address strings: o For requests that originated from the IP address 192.0.2.44, spec- ify 192.0.2.44/32 . o For requests that originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24 . o For requests that originated from the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128 . o For requests that originated from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64 . For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing . Example JSON Addresses specifications: o Empty array: "Addresses": [] o Array with one address: "Addresses": ["192.0.2.44/32"] o Array with three addresses: "Addresses": ["192.0.2.44/32", "192.0.2.0/24", "192.0.0.0/16"] o INVALID specification: "Addresses": [""] INVALID (string) Constraints: o min: 1 o max: 50 o pattern: .*\S.* Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--addresses", GroupValues = true)]
+    public IEnumerable<string>? Addresses { get; private init; }
 
     /// <summary>
     /// A description of the IP set that helps with identification. Constraints: o min: 1 o max: 256 o pattern: ^[\w+=:#@/\-,\.][\w+=:#@/\-,\.\s]+[\w+=:#@/\-,\.]$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--ip-address-version")]
-    public string? IpAddressVersion { get; set; }
-
-    [CliOption("--addresses", GroupValues = true)]
-    public IEnumerable<string>? Addresses { get; set; }
 
     /// <summary>
     /// An array of key:value pairs to associate with the resource. Constraints: o min: 1 (structure) A tag associated with an Amazon Web Services resource. Tags are key:value pairs that you can use to categorize and manage your resources, for purposes like billing or other management. Typi- cally, the tag key represents a category, such as "environment", and the tag value represents a specific value within that cate- gory, such as "test," "development," or "production". Or you might set the tag key to "customer" and the value to the cus- tomer name or ID. You can specify one or more tags to add to each Amazon Web Services resource, up to 50 tags for a resource. You can tag the Amazon Web Services resources that you manage through WAF: web ACLs, rule groups, IP sets, and regex pattern sets. You can't manage or view tags through the WAF console. Key -&gt; (string) [required] Part of the key:value pair that defines a tag. You can use a tag key to describe a category of information, such as "cus- tomer." Tag keys are case-sensitive. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] Part of the key:value pair that defines a tag. You can use a tag value to describe a specific value within a category, such as "companyA" or "companyB." Tag values are case-sensi- tive. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -50,5 +120,22 @@ public record AwsWafv2CreateIpSetOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

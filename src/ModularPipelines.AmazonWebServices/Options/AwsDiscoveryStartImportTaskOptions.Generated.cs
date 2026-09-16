@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("discovery", "start-import-task")]
-public record AwsDiscoveryStartImportTaskOptions : AwsOptions
+public record AwsDiscoveryStartImportTaskOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts an import task, which allows you to import details of your on-premises environment directly into Amazon Web Services Migration Hub without having to use the Amazon Web Services Application Discovery Service (Application Discovery Service) tools such as the Amazon Web Services Application Discovery Service Agentless Collector or Applica- tion Discovery Agent. This gives you the option to perform migration assessment and planning directly from your imported data, including the ability to gr...
+    /// </summary>
+    /// <param name="Name">A descriptive name for this request. You can use this name to filter future requests related to this import task, such as identifying ap- plications and servers that were included in this import task. We recommend that you use a meaningful name for each import task. Constraints: o min: 1 o max: 255 o pattern: [\s\S]*\S[\s\S]*</param>
+    /// <param name="ImportUrl">The URL for your import file that you've uploaded to Amazon S3. NOTE: If you're using the Amazon Web Services CLI, this URL is struc- tured as follows: s3://BucketName/ImportFileName.CSV Constraints: o min: 1 o max: 4000 o pattern: \S+://\S+/[\s\S]*\S[\s\S]*</param>
+    public AwsDiscoveryStartImportTaskOptions(
+        string Name,
+        string ImportUrl
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ImportUrl);
+        this.ImportUrl = ImportUrl;
+    }
+
+    private AwsDiscoveryStartImportTaskOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDiscoveryStartImportTaskOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDiscoveryStartImportTaskOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A descriptive name for this request. You can use this name to filter future requests related to this import task, such as identifying ap- plications and servers that were included in this import task. We recommend that you use a meaningful name for each import task. Constraints: o min: 1 o max: 255 o pattern: [\s\S]*\S[\s\S]*
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The URL for your import file that you've uploaded to Amazon S3. NOTE: If you're using the Amazon Web Services CLI, this URL is struc- tured as follows: s3://BucketName/ImportFileName.CSV Constraints: o min: 1 o max: 4000 o pattern: \S+://\S+/[\s\S]*\S[\s\S]*
+    /// </summary>
+    [CliOption("--import-url")]
+    public string? ImportUrl { get; private init; }
+
     /// <summary>
     /// Optional. A unique token that you can provide to prevent the same import request from occurring more than once. If you don't provide a token, a token is automatically generated. Sending more than one StartImportTask request with the same client request token will return information about the original import task with that client request token. Constraints: o min: 1 o max: 100
     /// </summary>
@@ -29,16 +79,27 @@ public record AwsDiscoveryStartImportTaskOptions : AwsOptions
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CliOption("--name")]
-    public string? Name { get; set; }
-
-    [CliOption("--import-url")]
-    public string? ImportUrl { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

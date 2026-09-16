@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --messagebodytexttype.
+/// Allowed values for --message-body-text-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsPinpointSmsVoiceV2SendVoiceMessageMessageBodyTextType
 {
-    [EnumValue("TEXT")]
-    Text = 1,
-
     [EnumValue("SSML")]
-    Ssml = 2
+    Ssml,
+
+    [EnumValue("TEXT")]
+    Text
 }

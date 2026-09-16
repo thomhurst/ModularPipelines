@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rds", "add-option-to-option-group")]
-public record AwsRdsAddOptionToOptionGroupOptions : AwsOptions
+public record AwsRdsAddOptionToOptionGroupOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--option-group-name")]
-    public string? OptionGroupName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--apply-immediately")]
+    /// <summary>
+    /// Modifies an existing option group. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="OptionGroupName">The name of the option group to be modified. Permanent options, such as the TDE option for Oracle Advanced Secu- rity TDE, can't be removed from an option group, and that option group can't be removed from a DB instance once it is associated with a DB instance</param>
+    public AwsRdsAddOptionToOptionGroupOptions(
+        string OptionGroupName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OptionGroupName);
+        this.OptionGroupName = OptionGroupName;
+    }
+
+    private AwsRdsAddOptionToOptionGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRdsAddOptionToOptionGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRdsAddOptionToOptionGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the option group to be modified. Permanent options, such as the TDE option for Oracle Advanced Secu- rity TDE, can't be removed from an option group, and that option group can't be removed from a DB instance once it is associated with a DB instance
+    /// </summary>
+    [CliOption("--option-group-name")]
+    public string? OptionGroupName { get; private init; }
+
+    /// <summary>
+    /// Specifies whether to apply the change immediately or during the next maintenance window for each instance associated with the option group.
+    /// </summary>
+    [CliFlag("--apply-immediately", NegatedName = "--no-apply-immediately")]
     public bool? ApplyImmediately { get; set; }
 
     /// <summary>
@@ -38,5 +78,22 @@ public record AwsRdsAddOptionToOptionGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

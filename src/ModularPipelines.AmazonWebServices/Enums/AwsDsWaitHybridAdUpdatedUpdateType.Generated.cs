@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --updatetype.
+/// Allowed values for --update-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDsWaitHybridAdUpdatedUpdateType
 {
-    [EnumValue("SelfManagedInstances")]
-    SelfManagedInstances = 1,
-
     [EnumValue("HybridAdministratorAccount")]
-    HybridAdministratorAccount = 2
+    HybridAdministratorAccount,
+
+    [EnumValue("SelfManagedInstances")]
+    SelfManagedInstances
 }

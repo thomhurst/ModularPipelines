@@ -11,23 +11,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --networktype.
+/// Allowed values for --network-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsManagedblockchainListAccessorsNetworkType
 {
     [EnumValue("ETHEREUM_GOERLI")]
-    EthereumGoerli = 1,
+    EthereumGoerli,
 
     [EnumValue("ETHEREUM_MAINNET")]
-    EthereumMainnet = 2,
+    EthereumMainnet,
 
     [EnumValue("ETHEREUM_MAINNET_AND_GOERLI")]
-    EthereumMainnetAndGoerli = 3,
+    EthereumMainnetAndGoerli,
 
     [EnumValue("POLYGON_MAINNET")]
-    PolygonMainnet = 4,
+    PolygonMainnet,
 
     [EnumValue("POLYGON_MUMBAI")]
-    PolygonMumbai = 5
+    PolygonMumbai
 }

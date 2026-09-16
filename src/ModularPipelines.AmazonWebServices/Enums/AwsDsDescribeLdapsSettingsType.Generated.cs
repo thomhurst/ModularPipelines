@@ -17,5 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDsDescribeLdapsSettingsType
 {
     [EnumValue("Client")]
-    Client = 1
+    Client,
+
+    [EnumValue("o")]
+    O
 }

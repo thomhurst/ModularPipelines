@@ -16,12 +16,12 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDatazoneListSubscriptionRequestsStatus
 {
-    [EnumValue("PENDING")]
-    Pending = 1,
-
     [EnumValue("ACCEPTED")]
-    Accepted = 2,
+    Accepted,
+
+    [EnumValue("PENDING")]
+    Pending,
 
     [EnumValue("REJECTED")]
-    Rejected = 3
+    Rejected
 }

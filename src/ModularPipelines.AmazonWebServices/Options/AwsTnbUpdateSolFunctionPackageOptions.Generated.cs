@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +21,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("tnb", "update-sol-function-package")]
-public record AwsTnbUpdateSolFunctionPackageOptions : AwsOptions
+public record AwsTnbUpdateSolFunctionPackageOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--operational-state")]
-    public string? OperationalState { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the operational state of function package. A function package is a .zip file in CSAR (Cloud Service Archive) for- mat that contains a network function (an ETSI standard telecommunica- tion application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your net- work. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="OperationalState">Operational state of the function package. Possible values: o ENABLED o DISABLED</param>
+    /// <param name="VnfPkgId">ID of the function package. Constraints: o pattern: ^fp-[a-f0-9]{17}$</param>
+    public AwsTnbUpdateSolFunctionPackageOptions(
+        AwsTnbUpdateSolFunctionPackageOperationalState OperationalState,
+        string VnfPkgId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OperationalState);
+        this.OperationalState = OperationalState;
+        global::System.ArgumentNullException.ThrowIfNull(VnfPkgId);
+        this.VnfPkgId = VnfPkgId;
+    }
+
+    private AwsTnbUpdateSolFunctionPackageOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTnbUpdateSolFunctionPackageOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTnbUpdateSolFunctionPackageOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Operational state of the function package. Possible values: o ENABLED o DISABLED
+    /// </summary>
+    [CliOption("--operational-state")]
+    public AwsTnbUpdateSolFunctionPackageOperationalState? OperationalState { get; private init; }
+
+    /// <summary>
+    /// ID of the function package. Constraints: o pattern: ^fp-[a-f0-9]{17}$
+    /// </summary>
     [CliOption("--vnf-pkg-id")]
-    public string? VnfPkgId { get; set; }
+    public string? VnfPkgId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

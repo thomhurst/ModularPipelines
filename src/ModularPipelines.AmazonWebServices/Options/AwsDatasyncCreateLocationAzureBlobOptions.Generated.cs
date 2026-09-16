@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datasync", "create-location-azure-blob")]
-public record AwsDatasyncCreateLocationAzureBlobOptions : AwsOptions
+public record AwsDatasyncCreateLocationAzureBlobOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--container-url")]
-    public string? ContainerUrl { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a transfer location for a Microsoft Azure Blob Storage con- tainer. DataSync can use this location as a transfer source or destina- tion. You can make transfers with or without a DataSync agent that con- nects to your container. Before you begin, make sure you know how DataSync accesses Azure Blob Storage and works with access tiers and blob types . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ContainerUrl">Specifies the URL of the Azure Blob Storage container involved in your transfer. Constraints: o max: 325 o pattern: ^https:\/\/[A-Za-z0-9]((\.|-+)?[A-Za-z0-9]){0,252}\/[a-z0-9](-?[a-z0-9]){2,62}$</param>
+    /// <param name="AuthenticationType">Specifies the authentication method DataSync uses to access your Azure Blob Storage. DataSync can access blob storage using a shared access signature (SAS). Possible values: o SAS o NONE</param>
+    public AwsDatasyncCreateLocationAzureBlobOptions(
+        string ContainerUrl,
+        AwsDatasyncCreateLocationAzureBlobAuthenticationType AuthenticationType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ContainerUrl);
+        this.ContainerUrl = ContainerUrl;
+        global::System.ArgumentNullException.ThrowIfNull(AuthenticationType);
+        this.AuthenticationType = AuthenticationType;
+    }
+
+    private AwsDatasyncCreateLocationAzureBlobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatasyncCreateLocationAzureBlobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatasyncCreateLocationAzureBlobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the URL of the Azure Blob Storage container involved in your transfer. Constraints: o max: 325 o pattern: ^https:\/\/[A-Za-z0-9]((\.|-+)?[A-Za-z0-9]){0,252}\/[a-z0-9](-?[a-z0-9]){2,62}$
+    /// </summary>
+    [CliOption("--container-url")]
+    public string? ContainerUrl { get; private init; }
+
+    /// <summary>
+    /// Specifies the authentication method DataSync uses to access your Azure Blob Storage. DataSync can access blob storage using a shared access signature (SAS). Possible values: o SAS o NONE
+    /// </summary>
     [CliOption("--authentication-type")]
-    public string? AuthenticationType { get; set; }
+    public AwsDatasyncCreateLocationAzureBlobAuthenticationType? AuthenticationType { get; private init; }
 
     /// <summary>
     /// Specifies the SAS configuration that allows DataSync to access your Azure Blob Storage. NOTE: If you provide an authentication token using SasConfiguration , but do not provide secret configuration details using CmkSecret- Config or CustomSecretConfig , then DataSync stores the token using your Amazon Web Services account's secrets manager secret. Token -&gt; (string) [required] Specifies a SAS token that provides permissions to access your Azure Blob Storage. The token is part of the SAS URI string that comes after the storage resource URI and a question mark. A token looks some- thing like this: sp=r&amp;st=2023-12-20T14:54:52Z&amp;se=2023-12-20T22:54:52Z&amp;spr=https&amp;sv=2021-06-08&amp;sr=c&amp;sig=aB- BKDWQvyuVcTPH9EBp%2FXTI9E%2F%2Fmq171%2BZU178wcwqU%3D Constraints: o min: 1 o max: 255 o pattern: ^.+$ Shorthand Syntax: Token=string JSON Syntax: { "Token": "string" }
@@ -84,5 +128,22 @@ public record AwsDatasyncCreateLocationAzureBlobOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

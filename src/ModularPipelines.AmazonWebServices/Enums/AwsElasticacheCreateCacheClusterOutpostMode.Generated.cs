@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --outpostmode.
+/// Allowed values for --outpost-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsElasticacheCreateCacheClusterOutpostMode
 {
-    [EnumValue("single-outpost")]
-    SingleOutpost = 1,
-
     [EnumValue("cross-outpost")]
-    CrossOutpost = 2
+    CrossOutpost,
+
+    [EnumValue("single-outpost")]
+    SingleOutpost
 }

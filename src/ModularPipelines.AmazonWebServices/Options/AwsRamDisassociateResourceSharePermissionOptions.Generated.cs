@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ram", "disassociate-resource-share-permission")]
-public record AwsRamDisassociateResourceSharePermissionOptions : AwsOptions
+public record AwsRamDisassociateResourceSharePermissionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--resource-share-arn")]
-    public string? ResourceShareArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Removes a managed permission from a resource share. Permission changes take effect immediately. You can remove a managed permission from a re- source share only if there are currently no resources of the relevant resource type currently attached to the resource share. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceShareArn">The Amazon Resource Name (ARN) of the resource share that you want to remove the managed permission from.</param>
+    /// <param name="PermissionArn">The Amazon Resource Name (ARN) of the managed permission to disasso- ciate from the resource share. Changes to permissions take effect immediately.</param>
+    public AwsRamDisassociateResourceSharePermissionOptions(
+        string ResourceShareArn,
+        string PermissionArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceShareArn);
+        this.ResourceShareArn = ResourceShareArn;
+        global::System.ArgumentNullException.ThrowIfNull(PermissionArn);
+        this.PermissionArn = PermissionArn;
+    }
+
+    private AwsRamDisassociateResourceSharePermissionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRamDisassociateResourceSharePermissionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRamDisassociateResourceSharePermissionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the resource share that you want to remove the managed permission from.
+    /// </summary>
+    [CliOption("--resource-share-arn")]
+    public string? ResourceShareArn { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the managed permission to disasso- ciate from the resource share. Changes to permissions take effect immediately.
+    /// </summary>
     [CliOption("--permission-arn")]
-    public string? PermissionArn { get; set; }
+    public string? PermissionArn { get; private init; }
 
     /// <summary>
     /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken , but with dif- ferent parameters, the retry fails with an IdempotentParameterMis- match error.
@@ -40,5 +84,22 @@ public record AwsRamDisassociateResourceSharePermissionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

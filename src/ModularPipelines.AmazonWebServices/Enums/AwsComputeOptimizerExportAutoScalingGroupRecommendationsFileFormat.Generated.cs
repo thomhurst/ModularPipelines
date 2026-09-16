@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --fileformat.
+/// Allowed values for --file-format.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsComputeOptimizerExportAutoScalingGroupRecommendationsFileFormat
 {
     [EnumValue("Csv")]
-    Csv = 1
+    Csv,
+
+    [EnumValue("o")]
+    O
 }

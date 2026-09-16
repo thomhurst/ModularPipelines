@@ -12,6 +12,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,8 +23,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gameliftstreams", "start-stream-session")]
-public record AwsGameliftstreamsStartStreamSessionOptions : AwsOptions
+public record AwsGameliftstreamsStartStreamSessionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This action initiates a new stream session and outputs connection in- formation that clients can use to access the stream. A stream session refers to an instance of a stream that Amazon GameLift Streams trans- mits from the server to the end-user. A stream session runs on a com- pute resource that a stream group has allocated. The start stream ses- sion process works as follows: o Prerequisites: o You must have a stream group in ACTIVE status o You must have idle or on-demand capacity in a strea...
+    /// </summary>
+    /// <param name="Identifier">The stream group to run this stream session with. This value is an Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gamelift- streams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4 . Example ID: sg-1AB2C3De4 . Constraints: o min: 1 o max: 128 o pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)</param>
+    /// <param name="Protocol">The data transport protocol to use for the stream session. Possible values: o WebRTC</param>
+    /// <param name="SignalRequest">A WebRTC ICE offer string to use when initializing a WebRTC connec- tion. Typically, the offer is a very long JSON string. Provide the string as a text value in quotes. Amazon GameLift Streams also supports setting the field to "NO_CLIENT_CONNECTION". This will create a session without needing any browser request or Web SDK integration. The session starts up as usual and waits for a reconnection from a browser, which is accom- plished using CreateStreamSessionConnection . Constraints: o min: 1</param>
+    /// <param name="ApplicationIdentifier">An Amazon Resource Name (ARN) or ID that uniquely identifies the ap- plication resource. Example ARN: arn:aws:gamelift- streams:us-west-2:111122223333:application/a-9ZY8X7Wv6 . Example ID: a-9ZY8X7Wv6 . Constraints: o min: 1 o max: 128 o pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)</param>
+    public AwsGameliftstreamsStartStreamSessionOptions(
+        string Identifier,
+        AwsGameliftstreamsStartStreamSessionProtocol Protocol,
+        string SignalRequest,
+        string ApplicationIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Identifier);
+        this.Identifier = Identifier;
+        global::System.ArgumentNullException.ThrowIfNull(Protocol);
+        this.Protocol = Protocol;
+        global::System.ArgumentNullException.ThrowIfNull(SignalRequest);
+        this.SignalRequest = SignalRequest;
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationIdentifier);
+        this.ApplicationIdentifier = ApplicationIdentifier;
+    }
+
+    private AwsGameliftstreamsStartStreamSessionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGameliftstreamsStartStreamSessionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGameliftstreamsStartStreamSessionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The stream group to run this stream session with. This value is an Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gamelift- streams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4 . Example ID: sg-1AB2C3De4 . Constraints: o min: 1 o max: 128 o pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)
+    /// </summary>
+    [CliOption("--identifier")]
+    public string? Identifier { get; private init; }
+
+    /// <summary>
+    /// The data transport protocol to use for the stream session. Possible values: o WebRTC
+    /// </summary>
+    [CliOption("--protocol")]
+    public AwsGameliftstreamsStartStreamSessionProtocol? Protocol { get; private init; }
+
+    /// <summary>
+    /// A WebRTC ICE offer string to use when initializing a WebRTC connec- tion. Typically, the offer is a very long JSON string. Provide the string as a text value in quotes. Amazon GameLift Streams also supports setting the field to "NO_CLIENT_CONNECTION". This will create a session without needing any browser request or Web SDK integration. The session starts up as usual and waits for a reconnection from a browser, which is accom- plished using CreateStreamSessionConnection . Constraints: o min: 1
+    /// </summary>
+    [CliOption("--signal-request")]
+    public string? SignalRequest { get; private init; }
+
+    /// <summary>
+    /// An Amazon Resource Name (ARN) or ID that uniquely identifies the ap- plication resource. Example ARN: arn:aws:gamelift- streams:us-west-2:111122223333:application/a-9ZY8X7Wv6 . Example ID: a-9ZY8X7Wv6 . Constraints: o min: 1 o max: 128 o pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)
+    /// </summary>
+    [CliOption("--application-identifier")]
+    public string? ApplicationIdentifier { get; private init; }
+
     /// <summary>
     /// A unique identifier that represents a client request. The request is idempotent, which ensures that an API request completes only once. When users send a request, Amazon GameLift Streams automatically populates this field. Constraints: o min: 32 o max: 128 o pattern: [\x21-\x7E]+
     /// </summary>
@@ -35,18 +106,6 @@ public record AwsGameliftstreamsStartStreamSessionOptions : AwsOptions
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--identifier")]
-    public string? Identifier { get; set; }
-
-    [CliOption("--protocol")]
-    public string? Protocol { get; set; }
-
-    [CliOption("--signal-request")]
-    public string? SignalRequest { get; set; }
-
-    [CliOption("--application-identifier")]
-    public string? ApplicationIdentifier { get; set; }
 
     /// <summary>
     /// An opaque, unique identifier for an end-user, defined by the devel- oper. Constraints: o min: 0 o max: 1024 o pattern: [-_a-zA-Z0-9/=+]*
@@ -107,5 +166,22 @@ public record AwsGameliftstreamsStartStreamSessionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

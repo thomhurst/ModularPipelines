@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("healthlake", "update-profile-with-agent")]
-public record AwsHealthlakeUpdateProfileWithAgentOptions : AwsOptions
+public record AwsHealthlakeUpdateProfileWithAgentOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a data transformation profile using chat-based interaction with an agent. Supports multi-turn conversations for iteratively customizing profiles. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ProfileId">The unique identifier of the profile to update via the agent. Constraints: o min: 32 o max: 32 o pattern: [a-f0-9]{32}</param>
+    /// <param name="SourceFormat">The source data format for the transformation. Possible values: o CCDA o CSV</param>
+    /// <param name="InputMessage">The message to send to the agent. Body -&gt; (string) [required] The text of your message to the agent. Constraints: o min: 1 o max: 40960 Type -&gt; (string) [required] The type of input message, which determines how the agent processes your request. Valid values: o normal : A regular message to the agent. o confirmation_response : A response to a confirmation request from the agent. Possible values: o normal o confirmation_response Shorthand Syntax: Body=string,Type=string JSON Syntax: { "Body": "string", "Type": "normal"|"confirmation_response" }</param>
+    public AwsHealthlakeUpdateProfileWithAgentOptions(
+        string ProfileId,
+        AwsHealthlakeUpdateProfileWithAgentSourceFormat SourceFormat,
+        string InputMessage
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProfileId);
+        this.ProfileId = ProfileId;
+        global::System.ArgumentNullException.ThrowIfNull(SourceFormat);
+        this.SourceFormat = SourceFormat;
+        global::System.ArgumentNullException.ThrowIfNull(InputMessage);
+        this.InputMessage = InputMessage;
+    }
+
+    private AwsHealthlakeUpdateProfileWithAgentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsHealthlakeUpdateProfileWithAgentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsHealthlakeUpdateProfileWithAgentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the profile to update via the agent. Constraints: o min: 32 o max: 32 o pattern: [a-f0-9]{32}
+    /// </summary>
     [CliOption("--profile-id")]
-    public string? ProfileId { get; set; }
+    public string? ProfileId { get; private init; }
 
+    /// <summary>
+    /// The source data format for the transformation. Possible values: o CCDA o CSV
+    /// </summary>
     [CliOption("--source-format")]
-    public string? SourceFormat { get; set; }
+    public AwsHealthlakeUpdateProfileWithAgentSourceFormat? SourceFormat { get; private init; }
 
+    /// <summary>
+    /// The message to send to the agent. Body -&gt; (string) [required] The text of your message to the agent. Constraints: o min: 1 o max: 40960 Type -&gt; (string) [required] The type of input message, which determines how the agent processes your request. Valid values: o normal : A regular message to the agent. o confirmation_response : A response to a confirmation request from the agent. Possible values: o normal o confirmation_response Shorthand Syntax: Body=string,Type=string JSON Syntax: { "Body": "string", "Type": "normal"|"confirmation_response" }
+    /// </summary>
     [CliOption("--input-message")]
-    public string? InputMessage { get; set; }
+    public string? InputMessage { get; private init; }
 
     /// <summary>
     /// The conversation identifier for multi-turn interactions. Omit to start a new conversation. Constraints: o min: 1 o max: 36
@@ -41,5 +93,22 @@ public record AwsHealthlakeUpdateProfileWithAgentOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

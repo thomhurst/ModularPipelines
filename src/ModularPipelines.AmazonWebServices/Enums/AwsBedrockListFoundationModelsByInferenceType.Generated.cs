@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --byinferencetype.
+/// Allowed values for --by-inference-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsBedrockListFoundationModelsByInferenceType
 {
     [EnumValue("ON_DEMAND")]
-    OnDemand = 1,
+    OnDemand,
 
     [EnumValue("PROVISIONED")]
-    Provisioned = 2
+    Provisioned
 }

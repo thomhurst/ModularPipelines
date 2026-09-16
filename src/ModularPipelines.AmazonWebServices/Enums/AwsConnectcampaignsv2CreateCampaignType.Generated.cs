@@ -16,9 +16,9 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsConnectcampaignsv2CreateCampaignType
 {
-    [EnumValue("MANAGED")]
-    Managed = 1,
-
     [EnumValue("JOURNEY")]
-    Journey = 2
+    Journey,
+
+    [EnumValue("MANAGED")]
+    Managed
 }

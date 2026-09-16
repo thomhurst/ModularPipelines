@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("neptune", "describe-db-cluster-parameters")]
-public record AwsNeptuneDescribeDbClusterParametersOptions : AwsOptions
+public record AwsNeptuneDescribeDbClusterParametersOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns the detailed parameter list for a particular DB cluster parame- ter group. See also: AWS API Documentation describe-db-cluster-parameters is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Par...
+    /// </summary>
+    /// <param name="DbClusterParameterGroupName">The name of a specific DB cluster parameter group to return parame- ter details for. Constraints: o If supplied, must match the name of an existing DBClusterParame- terGroup.</param>
+    public AwsNeptuneDescribeDbClusterParametersOptions(
+        string DbClusterParameterGroupName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DbClusterParameterGroupName);
+        this.DbClusterParameterGroupName = DbClusterParameterGroupName;
+    }
+
+    private AwsNeptuneDescribeDbClusterParametersOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNeptuneDescribeDbClusterParametersOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNeptuneDescribeDbClusterParametersOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of a specific DB cluster parameter group to return parame- ter details for. Constraints: o If supplied, must match the name of an existing DBClusterParame- terGroup.
+    /// </summary>
     [CliOption("--db-cluster-parameter-group-name")]
-    public string? DbClusterParameterGroupName { get; set; }
+    public string? DbClusterParameterGroupName { get; private init; }
 
     /// <summary>
     /// A value that indicates to return only parameters for a specific source. Parameter sources can be engine , service , or customer .
@@ -61,5 +98,22 @@ public record AwsNeptuneDescribeDbClusterParametersOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

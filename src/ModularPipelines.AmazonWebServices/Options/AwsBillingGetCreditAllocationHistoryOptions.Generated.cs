@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,22 +21,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("billing", "get-credit-allocation-history")]
-public record AwsBillingGetCreditAllocationHistoryOptions : AwsOptions
+public record AwsBillingGetCreditAllocationHistoryOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns the per-billing-month allocation history for credits applied to an Amazon Web Services account's bills. Traverses the consolidated billing family to capture cross-account credit applications. Supports pagination and optional filtering to a single credit. See also: AWS API Documentation get-credit-allocation-history is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate arg...
+    /// </summary>
+    /// <param name="AccountId">The Amazon Web Services account ID whose allocation history to re- trieve. Must be a 12-digit numeric string. Constraints: o pattern: [0-9]{12}</param>
+    /// <param name="StartDate">Inclusive start date as Unix epoch seconds. Must be on or before endDate . The range from startDate to endDate cannot exceed 24 billing months.</param>
+    /// <param name="EndDate">Inclusive end date as Unix epoch seconds.</param>
+    public AwsBillingGetCreditAllocationHistoryOptions(
+        string AccountId,
+        string StartDate,
+        string EndDate
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountId);
+        this.AccountId = AccountId;
+        global::System.ArgumentNullException.ThrowIfNull(StartDate);
+        this.StartDate = StartDate;
+        global::System.ArgumentNullException.ThrowIfNull(EndDate);
+        this.EndDate = EndDate;
+    }
+
+    private AwsBillingGetCreditAllocationHistoryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBillingGetCreditAllocationHistoryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBillingGetCreditAllocationHistoryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Web Services account ID whose allocation history to re- trieve. Must be a 12-digit numeric string. Constraints: o pattern: [0-9]{12}
+    /// </summary>
     [CliOption("--account-id")]
-    public string? AccountId { get; set; }
+    public string? AccountId { get; private init; }
+
+    /// <summary>
+    /// Inclusive start date as Unix epoch seconds. Must be on or before endDate . The range from startDate to endDate cannot exceed 24 billing months.
+    /// </summary>
+    [CliOption("--start-date")]
+    public string? StartDate { get; private init; }
+
+    /// <summary>
+    /// Inclusive end date as Unix epoch seconds.
+    /// </summary>
+    [CliOption("--end-date")]
+    public string? EndDate { get; private init; }
 
     /// <summary>
     /// Filters the result to a single credit. When omitted, returns alloca- tion entries for all credits.
     /// </summary>
     [CliOption("--credit-id")]
     public int? CreditId { get; set; }
-
-    [CliOption("--start-date")]
-    public string? StartDate { get; set; }
-
-    [CliOption("--end-date")]
-    public string? EndDate { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -61,5 +112,22 @@ public record AwsBillingGetCreditAllocationHistoryOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

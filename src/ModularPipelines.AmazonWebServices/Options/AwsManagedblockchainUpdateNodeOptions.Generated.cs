@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +20,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("managedblockchain", "update-node")]
-public record AwsManagedblockchainUpdateNodeOptions : AwsOptions
+public record AwsManagedblockchainUpdateNodeOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a node configuration with new parameters. Applies only to Hyperledger Fabric. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="NetworkId">The unique identifier of the network that the node is on. Constraints: o min: 1 o max: 32</param>
+    /// <param name="NodeId">The unique identifier of the node. Constraints: o min: 1 o max: 32</param>
+    public AwsManagedblockchainUpdateNodeOptions(
+        string NetworkId,
+        string NodeId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NetworkId);
+        this.NetworkId = NetworkId;
+        global::System.ArgumentNullException.ThrowIfNull(NodeId);
+        this.NodeId = NodeId;
+    }
+
+    private AwsManagedblockchainUpdateNodeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsManagedblockchainUpdateNodeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsManagedblockchainUpdateNodeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the network that the node is on. Constraints: o min: 1 o max: 32
+    /// </summary>
     [CliOption("--network-id")]
-    public string? NetworkId { get; set; }
+    public string? NetworkId { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the node. Constraints: o min: 1 o max: 32
+    /// </summary>
+    [CliOption("--node-id")]
+    public string? NodeId { get; private init; }
 
     /// <summary>
     /// The unique identifier of the member that owns the node. Applies only to Hyperledger Fabric. Constraints: o min: 1 o max: 32
     /// </summary>
     [CliOption("--member-id")]
     public string? MemberId { get; set; }
-
-    [CliOption("--node-id")]
-    public string? NodeId { get; set; }
 
     /// <summary>
     /// Configuration properties for publishing to Amazon CloudWatch Logs. Fabric -&gt; (structure) Configuration properties for logging events associated with a node that is owned by a member of a Managed Blockchain network using the Hyperledger Fabric framework. ChaincodeLogs -&gt; (structure) Configuration properties for logging events associated with chaincode execution on a peer node. Chaincode logs contain the results of instantiating, invoking, and querying the chaincode. A peer can run multiple instances of chaincode. When enabled, a log stream is created for all chaincodes, with an individual log stream for each chaincode. Cloudwatch -&gt; (structure) Parameters for publishing logs to Amazon CloudWatch Logs. Enabled -&gt; (boolean) Indicates whether logging is enabled. PeerLogs -&gt; (structure) Configuration properties for a peer node log. Peer node logs contain messages generated when your client submits transac- tion proposals to peer nodes, requests to join channels, en- rolls an admin peer, and lists the chaincode instances on a peer node. Cloudwatch -&gt; (structure) Parameters for publishing logs to Amazon CloudWatch Logs. Enabled -&gt; (boolean) Indicates whether logging is enabled. JSON Syntax: { "Fabric": { "ChaincodeLogs": { "Cloudwatch": { "Enabled": true|false } }, "PeerLogs": { "Cloudwatch": { "Enabled": true|false } } } }
@@ -44,5 +88,22 @@ public record AwsManagedblockchainUpdateNodeOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

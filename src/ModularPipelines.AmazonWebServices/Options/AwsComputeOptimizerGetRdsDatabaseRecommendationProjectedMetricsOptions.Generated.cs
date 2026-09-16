@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,22 +21,85 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute-optimizer", "get-rds-database-recommendation-projected-metrics")]
-public record AwsComputeOptimizerGetRdsDatabaseRecommendationProjectedMetricsOptions : AwsOptions
+public record AwsComputeOptimizerGetRdsDatabaseRecommendationProjectedMetricsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns the projected metrics of Aurora and RDS database recommenda- tions. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceArn">The ARN that identifies the Amazon Aurora or RDS database. The following is the format of the ARN: arn:aws:rds:{region}:{accountId}:db:{resourceName}</param>
+    /// <param name="Stat">The statistic of the projected metrics. Possible values: o Maximum o Average</param>
+    /// <param name="Period">The granularity, in seconds, of the projected metrics data points.</param>
+    /// <param name="StartTime">The timestamp of the first projected metrics data point to return.</param>
+    /// <param name="EndTime">The timestamp of the last projected metrics data point to return.</param>
+    public AwsComputeOptimizerGetRdsDatabaseRecommendationProjectedMetricsOptions(
+        string ResourceArn,
+        AwsComputeOptimizerGetRdsDatabaseRecommendationProjectedMetricsStat Stat,
+        int Period,
+        string StartTime,
+        string EndTime
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
+        this.ResourceArn = ResourceArn;
+        global::System.ArgumentNullException.ThrowIfNull(Stat);
+        this.Stat = Stat;
+        this.Period = Period;
+        global::System.ArgumentNullException.ThrowIfNull(StartTime);
+        this.StartTime = StartTime;
+        global::System.ArgumentNullException.ThrowIfNull(EndTime);
+        this.EndTime = EndTime;
+    }
+
+    private AwsComputeOptimizerGetRdsDatabaseRecommendationProjectedMetricsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsComputeOptimizerGetRdsDatabaseRecommendationProjectedMetricsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsComputeOptimizerGetRdsDatabaseRecommendationProjectedMetricsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN that identifies the Amazon Aurora or RDS database. The following is the format of the ARN: arn:aws:rds:{region}:{accountId}:db:{resourceName}
+    /// </summary>
     [CliOption("--resource-arn")]
-    public string? ResourceArn { get; set; }
+    public string? ResourceArn { get; private init; }
 
+    /// <summary>
+    /// The statistic of the projected metrics. Possible values: o Maximum o Average
+    /// </summary>
     [CliOption("--stat")]
-    public string? Stat { get; set; }
+    public AwsComputeOptimizerGetRdsDatabaseRecommendationProjectedMetricsStat? Stat { get; private init; }
 
+    /// <summary>
+    /// The granularity, in seconds, of the projected metrics data points.
+    /// </summary>
     [CliOption("--period")]
-    public int? Period { get; set; }
+    public int? Period { get; private init; }
 
+    /// <summary>
+    /// The timestamp of the first projected metrics data point to return.
+    /// </summary>
     [CliOption("--start-time")]
-    public string? StartTime { get; set; }
+    public string? StartTime { get; private init; }
 
+    /// <summary>
+    /// The timestamp of the last projected metrics data point to return.
+    /// </summary>
     [CliOption("--end-time")]
-    public string? EndTime { get; set; }
+    public string? EndTime { get; private init; }
 
     /// <summary>
     /// Describes the recommendation preferences to return in the response of a GetAutoScalingGroupRecommendations , GetEC2InstanceRecommen- dations , GetEC2RecommendationProjectedMetrics , GetRDSDatabaseRe- commendations , and GetRDSDatabaseRecommendationProjectedMetrics request. cpuVendorArchitectures -&gt; (list) Specifies the CPU vendor and architecture for Amazon EC2 in- stance and Auto Scaling group recommendations. For example, when you specify AWS_ARM64 with: o A GetEC2InstanceRecommendations or GetAutoScalingGroupRecom- mendations request, Compute Optimizer returns recommendations that consist of Graviton instance types only. o A GetEC2RecommendationProjectedMetrics request, Compute Opti- mizer returns projected utilization metrics for Graviton in- stance type recommendations only. o A ExportEC2InstanceRecommendations or ExportAutoScaling- GroupRecommendations request, Compute Optimizer exports recom- mendations that consist of Graviton instance types only. (string) Possible values: o AWS_ARM64 o CURRENT Shorthand Syntax: cpuVendorArchitectures=string,string JSON Syntax: { "cpuVendorArchitectures": ["AWS_ARM64"|"CURRENT", ...] }
@@ -47,5 +112,22 @@ public record AwsComputeOptimizerGetRdsDatabaseRecommendationProjectedMetricsOpt
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

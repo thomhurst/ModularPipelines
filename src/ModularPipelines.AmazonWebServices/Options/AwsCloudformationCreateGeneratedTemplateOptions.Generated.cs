@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudformation", "create-generated-template")]
-public record AwsCloudformationCreateGeneratedTemplateOptions : AwsOptions
+public record AwsCloudformationCreateGeneratedTemplateOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a template from existing resources that are not already managed with CloudFormation. You can check the status of the template genera- tion using the DescribeGeneratedTemplate API action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="GeneratedTemplateName">The name assigned to the generated template. Constraints: o min: 1 o max: 128</param>
+    public AwsCloudformationCreateGeneratedTemplateOptions(
+        string GeneratedTemplateName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GeneratedTemplateName);
+        this.GeneratedTemplateName = GeneratedTemplateName;
+    }
+
+    private AwsCloudformationCreateGeneratedTemplateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudformationCreateGeneratedTemplateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudformationCreateGeneratedTemplateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name assigned to the generated template. Constraints: o min: 1 o max: 128
+    /// </summary>
+    [CliOption("--generated-template-name")]
+    public string? GeneratedTemplateName { get; private init; }
+
     /// <summary>
     /// An optional list of resources to be included in the generated tem- plate. If no resources are specified,the template will be created without any resources. Resources can be added to the template using the Up- dateGeneratedTemplate API action. Constraints: o min: 1 o max: 500 (structure) A resource included in a generated template. This data type is used with the CreateGeneratedTemplate and UpdateGeneratedTem- plate API actions. ResourceType -&gt; (string) [required] The type of the resource, such as AWS::DynamoDB::Table . For the list of supported resources, see Resource type support for imports and drift detection in the CloudFormation User Guide Constraints: o min: 1 o max: 256 LogicalResourceId -&gt; (string) The logical resource id for this resource in the generated template. ResourceIdentifier -&gt; (map) [required] A list of up to 256 key-value pairs that identifies the scanned resource. The key is the name of one of the primary identifiers for the resource. (Primary identifiers are speci- fied in the primaryIdentifier list in the resource schema.) The value is the value of that primary identifier. For exam- ple, for a AWS::DynamoDB::Table resource, the primary identi- fiers is TableName so the key-value pair could be "Table- Name": "MyDDBTable" . For more information, see primaryIdentifier in the CloudFormation Command Line Inter- face (CLI) User Guide . Constraints: o min: 1 o max: 256 key -&gt; (string) Constraints: o min: 1 o max: 2048 value -&gt; (string) Constraints: o min: 1 o max: 2048 Shorthand Syntax: ResourceType=string,LogicalResourceId=string,ResourceIdentifier={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "ResourceType": "string", "LogicalResourceId": "string", "ResourceIdentifier": {"string": "string" ...} } ... ]
     /// </summary>
     [CliOption("--resources", GroupValues = true)]
     public IEnumerable<string>? Resources { get; set; }
-
-    [CliOption("--generated-template-name")]
-    public string? GeneratedTemplateName { get; set; }
 
     /// <summary>
     /// An optional name or ARN of a stack to use as the base stack for the generated template.
@@ -47,5 +84,22 @@ public record AwsCloudformationCreateGeneratedTemplateOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

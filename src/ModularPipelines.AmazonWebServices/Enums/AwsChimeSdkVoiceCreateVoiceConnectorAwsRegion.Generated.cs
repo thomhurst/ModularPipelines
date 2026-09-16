@@ -11,38 +11,38 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --awsregion.
+/// Allowed values for --aws-region.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsChimeSdkVoiceCreateVoiceConnectorAwsRegion
 {
-    [EnumValue("us-east-1")]
-    UsEast_1 = 1,
-
-    [EnumValue("us-west-2")]
-    UsWest_2 = 2,
-
-    [EnumValue("ca-central-1")]
-    CaCentral_1 = 3,
-
-    [EnumValue("eu-central-1")]
-    EuCentral_1 = 4,
-
-    [EnumValue("eu-west-1")]
-    EuWest_1 = 5,
-
-    [EnumValue("eu-west-2")]
-    EuWest_2 = 6,
+    [EnumValue("ap-northeast-1")]
+    ApNortheast1,
 
     [EnumValue("ap-northeast-2")]
-    ApNortheast_2 = 7,
-
-    [EnumValue("ap-northeast-1")]
-    ApNortheast_1 = 8,
+    ApNortheast2,
 
     [EnumValue("ap-southeast-1")]
-    ApSoutheast_1 = 9,
+    ApSoutheast1,
 
     [EnumValue("ap-southeast-2")]
-    ApSoutheast_2 = 10
+    ApSoutheast2,
+
+    [EnumValue("ca-central-1")]
+    CaCentral1,
+
+    [EnumValue("eu-central-1")]
+    EuCentral1,
+
+    [EnumValue("eu-west-1")]
+    EuWest1,
+
+    [EnumValue("eu-west-2")]
+    EuWest2,
+
+    [EnumValue("us-east-1")]
+    UsEast1,
+
+    [EnumValue("us-west-2")]
+    UsWest2
 }

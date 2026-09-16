@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --targetresolution.
+/// Allowed values for --target-resolution.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCodeguruprofilerBatchGetFrameMetricDataTargetResolution
 {
-    [EnumValue("PT5M")]
-    Pt5M = 1,
+    [EnumValue("P1D")]
+    P1D,
 
     [EnumValue("PT1H")]
-    Pt1H = 2,
+    Pt1H,
 
-    [EnumValue("P1D")]
-    P1D = 3
+    [EnumValue("PT5M")]
+    Pt5M
 }

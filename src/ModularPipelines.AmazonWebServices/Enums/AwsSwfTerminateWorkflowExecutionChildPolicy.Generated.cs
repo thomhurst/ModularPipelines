@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --childpolicy.
+/// Allowed values for --child-policy.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSwfTerminateWorkflowExecutionChildPolicy
 {
-    [EnumValue("TERMINATE")]
-    Terminate = 1,
+    [EnumValue("ABANDON")]
+    Abandon,
 
     [EnumValue("REQUEST_CANCEL")]
-    RequestCancel = 2,
+    RequestCancel,
 
-    [EnumValue("ABANDON")]
-    Abandon = 3
+    [EnumValue("TERMINATE")]
+    Terminate
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("frauddetector", "create-detector-version")]
-public record AwsFrauddetectorCreateDetectorVersionOptions : AwsOptions
+public record AwsFrauddetectorCreateDetectorVersionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a detector version. The detector version starts in a DRAFT sta- tus. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DetectorId">The ID of the detector under which you want to create a new version. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$</param>
+    /// <param name="Rules">The rules to include in the detector version. (structure) A rule. detectorId -&gt; (string) [required] The detector for which the rule is associated. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$ ruleId -&gt; (string) [required] The rule ID. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$ ruleVersion -&gt; (string) [required] The rule version. Constraints: o min: 1 o max: 5 o pattern: ^([1-9][0-9]*)$ Shorthand Syntax: detectorId=string,ruleId=string,ruleVersion=string ... JSON Syntax: [ { "detectorId": "string", "ruleId": "string", "ruleVersion": "string" } ... ]</param>
+    public AwsFrauddetectorCreateDetectorVersionOptions(
+        string DetectorId,
+        IEnumerable<string> Rules
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DetectorId);
+        this.DetectorId = DetectorId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Rules);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Rules));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Rules));
+            }
+
+            Rules = materialized;
+        }
+        this.Rules = Rules;
+    }
+
+    private AwsFrauddetectorCreateDetectorVersionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFrauddetectorCreateDetectorVersionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFrauddetectorCreateDetectorVersionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the detector under which you want to create a new version. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$
+    /// </summary>
     [CliOption("--detector-id")]
-    public string? DetectorId { get; set; }
+    public string? DetectorId { get; private init; }
+
+    /// <summary>
+    /// The rules to include in the detector version. (structure) A rule. detectorId -&gt; (string) [required] The detector for which the rule is associated. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$ ruleId -&gt; (string) [required] The rule ID. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$ ruleVersion -&gt; (string) [required] The rule version. Constraints: o min: 1 o max: 5 o pattern: ^([1-9][0-9]*)$ Shorthand Syntax: detectorId=string,ruleId=string,ruleVersion=string ... JSON Syntax: [ { "detectorId": "string", "ruleId": "string", "ruleVersion": "string" } ... ]
+    /// </summary>
+    [CliOption("--rules", GroupValues = true)]
+    public IEnumerable<string>? Rules { get; private init; }
 
     /// <summary>
     /// The description of the detector version. Constraints: o min: 1 o max: 128
@@ -36,9 +94,6 @@ public record AwsFrauddetectorCreateDetectorVersionOptions : AwsOptions
     /// </summary>
     [CliOption("--external-model-endpoints", GroupValues = true)]
     public IEnumerable<string>? ExternalModelEndpoints { get; set; }
-
-    [CliOption("--rules", GroupValues = true)]
-    public IEnumerable<string>? Rules { get; set; }
 
     /// <summary>
     /// The model versions to include in the detector version. (structure) The model version. modelId -&gt; (string) [required] The model ID. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_]+$ modelType -&gt; (string) [required] The model type. Possible values: o ONLINE_FRAUD_INSIGHTS o TRANSACTION_FRAUD_INSIGHTS o ACCOUNT_TAKEOVER_INSIGHTS modelVersionNumber -&gt; (string) [required] The model version number. Constraints: o min: 3 o max: 7 o pattern: ^[1-9][0-9]{0,3}\.[0-9]{1,2}$ arn -&gt; (string) The model version ARN. Constraints: o min: 1 o max: 256 o pattern: ^arn\:aws[a-z-]{0,15}\:frauddetec- tor\:[a-z0-9-]{3,20}\:[0-9]{12}\:[^\s]{2,128}$ Shorthand Syntax: modelId=string,modelType=string,modelVersionNumber=string,arn=string ... JSON Syntax: [ { "modelId": "string", "modelType": "ONLINE_FRAUD_INSIGHTS"|"TRANSACTION_FRAUD_INSIGHTS"|"ACCOUNT_TAKEOVER_INSIGHTS", "modelVersionNumber": "string", "arn": "string" } ... ]
@@ -63,5 +118,22 @@ public record AwsFrauddetectorCreateDetectorVersionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

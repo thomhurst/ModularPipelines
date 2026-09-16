@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,25 +21,90 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storagegateway", "create-tapes")]
-public record AwsStoragegatewayCreateTapesOptions : AwsOptions
+public record AwsStoragegatewayCreateTapesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates one or more virtual tapes. You write data to the virtual tapes and then archive the tapes. This operation is only supported in the tape gateway type. NOTE: Cache storage must be allocated to the gateway before you can create virtual tapes. Use the AddCache operation to add cache storage to a gateway. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="GatewayArn">The unique Amazon Resource Name (ARN) that represents the gateway to associate the virtual tapes with. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: o min: 50 o max: 500</param>
+    /// <param name="TapeSizeInBytes">The size, in bytes, of the virtual tapes that you want to create. NOTE: The size must be aligned by gigabyte (1024*1024*1024 bytes).</param>
+    /// <param name="ClientToken">A unique identifier that you use to retry a request. If you retry a request, use the same ClientToken you specified in the initial re- quest. NOTE: Using the same ClientToken prevents creating the tape multiple times. Constraints: o min: 5 o max: 100</param>
+    /// <param name="NumTapesToCreate">The number of virtual tapes that you want to create. Constraints: o min: 1 o max: 10</param>
+    /// <param name="TapeBarcodePrefix">A prefix that you append to the barcode of the virtual tape you are creating. This prefix makes the barcode unique. NOTE: The prefix must be 1-4 characters in length and must be one of the uppercase letters from A to Z. Constraints: o min: 1 o max: 4 o pattern: ^[A-Z]*$</param>
+    public AwsStoragegatewayCreateTapesOptions(
+        string GatewayArn,
+        int TapeSizeInBytes,
+        string ClientToken,
+        int NumTapesToCreate,
+        string TapeBarcodePrefix
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GatewayArn);
+        this.GatewayArn = GatewayArn;
+        this.TapeSizeInBytes = TapeSizeInBytes;
+        global::System.ArgumentNullException.ThrowIfNull(ClientToken);
+        this.ClientToken = ClientToken;
+        this.NumTapesToCreate = NumTapesToCreate;
+        global::System.ArgumentNullException.ThrowIfNull(TapeBarcodePrefix);
+        this.TapeBarcodePrefix = TapeBarcodePrefix;
+    }
+
+    private AwsStoragegatewayCreateTapesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsStoragegatewayCreateTapesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsStoragegatewayCreateTapesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique Amazon Resource Name (ARN) that represents the gateway to associate the virtual tapes with. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: o min: 50 o max: 500
+    /// </summary>
     [CliOption("--gateway-arn")]
-    public string? GatewayArn { get; set; }
+    public string? GatewayArn { get; private init; }
 
+    /// <summary>
+    /// The size, in bytes, of the virtual tapes that you want to create. NOTE: The size must be aligned by gigabyte (1024*1024*1024 bytes).
+    /// </summary>
     [CliOption("--tape-size-in-bytes")]
-    public int? TapeSizeInBytes { get; set; }
+    public int? TapeSizeInBytes { get; private init; }
 
+    /// <summary>
+    /// A unique identifier that you use to retry a request. If you retry a request, use the same ClientToken you specified in the initial re- quest. NOTE: Using the same ClientToken prevents creating the tape multiple times. Constraints: o min: 5 o max: 100
+    /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
-    public string? ClientToken { get; set; }
+    public string? ClientToken { get; private init; }
 
+    /// <summary>
+    /// The number of virtual tapes that you want to create. Constraints: o min: 1 o max: 10
+    /// </summary>
     [CliOption("--num-tapes-to-create")]
-    public int? NumTapesToCreate { get; set; }
+    public int? NumTapesToCreate { get; private init; }
 
+    /// <summary>
+    /// A prefix that you append to the barcode of the virtual tape you are creating. This prefix makes the barcode unique. NOTE: The prefix must be 1-4 characters in length and must be one of the uppercase letters from A to Z. Constraints: o min: 1 o max: 4 o pattern: ^[A-Z]*$
+    /// </summary>
     [CliOption("--tape-barcode-prefix")]
-    public string? TapeBarcodePrefix { get; set; }
+    public string? TapeBarcodePrefix { get; private init; }
 
-    [CliFlag("--kms-encrypted")]
+    /// <summary>
+    /// Set to true to use Amazon S3 server-side encryption with your own KMS key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
+    /// </summary>
+    [CliFlag("--kms-encrypted", NegatedName = "--no-kms-encrypted")]
     public bool? KmsEncrypted { get; set; }
 
     /// <summary>
@@ -53,7 +119,10 @@ public record AwsStoragegatewayCreateTapesOptions : AwsOptions
     [CliOption("--pool-id")]
     public string? PoolId { get; set; }
 
-    [CliFlag("--worm")]
+    /// <summary>
+    /// Set to TRUE if the tape you are creating is to be configured as a write-once-read-many (WORM) tape.
+    /// </summary>
+    [CliFlag("--worm", NegatedName = "--no-worm")]
     public bool? Worm { get; set; }
 
     /// <summary>
@@ -67,5 +136,22 @@ public record AwsStoragegatewayCreateTapesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

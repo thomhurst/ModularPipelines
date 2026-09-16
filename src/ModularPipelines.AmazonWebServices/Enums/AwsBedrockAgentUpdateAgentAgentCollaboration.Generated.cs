@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --agentcollaboration.
+/// Allowed values for --agent-collaboration.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsBedrockAgentUpdateAgentAgentCollaboration
 {
+    [EnumValue("DISABLED")]
+    Disabled,
+
     [EnumValue("SUPERVISOR")]
-    Supervisor = 1,
+    Supervisor,
 
     [EnumValue("SUPERVISOR_ROUTER")]
-    SupervisorRouter = 2,
-
-    [EnumValue("DISABLED")]
-    Disabled = 3
+    SupervisorRouter
 }

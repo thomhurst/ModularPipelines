@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --domainversion.
+/// Allowed values for --domain-version.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDatazoneCreateDomainDomainVersion
 {
     [EnumValue("V1")]
-    V1 = 1,
+    V1,
 
     [EnumValue("V2")]
-    V2 = 2
+    V2
 }

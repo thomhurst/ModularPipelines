@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,15 +21,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "modify-verified-access-instance-logging-configuration")]
-public record AwsEc2ModifyVerifiedAccessInstanceLoggingConfigurationOptions : AwsOptions
+public record AwsEc2ModifyVerifiedAccessInstanceLoggingConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies the logging configuration for the specified Amazon Web Ser- vices Verified Access instance. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="VerifiedAccessInstanceId">The ID of the Verified Access instance.</param>
+    /// <param name="AccessLogs">The configuration options for Verified Access instances. S3 -&gt; (structure) Sends Verified Access logs to Amazon S3. Enabled -&gt; (boolean) [required] Indicates whether logging is enabled. BucketName -&gt; (string) The bucket name. Prefix -&gt; (string) The bucket prefix. BucketOwner -&gt; (string) The ID of the Amazon Web Services account that owns the Ama- zon S3 bucket. CloudWatchLogs -&gt; (structure) Sends Verified Access logs to CloudWatch Logs. Enabled -&gt; (boolean) [required] Indicates whether logging is enabled. LogGroup -&gt; (string) The ID of the CloudWatch Logs log group. KinesisDataFirehose -&gt; (structure) Sends Verified Access logs to Kinesis. Enabled -&gt; (boolean) [required] Indicates whether logging is enabled. DeliveryStream -&gt; (string) The ID of the delivery stream. LogVersion -&gt; (string) The logging version. Valid values: ocsf-0.1 | ocsf-1.0.0-rc.2 IncludeTrustContext -&gt; (boolean) Indicates whether to include trust data sent by trust providers in the logs. Shorthand Syntax: S3={Enabled=boolean,BucketName=string,Prefix=string,BucketOwner=string},CloudWatchLogs={Enabled=boolean,LogGroup=string},KinesisDataFirehose={Enabled=boolean,DeliveryStream=string},LogVersion=string,IncludeTrustContext=boolean JSON Syntax: { "S3": { "Enabled": true|false, "BucketName": "string", "Prefix": "string", "BucketOwner": "string" }, "CloudWatchLogs": { "Enabled": true|false, "LogGroup": "string" }, "KinesisDataFirehose": { "Enabled": true|false, "DeliveryStream": "string" }, "LogVersion": "string", "IncludeTrustContext": true|false }</param>
+    public AwsEc2ModifyVerifiedAccessInstanceLoggingConfigurationOptions(
+        string VerifiedAccessInstanceId,
+        string AccessLogs
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VerifiedAccessInstanceId);
+        this.VerifiedAccessInstanceId = VerifiedAccessInstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(AccessLogs);
+        this.AccessLogs = AccessLogs;
+    }
+
+    private AwsEc2ModifyVerifiedAccessInstanceLoggingConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2ModifyVerifiedAccessInstanceLoggingConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2ModifyVerifiedAccessInstanceLoggingConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Verified Access instance.
+    /// </summary>
     [CliOption("--verified-access-instance-id")]
-    public string? VerifiedAccessInstanceId { get; set; }
+    public string? VerifiedAccessInstanceId { get; private init; }
 
+    /// <summary>
+    /// The configuration options for Verified Access instances. S3 -&gt; (structure) Sends Verified Access logs to Amazon S3. Enabled -&gt; (boolean) [required] Indicates whether logging is enabled. BucketName -&gt; (string) The bucket name. Prefix -&gt; (string) The bucket prefix. BucketOwner -&gt; (string) The ID of the Amazon Web Services account that owns the Ama- zon S3 bucket. CloudWatchLogs -&gt; (structure) Sends Verified Access logs to CloudWatch Logs. Enabled -&gt; (boolean) [required] Indicates whether logging is enabled. LogGroup -&gt; (string) The ID of the CloudWatch Logs log group. KinesisDataFirehose -&gt; (structure) Sends Verified Access logs to Kinesis. Enabled -&gt; (boolean) [required] Indicates whether logging is enabled. DeliveryStream -&gt; (string) The ID of the delivery stream. LogVersion -&gt; (string) The logging version. Valid values: ocsf-0.1 | ocsf-1.0.0-rc.2 IncludeTrustContext -&gt; (boolean) Indicates whether to include trust data sent by trust providers in the logs. Shorthand Syntax: S3={Enabled=boolean,BucketName=string,Prefix=string,BucketOwner=string},CloudWatchLogs={Enabled=boolean,LogGroup=string},KinesisDataFirehose={Enabled=boolean,DeliveryStream=string},LogVersion=string,IncludeTrustContext=boolean JSON Syntax: { "S3": { "Enabled": true|false, "BucketName": "string", "Prefix": "string", "BucketOwner": "string" }, "CloudWatchLogs": { "Enabled": true|false, "LogGroup": "string" }, "KinesisDataFirehose": { "Enabled": true|false, "DeliveryStream": "string" }, "LogVersion": "string", "IncludeTrustContext": true|false }
+    /// </summary>
     [CliOption("--access-logs")]
-    public string? AccessLogs { get; set; }
+    public string? AccessLogs { get; private init; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -43,5 +90,22 @@ public record AwsEc2ModifyVerifiedAccessInstanceLoggingConfigurationOptions : Aw
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

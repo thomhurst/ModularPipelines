@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --powerphase.
+/// Allowed values for --power-phase.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsOutpostsUpdateSiteRackPhysicalPropertiesPowerPhase
 {
     [EnumValue("SINGLE_PHASE")]
-    SinglePhase = 1,
+    SinglePhase,
 
     [EnumValue("THREE_PHASE")]
-    ThreePhase = 2
+    ThreePhase
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudfront", "update-connection-function")]
-public record AwsCloudfrontUpdateConnectionFunctionOptions : AwsOptions
+public record AwsCloudfrontUpdateConnectionFunctionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a connection function. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Id">The connection function ID. Constraints: o min: 1 o max: 64</param>
+    /// <param name="IfMatch">The current version (ETag value) of the connection function you are updating.</param>
+    /// <param name="ConnectionFunctionConfig">Contains configuration information about a CloudFront function. Comment -&gt; (string) [required] A comment to describe the function. Runtime -&gt; (string) [required] The function's runtime environment version. Possible values: o cloudfront-js-1.0 o cloudfront-js-2.0 KeyValueStoreAssociations -&gt; (structure) The configuration for the key value store associations. Quantity -&gt; (integer) [required] The quantity of key value store associations. Items -&gt; (list) The items of the key value store association. (structure) The key value store association. KeyValueStoreARN -&gt; (string) [required] The Amazon Resource Name (ARN) of the key value store association. Constraints: o min: 0 o max: 85 o pattern: arn:aws:cloud- front::[0-9]{12}:key-value-store\/[0-9a-fA-F-]{36} JSON Syntax: { "Comment": "string", "Runtime": "cloudfront-js-1.0"|"cloudfront-js-2.0", "KeyValueStoreAssociations": { "Quantity": integer, "Items": [ { "KeyValueStoreARN": "string" } ... ] } }</param>
+    /// <param name="ConnectionFunctionCode">The connection function code. Constraints: o min: 1 o max: 40960</param>
+    public AwsCloudfrontUpdateConnectionFunctionOptions(
+        string Id,
+        string IfMatch,
+        string ConnectionFunctionConfig,
+        string ConnectionFunctionCode
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+        global::System.ArgumentNullException.ThrowIfNull(IfMatch);
+        this.IfMatch = IfMatch;
+        global::System.ArgumentNullException.ThrowIfNull(ConnectionFunctionConfig);
+        this.ConnectionFunctionConfig = ConnectionFunctionConfig;
+        global::System.ArgumentNullException.ThrowIfNull(ConnectionFunctionCode);
+        this.ConnectionFunctionCode = ConnectionFunctionCode;
+    }
+
+    private AwsCloudfrontUpdateConnectionFunctionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudfrontUpdateConnectionFunctionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudfrontUpdateConnectionFunctionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The connection function ID. Constraints: o min: 1 o max: 64
+    /// </summary>
     [CliOption("--id")]
-    public string? Id { get; set; }
+    public string? Id { get; private init; }
 
+    /// <summary>
+    /// The current version (ETag value) of the connection function you are updating.
+    /// </summary>
     [CliOption("--if-match")]
-    public string? IfMatch { get; set; }
+    public string? IfMatch { get; private init; }
 
+    /// <summary>
+    /// Contains configuration information about a CloudFront function. Comment -&gt; (string) [required] A comment to describe the function. Runtime -&gt; (string) [required] The function's runtime environment version. Possible values: o cloudfront-js-1.0 o cloudfront-js-2.0 KeyValueStoreAssociations -&gt; (structure) The configuration for the key value store associations. Quantity -&gt; (integer) [required] The quantity of key value store associations. Items -&gt; (list) The items of the key value store association. (structure) The key value store association. KeyValueStoreARN -&gt; (string) [required] The Amazon Resource Name (ARN) of the key value store association. Constraints: o min: 0 o max: 85 o pattern: arn:aws:cloud- front::[0-9]{12}:key-value-store\/[0-9a-fA-F-]{36} JSON Syntax: { "Comment": "string", "Runtime": "cloudfront-js-1.0"|"cloudfront-js-2.0", "KeyValueStoreAssociations": { "Quantity": integer, "Items": [ { "KeyValueStoreARN": "string" } ... ] } }
+    /// </summary>
     [CliOption("--connection-function-config")]
-    public string? ConnectionFunctionConfig { get; set; }
+    public string? ConnectionFunctionConfig { get; private init; }
 
+    /// <summary>
+    /// The connection function code. Constraints: o min: 1 o max: 40960
+    /// </summary>
     [CliOption("--connection-function-code")]
-    public string? ConnectionFunctionCode { get; set; }
+    public string? ConnectionFunctionCode { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

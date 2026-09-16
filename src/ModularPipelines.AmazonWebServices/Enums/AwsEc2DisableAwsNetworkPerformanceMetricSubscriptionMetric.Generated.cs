@@ -17,5 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEc2DisableAwsNetworkPerformanceMetricSubscriptionMetric
 {
     [EnumValue("aggregate-latency")]
-    AggregateLatency = 1
+    AggregateLatency,
+
+    [EnumValue("o")]
+    O
 }

@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --inputcompressiontype.
+/// Allowed values for --input-compression-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDynamodbImportTableInputCompressionType
 {
     [EnumValue("GZIP")]
-    Gzip = 1,
-
-    [EnumValue("ZSTD")]
-    Zstd = 2,
+    Gzip,
 
     [EnumValue("NONE")]
-    None = 3
+    None,
+
+    [EnumValue("ZSTD")]
+    Zstd
 }

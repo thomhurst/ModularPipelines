@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,79 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("autoscaling", "create-or-update-tags")]
-public record AwsAutoscalingCreateOrUpdateTagsOptions : AwsOptions
+public record AwsAutoscalingCreateOrUpdateTagsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates or updates tags for the specified Auto Scaling group. When you specify a tag with a key that already exists, the operation overwrites the previous tag definition, and you do not get an error message. For more information, see Tag Auto Scaling groups and instances in the Amazon EC2 Auto Scaling User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Tags">One or more tags. (structure) Describes a tag for an Auto Scaling group. ResourceId -&gt; (string) The name of the Auto Scaling group. Constraints: o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* ResourceType -&gt; (string) The type of resource. The only supported value is auto-scal- ing-group . Constraints: o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Key -&gt; (string) [required] The tag key. Constraints: o min: 1 o max: 128 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Value -&gt; (string) The tag value. Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* PropagateAtLaunch -&gt; (boolean) Determines whether the tag is added to new instances as they are launched in the group. Shorthand Syntax: ResourceId=string,ResourceType=string,Key=string,Value=string,PropagateAtLaunch=boolean ... JSON Syntax: [ { "ResourceId": "string", "ResourceType": "string", "Key": "string", "Value": "string", "PropagateAtLaunch": true|false } ... ]</param>
+    public AwsAutoscalingCreateOrUpdateTagsOptions(
+        IEnumerable<string> Tags
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Tags);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Tags));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Tags));
+            }
+
+            Tags = materialized;
+        }
+        this.Tags = Tags;
+    }
+
+    private AwsAutoscalingCreateOrUpdateTagsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAutoscalingCreateOrUpdateTagsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAutoscalingCreateOrUpdateTagsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// One or more tags. (structure) Describes a tag for an Auto Scaling group. ResourceId -&gt; (string) The name of the Auto Scaling group. Constraints: o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* ResourceType -&gt; (string) The type of resource. The only supported value is auto-scal- ing-group . Constraints: o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Key -&gt; (string) [required] The tag key. Constraints: o min: 1 o max: 128 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Value -&gt; (string) The tag value. Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* PropagateAtLaunch -&gt; (boolean) Determines whether the tag is added to new instances as they are launched in the group. Shorthand Syntax: ResourceId=string,ResourceType=string,Key=string,Value=string,PropagateAtLaunch=boolean ... JSON Syntax: [ { "ResourceId": "string", "ResourceType": "string", "Key": "string", "Value": "string", "PropagateAtLaunch": true|false } ... ]
+    /// </summary>
     [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    public IEnumerable<string>? Tags { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

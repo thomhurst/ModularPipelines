@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --recommendationtype.
+/// Allowed values for --recommendation-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsWellarchitectedListAgentRecommendationGenerationsRecommendationType
 {
-    [EnumValue("RESOURCE")]
-    Resource = 1,
+    [EnumValue("APPLICATION")]
+    Application,
 
     [EnumValue("ARCHITECTURE")]
-    Architecture = 2,
+    Architecture,
 
-    [EnumValue("APPLICATION")]
-    Application = 3
+    [EnumValue("RESOURCE")]
+    Resource
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-runtime", "invoke-guardrail-checks")]
-public record AwsBedrockRuntimeInvokeGuardrailChecksOptions : AwsOptions
+public record AwsBedrockRuntimeInvokeGuardrailChecksOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--messages", GroupValues = true)]
-    public IEnumerable<string>? Messages { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Evaluates messages against inline guardrail checks. You specify the check configurations directly in the request, and Amazon Bedrock re- turns per-check results with severity or confidence scores. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Messages">The messages to evaluate against the specified guardrail checks. Each message includes a role and one or more content blocks. Constraints: o min: 1 (structure) A message to evaluate against guardrail checks, containing a role and content blocks. role -&gt; (string) [required] The role of the message sender. Possible values: o user o assistant o system content -&gt; (list) [required] The content blocks for the message. Constraints: o min: 1 (tagged union structure) A content block within a message to evaluate. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: text. text -&gt; (string) The text content to evaluate. Constraints: o min: 1 Shorthand Syntax: role=string,content=[{text=string},{text=string}] ... JSON Syntax: [ { "role": "user"|"assistant"|"system", "content": [ { "text": "string" } ... ] } ... ]</param>
+    /// <param name="Checks">The inline check configurations that specify which guardrail checks to run against the messages. contentFilter -&gt; (structure) The content filter check configuration. categories -&gt; (list) [required] The content filter categories to evaluate. Constraints: o min: 1 o max: 5 (structure) The configuration for a single content filter category to evaluate. category -&gt; (string) [required] The content filter category to evaluate. Possible values: o VIOLENCE o HATE o SEXUAL o MISCONDUCT o INSULTS promptAttack -&gt; (structure) The prompt attack check configuration. categories -&gt; (list) [required] The prompt attack categories to evaluate. Constraints: o min: 1 o max: 3 (structure) The configuration for a single prompt attack category to evaluate. category -&gt; (string) [required] The prompt attack category to evaluate. Possible values: o JAILBREAK o PROMPT_INJECTION o PROMPT_LEAKAGE sensitiveInformation -&gt; (structure) The sensitive information check configuration. entities -&gt; (list) [required] The sensitive information entity types to detect. Constraints: o min: 1 o max: 31 (structure) The configuration for a single sensitive information en- tity type to detect. type -&gt; (string) [required] The PII entity type to detect. Possible values: o ADDRESS o AGE o AWS_ACCESS_KEY o AWS_SECRET_KEY o CA_HEALTH_NUMBER o CA_SOCIAL_INSURANCE_NUMBER o CREDIT_DEBIT_CARD_CVV o CREDIT_DEBIT_CARD_EXPIRY o CREDIT_DEBIT_CARD_NUMBER o DRIVER_ID o EMAIL o INTERNATIONAL_BANK_ACCOUNT_NUMBER o IP_ADDRESS o LICENSE_PLATE o MAC_ADDRESS o NAME o PASSWORD o PHONE o PIN o SWIFT_CODE o UK_NATIONAL_HEALTH_SERVICE_NUMBER o UK_NATIONAL_INSURANCE_NUMBER o UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER o URL o USERNAME o US_BANK_ACCOUNT_NUMBER o US_BANK_ROUTING_NUMBER o US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER o US_PASSPORT_NUMBER o US_SOCIAL_SECURITY_NUMBER o VEHICLE_IDENTIFICATION_NUMBER JSON Syntax: { "contentFilter": { "categories": [ { "category": "VIOLENCE"|"HATE"|"SEXUAL"|"MISCONDUCT"|"INSULTS" } ... ] }, "promptAttack": { "categories": [ { "category": "JAILBREAK"|"PROMPT_INJECTION"|"PROMPT_LEAKAGE" } ... ] }, "sensitiveInformation": { "entities": [ { "type": "ADDRESS"|"AGE"|"AWS_ACCESS_KEY"|"AWS_SECRET_KEY"|"CA_HEALTH_NUMBER"|"CA_SOCIAL_INSURANCE_NUMBER"|"CREDIT_DEBIT_CARD_CVV"|"CREDIT_DEBIT_CARD_EXPIRY"|"CREDIT_DEBIT_CARD_NUMBER"|"DRIVER_ID"|"EMAIL"|"INTERNATIONAL_BANK_ACCOUNT_NUMBER"|"IP_ADDRESS"|"LICENSE_PLATE"|"MAC_ADDRESS"|"NAME"|"PASSWORD"|"PHONE"|"PIN"|"SWIFT_CODE"|"UK_NATIONAL_HEALTH_SERVICE_NUMBER"|"UK_NATIONAL_INSURANCE_NUMBER"|"UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER"|"URL"|"USERNAME"|"US_BANK_ACCOUNT_NUMBER"|"US_BANK_ROUTING_NUMBER"|"US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER"|"US_PASSPORT_NUMBER"|"US_SOCIAL_SECURITY_NUMBER"|"VEHICLE_IDENTIFICATION_NUMBER" } ... ] } }</param>
+    public AwsBedrockRuntimeInvokeGuardrailChecksOptions(
+        IEnumerable<string> Messages,
+        string Checks
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Messages);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Messages));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Messages));
+            }
+
+            Messages = materialized;
+        }
+        this.Messages = Messages;
+        global::System.ArgumentNullException.ThrowIfNull(Checks);
+        this.Checks = Checks;
+    }
+
+    private AwsBedrockRuntimeInvokeGuardrailChecksOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockRuntimeInvokeGuardrailChecksOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockRuntimeInvokeGuardrailChecksOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The messages to evaluate against the specified guardrail checks. Each message includes a role and one or more content blocks. Constraints: o min: 1 (structure) A message to evaluate against guardrail checks, containing a role and content blocks. role -&gt; (string) [required] The role of the message sender. Possible values: o user o assistant o system content -&gt; (list) [required] The content blocks for the message. Constraints: o min: 1 (tagged union structure) A content block within a message to evaluate. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: text. text -&gt; (string) The text content to evaluate. Constraints: o min: 1 Shorthand Syntax: role=string,content=[{text=string},{text=string}] ... JSON Syntax: [ { "role": "user"|"assistant"|"system", "content": [ { "text": "string" } ... ] } ... ]
+    /// </summary>
+    [CliOption("--messages", GroupValues = true)]
+    public IEnumerable<string>? Messages { get; private init; }
+
+    /// <summary>
+    /// The inline check configurations that specify which guardrail checks to run against the messages. contentFilter -&gt; (structure) The content filter check configuration. categories -&gt; (list) [required] The content filter categories to evaluate. Constraints: o min: 1 o max: 5 (structure) The configuration for a single content filter category to evaluate. category -&gt; (string) [required] The content filter category to evaluate. Possible values: o VIOLENCE o HATE o SEXUAL o MISCONDUCT o INSULTS promptAttack -&gt; (structure) The prompt attack check configuration. categories -&gt; (list) [required] The prompt attack categories to evaluate. Constraints: o min: 1 o max: 3 (structure) The configuration for a single prompt attack category to evaluate. category -&gt; (string) [required] The prompt attack category to evaluate. Possible values: o JAILBREAK o PROMPT_INJECTION o PROMPT_LEAKAGE sensitiveInformation -&gt; (structure) The sensitive information check configuration. entities -&gt; (list) [required] The sensitive information entity types to detect. Constraints: o min: 1 o max: 31 (structure) The configuration for a single sensitive information en- tity type to detect. type -&gt; (string) [required] The PII entity type to detect. Possible values: o ADDRESS o AGE o AWS_ACCESS_KEY o AWS_SECRET_KEY o CA_HEALTH_NUMBER o CA_SOCIAL_INSURANCE_NUMBER o CREDIT_DEBIT_CARD_CVV o CREDIT_DEBIT_CARD_EXPIRY o CREDIT_DEBIT_CARD_NUMBER o DRIVER_ID o EMAIL o INTERNATIONAL_BANK_ACCOUNT_NUMBER o IP_ADDRESS o LICENSE_PLATE o MAC_ADDRESS o NAME o PASSWORD o PHONE o PIN o SWIFT_CODE o UK_NATIONAL_HEALTH_SERVICE_NUMBER o UK_NATIONAL_INSURANCE_NUMBER o UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER o URL o USERNAME o US_BANK_ACCOUNT_NUMBER o US_BANK_ROUTING_NUMBER o US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER o US_PASSPORT_NUMBER o US_SOCIAL_SECURITY_NUMBER o VEHICLE_IDENTIFICATION_NUMBER JSON Syntax: { "contentFilter": { "categories": [ { "category": "VIOLENCE"|"HATE"|"SEXUAL"|"MISCONDUCT"|"INSULTS" } ... ] }, "promptAttack": { "categories": [ { "category": "JAILBREAK"|"PROMPT_INJECTION"|"PROMPT_LEAKAGE" } ... ] }, "sensitiveInformation": { "entities": [ { "type": "ADDRESS"|"AGE"|"AWS_ACCESS_KEY"|"AWS_SECRET_KEY"|"CA_HEALTH_NUMBER"|"CA_SOCIAL_INSURANCE_NUMBER"|"CREDIT_DEBIT_CARD_CVV"|"CREDIT_DEBIT_CARD_EXPIRY"|"CREDIT_DEBIT_CARD_NUMBER"|"DRIVER_ID"|"EMAIL"|"INTERNATIONAL_BANK_ACCOUNT_NUMBER"|"IP_ADDRESS"|"LICENSE_PLATE"|"MAC_ADDRESS"|"NAME"|"PASSWORD"|"PHONE"|"PIN"|"SWIFT_CODE"|"UK_NATIONAL_HEALTH_SERVICE_NUMBER"|"UK_NATIONAL_INSURANCE_NUMBER"|"UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER"|"URL"|"USERNAME"|"US_BANK_ACCOUNT_NUMBER"|"US_BANK_ROUTING_NUMBER"|"US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER"|"US_PASSPORT_NUMBER"|"US_SOCIAL_SECURITY_NUMBER"|"VEHICLE_IDENTIFICATION_NUMBER" } ... ] } }
+    /// </summary>
     [CliOption("--checks")]
-    public string? Checks { get; set; }
+    public string? Checks { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

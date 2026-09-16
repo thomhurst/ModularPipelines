@@ -11,26 +11,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --evaluationfrequency.
+/// Allowed values for --evaluation-frequency.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsLogsUpdateLogAnomalyDetectorEvaluationFrequency
 {
-    [EnumValue("ONE_MIN")]
-    OneMin = 1,
+    [EnumValue("FIFTEEN_MIN")]
+    FifteenMin,
 
     [EnumValue("FIVE_MIN")]
-    FiveMin = 2,
-
-    [EnumValue("TEN_MIN")]
-    TenMin = 3,
-
-    [EnumValue("FIFTEEN_MIN")]
-    FifteenMin = 4,
-
-    [EnumValue("THIRTY_MIN")]
-    ThirtyMin = 5,
+    FiveMin,
 
     [EnumValue("ONE_HOUR")]
-    OneHour = 6
+    OneHour,
+
+    [EnumValue("ONE_MIN")]
+    OneMin,
+
+    [EnumValue("TEN_MIN")]
+    TenMin,
+
+    [EnumValue("THIRTY_MIN")]
+    ThirtyMin
 }

@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --documenthashtype.
+/// Allowed values for --document-hash-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSsmSendCommandDocumentHashType
 {
-    [EnumValue("Sha256")]
-    Sha256 = 1,
-
     [EnumValue("Sha1")]
-    Sha1 = 2
+    Sha1,
+
+    [EnumValue("Sha256")]
+    Sha256
 }

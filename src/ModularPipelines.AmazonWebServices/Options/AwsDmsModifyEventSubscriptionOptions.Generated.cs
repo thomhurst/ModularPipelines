@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dms", "modify-event-subscription")]
-public record AwsDmsModifyEventSubscriptionOptions : AwsOptions
+public record AwsDmsModifyEventSubscriptionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies an existing DMS event notification subscription. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SubscriptionName">The name of the DMS event notification subscription to be modified.</param>
+    public AwsDmsModifyEventSubscriptionOptions(
+        string SubscriptionName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SubscriptionName);
+        this.SubscriptionName = SubscriptionName;
+    }
+
+    private AwsDmsModifyEventSubscriptionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDmsModifyEventSubscriptionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDmsModifyEventSubscriptionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the DMS event notification subscription to be modified.
+    /// </summary>
     [CliOption("--subscription-name")]
-    public string? SubscriptionName { get; set; }
+    public string? SubscriptionName { get; private init; }
 
     /// <summary>
     /// The Amazon Resource Name (ARN) of the Amazon SNS topic created for event notification. The ARN is created by Amazon SNS when you create a topic and subscribe to it.
@@ -42,7 +79,10 @@ public record AwsDmsModifyEventSubscriptionOptions : AwsOptions
     [CliOption("--event-categories", GroupValues = true)]
     public IEnumerable<string>? EventCategories { get; set; }
 
-    [CliFlag("--enabled")]
+    /// <summary>
+    /// A Boolean value; set to true to activate the subscription.
+    /// </summary>
+    [CliFlag("--enabled", NegatedName = "--no-enabled")]
     public bool? Enabled { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -50,5 +90,22 @@ public record AwsDmsModifyEventSubscriptionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

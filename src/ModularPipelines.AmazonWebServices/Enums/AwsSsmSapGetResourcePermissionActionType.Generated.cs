@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --actiontype.
+/// Allowed values for --action-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSsmSapGetResourcePermissionActionType
 {
+    [EnumValue("o")]
+    O,
+
     [EnumValue("RESTORE")]
-    Restore = 1
+    Restore
 }

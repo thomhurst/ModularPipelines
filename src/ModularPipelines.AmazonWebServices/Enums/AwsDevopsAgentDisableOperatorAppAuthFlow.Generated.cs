@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --authflow.
+/// Allowed values for --auth-flow.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDevopsAgentDisableOperatorAppAuthFlow
 {
     [EnumValue("iam")]
-    Iam = 1,
+    Iam,
 
     [EnumValue("idc")]
-    Idc = 2,
+    Idc,
 
     [EnumValue("idp")]
-    Idp = 3
+    Idp
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("securityagent", "create-threat-model")]
-public record AwsSecurityagentCreateThreatModelOptions : AwsOptions
+public record AwsSecurityagentCreateThreatModelOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--title")]
-    public string? Title { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a new threat model configuration in an agent space. A threat model defines the parameters for automated threat analysis. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Title">The title of the threat model.</param>
+    /// <param name="AgentSpaceId">The unique identifier of the agent space to create the threat model in.</param>
+    /// <param name="ServiceRole">The IAM service role to use for the threat model.</param>
+    public AwsSecurityagentCreateThreatModelOptions(
+        string Title,
+        string AgentSpaceId,
+        string ServiceRole
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Title);
+        this.Title = Title;
+        global::System.ArgumentNullException.ThrowIfNull(AgentSpaceId);
+        this.AgentSpaceId = AgentSpaceId;
+        global::System.ArgumentNullException.ThrowIfNull(ServiceRole);
+        this.ServiceRole = ServiceRole;
+    }
+
+    private AwsSecurityagentCreateThreatModelOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSecurityagentCreateThreatModelOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSecurityagentCreateThreatModelOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The title of the threat model.
+    /// </summary>
+    [CliOption("--title")]
+    public string? Title { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the agent space to create the threat model in.
+    /// </summary>
     [CliOption("--agent-space-id")]
-    public string? AgentSpaceId { get; set; }
+    public string? AgentSpaceId { get; private init; }
+
+    /// <summary>
+    /// The IAM service role to use for the threat model.
+    /// </summary>
+    [CliOption("--service-role")]
+    public string? ServiceRole { get; private init; }
 
     /// <summary>
     /// A description of the application or system being threat modeled.
@@ -45,9 +99,6 @@ public record AwsSecurityagentCreateThreatModelOptions : AwsOptions
     [CliOption("--scope-docs", GroupValues = true)]
     public IEnumerable<string>? ScopeDocs { get; set; }
 
-    [CliOption("--service-role")]
-    public string? ServiceRole { get; set; }
-
     /// <summary>
     /// The CloudWatch Logs configuration for the threat model. logGroup -&gt; (string) The name of the CloudWatch log group. logStream -&gt; (string) The name of the CloudWatch log stream. Shorthand Syntax: logGroup=string,logStream=string JSON Syntax: { "logGroup": "string", "logStream": "string" }
     /// </summary>
@@ -65,5 +116,22 @@ public record AwsSecurityagentCreateThreatModelOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

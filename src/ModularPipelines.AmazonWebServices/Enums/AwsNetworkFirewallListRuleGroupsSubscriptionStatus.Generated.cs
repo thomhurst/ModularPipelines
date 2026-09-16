@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --subscriptionstatus.
+/// Allowed values for --subscription-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsNetworkFirewallListRuleGroupsSubscriptionStatus
 {
     [EnumValue("NOT_SUBSCRIBED")]
-    NotSubscribed = 1,
+    NotSubscribed,
 
     [EnumValue("SUBSCRIBED")]
-    Subscribed = 2
+    Subscribed
 }

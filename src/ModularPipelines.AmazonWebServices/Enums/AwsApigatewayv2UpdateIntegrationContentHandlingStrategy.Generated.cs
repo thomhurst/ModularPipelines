@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --contenthandlingstrategy.
+/// Allowed values for --content-handling-strategy.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsApigatewayv2UpdateIntegrationContentHandlingStrategy
 {
     [EnumValue("CONVERT_TO_BINARY")]
-    ConvertToBinary = 1,
+    ConvertToBinary,
 
     [EnumValue("CONVERT_TO_TEXT")]
-    ConvertToText = 2
+    ConvertToText
 }

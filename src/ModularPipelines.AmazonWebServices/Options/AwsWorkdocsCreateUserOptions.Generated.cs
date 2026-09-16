@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,32 +21,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workdocs", "create-user")]
-public record AwsWorkdocsCreateUserOptions : AwsOptions
+public record AwsWorkdocsCreateUserOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a user in a Simple AD or Microsoft AD directory. The status of a newly created user is "ACTIVE". New users can access Amazon WorkDocs. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Username">The login name of the user. Constraints: o min: 1 o max: 256 o pattern: [\w\-+.]+(@[a-zA-Z0-9.\-]+\.[a-zA-Z]+)?</param>
+    /// <param name="GivenName">The given name of the user. Constraints: o min: 1 o max: 64</param>
+    /// <param name="Surname">The surname of the user. Constraints: o min: 1 o max: 64</param>
+    /// <param name="Password">The password of the user. Constraints: o min: 4 o max: 32 o pattern: [\u0020-\u00FF]+</param>
+    public AwsWorkdocsCreateUserOptions(
+        string Username,
+        string GivenName,
+        string Surname,
+        string Password
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Username);
+        this.Username = Username;
+        global::System.ArgumentNullException.ThrowIfNull(GivenName);
+        this.GivenName = GivenName;
+        global::System.ArgumentNullException.ThrowIfNull(Surname);
+        this.Surname = Surname;
+        global::System.ArgumentNullException.ThrowIfNull(Password);
+        this.Password = Password;
+    }
+
+    private AwsWorkdocsCreateUserOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkdocsCreateUserOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkdocsCreateUserOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The login name of the user. Constraints: o min: 1 o max: 256 o pattern: [\w\-+.]+(@[a-zA-Z0-9.\-]+\.[a-zA-Z]+)?
+    /// </summary>
+    [CliOption("--username")]
+    public string? Username { get; private init; }
+
+    /// <summary>
+    /// The given name of the user. Constraints: o min: 1 o max: 64
+    /// </summary>
+    [CliOption("--given-name")]
+    public string? GivenName { get; private init; }
+
+    /// <summary>
+    /// The surname of the user. Constraints: o min: 1 o max: 64
+    /// </summary>
+    [CliOption("--surname")]
+    public string? Surname { get; private init; }
+
+    /// <summary>
+    /// The password of the user. Constraints: o min: 4 o max: 32 o pattern: [\u0020-\u00FF]+
+    /// </summary>
+    [SecretValue]
+    [CliOption("--password")]
+    public string? Password { get; private init; }
+
     /// <summary>
     /// The ID of the organization. Constraints: o min: 1 o max: 256 o pattern: [&amp;\w+-.@]+
     /// </summary>
     [CliOption("--organization-id")]
     public string? OrganizationId { get; set; }
 
-    [CliOption("--username")]
-    public string? Username { get; set; }
-
     /// <summary>
     /// The email address of the user. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}
     /// </summary>
     [CliOption("--email-address")]
     public string? EmailAddress { get; set; }
-
-    [CliOption("--given-name")]
-    public string? GivenName { get; set; }
-
-    [CliOption("--surname")]
-    public string? Surname { get; set; }
-
-    [SecretValue]
-    [CliOption("--password")]
-    public string? Password { get; set; }
 
     /// <summary>
     /// The time zone ID of the user. Constraints: o min: 1 o max: 256
@@ -71,5 +129,22 @@ public record AwsWorkdocsCreateUserOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

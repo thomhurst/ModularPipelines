@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --accesstype.
+/// Allowed values for --access-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsS3outpostsCreateEndpointAccessType
 {
-    [EnumValue("Private")]
-    Private = 1,
-
     [EnumValue("CustomerOwnedIp")]
-    CustomerOwnedIp = 2
+    CustomerOwnedIp,
+
+    [EnumValue("Private")]
+    Private
 }

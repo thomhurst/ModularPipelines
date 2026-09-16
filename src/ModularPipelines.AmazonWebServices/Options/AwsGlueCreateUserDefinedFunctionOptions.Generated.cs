@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,84 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("glue", "create-user-defined-function")]
-public record AwsGlueCreateUserDefinedFunctionOptions : AwsOptions
+public record AwsGlueCreateUserDefinedFunctionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new function definition in the Data Catalog. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DatabaseName">The name of the catalog database in which to create the function. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="FunctionInput">A FunctionInput object that defines the function to create in the Data Catalog. FunctionName -&gt; (string) The name of the function. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* ClassName -&gt; (string) The Java class that contains the function code. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* OwnerName -&gt; (string) The owner of the function. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* FunctionType -&gt; (string) The type of the function. Possible values: o REGULAR_FUNCTION o AGGREGATE_FUNCTION o STORED_PROCEDURE OwnerType -&gt; (string) The owner type. Possible values: o USER o ROLE o GROUP ResourceUris -&gt; (list) The resource URIs for the function. Constraints: o min: 0 o max: 1000 (structure) The URIs for function resources. ResourceType -&gt; (string) The type of the resource. Possible values: o JAR o FILE o ARCHIVE Uri -&gt; (string) The URI for accessing the resource. Constraints: o min: 1 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Shorthand Syntax: FunctionName=string,ClassName=string,OwnerName=string,FunctionType=string,OwnerType=string,ResourceUris=[{ResourceType=string,Uri=string},{ResourceType=string,Uri=string}] JSON Syntax: { "FunctionName": "string", "ClassName": "string", "OwnerName": "string", "FunctionType": "REGULAR_FUNCTION"|"AGGREGATE_FUNCTION"|"STORED_PROCEDURE", "OwnerType": "USER"|"ROLE"|"GROUP", "ResourceUris": [ { "ResourceType": "JAR"|"FILE"|"ARCHIVE", "Uri": "string" } ... ] }</param>
+    public AwsGlueCreateUserDefinedFunctionOptions(
+        string DatabaseName,
+        string FunctionInput
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DatabaseName);
+        this.DatabaseName = DatabaseName;
+        global::System.ArgumentNullException.ThrowIfNull(FunctionInput);
+        this.FunctionInput = FunctionInput;
+    }
+
+    private AwsGlueCreateUserDefinedFunctionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlueCreateUserDefinedFunctionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlueCreateUserDefinedFunctionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the catalog database in which to create the function. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// </summary>
+    [CliOption("--database-name")]
+    public string? DatabaseName { get; private init; }
+
+    /// <summary>
+    /// A FunctionInput object that defines the function to create in the Data Catalog. FunctionName -&gt; (string) The name of the function. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* ClassName -&gt; (string) The Java class that contains the function code. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* OwnerName -&gt; (string) The owner of the function. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* FunctionType -&gt; (string) The type of the function. Possible values: o REGULAR_FUNCTION o AGGREGATE_FUNCTION o STORED_PROCEDURE OwnerType -&gt; (string) The owner type. Possible values: o USER o ROLE o GROUP ResourceUris -&gt; (list) The resource URIs for the function. Constraints: o min: 0 o max: 1000 (structure) The URIs for function resources. ResourceType -&gt; (string) The type of the resource. Possible values: o JAR o FILE o ARCHIVE Uri -&gt; (string) The URI for accessing the resource. Constraints: o min: 1 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Shorthand Syntax: FunctionName=string,ClassName=string,OwnerName=string,FunctionType=string,OwnerType=string,ResourceUris=[{ResourceType=string,Uri=string},{ResourceType=string,Uri=string}] JSON Syntax: { "FunctionName": "string", "ClassName": "string", "OwnerName": "string", "FunctionType": "REGULAR_FUNCTION"|"AGGREGATE_FUNCTION"|"STORED_PROCEDURE", "OwnerType": "USER"|"ROLE"|"GROUP", "ResourceUris": [ { "ResourceType": "JAR"|"FILE"|"ARCHIVE", "Uri": "string" } ... ] }
+    /// </summary>
+    [CliOption("--function-input")]
+    public string? FunctionInput { get; private init; }
+
     /// <summary>
     /// The ID of the Data Catalog in which to create the function. If none is provided, the Amazon Web Services account ID is used by default. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--catalog-id")]
     public string? CatalogId { get; set; }
 
-    [CliOption("--database-name")]
-    public string? DatabaseName { get; set; }
-
-    [CliOption("--function-input")]
-    public string? FunctionInput { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

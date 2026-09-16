@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chime-sdk-media-pipelines", "create-media-concatenation-pipeline")]
-public record AwsChimeSdkMediaPipelinesCreateMediaConcatenationPipelineOptions : AwsOptions
+public record AwsChimeSdkMediaPipelinesCreateMediaConcatenationPipelineOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--sources", GroupValues = true)]
-    public IEnumerable<string>? Sources { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a media concatenation pipeline. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Sources">An object that specifies the sources for the media concatenation pipeline. Constraints: o min: 1 o max: 1 (structure) The source type and media pipeline configuration settings in a configuration object. Type -&gt; (string) [required] The type of concatenation source in a configuration object. Possible values: o MediaCapturePipeline MediaCapturePipelineSourceConfiguration -&gt; (structure) [re- quired] The concatenation settings for the media pipeline in a con- figuration object. MediaPipelineArn -&gt; (string) [required] The media pipeline ARN in the configuration object of a media capture pipeline. Constraints: o min: 1 o max: 1024 o pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$ ChimeSdkMeetingConfiguration -&gt; (structure) [required] The meeting configuration settings in a media capture pipeline configuration object. ArtifactsConfiguration -&gt; (structure) [required] The configuration for the artifacts in an Amazon Chime SDK meeting concatenation. Audio -&gt; (structure) [required] The configuration for the audio artifacts concate- nation. State -&gt; (string) [required] Enables or disables the configuration object. Possible values: o Enabled Video -&gt; (structure) [required] The configuration for the video artifacts concate- nation. State -&gt; (string) [required] Enables or disables the configuration object. Possible values: o Enabled o Disabled Content -&gt; (structure) [required] The configuration for the content artifacts con- catenation. State -&gt; (string) [required] Enables or disables the configuration object. Possible values: o Enabled o Disabled DataChannel -&gt; (structure) [required] The configuration for the data channel artifacts concatenation. State -&gt; (string) [required] Enables or disables the configuration object. Possible values: o Enabled o Disabled TranscriptionMessages -&gt; (structure) [required] The configuration for the transcription messages artifacts concatenation. State -&gt; (string) [required] Enables or disables the configuration object. Possible values: o Enabled o Disabled MeetingEvents -&gt; (structure) [required] The configuration for the meeting events artifacts concatenation. State -&gt; (string) [required] Enables or disables the configuration object. Possible values: o Enabled o Disabled CompositedVideo -&gt; (structure) [required] The configuration for the composited video arti- facts concatenation. State -&gt; (string) [required] Enables or disables the configuration object. Possible values: o Enabled o Disabled JSON Syntax: [ { "Type": "MediaCapturePipeline", "MediaCapturePipelineSourceConfiguration": { "MediaPipelineArn": "string", "ChimeSdkMeetingConfiguration": { "ArtifactsConfiguration": { "Audio": { "State": "Enabled" }, "Video": { "State": "Enabled"|"Disabled" }, "Content": { "State": "Enabled"|"Disabled" }, "DataChannel": { "State": "Enabled"|"Disabled" }, "TranscriptionMessages": { "State": "Enabled"|"Disabled" }, "MeetingEvents": { "State": "Enabled"|"Disabled" }, "CompositedVideo": { "State": "Enabled"|"Disabled" } } } } } ... ]</param>
+    /// <param name="Sinks">An object that specifies the data sinks for the media concatenation pipeline. Constraints: o min: 1 o max: 1 (structure) The data sink of the configuration object. Type -&gt; (string) [required] The type of data sink in the configuration object. Possible values: o S3Bucket S3BucketSinkConfiguration -&gt; (structure) [required] The configuration settings for an Amazon S3 bucket sink. Destination -&gt; (string) [required] The destination URL of the S3 bucket. Constraints: o min: 1 o max: 1024 o pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$ Shorthand Syntax: Type=string,S3BucketSinkConfiguration={Destination=string} ... JSON Syntax: [ { "Type": "S3Bucket", "S3BucketSinkConfiguration": { "Destination": "string" } } ... ]</param>
+    public AwsChimeSdkMediaPipelinesCreateMediaConcatenationPipelineOptions(
+        IEnumerable<string> Sources,
+        IEnumerable<string> Sinks
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Sources);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Sources));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Sources));
+            }
+
+            Sources = materialized;
+        }
+        this.Sources = Sources;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Sinks);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Sinks));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Sinks));
+            }
+
+            Sinks = materialized;
+        }
+        this.Sinks = Sinks;
+    }
+
+    private AwsChimeSdkMediaPipelinesCreateMediaConcatenationPipelineOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChimeSdkMediaPipelinesCreateMediaConcatenationPipelineOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChimeSdkMediaPipelinesCreateMediaConcatenationPipelineOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// An object that specifies the sources for the media concatenation pipeline. Constraints: o min: 1 o max: 1 (structure) The source type and media pipeline configuration settings in a configuration object. Type -&gt; (string) [required] The type of concatenation source in a configuration object. Possible values: o MediaCapturePipeline MediaCapturePipelineSourceConfiguration -&gt; (structure) [re- quired] The concatenation settings for the media pipeline in a con- figuration object. MediaPipelineArn -&gt; (string) [required] The media pipeline ARN in the configuration object of a media capture pipeline. Constraints: o min: 1 o max: 1024 o pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$ ChimeSdkMeetingConfiguration -&gt; (structure) [required] The meeting configuration settings in a media capture pipeline configuration object. ArtifactsConfiguration -&gt; (structure) [required] The configuration for the artifacts in an Amazon Chime SDK meeting concatenation. Audio -&gt; (structure) [required] The configuration for the audio artifacts concate- nation. State -&gt; (string) [required] Enables or disables the configuration object. Possible values: o Enabled Video -&gt; (structure) [required] The configuration for the video artifacts concate- nation. State -&gt; (string) [required] Enables or disables the configuration object. Possible values: o Enabled o Disabled Content -&gt; (structure) [required] The configuration for the content artifacts con- catenation. State -&gt; (string) [required] Enables or disables the configuration object. Possible values: o Enabled o Disabled DataChannel -&gt; (structure) [required] The configuration for the data channel artifacts concatenation. State -&gt; (string) [required] Enables or disables the configuration object. Possible values: o Enabled o Disabled TranscriptionMessages -&gt; (structure) [required] The configuration for the transcription messages artifacts concatenation. State -&gt; (string) [required] Enables or disables the configuration object. Possible values: o Enabled o Disabled MeetingEvents -&gt; (structure) [required] The configuration for the meeting events artifacts concatenation. State -&gt; (string) [required] Enables or disables the configuration object. Possible values: o Enabled o Disabled CompositedVideo -&gt; (structure) [required] The configuration for the composited video arti- facts concatenation. State -&gt; (string) [required] Enables or disables the configuration object. Possible values: o Enabled o Disabled JSON Syntax: [ { "Type": "MediaCapturePipeline", "MediaCapturePipelineSourceConfiguration": { "MediaPipelineArn": "string", "ChimeSdkMeetingConfiguration": { "ArtifactsConfiguration": { "Audio": { "State": "Enabled" }, "Video": { "State": "Enabled"|"Disabled" }, "Content": { "State": "Enabled"|"Disabled" }, "DataChannel": { "State": "Enabled"|"Disabled" }, "TranscriptionMessages": { "State": "Enabled"|"Disabled" }, "MeetingEvents": { "State": "Enabled"|"Disabled" }, "CompositedVideo": { "State": "Enabled"|"Disabled" } } } } } ... ]
+    /// </summary>
+    [CliOption("--sources", GroupValues = true)]
+    public IEnumerable<string>? Sources { get; private init; }
+
+    /// <summary>
+    /// An object that specifies the data sinks for the media concatenation pipeline. Constraints: o min: 1 o max: 1 (structure) The data sink of the configuration object. Type -&gt; (string) [required] The type of data sink in the configuration object. Possible values: o S3Bucket S3BucketSinkConfiguration -&gt; (structure) [required] The configuration settings for an Amazon S3 bucket sink. Destination -&gt; (string) [required] The destination URL of the S3 bucket. Constraints: o min: 1 o max: 1024 o pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$ Shorthand Syntax: Type=string,S3BucketSinkConfiguration={Destination=string} ... JSON Syntax: [ { "Type": "S3Bucket", "S3BucketSinkConfiguration": { "Destination": "string" } } ... ]
+    /// </summary>
     [CliOption("--sinks", GroupValues = true)]
-    public IEnumerable<string>? Sinks { get; set; }
+    public IEnumerable<string>? Sinks { get; private init; }
 
     /// <summary>
     /// The unique identifier for the client request. The token makes the API request idempotent. Use a unique token for each media concatena- tion pipeline request. Constraints: o min: 2 o max: 64 o pattern: [-_a-zA-Z0-9]*
@@ -46,5 +112,22 @@ public record AwsChimeSdkMediaPipelinesCreateMediaConcatenationPipelineOptions :
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

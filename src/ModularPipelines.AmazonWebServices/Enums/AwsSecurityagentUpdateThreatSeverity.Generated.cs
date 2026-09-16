@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsSecurityagentUpdateThreatSeverity
 {
     [EnumValue("CRITICAL")]
-    Critical = 1,
+    Critical,
 
     [EnumValue("HIGH")]
-    High = 2,
-
-    [EnumValue("MEDIUM")]
-    Medium = 3,
-
-    [EnumValue("LOW")]
-    Low = 4,
+    High,
 
     [EnumValue("INFO")]
-    Info = 5
+    Info,
+
+    [EnumValue("LOW")]
+    Low,
+
+    [EnumValue("MEDIUM")]
+    Medium
 }

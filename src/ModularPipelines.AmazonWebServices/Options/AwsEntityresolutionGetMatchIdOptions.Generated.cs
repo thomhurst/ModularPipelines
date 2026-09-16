@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,15 +21,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("entityresolution", "get-match-id")]
-public record AwsEntityresolutionGetMatchIdOptions : AwsOptions
+public record AwsEntityresolutionGetMatchIdOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns the corresponding Match ID of a customer record if the record has been processed in a rule-based matching workflow. You can call this API as a dry run of an incremental load on the rule-based matching workflow. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="WorkflowName">The name of the workflow. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_0-9-]*</param>
+    /// <param name="Record">The record to fetch the Match ID for. key -&gt; (string) Constraints: o min: 0 o max: 255 o pattern: [a-zA-Z_0-9- \t]* value -&gt; (string) Constraints: o min: 0 o max: 255 o pattern: [a-zA-Z_0-9-./@ ()+\t]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    public AwsEntityresolutionGetMatchIdOptions(
+        string WorkflowName,
+        IReadOnlyList<KeyValue> Record
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkflowName);
+        this.WorkflowName = WorkflowName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Record);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(Record));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Record));
+            }
+
+            Record = materialized;
+        }
+        this.Record = Record;
+    }
+
+    private AwsEntityresolutionGetMatchIdOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEntityresolutionGetMatchIdOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEntityresolutionGetMatchIdOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the workflow. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_0-9-]*
+    /// </summary>
     [CliOption("--workflow-name")]
-    public string? WorkflowName { get; set; }
+    public string? WorkflowName { get; private init; }
 
+    /// <summary>
+    /// The record to fetch the Match ID for. key -&gt; (string) Constraints: o min: 0 o max: 255 o pattern: [a-zA-Z_0-9- \t]* value -&gt; (string) Constraints: o min: 0 o max: 255 o pattern: [a-zA-Z_0-9-./@ ()+\t]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// </summary>
     [CliOption("--record", CollectionSeparator = ",")]
-    public IReadOnlyList<KeyValue>? Record { get; set; }
+    public IReadOnlyList<KeyValue>? Record { get; private init; }
 
-    [CliFlag("--apply-normalization")]
+    /// <summary>
+    /// Normalizes the attributes defined in the schema in the input data. For example, if an attribute has an AttributeType of PHONE_NUMBER , and the data in the input table is in a format of 1234567890, Entity Resolution will normalize this field in the output to (123)-456-7890.
+    /// </summary>
+    [CliFlag("--apply-normalization", NegatedName = "--no-apply-normalization")]
     public bool? ApplyNormalization { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -36,5 +94,22 @@ public record AwsEntityresolutionGetMatchIdOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

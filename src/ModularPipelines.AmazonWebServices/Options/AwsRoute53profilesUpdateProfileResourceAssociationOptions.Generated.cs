@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53profiles", "update-profile-resource-association")]
-public record AwsRoute53profilesUpdateProfileResourceAssociationOptions : AwsOptions
+public record AwsRoute53profilesUpdateProfileResourceAssociationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the specified Route 53 Profile resourse association. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ProfileResourceAssociationId">ID of the resource association. Constraints: o min: 1 o max: 64</param>
+    public AwsRoute53profilesUpdateProfileResourceAssociationOptions(
+        string ProfileResourceAssociationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProfileResourceAssociationId);
+        this.ProfileResourceAssociationId = ProfileResourceAssociationId;
+    }
+
+    private AwsRoute53profilesUpdateProfileResourceAssociationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53profilesUpdateProfileResourceAssociationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53profilesUpdateProfileResourceAssociationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// ID of the resource association. Constraints: o min: 1 o max: 64
+    /// </summary>
+    [CliOption("--profile-resource-association-id")]
+    public string? ProfileResourceAssociationId { get; private init; }
+
     /// <summary>
     /// Name of the resource association. Constraints: o min: 0 o max: 64 o pattern: ^(?!^[0-9]+$)([a-zA-Z0-9\-_' ']+)$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
-
-    [CliOption("--profile-resource-association-id")]
-    public string? ProfileResourceAssociationId { get; set; }
 
     /// <summary>
     /// If you are adding a DNS Firewall rule group, include also a prior- ity. The priority indicates the processing order for the rule groups, starting with the priority assinged the lowest value. The allowed values for priority are between 100 and 9900.
@@ -41,5 +78,22 @@ public record AwsRoute53profilesUpdateProfileResourceAssociationOptions : AwsOpt
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

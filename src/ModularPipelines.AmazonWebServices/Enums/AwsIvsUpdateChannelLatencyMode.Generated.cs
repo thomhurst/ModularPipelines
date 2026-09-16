@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --latencymode.
+/// Allowed values for --latency-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIvsUpdateChannelLatencyMode
 {
-    [EnumValue("NORMAL")]
-    Normal = 1,
-
     [EnumValue("LOW")]
-    Low = 2
+    Low,
+
+    [EnumValue("NORMAL")]
+    Normal
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("quicksight", "update-topic-refresh-schedule")]
-public record AwsQuicksightUpdateTopicRefreshScheduleOptions : AwsOptions
+public record AwsQuicksightUpdateTopicRefreshScheduleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a topic refresh schedule. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the topic whose refresh schedule you want to update. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="TopicId">The ID of the topic that you want to modify. This ID is unique per Amazon Web Services Region for each Amazon Web Services account. Constraints: o max: 256 o pattern: ^[A-Za-z0-9-_.\\+]*$</param>
+    /// <param name="DataSetId">The ID of the dataset.</param>
+    /// <param name="RefreshSchedule">The definition of a refresh schedule. IsEnabled -&gt; (boolean) [required] A Boolean value that controls whether to schedule is enabled. BasedOnSpiceSchedule -&gt; (boolean) [required] A Boolean value that controls whether to schedule runs at the same schedule that is specified in SPICE dataset. StartingAt -&gt; (timestamp) The starting date and time for the refresh schedule. Timezone -&gt; (string) The timezone that you want the refresh schedule to use. Constraints: o max: 256 RepeatAt -&gt; (string) The time of day when the refresh should run, for example, Mon- day-Sunday. Constraints: o max: 256 TopicScheduleType -&gt; (string) The type of refresh schedule. Valid values for this structure are HOURLY , DAILY , WEEKLY , and MONTHLY . Possible values: o HOURLY o DAILY o WEEKLY o MONTHLY Shorthand Syntax: IsEnabled=boolean,BasedOnSpiceSchedule=boolean,StartingAt=timestamp,Timezone=string,RepeatAt=string,TopicScheduleType=string JSON Syntax: { "IsEnabled": true|false, "BasedOnSpiceSchedule": true|false, "StartingAt": timestamp, "Timezone": "string", "RepeatAt": "string", "TopicScheduleType": "HOURLY"|"DAILY"|"WEEKLY"|"MONTHLY" }</param>
+    public AwsQuicksightUpdateTopicRefreshScheduleOptions(
+        string AwsAccountId,
+        string TopicId,
+        string DataSetId,
+        string RefreshSchedule
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
+        this.AwsAccountId = AwsAccountId;
+        global::System.ArgumentNullException.ThrowIfNull(TopicId);
+        this.TopicId = TopicId;
+        global::System.ArgumentNullException.ThrowIfNull(DataSetId);
+        this.DataSetId = DataSetId;
+        global::System.ArgumentNullException.ThrowIfNull(RefreshSchedule);
+        this.RefreshSchedule = RefreshSchedule;
+    }
+
+    private AwsQuicksightUpdateTopicRefreshScheduleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQuicksightUpdateTopicRefreshScheduleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQuicksightUpdateTopicRefreshScheduleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Amazon Web Services account that contains the topic whose refresh schedule you want to update. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// </summary>
     [CliOption("--aws-account-id")]
-    public string? AwsAccountId { get; set; }
+    public string? AwsAccountId { get; private init; }
 
+    /// <summary>
+    /// The ID of the topic that you want to modify. This ID is unique per Amazon Web Services Region for each Amazon Web Services account. Constraints: o max: 256 o pattern: ^[A-Za-z0-9-_.\\+]*$
+    /// </summary>
     [CliOption("--topic-id")]
-    public string? TopicId { get; set; }
+    public string? TopicId { get; private init; }
 
+    /// <summary>
+    /// The ID of the dataset.
+    /// </summary>
     [CliOption("--dataset-id")]
-    public string? DataSetId { get; set; }
+    public string? DataSetId { get; private init; }
 
+    /// <summary>
+    /// The definition of a refresh schedule. IsEnabled -&gt; (boolean) [required] A Boolean value that controls whether to schedule is enabled. BasedOnSpiceSchedule -&gt; (boolean) [required] A Boolean value that controls whether to schedule runs at the same schedule that is specified in SPICE dataset. StartingAt -&gt; (timestamp) The starting date and time for the refresh schedule. Timezone -&gt; (string) The timezone that you want the refresh schedule to use. Constraints: o max: 256 RepeatAt -&gt; (string) The time of day when the refresh should run, for example, Mon- day-Sunday. Constraints: o max: 256 TopicScheduleType -&gt; (string) The type of refresh schedule. Valid values for this structure are HOURLY , DAILY , WEEKLY , and MONTHLY . Possible values: o HOURLY o DAILY o WEEKLY o MONTHLY Shorthand Syntax: IsEnabled=boolean,BasedOnSpiceSchedule=boolean,StartingAt=timestamp,Timezone=string,RepeatAt=string,TopicScheduleType=string JSON Syntax: { "IsEnabled": true|false, "BasedOnSpiceSchedule": true|false, "StartingAt": timestamp, "Timezone": "string", "RepeatAt": "string", "TopicScheduleType": "HOURLY"|"DAILY"|"WEEKLY"|"MONTHLY" }
+    /// </summary>
     [CliOption("--refresh-schedule")]
-    public string? RefreshSchedule { get; set; }
+    public string? RefreshSchedule { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-data-automation", "update-blueprint")]
-public record AwsBedrockDataAutomationUpdateBlueprintOptions : AwsOptions
+public record AwsBedrockDataAutomationUpdateBlueprintOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--blueprint-arn")]
-    public string? BlueprintArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates an existing Amazon Bedrock Data Automation Blueprint See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BlueprintArn">ARN generated at the server side when a Blueprint is created Constraints: o min: 0 o max: 128 o pattern: arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):blue- print/(bedrock-data-automation-pub- lic-[a-zA-Z0-9-_]{1,30}|[a-zA-Z0-9-]{12,36})</param>
+    /// <param name="Schema">Schema of the blueprint Constraints: o min: 1 o max: 100000</param>
+    public AwsBedrockDataAutomationUpdateBlueprintOptions(
+        string BlueprintArn,
+        string Schema
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BlueprintArn);
+        this.BlueprintArn = BlueprintArn;
+        global::System.ArgumentNullException.ThrowIfNull(Schema);
+        this.Schema = Schema;
+    }
+
+    private AwsBedrockDataAutomationUpdateBlueprintOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockDataAutomationUpdateBlueprintOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockDataAutomationUpdateBlueprintOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// ARN generated at the server side when a Blueprint is created Constraints: o min: 0 o max: 128 o pattern: arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):blue- print/(bedrock-data-automation-pub- lic-[a-zA-Z0-9-_]{1,30}|[a-zA-Z0-9-]{12,36})
+    /// </summary>
+    [CliOption("--blueprint-arn")]
+    public string? BlueprintArn { get; private init; }
+
+    /// <summary>
+    /// Schema of the blueprint Constraints: o min: 1 o max: 100000
+    /// </summary>
     [CliOption("--schema")]
-    public string? Schema { get; set; }
+    public string? Schema { get; private init; }
 
     /// <summary>
     /// Stage of the Blueprint Possible values: o DEVELOPMENT o LIVE
@@ -45,5 +89,22 @@ public record AwsBedrockDataAutomationUpdateBlueprintOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

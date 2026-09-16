@@ -11,38 +11,38 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --filtervariable.
+/// Allowed values for --filter-variable.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsMachinelearningWaitMlModelAvailableFilterVariable
 {
+    [EnumValue("Algorithm")]
+    Algorithm,
+
     [EnumValue("CreatedAt")]
-    CreatedAt = 1,
-
-    [EnumValue("LastUpdatedAt")]
-    LastUpdatedAt = 2,
-
-    [EnumValue("Status")]
-    Status = 3,
-
-    [EnumValue("Name")]
-    Name = 4,
+    CreatedAt,
 
     [EnumValue("IAMUser")]
-    IamUser = 5,
+    IamUser,
 
-    [EnumValue("TrainingDataSourceId")]
-    TrainingDataSourceId = 6,
-
-    [EnumValue("RealtimeEndpointStatus")]
-    RealtimeEndpointStatus = 7,
+    [EnumValue("LastUpdatedAt")]
+    LastUpdatedAt,
 
     [EnumValue("MLModelType")]
-    MlModelType = 8,
+    MlModelType,
 
-    [EnumValue("Algorithm")]
-    Algorithm = 9,
+    [EnumValue("Name")]
+    Name,
+
+    [EnumValue("RealtimeEndpointStatus")]
+    RealtimeEndpointStatus,
+
+    [EnumValue("Status")]
+    Status,
+
+    [EnumValue("TrainingDataSourceId")]
+    TrainingDataSourceId,
 
     [EnumValue("TrainingDataURI")]
-    TrainingDataUri = 10
+    TrainingDataUri
 }

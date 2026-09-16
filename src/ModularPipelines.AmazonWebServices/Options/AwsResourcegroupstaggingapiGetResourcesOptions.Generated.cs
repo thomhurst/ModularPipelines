@@ -40,10 +40,16 @@ public record AwsResourcegroupstaggingapiGetResourcesOptions : AwsOptions
     [CliOption("--resource-type-filters", GroupValues = true)]
     public IEnumerable<string>? ResourceTypeFilters { get; set; }
 
-    [CliFlag("--include-compliance-details")]
+    /// <summary>
+    /// Specifies whether to include details regarding the compliance with the effective tag policy. Set this to true to determine whether re- sources are compliant with the tag policy and to get details.
+    /// </summary>
+    [CliFlag("--include-compliance-details", NegatedName = "--no-include-compliance-details")]
     public bool? IncludeComplianceDetails { get; set; }
 
-    [CliFlag("--exclude-compliant-resources")]
+    /// <summary>
+    /// Specifies whether to exclude resources that are compliant with the tag policy. Set this to true if you are interested in retrieving in- formation on noncompliant resources only. You can use this parameter only if the IncludeComplianceDetails pa- rameter is also set to true .
+    /// </summary>
+    [CliFlag("--exclude-compliant-resources", NegatedName = "--no-exclude-compliant-resources")]
     public bool? ExcludeCompliantResources { get; set; }
 
     /// <summary>

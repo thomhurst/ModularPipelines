@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --instancetenancy.
+/// Allowed values for --instance-tenancy.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEc2CreateVpcInstanceTenancy
 {
-    [EnumValue("default")]
-    Default = 1,
-
     [EnumValue("dedicated")]
-    Dedicated = 2,
+    Dedicated,
+
+    [EnumValue("default")]
+    Default,
 
     [EnumValue("host")]
-    Host = 3
+    Host
 }

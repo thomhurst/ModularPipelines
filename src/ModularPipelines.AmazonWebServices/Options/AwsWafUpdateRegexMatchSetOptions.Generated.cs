@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,22 +21,100 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("waf", "update-regex-match-set")]
-public record AwsWafUpdateRegexMatchSetOptions : AwsOptions
+public record AwsWafUpdateRegexMatchSetOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. Inserts or deletes RegexMatchTuple objects (filters) in a RegexMatch- Set . For each RegexMatchSetUpdate object, you specify the following values: o Whether to insert or delete the object from the arra...
+    /// </summary>
+    /// <param name="RegexMatchSetId">The RegexMatchSetId of the RegexMatchSet that you want to update. RegexMatchSetId is returned by CreateRegexMatchSet and by ListRegexMatchSets . Constraints: o min: 1 o max: 128 o pattern: .*\S.*</param>
+    /// <param name="Updates">An array of RegexMatchSetUpdate objects that you want to insert into or delete from a RegexMatchSet . For more information, see Regex- MatchTuple . Constraints: o min: 1 (structure) NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for re- gional and global use. In an UpdateRegexMatchSet request, RegexMatchSetUpdate speci- fies whether to insert or delete a RegexMatchTuple and includes the settings for the RegexMatchTuple . Action -&gt; (string) [required] Specifies whether to insert or delete a RegexMatchTuple . Possible values: o INSERT o DELETE RegexMatchTuple -&gt; (structure) [required] Information about the part of a web request that you want AWS WAF to inspect and the identifier of the regular expression (regex) pattern that you want AWS WAF to search for. If you specify DELETE for the value of Action , the RegexMatchTuple values must exactly match the values in the RegexMatchTuple that you want to delete from the RegexMatchSet . FieldToMatch -&gt; (structure) [required] Specifies where in a web request to look for the Regex- PatternSet . Type -&gt; (string) [required] The part of the web request that you want AWS WAF to search for a specified string. Parts of a request that you can search include the following: o HEADER : A specified request header, for example, the value of the User-Agent or Referer header. If you choose HEADER for the type, specify the name of the header in Data . o METHOD : The HTTP method, which indicated the type of operation that the request is asking the origin to perform. Amazon CloudFront supports the following methods: DELETE , GET , HEAD , OPTIONS , PATCH , POST , and PUT . o QUERY_STRING : A query string, which is the part of a URL that appears after a ? character, if any. o URI : The part of a web request that identifies a resource, for example, /images/daily-ad.jpg . o BODY : The part of a request that contains any addi- tional data that you want to send to your web server as the HTTP request body, such as data from a form. The request body immediately follows the request headers. Note that only the first 8192 bytes of the request body are forwarded to AWS WAF for inspec- tion. To allow or block requests based on the length of the body, you can create a size constraint set. For more information, see CreateSizeConstraintSet . o SINGLE_QUERY_ARG : The parameter in the query string that you will inspect, such as UserName or SalesRe- gion . The maximum length for SINGLE_QUERY_ARG is 30 characters. o ALL_QUERY_ARGS : Similar to SINGLE_QUERY_ARG , but rather than inspecting a single parameter, AWS WAF will inspect all parameters within the query for the value or regex pattern that you specify in Target- String . Possible values: o URI o QUERY_STRING o HEADER o METHOD o BODY o SINGLE_QUERY_ARG o ALL_QUERY_ARGS Data -&gt; (string) When the value of Type is HEADER , enter the name of the header that you want AWS WAF to search, for exam- ple, User-Agent or Referer . The name of the header is not case sensitive. When the value of Type is SINGLE_QUERY_ARG , enter the name of the parameter that you want AWS WAF to search, for example, UserName or SalesRegion . The parameter name is not case sensitive. If the value of Type is any other value, omit Data . Constraints: o min: 1 o max: 128 o pattern: .*\S.* TextTransformation -&gt; (string) [required] Text transformations eliminate some of the unusual for- matting that attackers use in web requests in an effort to bypass AWS WAF. If you specify a transformation, AWS WAF performs the transformation on RegexPatternSet before inspecting a request for a match. You can only specify a single type of TextTransformation. CMD_LINE When you're concerned that attackers are injecting an op- erating system commandline command and using unusual for- matting to disguise some or all of the command, use this option to perform the following transformations: o Delete the following characters: " ' ^ o Delete spaces before the following characters: / ( o Replace the following characters with a space: , ; o Replace multiple spaces with one space o Convert uppercase letters (A-Z) to lowercase (a-z) COMPRESS_WHITE_SPACE Use this option to replace the following characters with a space character (decimal 32): o f, formfeed, decimal 12 o t, tab, decimal 9 o n, newline, decimal 10 o r, carriage return, decimal 13 o v, vertical tab, decimal 11 o non-breaking space, decimal 160 COMPRESS_WHITE_SPACE also replaces multiple spaces with one space. HTML_ENTITY_DECODE Use this option to replace HTML-encoded characters with unencoded characters. HTML_ENTITY_DECODE performs the following operations: o Replaces (ampersand)quot; with " o Replaces (ampersand)nbsp; with a non-breaking space, decimal 160 o Replaces (ampersand)lt; with a "less than" symbol o Replaces (ampersand)gt; with &gt; o Replaces characters that are represented in hexadecimal format, (ampersand)#xhhhh; , with the corresponding characters o Replaces characters that are represented in decimal format, (ampersand)#nnnn; , with the corresponding characters LOWERCASE Use this option to convert uppercase letters (A-Z) to lowercase (a-z). URL_DECODE Use this option to decode a URL-encoded value. NONE Specify NONE if you don't want to perform any text trans- formations. Possible values: o NONE o COMPRESS_WHITE_SPACE o HTML_ENTITY_DECODE o LOWERCASE o CMD_LINE o URL_DECODE RegexPatternSetId -&gt; (string) [required] The RegexPatternSetId for a RegexPatternSet . You use RegexPatternSetId to get information about a RegexPat- ternSet (see GetRegexPatternSet ), update a RegexPat- ternSet (see UpdateRegexPatternSet ), insert a RegexPat- ternSet into a RegexMatchSet or delete one from a Regex- MatchSet (see UpdateRegexMatchSet ), and delete an Reg- exPatternSet from AWS WAF (see DeleteRegexPatternSet ). RegexPatternSetId is returned by CreateRegexPat- ternSet and by ListRegexPatternSets . Constraints: o min: 1 o max: 128 o pattern: .*\S.* Shorthand Syntax: Action=string,RegexMatchTuple={FieldToMatch={Type=string,Data=string},TextTransformation=string,RegexPatternSetId=string} ... JSON Syntax: [ { "Action": "INSERT"|"DELETE", "RegexMatchTuple": { "FieldToMatch": { "Type": "URI"|"QUERY_STRING"|"HEADER"|"METHOD"|"BODY"|"SINGLE_QUERY_ARG"|"ALL_QUERY_ARGS", "Data": "string" }, "TextTransformation": "NONE"|"COMPRESS_WHITE_SPACE"|"HTML_ENTITY_DECODE"|"LOWERCASE"|"CMD_LINE"|"URL_DECODE", "RegexPatternSetId": "string" } } ... ]</param>
+    /// <param name="ChangeToken">The value returned by the most recent call to GetChangeToken . Constraints: o min: 1 o max: 128 o pattern: .*\S.*</param>
+    public AwsWafUpdateRegexMatchSetOptions(
+        string RegexMatchSetId,
+        IEnumerable<string> Updates,
+        string ChangeToken
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RegexMatchSetId);
+        this.RegexMatchSetId = RegexMatchSetId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Updates);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Updates));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Updates));
+            }
+
+            Updates = materialized;
+        }
+        this.Updates = Updates;
+        global::System.ArgumentNullException.ThrowIfNull(ChangeToken);
+        this.ChangeToken = ChangeToken;
+    }
+
+    private AwsWafUpdateRegexMatchSetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWafUpdateRegexMatchSetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWafUpdateRegexMatchSetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The RegexMatchSetId of the RegexMatchSet that you want to update. RegexMatchSetId is returned by CreateRegexMatchSet and by ListRegexMatchSets . Constraints: o min: 1 o max: 128 o pattern: .*\S.*
+    /// </summary>
     [CliOption("--regex-match-set-id")]
-    public string? RegexMatchSetId { get; set; }
+    public string? RegexMatchSetId { get; private init; }
 
+    /// <summary>
+    /// An array of RegexMatchSetUpdate objects that you want to insert into or delete from a RegexMatchSet . For more information, see Regex- MatchTuple . Constraints: o min: 1 (structure) NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for re- gional and global use. In an UpdateRegexMatchSet request, RegexMatchSetUpdate speci- fies whether to insert or delete a RegexMatchTuple and includes the settings for the RegexMatchTuple . Action -&gt; (string) [required] Specifies whether to insert or delete a RegexMatchTuple . Possible values: o INSERT o DELETE RegexMatchTuple -&gt; (structure) [required] Information about the part of a web request that you want AWS WAF to inspect and the identifier of the regular expression (regex) pattern that you want AWS WAF to search for. If you specify DELETE for the value of Action , the RegexMatchTuple values must exactly match the values in the RegexMatchTuple that you want to delete from the RegexMatchSet . FieldToMatch -&gt; (structure) [required] Specifies where in a web request to look for the Regex- PatternSet . Type -&gt; (string) [required] The part of the web request that you want AWS WAF to search for a specified string. Parts of a request that you can search include the following: o HEADER : A specified request header, for example, the value of the User-Agent or Referer header. If you choose HEADER for the type, specify the name of the header in Data . o METHOD : The HTTP method, which indicated the type of operation that the request is asking the origin to perform. Amazon CloudFront supports the following methods: DELETE , GET , HEAD , OPTIONS , PATCH , POST , and PUT . o QUERY_STRING : A query string, which is the part of a URL that appears after a ? character, if any. o URI : The part of a web request that identifies a resource, for example, /images/daily-ad.jpg . o BODY : The part of a request that contains any addi- tional data that you want to send to your web server as the HTTP request body, such as data from a form. The request body immediately follows the request headers. Note that only the first 8192 bytes of the request body are forwarded to AWS WAF for inspec- tion. To allow or block requests based on the length of the body, you can create a size constraint set. For more information, see CreateSizeConstraintSet . o SINGLE_QUERY_ARG : The parameter in the query string that you will inspect, such as UserName or SalesRe- gion . The maximum length for SINGLE_QUERY_ARG is 30 characters. o ALL_QUERY_ARGS : Similar to SINGLE_QUERY_ARG , but rather than inspecting a single parameter, AWS WAF will inspect all parameters within the query for the value or regex pattern that you specify in Target- String . Possible values: o URI o QUERY_STRING o HEADER o METHOD o BODY o SINGLE_QUERY_ARG o ALL_QUERY_ARGS Data -&gt; (string) When the value of Type is HEADER , enter the name of the header that you want AWS WAF to search, for exam- ple, User-Agent or Referer . The name of the header is not case sensitive. When the value of Type is SINGLE_QUERY_ARG , enter the name of the parameter that you want AWS WAF to search, for example, UserName or SalesRegion . The parameter name is not case sensitive. If the value of Type is any other value, omit Data . Constraints: o min: 1 o max: 128 o pattern: .*\S.* TextTransformation -&gt; (string) [required] Text transformations eliminate some of the unusual for- matting that attackers use in web requests in an effort to bypass AWS WAF. If you specify a transformation, AWS WAF performs the transformation on RegexPatternSet before inspecting a request for a match. You can only specify a single type of TextTransformation. CMD_LINE When you're concerned that attackers are injecting an op- erating system commandline command and using unusual for- matting to disguise some or all of the command, use this option to perform the following transformations: o Delete the following characters: " ' ^ o Delete spaces before the following characters: / ( o Replace the following characters with a space: , ; o Replace multiple spaces with one space o Convert uppercase letters (A-Z) to lowercase (a-z) COMPRESS_WHITE_SPACE Use this option to replace the following characters with a space character (decimal 32): o f, formfeed, decimal 12 o t, tab, decimal 9 o n, newline, decimal 10 o r, carriage return, decimal 13 o v, vertical tab, decimal 11 o non-breaking space, decimal 160 COMPRESS_WHITE_SPACE also replaces multiple spaces with one space. HTML_ENTITY_DECODE Use this option to replace HTML-encoded characters with unencoded characters. HTML_ENTITY_DECODE performs the following operations: o Replaces (ampersand)quot; with " o Replaces (ampersand)nbsp; with a non-breaking space, decimal 160 o Replaces (ampersand)lt; with a "less than" symbol o Replaces (ampersand)gt; with &gt; o Replaces characters that are represented in hexadecimal format, (ampersand)#xhhhh; , with the corresponding characters o Replaces characters that are represented in decimal format, (ampersand)#nnnn; , with the corresponding characters LOWERCASE Use this option to convert uppercase letters (A-Z) to lowercase (a-z). URL_DECODE Use this option to decode a URL-encoded value. NONE Specify NONE if you don't want to perform any text trans- formations. Possible values: o NONE o COMPRESS_WHITE_SPACE o HTML_ENTITY_DECODE o LOWERCASE o CMD_LINE o URL_DECODE RegexPatternSetId -&gt; (string) [required] The RegexPatternSetId for a RegexPatternSet . You use RegexPatternSetId to get information about a RegexPat- ternSet (see GetRegexPatternSet ), update a RegexPat- ternSet (see UpdateRegexPatternSet ), insert a RegexPat- ternSet into a RegexMatchSet or delete one from a Regex- MatchSet (see UpdateRegexMatchSet ), and delete an Reg- exPatternSet from AWS WAF (see DeleteRegexPatternSet ). RegexPatternSetId is returned by CreateRegexPat- ternSet and by ListRegexPatternSets . Constraints: o min: 1 o max: 128 o pattern: .*\S.* Shorthand Syntax: Action=string,RegexMatchTuple={FieldToMatch={Type=string,Data=string},TextTransformation=string,RegexPatternSetId=string} ... JSON Syntax: [ { "Action": "INSERT"|"DELETE", "RegexMatchTuple": { "FieldToMatch": { "Type": "URI"|"QUERY_STRING"|"HEADER"|"METHOD"|"BODY"|"SINGLE_QUERY_ARG"|"ALL_QUERY_ARGS", "Data": "string" }, "TextTransformation": "NONE"|"COMPRESS_WHITE_SPACE"|"HTML_ENTITY_DECODE"|"LOWERCASE"|"CMD_LINE"|"URL_DECODE", "RegexPatternSetId": "string" } } ... ]
+    /// </summary>
     [CliOption("--updates", GroupValues = true)]
-    public IEnumerable<string>? Updates { get; set; }
+    public IEnumerable<string>? Updates { get; private init; }
 
+    /// <summary>
+    /// The value returned by the most recent call to GetChangeToken . Constraints: o min: 1 o max: 128 o pattern: .*\S.*
+    /// </summary>
     [SecretValue]
     [CliOption("--change-token")]
-    public string? ChangeToken { get; set; }
+    public string? ChangeToken { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

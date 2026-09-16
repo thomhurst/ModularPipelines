@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("payment-cryptography", "disassociate-mpa-team")]
-public record AwsPaymentCryptographyDisassociateMpaTeamOptions : AwsOptions
+public record AwsPaymentCryptographyDisassociateMpaTeamOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Removes the association between a Multi-Party Approval (MPA) team and a protected operation. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: o AssociateMpaTeam o GetMpaTeamAssociation See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Action">The protected operation to disassociate from the MPA team. Cur- rently, the only supported value is IMPORT_ROOT_PUBLIC_KEY_CERTIFI- CATE . Possible values: o IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE</param>
+    public AwsPaymentCryptographyDisassociateMpaTeamOptions(
+        AwsPaymentCryptographyDisassociateMpaTeamAction Action
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Action);
+        this.Action = Action;
+    }
+
+    private AwsPaymentCryptographyDisassociateMpaTeamOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPaymentCryptographyDisassociateMpaTeamOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPaymentCryptographyDisassociateMpaTeamOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The protected operation to disassociate from the MPA team. Cur- rently, the only supported value is IMPORT_ROOT_PUBLIC_KEY_CERTIFI- CATE . Possible values: o IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE
+    /// </summary>
     [CliOption("--action")]
-    public string? Action { get; set; }
+    public AwsPaymentCryptographyDisassociateMpaTeamAction? Action { get; private init; }
 
     /// <summary>
     /// The comment from the requester explaining the reason for the disas- sociation. WARNING: Don't include personal, confidential or sensitive information in this field. This field may be displayed in plaintext in Cloud- Trail logs and other output. Constraints: o min: 0 o max: 200
@@ -35,5 +73,22 @@ public record AwsPaymentCryptographyDisassociateMpaTeamOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

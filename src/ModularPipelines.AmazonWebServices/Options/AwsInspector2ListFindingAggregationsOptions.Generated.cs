@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("inspector2", "list-finding-aggregations")]
-public record AwsInspector2ListFindingAggregationsOptions : AwsOptions
+public record AwsInspector2ListFindingAggregationsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists aggregated finding data for your environment based on specific criteria. See also: AWS API Documentation list-finding-aggregations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: responses
+    /// </summary>
+    /// <param name="AggregationType">The type of the aggregation request. Possible values: o FINDING_TYPE o PACKAGE o TITLE o REPOSITORY o AMI o AWS_EC2_INSTANCE o AWS_ECR_CONTAINER o IMAGE_LAYER o ACCOUNT o AWS_LAMBDA_FUNCTION o LAMBDA_LAYER o CODE_REPOSITORY o VM_INSTANCE o CONTAINER_IMAGE o SERVERLESS_FUNCTION</param>
+    public AwsInspector2ListFindingAggregationsOptions(
+        AwsInspector2ListFindingAggregationsAggregationType AggregationType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AggregationType);
+        this.AggregationType = AggregationType;
+    }
+
+    private AwsInspector2ListFindingAggregationsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsInspector2ListFindingAggregationsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsInspector2ListFindingAggregationsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The type of the aggregation request. Possible values: o FINDING_TYPE o PACKAGE o TITLE o REPOSITORY o AMI o AWS_EC2_INSTANCE o AWS_ECR_CONTAINER o IMAGE_LAYER o ACCOUNT o AWS_LAMBDA_FUNCTION o LAMBDA_LAYER o CODE_REPOSITORY o VM_INSTANCE o CONTAINER_IMAGE o SERVERLESS_FUNCTION
+    /// </summary>
     [CliOption("--aggregation-type")]
-    public string? AggregationType { get; set; }
+    public AwsInspector2ListFindingAggregationsAggregationType? AggregationType { get; private init; }
 
     /// <summary>
     /// The Amazon Web Services account IDs to retrieve finding aggregation data for. Constraints: o min: 1 o max: 10 (structure) An object that describes the details of a string filter. comparison -&gt; (string) [required] The operator to use when comparing values in the filter. Possible values: o EQUALS o PREFIX o NOT_EQUALS value -&gt; (string) [required] The value to filter on. Constraints: o min: 1 o max: 1024 Shorthand Syntax: comparison=string,value=string ... JSON Syntax: [ { "comparison": "EQUALS"|"PREFIX"|"NOT_EQUALS", "value": "string" } ... ]
@@ -61,5 +99,22 @@ public record AwsInspector2ListFindingAggregationsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

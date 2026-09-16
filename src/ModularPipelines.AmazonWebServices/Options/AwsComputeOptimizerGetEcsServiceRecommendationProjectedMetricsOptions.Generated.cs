@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,27 +21,107 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute-optimizer", "get-ecs-service-recommendation-projected-metrics")]
-public record AwsComputeOptimizerGetEcsServiceRecommendationProjectedMetricsOptions : AwsOptions
+public record AwsComputeOptimizerGetEcsServiceRecommendationProjectedMetricsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns the projected metrics of Amazon ECS service recommendations. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ServiceArn">The ARN that identifies the Amazon ECS service. The following is the format of the ARN: arn:aws:ecs:region:aws_account_id:service/cluster-name/ser- vice-name</param>
+    /// <param name="Stat">The statistic of the projected metrics. Possible values: o Maximum o Average</param>
+    /// <param name="Period">The granularity, in seconds, of the projected metrics data points.</param>
+    /// <param name="StartTime">The timestamp of the first projected metrics data point to return.</param>
+    /// <param name="EndTime">The timestamp of the last projected metrics data point to return.</param>
+    public AwsComputeOptimizerGetEcsServiceRecommendationProjectedMetricsOptions(
+        string ServiceArn,
+        AwsComputeOptimizerGetEcsServiceRecommendationProjectedMetricsStat Stat,
+        int Period,
+        string StartTime,
+        string EndTime
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceArn);
+        this.ServiceArn = ServiceArn;
+        global::System.ArgumentNullException.ThrowIfNull(Stat);
+        this.Stat = Stat;
+        this.Period = Period;
+        global::System.ArgumentNullException.ThrowIfNull(StartTime);
+        this.StartTime = StartTime;
+        global::System.ArgumentNullException.ThrowIfNull(EndTime);
+        this.EndTime = EndTime;
+    }
+
+    private AwsComputeOptimizerGetEcsServiceRecommendationProjectedMetricsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsComputeOptimizerGetEcsServiceRecommendationProjectedMetricsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsComputeOptimizerGetEcsServiceRecommendationProjectedMetricsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN that identifies the Amazon ECS service. The following is the format of the ARN: arn:aws:ecs:region:aws_account_id:service/cluster-name/ser- vice-name
+    /// </summary>
     [CliOption("--service-arn")]
-    public string? ServiceArn { get; set; }
+    public string? ServiceArn { get; private init; }
 
+    /// <summary>
+    /// The statistic of the projected metrics. Possible values: o Maximum o Average
+    /// </summary>
     [CliOption("--stat")]
-    public string? Stat { get; set; }
+    public AwsComputeOptimizerGetEcsServiceRecommendationProjectedMetricsStat? Stat { get; private init; }
 
+    /// <summary>
+    /// The granularity, in seconds, of the projected metrics data points.
+    /// </summary>
     [CliOption("--period")]
-    public int? Period { get; set; }
+    public int? Period { get; private init; }
 
+    /// <summary>
+    /// The timestamp of the first projected metrics data point to return.
+    /// </summary>
     [CliOption("--start-time")]
-    public string? StartTime { get; set; }
+    public string? StartTime { get; private init; }
 
+    /// <summary>
+    /// The timestamp of the last projected metrics data point to return.
+    /// </summary>
     [CliOption("--end-time")]
-    public string? EndTime { get; set; }
+    public string? EndTime { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

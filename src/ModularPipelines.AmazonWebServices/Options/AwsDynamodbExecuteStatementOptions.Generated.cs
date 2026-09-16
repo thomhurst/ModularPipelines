@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dynamodb", "execute-statement")]
-public record AwsDynamodbExecuteStatementOptions : AwsOptions
+public record AwsDynamodbExecuteStatementOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This operation allows you to perform reads and singleton writes on data stored in DynamoDB, using PartiQL. For PartiQL reads (SELECT statement), if the total number of processed items exceeds the maximum dataset size limit of 1 MB, the read stops and results are returned to the user as a LastEvaluatedKey value to continue the read in a subsequent operation. If the filter criteria in WHERE clause does not match any data, the read will return an empty re- sult set. A single SELECT statement respon...
+    /// </summary>
+    /// <param name="Statement">The PartiQL statement representing the operation to run. Constraints: o min: 1 o max: 8192</param>
+    public AwsDynamodbExecuteStatementOptions(
+        string Statement
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Statement);
+        this.Statement = Statement;
+    }
+
+    private AwsDynamodbExecuteStatementOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDynamodbExecuteStatementOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDynamodbExecuteStatementOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The PartiQL statement representing the operation to run. Constraints: o min: 1 o max: 8192
+    /// </summary>
     [CliOption("--statement")]
-    public string? Statement { get; set; }
+    public string? Statement { get; private init; }
 
     /// <summary>
     /// The parameters for the PartiQL statement, if any. Constraints: o min: 1 (structure) Represents the data for an attribute. Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself. For more information, see Data Types in the Amazon DynamoDB De- veloper Guide . S -&gt; (string) An attribute of type String. For example: "S": "Hello" N -&gt; (string) An attribute of type Number. For example: "N": "123.45" Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations. B -&gt; (blob) An attribute of type Binary. For example: "B": "dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk" SS -&gt; (list) An attribute of type String Set. For example: "SS": ["Giraffe", "Hippo" ,"Zebra"] (string) NS -&gt; (list) An attribute of type Number Set. For example: "NS": ["42.2", "-19", "7.5", "3.14"] Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations. (string) BS -&gt; (list) An attribute of type Binary Set. For example: "BS": ["U3Vubnk=", "UmFpbnk=", "U25vd3k="] (blob) M -&gt; (map) An attribute of type Map. For example: "M": {"Name": {"S": "Joe"}, "Age": {"N": "35"}} key -&gt; (string) Constraints: o max: 65535 value -&gt; (structure) Represents the data for an attribute. Each attribute value is described as a name-value pair. The name is the data type, and the value is the data it- self. For more information, see Data Types in the Amazon Dy- namoDB Developer Guide . S -&gt; (string) An attribute of type String. For example: "S": "Hello" N -&gt; (string) An attribute of type Number. For example: "N": "123.45" Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations. B -&gt; (blob) An attribute of type Binary. For example: "B": "dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk" SS -&gt; (list) An attribute of type String Set. For example: "SS": ["Giraffe", "Hippo" ,"Zebra"] (string) NS -&gt; (list) An attribute of type Number Set. For example: "NS": ["42.2", "-19", "7.5", "3.14"] Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations. (string) BS -&gt; (list) An attribute of type Binary Set. For example: "BS": ["U3Vubnk=", "UmFpbnk=", "U25vd3k="] (blob) M -&gt; (map) An attribute of type Map. For example: "M": {"Name": {"S": "Joe"}, "Age": {"N": "35"}} key -&gt; (string) Constraints: o max: 65535 ( ... recursive ... ) L -&gt; (list) An attribute of type List. For example: "L": [ {"S": "Cookies"} , {"S": "Coffee"}, {"N": "3.14159"}] ( ... recursive ... ) NULL -&gt; (boolean) An attribute of type Null. For example: "NULL": true BOOL -&gt; (boolean) An attribute of type Boolean. For example: "BOOL": true L -&gt; (list) An attribute of type List. For example: "L": [ {"S": "Cookies"} , {"S": "Coffee"}, {"N": "3.14159"}] (structure) Represents the data for an attribute. Each attribute value is described as a name-value pair. The name is the data type, and the value is the data it- self. For more information, see Data Types in the Amazon Dy- namoDB Developer Guide . S -&gt; (string) An attribute of type String. For example: "S": "Hello" N -&gt; (string) An attribute of type Number. For example: "N": "123.45" Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations. B -&gt; (blob) An attribute of type Binary. For example: "B": "dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk" SS -&gt; (list) An attribute of type String Set. For example: "SS": ["Giraffe", "Hippo" ,"Zebra"] (string) NS -&gt; (list) An attribute of type Number Set. For example: "NS": ["42.2", "-19", "7.5", "3.14"] Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations. (string) BS -&gt; (list) An attribute of type Binary Set. For example: "BS": ["U3Vubnk=", "UmFpbnk=", "U25vd3k="] (blob) M -&gt; (map) An attribute of type Map. For example: "M": {"Name": {"S": "Joe"}, "Age": {"N": "35"}} key -&gt; (string) Constraints: o max: 65535 ( ... recursive ... ) L -&gt; (list) An attribute of type List. For example: "L": [ {"S": "Cookies"} , {"S": "Coffee"}, {"N": "3.14159"}] ( ... recursive ... ) NULL -&gt; (boolean) An attribute of type Null. For example: "NULL": true BOOL -&gt; (boolean) An attribute of type Boolean. For example: "BOOL": true NULL -&gt; (boolean) An attribute of type Null. For example: "NULL": true BOOL -&gt; (boolean) An attribute of type Boolean. For example: "BOOL": true JSON Syntax: [ { "S": "string", "N": "string", "B": blob, "SS": ["string", ...], "NS": ["string", ...], "BS": [blob, ...], "M": {"string": { "S": "string", "N": "string", "B": blob, "SS": ["string", ...], "NS": ["string", ...], "BS": [blob, ...], "M": {"string": { ... recursive ... } ...}, "L": [ { ... recursive ... } ... ], "NULL": true|false, "BOOL": true|false } ...}, "L": [ { "S": "string", "N": "string", "B": blob, "SS": ["string", ...], "NS": ["string", ...], "BS": [blob, ...], "M": {"string": { ... recursive ... } ...}, "L": [ { ... recursive ... } ... ], "NULL": true|false, "BOOL": true|false } ... ], "NULL": true|false, "BOOL": true|false } ... ]
@@ -32,7 +69,10 @@ public record AwsDynamodbExecuteStatementOptions : AwsOptions
     [CliOption("--parameters", GroupValues = true)]
     public IEnumerable<string>? Parameters { get; set; }
 
-    [CliFlag("--consistent-read")]
+    /// <summary>
+    /// The consistency of a read operation. If set to true , then a strongly consistent read is used; otherwise, an eventually consis- tent read is used.
+    /// </summary>
+    [CliFlag("--consistent-read", NegatedName = "--no-consistent-read")]
     public bool? ConsistentRead { get; set; }
 
     /// <summary>
@@ -65,5 +105,22 @@ public record AwsDynamodbExecuteStatementOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

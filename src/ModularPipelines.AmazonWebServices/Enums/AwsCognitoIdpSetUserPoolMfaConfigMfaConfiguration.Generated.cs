@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --mfaconfiguration.
+/// Allowed values for --mfa-configuration.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCognitoIdpSetUserPoolMfaConfigMfaConfiguration
 {
     [EnumValue("OFF")]
-    Off = 1,
+    Off,
 
     [EnumValue("ON")]
-    On = 2,
+    On,
 
     [EnumValue("OPTIONAL")]
-    Optional = 3
+    Optional
 }

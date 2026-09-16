@@ -28,7 +28,10 @@ public record AwsIotListCaCertificatesOptions : AwsOptions
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CliFlag("--ascending-order")]
+    /// <summary>
+    /// Determines the order of the results.
+    /// </summary>
+    [CliFlag("--ascending-order", NegatedName = "--no-ascending-order")]
     public bool? AscendingOrder { get; set; }
 
     /// <summary>

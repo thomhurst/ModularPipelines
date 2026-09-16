@@ -16,12 +16,12 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsRoute53resolverListFirewallRulesAction
 {
+    [EnumValue("ALERT")]
+    Alert,
+
     [EnumValue("ALLOW")]
-    Allow = 1,
+    Allow,
 
     [EnumValue("BLOCK")]
-    Block = 2,
-
-    [EnumValue("ALERT")]
-    Alert = 3
+    Block
 }

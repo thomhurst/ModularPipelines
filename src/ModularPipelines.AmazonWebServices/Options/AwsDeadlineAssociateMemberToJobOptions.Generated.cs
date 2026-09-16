@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,28 +21,106 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deadline", "associate-member-to-job")]
-public record AwsDeadlineAssociateMemberToJobOptions : AwsOptions
+public record AwsDeadlineAssociateMemberToJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Assigns a job membership level to a member See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FarmId">The farm ID of the job to associate with the member. Constraints: o pattern: farm-[0-9a-f]{32}</param>
+    /// <param name="QueueId">The queue ID to associate to the member. Constraints: o pattern: queue-[0-9a-f]{32}</param>
+    /// <param name="JobId">The job ID to associate with the member. Constraints: o pattern: job-[0-9a-f]{32}</param>
+    /// <param name="PrincipalType">The member's principal type to associate with the job. Possible values: o USER o GROUP</param>
+    /// <param name="IdentityStoreId">The member's identity store ID to associate with the job. Constraints: o min: 1 o max: 36 o pattern: d-[0-9a-f]{10}$|^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="MembershipLevel">The principal's membership level for the associated job. Possible values: o VIEWER o CONTRIBUTOR o OWNER o MANAGER</param>
+    /// <param name="PrincipalId">The member's principal ID to associate with the job. Constraints: o min: 1 o max: 47 o pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}</param>
+    public AwsDeadlineAssociateMemberToJobOptions(
+        string FarmId,
+        string QueueId,
+        string JobId,
+        AwsDeadlineAssociateMemberToJobPrincipalType PrincipalType,
+        string IdentityStoreId,
+        AwsDeadlineAssociateMemberToJobMembershipLevel MembershipLevel,
+        string PrincipalId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FarmId);
+        this.FarmId = FarmId;
+        global::System.ArgumentNullException.ThrowIfNull(QueueId);
+        this.QueueId = QueueId;
+        global::System.ArgumentNullException.ThrowIfNull(JobId);
+        this.JobId = JobId;
+        global::System.ArgumentNullException.ThrowIfNull(PrincipalType);
+        this.PrincipalType = PrincipalType;
+        global::System.ArgumentNullException.ThrowIfNull(IdentityStoreId);
+        this.IdentityStoreId = IdentityStoreId;
+        global::System.ArgumentNullException.ThrowIfNull(MembershipLevel);
+        this.MembershipLevel = MembershipLevel;
+        global::System.ArgumentNullException.ThrowIfNull(PrincipalId);
+        this.PrincipalId = PrincipalId;
+    }
+
+    private AwsDeadlineAssociateMemberToJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDeadlineAssociateMemberToJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDeadlineAssociateMemberToJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The farm ID of the job to associate with the member. Constraints: o pattern: farm-[0-9a-f]{32}
+    /// </summary>
     [CliOption("--farm-id")]
-    public string? FarmId { get; set; }
+    public string? FarmId { get; private init; }
 
+    /// <summary>
+    /// The queue ID to associate to the member. Constraints: o pattern: queue-[0-9a-f]{32}
+    /// </summary>
     [CliOption("--queue-id")]
-    public string? QueueId { get; set; }
+    public string? QueueId { get; private init; }
 
+    /// <summary>
+    /// The job ID to associate with the member. Constraints: o pattern: job-[0-9a-f]{32}
+    /// </summary>
     [CliOption("--job-id")]
-    public string? JobId { get; set; }
+    public string? JobId { get; private init; }
 
+    /// <summary>
+    /// The member's principal type to associate with the job. Possible values: o USER o GROUP
+    /// </summary>
     [CliOption("--principal-type")]
-    public string? PrincipalType { get; set; }
+    public AwsDeadlineAssociateMemberToJobPrincipalType? PrincipalType { get; private init; }
 
+    /// <summary>
+    /// The member's identity store ID to associate with the job. Constraints: o min: 1 o max: 36 o pattern: d-[0-9a-f]{10}$|^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// </summary>
     [CliOption("--identity-store-id")]
-    public string? IdentityStoreId { get; set; }
+    public string? IdentityStoreId { get; private init; }
 
+    /// <summary>
+    /// The principal's membership level for the associated job. Possible values: o VIEWER o CONTRIBUTOR o OWNER o MANAGER
+    /// </summary>
     [CliOption("--membership-level")]
-    public string? MembershipLevel { get; set; }
+    public AwsDeadlineAssociateMemberToJobMembershipLevel? MembershipLevel { get; private init; }
 
+    /// <summary>
+    /// The member's principal ID to associate with the job. Constraints: o min: 1 o max: 47 o pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}
+    /// </summary>
     [CliOption("--principal-id")]
-    public string? PrincipalId { get; set; }
+    public string? PrincipalId { get; private init; }
 
     /// <summary>
     /// The Region of the IAM Identity Center instance. If not provided, the service defaults to the Region of the farm. Constraints: o min: 1 o max: 25 o pattern: [a-z0-9-]+
@@ -53,5 +133,22 @@ public record AwsDeadlineAssociateMemberToJobOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

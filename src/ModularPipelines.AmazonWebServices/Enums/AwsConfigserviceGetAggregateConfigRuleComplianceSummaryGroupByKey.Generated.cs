@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --groupbykey.
+/// Allowed values for --group-by-key.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsConfigserviceGetAggregateConfigRuleComplianceSummaryGroupByKey
 {
     [EnumValue("ACCOUNT_ID")]
-    AccountId = 1,
+    AccountId,
 
     [EnumValue("AWS_REGION")]
-    AwsRegion = 2
+    AwsRegion
 }

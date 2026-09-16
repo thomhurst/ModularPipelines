@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3control", "get-data-access")]
-public record AwsS3controlGetDataAccessOptions : AwsOptions
+public record AwsS3controlGetDataAccessOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a temporary access credential from S3 Access Grants to the grantee or client application. The temporary credential is an Amazon Web Services STS token that grants them access to the S3 data. Permissions You must have the s3:GetDataAccess permission to use this operation. Additional Permissions The IAM role that S3 Access Grants assumes must have the following per- missions specified in the trust policy when registering the location: sts:AssumeRole , for directory users or groups sts:SetC...
+    /// </summary>
+    /// <param name="AccountId">The Amazon Web Services account ID of the S3 Access Grants instance. Constraints: o max: 64 o pattern: ^\d{12}$</param>
+    /// <param name="Target">The S3 URI path of the data to which you are requesting temporary access credentials. If the requesting account has an access grant for this data, S3 Access Grants vends temporary access credentials in the response. Constraints: o min: 1 o max: 2000 o pattern: ^.+$</param>
+    /// <param name="Permission">The type of permission granted to your S3 data, which can be set to one of the following values: o READ Grant read-only access to the S3 data. o WRITE Grant write-only access to the S3 data. o READWRITE Grant both read and write access to the S3 data. Possible values: o READ o WRITE o READWRITE</param>
+    public AwsS3controlGetDataAccessOptions(
+        string AccountId,
+        string Target,
+        AwsS3controlGetDataAccessPermission Permission
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountId);
+        this.AccountId = AccountId;
+        global::System.ArgumentNullException.ThrowIfNull(Target);
+        this.Target = Target;
+        global::System.ArgumentNullException.ThrowIfNull(Permission);
+        this.Permission = Permission;
+    }
+
+    private AwsS3controlGetDataAccessOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3controlGetDataAccessOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3controlGetDataAccessOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Web Services account ID of the S3 Access Grants instance. Constraints: o max: 64 o pattern: ^\d{12}$
+    /// </summary>
     [CliOption("--account-id")]
-    public string? AccountId { get; set; }
+    public string? AccountId { get; private init; }
 
+    /// <summary>
+    /// The S3 URI path of the data to which you are requesting temporary access credentials. If the requesting account has an access grant for this data, S3 Access Grants vends temporary access credentials in the response. Constraints: o min: 1 o max: 2000 o pattern: ^.+$
+    /// </summary>
     [CliOption("--target")]
-    public string? Target { get; set; }
+    public string? Target { get; private init; }
 
+    /// <summary>
+    /// The type of permission granted to your S3 data, which can be set to one of the following values: o READ Grant read-only access to the S3 data. o WRITE Grant write-only access to the S3 data. o READWRITE Grant both read and write access to the S3 data. Possible values: o READ o WRITE o READWRITE
+    /// </summary>
     [CliOption("--permission")]
-    public string? Permission { get; set; }
+    public AwsS3controlGetDataAccessPermission? Permission { get; private init; }
 
     /// <summary>
     /// The session duration, in seconds, of the temporary access credential that S3 Access Grants vends to the grantee or client application. The default value is 1 hour, but the grantee can specify a range from 900 seconds (15 minutes) up to 43200 seconds (12 hours). If the grantee requests a value higher than this maximum, the operation fails. Constraints: o min: 900 o max: 43200
@@ -60,5 +111,22 @@ public record AwsS3controlGetDataAccessOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

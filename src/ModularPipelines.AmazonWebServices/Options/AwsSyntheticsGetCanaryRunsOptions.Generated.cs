@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synthetics", "get-canary-runs")]
-public record AwsSyntheticsGetCanaryRunsOptions : AwsOptions
+public record AwsSyntheticsGetCanaryRunsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves a list of runs for a specified canary. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the canary that you want to see runs for. Constraints: o min: 1 o max: 255 o pattern: ^[0-9a-z_\-]+$</param>
+    public AwsSyntheticsGetCanaryRunsOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsSyntheticsGetCanaryRunsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSyntheticsGetCanaryRunsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSyntheticsGetCanaryRunsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the canary that you want to see runs for. Constraints: o min: 1 o max: 255 o pattern: ^[0-9a-z_\-]+$
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
     /// <summary>
     /// A token that indicates that there is more data available. You can use this token in a subsequent GetCanaryRuns operation to retrieve the next set of results. NOTE: When auto retry is enabled for the canary, the first subsequent retry is suffixed with * 1 indicating its the first retry and the next subsequent try is suffixed with * 2. System Message: WARNING/2 (&lt;string&gt;:, line 102) Inline emphasis start-string without end-string. System Message: WARNING/2 (&lt;string&gt;:, line 102) Inline emphasis start-string without end-string. Constraints: o min: 4 o max: 252
@@ -56,5 +93,22 @@ public record AwsSyntheticsGetCanaryRunsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

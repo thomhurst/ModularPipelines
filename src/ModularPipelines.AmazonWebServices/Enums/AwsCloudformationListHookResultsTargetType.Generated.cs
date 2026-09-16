@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --targettype.
+/// Allowed values for --target-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCloudformationListHookResultsTargetType
 {
     [EnumValue("CHANGE_SET")]
-    ChangeSet = 1,
-
-    [EnumValue("STACK")]
-    Stack = 2,
-
-    [EnumValue("RESOURCE")]
-    Resource = 3,
+    ChangeSet,
 
     [EnumValue("CLOUD_CONTROL")]
-    CloudControl = 4
+    CloudControl,
+
+    [EnumValue("RESOURCE")]
+    Resource,
+
+    [EnumValue("STACK")]
+    Stack
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "extend-training-plan")]
-public record AwsSagemakerExtendTrainingPlanOptions : AwsOptions
+public record AwsSagemakerExtendTrainingPlanOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Extends an existing training plan by purchasing an extension offering. This allows you to add additional compute capacity time to your train- ing plan without creating a new plan or reconfiguring your workloads. To find available extension offerings, use the `` SearchTrainingPlanOfferings `` API with the TrainingPlanArn parameter. To view the history of extensions for a training plan, use the `` DescribeTrainingPlanExtensionHistory `` API. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TrainingPlanExtensionOfferingId">The unique identifier of the extension offering to purchase. You can retrieve this ID from the TrainingPlanExtensionOfferings in the re- sponse of the SearchTrainingPlanOfferings API.</param>
+    public AwsSagemakerExtendTrainingPlanOptions(
+        string TrainingPlanExtensionOfferingId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TrainingPlanExtensionOfferingId);
+        this.TrainingPlanExtensionOfferingId = TrainingPlanExtensionOfferingId;
+    }
+
+    private AwsSagemakerExtendTrainingPlanOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerExtendTrainingPlanOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerExtendTrainingPlanOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the extension offering to purchase. You can retrieve this ID from the TrainingPlanExtensionOfferings in the re- sponse of the SearchTrainingPlanOfferings API.
+    /// </summary>
     [CliOption("--training-plan-extension-offering-id")]
-    public string? TrainingPlanExtensionOfferingId { get; set; }
+    public string? TrainingPlanExtensionOfferingId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

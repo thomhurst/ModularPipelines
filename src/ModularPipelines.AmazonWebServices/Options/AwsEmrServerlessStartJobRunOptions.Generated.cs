@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -22,10 +23,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("emr-serverless", "start-job-run")]
-public record AwsEmrServerlessStartJobRunOptions : AwsOptions
+public record AwsEmrServerlessStartJobRunOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts a job run. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationId">The ID of the application on which to run the job. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+</param>
+    /// <param name="ExecutionRoleArn">The execution role ARN for the job run. Constraints: o min: 20 o max: 2048 o pattern: arn:(aws[a-zA-Z0-9-]*):iam::([0-9]{12}):(role((\u002F)|(\u002F[\u0021-\u007F]+\u002F))[\w+=,.@-]+)</param>
+    public AwsEmrServerlessStartJobRunOptions(
+        string ApplicationId,
+        string ExecutionRoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationId);
+        this.ApplicationId = ApplicationId;
+        global::System.ArgumentNullException.ThrowIfNull(ExecutionRoleArn);
+        this.ExecutionRoleArn = ExecutionRoleArn;
+    }
+
+    private AwsEmrServerlessStartJobRunOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEmrServerlessStartJobRunOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEmrServerlessStartJobRunOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the application on which to run the job. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+
+    /// </summary>
     [CliOption("--application-id")]
-    public string? ApplicationId { get; set; }
+    public string? ApplicationId { get; private init; }
+
+    /// <summary>
+    /// The execution role ARN for the job run. Constraints: o min: 20 o max: 2048 o pattern: arn:(aws[a-zA-Z0-9-]*):iam::([0-9]{12}):(role((\u002F)|(\u002F[\u0021-\u007F]+\u002F))[\w+=,.@-]+)
+    /// </summary>
+    [CliOption("--execution-role-arn")]
+    public string? ExecutionRoleArn { get; private init; }
 
     /// <summary>
     /// The client idempotency token of the job run to start. Its value must be unique for each request. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9._-]+
@@ -33,9 +80,6 @@ public record AwsEmrServerlessStartJobRunOptions : AwsOptions
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--execution-role-arn")]
-    public string? ExecutionRoleArn { get; set; }
 
     /// <summary>
     /// You can pass an optional IAM policy. The resulting job IAM role per- missions will be an intersection of this policy and the policy asso- ciated with your job execution role. policy -&gt; (string) An IAM inline policy to use as an execution IAM policy. Constraints: o min: 1 o max: 2048 o pattern: ([ -]+) policyArns -&gt; (list) A list of Amazon Resource Names (ARNs) to use as an execution IAM policy. Constraints: o min: 0 o max: 10 (string) Constraints: o min: 20 o max: 2048 o pattern: `` ([ -~ System Message: WARNING/2 (&lt;string&gt;:, line 204) Inline literal start-string without end-string. System Message: WARNING/2 (&lt;string&gt;:, line 205) Block quote ends without a blank line; unexpected unindent. --0-FF]+)`` Shorthand Syntax: policy=string,policyArns=string,string JSON Syntax: { "policy": "string", "policyArns": ["string", ...] }
@@ -90,5 +134,22 @@ public record AwsEmrServerlessStartJobRunOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

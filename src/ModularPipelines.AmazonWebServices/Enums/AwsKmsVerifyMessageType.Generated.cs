@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --messagetype.
+/// Allowed values for --message-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsKmsVerifyMessageType
 {
-    [EnumValue("RAW")]
-    Raw = 1,
-
     [EnumValue("DIGEST")]
-    Digest = 2,
+    Digest,
 
     [EnumValue("EXTERNAL_MU")]
-    ExternalMu = 3
+    ExternalMu,
+
+    [EnumValue("RAW")]
+    Raw
 }

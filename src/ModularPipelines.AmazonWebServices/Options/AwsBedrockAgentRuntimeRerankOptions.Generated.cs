@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agent-runtime", "rerank")]
-public record AwsBedrockAgentRuntimeRerankOptions : AwsOptions
+public record AwsBedrockAgentRuntimeRerankOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Reranks the relevance of sources based on queries. For more informa- tion, see Improve the relevance of query responses with a reranker model . See also: AWS API Documentation rerank uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syn- tax does not support document types. re...
+    /// </summary>
+    /// <param name="Queries">An array of objects, each of which contains information about a query to submit to the reranker model. Constraints: o min: 1 o max: 1 (structure) Contains information about a query to submit to the reranker model. textQuery -&gt; (structure) [required] Contains information about a text query. text -&gt; (string) The text of the document. Constraints: o min: 1 o max: 32000 type -&gt; (string) [required] The type of the query. Possible values: o TEXT Shorthand Syntax: textQuery={text=string},type=string ... JSON Syntax: [ { "textQuery": { "text": "string" }, "type": "TEXT" } ... ]</param>
+    /// <param name="RerankingConfiguration">Contains configurations for reranking. bedrockRerankingConfiguration -&gt; (structure) [required] Contains configurations for an Amazon Bedrock reranker. modelConfiguration -&gt; (structure) [required] Contains configurations for a reranker model. additionalModelRequestFields -&gt; (map) A JSON object whose keys are request fields for the model and whose values are values for those fields. key -&gt; (string) Constraints: o min: 1 o max: 100 value -&gt; (document) modelArn -&gt; (string) [required] The ARN of the reranker model. Constraints: o min: 1 o max: 2048 o pattern: ^(arn:aws(-[^:]+)?:(bedrock|sage- maker):[a-z0-9-]{1,20}:([0-9]{12})?:([a-z-]+/)?)?([a-z0-9.-]{1,63}){0,2}(([:][a-z0-9-]{1,63}){0,2})?(/[a-z0-9]{1,12})?$ numberOfResults -&gt; (integer) The number of results to return after reranking. Constraints: o min: 1 o max: 1000 type -&gt; (string) [required] The type of reranker that the configurations apply to. Possible values: o BEDROCK_RERANKING_MODEL Shorthand Syntax: bedrockRerankingConfiguration={modelConfiguration={modelArn=string},numberOfResults=integer},type=string JSON Syntax: { "bedrockRerankingConfiguration": { "modelConfiguration": { "additionalModelRequestFields": {"string": {...} ...}, "modelArn": "string" }, "numberOfResults": integer }, "type": "BEDROCK_RERANKING_MODEL" }</param>
+    /// <param name="Sources">An array of objects, each of which contains information about the sources to rerank. Constraints: o min: 1 o max: 1000 (structure) Contains information about a source for reranking. inlineDocumentSource -&gt; (structure) [required] Contains an inline definition of a source for reranking. jsonDocument -&gt; (document) Contains a JSON document to rerank. textDocument -&gt; (structure) Contains information about a text document to rerank. text -&gt; (string) The text of the document. Constraints: o min: 1 o max: 32000 type -&gt; (string) [required] The type of document to rerank. Possible values: o TEXT o JSON type -&gt; (string) [required] The type of the source. Possible values: o INLINE Shorthand Syntax: inlineDocumentSource={textDocument={text=string},type=string},type=string ... JSON Syntax: [ { "inlineDocumentSource": { "jsonDocument": {...}, "textDocument": { "text": "string" }, "type": "TEXT"|"JSON" }, "type": "INLINE" } ... ]</param>
+    public AwsBedrockAgentRuntimeRerankOptions(
+        IEnumerable<string> Queries,
+        string RerankingConfiguration,
+        IEnumerable<string> Sources
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Queries);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Queries));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Queries));
+            }
+
+            Queries = materialized;
+        }
+        this.Queries = Queries;
+        global::System.ArgumentNullException.ThrowIfNull(RerankingConfiguration);
+        this.RerankingConfiguration = RerankingConfiguration;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Sources);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Sources));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Sources));
+            }
+
+            Sources = materialized;
+        }
+        this.Sources = Sources;
+    }
+
+    private AwsBedrockAgentRuntimeRerankOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentRuntimeRerankOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentRuntimeRerankOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// An array of objects, each of which contains information about a query to submit to the reranker model. Constraints: o min: 1 o max: 1 (structure) Contains information about a query to submit to the reranker model. textQuery -&gt; (structure) [required] Contains information about a text query. text -&gt; (string) The text of the document. Constraints: o min: 1 o max: 32000 type -&gt; (string) [required] The type of the query. Possible values: o TEXT Shorthand Syntax: textQuery={text=string},type=string ... JSON Syntax: [ { "textQuery": { "text": "string" }, "type": "TEXT" } ... ]
+    /// </summary>
     [CliOption("--queries", GroupValues = true)]
-    public IEnumerable<string>? Queries { get; set; }
+    public IEnumerable<string>? Queries { get; private init; }
 
+    /// <summary>
+    /// Contains configurations for reranking. bedrockRerankingConfiguration -&gt; (structure) [required] Contains configurations for an Amazon Bedrock reranker. modelConfiguration -&gt; (structure) [required] Contains configurations for a reranker model. additionalModelRequestFields -&gt; (map) A JSON object whose keys are request fields for the model and whose values are values for those fields. key -&gt; (string) Constraints: o min: 1 o max: 100 value -&gt; (document) modelArn -&gt; (string) [required] The ARN of the reranker model. Constraints: o min: 1 o max: 2048 o pattern: ^(arn:aws(-[^:]+)?:(bedrock|sage- maker):[a-z0-9-]{1,20}:([0-9]{12})?:([a-z-]+/)?)?([a-z0-9.-]{1,63}){0,2}(([:][a-z0-9-]{1,63}){0,2})?(/[a-z0-9]{1,12})?$ numberOfResults -&gt; (integer) The number of results to return after reranking. Constraints: o min: 1 o max: 1000 type -&gt; (string) [required] The type of reranker that the configurations apply to. Possible values: o BEDROCK_RERANKING_MODEL Shorthand Syntax: bedrockRerankingConfiguration={modelConfiguration={modelArn=string},numberOfResults=integer},type=string JSON Syntax: { "bedrockRerankingConfiguration": { "modelConfiguration": { "additionalModelRequestFields": {"string": {...} ...}, "modelArn": "string" }, "numberOfResults": integer }, "type": "BEDROCK_RERANKING_MODEL" }
+    /// </summary>
     [CliOption("--reranking-configuration")]
-    public string? RerankingConfiguration { get; set; }
+    public string? RerankingConfiguration { get; private init; }
 
+    /// <summary>
+    /// An array of objects, each of which contains information about the sources to rerank. Constraints: o min: 1 o max: 1000 (structure) Contains information about a source for reranking. inlineDocumentSource -&gt; (structure) [required] Contains an inline definition of a source for reranking. jsonDocument -&gt; (document) Contains a JSON document to rerank. textDocument -&gt; (structure) Contains information about a text document to rerank. text -&gt; (string) The text of the document. Constraints: o min: 1 o max: 32000 type -&gt; (string) [required] The type of document to rerank. Possible values: o TEXT o JSON type -&gt; (string) [required] The type of the source. Possible values: o INLINE Shorthand Syntax: inlineDocumentSource={textDocument={text=string},type=string},type=string ... JSON Syntax: [ { "inlineDocumentSource": { "jsonDocument": {...}, "textDocument": { "text": "string" }, "type": "TEXT"|"JSON" }, "type": "INLINE" } ... ]
+    /// </summary>
     [CliOption("--sources", GroupValues = true)]
-    public IEnumerable<string>? Sources { get; set; }
+    public IEnumerable<string>? Sources { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -49,5 +122,22 @@ public record AwsBedrockAgentRuntimeRerankOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

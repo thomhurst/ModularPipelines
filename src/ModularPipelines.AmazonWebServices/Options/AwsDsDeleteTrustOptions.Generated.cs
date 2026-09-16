@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ds", "delete-trust")]
-public record AwsDsDeleteTrustOptions : AwsOptions
+public record AwsDsDeleteTrustOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--trust-id")]
-    public string? TrustId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--delete-associated-conditional-forwarder")]
+    /// <summary>
+    /// Deletes an existing trust relationship between your Managed Microsoft AD directory and an external domain. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TrustId">The Trust ID of the trust relationship to be deleted. Constraints: o pattern: ^t-[0-9a-f]{10}$</param>
+    public AwsDsDeleteTrustOptions(
+        string TrustId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TrustId);
+        this.TrustId = TrustId;
+    }
+
+    private AwsDsDeleteTrustOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDsDeleteTrustOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDsDeleteTrustOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Trust ID of the trust relationship to be deleted. Constraints: o pattern: ^t-[0-9a-f]{10}$
+    /// </summary>
+    [CliOption("--trust-id")]
+    public string? TrustId { get; private init; }
+
+    /// <summary>
+    /// ditional-forwarder (boolean) Delete a conditional forwarder as part of a DeleteTrustRequest.
+    /// </summary>
+    [CliFlag("--delete-associated-conditional-forwarder", NegatedName = "--no-delete-associated-conditional-forwarder")]
     public bool? DeleteAssociatedConditionalForwarder { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -32,5 +72,22 @@ public record AwsDsDeleteTrustOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

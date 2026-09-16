@@ -16,9 +16,9 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsWorkmailUpdateResourceType
 {
-    [EnumValue("ROOM")]
-    Room = 1,
-
     [EnumValue("EQUIPMENT")]
-    Equipment = 2
+    Equipment,
+
+    [EnumValue("ROOM")]
+    Room
 }

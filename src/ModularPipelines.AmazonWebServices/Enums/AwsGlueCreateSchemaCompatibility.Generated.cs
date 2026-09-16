@@ -16,27 +16,27 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGlueCreateSchemaCompatibility
 {
-    [EnumValue("NONE")]
-    None = 1,
-
-    [EnumValue("DISABLED")]
-    Disabled = 2,
-
     [EnumValue("BACKWARD")]
-    Backward = 3,
+    Backward,
 
     [EnumValue("BACKWARD_ALL")]
-    BackwardAll = 4,
+    BackwardAll,
+
+    [EnumValue("DISABLED")]
+    Disabled,
 
     [EnumValue("FORWARD")]
-    Forward = 5,
+    Forward,
 
     [EnumValue("FORWARD_ALL")]
-    ForwardAll = 6,
+    ForwardAll,
 
     [EnumValue("FULL")]
-    Full = 7,
+    Full,
 
     [EnumValue("FULL_ALL")]
-    FullAll = 8
+    FullAll,
+
+    [EnumValue("NONE")]
+    None
 }

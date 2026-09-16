@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "search-contact-flows")]
-public record AwsConnectSearchContactFlowsOptions : AwsOptions
+public record AwsConnectSearchContactFlowsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Searches the flows in an Connect Customer instance, with optional fil- tering. See also: AWS API Documentation search-contact-flows is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ContactFlows
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    public AwsConnectSearchContactFlowsOptions(
+        string InstanceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+    }
+
+    private AwsConnectSearchContactFlowsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectSearchContactFlowsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectSearchContactFlowsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
     /// <summary>
     /// Filters to be applied to search results. TagFilter -&gt; (structure) An object that can be used to specify Tag conditions inside the SearchFilter . This accepts an OR of AND (List of List) input where: o Top level list specifies conditions that need to be applied with OR operator o Inner list specifies conditions that need to be applied with AND operator. OrConditions -&gt; (list) A list of conditions which would be applied together with an OR condition. (list) (structure) A leaf node condition which can be used to specify a tag condition, for example, HAVE BPO = 123 . TagKey -&gt; (string) The tag key in the tag condition. TagValue -&gt; (string) The tag value in the tag condition. AndConditions -&gt; (list) A list of conditions which would be applied together with an AND condition. (structure) A leaf node condition which can be used to specify a tag condition, for example, HAVE BPO = 123 . TagKey -&gt; (string) The tag key in the tag condition. TagValue -&gt; (string) The tag value in the tag condition. TagCondition -&gt; (structure) A leaf node condition which can be used to specify a tag con- dition. TagKey -&gt; (string) The tag key in the tag condition. TagValue -&gt; (string) The tag value in the tag condition. FlowAttributeFilter -&gt; (structure) Flow attribute filter for contact flow search operations. OrConditions -&gt; (list) A list of conditions which would be applied together with an OR condition. (structure) A list of conditions which would be applied together with an AND condition. TagConditions -&gt; (list) Tag-based conditions for contact flow filtering. (structure) A leaf node condition which can be used to specify a tag condition, for example, HAVE BPO = 123 . TagKey -&gt; (string) The tag key in the tag condition. TagValue -&gt; (string) The tag value in the tag condition. ContactFlowTypeCondition -&gt; (structure) Contact flow type condition. ContactFlowType -&gt; (string) Contact flow type of the contact flow type condi- tion. Possible values: o CONTACT_FLOW o CUSTOMER_QUEUE o CUSTOMER_HOLD o CUSTOMER_WHISPER o AGENT_HOLD o AGENT_WHISPER o OUTBOUND_WHISPER o AGENT_TRANSFER o QUEUE_TRANSFER o CAMPAIGN AndCondition -&gt; (structure) A list of conditions which would be applied together with a AND condition. TagConditions -&gt; (list) Tag-based conditions for contact flow filtering. (structure) A leaf node condition which can be used to specify a tag condition, for example, HAVE BPO = 123 . TagKey -&gt; (string) The tag key in the tag condition. TagValue -&gt; (string) The tag value in the tag condition. ContactFlowTypeCondition -&gt; (structure) Contact flow type condition. ContactFlowType -&gt; (string) Contact flow type of the contact flow type condition. Possible values: o CONTACT_FLOW o CUSTOMER_QUEUE o CUSTOMER_HOLD o CUSTOMER_WHISPER o AGENT_HOLD o AGENT_WHISPER o OUTBOUND_WHISPER o AGENT_TRANSFER o QUEUE_TRANSFER o CAMPAIGN TagCondition -&gt; (structure) A leaf node condition which can be used to specify a tag con- dition, for example, HAVE BPO = 123 . TagKey -&gt; (string) The tag key in the tag condition. TagValue -&gt; (string) The tag value in the tag condition. ContactFlowTypeCondition -&gt; (structure) Contact flow type condition within attribute filter. ContactFlowType -&gt; (string) Contact flow type of the contact flow type condition. Possible values: o CONTACT_FLOW o CUSTOMER_QUEUE o CUSTOMER_HOLD o CUSTOMER_WHISPER o AGENT_HOLD o AGENT_WHISPER o OUTBOUND_WHISPER o AGENT_TRANSFER o QUEUE_TRANSFER o CAMPAIGN JSON Syntax: { "TagFilter": { "OrConditions": [ [ { "TagKey": "string", "TagValue": "string" } ... ] ... ], "AndConditions": [ { "TagKey": "string", "TagValue": "string" } ... ], "TagCondition": { "TagKey": "string", "TagValue": "string" } }, "FlowAttributeFilter": { "OrConditions": [ { "TagConditions": [ { "TagKey": "string", "TagValue": "string" } ... ], "ContactFlowTypeCondition": { "ContactFlowType": "CONTACT_FLOW"|"CUSTOMER_QUEUE"|"CUSTOMER_HOLD"|"CUSTOMER_WHISPER"|"AGENT_HOLD"|"AGENT_WHISPER"|"OUTBOUND_WHISPER"|"AGENT_TRANSFER"|"QUEUE_TRANSFER"|"CAMPAIGN" } } ... ], "AndCondition": { "TagConditions": [ { "TagKey": "string", "TagValue": "string" } ... ], "ContactFlowTypeCondition": { "ContactFlowType": "CONTACT_FLOW"|"CUSTOMER_QUEUE"|"CUSTOMER_HOLD"|"CUSTOMER_WHISPER"|"AGENT_HOLD"|"AGENT_WHISPER"|"OUTBOUND_WHISPER"|"AGENT_TRANSFER"|"QUEUE_TRANSFER"|"CAMPAIGN" } }, "TagCondition": { "TagKey": "string", "TagValue": "string" }, "ContactFlowTypeCondition": { "ContactFlowType": "CONTACT_FLOW"|"CUSTOMER_QUEUE"|"CUSTOMER_HOLD"|"CUSTOMER_WHISPER"|"AGENT_HOLD"|"AGENT_WHISPER"|"OUTBOUND_WHISPER"|"AGENT_TRANSFER"|"QUEUE_TRANSFER"|"CAMPAIGN" } } }
@@ -61,5 +98,22 @@ public record AwsConnectSearchContactFlowsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

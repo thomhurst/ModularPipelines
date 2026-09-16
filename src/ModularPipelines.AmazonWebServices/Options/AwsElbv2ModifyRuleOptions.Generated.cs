@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elbv2", "modify-rule")]
-public record AwsElbv2ModifyRuleOptions : AwsOptions
+public record AwsElbv2ModifyRuleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Replaces the specified properties of the specified rule. Any properties that you do not specify are unchanged. To add an item to a list, remove an item from a list, or update an item in a list, you must provide the entire list. For example, to add an ac- tion, specify a list with the current actions plus the new action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RuleArn">The Amazon Resource Name (ARN) of the rule.</param>
+    public AwsElbv2ModifyRuleOptions(
+        string RuleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RuleArn);
+        this.RuleArn = RuleArn;
+    }
+
+    private AwsElbv2ModifyRuleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElbv2ModifyRuleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElbv2ModifyRuleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the rule.
+    /// </summary>
     [CliOption("--rule-arn")]
-    public string? RuleArn { get; set; }
+    public string? RuleArn { get; private init; }
 
     /// <summary>
     /// The conditions. (structure) Information about a condition for a rule. Each rule can optionally include up to one of each of the fol- lowing conditions: http-request-method , host-header , path-pat- tern , and source-ip . Each rule can also optionally include one or more of each of the following conditions: http-header and query-string . Note that the value for a condition can't be empty. For Network Load Balancer listener rules, the only supported condition is source-ip . Use SourceIpConfig with IpAddressType to match on the IP address type of the source traffic (ipv4 or ipv6 ). For more information, see Quotas for your Application Load Bal- ancers . Field -&gt; (string) The name of the field. The possible values are: o http-header [ALB] Matches on an HTTP header field. o http-request-method [ALB] Matches on the HTTP request method. o host-header [ALB] Matches on the host header. o path-pattern [ALB] Matches on the URL path of the request. o query-string [ALB] Matches on a query string parameter. o source-ip [ALB, NLB] Matches on the source IP address. For ALB, use SourceIpConfig with Values to specify CIDR ranges. For NLB, use SourceIpConfig with IpAddressType to match the IP address type (ipv4 or ipv6 ). Constraints: o max: 64 Values -&gt; (list) The condition value. Specify only when Field is host-header or path-pattern . Alternatively, to specify multiple host names or multiple path patterns, use HostHeaderConfig or PathPatternConfig . If Field is host-header and you are not using HostHeaderCon- fig , you can specify a single host name (for example, my.ex- ample.com) in Values . A host name is case insensitive, can be up to 128 characters in length, and can contain any of the following characters. o A-Z, a-z, 0-9 o o . o o (matches 0 or more characters) o ? (matches exactly 1 character) If Field is path-pattern and you are not using PathPattern- Config , you can specify a single path pattern (for example, /img/ * ) in Values . A path pattern is case-sensitive, can be up to 128 characters in length, and can contain any of the follow- ing characters. System Message: WARNING/2 (&lt;string&gt;:, line 164) Inline emphasis start-string without end-string. o A-Z, a-z, 0-9 o _ - . $ / ~ " ' @ : + o &amp; (using &amp;amp;) o o (matches 0 or more characters) o ? (matches exactly 1 character) (string) HostHeaderConfig -&gt; (structure) Information for a host header condition. Specify only when Field is host-header . Values -&gt; (list) The host names. The maximum length of each string is 128 characters. The comparison is case insensitive. The fol- lowing wildcard characters are supported: * (matches 0 or more characters) and ? (matches exactly 1 character). You must include at least one "." character. You can include only alphabetical characters after the final "." charac- ter. If you specify multiple strings, the condition is satis- fied if one of the strings matches the host name. (string) RegexValues -&gt; (list) The regular expressions to compare against the host header. The maximum length of each string is 128 charac- ters. (string) PathPatternConfig -&gt; (structure) Information for a path pattern condition. Specify only when Field is path-pattern . Values -&gt; (list) The path patterns to compare against the request URL. The maximum length of each string is 128 characters. The com- parison is case sensitive. The following wildcard charac- ters are supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If you specify multiple strings, the condition is satis- fied if one of them matches the request URL. The path pattern is compared only to the path of the URL, not to its query string. To compare against the query string, use a query string condition . (string) RegexValues -&gt; (list) The regular expressions to compare against the request URL. The maximum length of each string is 128 characters. (string) HttpHeaderConfig -&gt; (structure) Information for an HTTP header condition. Specify only when Field is http-header . HttpHeaderName -&gt; (string) The name of the HTTP header field. The maximum length is 40 characters. The header name is case insensitive. The allowed characters are specified by RFC 7230. Wildcards are not supported. You can't use an HTTP header condition to specify the host header. Instead, use a host condition . Values -&gt; (list) The strings to compare against the value of the HTTP header. The maximum length of each string is 128 charac- ters. The comparison strings are case insensitive. The following wildcard characters are supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If the same header appears multiple times in the request, we search them in order until a match is found. If you specify multiple strings, the condition is satis- fied if one of the strings matches the value of the HTTP header. To require that all of the strings are a match, create one condition per string. (string) RegexValues -&gt; (list) The regular expression to compare against the HTTP header. The maximum length of each string is 128 charac- ters. (string) QueryStringConfig -&gt; (structure) Information for a query string condition. Specify only when Field is query-string . Values -&gt; (list) The key/value pairs or values to find in the query string. The maximum length of each string is 128 charac- ters. The comparison is case insensitive. The following wildcard characters are supported: * (matches 0 or more characters) and ? (matches exactly 1 character). To search for a literal '*' or '?' character in a query string, you must escape these characters in Values using a '' character. If you specify multiple key/value pairs or values, the condition is satisfied if one of them is found in the query string. (structure) Information about a key/value pair. Key -&gt; (string) The key. You can omit the key. Value -&gt; (string) The value. HttpRequestMethodConfig -&gt; (structure) Information for an HTTP method condition. Specify only when Field is http-request-method . Values -&gt; (list) The name of the request method. The maximum length is 40 characters. The allowed characters are A-Z, hyphen (-), and underscore (_). The comparison is case sensitive. Wildcards are not supported; therefore, the method name must be an exact match. If you specify multiple strings, the condition is satis- fied if one of the strings matches the HTTP request method. We recommend that you route GET and HEAD requests in the same way, because the response to a HEAD request may be cached. (string) SourceIpConfig -&gt; (structure) Information for a source IP condition. Specify only when Field is source-ip . Values -&gt; (list) The source IP addresses, in CIDR format. You can use both IPv4 and IPv6 addresses. Wildcards are not supported. If you specify multiple addresses, the condition is sat- isfied if the source IP address of the request matches one of the CIDR blocks. This condition is not satisfied by the addresses in the X-Forwarded-For header. To search for addresses in the X-Forwarded-For header, use an HTTP header condition . The total number of values must be less than, or equal to five. (string) IpAddressType -&gt; (string) The IP address type for Network Load Balancers. The valid values are: o ipv4 IPv4 addresses only. o ipv6 IPv6 addresses only. Possible values: o ipv4 o ipv6 RegexValues -&gt; (list) The regular expressions to match against the condition field. The maximum length of each string is 128 characters. Specify only when Field is http-header , host-header , or path-pat- tern . (string) JSON Syntax: [ { "Field": "string", "Values": ["string", ...], "HostHeaderConfig": { "Values": ["string", ...], "RegexValues": ["string", ...] }, "PathPatternConfig": { "Values": ["string", ...], "RegexValues": ["string", ...] }, "HttpHeaderConfig": { "HttpHeaderName": "string", "Values": ["string", ...], "RegexValues": ["string", ...] }, "QueryStringConfig": { "Values": [ { "Key": "string", "Value": "string" } ... ] }, "HttpRequestMethodConfig": { "Values": ["string", ...] }, "SourceIpConfig": { "Values": ["string", ...], "IpAddressType": "ipv4"|"ipv6" }, "RegexValues": ["string", ...] } ... ]
@@ -42,7 +79,10 @@ public record AwsElbv2ModifyRuleOptions : AwsOptions
     [CliOption("--transforms", GroupValues = true)]
     public IEnumerable<string>? Transforms { get; set; }
 
-    [CliFlag("--reset-transforms")]
+    /// <summary>
+    /// Indicates whether to remove all transforms from the rule. If you specify ResetTransforms , you can't specify Transforms .
+    /// </summary>
+    [CliFlag("--reset-transforms", NegatedName = "--no-reset-transforms")]
     public bool? ResetTransforms { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -50,5 +90,22 @@ public record AwsElbv2ModifyRuleOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

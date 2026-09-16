@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lexv2-models", "list-session-analytics-data")]
-public record AwsLexv2ModelsListSessionAnalyticsDataOptions : AwsOptions
+public record AwsLexv2ModelsListSessionAnalyticsDataOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves a list of metadata for individual user sessions with your bot. The startDateTime and endDateTime fields are required. These fields define a time range for which you want to retrieve results. Of the optional fields, you can organize the results in the following ways: o Use the filters field to filter the results and the sortBy field to specify the values by which to sort the results. o Use the maxResults field to limit the number of results to return in a single response and the nextTok...
+    /// </summary>
+    /// <param name="BotId">The identifier for the bot for which you want to retrieve session analytics. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="StartDateTime">The date and time that marks the beginning of the range of time for which you want to see session analytics.</param>
+    /// <param name="EndDateTime">The date and time that marks the end of the range of time for which you want to see session analytics.</param>
+    public AwsLexv2ModelsListSessionAnalyticsDataOptions(
+        string BotId,
+        string StartDateTime,
+        string EndDateTime
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BotId);
+        this.BotId = BotId;
+        global::System.ArgumentNullException.ThrowIfNull(StartDateTime);
+        this.StartDateTime = StartDateTime;
+        global::System.ArgumentNullException.ThrowIfNull(EndDateTime);
+        this.EndDateTime = EndDateTime;
+    }
+
+    private AwsLexv2ModelsListSessionAnalyticsDataOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLexv2ModelsListSessionAnalyticsDataOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLexv2ModelsListSessionAnalyticsDataOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier for the bot for which you want to retrieve session analytics. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// </summary>
     [CliOption("--bot-id")]
-    public string? BotId { get; set; }
+    public string? BotId { get; private init; }
 
+    /// <summary>
+    /// The date and time that marks the beginning of the range of time for which you want to see session analytics.
+    /// </summary>
     [CliOption("--start-date-time")]
-    public string? StartDateTime { get; set; }
+    public string? StartDateTime { get; private init; }
 
+    /// <summary>
+    /// The date and time that marks the end of the range of time for which you want to see session analytics.
+    /// </summary>
     [CliOption("--end-date-time")]
-    public string? EndDateTime { get; set; }
+    public string? EndDateTime { get; private init; }
 
     /// <summary>
     /// An object specifying the measure and method by which to sort the session analytics data. name -&gt; (string) [required] The measure by which to sort the session analytics data. o conversationStartTime The date and time when the conversation began. A conversation is defined as a unique combination of a sessionId and an originatingRequestId . o numberOfTurns The number of turns that the session took. o conversationDurationSeconds The duration of the conversation in seconds. Possible values: o ConversationStartTime o NumberOfTurns o Duration order -&gt; (string) [required] Specifies whether to sort the results in ascending or descending order. Possible values: o Ascending o Descending Shorthand Syntax: name=string,order=string JSON Syntax: { "name": "ConversationStartTime"|"NumberOfTurns"|"Duration", "order": "Ascending"|"Descending" }
@@ -61,5 +112,22 @@ public record AwsLexv2ModelsListSessionAnalyticsDataOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

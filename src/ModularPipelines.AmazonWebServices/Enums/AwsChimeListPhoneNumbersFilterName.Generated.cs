@@ -11,23 +11,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --filtername.
+/// Allowed values for --filter-name.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsChimeListPhoneNumbersFilterName
 {
     [EnumValue("AccountId")]
-    AccountId = 1,
-
-    [EnumValue("UserId")]
-    UserId = 2,
-
-    [EnumValue("VoiceConnectorId")]
-    VoiceConnectorId = 3,
-
-    [EnumValue("VoiceConnectorGroupId")]
-    VoiceConnectorGroupId = 4,
+    AccountId,
 
     [EnumValue("SipRuleId")]
-    SipRuleId = 5
+    SipRuleId,
+
+    [EnumValue("UserId")]
+    UserId,
+
+    [EnumValue("VoiceConnectorGroupId")]
+    VoiceConnectorGroupId,
+
+    [EnumValue("VoiceConnectorId")]
+    VoiceConnectorId
 }

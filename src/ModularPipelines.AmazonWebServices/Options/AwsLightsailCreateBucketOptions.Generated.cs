@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lightsail", "create-bucket")]
-public record AwsLightsailCreateBucketOptions : AwsOptions
+public record AwsLightsailCreateBucketOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--bucket-name")]
-    public string? BucketName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an Amazon Lightsail bucket. A bucket is a cloud storage resource available in the Lightsail object storage service. Use buckets to store objects such as data and its de- scriptive metadata. For more information about buckets, see Buckets in Amazon Lightsail in the Amazon Lightsail Developer Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BucketName">The name for the bucket. For more information about bucket names, see Bucket naming rules in Amazon Lightsail in the Amazon Lightsail Developer Guide . Constraints: o min: 3 o max: 54 o pattern: ^[a-z0-9][a-z0-9-]{1,52}[a-z0-9]$</param>
+    /// <param name="BundleId">The ID of the bundle to use for the bucket. A bucket bundle specifies the monthly cost, storage space, and data transfer quota for a bucket. Use the GetBucketBundles action to get a list of bundle IDs that you can specify. Use the UpdateBucketBundle action to change the bundle after the bucket is created. Constraints: o pattern: .*\S.*</param>
+    public AwsLightsailCreateBucketOptions(
+        string BucketName,
+        string BundleId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BucketName);
+        this.BucketName = BucketName;
+        global::System.ArgumentNullException.ThrowIfNull(BundleId);
+        this.BundleId = BundleId;
+    }
+
+    private AwsLightsailCreateBucketOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLightsailCreateBucketOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLightsailCreateBucketOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name for the bucket. For more information about bucket names, see Bucket naming rules in Amazon Lightsail in the Amazon Lightsail Developer Guide . Constraints: o min: 3 o max: 54 o pattern: ^[a-z0-9][a-z0-9-]{1,52}[a-z0-9]$
+    /// </summary>
+    [CliOption("--bucket-name")]
+    public string? BucketName { get; private init; }
+
+    /// <summary>
+    /// The ID of the bundle to use for the bucket. A bucket bundle specifies the monthly cost, storage space, and data transfer quota for a bucket. Use the GetBucketBundles action to get a list of bundle IDs that you can specify. Use the UpdateBucketBundle action to change the bundle after the bucket is created. Constraints: o pattern: .*\S.*
+    /// </summary>
     [CliOption("--bundle-id")]
-    public string? BundleId { get; set; }
+    public string? BundleId { get; private init; }
 
     /// <summary>
     /// The tag keys and optional values to add to the bucket during cre- ation. Use the TagResource action to tag the bucket after it's created. (structure) Describes a tag key and optional value assigned to an Amazon Lightsail resource. For more information about tags in Lightsail, see the Amazon Lightsail Developer Guide . key -&gt; (string) The key of the tag. Constraints: Tag keys accept a maximum of 128 letters, num- bers, spaces in UTF-8, or the following characters: + - = . _ : / @ value -&gt; (string) The value of the tag. Constraints: Tag values accept a maximum of 256 letters, num- bers, spaces in UTF-8, or the following characters: + - = . _ : / @ Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
@@ -33,7 +77,10 @@ public record AwsLightsailCreateBucketOptions : AwsOptions
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
-    [CliFlag("--enable-object-versioning")]
+    /// <summary>
+    /// A Boolean value that indicates whether to enable versioning of ob- jects in the bucket. For more information about versioning, see Enabling and suspending object versioning in a bucket in Amazon Lightsail in the Amazon Lightsail Developer Guide .
+    /// </summary>
+    [CliFlag("--enable-object-versioning", NegatedName = "--no-enable-object-versioning")]
     public bool? EnableObjectVersioning { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -41,5 +88,22 @@ public record AwsLightsailCreateBucketOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

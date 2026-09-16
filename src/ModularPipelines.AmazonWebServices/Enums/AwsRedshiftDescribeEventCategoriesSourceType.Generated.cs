@@ -11,26 +11,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --sourcetype.
+/// Allowed values for --source-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsRedshiftDescribeEventCategoriesSourceType
 {
     [EnumValue("cluster")]
-    Cluster = 0,
-
-    [EnumValue("cluster-snapshot")]
-    ClusterSnapshot = 1,
+    Cluster,
 
     [EnumValue("cluster-parameter-group")]
-    ClusterParameterGroup = 2,
+    ClusterParameterGroup,
 
     [EnumValue("cluster-security-group")]
-    ClusterSecurityGroup = 3,
+    ClusterSecurityGroup,
 
-    [EnumValue("and")]
-    And = 4,
+    [EnumValue("cluster-snapshot")]
+    ClusterSnapshot,
 
     [EnumValue("scheduled-action")]
-    ScheduledAction = 5
+    ScheduledAction
 }

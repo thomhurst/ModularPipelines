@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRedshiftCreateUsageLimitPeriod
 {
     [EnumValue("daily")]
-    Daily = 1,
-
-    [EnumValue("weekly")]
-    Weekly = 2,
+    Daily,
 
     [EnumValue("monthly")]
-    Monthly = 3
+    Monthly,
+
+    [EnumValue("weekly")]
+    Weekly
 }

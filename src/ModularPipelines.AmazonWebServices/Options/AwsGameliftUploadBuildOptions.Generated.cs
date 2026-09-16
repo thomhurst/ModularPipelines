@@ -21,14 +21,41 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("gamelift", "upload-build")]
 public record AwsGameliftUploadBuildOptions : AwsOptions
 {
+    /// <summary>
+    /// Upload a new build to AWS GameLift.
+    /// </summary>
+    /// <param name="Name"></param>
+    /// <param name="BuildVersion"></param>
+    /// <param name="BuildRoot"></param>
+    public AwsGameliftUploadBuildOptions(
+        string Name,
+        string BuildVersion,
+        string BuildRoot
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(BuildVersion);
+        this.BuildVersion = BuildVersion;
+        global::System.ArgumentNullException.ThrowIfNull(BuildRoot);
+        this.BuildRoot = BuildRoot;
+    }
+
+    public void Deconstruct(out string Name, out string BuildVersion, out string BuildRoot)
+    {
+        Name = this.Name;
+        BuildVersion = this.BuildVersion;
+        BuildRoot = this.BuildRoot;
+    }
+
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string Name { get; private init; }
 
     [CliOption("--build-version")]
-    public string? BuildVersion { get; set; }
+    public string BuildVersion { get; private init; }
 
     [CliOption("--build-root")]
-    public string? BuildRoot { get; set; }
+    public string BuildRoot { get; private init; }
 
     [CliOption("--server-sdk-version")]
     public string? ServerSdkVersion { get; set; }
@@ -36,7 +63,7 @@ public record AwsGameliftUploadBuildOptions : AwsOptions
     [CliOption("--operating-system")]
     public string? OperatingSystem { get; set; }
 
-    [CliOption("--tags")]
-    public string? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
 }

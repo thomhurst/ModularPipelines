@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --layouttype.
+/// Allowed values for --layout-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCustomerProfilesUpdateDomainLayoutLayoutType
 {
+    [EnumValue("o")]
+    O,
+
     [EnumValue("PROFILE_EXPLORER")]
-    ProfileExplorer = 1
+    ProfileExplorer
 }

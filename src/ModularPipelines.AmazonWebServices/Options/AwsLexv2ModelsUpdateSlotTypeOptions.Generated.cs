@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lexv2-models", "update-slot-type")]
-public record AwsLexv2ModelsUpdateSlotTypeOptions : AwsOptions
+public record AwsLexv2ModelsUpdateSlotTypeOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--slot-type-id")]
-    public string? SlotTypeId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the configuration of an existing slot type. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SlotTypeId">The unique identifier of the slot type to update. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="SlotTypeName">The new name of the slot type. Constraints: o min: 1 o max: 100 o pattern: ^([0-9a-zA-Z][_-]?){1,100}$</param>
+    /// <param name="BotId">The identifier of the bot that contains the slot type. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="BotVersion">The version of the bot that contains the slot type. Must be DRAFT . Constraints: o min: 5 o max: 5 o pattern: ^DRAFT$</param>
+    /// <param name="LocaleId">The identifier of the language and locale that contains the slot type. The string must match one of the supported locales. For more information, see Supported languages .</param>
+    public AwsLexv2ModelsUpdateSlotTypeOptions(
+        string SlotTypeId,
+        string SlotTypeName,
+        string BotId,
+        string BotVersion,
+        string LocaleId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SlotTypeId);
+        this.SlotTypeId = SlotTypeId;
+        global::System.ArgumentNullException.ThrowIfNull(SlotTypeName);
+        this.SlotTypeName = SlotTypeName;
+        global::System.ArgumentNullException.ThrowIfNull(BotId);
+        this.BotId = BotId;
+        global::System.ArgumentNullException.ThrowIfNull(BotVersion);
+        this.BotVersion = BotVersion;
+        global::System.ArgumentNullException.ThrowIfNull(LocaleId);
+        this.LocaleId = LocaleId;
+    }
+
+    private AwsLexv2ModelsUpdateSlotTypeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLexv2ModelsUpdateSlotTypeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLexv2ModelsUpdateSlotTypeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the slot type to update. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// </summary>
+    [CliOption("--slot-type-id")]
+    public string? SlotTypeId { get; private init; }
+
+    /// <summary>
+    /// The new name of the slot type. Constraints: o min: 1 o max: 100 o pattern: ^([0-9a-zA-Z][_-]?){1,100}$
+    /// </summary>
     [CliOption("--slot-type-name")]
-    public string? SlotTypeName { get; set; }
+    public string? SlotTypeName { get; private init; }
+
+    /// <summary>
+    /// The identifier of the bot that contains the slot type. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// </summary>
+    [CliOption("--bot-id")]
+    public string? BotId { get; private init; }
+
+    /// <summary>
+    /// The version of the bot that contains the slot type. Must be DRAFT . Constraints: o min: 5 o max: 5 o pattern: ^DRAFT$
+    /// </summary>
+    [CliOption("--bot-version")]
+    public string? BotVersion { get; private init; }
+
+    /// <summary>
+    /// The identifier of the language and locale that contains the slot type. The string must match one of the supported locales. For more information, see Supported languages .
+    /// </summary>
+    [CliOption("--locale-id")]
+    public string? LocaleId { get; private init; }
 
     /// <summary>
     /// The new description of the slot type. Constraints: o min: 0 o max: 2000
@@ -51,15 +125,6 @@ public record AwsLexv2ModelsUpdateSlotTypeOptions : AwsOptions
     [CliOption("--parent-slot-type-signature")]
     public string? ParentSlotTypeSignature { get; set; }
 
-    [CliOption("--bot-id")]
-    public string? BotId { get; set; }
-
-    [CliOption("--bot-version")]
-    public string? BotVersion { get; set; }
-
-    [CliOption("--locale-id")]
-    public string? LocaleId { get; set; }
-
     /// <summary>
     /// Provides information about the external source of the slot type's definition. grammarSlotTypeSetting -&gt; (structure) Settings required for a slot type based on a grammar that you provide. source -&gt; (structure) The source of the grammar used to create the slot type. s3BucketName -&gt; (string) [required] The name of the Amazon S3 bucket that contains the gram- mar source. Constraints: o min: 3 o max: 63 o pattern: ^[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9]$ s3ObjectKey -&gt; (string) [required] The path to the grammar in the Amazon S3 bucket. Constraints: o min: 1 o max: 1024 o pattern: [\.\-\!\*\_\'\(\)a-zA-Z0-9][\.\-\!\*\_\'\(\)\/a-zA-Z0-9]*$ kmsKeyArn -&gt; (string) The KMS key required to decrypt the contents of the gram- mar, if any. Constraints: o min: 20 o max: 2048 o pattern: ^arn:[\w\-]+:kms:[\w\-]+:[\d]{12}:(?:key\/[\w\-]+|alias\/[a-zA-Z0-9:\/_\-]{1,256})$ Shorthand Syntax: grammarSlotTypeSetting={source={s3BucketName=string,s3ObjectKey=string,kmsKeyArn=string}} JSON Syntax: { "grammarSlotTypeSetting": { "source": { "s3BucketName": "string", "s3ObjectKey": "string", "kmsKeyArn": "string" } } }
     /// </summary>
@@ -77,5 +142,22 @@ public record AwsLexv2ModelsUpdateSlotTypeOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

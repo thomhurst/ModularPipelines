@@ -28,7 +28,7 @@ public interface IAwsIamToolbox
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRequestAuthorizationDetailsAsync(AwsIamToolboxGetRequestAuthorizationDetailsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> GetRequestAuthorizationDetailsAsync(AwsIamToolboxGetRequestAuthorizationDetailsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
 }

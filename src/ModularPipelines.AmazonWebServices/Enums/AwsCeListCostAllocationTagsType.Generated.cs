@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsCeListCostAllocationTagsType
 {
     [EnumValue("AWSGenerated")]
-    AwsGenerated = 1,
+    AwsGenerated,
 
     [EnumValue("UserDefined")]
-    UserDefined = 2
+    UserDefined
 }

@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --callas.
+/// Allowed values for --call-as.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCloudformationDescribeStackSetOperationCallAs
 {
-    [EnumValue("SELF")]
-    Self = 1,
-
     [EnumValue("DELEGATED_ADMIN")]
-    DelegatedAdmin = 2
+    DelegatedAdmin,
+
+    [EnumValue("SELF")]
+    Self
 }

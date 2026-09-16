@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --retentionlocktype.
+/// Allowed values for --retention-lock-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsStoragegatewayCreateTapePoolRetentionLockType
 {
     [EnumValue("COMPLIANCE")]
-    Compliance = 1,
+    Compliance,
 
     [EnumValue("GOVERNANCE")]
-    Governance = 2,
+    Governance,
 
     [EnumValue("NONE")]
-    None = 3
+    None
 }

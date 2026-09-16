@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("wellarchitected", "delete-lens")]
-public record AwsWellarchitectedDeleteLensOptions : AwsOptions
+public record AwsWellarchitectedDeleteLensOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Delete an existing lens. Only the owner of a lens can delete it. After the lens is deleted, Ama- zon Web Services accounts and users that you shared the lens with can continue to use it, but they will no longer be able to apply it to new workloads. NOTE: Disclaimer By sharing your custom lenses with other Amazon Web Services ac- counts, you acknowledge that Amazon Web Services will make your cus- tom lenses available to those other accounts. Those other accounts may continue to access and use yo...
+    /// </summary>
+    /// <param name="LensAlias">The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless , or the lens ARN, such as arn:aws:wellar- chitected:us-east-1::lens/serverless . Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchi- tected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef . Each lens is identified by its LensSummary$LensAlias . Constraints: o min: 1 o max: 128</param>
+    /// <param name="LensStatus">The status of the lens to be deleted. Possible values: o ALL o DRAFT o PUBLISHED</param>
+    public AwsWellarchitectedDeleteLensOptions(
+        string LensAlias,
+        AwsWellarchitectedDeleteLensLensStatus LensStatus
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LensAlias);
+        this.LensAlias = LensAlias;
+        global::System.ArgumentNullException.ThrowIfNull(LensStatus);
+        this.LensStatus = LensStatus;
+    }
+
+    private AwsWellarchitectedDeleteLensOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWellarchitectedDeleteLensOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWellarchitectedDeleteLensOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless , or the lens ARN, such as arn:aws:wellar- chitected:us-east-1::lens/serverless . Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchi- tected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef . Each lens is identified by its LensSummary$LensAlias . Constraints: o min: 1 o max: 128
+    /// </summary>
     [CliOption("--lens-alias")]
-    public string? LensAlias { get; set; }
+    public string? LensAlias { get; private init; }
+
+    /// <summary>
+    /// The status of the lens to be deleted. Possible values: o ALL o DRAFT o PUBLISHED
+    /// </summary>
+    [CliOption("--lens-status")]
+    public AwsWellarchitectedDeleteLensLensStatus? LensStatus { get; private init; }
 
     /// <summary>
     /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. WARNING: This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail. Constraints: o min: 1 o max: 2048 o pattern: [\x00-\x7F]*
@@ -32,13 +80,27 @@ public record AwsWellarchitectedDeleteLensOptions : AwsOptions
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CliOption("--lens-status")]
-    public string? LensStatus { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

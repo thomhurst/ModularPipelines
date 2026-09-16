@@ -21,8 +21,25 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("deploy", "register")]
 public record AwsDeployRegisterOptions : AwsOptions
 {
+    /// <summary>
+    /// Creates an IAM user for the on-premises instance, if not provided, and saves the user's credentials to an on-premises instance configuration file; registers the on-premises instance with AWS CodeDeploy; and op- tionally adds tags to the on-premises instance.
+    /// </summary>
+    /// <param name="InstanceName"></param>
+    public AwsDeployRegisterOptions(
+        string InstanceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceName);
+        this.InstanceName = InstanceName;
+    }
+
+    public void Deconstruct(out string InstanceName)
+    {
+        InstanceName = this.InstanceName;
+    }
+
     [CliOption("--instance-name")]
-    public string? InstanceName { get; set; }
+    public string InstanceName { get; private init; }
 
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

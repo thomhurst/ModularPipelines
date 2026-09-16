@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3api", "put-bucket-metrics-configuration")]
-public record AwsS3apiPutBucketMetricsConfigurationOptions : AwsOptions
+public record AwsS3apiPutBucketMetricsConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Sets a metrics configuration (specified by the metrics configuration ID) for the bucket. You can have up to 1,000 metrics configurations per bucket. If you're updating an existing metrics configuration, note that this is a full replacement of the existing metrics configuration. If you don't include the elements you want to keep, they are erased. NOTE: Directory buckets - For directory buckets, you must make re- quests for this API operation to the Regional endpoint. These endpoints support path-...
+    /// </summary>
+    /// <param name="Bucket">The name of the bucket for which the metrics configuration is set. Directory buckets - When you use this operation with a directory bucket, you must use path-style requests in the format https://s3express-control.*region-code* .amazon- aws.com/*bucket-name* `` . Virtual-hosted-style requests aren't supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must also follow the format `` *bucket-base-name* --*zone-id* --x-s3 (for example, `` DOC-EXAMPLE-BUCKET --usw2-az1 --x-s3`` ). For infor- mation about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide</param>
+    /// <param name="Id">The ID used to identify the metrics configuration. The ID has a 64 character limit and can only contain letters, numbers, periods, dashes, and underscores.</param>
+    /// <param name="MetricsConfiguration">Specifies the metrics configuration. Id -&gt; (string) [required] The ID used to identify the metrics configuration. The ID has a 64 character limit and can only contain letters, numbers, peri- ods, dashes, and underscores. Filter -&gt; (structure) Specifies a metrics configuration filter. The metrics configura- tion will only include objects that meet the filter's criteria. A filter must be a prefix, an object tag, an access point ARN, or a conjunction (MetricsAndOperator). NOTE: Metrics configurations for directory buckets do not support tag filters. Prefix -&gt; (string) The prefix used when evaluating a metrics filter. Tag -&gt; (structure) The tag used when evaluating a metrics filter. NOTE: Tag filters are not supported for directory buckets. Key -&gt; (string) [required] Name of the object key. Constraints: o min: 1 Value -&gt; (string) [required] Value of the tag. AccessPointArn -&gt; (string) The access point ARN used when evaluating a metrics filter. And -&gt; (structure) A conjunction (logical AND) of predicates, which is used in evaluating a metrics filter. The operator must have at least two predicates, and an object must match all of the predi- cates in order for the filter to apply. Prefix -&gt; (string) The prefix used when evaluating an AND predicate. Tags -&gt; (list) The list of tags used when evaluating an AND predicate. NOTE: Tag filters are not supported for directory buckets. (structure) A container of a key value name pair. Key -&gt; (string) [required] Name of the object key. Constraints: o min: 1 Value -&gt; (string) [required] Value of the tag. AccessPointArn -&gt; (string) The access point ARN used when evaluating an AND predi- cate. JSON Syntax: { "Id": "string", "Filter": { "Prefix": "string", "Tag": { "Key": "string", "Value": "string" }, "AccessPointArn": "string", "And": { "Prefix": "string", "Tags": [ { "Key": "string", "Value": "string" } ... ], "AccessPointArn": "string" } } }</param>
+    public AwsS3apiPutBucketMetricsConfigurationOptions(
+        string Bucket,
+        string Id,
+        string MetricsConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Bucket);
+        this.Bucket = Bucket;
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+        global::System.ArgumentNullException.ThrowIfNull(MetricsConfiguration);
+        this.MetricsConfiguration = MetricsConfiguration;
+    }
+
+    private AwsS3apiPutBucketMetricsConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3apiPutBucketMetricsConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3apiPutBucketMetricsConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the bucket for which the metrics configuration is set. Directory buckets - When you use this operation with a directory bucket, you must use path-style requests in the format https://s3express-control.*region-code* .amazon- aws.com/*bucket-name* `` . Virtual-hosted-style requests aren't supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must also follow the format `` *bucket-base-name* --*zone-id* --x-s3 (for example, `` DOC-EXAMPLE-BUCKET --usw2-az1 --x-s3`` ). For infor- mation about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide
+    /// </summary>
     [CliOption("--bucket")]
-    public string? Bucket { get; set; }
+    public string? Bucket { get; private init; }
 
+    /// <summary>
+    /// The ID used to identify the metrics configuration. The ID has a 64 character limit and can only contain letters, numbers, periods, dashes, and underscores.
+    /// </summary>
     [CliOption("--id")]
-    public string? Id { get; set; }
+    public string? Id { get; private init; }
 
+    /// <summary>
+    /// Specifies the metrics configuration. Id -&gt; (string) [required] The ID used to identify the metrics configuration. The ID has a 64 character limit and can only contain letters, numbers, peri- ods, dashes, and underscores. Filter -&gt; (structure) Specifies a metrics configuration filter. The metrics configura- tion will only include objects that meet the filter's criteria. A filter must be a prefix, an object tag, an access point ARN, or a conjunction (MetricsAndOperator). NOTE: Metrics configurations for directory buckets do not support tag filters. Prefix -&gt; (string) The prefix used when evaluating a metrics filter. Tag -&gt; (structure) The tag used when evaluating a metrics filter. NOTE: Tag filters are not supported for directory buckets. Key -&gt; (string) [required] Name of the object key. Constraints: o min: 1 Value -&gt; (string) [required] Value of the tag. AccessPointArn -&gt; (string) The access point ARN used when evaluating a metrics filter. And -&gt; (structure) A conjunction (logical AND) of predicates, which is used in evaluating a metrics filter. The operator must have at least two predicates, and an object must match all of the predi- cates in order for the filter to apply. Prefix -&gt; (string) The prefix used when evaluating an AND predicate. Tags -&gt; (list) The list of tags used when evaluating an AND predicate. NOTE: Tag filters are not supported for directory buckets. (structure) A container of a key value name pair. Key -&gt; (string) [required] Name of the object key. Constraints: o min: 1 Value -&gt; (string) [required] Value of the tag. AccessPointArn -&gt; (string) The access point ARN used when evaluating an AND predi- cate. JSON Syntax: { "Id": "string", "Filter": { "Prefix": "string", "Tag": { "Key": "string", "Value": "string" }, "AccessPointArn": "string", "And": { "Prefix": "string", "Tags": [ { "Key": "string", "Value": "string" } ... ], "AccessPointArn": "string" } } }
+    /// </summary>
     [CliOption("--metrics-configuration")]
-    public string? MetricsConfiguration { get; set; }
+    public string? MetricsConfiguration { get; private init; }
 
     /// <summary>
     /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the re- quest fails with the HTTP status code 403 Forbidden (access denied). NOTE: For directory buckets, this header is not supported in this API operation. If you specify this header, the request fails with the HTTP status code 501 Not Implemented .
@@ -41,5 +92,22 @@ public record AwsS3apiPutBucketMetricsConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

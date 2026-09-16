@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workspaces", "update-connection-alias-permission")]
-public record AwsWorkspacesUpdateConnectionAliasPermissionOptions : AwsOptions
+public record AwsWorkspacesUpdateConnectionAliasPermissionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--alias-id")]
-    public string? AliasId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Shares or unshares a connection alias with one account by specifying whether that account has permission to associate the connection alias with a directory. If the association permission is granted, the connec- tion alias is shared with that account. If the association permission is revoked, the connection alias is unshared with the account. For more information, see Cross-Region Redirection for Amazon WorkSpaces . NOTE: o Before performing this operation, call DescribeConnectionAliases to make ...
+    /// </summary>
+    /// <param name="AliasId">The identifier of the connection alias that you want to update per- missions for. Constraints: o min: 13 o max: 68 o pattern: ^wsca-[0-9a-z]{8,63}$</param>
+    /// <param name="ConnectionAliasPermission">Indicates whether to share or unshare the connection alias with the specified Amazon Web Services account. SharedAccountId -&gt; (string) [required] The identifier of the Amazon Web Services account that the con- nection alias is shared with. Constraints: o pattern: ^\d{12}$ AllowAssociation -&gt; (boolean) [required] Indicates whether the specified Amazon Web Services account is allowed to associate the connection alias with a directory. Shorthand Syntax: SharedAccountId=string,AllowAssociation=boolean JSON Syntax: { "SharedAccountId": "string", "AllowAssociation": true|false }</param>
+    public AwsWorkspacesUpdateConnectionAliasPermissionOptions(
+        string AliasId,
+        string ConnectionAliasPermission
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AliasId);
+        this.AliasId = AliasId;
+        global::System.ArgumentNullException.ThrowIfNull(ConnectionAliasPermission);
+        this.ConnectionAliasPermission = ConnectionAliasPermission;
+    }
+
+    private AwsWorkspacesUpdateConnectionAliasPermissionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkspacesUpdateConnectionAliasPermissionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkspacesUpdateConnectionAliasPermissionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the connection alias that you want to update per- missions for. Constraints: o min: 13 o max: 68 o pattern: ^wsca-[0-9a-z]{8,63}$
+    /// </summary>
+    [CliOption("--alias-id")]
+    public string? AliasId { get; private init; }
+
+    /// <summary>
+    /// Indicates whether to share or unshare the connection alias with the specified Amazon Web Services account. SharedAccountId -&gt; (string) [required] The identifier of the Amazon Web Services account that the con- nection alias is shared with. Constraints: o pattern: ^\d{12}$ AllowAssociation -&gt; (boolean) [required] Indicates whether the specified Amazon Web Services account is allowed to associate the connection alias with a directory. Shorthand Syntax: SharedAccountId=string,AllowAssociation=boolean JSON Syntax: { "SharedAccountId": "string", "AllowAssociation": true|false }
+    /// </summary>
     [CliOption("--connection-alias-permission")]
-    public string? ConnectionAliasPermission { get; set; }
+    public string? ConnectionAliasPermission { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

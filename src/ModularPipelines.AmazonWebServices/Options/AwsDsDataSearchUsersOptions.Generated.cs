@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,22 +21,83 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ds-data", "search-users")]
-public record AwsDsDataSearchUsersOptions : AwsOptions
+public record AwsDsDataSearchUsersOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Searches the specified directory for a user. You can find users that match the SearchString parameter with the value of their attributes in- cluded in the SearchString parameter. This operation supports pagination with the use of the NextToken re- quest and response parameters. If more results are available, the SearchUsers.NextToken member contains a token that you pass in the next call to SearchUsers . This retrieves the next set of items. You can also specify a maximum number of return result...
+    /// </summary>
+    /// <param name="DirectoryId">The identifier (ID) of the directory that's associated with the user. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="SearchAttributes">One or more data attributes that are used to search for a user. For a list of supported attributes, see Directory Service Data Attrib- utes . Constraints: o min: 1 o max: 25 (string) Constraints: o min: 1 o max: 63 o pattern: ^[A-Za-z*][A-Za-z-*]*$ Syntax: "string" "string" ...</param>
+    /// <param name="SearchString">The attribute value that you want to search for. NOTE: Wildcard (*) searches aren't supported. For a list of supported attributes, see Directory Service Data Attributes . Constraints: o min: 1 o max: 64</param>
+    public AwsDsDataSearchUsersOptions(
+        string DirectoryId,
+        IEnumerable<string> SearchAttributes,
+        string SearchString
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DirectoryId);
+        this.DirectoryId = DirectoryId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SearchAttributes);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SearchAttributes));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SearchAttributes));
+            }
+
+            SearchAttributes = materialized;
+        }
+        this.SearchAttributes = SearchAttributes;
+        global::System.ArgumentNullException.ThrowIfNull(SearchString);
+        this.SearchString = SearchString;
+    }
+
+    private AwsDsDataSearchUsersOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDsDataSearchUsersOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDsDataSearchUsersOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier (ID) of the directory that's associated with the user. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// </summary>
     [CliOption("--directory-id")]
-    public string? DirectoryId { get; set; }
+    public string? DirectoryId { get; private init; }
+
+    /// <summary>
+    /// One or more data attributes that are used to search for a user. For a list of supported attributes, see Directory Service Data Attrib- utes . Constraints: o min: 1 o max: 25 (string) Constraints: o min: 1 o max: 63 o pattern: ^[A-Za-z*][A-Za-z-*]*$ Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--search-attributes", GroupValues = true)]
+    public IEnumerable<string>? SearchAttributes { get; private init; }
+
+    /// <summary>
+    /// The attribute value that you want to search for. NOTE: Wildcard (*) searches aren't supported. For a list of supported attributes, see Directory Service Data Attributes . Constraints: o min: 1 o max: 64
+    /// </summary>
+    [CliOption("--search-string")]
+    public string? SearchString { get; private init; }
 
     /// <summary>
     /// The domain name that's associated with the user. NOTE: This parameter is optional, so you can return users outside of your Managed Microsoft AD domain. When no value is defined, only your Managed Microsoft AD users are returned. This value is case insensitive. Constraints: o min: 1 o max: 255 o pattern: ^([a-zA-Z0-9]+[\\.-])+([a-zA-Z0-9])+[.]?$
     /// </summary>
     [CliOption("--realm")]
     public string? Realm { get; set; }
-
-    [CliOption("--search-attributes", GroupValues = true)]
-    public IEnumerable<string>? SearchAttributes { get; set; }
-
-    [CliOption("--search-string")]
-    public string? SearchString { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -61,5 +123,22 @@ public record AwsDsDataSearchUsersOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

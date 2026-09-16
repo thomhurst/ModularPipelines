@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --insertionmode.
+/// Allowed values for --insertion-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsMediatailorPutPlaybackConfigurationInsertionMode
 {
-    [EnumValue("STITCHED_ONLY")]
-    StitchedOnly = 1,
-
     [EnumValue("PLAYER_SELECT")]
-    PlayerSelect = 2
+    PlayerSelect,
+
+    [EnumValue("STITCHED_ONLY")]
+    StitchedOnly
 }

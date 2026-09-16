@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --launchdisposition.
+/// Allowed values for --launch-disposition.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDrsUpdateLaunchConfigurationLaunchDisposition
 {
-    [EnumValue("STOPPED")]
-    Stopped = 1,
-
     [EnumValue("STARTED")]
-    Started = 2
+    Started,
+
+    [EnumValue("STOPPED")]
+    Stopped
 }

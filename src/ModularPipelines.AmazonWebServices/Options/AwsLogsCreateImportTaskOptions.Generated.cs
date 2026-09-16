@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logs", "create-import-task")]
-public record AwsLogsCreateImportTaskOptions : AwsOptions
+public record AwsLogsCreateImportTaskOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--import-source-arn")]
-    public string? ImportSourceArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Starts an import from a data source to CloudWatch Log and creates a managed log group as the destination for the imported data. Currently, CloudTrail Event Data Store is the only supported data source. The import task must satisfy the following constraints: o The specified source must be in an ACTIVE state. o The API caller must have permissions to access the data in the pro- vided source and to perform iam:PassRole on the provided import role which has the same permissions, as described below. ...
+    /// </summary>
+    /// <param name="ImportSourceArn">The ARN of the source to import from.</param>
+    /// <param name="ImportRoleArn">The ARN of the IAM role that grants CloudWatch Logs permission to import from the CloudTrail Lake Event Data Store. Constraints: o min: 1</param>
+    public AwsLogsCreateImportTaskOptions(
+        string ImportSourceArn,
+        string ImportRoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ImportSourceArn);
+        this.ImportSourceArn = ImportSourceArn;
+        global::System.ArgumentNullException.ThrowIfNull(ImportRoleArn);
+        this.ImportRoleArn = ImportRoleArn;
+    }
+
+    private AwsLogsCreateImportTaskOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLogsCreateImportTaskOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLogsCreateImportTaskOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the source to import from.
+    /// </summary>
+    [CliOption("--import-source-arn")]
+    public string? ImportSourceArn { get; private init; }
+
+    /// <summary>
+    /// The ARN of the IAM role that grants CloudWatch Logs permission to import from the CloudTrail Lake Event Data Store. Constraints: o min: 1
+    /// </summary>
     [CliOption("--import-role-arn")]
-    public string? ImportRoleArn { get; set; }
+    public string? ImportRoleArn { get; private init; }
 
     /// <summary>
     /// Optional filters to constrain the import by CloudTrail event time. Times are specified in Unix timestamp milliseconds. The range of data being imported must be within the specified source's retention period. startEventTime -&gt; (long) The start of the time range for events to import, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Constraints: o min: 0 endEventTime -&gt; (long) The end of the time range for events to import, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Constraints: o min: 0 Shorthand Syntax: startEventTime=long,endEventTime=long JSON Syntax: { "startEventTime": long, "endEventTime": long }
@@ -38,5 +82,22 @@ public record AwsLogsCreateImportTaskOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

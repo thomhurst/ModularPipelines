@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chatbot", "create-microsoft-teams-channel-configuration")]
-public record AwsChatbotCreateMicrosoftTeamsChannelConfigurationOptions : AwsOptions
+public record AwsChatbotCreateMicrosoftTeamsChannelConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an AWS Chatbot configuration for Microsoft Teams. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ChannelId">The ID of the Microsoft Teams channel. Constraints: o min: 1 o max: 255 o pattern: ([a-zA-Z0-9-_=+\/.,])*%3[aA]([a-zA-Z0-9-_=+\/.,])*%40([a-zA-Z0-9-_=+\/.,])*</param>
+    /// <param name="TeamId">The ID of the Microsoft Teams authorized with AWS Chatbot. To get the team ID, you must perform the initial authorization flow with Microsoft Teams in the AWS Chatbot console. Then you can copy and paste the team ID from the console. For more information, see Step 1: Configure a Microsoft Teams client in the AWS Chatbot Admin- istrator Guide . Constraints: o min: 36 o max: 36 o pattern: [0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}</param>
+    /// <param name="TenantId">The ID of the Microsoft Teams tenant. Constraints: o min: 36 o max: 36 o pattern: [0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}</param>
+    /// <param name="IamRoleArn">A user-defined role that AWS Chatbot assumes. This is not the ser- vice-linked role. For more information, see IAM policies for AWS Chatbot in the AWS Chatbot Administrator Guide . Constraints: o min: 12 o max: 1224 o pattern: arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}</param>
+    /// <param name="ConfigurationName">The name of the configuration. Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9-_]+</param>
+    public AwsChatbotCreateMicrosoftTeamsChannelConfigurationOptions(
+        string ChannelId,
+        string TeamId,
+        string TenantId,
+        string IamRoleArn,
+        string ConfigurationName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ChannelId);
+        this.ChannelId = ChannelId;
+        global::System.ArgumentNullException.ThrowIfNull(TeamId);
+        this.TeamId = TeamId;
+        global::System.ArgumentNullException.ThrowIfNull(TenantId);
+        this.TenantId = TenantId;
+        global::System.ArgumentNullException.ThrowIfNull(IamRoleArn);
+        this.IamRoleArn = IamRoleArn;
+        global::System.ArgumentNullException.ThrowIfNull(ConfigurationName);
+        this.ConfigurationName = ConfigurationName;
+    }
+
+    private AwsChatbotCreateMicrosoftTeamsChannelConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChatbotCreateMicrosoftTeamsChannelConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChatbotCreateMicrosoftTeamsChannelConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Microsoft Teams channel. Constraints: o min: 1 o max: 255 o pattern: ([a-zA-Z0-9-_=+\/.,])*%3[aA]([a-zA-Z0-9-_=+\/.,])*%40([a-zA-Z0-9-_=+\/.,])*
+    /// </summary>
     [CliOption("--channel-id")]
-    public string? ChannelId { get; set; }
+    public string? ChannelId { get; private init; }
+
+    /// <summary>
+    /// The ID of the Microsoft Teams authorized with AWS Chatbot. To get the team ID, you must perform the initial authorization flow with Microsoft Teams in the AWS Chatbot console. Then you can copy and paste the team ID from the console. For more information, see Step 1: Configure a Microsoft Teams client in the AWS Chatbot Admin- istrator Guide . Constraints: o min: 36 o max: 36 o pattern: [0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}
+    /// </summary>
+    [CliOption("--team-id")]
+    public string? TeamId { get; private init; }
+
+    /// <summary>
+    /// The ID of the Microsoft Teams tenant. Constraints: o min: 36 o max: 36 o pattern: [0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}
+    /// </summary>
+    [CliOption("--tenant-id")]
+    public string? TenantId { get; private init; }
+
+    /// <summary>
+    /// A user-defined role that AWS Chatbot assumes. This is not the ser- vice-linked role. For more information, see IAM policies for AWS Chatbot in the AWS Chatbot Administrator Guide . Constraints: o min: 12 o max: 1224 o pattern: arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}
+    /// </summary>
+    [CliOption("--iam-role-arn")]
+    public string? IamRoleArn { get; private init; }
+
+    /// <summary>
+    /// The name of the configuration. Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9-_]+
+    /// </summary>
+    [CliOption("--configuration-name")]
+    public string? ConfigurationName { get; private init; }
 
     /// <summary>
     /// The name of the Microsoft Teams channel. Constraints: o min: 1 o max: 1000 o pattern: (.*)
@@ -30,29 +107,17 @@ public record AwsChatbotCreateMicrosoftTeamsChannelConfigurationOptions : AwsOpt
     [CliOption("--channel-name")]
     public string? ChannelName { get; set; }
 
-    [CliOption("--team-id")]
-    public string? TeamId { get; set; }
-
     /// <summary>
     /// The name of the Microsoft Teams Team. Constraints: o min: 1 o max: 255 o pattern: (.*)
     /// </summary>
     [CliOption("--team-name")]
     public string? TeamName { get; set; }
 
-    [CliOption("--tenant-id")]
-    public string? TenantId { get; set; }
-
     /// <summary>
     /// The Amazon Resource Names (ARNs) of the SNS topics that deliver no- tifications to AWS Chatbot. (string) Constraints: o min: 12 o max: 1224 o pattern: arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--sns-topic-arns", GroupValues = true)]
     public IEnumerable<string>? SnsTopicArns { get; set; }
-
-    [CliOption("--iam-role-arn")]
-    public string? IamRoleArn { get; set; }
-
-    [CliOption("--configuration-name")]
-    public string? ConfigurationName { get; set; }
 
     /// <summary>
     /// Logging levels include ERROR , INFO , or NONE . Constraints: o min: 4 o max: 5 o pattern: (ERROR|INFO|NONE)
@@ -66,7 +131,10 @@ public record AwsChatbotCreateMicrosoftTeamsChannelConfigurationOptions : AwsOpt
     [CliOption("--guardrail-policy-arns", GroupValues = true)]
     public IEnumerable<string>? GuardrailPolicyArns { get; set; }
 
-    [CliFlag("--user-authorization-required")]
+    /// <summary>
+    /// Enables use of a user role requirement in your chat configuration.
+    /// </summary>
+    [CliFlag("--user-authorization-required", NegatedName = "--no-user-authorization-required")]
     public bool? UserAuthorizationRequired { get; set; }
 
     /// <summary>
@@ -80,5 +148,22 @@ public record AwsChatbotCreateMicrosoftTeamsChannelConfigurationOptions : AwsOpt
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

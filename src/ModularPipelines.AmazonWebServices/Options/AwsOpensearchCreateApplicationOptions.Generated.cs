@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,17 +21,53 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("opensearch", "create-application")]
-public record AwsOpensearchCreateApplicationOptions : AwsOptions
+public record AwsOpensearchCreateApplicationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an OpenSearch UI application. For more information, see Using the OpenSearch user interface in Amazon OpenSearch Service . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The unique name of the OpenSearch application. Names must be unique within an Amazon Web Services Region for each account. Constraints: o min: 3 o max: 30 o pattern: [a-z][a-z0-9\-]+</param>
+    public AwsOpensearchCreateApplicationOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsOpensearchCreateApplicationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOpensearchCreateApplicationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOpensearchCreateApplicationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique name of the OpenSearch application. Names must be unique within an Amazon Web Services Region for each account. Constraints: o min: 3 o max: 30 o pattern: [a-z][a-z0-9\-]+
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
     /// <summary>
     /// Unique, case-sensitive identifier to ensure idempotency of the re- quest. Constraints: o min: 1 o max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--name")]
-    public string? Name { get; set; }
 
     /// <summary>
     /// The data sources to link to the OpenSearch application. (structure) Data sources that are associated with an OpenSearch application. dataSourceArn -&gt; (string) The Amazon Resource Name (ARN) of the domain. See Identifiers for IAM Entities in Using Amazon Web Services Identity and Access Management for more information. Constraints: o min: 20 o max: 2048 o pattern: .* dataSourceDescription -&gt; (string) Detailed description of a data source. Constraints: o max: 1000 o pattern: ^([a-zA-Z0-9_])*[\\a-zA-Z0-9_@#%*+=:?./!\s-]*$ iamRoleForDataSourceArn -&gt; (string) The ARN of the IAM role to be used for cross account/region data source association. Constraints: o min: 20 o max: 2048 o pattern: arn:(aws|aws\-cn|aws\-us\-gov|aws\-iso|aws\-iso\-b):iam::[0-9]+:role\/.* Shorthand Syntax: dataSourceArn=string,dataSourceDescription=string,iamRoleForDataSourceArn=string ... JSON Syntax: [ { "dataSourceArn": "string", "dataSourceDescription": "string", "iamRoleForDataSourceArn": "string" } ... ]
@@ -67,5 +104,22 @@ public record AwsOpensearchCreateApplicationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

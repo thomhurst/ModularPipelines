@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --validationlevel.
+/// Allowed values for --validation-level.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsHealthlakeStartFhirImportJobValidationLevel
 {
+    [EnumValue("minimal")]
+    Minimal,
+
     [EnumValue("strict")]
-    Strict = 1,
+    Strict,
 
     [EnumValue("structure-only")]
-    StructureOnly = 2,
-
-    [EnumValue("minimal")]
-    Minimal = 3
+    StructureOnly
 }

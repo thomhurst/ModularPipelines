@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --profiletype.
+/// Allowed values for --profile-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCustomerProfilesUpdateProfileProfileType
 {
     [EnumValue("ACCOUNT_PROFILE")]
-    AccountProfile = 1,
+    AccountProfile,
 
     [EnumValue("PROFILE")]
-    Profile = 2
+    Profile
 }

@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mediatailor", "put-function")]
-public record AwsMediatailorPutFunctionOptions : AwsOptions
+public record AwsMediatailorPutFunctionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--function-id")]
-    public string? FunctionId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates or updates a function. A function defines reusable logic that MediaTailor executes at lifecycle hooks during ad insertion. For more information about functions, see Working with functions in the Medi- aTailor User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FunctionId">The identifier of the function. The identifier must be unique within your account.</param>
+    /// <param name="FunctionType">The type of the function, which determines what the function can do at runtime. Valid values: o CUSTOM_OUTPUT Evaluates expressions and produces output bindings with no external calls. o HTTP_REQUEST Makes an HTTP call to an external service and evalu- ates output expressions that can reference the response. o AWS_SERVICE_REQUEST Makes an authenticated request to a supported AWS service API and evaluates output expressions that can refer- ence the response. o VAST_REQUEST Calls a VAST endpoint, parses the response as VAST, and makes the parsed ads available to output expressions. o SEQUENTIAL_EXECUTOR Runs a sequence of child functions in order, passing data between steps through temporary data. o CONCURRENT_EXECUTOR Runs a set of child functions in parallel, up to a maximum concurrency, and combines their output when all func- tions complete. For more information, see Function types and composition in the Me- diaTailor User Guide . Possible values: o HTTP_REQUEST o AWS_SERVICE_REQUEST o CUSTOM_OUTPUT o CONCURRENT_EXECUTOR o SEQUENTIAL_EXECUTOR o VAST_REQUEST</param>
+    public AwsMediatailorPutFunctionOptions(
+        string FunctionId,
+        string FunctionType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FunctionId);
+        this.FunctionId = FunctionId;
+        global::System.ArgumentNullException.ThrowIfNull(FunctionType);
+        this.FunctionType = FunctionType;
+    }
+
+    private AwsMediatailorPutFunctionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMediatailorPutFunctionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMediatailorPutFunctionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the function. The identifier must be unique within your account.
+    /// </summary>
+    [CliOption("--function-id")]
+    public string? FunctionId { get; private init; }
+
+    /// <summary>
+    /// The type of the function, which determines what the function can do at runtime. Valid values: o CUSTOM_OUTPUT Evaluates expressions and produces output bindings with no external calls. o HTTP_REQUEST Makes an HTTP call to an external service and evalu- ates output expressions that can reference the response. o AWS_SERVICE_REQUEST Makes an authenticated request to a supported AWS service API and evaluates output expressions that can refer- ence the response. o VAST_REQUEST Calls a VAST endpoint, parses the response as VAST, and makes the parsed ads available to output expressions. o SEQUENTIAL_EXECUTOR Runs a sequence of child functions in order, passing data between steps through temporary data. o CONCURRENT_EXECUTOR Runs a set of child functions in parallel, up to a maximum concurrency, and combines their output when all func- tions complete. For more information, see Function types and composition in the Me- diaTailor User Guide . Possible values: o HTTP_REQUEST o AWS_SERVICE_REQUEST o CUSTOM_OUTPUT o CONCURRENT_EXECUTOR o SEQUENTIAL_EXECUTOR o VAST_REQUEST
+    /// </summary>
     [CliOption("--function-type")]
-    public string? FunctionType { get; set; }
+    public string? FunctionType { get; private init; }
 
     /// <summary>
     /// A description of the function.
@@ -39,6 +83,12 @@ public record AwsMediatailorPutFunctionOptions : AwsOptions
     /// </summary>
     [CliOption("--http-request-configuration")]
     public string? HttpRequestConfiguration { get; set; }
+
+    /// <summary>
+    /// The configuration for an AWS_SERVICE_REQUEST function. You must specify this parameter when FunctionType is AWS_SERVICE_REQUEST . Runtime -&gt; (string) [required] The expression language used to evaluate expressions in the function configuration. The only supported value is JSONata . Possible values: o JSONATA Output -&gt; (map) A map of output bindings. Each key is a namespaced output path, such as player_params.device_type . Each value is an expression that MediaTailor evaluates at runtime and can reference the re- sponse object from the target service. For more information, see JSONata expression reference in the MediaTailor User Guide . key -&gt; (string) value -&gt; (string) MethodType -&gt; (string) [required] Specifies how the function sends the request to the target ser- vice. The value must match what the target service operation re- quires. Valid values: o GET Retrieves data from the target service. o POST Submits a request body to the target service. Possible values: o GET o POST RequestTimeoutMilliseconds -&gt; (integer) [required] The maximum time, in milliseconds, that MediaTailor waits for a response from the AWS service. If the call exceeds this timeout, MediaTailor sets the response status code to null and proceeds with output expression evaluation. Valid values: 100 to 2000 . Url -&gt; (string) [required] An expression that evaluates to the endpoint URL for the target AWS service API operation. Use {%...%} delimiters for dynamic expressions. The URL must correspond to a valid endpoint for the service specified in TargetService . The maximum length after evaluation is 2,048 characters. Body -&gt; (string) An expression that evaluates to the request body for the AWS service API call. The body must conform to the input format that the target service operation expects. Applies only when the tar- get operation accepts a request body. The maximum size after evaluation is 64 KB. Headers -&gt; (map) A map of HTTP header names to expression values. MediaTailor evaluates each header value expression at runtime and includes the result in the outbound request to the AWS service. Use this to pass any headers required by the target service operation. You can include a maximum of 50 headers. key -&gt; (string) value -&gt; (string) TargetService -&gt; (string) [required] The AWS service to call. Valid value: elemental-inference (AWS Elemental Inference). Constraints: o min: 1 o max: 63 o pattern: [a-z0-9-]+ TargetRegion -&gt; (string) [required] The AWS Region for the target service. Specify a static Region code (for example, us-east-1 ) or a JSONata expression that re- solves to a Region code at runtime (for example, {%inference.re- gion%} ). Constraints: o min: 1 o max: 256 Shorthand Syntax: Runtime=string,Output={KeyName1=string,KeyName2=string},MethodType=string,RequestTimeoutMilliseconds=integer,Url=string,Body=string,Headers={KeyName1=string,KeyName2=string},TargetService=string,TargetRegion=string JSON Syntax: { "Runtime": "JSONATA", "Output": {"string": "string" ...}, "MethodType": "GET"|"POST", "RequestTimeoutMilliseconds": integer, "Url": "string", "Body": "string", "Headers": {"string": "string" ...}, "TargetService": "string", "TargetRegion": "string" }
+    /// </summary>
+    [CliOption("--aws-service-request-configuration")]
+    public string? AwsServiceRequestConfiguration { get; set; }
 
     /// <summary>
     /// The configuration for a CUSTOM_OUTPUT function. Specifies the run- time and output expressions. Required when FunctionType is CUS- TOM_OUTPUT . Runtime -&gt; (string) [required] The expression language used to evaluate expressions in the function configuration. Set this to JSONata . Possible values: o JSONATA Output -&gt; (map) A map of output bindings. Each key is a namespaced output path (such as player_params.device_type or temp.variant ), and each value is an expression that MediaTailor evaluates at runtime against the current session state. For more information about expression syntax, see JSONata expression reference in the Medi- aTailor User Guide . key -&gt; (string) value -&gt; (string) Shorthand Syntax: Runtime=string,Output={KeyName1=string,KeyName2=string} JSON Syntax: { "Runtime": "JSONATA", "Output": {"string": "string" ...} }
@@ -59,6 +109,12 @@ public record AwsMediatailorPutFunctionOptions : AwsOptions
     public string? SequentialExecutorConfiguration { get; set; }
 
     /// <summary>
+    /// The configuration for a VAST_REQUEST function. Specifies the HTTP method, URL, headers, body, timeout, and output expressions. Re- quired when FunctionType is VAST_REQUEST . Runtime -&gt; (string) [required] The expression language used to evaluate expressions in the function configuration. Set this to JSONata . Possible values: o JSONATA Output -&gt; (map) A map of output bindings. Each key is a namespaced output path (such as temp.wrappedAds ), and each value is an expression that MediaTailor evaluates at runtime. Output expressions in a VAST_REQUEST function can reference the response object, which exposes response.parsedAds the ads parsed from the VAST re- sponse after schema validation and wrapper resolution and re- sponse.statusCode . For more information about expression syn- tax, see JSONata expression reference in the MediaTailor User Guide . key -&gt; (string) value -&gt; (string) MethodType -&gt; (string) [required] The HTTP method for the request to the VAST endpoint. Valid val- ues: GET and POST . Use POST to send a bid request body, such as an OpenRTB payload. Possible values: o GET o POST RequestTimeoutMilliseconds -&gt; (integer) [required] The maximum time, in milliseconds, that MediaTailor waits for a response from the VAST endpoint. The timeout covers the entire response, including any wrapper redirects that MediaTailor fol- lows. If the call exceeds this timeout, MediaTailor proceeds with an empty ad list and continues output expression evalua- tion. Valid values: 100 to 2000 . Url -&gt; (string) [required] An expression that evaluates to the VAST endpoint URL. Use {%...%} delimiters for dynamic expressions. A literal value must be an https:// URL. The expression can be up to 25,000 charac- ters, and the URL after evaluation can be up to 2,048 charac- ters. Body -&gt; (string) An expression that evaluates to the request body, for example to send an OpenRTB bid request. The expression can be up to 100,000 characters, and the body after evaluation can be up to 64 KB. Headers -&gt; (map) A map of HTTP header names to expression values. MediaTailor evaluates each header value expression at runtime and includes the result in the outbound request. Headers beginning with X-Amz- are reserved by the service, and method override headers are not allowed. key -&gt; (string) value -&gt; (string) Shorthand Syntax: Runtime=string,Output={KeyName1=string,KeyName2=string},MethodType=string,RequestTimeoutMilliseconds=integer,Url=string,Body=string,Headers={KeyName1=string,KeyName2=string} JSON Syntax: { "Runtime": "JSONATA", "Output": {"string": "string" ...}, "MethodType": "GET"|"POST", "RequestTimeoutMilliseconds": integer, "Url": "string", "Body": "string", "Headers": {"string": "string" ...} }
+    /// </summary>
+    [CliOption("--vast-request-configuration")]
+    public string? VastRequestConfiguration { get; set; }
+
+    /// <summary>
     /// The tags to assign to the function. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources . key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
@@ -69,5 +125,22 @@ public record AwsMediatailorPutFunctionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

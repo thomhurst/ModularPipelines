@@ -10,25 +10,87 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a channel for CloudTrail to ingest events from a partner or ex- ternal source. After you create a channel, a CloudTrail Lake event data store can log events from the partner or source that you specify. See also: AWS API Documentation
+/// WARNING: CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see CloudTrail Lake availability change . Creates a channel for CloudTrail to ingest events from a partner or ex- ternal source. After you create a channel, a CloudTrail Lake event data store can log events from the partner or source that you specify. See al...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudtrail", "create-channel")]
-public record AwsCloudtrailCreateChannelOptions : AwsOptions
+public record AwsCloudtrailCreateChannelOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// WARNING: CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see CloudTrail Lake availability change . Creates a channel for CloudTrail to ingest events from a partner or ex- ternal source. After you create a channel, a CloudTrail Lake event data store can log events from the partner or source that you specify. See al...
+    /// </summary>
+    /// <param name="Name">The name of the channel. Constraints: o min: 3 o max: 128 o pattern: ^[a-zA-Z0-9._\-]+$</param>
+    /// <param name="Source">The name of the partner or external event source. You cannot change this name after you create the channel. A maximum of one channel is allowed per source. A source can be either Custom for all valid non-Amazon Web Services events, or the name of a partner event source. For information about the source names for available partners, see Additional information about integration partners in the CloudTrail User Guide. Constraints: o min: 1 o max: 256 o pattern: .*</param>
+    /// <param name="Destinations">One or more event data stores to which events arriving through a channel will be logged. Constraints: o min: 1 o max: 200 (structure) Contains information about the destination receiving events. Type -&gt; (string) [required] The type of destination for events arriving from a channel. For channels used for a CloudTrail Lake integration, the value is EVENT_DATA_STORE . For service-linked channels, the value is AWS_SERVICE . Possible values: o EVENT_DATA_STORE o AWS_SERVICE Location -&gt; (string) [required] For channels used for a CloudTrail Lake integration, the lo- cation is the ARN of an event data store that receives events from a channel. For service-linked channels, the location is the name of the Amazon Web Services service. Constraints: o min: 3 o max: 1024 o pattern: ^[a-zA-Z0-9._/\-:*]+$ Shorthand Syntax: Type=string,Location=string ... JSON Syntax: [ { "Type": "EVENT_DATA_STORE"|"AWS_SERVICE", "Location": "string" } ... ]</param>
+    public AwsCloudtrailCreateChannelOptions(
+        string Name,
+        string Source,
+        IEnumerable<string> Destinations
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Source);
+        this.Source = Source;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Destinations);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Destinations));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Destinations));
+            }
+
+            Destinations = materialized;
+        }
+        this.Destinations = Destinations;
+    }
+
+    private AwsCloudtrailCreateChannelOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudtrailCreateChannelOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudtrailCreateChannelOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the channel. Constraints: o min: 3 o max: 128 o pattern: ^[a-zA-Z0-9._\-]+$
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The name of the partner or external event source. You cannot change this name after you create the channel. A maximum of one channel is allowed per source. A source can be either Custom for all valid non-Amazon Web Services events, or the name of a partner event source. For information about the source names for available partners, see Additional information about integration partners in the CloudTrail User Guide. Constraints: o min: 1 o max: 256 o pattern: .*
+    /// </summary>
     [CliOption("--source")]
-    public string? Source { get; set; }
+    public string? Source { get; private init; }
 
+    /// <summary>
+    /// One or more event data stores to which events arriving through a channel will be logged. Constraints: o min: 1 o max: 200 (structure) Contains information about the destination receiving events. Type -&gt; (string) [required] The type of destination for events arriving from a channel. For channels used for a CloudTrail Lake integration, the value is EVENT_DATA_STORE . For service-linked channels, the value is AWS_SERVICE . Possible values: o EVENT_DATA_STORE o AWS_SERVICE Location -&gt; (string) [required] For channels used for a CloudTrail Lake integration, the lo- cation is the ARN of an event data store that receives events from a channel. For service-linked channels, the location is the name of the Amazon Web Services service. Constraints: o min: 3 o max: 1024 o pattern: ^[a-zA-Z0-9._/\-:*]+$ Shorthand Syntax: Type=string,Location=string ... JSON Syntax: [ { "Type": "EVENT_DATA_STORE"|"AWS_SERVICE", "Location": "string" } ... ]
+    /// </summary>
     [CliOption("--destinations", GroupValues = true)]
-    public IEnumerable<string>? Destinations { get; set; }
+    public IEnumerable<string>? Destinations { get; private init; }
 
     /// <summary>
     /// A list of tags. Constraints: o max: 200 (structure) A custom key-value pair associated with a resource such as a CloudTrail trail, event data store, dashboard, or channel. Key -&gt; (string) [required] The key in a key-value pair. The key must be must be no longer than 128 Unicode characters. The key must be unique for the resource to which it applies. Constraints: o min: 1 o max: 128 Value -&gt; (string) The value in a key-value pair of a tag. The value must be no longer than 256 Unicode characters. Constraints: o min: 1 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -41,5 +103,22 @@ public record AwsCloudtrailCreateChannelOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

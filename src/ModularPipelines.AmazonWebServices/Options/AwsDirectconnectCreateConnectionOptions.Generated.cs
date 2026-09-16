@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("directconnect", "create-connection")]
-public record AwsDirectconnectCreateConnectionOptions : AwsOptions
+public record AwsDirectconnectCreateConnectionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a connection between a customer network and a specific Direct Connect location. A connection links your internal network to an Direct Connect location over a standard Ethernet fiber-optic cable. One end of the cable is connected to your router, the other to an Direct Connect router. To find the locations for your Region, use DescribeLocations . You can automatically add the new connection to a link aggregation group (LAG) by specifying a LAG ID in the request. This ensures that the new c...
+    /// </summary>
+    /// <param name="Location">The location of the connection.</param>
+    /// <param name="Bandwidth">The bandwidth of the connection.</param>
+    /// <param name="ConnectionName">The name of the connection.</param>
+    public AwsDirectconnectCreateConnectionOptions(
+        string Location,
+        string Bandwidth,
+        string ConnectionName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        global::System.ArgumentNullException.ThrowIfNull(Bandwidth);
+        this.Bandwidth = Bandwidth;
+        global::System.ArgumentNullException.ThrowIfNull(ConnectionName);
+        this.ConnectionName = ConnectionName;
+    }
+
+    private AwsDirectconnectCreateConnectionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDirectconnectCreateConnectionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDirectconnectCreateConnectionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The location of the connection.
+    /// </summary>
     [CliOption("--location")]
-    public string? Location { get; set; }
+    public string? Location { get; private init; }
 
+    /// <summary>
+    /// The bandwidth of the connection.
+    /// </summary>
     [CliOption("--bandwidth")]
-    public string? Bandwidth { get; set; }
+    public string? Bandwidth { get; private init; }
 
+    /// <summary>
+    /// The name of the connection.
+    /// </summary>
     [CliOption("--connection-name")]
-    public string? ConnectionName { get; set; }
+    public string? ConnectionName { get; private init; }
 
     /// <summary>
     /// The ID of the LAG.
@@ -48,13 +100,39 @@ public record AwsDirectconnectCreateConnectionOptions : AwsOptions
     [CliOption("--provider-name")]
     public string? ProviderName { get; set; }
 
-    [CliFlag("--request-mac-sec")]
+    /// <summary>
+    /// Indicates whether you want the connection to support MAC Security (MACsec). MAC Security (MACsec) is unavailable on hosted connections. For in- formation about MAC Security (MACsec) prerequisites, see MAC Secu- rity in Direct Connect in the Direct Connect User Guide .
+    /// </summary>
+    [CliFlag("--request-mac-sec", NegatedName = "--no-request-mac-sec")]
     public bool? RequestMacSec { get; set; }
+
+    /// <summary>
+    /// The billing mode for the connection. Possible values: o PayAsYouGo o FlatRateTier1 o FlatRateTier2 o FlatRateTier3 o FlatRateTier4 o FlatRateTier5
+    /// </summary>
+    [CliOption("--billing-mode")]
+    public AwsDirectconnectCreateConnectionBillingMode? BillingMode { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

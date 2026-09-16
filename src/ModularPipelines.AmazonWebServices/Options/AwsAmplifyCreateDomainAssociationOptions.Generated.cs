@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +20,83 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("amplify", "create-domain-association")]
-public record AwsAmplifyCreateDomainAssociationOptions : AwsOptions
+public record AwsAmplifyCreateDomainAssociationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new domain association for an Amplify app. This action asso- ciates a custom domain with the Amplify app See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AppId">The unique ID for an Amplify app. Constraints: o min: 1 o max: 20 o pattern: d[a-z0-9]+</param>
+    /// <param name="DomainName">The domain name for the domain association. Constraints: o max: 64 o pattern: ^(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])(\.)?$</param>
+    /// <param name="SubDomainSettings">The setting for the subdomain. Constraints: o max: 500 (structure) Describes the settings for the subdomain. prefix -&gt; (string) [required] The prefix setting for the subdomain. Constraints: o max: 255 o pattern: (?s).* branchName -&gt; (string) [required] The branch name setting for the subdomain. Constraints: o min: 1 o max: 255 o pattern: (?s).+ Shorthand Syntax: prefix=string,branchName=string ... JSON Syntax: [ { "prefix": "string", "branchName": "string" } ... ]</param>
+    public AwsAmplifyCreateDomainAssociationOptions(
+        string AppId,
+        string DomainName,
+        IEnumerable<string> SubDomainSettings
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AppId);
+        this.AppId = AppId;
+        global::System.ArgumentNullException.ThrowIfNull(DomainName);
+        this.DomainName = DomainName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SubDomainSettings);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SubDomainSettings));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SubDomainSettings));
+            }
+
+            SubDomainSettings = materialized;
+        }
+        this.SubDomainSettings = SubDomainSettings;
+    }
+
+    private AwsAmplifyCreateDomainAssociationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAmplifyCreateDomainAssociationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAmplifyCreateDomainAssociationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique ID for an Amplify app. Constraints: o min: 1 o max: 20 o pattern: d[a-z0-9]+
+    /// </summary>
     [CliOption("--app-id")]
-    public string? AppId { get; set; }
+    public string? AppId { get; private init; }
 
+    /// <summary>
+    /// The domain name for the domain association. Constraints: o max: 64 o pattern: ^(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])(\.)?$
+    /// </summary>
     [CliOption("--domain-name")]
-    public string? DomainName { get; set; }
+    public string? DomainName { get; private init; }
 
-    [CliFlag("--enable-auto-sub-domain")]
-    public bool? EnableAutoSubDomain { get; set; }
-
+    /// <summary>
+    /// The setting for the subdomain. Constraints: o max: 500 (structure) Describes the settings for the subdomain. prefix -&gt; (string) [required] The prefix setting for the subdomain. Constraints: o max: 255 o pattern: (?s).* branchName -&gt; (string) [required] The branch name setting for the subdomain. Constraints: o min: 1 o max: 255 o pattern: (?s).+ Shorthand Syntax: prefix=string,branchName=string ... JSON Syntax: [ { "prefix": "string", "branchName": "string" } ... ]
+    /// </summary>
     [CliOption("--sub-domain-settings", GroupValues = true)]
-    public IEnumerable<string>? SubDomainSettings { get; set; }
+    public IEnumerable<string>? SubDomainSettings { get; private init; }
+
+    /// <summary>
+    /// Enables the automated creation of subdomains for branches.
+    /// </summary>
+    [CliFlag("--enable-auto-sub-domain", NegatedName = "--no-enable-auto-sub-domain")]
+    public bool? EnableAutoSubDomain { get; set; }
 
     /// <summary>
     /// Sets the branch patterns for automatic subdomain creation. (string) Constraints: o min: 1 o max: 2048 o pattern: (?s).+ Syntax: "string" "string" ...
@@ -56,5 +121,22 @@ public record AwsAmplifyCreateDomainAssociationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

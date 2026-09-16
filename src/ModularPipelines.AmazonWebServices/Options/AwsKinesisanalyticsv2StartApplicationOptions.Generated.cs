@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kinesisanalyticsv2", "start-application")]
-public record AwsKinesisanalyticsv2StartApplicationOptions : AwsOptions
+public record AwsKinesisanalyticsv2StartApplicationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts the specified Managed Service for Apache Flink application. Af- ter creating an application, you must exclusively call this operation to start your application. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationName">The name of the application. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+</param>
+    public AwsKinesisanalyticsv2StartApplicationOptions(
+        string ApplicationName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationName);
+        this.ApplicationName = ApplicationName;
+    }
+
+    private AwsKinesisanalyticsv2StartApplicationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKinesisanalyticsv2StartApplicationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKinesisanalyticsv2StartApplicationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the application. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
     [CliOption("--application-name")]
-    public string? ApplicationName { get; set; }
+    public string? ApplicationName { get; private init; }
 
     /// <summary>
     /// Identifies the run configuration (start parameters) of a Managed Service for Apache Flink application. FlinkRunConfiguration -&gt; (structure) Describes the starting parameters for a Managed Service for Apache Flink application. AllowNonRestoredState -&gt; (boolean) When restoring from a snapshot, specifies whether the runtime is allowed to skip a state that cannot be mapped to the new program. This will happen if the program is updated between snapshots to remove stateful parameters, and state data in the snapshot no longer corresponds to valid application data. For more information, see Allowing Non-Restored State in the Apache Flink documentation . NOTE: This value defaults to false . If you update your appli- cation without specifying this parameter, AllowNonRe- storedState will be set to false , even if it was previ- ously set to true . SqlRunConfigurations -&gt; (list) Describes the starting parameters for a SQL-based Kinesis Data Analytics application application. (structure) Describes the starting parameters for a SQL-based Kinesis Data Analytics application. InputId -&gt; (string) [required] The input source ID. You can get this ID by calling the DescribeApplication operation. Constraints: o min: 1 o max: 50 o pattern: [a-zA-Z0-9_.-]+ InputStartingPositionConfiguration -&gt; (structure) [required] The point at which you want the application to start pro- cessing records from the streaming source. InputStartingPosition -&gt; (string) The starting position on the stream. o NOW - Start reading just after the most recent record in the stream, and start at the request time- stamp that the customer issued. o TRIM_HORIZON - Start reading at the last untrimmed record in the stream, which is the oldest record available in the stream. This option is not avail- able for an Amazon Kinesis Data Firehose delivery stream. o LAST_STOPPED_POINT - Resume reading from where the application last stopped reading. Possible values: o NOW o TRIM_HORIZON o LAST_STOPPED_POINT ApplicationRestoreConfiguration -&gt; (structure) Describes the restore behavior of a restarting application. ApplicationRestoreType -&gt; (string) [required] Specifies how the application should be restored. Possible values: o SKIP_RESTORE_FROM_SNAPSHOT o RESTORE_FROM_LATEST_SNAPSHOT o RESTORE_FROM_CUSTOM_SNAPSHOT SnapshotName -&gt; (string) The identifier of an existing snapshot of application state to use to restart an application. The application uses this value if RESTORE_FROM_CUSTOM_SNAPSHOT is specified for the ApplicationRestoreType . Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_.-]+ JSON Syntax: { "FlinkRunConfiguration": { "AllowNonRestoredState": true|false }, "SqlRunConfigurations": [ { "InputId": "string", "InputStartingPositionConfiguration": { "InputStartingPosition": "NOW"|"TRIM_HORIZON"|"LAST_STOPPED_POINT" } } ... ], "ApplicationRestoreConfiguration": { "ApplicationRestoreType": "SKIP_RESTORE_FROM_SNAPSHOT"|"RESTORE_FROM_LATEST_SNAPSHOT"|"RESTORE_FROM_CUSTOM_SNAPSHOT", "SnapshotName": "string" } }
@@ -35,5 +72,22 @@ public record AwsKinesisanalyticsv2StartApplicationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

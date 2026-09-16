@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("networkflowmonitor", "update-scope")]
-public record AwsNetworkflowmonitorUpdateScopeOptions : AwsOptions
+public record AwsNetworkflowmonitorUpdateScopeOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Update a scope to add or remove resources that you want to be available for Network Flow Monitor to generate metrics for, when you have active agents on those resources sending metrics reports to the Network Flow Monitor backend. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ScopeId">The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identi- fier that includes all the resources for a specific root account.</param>
+    public AwsNetworkflowmonitorUpdateScopeOptions(
+        string ScopeId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ScopeId);
+        this.ScopeId = ScopeId;
+    }
+
+    private AwsNetworkflowmonitorUpdateScopeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNetworkflowmonitorUpdateScopeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNetworkflowmonitorUpdateScopeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identi- fier that includes all the resources for a specific root account.
+    /// </summary>
     [CliOption("--scope-id")]
-    public string? ScopeId { get; set; }
+    public string? ScopeId { get; private init; }
 
     /// <summary>
     /// A list of resources to add to a scope. Constraints: o min: 1 o max: 99 (structure) A target resource in a scope. The resource is identified by a Region and an account, defined by a target identifier. A target identifier is made up of a target ID (currently always an ac- count ID) and a target type (currently always ACCOUNT ). targetIdentifier -&gt; (structure) [required] A target identifier is a pair of identifying information for a scope. A target identifier is made up of a targetID (cur- rently always an account ID) and a targetType (currently al- ways an account). targetId -&gt; (tagged union structure) [required] The identifier for a target, which is currently always an account ID . NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: accountId. accountId -&gt; (string) The identifier for the account for a target. Constraints: o min: 1 o max: 12 o pattern: [0-9]{12} targetType -&gt; (string) [required] The type of a target. A target type is currently always ACCOUNT . Possible values: o ACCOUNT region -&gt; (string) [required] The Amazon Web Services Region for the scope. Shorthand Syntax: targetIdentifier={targetId={accountId=string},targetType=string},region=string ... JSON Syntax: [ { "targetIdentifier": { "targetId": { "accountId": "string" }, "targetType": "ACCOUNT" }, "region": "string" } ... ]
@@ -41,5 +78,22 @@ public record AwsNetworkflowmonitorUpdateScopeOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

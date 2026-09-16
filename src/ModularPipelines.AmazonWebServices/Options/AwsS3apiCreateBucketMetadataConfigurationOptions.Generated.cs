@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3api", "create-bucket-metadata-configuration")]
-public record AwsS3apiCreateBucketMetadataConfigurationOptions : AwsOptions
+public record AwsS3apiCreateBucketMetadataConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an S3 Metadata V2 metadata configuration for a general purpose bucket. For more information, see Accelerating data discovery with S3 Metadata in the Amazon S3 User Guide . Permissions To use this operation, you must have the following permissions. For more information, see Setting up permissions for configuring metadata tables in the Amazon S3 User Guide . If you want to encrypt your metadata tables with server-side encryption with Key Management Service (KMS) keys (SSE-KMS), you need ad...
+    /// </summary>
+    /// <param name="Bucket">The general purpose bucket that you want to create the metadata con- figuration for.</param>
+    /// <param name="MetadataConfiguration">The contents of your metadata configuration. JournalTableConfiguration -&gt; (structure) [required] The journal table configuration for a metadata configuration. RecordExpiration -&gt; (structure) [required] The journal table record expiration settings for the journal table. Expiration -&gt; (string) [required] Specifies whether journal table record expiration is en- abled or disabled. Possible values: o ENABLED o DISABLED Days -&gt; (integer) If you enable journal table record expiration, you can set the number of days to retain your journal table records. Journal table records must be retained for a minimum of 7 days. To set this value, specify any whole number from 7 to 2147483647 . For example, to retain your journal table records for one year, set this value to 365 . EncryptionConfiguration -&gt; (structure) The encryption configuration for the journal table. SseAlgorithm -&gt; (string) [required] The encryption type specified for a metadata table. To specify server-side encryption with Key Management Ser- vice (KMS) keys (SSE-KMS), use the aws:kms value. To specify server-side encryption with Amazon S3 managed keys (SSE-S3), use the AES256 value. Possible values: o aws:kms o AES256 KmsKeyArn -&gt; (string) If server-side encryption with Key Management Service (KMS) keys (SSE-KMS) is specified, you must also specify the KMS key Amazon Resource Name (ARN). You must specify a customer-managed KMS key that's located in the same Re- gion as the general purpose bucket that corresponds to the metadata table configuration. InventoryTableConfiguration -&gt; (structure) The inventory table configuration for a metadata configuration. ConfigurationState -&gt; (string) [required] The configuration state of the inventory table, indicating whether the inventory table is enabled or disabled. Possible values: o ENABLED o DISABLED EncryptionConfiguration -&gt; (structure) The encryption configuration for the inventory table. SseAlgorithm -&gt; (string) [required] The encryption type specified for a metadata table. To specify server-side encryption with Key Management Ser- vice (KMS) keys (SSE-KMS), use the aws:kms value. To specify server-side encryption with Amazon S3 managed keys (SSE-S3), use the AES256 value. Possible values: o aws:kms o AES256 KmsKeyArn -&gt; (string) If server-side encryption with Key Management Service (KMS) keys (SSE-KMS) is specified, you must also specify the KMS key Amazon Resource Name (ARN). You must specify a customer-managed KMS key that's located in the same Re- gion as the general purpose bucket that corresponds to the metadata table configuration. AnnotationTableConfiguration -&gt; (structure) Optional annotation table configuration to include with the metadata configuration. ConfigurationState -&gt; (string) [required] The state of the annotation table. Valid values are ENABLED and DISABLED . Possible values: o ENABLED o DISABLED EncryptionConfiguration -&gt; (structure) The encryption settings for an S3 Metadata journal table or inventory table configuration. SseAlgorithm -&gt; (string) [required] The encryption type specified for a metadata table. To specify server-side encryption with Key Management Ser- vice (KMS) keys (SSE-KMS), use the aws:kms value. To specify server-side encryption with Amazon S3 managed keys (SSE-S3), use the AES256 value. Possible values: o aws:kms o AES256 KmsKeyArn -&gt; (string) If server-side encryption with Key Management Service (KMS) keys (SSE-KMS) is specified, you must also specify the KMS key Amazon Resource Name (ARN). You must specify a customer-managed KMS key that's located in the same Re- gion as the general purpose bucket that corresponds to the metadata table configuration. Role -&gt; (string) The ARN of the IAM role used to manage the annotation table. Shorthand Syntax: JournalTableConfiguration={RecordExpiration={Expiration=string,Days=integer},EncryptionConfiguration={SseAlgorithm=string,KmsKeyArn=string}},InventoryTableConfiguration={ConfigurationState=string,EncryptionConfiguration={SseAlgorithm=string,KmsKeyArn=string}},AnnotationTableConfiguration={ConfigurationState=string,EncryptionConfiguration={SseAlgorithm=string,KmsKeyArn=string},Role=string} JSON Syntax: { "JournalTableConfiguration": { "RecordExpiration": { "Expiration": "ENABLED"|"DISABLED", "Days": integer }, "EncryptionConfiguration": { "SseAlgorithm": "aws:kms"|"AES256", "KmsKeyArn": "string" } }, "InventoryTableConfiguration": { "ConfigurationState": "ENABLED"|"DISABLED", "EncryptionConfiguration": { "SseAlgorithm": "aws:kms"|"AES256", "KmsKeyArn": "string" } }, "AnnotationTableConfiguration": { "ConfigurationState": "ENABLED"|"DISABLED", "EncryptionConfiguration": { "SseAlgorithm": "aws:kms"|"AES256", "KmsKeyArn": "string" }, "Role": "string" } }</param>
+    public AwsS3apiCreateBucketMetadataConfigurationOptions(
+        string Bucket,
+        string MetadataConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Bucket);
+        this.Bucket = Bucket;
+        global::System.ArgumentNullException.ThrowIfNull(MetadataConfiguration);
+        this.MetadataConfiguration = MetadataConfiguration;
+    }
+
+    private AwsS3apiCreateBucketMetadataConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3apiCreateBucketMetadataConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3apiCreateBucketMetadataConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The general purpose bucket that you want to create the metadata con- figuration for.
+    /// </summary>
     [CliOption("--bucket")]
-    public string? Bucket { get; set; }
+    public string? Bucket { get; private init; }
+
+    /// <summary>
+    /// The contents of your metadata configuration. JournalTableConfiguration -&gt; (structure) [required] The journal table configuration for a metadata configuration. RecordExpiration -&gt; (structure) [required] The journal table record expiration settings for the journal table. Expiration -&gt; (string) [required] Specifies whether journal table record expiration is en- abled or disabled. Possible values: o ENABLED o DISABLED Days -&gt; (integer) If you enable journal table record expiration, you can set the number of days to retain your journal table records. Journal table records must be retained for a minimum of 7 days. To set this value, specify any whole number from 7 to 2147483647 . For example, to retain your journal table records for one year, set this value to 365 . EncryptionConfiguration -&gt; (structure) The encryption configuration for the journal table. SseAlgorithm -&gt; (string) [required] The encryption type specified for a metadata table. To specify server-side encryption with Key Management Ser- vice (KMS) keys (SSE-KMS), use the aws:kms value. To specify server-side encryption with Amazon S3 managed keys (SSE-S3), use the AES256 value. Possible values: o aws:kms o AES256 KmsKeyArn -&gt; (string) If server-side encryption with Key Management Service (KMS) keys (SSE-KMS) is specified, you must also specify the KMS key Amazon Resource Name (ARN). You must specify a customer-managed KMS key that's located in the same Re- gion as the general purpose bucket that corresponds to the metadata table configuration. InventoryTableConfiguration -&gt; (structure) The inventory table configuration for a metadata configuration. ConfigurationState -&gt; (string) [required] The configuration state of the inventory table, indicating whether the inventory table is enabled or disabled. Possible values: o ENABLED o DISABLED EncryptionConfiguration -&gt; (structure) The encryption configuration for the inventory table. SseAlgorithm -&gt; (string) [required] The encryption type specified for a metadata table. To specify server-side encryption with Key Management Ser- vice (KMS) keys (SSE-KMS), use the aws:kms value. To specify server-side encryption with Amazon S3 managed keys (SSE-S3), use the AES256 value. Possible values: o aws:kms o AES256 KmsKeyArn -&gt; (string) If server-side encryption with Key Management Service (KMS) keys (SSE-KMS) is specified, you must also specify the KMS key Amazon Resource Name (ARN). You must specify a customer-managed KMS key that's located in the same Re- gion as the general purpose bucket that corresponds to the metadata table configuration. AnnotationTableConfiguration -&gt; (structure) Optional annotation table configuration to include with the metadata configuration. ConfigurationState -&gt; (string) [required] The state of the annotation table. Valid values are ENABLED and DISABLED . Possible values: o ENABLED o DISABLED EncryptionConfiguration -&gt; (structure) The encryption settings for an S3 Metadata journal table or inventory table configuration. SseAlgorithm -&gt; (string) [required] The encryption type specified for a metadata table. To specify server-side encryption with Key Management Ser- vice (KMS) keys (SSE-KMS), use the aws:kms value. To specify server-side encryption with Amazon S3 managed keys (SSE-S3), use the AES256 value. Possible values: o aws:kms o AES256 KmsKeyArn -&gt; (string) If server-side encryption with Key Management Service (KMS) keys (SSE-KMS) is specified, you must also specify the KMS key Amazon Resource Name (ARN). You must specify a customer-managed KMS key that's located in the same Re- gion as the general purpose bucket that corresponds to the metadata table configuration. Role -&gt; (string) The ARN of the IAM role used to manage the annotation table. Shorthand Syntax: JournalTableConfiguration={RecordExpiration={Expiration=string,Days=integer},EncryptionConfiguration={SseAlgorithm=string,KmsKeyArn=string}},InventoryTableConfiguration={ConfigurationState=string,EncryptionConfiguration={SseAlgorithm=string,KmsKeyArn=string}},AnnotationTableConfiguration={ConfigurationState=string,EncryptionConfiguration={SseAlgorithm=string,KmsKeyArn=string},Role=string} JSON Syntax: { "JournalTableConfiguration": { "RecordExpiration": { "Expiration": "ENABLED"|"DISABLED", "Days": integer }, "EncryptionConfiguration": { "SseAlgorithm": "aws:kms"|"AES256", "KmsKeyArn": "string" } }, "InventoryTableConfiguration": { "ConfigurationState": "ENABLED"|"DISABLED", "EncryptionConfiguration": { "SseAlgorithm": "aws:kms"|"AES256", "KmsKeyArn": "string" } }, "AnnotationTableConfiguration": { "ConfigurationState": "ENABLED"|"DISABLED", "EncryptionConfiguration": { "SseAlgorithm": "aws:kms"|"AES256", "KmsKeyArn": "string" }, "Role": "string" } }
+    /// </summary>
+    [CliOption("--metadata-configuration")]
+    public string? MetadataConfiguration { get; private init; }
 
     /// <summary>
     /// The Content-MD5 header for the metadata configuration.
@@ -37,9 +84,6 @@ public record AwsS3apiCreateBucketMetadataConfigurationOptions : AwsOptions
     [CliOption("--checksum-algorithm")]
     public AwsS3apiCreateBucketMetadataConfigurationChecksumAlgorithm? ChecksumAlgorithm { get; set; }
 
-    [CliOption("--metadata-configuration")]
-    public string? MetadataConfiguration { get; set; }
-
     /// <summary>
     /// The expected owner of the general purpose bucket that corresponds to your metadata configuration.
     /// </summary>
@@ -51,5 +95,22 @@ public record AwsS3apiCreateBucketMetadataConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

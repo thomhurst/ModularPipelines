@@ -11,35 +11,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --actiontype.
+/// Allowed values for --action-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCustomerProfilesListProfileHistoryRecordsActionType
 {
     [EnumValue("ADDED_PROFILE_KEY")]
-    AddedProfileKey = 1,
-
-    [EnumValue("DELETED_PROFILE_KEY")]
-    DeletedProfileKey = 2,
+    AddedProfileKey,
 
     [EnumValue("CREATED")]
-    Created = 3,
-
-    [EnumValue("UPDATED")]
-    Updated = 4,
-
-    [EnumValue("INGESTED")]
-    Ingested = 5,
+    Created,
 
     [EnumValue("DELETED_BY_CUSTOMER")]
-    DeletedByCustomer = 6,
-
-    [EnumValue("EXPIRED")]
-    Expired = 7,
-
-    [EnumValue("MERGED")]
-    Merged = 8,
+    DeletedByCustomer,
 
     [EnumValue("DELETED_BY_MERGE")]
-    DeletedByMerge = 9
+    DeletedByMerge,
+
+    [EnumValue("DELETED_PROFILE_KEY")]
+    DeletedProfileKey,
+
+    [EnumValue("EXPIRED")]
+    Expired,
+
+    [EnumValue("INGESTED")]
+    Ingested,
+
+    [EnumValue("MERGED")]
+    Merged,
+
+    [EnumValue("UPDATED")]
+    Updated
 }

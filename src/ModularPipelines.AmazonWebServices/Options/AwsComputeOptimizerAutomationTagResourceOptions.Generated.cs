@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute-optimizer-automation", "tag-resource")]
-public record AwsComputeOptimizerAutomationTagResourceOptions : AwsOptions
+public record AwsComputeOptimizerAutomationTagResourceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Adds tags to the specified resource. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceArn">The ARN of the resource to tag. Constraints: o pattern: arn:aws:compute-optimizer::[0-9]{12}:automa- tion-rule/[a-zA-Z0-9_-]+</param>
+    /// <param name="RuleRevision">The revision number of the automation rule to tag. This ensures you're tagging the correct version of the rule.</param>
+    /// <param name="Tags">The tags to add to the resource. Constraints: o min: 0 o max: 200 (structure) A key-value pair used to categorize and organize Amazon Web Ser- vices resources and automation rules. key -&gt; (string) [required] The tag key, which can be up to 128 characters long. Constraints: o min: 1 o max: 128 o pattern: [\w\s\.\-\:\/\=\+\@]+ value -&gt; (string) [required] The tag value, which can be up to 256 characters long. Constraints: o min: 0 o max: 256 o pattern: [\w\s\.\-\:\/\=\+\@]* Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]</param>
+    public AwsComputeOptimizerAutomationTagResourceOptions(
+        string ResourceArn,
+        int RuleRevision,
+        IEnumerable<string> Tags
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
+        this.ResourceArn = ResourceArn;
+        this.RuleRevision = RuleRevision;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Tags);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Tags));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Tags));
+            }
+
+            Tags = materialized;
+        }
+        this.Tags = Tags;
+    }
+
+    private AwsComputeOptimizerAutomationTagResourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsComputeOptimizerAutomationTagResourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsComputeOptimizerAutomationTagResourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the resource to tag. Constraints: o pattern: arn:aws:compute-optimizer::[0-9]{12}:automa- tion-rule/[a-zA-Z0-9_-]+
+    /// </summary>
     [CliOption("--resource-arn")]
-    public string? ResourceArn { get; set; }
+    public string? ResourceArn { get; private init; }
 
+    /// <summary>
+    /// The revision number of the automation rule to tag. This ensures you're tagging the correct version of the rule.
+    /// </summary>
     [CliOption("--rule-revision")]
-    public int? RuleRevision { get; set; }
+    public int? RuleRevision { get; private init; }
 
+    /// <summary>
+    /// The tags to add to the resource. Constraints: o min: 0 o max: 200 (structure) A key-value pair used to categorize and organize Amazon Web Ser- vices resources and automation rules. key -&gt; (string) [required] The tag key, which can be up to 128 characters long. Constraints: o min: 1 o max: 128 o pattern: [\w\s\.\-\:\/\=\+\@]+ value -&gt; (string) [required] The tag value, which can be up to 256 characters long. Constraints: o min: 0 o max: 256 o pattern: [\w\s\.\-\:\/\=\+\@]* Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// </summary>
     [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    public IEnumerable<string>? Tags { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Must be 1-64 characters long and contain only alphanumeric characters, underscores, and hyphens. Constraints: o pattern: [a-zA-Z0-9_-]{1,64}
@@ -43,5 +104,22 @@ public record AwsComputeOptimizerAutomationTagResourceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

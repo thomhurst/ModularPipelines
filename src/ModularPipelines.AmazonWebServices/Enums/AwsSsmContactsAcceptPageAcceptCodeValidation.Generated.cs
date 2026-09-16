@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --acceptcodevalidation.
+/// Allowed values for --accept-code-validation.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSsmContactsAcceptPageAcceptCodeValidation
 {
-    [EnumValue("IGNORE")]
-    Ignore = 1,
-
     [EnumValue("ENFORCE")]
-    Enforce = 2
+    Enforce,
+
+    [EnumValue("IGNORE")]
+    Ignore
 }

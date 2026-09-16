@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("networkmanager", "start-route-analysis")]
-public record AwsNetworkmanagerStartRouteAnalysisOptions : AwsOptions
+public record AwsNetworkmanagerStartRouteAnalysisOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts analyzing the routing path between the specified source and des- tination. For more information, see Route Analyzer . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="GlobalNetworkId">The ID of the global network. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*</param>
+    /// <param name="Source">The source from which traffic originates. TransitGatewayAttachmentArn -&gt; (string) The ARN of the transit gateway attachment. Constraints: o min: 0 o max: 500 o pattern: [\s\S]* IpAddress -&gt; (string) The IP address. Constraints: o min: 1 o max: 50 o pattern: [\s\S]* Shorthand Syntax: TransitGatewayAttachmentArn=string,IpAddress=string JSON Syntax: { "TransitGatewayAttachmentArn": "string", "IpAddress": "string" }</param>
+    /// <param name="Destination">The destination. TransitGatewayAttachmentArn -&gt; (string) The ARN of the transit gateway attachment. Constraints: o min: 0 o max: 500 o pattern: [\s\S]* IpAddress -&gt; (string) The IP address. Constraints: o min: 1 o max: 50 o pattern: [\s\S]* Shorthand Syntax: TransitGatewayAttachmentArn=string,IpAddress=string JSON Syntax: { "TransitGatewayAttachmentArn": "string", "IpAddress": "string" }</param>
+    public AwsNetworkmanagerStartRouteAnalysisOptions(
+        string GlobalNetworkId,
+        string Source,
+        string Destination
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GlobalNetworkId);
+        this.GlobalNetworkId = GlobalNetworkId;
+        global::System.ArgumentNullException.ThrowIfNull(Source);
+        this.Source = Source;
+        global::System.ArgumentNullException.ThrowIfNull(Destination);
+        this.Destination = Destination;
+    }
+
+    private AwsNetworkmanagerStartRouteAnalysisOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNetworkmanagerStartRouteAnalysisOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNetworkmanagerStartRouteAnalysisOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the global network. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*
+    /// </summary>
     [CliOption("--global-network-id")]
-    public string? GlobalNetworkId { get; set; }
+    public string? GlobalNetworkId { get; private init; }
 
+    /// <summary>
+    /// The source from which traffic originates. TransitGatewayAttachmentArn -&gt; (string) The ARN of the transit gateway attachment. Constraints: o min: 0 o max: 500 o pattern: [\s\S]* IpAddress -&gt; (string) The IP address. Constraints: o min: 1 o max: 50 o pattern: [\s\S]* Shorthand Syntax: TransitGatewayAttachmentArn=string,IpAddress=string JSON Syntax: { "TransitGatewayAttachmentArn": "string", "IpAddress": "string" }
+    /// </summary>
     [CliOption("--source")]
-    public string? Source { get; set; }
+    public string? Source { get; private init; }
 
+    /// <summary>
+    /// The destination. TransitGatewayAttachmentArn -&gt; (string) The ARN of the transit gateway attachment. Constraints: o min: 0 o max: 500 o pattern: [\s\S]* IpAddress -&gt; (string) The IP address. Constraints: o min: 1 o max: 50 o pattern: [\s\S]* Shorthand Syntax: TransitGatewayAttachmentArn=string,IpAddress=string JSON Syntax: { "TransitGatewayAttachmentArn": "string", "IpAddress": "string" }
+    /// </summary>
     [CliOption("--destination")]
-    public string? Destination { get; set; }
+    public string? Destination { get; private init; }
 
-    [CliFlag("--include-return-path")]
+    /// <summary>
+    /// Indicates whether to analyze the return path. The default is false .
+    /// </summary>
+    [CliFlag("--include-return-path", NegatedName = "--no-include-return-path")]
     public bool? IncludeReturnPath { get; set; }
 
-    [CliFlag("--use-middleboxes")]
+    /// <summary>
+    /// Indicates whether to include the location of middlebox appliances in the route analysis. The default is false .
+    /// </summary>
+    [CliFlag("--use-middleboxes", NegatedName = "--no-use-middleboxes")]
     public bool? UseMiddleboxes { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -41,5 +98,22 @@ public record AwsNetworkmanagerStartRouteAnalysisOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lambda", "update-function-code")]
-public record AwsLambdaUpdateFunctionCodeOptions : AwsOptions
+public record AwsLambdaUpdateFunctionCodeOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a Lambda function's code. If code signing is enabled for the function, the code package must be signed by a trusted publisher. For more information, see Configuring code signing for Lambda . If the function's package type is Image , then you must specify the code package in ImageUri as the URI of a container image in the Amazon ECR registry. If the function's package type is Zip , then you must specify the de- ployment package as a .zip file archive . Enter the Amazon S3 bucket and key o...
+    /// </summary>
+    /// <param name="FunctionName">The name or ARN of the Lambda function. Name formats o Function name my-function . o Function ARN arn:aws:lambda:us-west-2:123456789012:func- tion:my-function . o Partial ARN 123456789012:function:my-function . The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length. Constraints: o min: 1 o max: 140 o pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(func- tion:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?</param>
+    public AwsLambdaUpdateFunctionCodeOptions(
+        string FunctionName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FunctionName);
+        this.FunctionName = FunctionName;
+    }
+
+    private AwsLambdaUpdateFunctionCodeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLambdaUpdateFunctionCodeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLambdaUpdateFunctionCodeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name or ARN of the Lambda function. Name formats o Function name my-function . o Function ARN arn:aws:lambda:us-west-2:123456789012:func- tion:my-function . o Partial ARN 123456789012:function:my-function . The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length. Constraints: o min: 1 o max: 140 o pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(func- tion:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?
+    /// </summary>
     [CliOption("--function-name")]
-    public string? FunctionName { get; set; }
+    public string? FunctionName { get; private init; }
 
     /// <summary>
     /// The path to the zip file of the {param_type} you are uploading. Specify --zip-file or --{param_type}, but not both. Example: fileb://{param_type}.zip
@@ -53,7 +90,7 @@ public record AwsLambdaUpdateFunctionCodeOptions : AwsOptions
     /// Specifies how the deployment package is stored. Valid values: o COPY (default) Uploads a copy of your deployment package to Lambda. o REFERENCE Lambda references the deployment package from the spec- ified Amazon S3 bucket. Possible values: o COPY o REFERENCE
     /// </summary>
     [CliOption("--s3-object-storage-mode")]
-    public AwsLambdaUpdateFunctionCodeS3ObjectStorageMode? S3ObjectStorageMode { get; set; }
+    public string? S3ObjectStorageMode { get; set; }
 
     /// <summary>
     /// URI of a container image in the Amazon ECR registry. Do not use for a function defined with a .zip file archive.
@@ -67,7 +104,10 @@ public record AwsLambdaUpdateFunctionCodeOptions : AwsOptions
     [CliOption("--architectures", GroupValues = true)]
     public IEnumerable<string>? Architectures { get; set; }
 
-    [CliFlag("--publish")]
+    /// <summary>
+    /// Set to true to publish a new version of the function after updating the code. This has the same effect as calling PublishVersion sepa- rately.
+    /// </summary>
+    [CliFlag("--publish", NegatedName = "--no-publish")]
     public bool? Publish { get; set; }
 
     /// <summary>
@@ -76,7 +116,10 @@ public record AwsLambdaUpdateFunctionCodeOptions : AwsOptions
     [CliOption("--publish-to")]
     public AwsLambdaUpdateFunctionCodePublishTo? PublishTo { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Set to true to validate the request parameters and access permis- sions without modifying the function code.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -96,5 +139,22 @@ public record AwsLambdaUpdateFunctionCodeOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

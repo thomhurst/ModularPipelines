@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --filemode.
+/// Allowed values for --file-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCodecommitPutFileFileMode
 {
     [EnumValue("EXECUTABLE")]
-    Executable = 1,
+    Executable,
 
     [EnumValue("NORMAL")]
-    Normal = 2,
+    Normal,
 
     [EnumValue("SYMLINK")]
-    Symlink = 3
+    Symlink
 }

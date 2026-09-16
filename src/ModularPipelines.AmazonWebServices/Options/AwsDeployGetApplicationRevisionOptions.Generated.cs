@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deploy", "get-application-revision")]
-public record AwsDeployGetApplicationRevisionOptions : AwsOptions
+public record AwsDeployGetApplicationRevisionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Gets information about an application revision. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationName">The name of the application that corresponds to the revision. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9+=,.@_-]*</param>
+    public AwsDeployGetApplicationRevisionOptions(
+        string ApplicationName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationName);
+        this.ApplicationName = ApplicationName;
+    }
+
+    private AwsDeployGetApplicationRevisionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDeployGetApplicationRevisionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDeployGetApplicationRevisionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the application that corresponds to the revision. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9+=,.@_-]*
+    /// </summary>
     [CliOption("--application-name")]
-    public string? ApplicationName { get; set; }
+    public string? ApplicationName { get; private init; }
 
     /// <summary>
     /// Information about the application revision to get, including type and location. revisionType -&gt; (string) The type of application revision: o S3: An application revision stored in Amazon S3. o GitHub: An application revision stored in GitHub (EC2/On-premises deployments only). o String: A YAML-formatted or JSON-formatted string (Lambda de- ployments only). o AppSpecContent: An AppSpecContent object that contains the contents of an AppSpec file for an Lambda or Amazon ECS de- ployment. The content is formatted as JSON or YAML stored as a RawString. Possible values: o S3 o GitHub o String o AppSpecContent s3Location -&gt; (structure) Information about the location of a revision stored in Amazon S3. bucket -&gt; (string) The name of the Amazon S3 bucket where the application revi- sion is stored. key -&gt; (string) The name of the Amazon S3 object that represents the bundled artifacts for the application revision. bundleType -&gt; (string) The file type of the application revision. Must be one of the following: o tar : A tar archive file. o tgz : A compressed tar archive file. o zip : A zip archive file. o YAML : A YAML-formatted file. o JSON : A JSON-formatted file. Possible values: o tar o tgz o zip o YAML o JSON version -&gt; (string) A specific version of the Amazon S3 object that represents the bundled artifacts for the application revision. If the version is not specified, the system uses the most re- cent version by default. eTag -&gt; (string) The ETag of the Amazon S3 object that represents the bundled artifacts for the application revision. If the ETag is not specified as an input parameter, ETag val- idation of the object is skipped. gitHubLocation -&gt; (structure) Information about the location of application artifacts stored in GitHub. repository -&gt; (string) The GitHub account and repository pair that stores a refer- ence to the commit that represents the bundled artifacts for the application revision. Specified as account/repository. commitId -&gt; (string) The SHA1 commit ID of the GitHub commit that represents the bundled artifacts for the application revision. string -&gt; (structure) Information about the location of an Lambda deployment revision stored as a RawString. content -&gt; (string) The YAML-formatted or JSON-formatted revision string. It in- cludes information about which Lambda function to update and optional Lambda functions that validate deployment lifecycle events. sha256 -&gt; (string) The SHA256 hash value of the revision content. appSpecContent -&gt; (structure) The content of an AppSpec file for an Lambda or Amazon ECS de- ployment. The content is formatted as JSON or YAML and stored as a RawString. content -&gt; (string) The YAML-formatted or JSON-formatted revision string. For an Lambda deployment, the content includes a Lambda func- tion name, the alias for its original version, and the alias for its replacement version. The deployment shifts traffic from the original version of the Lambda function to the re- placement version. For an Amazon ECS deployment, the content includes the task name, information about the load balancer that serves traffic to the container, and more. For both types of deployments, the content can specify Lambda functions that run at specified hooks, such as BeforeInstall , during a deployment. sha256 -&gt; (string) The SHA256 hash value of the revision content. Shorthand Syntax: revisionType=string,s3Location={bucket=string,key=string,bundleType=string,version=string,eTag=string},gitHubLocation={repository=string,commitId=string},string={content=string,sha256=string},appSpecContent={content=string,sha256=string} JSON Syntax: { "revisionType": "S3"|"GitHub"|"String"|"AppSpecContent", "s3Location": { "bucket": "string", "key": "string", "bundleType": "tar"|"tgz"|"zip"|"YAML"|"JSON", "version": "string", "eTag": "string" }, "gitHubLocation": { "repository": "string", "commitId": "string" }, "string": { "content": "string", "sha256": "string" }, "appSpecContent": { "content": "string", "sha256": "string" } }
@@ -41,5 +78,22 @@ public record AwsDeployGetApplicationRevisionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

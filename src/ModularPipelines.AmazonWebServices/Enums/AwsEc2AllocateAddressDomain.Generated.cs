@@ -16,9 +16,9 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEc2AllocateAddressDomain
 {
-    [EnumValue("vpc")]
-    Vpc = 1,
-
     [EnumValue("standard")]
-    Standard = 2
+    Standard,
+
+    [EnumValue("vpc")]
+    Vpc
 }

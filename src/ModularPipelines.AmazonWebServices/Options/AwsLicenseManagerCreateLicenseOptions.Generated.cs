@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,44 +21,154 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("license-manager", "create-license")]
-public record AwsLicenseManagerCreateLicenseOptions : AwsOptions
+public record AwsLicenseManagerCreateLicenseOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a license. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LicenseName">License name.</param>
+    /// <param name="ProductName">Product name.</param>
+    /// <param name="ProductSku">Product SKU.</param>
+    /// <param name="Issuer">License issuer. Name -&gt; (string) [required] Issuer name. SignKey -&gt; (string) Asymmetric KMS key from Key Management Service. The KMS key must have a key usage of sign and verify, and support the RSASSA-PSS SHA-256 signing algorithm. Shorthand Syntax: Name=string,SignKey=string JSON Syntax: { "Name": "string", "SignKey": "string" }</param>
+    /// <param name="HomeRegion">Home Region for the license.</param>
+    /// <param name="Validity">Date and time range during which the license is valid, in ISO8601-UTC format. Begin -&gt; (string) [required] Start of the time range. Constraints: o max: 50 o pattern: ^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[0-1]|0[1-9]|[1-2][0-9])T(2[0-3]|[0-1][0-9]):([0-5][0-9]):([0-5][0-9])(\.[0-9]+)?(Z|[+-](?:2[ 0-3]|[0-1][0-9]):[0-5][0-9])+$ End -&gt; (string) End of the time range. Constraints: o max: 50 o pattern: ^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[0-1]|0[1-9]|[1-2][0-9])T(2[0-3]|[0-1][0-9]):([0-5][0-9]):([0-5][0-9])(\.[0-9]+)?(Z|[+-](?:2[ 0-3]|[0-1][0-9]):[0-5][0-9])+$ Shorthand Syntax: Begin=string,End=string JSON Syntax: { "Begin": "string", "End": "string" }</param>
+    /// <param name="Entitlements">License entitlements. (structure) Describes a resource entitled for use with a license. Name -&gt; (string) [required] Entitlement name. Value -&gt; (string) Entitlement resource. Use only if the unit is None. MaxCount -&gt; (long) Maximum entitlement count. Use if the unit is not None. Overage -&gt; (boolean) Indicates whether overages are allowed. Unit -&gt; (string) [required] Entitlement unit. Possible values: o Count o None o Seconds o Microseconds o Milliseconds o Bytes o Kilobytes o Megabytes o Gigabytes o Terabytes o Bits o Kilobits o Megabits o Gigabits o Terabits o Percent o Bytes/Second o Kilobytes/Second o Megabytes/Second o Gigabytes/Second o Terabytes/Second o Bits/Second o Kilobits/Second o Megabits/Second o Gigabits/Second o Terabits/Second o Count/Second AllowCheckIn -&gt; (boolean) Indicates whether check-ins are allowed. Shorthand Syntax: Name=string,Value=string,MaxCount=long,Overage=boolean,Unit=string,AllowCheckIn=boolean ... JSON Syntax: [ { "Name": "string", "Value": "string", "MaxCount": long, "Overage": true|false, "Unit": "Count"|"None"|"Seconds"|"Microseconds"|"Milliseconds"|"Bytes"|"Kilobytes"|"Megabytes"|"Gigabytes"|"Terabytes"|"Bits"|"Kilobits"|"Megabits"|"Gigabits"|"Terabits"|"Percent"|"Bytes/Second"|"Kilobytes/Second"|"Megabytes/Second"|"Gigabytes/Second"|"Terabytes/Second"|"Bits/Second"|"Kilobits/Second"|"Megabits/Second"|"Gigabits/Second"|"Terabits/Second"|"Count/Second", "AllowCheckIn": true|false } ... ]</param>
+    /// <param name="Beneficiary">License beneficiary.</param>
+    /// <param name="ConsumptionConfiguration">Configuration for consumption of the license. Choose a provisional configuration for workloads running with continuous connectivity. Choose a borrow configuration for workloads with offline usage. RenewType -&gt; (string) Renewal frequency. Possible values: o None o Weekly o Monthly ProvisionalConfiguration -&gt; (structure) Details about a provisional configuration. MaxTimeToLiveInMinutes -&gt; (integer) [required] Maximum time for the provisional configuration, in minutes. BorrowConfiguration -&gt; (structure) Details about a borrow configuration. AllowEarlyCheckIn -&gt; (boolean) [required] Indicates whether early check-ins are allowed. MaxTimeToLiveInMinutes -&gt; (integer) [required] Maximum time for the borrow configuration, in minutes. Shorthand Syntax: RenewType=string,ProvisionalConfiguration={MaxTimeToLiveInMinutes=integer},BorrowConfiguration={AllowEarlyCheckIn=boolean,MaxTimeToLiveInMinutes=integer} JSON Syntax: { "RenewType": "None"|"Weekly"|"Monthly", "ProvisionalConfiguration": { "MaxTimeToLiveInMinutes": integer }, "BorrowConfiguration": { "AllowEarlyCheckIn": true|false, "MaxTimeToLiveInMinutes": integer } }</param>
+    /// <param name="ClientToken">Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o max: 2048 o pattern: \S+</param>
+    public AwsLicenseManagerCreateLicenseOptions(
+        string LicenseName,
+        string ProductName,
+        string ProductSku,
+        string Issuer,
+        string HomeRegion,
+        string Validity,
+        IEnumerable<string> Entitlements,
+        string Beneficiary,
+        string ConsumptionConfiguration,
+        string ClientToken
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LicenseName);
+        this.LicenseName = LicenseName;
+        global::System.ArgumentNullException.ThrowIfNull(ProductName);
+        this.ProductName = ProductName;
+        global::System.ArgumentNullException.ThrowIfNull(ProductSku);
+        this.ProductSku = ProductSku;
+        global::System.ArgumentNullException.ThrowIfNull(Issuer);
+        this.Issuer = Issuer;
+        global::System.ArgumentNullException.ThrowIfNull(HomeRegion);
+        this.HomeRegion = HomeRegion;
+        global::System.ArgumentNullException.ThrowIfNull(Validity);
+        this.Validity = Validity;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Entitlements);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Entitlements));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Entitlements));
+            }
+
+            Entitlements = materialized;
+        }
+        this.Entitlements = Entitlements;
+        global::System.ArgumentNullException.ThrowIfNull(Beneficiary);
+        this.Beneficiary = Beneficiary;
+        global::System.ArgumentNullException.ThrowIfNull(ConsumptionConfiguration);
+        this.ConsumptionConfiguration = ConsumptionConfiguration;
+        global::System.ArgumentNullException.ThrowIfNull(ClientToken);
+        this.ClientToken = ClientToken;
+    }
+
+    private AwsLicenseManagerCreateLicenseOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLicenseManagerCreateLicenseOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLicenseManagerCreateLicenseOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// License name.
+    /// </summary>
     [CliOption("--license-name")]
-    public string? LicenseName { get; set; }
+    public string? LicenseName { get; private init; }
 
+    /// <summary>
+    /// Product name.
+    /// </summary>
     [CliOption("--product-name")]
-    public string? ProductName { get; set; }
+    public string? ProductName { get; private init; }
 
+    /// <summary>
+    /// Product SKU.
+    /// </summary>
     [CliOption("--product-sku")]
-    public string? ProductSku { get; set; }
+    public string? ProductSku { get; private init; }
 
+    /// <summary>
+    /// License issuer. Name -&gt; (string) [required] Issuer name. SignKey -&gt; (string) Asymmetric KMS key from Key Management Service. The KMS key must have a key usage of sign and verify, and support the RSASSA-PSS SHA-256 signing algorithm. Shorthand Syntax: Name=string,SignKey=string JSON Syntax: { "Name": "string", "SignKey": "string" }
+    /// </summary>
     [CliOption("--issuer")]
-    public string? Issuer { get; set; }
+    public string? Issuer { get; private init; }
 
+    /// <summary>
+    /// Home Region for the license.
+    /// </summary>
     [CliOption("--home-region")]
-    public string? HomeRegion { get; set; }
+    public string? HomeRegion { get; private init; }
 
+    /// <summary>
+    /// Date and time range during which the license is valid, in ISO8601-UTC format. Begin -&gt; (string) [required] Start of the time range. Constraints: o max: 50 o pattern: ^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[0-1]|0[1-9]|[1-2][0-9])T(2[0-3]|[0-1][0-9]):([0-5][0-9]):([0-5][0-9])(\.[0-9]+)?(Z|[+-](?:2[ 0-3]|[0-1][0-9]):[0-5][0-9])+$ End -&gt; (string) End of the time range. Constraints: o max: 50 o pattern: ^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[0-1]|0[1-9]|[1-2][0-9])T(2[0-3]|[0-1][0-9]):([0-5][0-9]):([0-5][0-9])(\.[0-9]+)?(Z|[+-](?:2[ 0-3]|[0-1][0-9]):[0-5][0-9])+$ Shorthand Syntax: Begin=string,End=string JSON Syntax: { "Begin": "string", "End": "string" }
+    /// </summary>
     [CliOption("--validity")]
-    public string? Validity { get; set; }
+    public string? Validity { get; private init; }
 
+    /// <summary>
+    /// License entitlements. (structure) Describes a resource entitled for use with a license. Name -&gt; (string) [required] Entitlement name. Value -&gt; (string) Entitlement resource. Use only if the unit is None. MaxCount -&gt; (long) Maximum entitlement count. Use if the unit is not None. Overage -&gt; (boolean) Indicates whether overages are allowed. Unit -&gt; (string) [required] Entitlement unit. Possible values: o Count o None o Seconds o Microseconds o Milliseconds o Bytes o Kilobytes o Megabytes o Gigabytes o Terabytes o Bits o Kilobits o Megabits o Gigabits o Terabits o Percent o Bytes/Second o Kilobytes/Second o Megabytes/Second o Gigabytes/Second o Terabytes/Second o Bits/Second o Kilobits/Second o Megabits/Second o Gigabits/Second o Terabits/Second o Count/Second AllowCheckIn -&gt; (boolean) Indicates whether check-ins are allowed. Shorthand Syntax: Name=string,Value=string,MaxCount=long,Overage=boolean,Unit=string,AllowCheckIn=boolean ... JSON Syntax: [ { "Name": "string", "Value": "string", "MaxCount": long, "Overage": true|false, "Unit": "Count"|"None"|"Seconds"|"Microseconds"|"Milliseconds"|"Bytes"|"Kilobytes"|"Megabytes"|"Gigabytes"|"Terabytes"|"Bits"|"Kilobits"|"Megabits"|"Gigabits"|"Terabits"|"Percent"|"Bytes/Second"|"Kilobytes/Second"|"Megabytes/Second"|"Gigabytes/Second"|"Terabytes/Second"|"Bits/Second"|"Kilobits/Second"|"Megabits/Second"|"Gigabits/Second"|"Terabits/Second"|"Count/Second", "AllowCheckIn": true|false } ... ]
+    /// </summary>
     [CliOption("--entitlements", GroupValues = true)]
-    public IEnumerable<string>? Entitlements { get; set; }
+    public IEnumerable<string>? Entitlements { get; private init; }
 
+    /// <summary>
+    /// License beneficiary.
+    /// </summary>
     [CliOption("--beneficiary")]
-    public string? Beneficiary { get; set; }
+    public string? Beneficiary { get; private init; }
 
+    /// <summary>
+    /// Configuration for consumption of the license. Choose a provisional configuration for workloads running with continuous connectivity. Choose a borrow configuration for workloads with offline usage. RenewType -&gt; (string) Renewal frequency. Possible values: o None o Weekly o Monthly ProvisionalConfiguration -&gt; (structure) Details about a provisional configuration. MaxTimeToLiveInMinutes -&gt; (integer) [required] Maximum time for the provisional configuration, in minutes. BorrowConfiguration -&gt; (structure) Details about a borrow configuration. AllowEarlyCheckIn -&gt; (boolean) [required] Indicates whether early check-ins are allowed. MaxTimeToLiveInMinutes -&gt; (integer) [required] Maximum time for the borrow configuration, in minutes. Shorthand Syntax: RenewType=string,ProvisionalConfiguration={MaxTimeToLiveInMinutes=integer},BorrowConfiguration={AllowEarlyCheckIn=boolean,MaxTimeToLiveInMinutes=integer} JSON Syntax: { "RenewType": "None"|"Weekly"|"Monthly", "ProvisionalConfiguration": { "MaxTimeToLiveInMinutes": integer }, "BorrowConfiguration": { "AllowEarlyCheckIn": true|false, "MaxTimeToLiveInMinutes": integer } }
+    /// </summary>
     [CliOption("--consumption-configuration")]
-    public string? ConsumptionConfiguration { get; set; }
+    public string? ConsumptionConfiguration { get; private init; }
+
+    /// <summary>
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o max: 2048 o pattern: \S+
+    /// </summary>
+    [SecretValue]
+    [CliOption("--client-token")]
+    public string? ClientToken { get; private init; }
 
     /// <summary>
     /// Information about the license. (structure) Describes key/value pairs. Name -&gt; (string) The key name. Value -&gt; (string) The value. Shorthand Syntax: Name=string,Value=string ... JSON Syntax: [ { "Name": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--license-metadata", GroupValues = true)]
     public IEnumerable<string>? LicenseMetadata { get; set; }
-
-    [SecretValue]
-    [CliOption("--client-token")]
-    public string? ClientToken { get; set; }
 
     /// <summary>
     /// Tags to add to the license. For more information about tagging sup- port in License Manager, see the TagResource operation. (structure) Details about the tags for a resource. For more information about tagging support in License Manager, see the TagResource operation. Key -&gt; (string) The tag key. Value -&gt; (string) The tag value. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -70,5 +181,22 @@ public record AwsLicenseManagerCreateLicenseOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

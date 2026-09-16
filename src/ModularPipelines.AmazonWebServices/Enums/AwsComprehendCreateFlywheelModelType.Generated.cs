@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --modeltype.
+/// Allowed values for --model-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsComprehendCreateFlywheelModelType
 {
     [EnumValue("DOCUMENT_CLASSIFIER")]
-    DocumentClassifier = 1,
+    DocumentClassifier,
 
     [EnumValue("ENTITY_RECOGNIZER")]
-    EntityRecognizer = 2
+    EntityRecognizer
 }

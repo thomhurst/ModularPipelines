@@ -11,32 +11,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --associationstatus.
+/// Allowed values for --association-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsRamGetResourceShareAssociationsAssociationStatus
 {
-    [EnumValue("ASSOCIATING")]
-    Associating = 1,
-
     [EnumValue("ASSOCIATED")]
-    Associated = 2,
+    Associated,
 
-    [EnumValue("FAILED")]
-    Failed = 3,
-
-    [EnumValue("DISASSOCIATING")]
-    Disassociating = 4,
+    [EnumValue("ASSOCIATING")]
+    Associating,
 
     [EnumValue("DISASSOCIATED")]
-    Disassociated = 5,
+    Disassociated,
 
-    [EnumValue("SUSPENDED")]
-    Suspended = 6,
+    [EnumValue("DISASSOCIATING")]
+    Disassociating,
 
-    [EnumValue("SUSPENDING")]
-    Suspending = 7,
+    [EnumValue("FAILED")]
+    Failed,
 
     [EnumValue("RESTORING")]
-    Restoring = 8
+    Restoring,
+
+    [EnumValue("SUSPENDED")]
+    Suspended,
+
+    [EnumValue("SUSPENDING")]
+    Suspending
 }

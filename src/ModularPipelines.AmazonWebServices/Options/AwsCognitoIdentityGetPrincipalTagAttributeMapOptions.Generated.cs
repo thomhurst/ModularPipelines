@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognito-identity", "get-principal-tag-attribute-map")]
-public record AwsCognitoIdentityGetPrincipalTagAttributeMapOptions : AwsOptions
+public record AwsCognitoIdentityGetPrincipalTagAttributeMapOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--identity-pool-id")]
-    public string? IdentityPoolId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Use GetPrincipalTagAttributeMap to list all mappings between Principal- Tags and user attributes. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="IdentityPoolId">You can use this operation to get the ID of the Identity Pool you setup attribute mappings for. Constraints: o min: 1 o max: 55 o pattern: [\w-]+:[0-9a-f-]+</param>
+    /// <param name="IdentityProviderName">You can use this operation to get the provider name. Constraints: o min: 1 o max: 128</param>
+    public AwsCognitoIdentityGetPrincipalTagAttributeMapOptions(
+        string IdentityPoolId,
+        string IdentityProviderName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IdentityPoolId);
+        this.IdentityPoolId = IdentityPoolId;
+        global::System.ArgumentNullException.ThrowIfNull(IdentityProviderName);
+        this.IdentityProviderName = IdentityProviderName;
+    }
+
+    private AwsCognitoIdentityGetPrincipalTagAttributeMapOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCognitoIdentityGetPrincipalTagAttributeMapOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCognitoIdentityGetPrincipalTagAttributeMapOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// You can use this operation to get the ID of the Identity Pool you setup attribute mappings for. Constraints: o min: 1 o max: 55 o pattern: [\w-]+:[0-9a-f-]+
+    /// </summary>
+    [CliOption("--identity-pool-id")]
+    public string? IdentityPoolId { get; private init; }
+
+    /// <summary>
+    /// You can use this operation to get the provider name. Constraints: o min: 1 o max: 128
+    /// </summary>
     [CliOption("--identity-provider-name")]
-    public string? IdentityProviderName { get; set; }
+    public string? IdentityProviderName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

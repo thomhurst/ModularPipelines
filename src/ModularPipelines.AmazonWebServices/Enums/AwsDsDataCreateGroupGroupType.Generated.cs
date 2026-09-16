@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --grouptype.
+/// Allowed values for --group-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDsDataCreateGroupGroupType
 {
     [EnumValue("Distribution")]
-    Distribution = 1,
+    Distribution,
 
     [EnumValue("Security")]
-    Security = 2
+    Security
 }

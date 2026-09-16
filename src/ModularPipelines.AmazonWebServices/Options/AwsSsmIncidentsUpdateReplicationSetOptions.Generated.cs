@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm-incidents", "update-replication-set")]
-public record AwsSsmIncidentsUpdateReplicationSetOptions : AwsOptions
+public record AwsSsmIncidentsUpdateReplicationSetOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--actions", GroupValues = true)]
-    public IEnumerable<string>? Actions { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Add or delete Regions from your replication set. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Actions">An action to add or delete a Region. Constraints: o min: 1 o max: 1 (tagged union structure) Details used when updating the replication set. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: addRegionAction, deleteRegionAc- tion. addRegionAction -&gt; (structure) Details about the Amazon Web Services Region that you're adding to the replication set. regionName -&gt; (string) [required] The Amazon Web Services Region name to add to the repli- cation set. Constraints: o min: 0 o max: 20 sseKmsKeyId -&gt; (string) The KMS key ID to use to encrypt your replication set. Constraints: o min: 0 o max: 2048 deleteRegionAction -&gt; (structure) Details about the Amazon Web Services Region that you're deleting to the replication set. regionName -&gt; (string) [required] The name of the Amazon Web Services Region you're delet- ing from the replication set. Constraints: o min: 0 o max: 20 Shorthand Syntax: addRegionAction={regionName=string,sseKmsKeyId=string},deleteRegionAction={regionName=string} ... JSON Syntax: [ { "addRegionAction": { "regionName": "string", "sseKmsKeyId": "string" }, "deleteRegionAction": { "regionName": "string" } } ... ]</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the replication set you're updat- ing. Constraints: o min: 0 o max: 1000 o pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$</param>
+    public AwsSsmIncidentsUpdateReplicationSetOptions(
+        IEnumerable<string> Actions,
+        string Arn
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Actions);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Actions));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Actions));
+            }
+
+            Actions = materialized;
+        }
+        this.Actions = Actions;
+        global::System.ArgumentNullException.ThrowIfNull(Arn);
+        this.Arn = Arn;
+    }
+
+    private AwsSsmIncidentsUpdateReplicationSetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmIncidentsUpdateReplicationSetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmIncidentsUpdateReplicationSetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// An action to add or delete a Region. Constraints: o min: 1 o max: 1 (tagged union structure) Details used when updating the replication set. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: addRegionAction, deleteRegionAc- tion. addRegionAction -&gt; (structure) Details about the Amazon Web Services Region that you're adding to the replication set. regionName -&gt; (string) [required] The Amazon Web Services Region name to add to the repli- cation set. Constraints: o min: 0 o max: 20 sseKmsKeyId -&gt; (string) The KMS key ID to use to encrypt your replication set. Constraints: o min: 0 o max: 2048 deleteRegionAction -&gt; (structure) Details about the Amazon Web Services Region that you're deleting to the replication set. regionName -&gt; (string) [required] The name of the Amazon Web Services Region you're delet- ing from the replication set. Constraints: o min: 0 o max: 20 Shorthand Syntax: addRegionAction={regionName=string,sseKmsKeyId=string},deleteRegionAction={regionName=string} ... JSON Syntax: [ { "addRegionAction": { "regionName": "string", "sseKmsKeyId": "string" }, "deleteRegionAction": { "regionName": "string" } } ... ]
+    /// </summary>
+    [CliOption("--actions", GroupValues = true)]
+    public IEnumerable<string>? Actions { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the replication set you're updat- ing. Constraints: o min: 0 o max: 1000 o pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$
+    /// </summary>
     [CliOption("--arn")]
-    public string? Arn { get; set; }
+    public string? Arn { get; private init; }
 
     /// <summary>
     /// A token that ensures that the operation is called only once with the specified details. Constraints: o min: 0 o max: 128
@@ -40,5 +95,22 @@ public record AwsSsmIncidentsUpdateReplicationSetOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

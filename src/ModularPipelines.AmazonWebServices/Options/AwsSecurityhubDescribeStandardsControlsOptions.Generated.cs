@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("securityhub", "describe-standards-controls")]
-public record AwsSecurityhubDescribeStandardsControlsOptions : AwsOptions
+public record AwsSecurityhubDescribeStandardsControlsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a list of security standards controls. For each control, the results include information about whether it is currently enabled, the severity, and a link to remediation information. This operation returns an empty list for standard subscriptions where StandardsControlsUpdatable has value NOT_READY_FOR_UPDATES . See also: AWS API Documentation describe-standards-controls is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You ca...
+    /// </summary>
+    /// <param name="StandardsSubscriptionArn">The ARN of a resource that represents your subscription to a sup- ported standard. To get the subscription ARNs of the standards you have enabled, use the GetEnabledStandards operation. Constraints: o pattern: .*\S.*</param>
+    public AwsSecurityhubDescribeStandardsControlsOptions(
+        string StandardsSubscriptionArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StandardsSubscriptionArn);
+        this.StandardsSubscriptionArn = StandardsSubscriptionArn;
+    }
+
+    private AwsSecurityhubDescribeStandardsControlsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSecurityhubDescribeStandardsControlsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSecurityhubDescribeStandardsControlsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of a resource that represents your subscription to a sup- ported standard. To get the subscription ARNs of the standards you have enabled, use the GetEnabledStandards operation. Constraints: o pattern: .*\S.*
+    /// </summary>
     [CliOption("--standards-subscription-arn")]
-    public string? StandardsSubscriptionArn { get; set; }
+    public string? StandardsSubscriptionArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -49,5 +86,22 @@ public record AwsSecurityhubDescribeStandardsControlsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

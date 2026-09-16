@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vpc-lattice", "list-rules")]
-public record AwsVpcLatticeListRulesOptions : AwsOptions
+public record AwsVpcLatticeListRulesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--service-identifier")]
-    public string? ServiceIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Lists the rules for the specified listener. See also: AWS API Documentation list-rules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: items
+    /// </summary>
+    /// <param name="ServiceIdentifier">The ID or ARN of the service. Constraints: o min: 17 o max: 2048 o pattern: ((svc-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:service/svc-[0-9a-z]{17}))</param>
+    /// <param name="ListenerIdentifier">The ID or ARN of the listener. Constraints: o min: 20 o max: 2048 o pattern: ((listener-[0-9a-z]{17})|(^arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:service/svc-[0-9a-z]{17}/listener/lis- tener-[0-9a-z]{17}$))</param>
+    public AwsVpcLatticeListRulesOptions(
+        string ServiceIdentifier,
+        string ListenerIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceIdentifier);
+        this.ServiceIdentifier = ServiceIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(ListenerIdentifier);
+        this.ListenerIdentifier = ListenerIdentifier;
+    }
+
+    private AwsVpcLatticeListRulesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsVpcLatticeListRulesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsVpcLatticeListRulesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID or ARN of the service. Constraints: o min: 17 o max: 2048 o pattern: ((svc-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:service/svc-[0-9a-z]{17}))
+    /// </summary>
+    [CliOption("--service-identifier")]
+    public string? ServiceIdentifier { get; private init; }
+
+    /// <summary>
+    /// The ID or ARN of the listener. Constraints: o min: 20 o max: 2048 o pattern: ((listener-[0-9a-z]{17})|(^arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:service/svc-[0-9a-z]{17}/listener/lis- tener-[0-9a-z]{17}$))
+    /// </summary>
     [CliOption("--listener-identifier")]
-    public string? ListenerIdentifier { get; set; }
+    public string? ListenerIdentifier { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -52,5 +96,22 @@ public record AwsVpcLatticeListRulesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

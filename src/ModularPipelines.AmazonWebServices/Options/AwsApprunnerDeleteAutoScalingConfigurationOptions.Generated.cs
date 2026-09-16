@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apprunner", "delete-auto-scaling-configuration")]
-public record AwsApprunnerDeleteAutoScalingConfigurationOptions : AwsOptions
+public record AwsApprunnerDeleteAutoScalingConfigurationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--auto-scaling-configuration-arn")]
-    public string? AutoScalingConfigurationArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--delete-all-revisions")]
+    /// <summary>
+    /// Delete an App Runner automatic scaling configuration resource. You can delete a top level auto scaling configuration, a specific revision of one, or all revisions associated with the top level configuration. You can't delete the default auto scaling configuration or a configuration that's used by one or more App Runner services. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AutoScalingConfigurationArn">The Amazon Resource Name (ARN) of the App Runner auto scaling con- figuration that you want to delete. The ARN can be a full auto scaling configuration ARN, or a partial ARN ending with either `` .../name `` or `` .../name /revision `` . If a revision isn't specified, the latest active revision is deleted. System Message: WARNING/2 (&lt;string&gt;:, line 73) Inline literal start-string without end-string. System Message: WARNING/2 (&lt;string&gt;:, line 73) Inline literal start-string without end-string. Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[\w]+)*:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[0-9]{12}:(\w|\/|-){1,1011}</param>
+    public AwsApprunnerDeleteAutoScalingConfigurationOptions(
+        string AutoScalingConfigurationArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AutoScalingConfigurationArn);
+        this.AutoScalingConfigurationArn = AutoScalingConfigurationArn;
+    }
+
+    private AwsApprunnerDeleteAutoScalingConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApprunnerDeleteAutoScalingConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApprunnerDeleteAutoScalingConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the App Runner auto scaling con- figuration that you want to delete. The ARN can be a full auto scaling configuration ARN, or a partial ARN ending with either `` .../name `` or `` .../name /revision `` . If a revision isn't specified, the latest active revision is deleted. System Message: WARNING/2 (&lt;string&gt;:, line 73) Inline literal start-string without end-string. System Message: WARNING/2 (&lt;string&gt;:, line 73) Inline literal start-string without end-string. Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[\w]+)*:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[0-9]{12}:(\w|\/|-){1,1011}
+    /// </summary>
+    [CliOption("--auto-scaling-configuration-arn")]
+    public string? AutoScalingConfigurationArn { get; private init; }
+
+    /// <summary>
+    /// Set to true to delete all of the revisions associated with the Au- toScalingConfigurationArn parameter value. When DeleteAllRevisions is set to true , the only valid value for the Amazon Resource Name (ARN) is a partial ARN ending with: .../name .
+    /// </summary>
+    [CliFlag("--delete-all-revisions", NegatedName = "--no-delete-all-revisions")]
     public bool? DeleteAllRevisions { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -32,5 +72,22 @@ public record AwsApprunnerDeleteAutoScalingConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

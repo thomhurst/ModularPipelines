@@ -16,15 +16,15 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsS3controlCreateBucketAcl
 {
+    [EnumValue("authenticated-read")]
+    AuthenticatedRead,
+
     [EnumValue("private")]
-    Private = 1,
+    Private,
 
     [EnumValue("public-read")]
-    PublicRead = 2,
+    PublicRead,
 
     [EnumValue("public-read-write")]
-    PublicReadWrite = 3,
-
-    [EnumValue("authenticated-read")]
-    AuthenticatedRead = 4
+    PublicReadWrite
 }

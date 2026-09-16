@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --stoptype.
+/// Allowed values for --stop-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEcsStopServiceDeploymentStopType
 {
     [EnumValue("ABORT")]
-    Abort = 1,
+    Abort,
 
     [EnumValue("ROLLBACK")]
-    Rollback = 2
+    Rollback
 }

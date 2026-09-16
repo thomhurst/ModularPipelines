@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,16 +21,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codeconnections", "create-connection")]
-public record AwsCodeconnectionsCreateConnectionOptions : AwsOptions
+public record AwsCodeconnectionsCreateConnectionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a connection that can then be given to other Amazon Web Ser- vices services like CodePipeline so that it can access third-party code repositories. The connection is in pending status until the third-party connection handshake is completed from the console. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ConnectionName">The name of the connection to be created. Constraints: o min: 1 o max: 32 o pattern: [\s\S]*</param>
+    public AwsCodeconnectionsCreateConnectionOptions(
+        string ConnectionName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConnectionName);
+        this.ConnectionName = ConnectionName;
+    }
+
+    private AwsCodeconnectionsCreateConnectionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodeconnectionsCreateConnectionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodeconnectionsCreateConnectionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the connection to be created. Constraints: o min: 1 o max: 32 o pattern: [\s\S]*
+    /// </summary>
+    [CliOption("--connection-name")]
+    public string? ConnectionName { get; private init; }
+
     /// <summary>
     /// The name of the external provider where your third-party code repos- itory is configured. Possible values: o Bitbucket o GitHub o GitHubEnterpriseServer o GitLab o GitLabSelfManaged o AzureDevOps
     /// </summary>
     [CliOption("--provider-type")]
     public AwsCodeconnectionsCreateConnectionProviderType? ProviderType { get; set; }
-
-    [CliOption("--connection-name")]
-    public string? ConnectionName { get; set; }
 
     /// <summary>
     /// The key-value pair to use when tagging the resource. Constraints: o min: 0 o max: 200 (structure) A tag is a key-value pair that is used to manage the resource. This tag is available for use by Amazon Web Services services that support tags. Key -&gt; (string) [required] The tag's key. Constraints: o min: 1 o max: 128 o pattern: .* Value -&gt; (string) [required] The tag's value. Constraints: o min: 0 o max: 256 o pattern: .* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -48,5 +85,22 @@ public record AwsCodeconnectionsCreateConnectionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

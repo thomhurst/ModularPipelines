@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,22 +20,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datazone", "create-environment-blueprint")]
-public record AwsDatazoneCreateEnvironmentBlueprintOptions : AwsOptions
+public record AwsDatazoneCreateEnvironmentBlueprintOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--domain-identifier")]
-    public string? DomainIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a Amazon DataZone blueprint. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainIdentifier">The identifier of the domain in which this blueprint is created. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Name">The name of this Amazon DataZone blueprint. Constraints: o min: 1 o max: 64 o pattern: [\w -]+</param>
+    /// <param name="ProvisioningProperties">The provisioning properties of this Amazon DataZone blueprint. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: cloudFormation. cloudFormation -&gt; (structure) The cloud formation properties included as part of the provi- sioning properties of an environment blueprint. templateUrl -&gt; (string) [required] The template URL of the cloud formation provisioning proper- ties of the environment blueprint. Shorthand Syntax: cloudFormation={templateUrl=string} JSON Syntax: { "cloudFormation": { "templateUrl": "string" } }</param>
+    public AwsDatazoneCreateEnvironmentBlueprintOptions(
+        string DomainIdentifier,
+        string Name,
+        string ProvisioningProperties
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainIdentifier);
+        this.DomainIdentifier = DomainIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ProvisioningProperties);
+        this.ProvisioningProperties = ProvisioningProperties;
+    }
+
+    private AwsDatazoneCreateEnvironmentBlueprintOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatazoneCreateEnvironmentBlueprintOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatazoneCreateEnvironmentBlueprintOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the domain in which this blueprint is created. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// </summary>
+    [CliOption("--domain-identifier")]
+    public string? DomainIdentifier { get; private init; }
+
+    /// <summary>
+    /// The name of this Amazon DataZone blueprint. Constraints: o min: 1 o max: 64 o pattern: [\w -]+
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The provisioning properties of this Amazon DataZone blueprint. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: cloudFormation. cloudFormation -&gt; (structure) The cloud formation properties included as part of the provi- sioning properties of an environment blueprint. templateUrl -&gt; (string) [required] The template URL of the cloud formation provisioning proper- ties of the environment blueprint. Shorthand Syntax: cloudFormation={templateUrl=string} JSON Syntax: { "cloudFormation": { "templateUrl": "string" } }
+    /// </summary>
+    [CliOption("--provisioning-properties")]
+    public string? ProvisioningProperties { get; private init; }
 
     /// <summary>
     /// The description of the Amazon DataZone blueprint. Constraints: o min: 0 o max: 2048
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--provisioning-properties")]
-    public string? ProvisioningProperties { get; set; }
 
     /// <summary>
     /// The user parameters of this Amazon DataZone blueprint. (structure) The details of user parameters of an environment blueprint. keyName -&gt; (string) [required] The key name of the parameter. Constraints: o pattern: [a-zA-Z_][a-zA-Z0-9_]* description -&gt; (string) The description of the parameter. Constraints: o min: 0 o max: 2048 fieldType -&gt; (string) [required] The filed type of the parameter. defaultValue -&gt; (string) The default value of the parameter. isEditable -&gt; (boolean) Specifies whether the parameter is editable. isOptional -&gt; (boolean) Specifies whether the custom parameter is optional. isUpdateSupported -&gt; (boolean) Specifies whether a parameter value can be updated after cre- ation. Shorthand Syntax: keyName=string,description=string,fieldType=string,defaultValue=string,isEditable=boolean,isOptional=boolean,isUpdateSupported=boolean ... JSON Syntax: [ { "keyName": "string", "description": "string", "fieldType": "string", "defaultValue": "string", "isEditable": true|false, "isOptional": true|false, "isUpdateSupported": true|false } ... ]
@@ -47,5 +98,22 @@ public record AwsDatazoneCreateEnvironmentBlueprintOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("shield", "list-resources-in-protection-group")]
-public record AwsShieldListResourcesInProtectionGroupOptions : AwsOptions
+public record AwsShieldListResourcesInProtectionGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves the resources that are included in the protection group. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ProtectionGroupId">The name of the protection group. You use this to identify the pro- tection group in lists and to manage the protection group, for exam- ple to update, delete, or describe it. Constraints: o min: 1 o max: 36 o pattern: [a-zA-Z0-9\\-]*</param>
+    public AwsShieldListResourcesInProtectionGroupOptions(
+        string ProtectionGroupId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProtectionGroupId);
+        this.ProtectionGroupId = ProtectionGroupId;
+    }
+
+    private AwsShieldListResourcesInProtectionGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsShieldListResourcesInProtectionGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsShieldListResourcesInProtectionGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the protection group. You use this to identify the pro- tection group in lists and to manage the protection group, for exam- ple to update, delete, or describe it. Constraints: o min: 1 o max: 36 o pattern: [a-zA-Z0-9\\-]*
+    /// </summary>
     [CliOption("--protection-group-id")]
-    public string? ProtectionGroupId { get; set; }
+    public string? ProtectionGroupId { get; private init; }
 
     /// <summary>
     /// When you request a list of objects from Shield Advanced, if the re- sponse does not include all of the remaining available objects, Shield Advanced includes a NextToken value in the response. You can retrieve the next batch of objects by requesting the list again and providing the token that was returned by the prior call in your re- quest. You can indicate the maximum number of objects that you want Shield Advanced to return for a single call with the MaxResults setting. Shield Advanced will not return more than MaxResults objects, but may return fewer, even if more objects are still available. Whenever more objects remain that Shield Advanced has not yet re- turned to you, the response will include a NextToken value. On your first call to a list operation, leave this setting empty. Constraints: o min: 1 o max: 4096 o pattern: ^.*$
@@ -43,5 +80,22 @@ public record AwsShieldListResourcesInProtectionGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

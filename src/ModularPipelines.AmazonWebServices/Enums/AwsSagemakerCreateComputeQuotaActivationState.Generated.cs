@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --activationstate.
+/// Allowed values for --activation-state.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSagemakerCreateComputeQuotaActivationState
 {
-    [EnumValue("Enabled")]
-    Enabled = 1,
-
     [EnumValue("Disabled")]
-    Disabled = 2
+    Disabled,
+
+    [EnumValue("Enabled")]
+    Enabled
 }

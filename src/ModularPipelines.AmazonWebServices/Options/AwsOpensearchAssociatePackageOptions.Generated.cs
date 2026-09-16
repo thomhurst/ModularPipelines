@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("opensearch", "associate-package")]
-public record AwsOpensearchAssociatePackageOptions : AwsOptions
+public record AwsOpensearchAssociatePackageOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--package-id")]
-    public string? PackageId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Associates a package with an Amazon OpenSearch Service domain. For more information, see Custom packages for Amazon OpenSearch Service . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PackageId">Internal ID of the package to associate with a domain. Use De- scribePackages to find this value. Constraints: o pattern: ^([FG][0-9]+)$|^(pkg-[a-f0-9]+)$</param>
+    /// <param name="DomainName">Name of the domain to associate the package with. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+</param>
+    public AwsOpensearchAssociatePackageOptions(
+        string PackageId,
+        string DomainName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PackageId);
+        this.PackageId = PackageId;
+        global::System.ArgumentNullException.ThrowIfNull(DomainName);
+        this.DomainName = DomainName;
+    }
+
+    private AwsOpensearchAssociatePackageOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOpensearchAssociatePackageOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOpensearchAssociatePackageOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Internal ID of the package to associate with a domain. Use De- scribePackages to find this value. Constraints: o pattern: ^([FG][0-9]+)$|^(pkg-[a-f0-9]+)$
+    /// </summary>
+    [CliOption("--package-id")]
+    public string? PackageId { get; private init; }
+
+    /// <summary>
+    /// Name of the domain to associate the package with. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+
+    /// </summary>
     [CliOption("--domain-name")]
-    public string? DomainName { get; set; }
+    public string? DomainName { get; private init; }
 
     /// <summary>
     /// A list of package IDs that must be associated with the domain before the package specified in the request can be associated. (string) Constraints: o pattern: ^([FG][0-9]+)$|^(pkg-[a-f0-9]+)$ Syntax: "string" "string" ...
@@ -44,5 +88,22 @@ public record AwsOpensearchAssociatePackageOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

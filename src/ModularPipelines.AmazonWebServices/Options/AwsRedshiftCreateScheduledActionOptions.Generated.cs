@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +20,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift", "create-scheduled-action")]
-public record AwsRedshiftCreateScheduledActionOptions : AwsOptions
+public record AwsRedshiftCreateScheduledActionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a scheduled action. A scheduled action contains a schedule and an Amazon Redshift API action. For example, you can create a schedule of when to run the ResizeCluster API operation. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ScheduledActionName">The name of the scheduled action. The name must be unique within an account. For more information about this parameter, see Sched- uledAction . Constraints: o max: 2147483647</param>
+    /// <param name="TargetAction">A JSON format string of the Amazon Redshift API operation with input parameters. For more information about this parameter, see Sched- uledAction . ResizeCluster -&gt; (structure) An action that runs a ResizeCluster API operation. ClusterIdentifier -&gt; (string) [required] The unique identifier for the cluster to resize. Constraints: o max: 2147483647 ClusterType -&gt; (string) The new cluster type for the specified cluster. Constraints: o max: 2147483647 NodeType -&gt; (string) The new node type for the nodes you are adding. If not speci- fied, the cluster's current node type is used. Constraints: o max: 2147483647 NumberOfNodes -&gt; (integer) The new number of nodes for the cluster. If not specified, the cluster's current number of nodes is used. Classic -&gt; (boolean) A boolean value indicating whether the resize operation is using the classic resize process. If you don't provide this parameter or set the value to false , the resize type is elastic. ReservedNodeId -&gt; (string) The identifier of the reserved node. Constraints: o max: 2147483647 TargetReservedNodeOfferingId -&gt; (string) The identifier of the target reserved node offering. Constraints: o max: 2147483647 PauseCluster -&gt; (structure) An action that runs a PauseCluster API operation. ClusterIdentifier -&gt; (string) [required] The identifier of the cluster to be paused. Constraints: o max: 2147483647 ResumeCluster -&gt; (structure) An action that runs a ResumeCluster API operation. ClusterIdentifier -&gt; (string) [required] The identifier of the cluster to be resumed. Constraints: o max: 2147483647 Shorthand Syntax: ResizeCluster={ClusterIdentifier=string,ClusterType=string,NodeType=string,NumberOfNodes=integer,Classic=boolean,ReservedNodeId=string,TargetReservedNodeOfferingId=string},PauseCluster={ClusterIdentifier=string},ResumeCluster={ClusterIdentifier=string} JSON Syntax: { "ResizeCluster": { "ClusterIdentifier": "string", "ClusterType": "string", "NodeType": "string", "NumberOfNodes": integer, "Classic": true|false, "ReservedNodeId": "string", "TargetReservedNodeOfferingId": "string" }, "PauseCluster": { "ClusterIdentifier": "string" }, "ResumeCluster": { "ClusterIdentifier": "string" } }</param>
+    /// <param name="Schedule">The schedule in at( ) or cron( ) format. For more information about this parameter, see ScheduledAction . Constraints: o max: 2147483647</param>
+    /// <param name="IamRole">The IAM role to assume to run the target action. For more informa- tion about this parameter, see ScheduledAction . Constraints: o max: 2147483647</param>
+    public AwsRedshiftCreateScheduledActionOptions(
+        string ScheduledActionName,
+        string TargetAction,
+        string Schedule,
+        string IamRole
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ScheduledActionName);
+        this.ScheduledActionName = ScheduledActionName;
+        global::System.ArgumentNullException.ThrowIfNull(TargetAction);
+        this.TargetAction = TargetAction;
+        global::System.ArgumentNullException.ThrowIfNull(Schedule);
+        this.Schedule = Schedule;
+        global::System.ArgumentNullException.ThrowIfNull(IamRole);
+        this.IamRole = IamRole;
+    }
+
+    private AwsRedshiftCreateScheduledActionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftCreateScheduledActionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftCreateScheduledActionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the scheduled action. The name must be unique within an account. For more information about this parameter, see Sched- uledAction . Constraints: o max: 2147483647
+    /// </summary>
     [CliOption("--scheduled-action-name")]
-    public string? ScheduledActionName { get; set; }
+    public string? ScheduledActionName { get; private init; }
 
+    /// <summary>
+    /// A JSON format string of the Amazon Redshift API operation with input parameters. For more information about this parameter, see Sched- uledAction . ResizeCluster -&gt; (structure) An action that runs a ResizeCluster API operation. ClusterIdentifier -&gt; (string) [required] The unique identifier for the cluster to resize. Constraints: o max: 2147483647 ClusterType -&gt; (string) The new cluster type for the specified cluster. Constraints: o max: 2147483647 NodeType -&gt; (string) The new node type for the nodes you are adding. If not speci- fied, the cluster's current node type is used. Constraints: o max: 2147483647 NumberOfNodes -&gt; (integer) The new number of nodes for the cluster. If not specified, the cluster's current number of nodes is used. Classic -&gt; (boolean) A boolean value indicating whether the resize operation is using the classic resize process. If you don't provide this parameter or set the value to false , the resize type is elastic. ReservedNodeId -&gt; (string) The identifier of the reserved node. Constraints: o max: 2147483647 TargetReservedNodeOfferingId -&gt; (string) The identifier of the target reserved node offering. Constraints: o max: 2147483647 PauseCluster -&gt; (structure) An action that runs a PauseCluster API operation. ClusterIdentifier -&gt; (string) [required] The identifier of the cluster to be paused. Constraints: o max: 2147483647 ResumeCluster -&gt; (structure) An action that runs a ResumeCluster API operation. ClusterIdentifier -&gt; (string) [required] The identifier of the cluster to be resumed. Constraints: o max: 2147483647 Shorthand Syntax: ResizeCluster={ClusterIdentifier=string,ClusterType=string,NodeType=string,NumberOfNodes=integer,Classic=boolean,ReservedNodeId=string,TargetReservedNodeOfferingId=string},PauseCluster={ClusterIdentifier=string},ResumeCluster={ClusterIdentifier=string} JSON Syntax: { "ResizeCluster": { "ClusterIdentifier": "string", "ClusterType": "string", "NodeType": "string", "NumberOfNodes": integer, "Classic": true|false, "ReservedNodeId": "string", "TargetReservedNodeOfferingId": "string" }, "PauseCluster": { "ClusterIdentifier": "string" }, "ResumeCluster": { "ClusterIdentifier": "string" } }
+    /// </summary>
     [CliOption("--target-action")]
-    public string? TargetAction { get; set; }
+    public string? TargetAction { get; private init; }
 
+    /// <summary>
+    /// The schedule in at( ) or cron( ) format. For more information about this parameter, see ScheduledAction . Constraints: o max: 2147483647
+    /// </summary>
     [CliOption("--schedule")]
-    public string? Schedule { get; set; }
+    public string? Schedule { get; private init; }
 
+    /// <summary>
+    /// The IAM role to assume to run the target action. For more informa- tion about this parameter, see ScheduledAction . Constraints: o max: 2147483647
+    /// </summary>
     [CliOption("--iam-role")]
-    public string? IamRole { get; set; }
+    public string? IamRole { get; private init; }
 
     /// <summary>
     /// The description of the scheduled action. Constraints: o max: 2147483647
@@ -51,7 +109,10 @@ public record AwsRedshiftCreateScheduledActionOptions : AwsOptions
     [CliOption("--end-time")]
     public string? EndTime { get; set; }
 
-    [CliFlag("--enable")]
+    /// <summary>
+    /// If true, the schedule is enabled. If false, the scheduled action does not trigger. For more information about state of the scheduled action, see ScheduledAction .
+    /// </summary>
+    [CliFlag("--enable", NegatedName = "--no-enable")]
     public bool? Enable { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -59,5 +120,22 @@ public record AwsRedshiftCreateScheduledActionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

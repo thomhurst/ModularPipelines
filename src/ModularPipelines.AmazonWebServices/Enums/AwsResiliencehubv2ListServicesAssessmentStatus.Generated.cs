@@ -11,23 +11,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --assessmentstatus.
+/// Allowed values for --assessment-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsResiliencehubv2ListServicesAssessmentStatus
 {
-    [EnumValue("NOT_STARTED")]
-    NotStarted = 1,
-
-    [EnumValue("PENDING")]
-    Pending = 2,
+    [EnumValue("FAILED")]
+    Failed,
 
     [EnumValue("IN_PROGRESS")]
-    InProgress = 3,
+    InProgress,
 
-    [EnumValue("FAILED")]
-    Failed = 4,
+    [EnumValue("NOT_STARTED")]
+    NotStarted,
+
+    [EnumValue("PENDING")]
+    Pending,
 
     [EnumValue("SUCCESS")]
-    Success = 5
+    Success
 }

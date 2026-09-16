@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("wellarchitected", "list-check-summaries")]
-public record AwsWellarchitectedListCheckSummariesOptions : AwsOptions
+public record AwsWellarchitectedListCheckSummariesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// List of Trusted Advisor checks summarized for all accounts related to the workload. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="WorkloadId">The ID assigned to the workload. This ID is unique within an Amazon Web Services Region. Constraints: o min: 32 o max: 32 o pattern: [0-9a-f]{32}</param>
+    /// <param name="LensArn">Well-Architected Lens ARN.</param>
+    /// <param name="PillarId">The ID used to identify a pillar, for example, security . A pillar is identified by its PillarReviewSummary$PillarId . Constraints: o min: 1 o max: 64</param>
+    /// <param name="QuestionId">The ID of the question. Constraints: o min: 1 o max: 128</param>
+    /// <param name="ChoiceId">The ID of a choice. Constraints: o min: 1 o max: 64</param>
+    public AwsWellarchitectedListCheckSummariesOptions(
+        string WorkloadId,
+        string LensArn,
+        string PillarId,
+        string QuestionId,
+        string ChoiceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkloadId);
+        this.WorkloadId = WorkloadId;
+        global::System.ArgumentNullException.ThrowIfNull(LensArn);
+        this.LensArn = LensArn;
+        global::System.ArgumentNullException.ThrowIfNull(PillarId);
+        this.PillarId = PillarId;
+        global::System.ArgumentNullException.ThrowIfNull(QuestionId);
+        this.QuestionId = QuestionId;
+        global::System.ArgumentNullException.ThrowIfNull(ChoiceId);
+        this.ChoiceId = ChoiceId;
+    }
+
+    private AwsWellarchitectedListCheckSummariesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWellarchitectedListCheckSummariesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWellarchitectedListCheckSummariesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region. Constraints: o min: 32 o max: 32 o pattern: [0-9a-f]{32}
+    /// </summary>
     [CliOption("--workload-id")]
-    public string? WorkloadId { get; set; }
+    public string? WorkloadId { get; private init; }
+
+    /// <summary>
+    /// Well-Architected Lens ARN.
+    /// </summary>
+    [CliOption("--lens-arn")]
+    public string? LensArn { get; private init; }
+
+    /// <summary>
+    /// The ID used to identify a pillar, for example, security . A pillar is identified by its PillarReviewSummary$PillarId . Constraints: o min: 1 o max: 64
+    /// </summary>
+    [CliOption("--pillar-id")]
+    public string? PillarId { get; private init; }
+
+    /// <summary>
+    /// The ID of the question. Constraints: o min: 1 o max: 128
+    /// </summary>
+    [CliOption("--question-id")]
+    public string? QuestionId { get; private init; }
+
+    /// <summary>
+    /// The ID of a choice. Constraints: o min: 1 o max: 64
+    /// </summary>
+    [CliOption("--choice-id")]
+    public string? ChoiceId { get; private init; }
 
     /// <summary>
     /// The token to use to retrieve the next set of results. Constraints: o pattern: [A-Za-z0-9+\/=_-]+
@@ -38,22 +115,27 @@ public record AwsWellarchitectedListCheckSummariesOptions : AwsOptions
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CliOption("--lens-arn")]
-    public string? LensArn { get; set; }
-
-    [CliOption("--pillar-id")]
-    public string? PillarId { get; set; }
-
-    [CliOption("--question-id")]
-    public string? QuestionId { get; set; }
-
-    [CliOption("--choice-id")]
-    public string? ChoiceId { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

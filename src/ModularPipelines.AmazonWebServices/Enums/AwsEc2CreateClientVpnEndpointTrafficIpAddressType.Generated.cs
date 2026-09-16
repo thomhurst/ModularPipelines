@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --trafficipaddresstype.
+/// Allowed values for --traffic-ip-address-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEc2CreateClientVpnEndpointTrafficIpAddressType
 {
+    [EnumValue("dual-stack")]
+    DualStack,
+
     [EnumValue("ipv4")]
-    Ipv4 = 1,
+    Ipv4,
 
     [EnumValue("ipv6")]
-    Ipv6 = 2,
-
-    [EnumValue("dual-stack")]
-    DualStack = 3
+    Ipv6
 }

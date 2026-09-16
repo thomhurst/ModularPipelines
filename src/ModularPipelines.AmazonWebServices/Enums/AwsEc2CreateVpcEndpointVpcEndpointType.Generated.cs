@@ -11,23 +11,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --vpcendpointtype.
+/// Allowed values for --vpc-endpoint-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEc2CreateVpcEndpointVpcEndpointType
 {
-    [EnumValue("Interface")]
-    Interface = 1,
-
     [EnumValue("Gateway")]
-    Gateway = 2,
+    Gateway,
 
     [EnumValue("GatewayLoadBalancer")]
-    GatewayLoadBalancer = 3,
+    GatewayLoadBalancer,
+
+    [EnumValue("Interface")]
+    Interface,
 
     [EnumValue("Resource")]
-    Resource = 4,
+    Resource,
 
     [EnumValue("ServiceNetwork")]
-    ServiceNetwork = 5
+    ServiceNetwork
 }

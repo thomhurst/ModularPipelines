@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --softwaresetupdatemode.
+/// Allowed values for --software-set-update-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsWorkspacesThinClientCreateEnvironmentSoftwareSetUpdateMode
 {
-    [EnumValue("USE_LATEST")]
-    UseLatest = 1,
-
     [EnumValue("USE_DESIRED")]
-    UseDesired = 2
+    UseDesired,
+
+    [EnumValue("USE_LATEST")]
+    UseLatest
 }

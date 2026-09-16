@@ -16,39 +16,39 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsMediaconnectUpdateFlowSourceProtocol
 {
-    [EnumValue("zixi-push")]
-    ZixiPush = 1,
-
-    [EnumValue("rtp-fec")]
-    RtpFec = 2,
-
-    [EnumValue("rtp")]
-    Rtp = 3,
-
-    [EnumValue("zixi-pull")]
-    ZixiPull = 4,
-
-    [EnumValue("rist")]
-    Rist = 5,
-
-    [EnumValue("st2110-jpegxs")]
-    St2110Jpegxs = 6,
-
     [EnumValue("cdi")]
-    Cdi = 7,
-
-    [EnumValue("srt-listener")]
-    SrtListener = 8,
-
-    [EnumValue("srt-caller")]
-    SrtCaller = 9,
+    Cdi,
 
     [EnumValue("fujitsu-qos")]
-    FujitsuQos = 10,
-
-    [EnumValue("udp")]
-    Udp = 11,
+    FujitsuQos,
 
     [EnumValue("ndi-speed-hq")]
-    NdiSpeedHq = 12
+    NdiSpeedHq,
+
+    [EnumValue("rist")]
+    Rist,
+
+    [EnumValue("rtp")]
+    Rtp,
+
+    [EnumValue("rtp-fec")]
+    RtpFec,
+
+    [EnumValue("srt-caller")]
+    SrtCaller,
+
+    [EnumValue("srt-listener")]
+    SrtListener,
+
+    [EnumValue("st2110-jpegxs")]
+    St2110Jpegxs,
+
+    [EnumValue("udp")]
+    Udp,
+
+    [EnumValue("zixi-pull")]
+    ZixiPull,
+
+    [EnumValue("zixi-push")]
+    ZixiPush
 }

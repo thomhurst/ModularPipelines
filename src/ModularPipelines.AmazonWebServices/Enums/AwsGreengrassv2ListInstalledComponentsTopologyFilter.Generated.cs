@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --topologyfilter.
+/// Allowed values for --topology-filter.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGreengrassv2ListInstalledComponentsTopologyFilter
 {
     [EnumValue("ALL")]
-    All = 1,
+    All,
 
     [EnumValue("ROOT")]
-    Root = 2
+    Root
 }

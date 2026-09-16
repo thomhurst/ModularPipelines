@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("partnercentral-selling", "start-prospecting-from-engagement-task")]
-public record AwsPartnercentralSellingStartProspectingFromEngagementTaskOptions : AwsOptions
+public record AwsPartnercentralSellingStartProspectingFromEngagementTaskOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts a task to convert one or more engagement contexts into new prospecting leads. The task runs asynchronously. To poll for status, use GetProspectingFromEngagementTask , or use ListProspectingFromEn- gagementTasks to monitor multiple tasks. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Catalog">Specifies the catalog in which the task is initiated. Specify AWS for production environments and Sandbox for testing and development purposes. Constraints: o pattern: [a-zA-Z]+</param>
+    /// <param name="Identifiers">The list of engagement identifiers to include in this prospecting task. Each identifier must correspond to an existing engagement in the specified catalog. Maximum of 100 identifiers per task. Constraints: o min: 0 o max: 100 (string) Constraints: o pattern: eng-[0-9a-z]{14} Syntax: "string" "string" ...</param>
+    /// <param name="TaskName">A descriptive name for the task. This name helps identify the task in list and get operations. The name must contain 1 to 128 charac- ters. Constraints: o min: 1 o max: 128</param>
+    public AwsPartnercentralSellingStartProspectingFromEngagementTaskOptions(
+        string Catalog,
+        IEnumerable<string> Identifiers,
+        string TaskName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Identifiers);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Identifiers));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Identifiers));
+            }
+
+            Identifiers = materialized;
+        }
+        this.Identifiers = Identifiers;
+        global::System.ArgumentNullException.ThrowIfNull(TaskName);
+        this.TaskName = TaskName;
+    }
+
+    private AwsPartnercentralSellingStartProspectingFromEngagementTaskOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPartnercentralSellingStartProspectingFromEngagementTaskOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPartnercentralSellingStartProspectingFromEngagementTaskOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the catalog in which the task is initiated. Specify AWS for production environments and Sandbox for testing and development purposes. Constraints: o pattern: [a-zA-Z]+
+    /// </summary>
     [CliOption("--catalog")]
-    public string? Catalog { get; set; }
+    public string? Catalog { get; private init; }
 
+    /// <summary>
+    /// The list of engagement identifiers to include in this prospecting task. Each identifier must correspond to an existing engagement in the specified catalog. Maximum of 100 identifiers per task. Constraints: o min: 0 o max: 100 (string) Constraints: o pattern: eng-[0-9a-z]{14} Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--identifiers", GroupValues = true)]
-    public IEnumerable<string>? Identifiers { get; set; }
+    public IEnumerable<string>? Identifiers { get; private init; }
 
+    /// <summary>
+    /// A descriptive name for the task. This name helps identify the task in list and get operations. The name must contain 1 to 128 charac- ters. Constraints: o min: 1 o max: 128
+    /// </summary>
     [CliOption("--task-name")]
-    public string? TaskName { get; set; }
+    public string? TaskName { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier provided by the client to ensure idempotency. Making the same request with the same ClientToken re- turns the same response without creating a duplicate task. Constraints: o pattern: .{1,255}
@@ -43,5 +105,22 @@ public record AwsPartnercentralSellingStartProspectingFromEngagementTaskOptions 
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

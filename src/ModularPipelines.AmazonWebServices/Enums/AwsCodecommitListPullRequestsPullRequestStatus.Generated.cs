@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --pullrequeststatus.
+/// Allowed values for --pull-request-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCodecommitListPullRequestsPullRequestStatus
 {
-    [EnumValue("OPEN")]
-    Open = 1,
-
     [EnumValue("CLOSED")]
-    Closed = 2
+    Closed,
+
+    [EnumValue("OPEN")]
+    Open
 }

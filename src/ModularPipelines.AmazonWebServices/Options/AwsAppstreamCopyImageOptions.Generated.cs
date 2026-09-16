@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appstream", "copy-image")]
-public record AwsAppstreamCopyImageOptions : AwsOptions
+public record AwsAppstreamCopyImageOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Copies the image within the same region or to a new region within the same AWS account. Note that any tags you added to the image will not be copied. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SourceImageName">The name of the image to copy. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
+    /// <param name="DestinationImageName">The name that the image will have when it is copied to the destina- tion. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
+    /// <param name="DestinationRegion">The destination region to which the image will be copied. This para- meter is required, even if you are copying an image within the same region. Constraints: o min: 1 o max: 32</param>
+    public AwsAppstreamCopyImageOptions(
+        string SourceImageName,
+        string DestinationImageName,
+        string DestinationRegion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceImageName);
+        this.SourceImageName = SourceImageName;
+        global::System.ArgumentNullException.ThrowIfNull(DestinationImageName);
+        this.DestinationImageName = DestinationImageName;
+        global::System.ArgumentNullException.ThrowIfNull(DestinationRegion);
+        this.DestinationRegion = DestinationRegion;
+    }
+
+    private AwsAppstreamCopyImageOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppstreamCopyImageOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppstreamCopyImageOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the image to copy. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
+    /// </summary>
     [CliOption("--source-image-name")]
-    public string? SourceImageName { get; set; }
+    public string? SourceImageName { get; private init; }
 
+    /// <summary>
+    /// The name that the image will have when it is copied to the destina- tion. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
+    /// </summary>
     [CliOption("--destination-image-name")]
-    public string? DestinationImageName { get; set; }
+    public string? DestinationImageName { get; private init; }
 
+    /// <summary>
+    /// The destination region to which the image will be copied. This para- meter is required, even if you are copying an image within the same region. Constraints: o min: 1 o max: 32
+    /// </summary>
     [CliOption("--destination-region")]
-    public string? DestinationRegion { get; set; }
+    public string? DestinationRegion { get; private init; }
 
     /// <summary>
     /// The description that the image will have when it is copied to the destination. Constraints: o max: 256
@@ -41,5 +92,22 @@ public record AwsAppstreamCopyImageOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

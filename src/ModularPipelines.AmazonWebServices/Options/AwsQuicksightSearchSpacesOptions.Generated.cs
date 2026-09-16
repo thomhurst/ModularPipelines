@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("quicksight", "search-spaces")]
-public record AwsQuicksightSearchSpacesOptions : AwsOptions
+public record AwsQuicksightSearchSpacesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Searches for Amazon QuickSight spaces that match the specified filters. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the spaces. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="Filters">The filters to apply to the search. Constraints: o min: 1 o max: 2 (structure) A filter to use when searching for spaces. name -&gt; (string) [required] The name of the filter field to use. Possible values: o SPACE_ID o SPACE_NAME o DIRECT_QUICKSIGHT_OWNER o DIRECT_QUICKSIGHT_VIEWER_OR_OWNER o DIRECT_QUICKSIGHT_SOLE_OWNER o CONTRIBUTED_BY o CONSUMED_SOURCE_SIZE o CREATED_BY operator -&gt; (string) [required] The comparison operator to use for the filter. Possible values: o STRING_EQUALS o STRING_LIKE o NUMBER_RANGE value -&gt; (string) [required] The value to use for the filter. Shorthand Syntax: name=string,operator=string,value=string ... JSON Syntax: [ { "name": "SPACE_ID"|"SPACE_NAME"|"DIRECT_QUICKSIGHT_OWNER"|"DIRECT_QUICKSIGHT_VIEWER_OR_OWNER"|"DIRECT_QUICKSIGHT_SOLE_OWNER"|"CONTRIBUTED_BY"|"CONSUMED_SOURCE_SIZE"|"CREATED_BY", "operator": "STRING_EQUALS"|"STRING_LIKE"|"NUMBER_RANGE", "value": "string" } ... ]</param>
+    public AwsQuicksightSearchSpacesOptions(
+        string AwsAccountId,
+        IEnumerable<string> Filters
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
+        this.AwsAccountId = AwsAccountId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Filters);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Filters));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Filters));
+            }
+
+            Filters = materialized;
+        }
+        this.Filters = Filters;
+    }
+
+    private AwsQuicksightSearchSpacesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQuicksightSearchSpacesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQuicksightSearchSpacesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Amazon Web Services account that contains the spaces. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// </summary>
     [CliOption("--aws-account-id")]
-    public string? AwsAccountId { get; set; }
+    public string? AwsAccountId { get; private init; }
+
+    /// <summary>
+    /// The filters to apply to the search. Constraints: o min: 1 o max: 2 (structure) A filter to use when searching for spaces. name -&gt; (string) [required] The name of the filter field to use. Possible values: o SPACE_ID o SPACE_NAME o DIRECT_QUICKSIGHT_OWNER o DIRECT_QUICKSIGHT_VIEWER_OR_OWNER o DIRECT_QUICKSIGHT_SOLE_OWNER o CONTRIBUTED_BY o CONSUMED_SOURCE_SIZE o CREATED_BY operator -&gt; (string) [required] The comparison operator to use for the filter. Possible values: o STRING_EQUALS o STRING_LIKE o NUMBER_RANGE value -&gt; (string) [required] The value to use for the filter. Shorthand Syntax: name=string,operator=string,value=string ... JSON Syntax: [ { "name": "SPACE_ID"|"SPACE_NAME"|"DIRECT_QUICKSIGHT_OWNER"|"DIRECT_QUICKSIGHT_VIEWER_OR_OWNER"|"DIRECT_QUICKSIGHT_SOLE_OWNER"|"CONTRIBUTED_BY"|"CONSUMED_SOURCE_SIZE"|"CREATED_BY", "operator": "STRING_EQUALS"|"STRING_LIKE"|"NUMBER_RANGE", "value": "string" } ... ]
+    /// </summary>
+    [CliOption("--filters", GroupValues = true)]
+    public IEnumerable<string>? Filters { get; private init; }
 
     /// <summary>
     /// The token for the next set of results, or null if there are no more results. Constraints: o min: 1 o max: 800
@@ -38,13 +96,27 @@ public record AwsQuicksightSearchSpacesOptions : AwsOptions
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CliOption("--filters", GroupValues = true)]
-    public IEnumerable<string>? Filters { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

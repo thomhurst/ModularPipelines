@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("configservice", "delete-aggregation-authorization")]
-public record AwsConfigserviceDeleteAggregationAuthorizationOptions : AwsOptions
+public record AwsConfigserviceDeleteAggregationAuthorizationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--authorized-account-id")]
-    public string? AuthorizedAccountId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deletes the authorization granted to the specified configuration aggre- gator account in a specified region. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AuthorizedAccountId">The 12-digit account ID of the account authorized to aggregate data. Constraints: o pattern: \d{12}</param>
+    /// <param name="AuthorizedAwsRegion">The region authorized to collect aggregated data. Constraints: o min: 1 o max: 64</param>
+    public AwsConfigserviceDeleteAggregationAuthorizationOptions(
+        string AuthorizedAccountId,
+        string AuthorizedAwsRegion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AuthorizedAccountId);
+        this.AuthorizedAccountId = AuthorizedAccountId;
+        global::System.ArgumentNullException.ThrowIfNull(AuthorizedAwsRegion);
+        this.AuthorizedAwsRegion = AuthorizedAwsRegion;
+    }
+
+    private AwsConfigserviceDeleteAggregationAuthorizationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConfigserviceDeleteAggregationAuthorizationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConfigserviceDeleteAggregationAuthorizationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The 12-digit account ID of the account authorized to aggregate data. Constraints: o pattern: \d{12}
+    /// </summary>
+    [CliOption("--authorized-account-id")]
+    public string? AuthorizedAccountId { get; private init; }
+
+    /// <summary>
+    /// The region authorized to collect aggregated data. Constraints: o min: 1 o max: 64
+    /// </summary>
     [CliOption("--authorized-aws-region")]
-    public string? AuthorizedAwsRegion { get; set; }
+    public string? AuthorizedAwsRegion { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

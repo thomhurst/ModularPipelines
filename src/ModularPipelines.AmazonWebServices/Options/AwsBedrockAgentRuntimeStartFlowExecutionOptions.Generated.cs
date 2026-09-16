@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,22 +20,83 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agent-runtime", "start-flow-execution")]
-public record AwsBedrockAgentRuntimeStartFlowExecutionOptions : AwsOptions
+public record AwsBedrockAgentRuntimeStartFlowExecutionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts an execution of an Amazon Bedrock flow. Unlike flows that run until completion or time out after five minutes, flow executions let you run flows asynchronously for longer durations. Flow executions also yield control so that your application can perform other tasks. This operation returns an Amazon Resource Name (ARN) that you can use to track and manage your flow execution. NOTE: Flow executions is in preview release for Amazon Bedrock and is sub- ject to change. See also: AWS API Docume...
+    /// </summary>
+    /// <param name="FlowAliasIdentifier">The unique identifier of the flow alias to use for the flow execu- tion. Constraints: o min: 0 o max: 2048 o pattern: ^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10}/alias/[0-9a-zA-Z]{10})|(\bT- STALIASID\b|[0-9a-zA-Z]+)$</param>
+    /// <param name="FlowIdentifier">The unique identifier of the flow to execute. Constraints: o min: 0 o max: 2048 o pattern: ^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10})|([0-9a-zA-Z]{10})$</param>
+    /// <param name="Inputs">The input data required for the flow execution. This must match the input schema defined in the flow. Constraints: o min: 1 o max: 1 (structure) Contains information about an input into the prompt flow and where to send it. content -&gt; (tagged union structure) [required] Contains information about an input into the prompt flow. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: document. document -&gt; (document) The input to send to the prompt flow input node. nodeInputName -&gt; (string) The name of the input from the flow input node. Constraints: o pattern: ^[a-zA-Z]([_]?[0-9a-zA-Z]){0,99}$ nodeName -&gt; (string) [required] The name of the flow input node that begins the prompt flow. Constraints: o pattern: ^[a-zA-Z]([_]?[0-9a-zA-Z]){0,99}$ nodeOutputName -&gt; (string) The name of the output from the flow input node that begins the prompt flow. Constraints: o pattern: ^[a-zA-Z]([_]?[0-9a-zA-Z]){0,99}$ Shorthand Syntax: content={},nodeInputName=string,nodeName=string,nodeOutputName=string ... JSON Syntax: [ { "content": { "document": {...} }, "nodeInputName": "string", "nodeName": "string", "nodeOutputName": "string" } ... ]</param>
+    public AwsBedrockAgentRuntimeStartFlowExecutionOptions(
+        string FlowAliasIdentifier,
+        string FlowIdentifier,
+        IEnumerable<string> Inputs
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FlowAliasIdentifier);
+        this.FlowAliasIdentifier = FlowAliasIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(FlowIdentifier);
+        this.FlowIdentifier = FlowIdentifier;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Inputs);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Inputs));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Inputs));
+            }
+
+            Inputs = materialized;
+        }
+        this.Inputs = Inputs;
+    }
+
+    private AwsBedrockAgentRuntimeStartFlowExecutionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentRuntimeStartFlowExecutionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentRuntimeStartFlowExecutionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the flow alias to use for the flow execu- tion. Constraints: o min: 0 o max: 2048 o pattern: ^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10}/alias/[0-9a-zA-Z]{10})|(\bT- STALIASID\b|[0-9a-zA-Z]+)$
+    /// </summary>
     [CliOption("--flow-alias-identifier")]
-    public string? FlowAliasIdentifier { get; set; }
+    public string? FlowAliasIdentifier { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the flow to execute. Constraints: o min: 0 o max: 2048 o pattern: ^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10})|([0-9a-zA-Z]{10})$
+    /// </summary>
+    [CliOption("--flow-identifier")]
+    public string? FlowIdentifier { get; private init; }
+
+    /// <summary>
+    /// The input data required for the flow execution. This must match the input schema defined in the flow. Constraints: o min: 1 o max: 1 (structure) Contains information about an input into the prompt flow and where to send it. content -&gt; (tagged union structure) [required] Contains information about an input into the prompt flow. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: document. document -&gt; (document) The input to send to the prompt flow input node. nodeInputName -&gt; (string) The name of the input from the flow input node. Constraints: o pattern: ^[a-zA-Z]([_]?[0-9a-zA-Z]){0,99}$ nodeName -&gt; (string) [required] The name of the flow input node that begins the prompt flow. Constraints: o pattern: ^[a-zA-Z]([_]?[0-9a-zA-Z]){0,99}$ nodeOutputName -&gt; (string) The name of the output from the flow input node that begins the prompt flow. Constraints: o pattern: ^[a-zA-Z]([_]?[0-9a-zA-Z]){0,99}$ Shorthand Syntax: content={},nodeInputName=string,nodeName=string,nodeOutputName=string ... JSON Syntax: [ { "content": { "document": {...} }, "nodeInputName": "string", "nodeName": "string", "nodeOutputName": "string" } ... ]
+    /// </summary>
+    [CliOption("--inputs", GroupValues = true)]
+    public IEnumerable<string>? Inputs { get; private init; }
 
     /// <summary>
     /// The unique name for the flow execution. If you don't provide one, a system-generated name is used. Constraints: o min: 0 o max: 36 o pattern: ^[a-zA-Z0-9-]{1,36}$
     /// </summary>
     [CliOption("--flow-execution-name")]
     public string? FlowExecutionName { get; set; }
-
-    [CliOption("--flow-identifier")]
-    public string? FlowIdentifier { get; set; }
-
-    [CliOption("--inputs", GroupValues = true)]
-    public IEnumerable<string>? Inputs { get; set; }
 
     /// <summary>
     /// The performance settings for the foundation model used in the flow execution. performanceConfig -&gt; (structure) The latency configuration for the model. latency -&gt; (string) To use a latency-optimized version of the model, set to opti- mized . Possible values: o standard o optimized Shorthand Syntax: performanceConfig={latency=string} JSON Syntax: { "performanceConfig": { "latency": "standard"|"optimized" } }
@@ -47,5 +109,22 @@ public record AwsBedrockAgentRuntimeStartFlowExecutionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

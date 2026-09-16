@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --useas.
+/// Allowed values for --use-as.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsQuicksightCreateDataSetUseAs
 {
+    [EnumValue("o")]
+    O,
+
     [EnumValue("RLS_RULES")]
-    RlsRules = 1
+    RlsRules
 }

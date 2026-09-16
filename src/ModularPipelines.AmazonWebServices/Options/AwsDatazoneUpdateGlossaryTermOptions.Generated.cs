@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,19 +21,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datazone", "update-glossary-term")]
-public record AwsDatazoneUpdateGlossaryTermOptions : AwsOptions
+public record AwsDatazoneUpdateGlossaryTermOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a business glossary term in Amazon DataZone. Prerequisites: o Glossary term must exist in the specified domain. o New name must not conflict with existing terms in the same glossary. o User must have permissions on the term. o The term must not be in DELETED status. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainIdentifier">The identifier of the Amazon DataZone domain in which a business glossary term is to be updated. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Identifier">The identifier of the business glossary term that is to be updated. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    public AwsDatazoneUpdateGlossaryTermOptions(
+        string DomainIdentifier,
+        string Identifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainIdentifier);
+        this.DomainIdentifier = DomainIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(Identifier);
+        this.Identifier = Identifier;
+    }
+
+    private AwsDatazoneUpdateGlossaryTermOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatazoneUpdateGlossaryTermOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatazoneUpdateGlossaryTermOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Amazon DataZone domain in which a business glossary term is to be updated. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// </summary>
     [CliOption("--domain-identifier")]
-    public string? DomainIdentifier { get; set; }
+    public string? DomainIdentifier { get; private init; }
+
+    /// <summary>
+    /// The identifier of the business glossary term that is to be updated. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// </summary>
+    [CliOption("--identifier")]
+    public string? Identifier { get; private init; }
 
     /// <summary>
     /// The identifier of the business glossary in which a term is to be up- dated. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--glossary-identifier")]
     public string? GlossaryIdentifier { get; set; }
-
-    [CliOption("--identifier")]
-    public string? Identifier { get; set; }
 
     /// <summary>
     /// The name to be updated as part of the UpdateGlossaryTerm action. Constraints: o min: 1 o max: 256
@@ -69,5 +113,22 @@ public record AwsDatazoneUpdateGlossaryTermOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

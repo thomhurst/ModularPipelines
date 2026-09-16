@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --attributeupdatemode.
+/// Allowed values for --attribute-update-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotfleetwiseUpdateVehicleAttributeUpdateMode
 {
-    [EnumValue("Overwrite")]
-    Overwrite = 1,
-
     [EnumValue("Merge")]
-    Merge = 2
+    Merge,
+
+    [EnumValue("Overwrite")]
+    Overwrite
 }

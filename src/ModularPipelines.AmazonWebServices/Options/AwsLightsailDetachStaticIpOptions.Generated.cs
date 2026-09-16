@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lightsail", "detach-static-ip")]
-public record AwsLightsailDetachStaticIpOptions : AwsOptions
+public record AwsLightsailDetachStaticIpOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Detaches a static IP from the Amazon Lightsail instance to which it is attached. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="StaticIpName">The name of the static IP to detach from the instance. Constraints: o pattern: \w[\w\-]*\w</param>
+    public AwsLightsailDetachStaticIpOptions(
+        string StaticIpName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StaticIpName);
+        this.StaticIpName = StaticIpName;
+    }
+
+    private AwsLightsailDetachStaticIpOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLightsailDetachStaticIpOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLightsailDetachStaticIpOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the static IP to detach from the instance. Constraints: o pattern: \w[\w\-]*\w
+    /// </summary>
     [CliOption("--static-ip-name")]
-    public string? StaticIpName { get; set; }
+    public string? StaticIpName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

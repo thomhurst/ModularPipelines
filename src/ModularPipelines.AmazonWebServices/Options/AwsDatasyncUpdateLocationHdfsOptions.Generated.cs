@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datasync", "update-location-hdfs")]
-public record AwsDatasyncUpdateLocationHdfsOptions : AwsOptions
+public record AwsDatasyncUpdateLocationHdfsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies the following configuration parameters of the Hadoop Distrib- uted File System (HDFS) transfer location that you're using with Data- Sync. For more information, see Configuring DataSync transfers with an HDFS cluster . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LocationArn">The Amazon Resource Name (ARN) of the source HDFS cluster location. Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):data- sync:[a-z\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$</param>
+    public AwsDatasyncUpdateLocationHdfsOptions(
+        string LocationArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LocationArn);
+        this.LocationArn = LocationArn;
+    }
+
+    private AwsDatasyncUpdateLocationHdfsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatasyncUpdateLocationHdfsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatasyncUpdateLocationHdfsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the source HDFS cluster location. Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):data- sync:[a-z\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$
+    /// </summary>
     [CliOption("--location-arn")]
-    public string? LocationArn { get; set; }
+    public string? LocationArn { get; private init; }
 
     /// <summary>
     /// A subdirectory in the HDFS cluster. This subdirectory is used to read data from or write data to the HDFS cluster. Constraints: o max: 4096 o pattern: ^[a-zA-Z0-9_\-\+\./\(\)\$\p{Zs}]+$
@@ -117,5 +154,22 @@ public record AwsDatasyncUpdateLocationHdfsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

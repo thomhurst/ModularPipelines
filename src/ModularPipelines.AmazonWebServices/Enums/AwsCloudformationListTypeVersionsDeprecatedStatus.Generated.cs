@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --deprecatedstatus.
+/// Allowed values for --deprecated-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCloudformationListTypeVersionsDeprecatedStatus
 {
-    [EnumValue("LIVE")]
-    Live = 1,
-
     [EnumValue("DEPRECATED")]
-    Deprecated = 2
+    Deprecated,
+
+    [EnumValue("LIVE")]
+    Live
 }

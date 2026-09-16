@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("inspector2", "start-cis-session")]
-public record AwsInspector2StartCisSessionOptions : AwsOptions
+public record AwsInspector2StartCisSessionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--scan-job-id")]
-    public string? ScanJobId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Starts a CIS session. This API is used by the Amazon Inspector SSM plu- gin to communicate with the Amazon Inspector service. The Amazon In- spector SSM plugin calls this API to start a CIS scan session for the scan ID supplied by the service. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ScanJobId">A unique identifier for the scan job. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="Message">The start CIS session message. sessionToken -&gt; (string) [required] The unique token that identifies the CIS session. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} Shorthand Syntax: sessionToken=string JSON Syntax: { "sessionToken": "string" }</param>
+    public AwsInspector2StartCisSessionOptions(
+        string ScanJobId,
+        string Message
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ScanJobId);
+        this.ScanJobId = ScanJobId;
+        global::System.ArgumentNullException.ThrowIfNull(Message);
+        this.Message = Message;
+    }
+
+    private AwsInspector2StartCisSessionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsInspector2StartCisSessionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsInspector2StartCisSessionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier for the scan job. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// </summary>
+    [CliOption("--scan-job-id")]
+    public string? ScanJobId { get; private init; }
+
+    /// <summary>
+    /// The start CIS session message. sessionToken -&gt; (string) [required] The unique token that identifies the CIS session. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} Shorthand Syntax: sessionToken=string JSON Syntax: { "sessionToken": "string" }
+    /// </summary>
     [CliOption("--message")]
-    public string? Message { get; set; }
+    public string? Message { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

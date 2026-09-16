@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("signin", "create-oauth2-token-with-iam")]
-public record AwsSigninCreateOauth2TokenWithIamOptions : AwsOptions
+public record AwsSigninCreateOauth2TokenWithIamOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--grant-type")]
-    public string? GrantType { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Grants permission to exchange client credentials for an OAuth 2.0 ac- cess token scoped to a resource that can be used to access AWS services from applications See also: AWS API Documentation
+    /// </summary>
+    /// <param name="GrantType">OAuth 2.0 grant type. Must be "client_credentials". Constraints: o pattern: client_credentials</param>
+    /// <param name="Resource">The OAuth resource for which the access token is requested. Example: "aws-mcp.amazonaws.com". Constraints: o min: 1 o max: 2048</param>
+    public AwsSigninCreateOauth2TokenWithIamOptions(
+        string GrantType,
+        string Resource
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GrantType);
+        this.GrantType = GrantType;
+        global::System.ArgumentNullException.ThrowIfNull(Resource);
+        this.Resource = Resource;
+    }
+
+    private AwsSigninCreateOauth2TokenWithIamOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSigninCreateOauth2TokenWithIamOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSigninCreateOauth2TokenWithIamOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// OAuth 2.0 grant type. Must be "client_credentials". Constraints: o pattern: client_credentials
+    /// </summary>
+    [CliOption("--grant-type")]
+    public string? GrantType { get; private init; }
+
+    /// <summary>
+    /// The OAuth resource for which the access token is requested. Example: "aws-mcp.amazonaws.com". Constraints: o min: 1 o max: 2048
+    /// </summary>
     [CliOption("--resource")]
-    public string? Resource { get; set; }
+    public string? Resource { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

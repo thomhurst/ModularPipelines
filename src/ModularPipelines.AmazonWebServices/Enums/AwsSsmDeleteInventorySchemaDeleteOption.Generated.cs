@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --schemadeleteoption.
+/// Allowed values for --schema-delete-option.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSsmDeleteInventorySchemaDeleteOption
 {
-    [EnumValue("DisableSchema")]
-    DisableSchema = 1,
-
     [EnumValue("DeleteSchema")]
-    DeleteSchema = 2
+    DeleteSchema,
+
+    [EnumValue("DisableSchema")]
+    DisableSchema
 }

@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --s3prefixtype.
+/// Allowed values for --s3-prefix-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsS3controlCreateAccessGrantS3PrefixType
 {
+    [EnumValue("o")]
+    O,
+
     [EnumValue("Object")]
-    Object = 1
+    Object
 }

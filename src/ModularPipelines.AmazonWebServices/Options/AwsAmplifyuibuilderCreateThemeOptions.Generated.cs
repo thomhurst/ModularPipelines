@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("amplifyuibuilder", "create-theme")]
-public record AwsAmplifyuibuilderCreateThemeOptions : AwsOptions
+public record AwsAmplifyuibuilderCreateThemeOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--app-id")]
-    public string? AppId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a theme to apply to the components in an Amplify app. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AppId">The unique ID of the Amplify app associated with the theme.</param>
+    /// <param name="EnvironmentName">The name of the backend environment that is a part of the Amplify app.</param>
+    /// <param name="ThemeToCreate">Represents the configuration of the theme to create. name -&gt; (string) [required] The name of the theme. Constraints: o min: 1 o max: 255 values -&gt; (list) [required] A list of key-value pairs that denes the properties of the theme. (structure) A key-value pair that defines a property of a theme. key -&gt; (string) The name of the property. value -&gt; (structure) The value of the property. value -&gt; (string) The value of a theme property. children -&gt; (list) A list of key-value pairs that define the theme's properties. (structure) A key-value pair that defines a property of a theme. key -&gt; (string) The name of the property. value -&gt; (structure) The value of the property. value -&gt; (string) The value of a theme property. overrides -&gt; (list) Describes the properties that can be overriden to customize an instance of the theme. (structure) A key-value pair that defines a property of a theme. key -&gt; (string) The name of the property. value -&gt; (structure) The value of the property. value -&gt; (string) The value of a theme property. children -&gt; (list) A list of key-value pairs that define the theme's properties. (structure) A key-value pair that defines a property of a theme. key -&gt; (string) The name of the property. value -&gt; (structure) The value of the property. value -&gt; (string) The value of a theme property. tags -&gt; (map) One or more key-value pairs to use when tagging the theme data. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: (?!aws:)[a-zA-Z+-=._:/]+ value -&gt; (string) Constraints: o min: 1 o max: 256 JSON Syntax: { "name": "string", "values": [ { "key": "string", "value": { "value": "string", "children": [ { "key": "string", "value": { "value": "string", "children": } } ... ] } } ... ], "overrides": [ { "key": "string", "value": { "value": "string", "children": [ { "key": "string", "value": { "value": "string", "children": } } ... ] } } ... ], "tags": {"string": "string" ...} }</param>
+    public AwsAmplifyuibuilderCreateThemeOptions(
+        string AppId,
+        string EnvironmentName,
+        string ThemeToCreate
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AppId);
+        this.AppId = AppId;
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentName);
+        this.EnvironmentName = EnvironmentName;
+        global::System.ArgumentNullException.ThrowIfNull(ThemeToCreate);
+        this.ThemeToCreate = ThemeToCreate;
+    }
+
+    private AwsAmplifyuibuilderCreateThemeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAmplifyuibuilderCreateThemeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAmplifyuibuilderCreateThemeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique ID of the Amplify app associated with the theme.
+    /// </summary>
+    [CliOption("--app-id")]
+    public string? AppId { get; private init; }
+
+    /// <summary>
+    /// The name of the backend environment that is a part of the Amplify app.
+    /// </summary>
     [CliOption("--environment-name")]
-    public string? EnvironmentName { get; set; }
+    public string? EnvironmentName { get; private init; }
+
+    /// <summary>
+    /// Represents the configuration of the theme to create. name -&gt; (string) [required] The name of the theme. Constraints: o min: 1 o max: 255 values -&gt; (list) [required] A list of key-value pairs that denes the properties of the theme. (structure) A key-value pair that defines a property of a theme. key -&gt; (string) The name of the property. value -&gt; (structure) The value of the property. value -&gt; (string) The value of a theme property. children -&gt; (list) A list of key-value pairs that define the theme's properties. (structure) A key-value pair that defines a property of a theme. key -&gt; (string) The name of the property. value -&gt; (structure) The value of the property. value -&gt; (string) The value of a theme property. overrides -&gt; (list) Describes the properties that can be overriden to customize an instance of the theme. (structure) A key-value pair that defines a property of a theme. key -&gt; (string) The name of the property. value -&gt; (structure) The value of the property. value -&gt; (string) The value of a theme property. children -&gt; (list) A list of key-value pairs that define the theme's properties. (structure) A key-value pair that defines a property of a theme. key -&gt; (string) The name of the property. value -&gt; (structure) The value of the property. value -&gt; (string) The value of a theme property. tags -&gt; (map) One or more key-value pairs to use when tagging the theme data. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: (?!aws:)[a-zA-Z+-=._:/]+ value -&gt; (string) Constraints: o min: 1 o max: 256 JSON Syntax: { "name": "string", "values": [ { "key": "string", "value": { "value": "string", "children": [ { "key": "string", "value": { "value": "string", "children": } } ... ] } } ... ], "overrides": [ { "key": "string", "value": { "value": "string", "children": [ { "key": "string", "value": { "value": "string", "children": } } ... ] } } ... ], "tags": {"string": "string" ...} }
+    /// </summary>
+    [CliOption("--theme-to-create")]
+    public string? ThemeToCreate { get; private init; }
 
     /// <summary>
     /// The unique client token.
@@ -35,13 +89,27 @@ public record AwsAmplifyuibuilderCreateThemeOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--theme-to-create")]
-    public string? ThemeToCreate { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

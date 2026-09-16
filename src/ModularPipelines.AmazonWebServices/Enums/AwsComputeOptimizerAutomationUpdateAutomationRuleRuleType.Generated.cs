@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --ruletype.
+/// Allowed values for --rule-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsComputeOptimizerAutomationUpdateAutomationRuleRuleType
 {
-    [EnumValue("OrganizationRule")]
-    OrganizationRule = 1,
-
     [EnumValue("AccountRule")]
-    AccountRule = 2
+    AccountRule,
+
+    [EnumValue("OrganizationRule")]
+    OrganizationRule
 }

@@ -41,7 +41,10 @@ public record AwsEcsListAccountSettingsOptions : AwsOptions
     [CliOption("--principal-arn")]
     public string? PrincipalArn { get; set; }
 
-    [CliFlag("--effective-settings")]
+    /// <summary>
+    /// Determines whether to return the effective settings. If true , the account settings for the root user or the default setting for the principalArn are returned. If false , the account settings for the principalArn are returned if they're set. Otherwise, no account set- tings are returned.
+    /// </summary>
+    [CliFlag("--effective-settings", NegatedName = "--no-effective-settings")]
     public bool? EffectiveSettings { get; set; }
 
     [CliOption("--cli-input-json")]

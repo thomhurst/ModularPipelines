@@ -12,6 +12,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,10 +23,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot-managed-integrations", "create-provisioning-profile")]
-public record AwsIotManagedIntegrationsCreateProvisioningProfileOptions : AwsOptions
+public record AwsIotManagedIntegrationsCreateProvisioningProfileOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Create a provisioning profile for executing device provisioning flows. The provisioning profile is a document that defines the set of re- sources and policies applied to a device during the provisioning process. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ProvisioningType">The type of provisioning workflow the device uses for onboarding to IoT managed integrations. Possible values: o FLEET_PROVISIONING o JITR</param>
+    public AwsIotManagedIntegrationsCreateProvisioningProfileOptions(
+        AwsIotManagedIntegrationsCreateProvisioningProfileProvisioningType ProvisioningType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProvisioningType);
+        this.ProvisioningType = ProvisioningType;
+    }
+
+    private AwsIotManagedIntegrationsCreateProvisioningProfileOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotManagedIntegrationsCreateProvisioningProfileOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotManagedIntegrationsCreateProvisioningProfileOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The type of provisioning workflow the device uses for onboarding to IoT managed integrations. Possible values: o FLEET_PROVISIONING o JITR
+    /// </summary>
     [CliOption("--provisioning-type")]
-    public string? ProvisioningType { get; set; }
+    public AwsIotManagedIntegrationsCreateProvisioningProfileProvisioningType? ProvisioningType { get; private init; }
 
     /// <summary>
     /// The body of the PEM-encoded certificate authority (CA) certificate. Constraints: o pattern: -----BEGIN CERTIFICATE-----.*(.|\n)*-----END CERTIFI- CATE-----\n?
@@ -62,5 +100,22 @@ public record AwsIotManagedIntegrationsCreateProvisioningProfileOptions : AwsOpt
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

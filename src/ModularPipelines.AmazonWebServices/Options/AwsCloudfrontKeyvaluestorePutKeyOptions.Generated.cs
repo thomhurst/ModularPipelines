@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudfront-keyvaluestore", "put-key")]
-public record AwsCloudfrontKeyvaluestorePutKeyOptions : AwsOptions
+public record AwsCloudfrontKeyvaluestorePutKeyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new key value pair or replaces the value of an existing key. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Key">The key to put. Constraints: o min: 1 o max: 1024</param>
+    /// <param name="Value">The value to put.</param>
+    /// <param name="KvsArn">The Amazon Resource Name (ARN) of the Key Value Store. Constraints: o min: 1 o max: 2048</param>
+    /// <param name="IfMatch">The current version (ETag) of the Key Value Store that you are putting keys into, which you can get using DescribeKeyValueStore.</param>
+    public AwsCloudfrontKeyvaluestorePutKeyOptions(
+        string Key,
+        string Value,
+        string KvsArn,
+        string IfMatch
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Key);
+        this.Key = Key;
+        global::System.ArgumentNullException.ThrowIfNull(Value);
+        this.Value = Value;
+        global::System.ArgumentNullException.ThrowIfNull(KvsArn);
+        this.KvsArn = KvsArn;
+        global::System.ArgumentNullException.ThrowIfNull(IfMatch);
+        this.IfMatch = IfMatch;
+    }
+
+    private AwsCloudfrontKeyvaluestorePutKeyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudfrontKeyvaluestorePutKeyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudfrontKeyvaluestorePutKeyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The key to put. Constraints: o min: 1 o max: 1024
+    /// </summary>
     [CliOption("--key")]
-    public string? Key { get; set; }
+    public string? Key { get; private init; }
 
+    /// <summary>
+    /// The value to put.
+    /// </summary>
     [CliOption("--value")]
-    public string? Value { get; set; }
+    public string? Value { get; private init; }
 
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the Key Value Store. Constraints: o min: 1 o max: 2048
+    /// </summary>
     [CliOption("--kvs-arn")]
-    public string? KvsArn { get; set; }
+    public string? KvsArn { get; private init; }
 
+    /// <summary>
+    /// The current version (ETag) of the Key Value Store that you are putting keys into, which you can get using DescribeKeyValueStore.
+    /// </summary>
     [CliOption("--if-match")]
-    public string? IfMatch { get; set; }
+    public string? IfMatch { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

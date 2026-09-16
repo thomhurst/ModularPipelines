@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,19 +21,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elasticache", "create-serverless-cache")]
-public record AwsElasticacheCreateServerlessCacheOptions : AwsOptions
+public record AwsElasticacheCreateServerlessCacheOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a serverless cache. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ServerlessCacheName">User-provided identifier for the serverless cache. This parameter is stored as a lowercase string.</param>
+    /// <param name="Engine">The name of the cache engine to be used for creating the serverless cache.</param>
+    public AwsElasticacheCreateServerlessCacheOptions(
+        string ServerlessCacheName,
+        string Engine
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServerlessCacheName);
+        this.ServerlessCacheName = ServerlessCacheName;
+        global::System.ArgumentNullException.ThrowIfNull(Engine);
+        this.Engine = Engine;
+    }
+
+    private AwsElasticacheCreateServerlessCacheOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElasticacheCreateServerlessCacheOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElasticacheCreateServerlessCacheOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// User-provided identifier for the serverless cache. This parameter is stored as a lowercase string.
+    /// </summary>
     [CliOption("--serverless-cache-name")]
-    public string? ServerlessCacheName { get; set; }
+    public string? ServerlessCacheName { get; private init; }
+
+    /// <summary>
+    /// The name of the cache engine to be used for creating the serverless cache.
+    /// </summary>
+    [CliOption("--engine")]
+    public string? Engine { get; private init; }
 
     /// <summary>
     /// User-provided description for the serverless cache. The default is NULL, i.e. if no description is provided then an empty string will be returned. The maximum length is 255 characters.
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--engine")]
-    public string? Engine { get; set; }
 
     /// <summary>
     /// The version of the cache engine that will be used to create the serverless cache.
@@ -105,5 +149,22 @@ public record AwsElasticacheCreateServerlessCacheOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --batchinferencejobmode.
+/// Allowed values for --batch-inference-job-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsPersonalizeCreateBatchInferenceJobBatchInferenceJobMode
 {
     [EnumValue("BATCH_INFERENCE")]
-    BatchInference = 1,
+    BatchInference,
 
     [EnumValue("THEME_GENERATION")]
-    ThemeGeneration = 2
+    ThemeGeneration
 }

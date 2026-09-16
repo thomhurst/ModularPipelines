@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --lookbackperiod.
+/// Allowed values for --look-back-period.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsComputeOptimizerPutRecommendationPreferencesLookBackPeriod
 {
     [EnumValue("DAYS_14")]
-    Days_14 = 1,
+    Days14,
 
     [EnumValue("DAYS_32")]
-    Days_32 = 2,
+    Days32,
 
     [EnumValue("DAYS_93")]
-    Days_93 = 3
+    Days93
 }

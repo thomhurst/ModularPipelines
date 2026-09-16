@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --deletionmode.
+/// Allowed values for --deletion-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEfsDeleteReplicationConfigurationDeletionMode
 {
     [EnumValue("ALL_CONFIGURATIONS")]
-    AllConfigurations = 1,
+    AllConfigurations,
 
     [EnumValue("LOCAL_CONFIGURATION_ONLY")]
-    LocalConfigurationOnly = 2
+    LocalConfigurationOnly
 }

@@ -11,23 +11,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --identitytype.
+/// Allowed values for --identity-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsQbusinessCreateApplicationIdentityType
 {
-    [EnumValue("AWS_IAM_IDP_SAML")]
-    AwsIamIdpSaml = 1,
-
-    [EnumValue("AWS_IAM_IDP_OIDC")]
-    AwsIamIdpOidc = 2,
+    [EnumValue("ANONYMOUS")]
+    Anonymous,
 
     [EnumValue("AWS_IAM_IDC")]
-    AwsIamIdc = 3,
+    AwsIamIdc,
+
+    [EnumValue("AWS_IAM_IDP_OIDC")]
+    AwsIamIdpOidc,
+
+    [EnumValue("AWS_IAM_IDP_SAML")]
+    AwsIamIdpSaml,
 
     [EnumValue("AWS_QUICKSIGHT_IDP")]
-    AwsQuicksightIdp = 4,
-
-    [EnumValue("ANONYMOUS")]
-    Anonymous = 5
+    AwsQuicksightIdp
 }

@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "acquire-role")]
-public record AwsIamAcquireRoleOptions : AwsOptions
+public record AwsIamAcquireRoleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an IAM role from the specified role template. The new role takes its configurationincluding its name, path, trust policy, inline and managed policies, permissions boundary, tags, and maximum session durationfrom the role template version that you specify. For more in- formation about roles, see IAM roles in the IAM User Guide . If the template version defines parameters, use the ReplacementValues parameter to supply the values that the service substitutes into the role during creation. S...
+    /// </summary>
+    /// <param name="TemplateArn">The Amazon Resource Name (ARN) of the role template to create the role from. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference . Constraints: o min: 20 o max: 2048</param>
+    public AwsIamAcquireRoleOptions(
+        string TemplateArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TemplateArn);
+        this.TemplateArn = TemplateArn;
+    }
+
+    private AwsIamAcquireRoleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIamAcquireRoleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIamAcquireRoleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the role template to create the role from. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference . Constraints: o min: 20 o max: 2048
+    /// </summary>
     [CliOption("--template-arn")]
-    public string? TemplateArn { get; set; }
+    public string? TemplateArn { get; private init; }
 
     /// <summary>
     /// The minor version of the role template to use. If you do not specify a minor version, the service uses the template's default minor ver- sion.
@@ -42,5 +79,22 @@ public record AwsIamAcquireRoleOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

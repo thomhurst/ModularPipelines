@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --textformat.
+/// Allowed values for --text-format.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsPiGetPerformanceAnalysisReportTextFormat
 {
-    [EnumValue("PLAIN_TEXT")]
-    PlainText = 1,
-
     [EnumValue("MARKDOWN")]
-    Markdown = 2
+    Markdown,
+
+    [EnumValue("PLAIN_TEXT")]
+    PlainText
 }

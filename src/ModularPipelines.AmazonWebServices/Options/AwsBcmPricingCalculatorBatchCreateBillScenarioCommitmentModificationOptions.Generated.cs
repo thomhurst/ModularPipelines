@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bcm-pricing-calculator", "batch-create-bill-scenario-commitment-modification")]
-public record AwsBcmPricingCalculatorBatchCreateBillScenarioCommitmentModificationOptions : AwsOptions
+public record AwsBcmPricingCalculatorBatchCreateBillScenarioCommitmentModificationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--bill-scenario-id")]
-    public string? BillScenarioId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Create Compute Savings Plans, EC2 Instance Savings Plans, or EC2 Re- served Instances commitments that you want to model in a Bill Scenario. NOTE: The BatchCreateBillScenarioCommitmentModification operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission bcm-pricing-calcula- tor:CreateBillScenarioCommitmentModification in your policies. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BillScenarioId">The ID of the Bill Scenario for which you want to create the modeled commitment. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="CommitmentModifications">List of commitments that you want to model in the Bill Scenario. Constraints: o min: 1 o max: 25 (structure) Represents an entry object in the batch operation to create bill scenario commitment modifications. key -&gt; (string) [required] A unique identifier for this entry in the batch operation. This can be any valid string. This key is useful to identify errors associated with any commitment entry as any error is returned with this key. Constraints: o min: 0 o max: 10 o pattern: [a-zA-Z0-9]* group -&gt; (string) An optional group identifier for the commitment modification. Constraints: o min: 0 o max: 30 o pattern: [a-zA-Z0-9-]* usageAccountId -&gt; (string) [required] The Amazon Web Services account ID to which this commitment will be applied to. Constraints: o min: 12 o max: 12 o pattern: \d{12} commitmentAction -&gt; (tagged union structure) [required] The specific commitment action to be taken (e.g., adding a Reserved Instance or Savings Plan). NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: addReservedInstanceAction, addSavingsPlanAction, negateReservedInstanceAction, negateSavingsPlanAction. addReservedInstanceAction -&gt; (structure) Action to add a Reserved Instance to the scenario. reservedInstancesOfferingId -&gt; (string) The ID of the Reserved Instance offering to add. For more information, see DescribeReservedInstancesOfferings . Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} instanceCount -&gt; (integer) The number of instances to add for this Reserved In- stance offering. Constraints: o min: 1 addSavingsPlanAction -&gt; (structure) Action to add a Savings Plan to the scenario. savingsPlanOfferingId -&gt; (string) The ID of the Savings Plan offering to add. For more information, see DescribeSavingsPlansOfferings . Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} commitment -&gt; (double) The hourly commitment, in the same currency of the savingsPlanOfferingId . This is a value between 0.001 and 1 million. You cannot specify more than five dig- its after the decimal point. Constraints: o min: 0.001 o max: 1000000 negateReservedInstanceAction -&gt; (structure) Action to remove a Reserved Instance from the scenario. reservedInstancesId -&gt; (string) The ID of the Reserved Instance to remove. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} negateSavingsPlanAction -&gt; (structure) Action to remove a Savings Plan from the scenario. savingsPlanId -&gt; (string) The ID of the Savings Plan to remove. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} Shorthand Syntax: key=string,group=string,usageAccountId=string,commitmentAction={addReservedInstanceAction={reservedInstancesOfferingId=string,instanceCount=integer},addSavingsPlanAction={savingsPlanOfferingId=string,commitment=double},negateReservedInstanceAction={reservedInstancesId=string},negateSavingsPlanAction={savingsPlanId=string}} ... JSON Syntax: [ { "key": "string", "group": "string", "usageAccountId": "string", "commitmentAction": { "addReservedInstanceAction": { "reservedInstancesOfferingId": "string", "instanceCount": integer }, "addSavingsPlanAction": { "savingsPlanOfferingId": "string", "commitment": double }, "negateReservedInstanceAction": { "reservedInstancesId": "string" }, "negateSavingsPlanAction": { "savingsPlanId": "string" } } } ... ]</param>
+    public AwsBcmPricingCalculatorBatchCreateBillScenarioCommitmentModificationOptions(
+        string BillScenarioId,
+        IEnumerable<string> CommitmentModifications
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BillScenarioId);
+        this.BillScenarioId = BillScenarioId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(CommitmentModifications);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(CommitmentModifications));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(CommitmentModifications));
+            }
+
+            CommitmentModifications = materialized;
+        }
+        this.CommitmentModifications = CommitmentModifications;
+    }
+
+    private AwsBcmPricingCalculatorBatchCreateBillScenarioCommitmentModificationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBcmPricingCalculatorBatchCreateBillScenarioCommitmentModificationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBcmPricingCalculatorBatchCreateBillScenarioCommitmentModificationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Bill Scenario for which you want to create the modeled commitment. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// </summary>
+    [CliOption("--bill-scenario-id")]
+    public string? BillScenarioId { get; private init; }
+
+    /// <summary>
+    /// List of commitments that you want to model in the Bill Scenario. Constraints: o min: 1 o max: 25 (structure) Represents an entry object in the batch operation to create bill scenario commitment modifications. key -&gt; (string) [required] A unique identifier for this entry in the batch operation. This can be any valid string. This key is useful to identify errors associated with any commitment entry as any error is returned with this key. Constraints: o min: 0 o max: 10 o pattern: [a-zA-Z0-9]* group -&gt; (string) An optional group identifier for the commitment modification. Constraints: o min: 0 o max: 30 o pattern: [a-zA-Z0-9-]* usageAccountId -&gt; (string) [required] The Amazon Web Services account ID to which this commitment will be applied to. Constraints: o min: 12 o max: 12 o pattern: \d{12} commitmentAction -&gt; (tagged union structure) [required] The specific commitment action to be taken (e.g., adding a Reserved Instance or Savings Plan). NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: addReservedInstanceAction, addSavingsPlanAction, negateReservedInstanceAction, negateSavingsPlanAction. addReservedInstanceAction -&gt; (structure) Action to add a Reserved Instance to the scenario. reservedInstancesOfferingId -&gt; (string) The ID of the Reserved Instance offering to add. For more information, see DescribeReservedInstancesOfferings . Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} instanceCount -&gt; (integer) The number of instances to add for this Reserved In- stance offering. Constraints: o min: 1 addSavingsPlanAction -&gt; (structure) Action to add a Savings Plan to the scenario. savingsPlanOfferingId -&gt; (string) The ID of the Savings Plan offering to add. For more information, see DescribeSavingsPlansOfferings . Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} commitment -&gt; (double) The hourly commitment, in the same currency of the savingsPlanOfferingId . This is a value between 0.001 and 1 million. You cannot specify more than five dig- its after the decimal point. Constraints: o min: 0.001 o max: 1000000 negateReservedInstanceAction -&gt; (structure) Action to remove a Reserved Instance from the scenario. reservedInstancesId -&gt; (string) The ID of the Reserved Instance to remove. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} negateSavingsPlanAction -&gt; (structure) Action to remove a Savings Plan from the scenario. savingsPlanId -&gt; (string) The ID of the Savings Plan to remove. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} Shorthand Syntax: key=string,group=string,usageAccountId=string,commitmentAction={addReservedInstanceAction={reservedInstancesOfferingId=string,instanceCount=integer},addSavingsPlanAction={savingsPlanOfferingId=string,commitment=double},negateReservedInstanceAction={reservedInstancesId=string},negateSavingsPlanAction={savingsPlanId=string}} ... JSON Syntax: [ { "key": "string", "group": "string", "usageAccountId": "string", "commitmentAction": { "addReservedInstanceAction": { "reservedInstancesOfferingId": "string", "instanceCount": integer }, "addSavingsPlanAction": { "savingsPlanOfferingId": "string", "commitment": double }, "negateReservedInstanceAction": { "reservedInstancesId": "string" }, "negateSavingsPlanAction": { "savingsPlanId": "string" } } } ... ]
+    /// </summary>
     [CliOption("--commitment-modifications", GroupValues = true)]
-    public IEnumerable<string>? CommitmentModifications { get; set; }
+    public IEnumerable<string>? CommitmentModifications { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 64 o pattern: [\u0021-\u007E]+
@@ -40,5 +95,22 @@ public record AwsBcmPricingCalculatorBatchCreateBillScenarioCommitmentModificati
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

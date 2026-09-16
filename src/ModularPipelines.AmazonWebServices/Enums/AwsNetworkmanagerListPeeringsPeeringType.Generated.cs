@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --peeringtype.
+/// Allowed values for --peering-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsNetworkmanagerListPeeringsPeeringType
 {
+    [EnumValue("o")]
+    O,
+
     [EnumValue("TRANSIT_GATEWAY")]
-    TransitGateway = 1
+    TransitGateway
 }

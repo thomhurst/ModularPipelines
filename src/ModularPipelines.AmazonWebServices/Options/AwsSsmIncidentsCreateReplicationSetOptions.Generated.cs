@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,17 +22,64 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm-incidents", "create-replication-set")]
-public record AwsSsmIncidentsCreateReplicationSetOptions : AwsOptions
+public record AwsSsmIncidentsCreateReplicationSetOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// A replication set replicates and encrypts your data to the provided Re- gions with the provided KMS key. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Regions">The Regions that Incident Manager replicates your data to. You can have up to three Regions in your replication set. Constraints: o min: 1 o max: 3 key -&gt; (string) Constraints: o min: 0 o max: 20 value -&gt; (structure) The mapping between a Amazon Web Services Region and the key that's used to encrypt the data. sseKmsKeyId -&gt; (string) The KMS key used to encrypt the data in your replication set. Constraints: o min: 0 o max: 2048 Shorthand Syntax: KeyName1={sseKmsKeyId=string},KeyName2={sseKmsKeyId=string} JSON Syntax: {"string": { "sseKmsKeyId": "string" } ...}</param>
+    public AwsSsmIncidentsCreateReplicationSetOptions(
+        IReadOnlyList<KeyValue> Regions
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Regions);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(Regions));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Regions));
+            }
+
+            Regions = materialized;
+        }
+        this.Regions = Regions;
+    }
+
+    private AwsSsmIncidentsCreateReplicationSetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmIncidentsCreateReplicationSetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmIncidentsCreateReplicationSetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Regions that Incident Manager replicates your data to. You can have up to three Regions in your replication set. Constraints: o min: 1 o max: 3 key -&gt; (string) Constraints: o min: 0 o max: 20 value -&gt; (structure) The mapping between a Amazon Web Services Region and the key that's used to encrypt the data. sseKmsKeyId -&gt; (string) The KMS key used to encrypt the data in your replication set. Constraints: o min: 0 o max: 2048 Shorthand Syntax: KeyName1={sseKmsKeyId=string},KeyName2={sseKmsKeyId=string} JSON Syntax: {"string": { "sseKmsKeyId": "string" } ...}
+    /// </summary>
+    [CliOption("--regions", CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Regions { get; private init; }
+
     /// <summary>
     /// A token that ensures that the operation is called only once with the specified details. Constraints: o min: 0 o max: 128
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--regions", CollectionSeparator = ",")]
-    public IReadOnlyList<KeyValue>? Regions { get; set; }
 
     /// <summary>
     /// A list of tags to add to the replication set. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[A-Za-z0-9 _=@:.+-/]+$ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ^[A-Za-z0-9 _=@:.+-/]*$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -44,5 +92,22 @@ public record AwsSsmIncidentsCreateReplicationSetOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

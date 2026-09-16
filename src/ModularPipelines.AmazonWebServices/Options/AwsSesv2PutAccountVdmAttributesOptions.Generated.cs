@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sesv2", "put-account-vdm-attributes")]
-public record AwsSesv2PutAccountVdmAttributesOptions : AwsOptions
+public record AwsSesv2PutAccountVdmAttributesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Update your Amazon SES account VDM attributes. You can execute this operation no more than once per second. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="VdmAttributes">The VDM attributes that you wish to apply to your Amazon SES ac- count. VdmEnabled -&gt; (string) [required] Specifies the status of your VDM configuration. Can be one of the following: o ENABLED Amazon SES enables VDM for your account. o DISABLED Amazon SES disables VDM for your account. Possible values: o ENABLED o DISABLED DashboardAttributes -&gt; (structure) Specifies additional settings for your VDM configuration as ap- plicable to the Dashboard. EngagementMetrics -&gt; (string) Specifies the status of your VDM engagement metrics collec- tion. Can be one of the following: o ENABLED Amazon SES enables engagement metrics for your ac- count. o DISABLED Amazon SES disables engagement metrics for your account. Possible values: o ENABLED o DISABLED GuardianAttributes -&gt; (structure) Specifies additional settings for your VDM configuration as ap- plicable to the Guardian. OptimizedSharedDelivery -&gt; (string) Specifies the status of your VDM optimized shared delivery. Can be one of the following: o ENABLED Amazon SES enables optimized shared delivery for your account. o DISABLED Amazon SES disables optimized shared delivery for your account. Possible values: o ENABLED o DISABLED Shorthand Syntax: VdmEnabled=string,DashboardAttributes={EngagementMetrics=string},GuardianAttributes={OptimizedSharedDelivery=string} JSON Syntax: { "VdmEnabled": "ENABLED"|"DISABLED", "DashboardAttributes": { "EngagementMetrics": "ENABLED"|"DISABLED" }, "GuardianAttributes": { "OptimizedSharedDelivery": "ENABLED"|"DISABLED" } }</param>
+    public AwsSesv2PutAccountVdmAttributesOptions(
+        string VdmAttributes
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VdmAttributes);
+        this.VdmAttributes = VdmAttributes;
+    }
+
+    private AwsSesv2PutAccountVdmAttributesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSesv2PutAccountVdmAttributesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSesv2PutAccountVdmAttributesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The VDM attributes that you wish to apply to your Amazon SES ac- count. VdmEnabled -&gt; (string) [required] Specifies the status of your VDM configuration. Can be one of the following: o ENABLED Amazon SES enables VDM for your account. o DISABLED Amazon SES disables VDM for your account. Possible values: o ENABLED o DISABLED DashboardAttributes -&gt; (structure) Specifies additional settings for your VDM configuration as ap- plicable to the Dashboard. EngagementMetrics -&gt; (string) Specifies the status of your VDM engagement metrics collec- tion. Can be one of the following: o ENABLED Amazon SES enables engagement metrics for your ac- count. o DISABLED Amazon SES disables engagement metrics for your account. Possible values: o ENABLED o DISABLED GuardianAttributes -&gt; (structure) Specifies additional settings for your VDM configuration as ap- plicable to the Guardian. OptimizedSharedDelivery -&gt; (string) Specifies the status of your VDM optimized shared delivery. Can be one of the following: o ENABLED Amazon SES enables optimized shared delivery for your account. o DISABLED Amazon SES disables optimized shared delivery for your account. Possible values: o ENABLED o DISABLED Shorthand Syntax: VdmEnabled=string,DashboardAttributes={EngagementMetrics=string},GuardianAttributes={OptimizedSharedDelivery=string} JSON Syntax: { "VdmEnabled": "ENABLED"|"DISABLED", "DashboardAttributes": { "EngagementMetrics": "ENABLED"|"DISABLED" }, "GuardianAttributes": { "OptimizedSharedDelivery": "ENABLED"|"DISABLED" } }
+    /// </summary>
     [CliOption("--vdm-attributes")]
-    public string? VdmAttributes { get; set; }
+    public string? VdmAttributes { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

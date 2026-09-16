@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,28 +22,118 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rds", "restore-db-instance-from-s3")]
-public record AwsRdsRestoreDbInstanceFromS3Options : AwsOptions
+public record AwsRdsRestoreDbInstanceFromS3Options : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Amazon Relational Database Service (Amazon RDS) supports importing MySQL databases by using backup files. You can create a backup of your on-premises database, store it on Amazon Simple Storage Service (Amazon S3), and then restore the backup file onto a new Amazon RDS DB instance running MySQL. For more information, see Restoring a backup into an Amazon RDS for MySQL DB instance in the Amazon RDS User Guide. This operation doesn't apply to RDS Custom. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DbInstanceIdentifier">The DB instance identifier. This parameter is stored as a lowercase string. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens. o First character must be a letter. o Can't end with a hyphen or contain two consecutive hyphens. Example: mydbinstance</param>
+    /// <param name="DbInstanceClass">The compute and memory capacity of the DB instance, for example db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see DB In- stance Class in the Amazon RDS User Guide. Importing from Amazon S3 isn't supported on the db.t2.micro DB in- stance class.</param>
+    /// <param name="Engine">The name of the database engine to be used for this instance. Valid Values: mysql</param>
+    /// <param name="SourceEngine">The name of the engine of your source database. Valid Values: mysql</param>
+    /// <param name="SourceEngineVersion">The version of the database that the backup files were created from. MySQL versions 5.6 and 5.7 are supported. Example: 5.6.40</param>
+    /// <param name="S3BucketName">The name of your Amazon S3 bucket that contains your database backup file.</param>
+    /// <param name="S3IngestionRoleArn">An Amazon Web Services Identity and Access Management (IAM) role with a trust policy and a permissions policy that allows Amazon RDS to access your Amazon S3 bucket. For information about this role, see Creating an IAM role manually in the Amazon RDS User Guide.</param>
+    public AwsRdsRestoreDbInstanceFromS3Options(
+        string DbInstanceIdentifier,
+        string DbInstanceClass,
+        string Engine,
+        string SourceEngine,
+        string SourceEngineVersion,
+        string S3BucketName,
+        string S3IngestionRoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DbInstanceIdentifier);
+        this.DbInstanceIdentifier = DbInstanceIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(DbInstanceClass);
+        this.DbInstanceClass = DbInstanceClass;
+        global::System.ArgumentNullException.ThrowIfNull(Engine);
+        this.Engine = Engine;
+        global::System.ArgumentNullException.ThrowIfNull(SourceEngine);
+        this.SourceEngine = SourceEngine;
+        global::System.ArgumentNullException.ThrowIfNull(SourceEngineVersion);
+        this.SourceEngineVersion = SourceEngineVersion;
+        global::System.ArgumentNullException.ThrowIfNull(S3BucketName);
+        this.S3BucketName = S3BucketName;
+        global::System.ArgumentNullException.ThrowIfNull(S3IngestionRoleArn);
+        this.S3IngestionRoleArn = S3IngestionRoleArn;
+    }
+
+    private AwsRdsRestoreDbInstanceFromS3Options()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRdsRestoreDbInstanceFromS3Options FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRdsRestoreDbInstanceFromS3Options ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The DB instance identifier. This parameter is stored as a lowercase string. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens. o First character must be a letter. o Can't end with a hyphen or contain two consecutive hyphens. Example: mydbinstance
+    /// </summary>
+    [CliOption("--db-instance-identifier")]
+    public string? DbInstanceIdentifier { get; private init; }
+
+    /// <summary>
+    /// The compute and memory capacity of the DB instance, for example db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see DB In- stance Class in the Amazon RDS User Guide. Importing from Amazon S3 isn't supported on the db.t2.micro DB in- stance class.
+    /// </summary>
+    [CliOption("--db-instance-class")]
+    public string? DbInstanceClass { get; private init; }
+
+    /// <summary>
+    /// The name of the database engine to be used for this instance. Valid Values: mysql
+    /// </summary>
+    [CliOption("--engine")]
+    public string? Engine { get; private init; }
+
+    /// <summary>
+    /// The name of the engine of your source database. Valid Values: mysql
+    /// </summary>
+    [CliOption("--source-engine")]
+    public string? SourceEngine { get; private init; }
+
+    /// <summary>
+    /// The version of the database that the backup files were created from. MySQL versions 5.6 and 5.7 are supported. Example: 5.6.40
+    /// </summary>
+    [CliOption("--source-engine-version")]
+    public string? SourceEngineVersion { get; private init; }
+
+    /// <summary>
+    /// The name of your Amazon S3 bucket that contains your database backup file.
+    /// </summary>
+    [CliOption("--s3-bucket-name")]
+    public string? S3BucketName { get; private init; }
+
+    /// <summary>
+    /// An Amazon Web Services Identity and Access Management (IAM) role with a trust policy and a permissions policy that allows Amazon RDS to access your Amazon S3 bucket. For information about this role, see Creating an IAM role manually in the Amazon RDS User Guide.
+    /// </summary>
+    [CliOption("--s3-ingestion-role-arn")]
+    public string? S3IngestionRoleArn { get; private init; }
+
     /// <summary>
     /// The name of the database to create when the DB instance is created. Follow the naming rules specified in CreateDBInstance .
     /// </summary>
     [CliOption("--db-name")]
     public string? DbName { get; set; }
 
-    [CliOption("--db-instance-identifier")]
-    public string? DbInstanceIdentifier { get; set; }
-
     /// <summary>
     /// The amount of storage (in gibibytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBIn- stance . This setting isn't valid for RDS for SQL Server. NOTE: Be sure to allocate enough storage for your new DB instance so that the restore operation can succeed. You can also allocate additional storage for future growth.
     /// </summary>
     [CliOption("--allocated-storage")]
     public int? AllocatedStorage { get; set; }
-
-    [CliOption("--db-instance-class")]
-    public string? DbInstanceClass { get; set; }
-
-    [CliOption("--engine")]
-    public string? Engine { get; set; }
 
     /// <summary>
     /// The name for the master user. Constraints: o Must be 1 to 16 letters or numbers. o First character must be a letter. o Can't be a reserved word for the chosen database engine.
@@ -111,7 +202,10 @@ public record AwsRdsRestoreDbInstanceFromS3Options : AwsOptions
     [CliOption("--port")]
     public int? Port { get; set; }
 
-    [CliFlag("--multi-az")]
+    /// <summary>
+    /// Specifies whether the DB instance is a Multi-AZ deployment. If the DB instance is a Multi-AZ deployment, you can't set the Availabili- tyZone parameter.
+    /// </summary>
+    [CliFlag("--multi-az", NegatedName = "--no-multi-az")]
     public bool? MultiAz { get; set; }
 
     /// <summary>
@@ -120,7 +214,10 @@ public record AwsRdsRestoreDbInstanceFromS3Options : AwsOptions
     [CliOption("--engine-version")]
     public string? EngineVersion { get; set; }
 
-    [CliFlag("--auto-minor-version-upgrade")]
+    /// <summary>
+    /// Specifies whether to automatically apply minor engine upgrades to the DB instance during the maintenance window. By default, minor en- gine upgrades are not applied automatically. For more information about automatic minor version upgrades, see Automatically upgrading the minor engine version .
+    /// </summary>
+    [CliFlag("--auto-minor-version-upgrade", NegatedName = "--no-auto-minor-version-upgrade")]
     public bool? AutoMinorVersionUpgrade { get; set; }
 
     /// <summary>
@@ -147,7 +244,10 @@ public record AwsRdsRestoreDbInstanceFromS3Options : AwsOptions
     [CliOption("--option-group-name")]
     public string? OptionGroupName { get; set; }
 
-    [CliFlag("--publicly-accessible")]
+    /// <summary>
+    /// Specifies whether the DB instance is publicly accessible. When the DB instance is publicly accessible, its Domain Name System (DNS) endpoint resolves to the private IP address from within the DB instance's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB instance's VPC. Access to the DB in- stance is ultimately controlled by the security group it uses. That public access is not permitted if the security group assigned to the DB instance doesn't permit it. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address. For more information, see CreateDBInstance .
+    /// </summary>
+    [CliFlag("--publicly-accessible", NegatedName = "--no-publicly-accessible")]
     public bool? PubliclyAccessible { get; set; }
 
     /// <summary>
@@ -162,7 +262,10 @@ public record AwsRdsRestoreDbInstanceFromS3Options : AwsOptions
     [CliOption("--storage-type")]
     public string? StorageType { get; set; }
 
-    [CliFlag("--storage-encrypted")]
+    /// <summary>
+    /// Specifies whether the new DB instance is encrypted or not.
+    /// </summary>
+    [CliFlag("--storage-encrypted", NegatedName = "--no-storage-encrypted")]
     public bool? StorageEncrypted { get; set; }
 
     /// <summary>
@@ -171,7 +274,10 @@ public record AwsRdsRestoreDbInstanceFromS3Options : AwsOptions
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
-    [CliFlag("--copy-tags-to-snapshot")]
+    /// <summary>
+    /// Specifies whether to copy all tags from the DB instance to snapshots of the DB instance. By default, tags are not copied.
+    /// </summary>
+    [CliFlag("--copy-tags-to-snapshot", NegatedName = "--no-copy-tags-to-snapshot")]
     public bool? CopyTagsToSnapshot { get; set; }
 
     /// <summary>
@@ -186,17 +292,11 @@ public record AwsRdsRestoreDbInstanceFromS3Options : AwsOptions
     [CliOption("--monitoring-role-arn")]
     public string? MonitoringRoleArn { get; set; }
 
-    [CliFlag("--enable-iam-database-authentication")]
+    /// <summary>
+    /// tication (boolean) Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By de- fault, mapping isn't enabled. For more information about IAM database authentication, see IAM Database Authentication for MySQL and PostgreSQL in the Amazon RDS User Guide.
+    /// </summary>
+    [CliFlag("--enable-iam-database-authentication", NegatedName = "--no-enable-iam-database-authentication")]
     public bool? EnableIamDatabaseAuthentication { get; set; }
-
-    [CliOption("--source-engine")]
-    public string? SourceEngine { get; set; }
-
-    [CliOption("--source-engine-version")]
-    public string? SourceEngineVersion { get; set; }
-
-    [CliOption("--s3-bucket-name")]
-    public string? S3BucketName { get; set; }
 
     /// <summary>
     /// The prefix of your Amazon S3 bucket.
@@ -204,16 +304,16 @@ public record AwsRdsRestoreDbInstanceFromS3Options : AwsOptions
     [CliOption("--s3-prefix")]
     public string? S3Prefix { get; set; }
 
-    [CliOption("--s3-ingestion-role-arn")]
-    public string? S3IngestionRoleArn { get; set; }
-
     /// <summary>
     /// Specifies the mode of Database Insights to enable for the DB in- stance. NOTE: Aurora DB instances inherit this value from the DB cluster, so you can't change this value. Possible values: o standard o advanced
     /// </summary>
     [CliOption("--database-insights-mode")]
     public AwsRdsRestoreDbInstanceFromS3DatabaseInsightsMode? DatabaseInsightsMode { get; set; }
 
-    [CliFlag("--enable-performance-insights")]
+    /// <summary>
+    /// Specifies whether to enable Performance Insights for the DB in- stance. For more information, see Using Amazon Performance Insights in the Amazon RDS User Guide .
+    /// </summary>
+    [CliFlag("--enable-performance-insights", NegatedName = "--no-enable-performance-insights")]
     public bool? EnablePerformanceInsights { get; set; }
 
     /// <summary>
@@ -240,10 +340,16 @@ public record AwsRdsRestoreDbInstanceFromS3Options : AwsOptions
     [CliOption("--processor-features", GroupValues = true)]
     public IEnumerable<string>? ProcessorFeatures { get; set; }
 
-    [CliFlag("--use-default-processor-features")]
+    /// <summary>
+    /// Specifies whether the DB instance class of the DB instance uses its default processor features.
+    /// </summary>
+    [CliFlag("--use-default-processor-features", NegatedName = "--no-use-default-processor-features")]
     public bool? UseDefaultProcessorFeatures { get; set; }
 
-    [CliFlag("--deletion-protection")]
+    /// <summary>
+    /// Specifies whether to enable deletion protection for the DB instance. The database can't be deleted when deletion protection is enabled. By default, deletion protection isn't enabled. For more information, see Deleting a DB Instance .
+    /// </summary>
+    [CliFlag("--deletion-protection", NegatedName = "--no-deletion-protection")]
     public bool? DeletionProtection { get; set; }
 
     /// <summary>
@@ -258,17 +364,22 @@ public record AwsRdsRestoreDbInstanceFromS3Options : AwsOptions
     [CliOption("--network-type")]
     public AwsRdsRestoreDbInstanceFromS3NetworkType? NetworkType { get; set; }
 
-    [CliFlag("--manage-master-user-password")]
+    /// <summary>
+    /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager. For more information, see Password management with Amazon Web Ser- vices Secrets Manager in the Amazon RDS User Guide. Constraints: o Can't manage the master user password with Amazon Web Services Se- crets Manager if MasterUserPassword is specified.
+    /// </summary>
+    [CliFlag("--manage-master-user-password", NegatedName = "--no-manage-master-user-password")]
     public bool? ManageMasterUserPassword { get; set; }
 
     /// <summary>
     /// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and managed in Amazon Web Services Se- crets Manager. This setting is valid only if the master user password is managed by RDS in Amazon Web Services Secrets Manager for the DB instance. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a dif- ferent Amazon Web Services account, specify the key ARN or alias ARN. If you don't specify MasterUserSecretKmsKeyId , then the aws/se- cretsmanager KMS key is used to encrypt the secret. If the secret is in a different Amazon Web Services account, then you can't use the aws/secretsmanager KMS key to encrypt the secret, and you must use a customer managed KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
     /// </summary>
-    [SecretValue]
     [CliOption("--master-user-secret-kms-key-id")]
     public string? MasterUserSecretKmsKeyId { get; set; }
 
-    [CliFlag("--dedicated-log-volume")]
+    /// <summary>
+    /// Specifies whether to enable a dedicated log volume (DLV) for the DB instance.
+    /// </summary>
+    [CliFlag("--dedicated-log-volume", NegatedName = "--no-dedicated-log-volume")]
     public bool? DedicatedLogVolume { get; set; }
 
     /// <summary>
@@ -300,5 +411,22 @@ public record AwsRdsRestoreDbInstanceFromS3Options : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

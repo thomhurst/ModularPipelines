@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --powerfeeddrop.
+/// Allowed values for --power-feed-drop.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsOutpostsUpdateSiteRackPhysicalPropertiesPowerFeedDrop
 {
     [EnumValue("ABOVE_RACK")]
-    AboveRack = 1,
+    AboveRack,
 
     [EnumValue("BELOW_RACK")]
-    BelowRack = 2
+    BelowRack
 }

@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --assessmentschedule.
+/// Allowed values for --assessment-schedule.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsResiliencehubUpdateAppAssessmentSchedule
 {
-    [EnumValue("Disabled")]
-    Disabled = 1,
-
     [EnumValue("Daily")]
-    Daily = 2
+    Daily,
+
+    [EnumValue("Disabled")]
+    Disabled
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lakeformation", "get-temporary-glue-table-credentials")]
-public record AwsLakeformationGetTemporaryGlueTableCredentialsOptions : AwsOptions
+public record AwsLakeformationGetTemporaryGlueTableCredentialsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Allows a caller in a secure environment to assume a role with permis- sion to access Amazon S3. In order to vend such credentials, Lake For- mation assumes the role associated with a registered location, for ex- ample an Amazon S3 bucket, with a scope down policy which restricts the access to a single prefix. To call this API, the role that the service assumes must have lakefor- mation:GetDataAccess permission on the resource. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TableArn">The ARN identifying a table in the Data Catalog for the temporary credentials request.</param>
+    public AwsLakeformationGetTemporaryGlueTableCredentialsOptions(
+        string TableArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TableArn);
+        this.TableArn = TableArn;
+    }
+
+    private AwsLakeformationGetTemporaryGlueTableCredentialsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLakeformationGetTemporaryGlueTableCredentialsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLakeformationGetTemporaryGlueTableCredentialsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN identifying a table in the Data Catalog for the temporary credentials request.
+    /// </summary>
     [CliOption("--table-arn")]
-    public string? TableArn { get; set; }
+    public string? TableArn { get; private init; }
 
     /// <summary>
     /// Filters the request based on the user having been granted a list of specified permissions on the requested resource(s). (string) Possible values: o ALL o SELECT o ALTER o DROP o DELETE o INSERT o DESCRIBE o CREATE_DATABASE o CREATE_TABLE o DATA_LOCATION_ACCESS o CREATE_LF_TAG o ASSOCIATE o GRANT_WITH_LF_TAG_EXPRESSION o CREATE_LF_TAG_EXPRESSION o CREATE_CATALOG o SUPER_USER Syntax: "string" "string" ...
@@ -65,5 +102,22 @@ public record AwsLakeformationGetTemporaryGlueTableCredentialsOptions : AwsOptio
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --discontinuitymode.
+/// Allowed values for --discontinuity-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsKinesisVideoArchivedMediaGetHlsStreamingSessionUrlDiscontinuityMode
 {
     [EnumValue("ALWAYS")]
-    Always = 1,
+    Always,
 
     [EnumValue("NEVER")]
-    Never = 2,
+    Never,
 
     [EnumValue("ON_DISCONTINUITY")]
-    OnDiscontinuity = 3
+    OnDiscontinuity
 }

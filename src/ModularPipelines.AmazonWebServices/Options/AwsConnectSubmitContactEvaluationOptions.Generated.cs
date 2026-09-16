@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "submit-contact-evaluation")]
-public record AwsConnectSubmitContactEvaluationOptions : AwsOptions
+public record AwsConnectSubmitContactEvaluationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Submits a contact evaluation in the specified Connect Customer in- stance. Answers included in the request are merged with existing an- swers for the given evaluation. If no answers or notes are passed, the evaluation is submitted with the existing answers and notes. You can delete an answer or note by passing an empty object ({} ) to the ques- tion identifier. If a contact evaluation is already in submitted state, this operation will trigger a resubmission. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="EvaluationId">A unique identifier for the contact evaluation. Constraints: o min: 1 o max: 500</param>
+    public AwsConnectSubmitContactEvaluationOptions(
+        string InstanceId,
+        string EvaluationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(EvaluationId);
+        this.EvaluationId = EvaluationId;
+    }
+
+    private AwsConnectSubmitContactEvaluationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectSubmitContactEvaluationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectSubmitContactEvaluationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
+    [CliOption("--instance-id")]
+    public string? InstanceId { get; private init; }
+
+    /// <summary>
+    /// A unique identifier for the contact evaluation. Constraints: o min: 1 o max: 500
+    /// </summary>
     [CliOption("--evaluation-id")]
-    public string? EvaluationId { get; set; }
+    public string? EvaluationId { get; private init; }
 
     /// <summary>
     /// A map of question identifiers to answer value. Constraints: o max: 100 key -&gt; (string) Constraints: o min: 1 o max: 500 value -&gt; (structure) Information about input answers for a contact evaluation. Value -&gt; (tagged union structure) The value for an answer in a contact evaluation. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: StringValue, NumericValue, StringValues, DateTimeValue, NotApplicable. StringValue -&gt; (string) The string value for an answer in a contact evaluation. Constraints: o min: 0 o max: 300 NumericValue -&gt; (double) The numeric value for an answer in a contact evaluation. StringValues -&gt; (list) String values provided as answers to evaluation ques- tions. (string) Constraints: o min: 0 o max: 300 DateTimeValue -&gt; (string) Date and time value provided as an answer to an evalua- tion question. NotApplicable -&gt; (boolean) The flag to mark the question as not applicable. JSON Syntax: {"string": { "Value": { "StringValue": "string", "NumericValue": double, "StringValues": ["string", ...], "DateTimeValue": "string", "NotApplicable": true|false } } ...}
@@ -51,5 +95,22 @@ public record AwsConnectSubmitContactEvaluationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

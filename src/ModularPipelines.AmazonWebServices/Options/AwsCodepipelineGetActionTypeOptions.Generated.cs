@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codepipeline", "get-action-type")]
-public record AwsCodepipelineGetActionTypeOptions : AwsOptions
+public record AwsCodepipelineGetActionTypeOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns information about an action type created for an external provider, where the action is to be used by customers of the external provider. The action can be created with any supported integration model. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Category">Defines what kind of action can be taken in the stage. The following are the valid values: o Source o Build o Test o Deploy o Approval o Invoke o Compute Possible values: o Source o Build o Deploy o Test o Invoke o Approval o Compute</param>
+    /// <param name="Owner">The creator of an action type that was created with any supported integration model. There are two valid values: AWS and ThirdParty . Constraints: o pattern: AWS|ThirdParty</param>
+    /// <param name="Provider">The provider of the action type being called. The provider name is specified when the action type is created. Constraints: o min: 1 o max: 35 o pattern: [0-9A-Za-z_-]+</param>
+    /// <param name="ActionVersion">A string that describes the action type version. Constraints: o min: 1 o max: 9 o pattern: [0-9A-Za-z_-]+</param>
+    public AwsCodepipelineGetActionTypeOptions(
+        string Category,
+        string Owner,
+        string Provider,
+        string ActionVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Category);
+        this.Category = Category;
+        global::System.ArgumentNullException.ThrowIfNull(Owner);
+        this.Owner = Owner;
+        global::System.ArgumentNullException.ThrowIfNull(Provider);
+        this.Provider = Provider;
+        global::System.ArgumentNullException.ThrowIfNull(ActionVersion);
+        this.ActionVersion = ActionVersion;
+    }
+
+    private AwsCodepipelineGetActionTypeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodepipelineGetActionTypeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodepipelineGetActionTypeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Defines what kind of action can be taken in the stage. The following are the valid values: o Source o Build o Test o Deploy o Approval o Invoke o Compute Possible values: o Source o Build o Deploy o Test o Invoke o Approval o Compute
+    /// </summary>
     [CliOption("--category")]
-    public string? Category { get; set; }
+    public string? Category { get; private init; }
 
+    /// <summary>
+    /// The creator of an action type that was created with any supported integration model. There are two valid values: AWS and ThirdParty . Constraints: o pattern: AWS|ThirdParty
+    /// </summary>
     [CliOption("--owner")]
-    public string? Owner { get; set; }
+    public string? Owner { get; private init; }
 
+    /// <summary>
+    /// The provider of the action type being called. The provider name is specified when the action type is created. Constraints: o min: 1 o max: 35 o pattern: [0-9A-Za-z_-]+
+    /// </summary>
     [CliOption("--provider")]
-    public string? Provider { get; set; }
+    public string? Provider { get; private init; }
 
+    /// <summary>
+    /// A string that describes the action type version. Constraints: o min: 1 o max: 9 o pattern: [0-9A-Za-z_-]+
+    /// </summary>
     [CliOption("--action-version")]
-    public string? ActionVersion { get; set; }
+    public string? ActionVersion { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

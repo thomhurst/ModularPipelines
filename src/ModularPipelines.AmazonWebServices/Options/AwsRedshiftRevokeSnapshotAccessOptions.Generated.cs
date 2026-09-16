@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,8 +20,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift", "revoke-snapshot-access")]
-public record AwsRedshiftRevokeSnapshotAccessOptions : AwsOptions
+public record AwsRedshiftRevokeSnapshotAccessOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Removes the ability of the specified Amazon Web Services account to re- store the specified snapshot. If the account is currently restoring the snapshot, the restore will run to completion. For more information about working with snapshots, go to Amazon Red- shift Snapshots in the Amazon Redshift Cluster Management Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AccountWithRestoreAccess">The identifier of the Amazon Web Services account that can no longer restore the specified snapshot. Constraints: o max: 2147483647</param>
+    public AwsRedshiftRevokeSnapshotAccessOptions(
+        string AccountWithRestoreAccess
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountWithRestoreAccess);
+        this.AccountWithRestoreAccess = AccountWithRestoreAccess;
+    }
+
+    private AwsRedshiftRevokeSnapshotAccessOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftRevokeSnapshotAccessOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftRevokeSnapshotAccessOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Amazon Web Services account that can no longer restore the specified snapshot. Constraints: o max: 2147483647
+    /// </summary>
+    [CliOption("--account-with-restore-access")]
+    public string? AccountWithRestoreAccess { get; private init; }
+
     /// <summary>
     /// The identifier of the snapshot that the account can no longer ac- cess. Constraints: o max: 2147483647
     /// </summary>
@@ -39,13 +79,27 @@ public record AwsRedshiftRevokeSnapshotAccessOptions : AwsOptions
     [CliOption("--snapshot-cluster-identifier")]
     public string? SnapshotClusterIdentifier { get; set; }
 
-    [CliOption("--account-with-restore-access")]
-    public string? AccountWithRestoreAccess { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

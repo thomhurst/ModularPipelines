@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +22,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kms", "generate-mac")]
-public record AwsKmsGenerateMacOptions : AwsOptions
+public record AwsKmsGenerateMacOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Generates a hash-based message authentication code (HMAC) for a message using an HMAC KMS key and a MAC algorithm that the key supports. HMAC KMS keys and the HMAC algorithms that KMS uses conform to industry standards defined in RFC 2104 . You can use value that GenerateMac returns in the VerifyMac operation to demonstrate that the original message has not changed. Also, because a secret key is used to create the hash, you can verify that the party that generated the hash has the required secre...
+    /// </summary>
+    /// <param name="Message">The message to be hashed. Specify a message of up to 4,096 bytes. GenerateMac and VerifyMac do not provide special handling for message digests. If you generate an HMAC for a hash digest of a message, you must verify the HMAC of the same hash digest. Constraints: o min: 1 o max: 4096</param>
+    /// <param name="KeyId">The HMAC KMS key to use in the operation. The MAC algorithm computes the HMAC for the message and the key as described in RFC 2104 . To identify an HMAC KMS key, use the DescribeKey operation and see the KeySpec field in the response. Constraints: o min: 1 o max: 2048</param>
+    /// <param name="MacAlgorithm">The MAC algorithm used in the operation. The algorithm must be compatible with the HMAC KMS key that you specify. To find the MAC algorithms that your HMAC KMS key supports, use the DescribeKey operation and see the MacAlgorithms field in the DescribeKey response. Possible values: o HMAC_SHA_224 o HMAC_SHA_256 o HMAC_SHA_384 o HMAC_SHA_512</param>
+    public AwsKmsGenerateMacOptions(
+        string Message,
+        string KeyId,
+        AwsKmsGenerateMacMacAlgorithm MacAlgorithm
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Message);
+        this.Message = Message;
+        global::System.ArgumentNullException.ThrowIfNull(KeyId);
+        this.KeyId = KeyId;
+        global::System.ArgumentNullException.ThrowIfNull(MacAlgorithm);
+        this.MacAlgorithm = MacAlgorithm;
+    }
+
+    private AwsKmsGenerateMacOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKmsGenerateMacOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKmsGenerateMacOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The message to be hashed. Specify a message of up to 4,096 bytes. GenerateMac and VerifyMac do not provide special handling for message digests. If you generate an HMAC for a hash digest of a message, you must verify the HMAC of the same hash digest. Constraints: o min: 1 o max: 4096
+    /// </summary>
     [CliOption("--message")]
-    public string? Message { get; set; }
+    public string? Message { get; private init; }
 
+    /// <summary>
+    /// The HMAC KMS key to use in the operation. The MAC algorithm computes the HMAC for the message and the key as described in RFC 2104 . To identify an HMAC KMS key, use the DescribeKey operation and see the KeySpec field in the response. Constraints: o min: 1 o max: 2048
+    /// </summary>
     [CliOption("--key-id")]
-    public string? KeyId { get; set; }
+    public string? KeyId { get; private init; }
 
+    /// <summary>
+    /// The MAC algorithm used in the operation. The algorithm must be compatible with the HMAC KMS key that you specify. To find the MAC algorithms that your HMAC KMS key supports, use the DescribeKey operation and see the MacAlgorithms field in the DescribeKey response. Possible values: o HMAC_SHA_224 o HMAC_SHA_256 o HMAC_SHA_384 o HMAC_SHA_512
+    /// </summary>
     [CliOption("--mac-algorithm")]
-    public string? MacAlgorithm { get; set; }
+    public AwsKmsGenerateMacMacAlgorithm? MacAlgorithm { get; private init; }
 
     /// <summary>
     /// A list of grant tokens. Use a grant token when your permission to call this operation comes from a new grant that has not yet achieved eventual consistency . For more information, see Grant token and Using a grant token in the Key Management Service Developer Guide . Constraints: o min: 0 o max: 10 (string) Constraints: o min: 1 o max: 8192 Syntax: "string" "string" ...
@@ -38,7 +90,10 @@ public record AwsKmsGenerateMacOptions : AwsOptions
     [CliOption("--grant-tokens", GroupValues = true)]
     public IEnumerable<string>? GrantTokens { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks if your request will succeed. DryRun is an optional parame- ter. To learn more about how to use this parameter, see Testing your per- missions in the Key Management Service Developer Guide .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -46,5 +101,22 @@ public record AwsKmsGenerateMacOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

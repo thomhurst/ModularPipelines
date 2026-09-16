@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lexv2-models", "create-bot-version")]
-public record AwsLexv2ModelsCreateBotVersionOptions : AwsOptions
+public record AwsLexv2ModelsCreateBotVersionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an immutable version of the bot. When you create the first ver- sion of a bot, Amazon Lex sets the version number to 1. Subsequent bot versions increase in an increment of 1. The version number will always represent the total number of versions created of the bot, not the cur- rent number of versions. If a bot version is deleted, that bot version number will not be reused. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BotId">The identifier of the bot to create the version for. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="BotVersionLocaleSpecification">Specifies the locales that Amazon Lex adds to this version. You can choose the Draft version or any other previously published version for each locale. When you specify a source version, the locale data is copied from the source version to the new version. Constraints: o min: 1 key -&gt; (string) value -&gt; (structure) The version of a bot used for a bot locale. sourceBotVersion -&gt; (string) [required] The version of a bot used for a bot locale. Constraints: o min: 1 o max: 5 o pattern: ^(DRAFT|[0-9]+)$ Shorthand Syntax: KeyName1={sourceBotVersion=string},KeyName2={sourceBotVersion=string} JSON Syntax: {"string": { "sourceBotVersion": "string" } ...}</param>
+    public AwsLexv2ModelsCreateBotVersionOptions(
+        string BotId,
+        IReadOnlyList<KeyValue> BotVersionLocaleSpecification
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BotId);
+        this.BotId = BotId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(BotVersionLocaleSpecification);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(BotVersionLocaleSpecification));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(BotVersionLocaleSpecification));
+            }
+
+            BotVersionLocaleSpecification = materialized;
+        }
+        this.BotVersionLocaleSpecification = BotVersionLocaleSpecification;
+    }
+
+    private AwsLexv2ModelsCreateBotVersionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLexv2ModelsCreateBotVersionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLexv2ModelsCreateBotVersionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the bot to create the version for. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// </summary>
     [CliOption("--bot-id")]
-    public string? BotId { get; set; }
+    public string? BotId { get; private init; }
+
+    /// <summary>
+    /// Specifies the locales that Amazon Lex adds to this version. You can choose the Draft version or any other previously published version for each locale. When you specify a source version, the locale data is copied from the source version to the new version. Constraints: o min: 1 key -&gt; (string) value -&gt; (structure) The version of a bot used for a bot locale. sourceBotVersion -&gt; (string) [required] The version of a bot used for a bot locale. Constraints: o min: 1 o max: 5 o pattern: ^(DRAFT|[0-9]+)$ Shorthand Syntax: KeyName1={sourceBotVersion=string},KeyName2={sourceBotVersion=string} JSON Syntax: {"string": { "sourceBotVersion": "string" } ...}
+    /// </summary>
+    [CliOption("--bot-version-locale-specification", CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? BotVersionLocaleSpecification { get; private init; }
 
     /// <summary>
     /// A description of the version. Use the description to help identify the version in lists. Constraints: o min: 0 o max: 2000
@@ -31,13 +89,27 @@ public record AwsLexv2ModelsCreateBotVersionOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--bot-version-locale-specification", CollectionSeparator = ",")]
-    public IReadOnlyList<KeyValue>? BotVersionLocaleSpecification { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

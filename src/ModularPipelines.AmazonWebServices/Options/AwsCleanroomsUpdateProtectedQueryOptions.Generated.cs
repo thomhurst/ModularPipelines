@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cleanrooms", "update-protected-query")]
-public record AwsCleanroomsUpdateProtectedQueryOptions : AwsOptions
+public record AwsCleanroomsUpdateProtectedQueryOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the processing of a currently running query. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="MembershipIdentifier">The identifier for a member of a protected query instance. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="ProtectedQueryIdentifier">The identifier for a protected query instance. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="TargetStatus">The target status of a query. Used to update the execution status of a currently running query. Possible values: o CANCELLED</param>
+    public AwsCleanroomsUpdateProtectedQueryOptions(
+        string MembershipIdentifier,
+        string ProtectedQueryIdentifier,
+        AwsCleanroomsUpdateProtectedQueryTargetStatus TargetStatus
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MembershipIdentifier);
+        this.MembershipIdentifier = MembershipIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(ProtectedQueryIdentifier);
+        this.ProtectedQueryIdentifier = ProtectedQueryIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(TargetStatus);
+        this.TargetStatus = TargetStatus;
+    }
+
+    private AwsCleanroomsUpdateProtectedQueryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCleanroomsUpdateProtectedQueryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCleanroomsUpdateProtectedQueryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier for a member of a protected query instance. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// </summary>
     [CliOption("--membership-identifier")]
-    public string? MembershipIdentifier { get; set; }
+    public string? MembershipIdentifier { get; private init; }
 
+    /// <summary>
+    /// The identifier for a protected query instance. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// </summary>
     [CliOption("--protected-query-identifier")]
-    public string? ProtectedQueryIdentifier { get; set; }
+    public string? ProtectedQueryIdentifier { get; private init; }
 
+    /// <summary>
+    /// The target status of a query. Used to update the execution status of a currently running query. Possible values: o CANCELLED
+    /// </summary>
     [CliOption("--target-status")]
-    public string? TargetStatus { get; set; }
+    public AwsCleanroomsUpdateProtectedQueryTargetStatus? TargetStatus { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

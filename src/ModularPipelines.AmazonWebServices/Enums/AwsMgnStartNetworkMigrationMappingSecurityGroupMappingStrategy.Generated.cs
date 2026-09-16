@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --securitygroupmappingstrategy.
+/// Allowed values for --security-group-mapping-strategy.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsMgnStartNetworkMigrationMappingSecurityGroupMappingStrategy
 {
     [EnumValue("MAP")]
-    Map = 1,
-
-    [EnumValue("SKIP")]
-    Skip = 2,
+    Map,
 
     [EnumValue("MAP_DHCP")]
-    MapDhcp = 3
+    MapDhcp,
+
+    [EnumValue("SKIP")]
+    Skip
 }

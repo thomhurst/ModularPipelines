@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift", "modify-usage-limit")]
-public record AwsRedshiftModifyUsageLimitOptions : AwsOptions
+public record AwsRedshiftModifyUsageLimitOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies a usage limit in a cluster. You can't modify the feature type or period of a usage limit. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="UsageLimitId">The identifier of the usage limit to modify. Constraints: o max: 2147483647</param>
+    public AwsRedshiftModifyUsageLimitOptions(
+        string UsageLimitId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(UsageLimitId);
+        this.UsageLimitId = UsageLimitId;
+    }
+
+    private AwsRedshiftModifyUsageLimitOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftModifyUsageLimitOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftModifyUsageLimitOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the usage limit to modify. Constraints: o max: 2147483647
+    /// </summary>
     [CliOption("--usage-limit-id")]
-    public string? UsageLimitId { get; set; }
+    public string? UsageLimitId { get; private init; }
 
     /// <summary>
     /// The new limit amount. For more information about this parameter, see UsageLimit .
@@ -42,5 +79,22 @@ public record AwsRedshiftModifyUsageLimitOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

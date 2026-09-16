@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --suppressionscope.
+/// Allowed values for --suppression-scope.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSesv2PutTenantSuppressionAttributesSuppressionScope
 {
     [EnumValue("ACCOUNT")]
-    Account = 1,
+    Account,
 
     [EnumValue("TENANT")]
-    Tenant = 2
+    Tenant
 }

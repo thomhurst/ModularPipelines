@@ -40,7 +40,10 @@ public record AwsMemorydbDescribeSnapshotsOptions : AwsOptions
     [CliOption("--source")]
     public string? Source { get; set; }
 
-    [CliFlag("--show-detail")]
+    /// <summary>
+    /// A Boolean value which if true, the shard configuration is included in the snapshot description.
+    /// </summary>
+    [CliFlag("--show-detail", NegatedName = "--no-show-detail")]
     public bool? ShowDetail { get; set; }
 
     [CliOption("--cli-input-json")]

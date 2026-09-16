@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ses", "update-configuration-set-event-destination")]
-public record AwsSesUpdateConfigurationSetEventDestinationOptions : AwsOptions
+public record AwsSesUpdateConfigurationSetEventDestinationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--configuration-set-name")]
-    public string? ConfigurationSetName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the event destination of a configuration set. Event destina- tions are associated with configuration sets, which enable you to pub- lish email sending events to Amazon CloudWatch, Amazon Kinesis Fire- hose, or Amazon Simple Notification Service (Amazon SNS). For informa- tion about using configuration sets, see Monitoring Your Amazon SES Sending Activity in the Amazon SES Developer Guide. NOTE: When you create or update an event destination, you must provide one, and only one, destinatio...
+    /// </summary>
+    /// <param name="ConfigurationSetName">The name of the configuration set that contains the event destina- tion.</param>
+    /// <param name="EventDestination">The event destination object. Name -&gt; (string) [required] The name of the event destination. The name must meet the fol- lowing requirements: o Contain only ASCII letters (a-z, A-Z), numbers (0-9), under- scores (_), or dashes (-). o Contain 64 characters or fewer. Enabled -&gt; (boolean) Sets whether Amazon SES publishes events to this destination when you send an email with the associated configuration set. Set to true to enable publishing to this destination; set to false to prevent publishing to this destination. The default value is false . MatchingEventTypes -&gt; (list) [required] The type of email sending events to publish to the event desti- nation. o send - The call was successful and Amazon SES is attempting to deliver the email. o reject - Amazon SES determined that the email contained a virus and rejected it. o bounce - The recipient's mail server permanently rejected the email. This corresponds to a hard bounce. o complaint - The recipient marked the email as spam. o delivery - Amazon SES successfully delivered the email to the recipient's mail server. o open - The recipient received the email and opened it in their email client. o click - The recipient clicked one or more links in the email. o renderingFailure - Amazon SES did not send the email because of a template rendering issue. (string) Possible values: o send o reject o bounce o complaint o delivery o open o click o renderingFailure KinesisFirehoseDestination -&gt; (structure) An object that contains the delivery stream ARN and the IAM role ARN associated with an Amazon Kinesis Firehose event destina- tion. IAMRoleARN -&gt; (string) [required] The ARN of the IAM role under which Amazon SES publishes email sending events to the Amazon Kinesis Firehose stream. DeliveryStreamARN -&gt; (string) [required] The ARN of the Amazon Kinesis Firehose stream that email sending events should be published to. CloudWatchDestination -&gt; (structure) An object that contains the names, default values, and sources of the dimensions associated with an Amazon CloudWatch event destination. DimensionConfigurations -&gt; (list) [required] A list of dimensions upon which to categorize your emails when you publish email sending events to Amazon CloudWatch. (structure) Contains the dimension configuration to use when you pub- lish email sending events to Amazon CloudWatch. For information about publishing email sending events to Amazon CloudWatch, see the Amazon SES Developer Guide . DimensionName -&gt; (string) [required] The name of an Amazon CloudWatch dimension associated with an email sending metric. The name must meet the following requirements: o Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), dashes (-), or colons (:). o Contain 256 characters or fewer. DimensionValueSource -&gt; (string) [required] The place where Amazon SES finds the value of a dimen- sion to publish to Amazon CloudWatch. To use the mes- sage tags that you specify using an X-SES-MESSAGE-TAGS header or a parameter to the SendEmail /SendRawEmail API, specify messageTag . To use your own email head- ers, specify emailHeader . To put a custom tag on any link included in your email, specify linkTag . Possible values: o messageTag o emailHeader o linkTag DefaultDimensionValue -&gt; (string) [required] The default value of the dimension that is published to Amazon CloudWatch if you do not provide the value of the dimension when you send an email. The default value must meet the following requirements: o Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), dashes (-), at signs (@), or periods (.). o Contain 256 characters or fewer. SNSDestination -&gt; (structure) An object that contains the topic ARN associated with an Amazon Simple Notification Service (Amazon SNS) event destination. TopicARN -&gt; (string) [required] The ARN of the Amazon SNS topic for email sending events. You can find the ARN of a topic by using the ListTopics Amazon SNS operation. For more information about Amazon SNS topics, see the Amazon SNS Developer Guide . JSON Syntax: { "Name": "string", "Enabled": true|false, "MatchingEventTypes": ["send"|"reject"|"bounce"|"complaint"|"delivery"|"open"|"click"|"renderingFailure", ...], "KinesisFirehoseDestination": { "IAMRoleARN": "string", "DeliveryStreamARN": "string" }, "CloudWatchDestination": { "DimensionConfigurations": [ { "DimensionName": "string", "DimensionValueSource": "messageTag"|"emailHeader"|"linkTag", "DefaultDimensionValue": "string" } ... ] }, "SNSDestination": { "TopicARN": "string" } }</param>
+    public AwsSesUpdateConfigurationSetEventDestinationOptions(
+        string ConfigurationSetName,
+        string EventDestination
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConfigurationSetName);
+        this.ConfigurationSetName = ConfigurationSetName;
+        global::System.ArgumentNullException.ThrowIfNull(EventDestination);
+        this.EventDestination = EventDestination;
+    }
+
+    private AwsSesUpdateConfigurationSetEventDestinationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSesUpdateConfigurationSetEventDestinationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSesUpdateConfigurationSetEventDestinationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the configuration set that contains the event destina- tion.
+    /// </summary>
+    [CliOption("--configuration-set-name")]
+    public string? ConfigurationSetName { get; private init; }
+
+    /// <summary>
+    /// The event destination object. Name -&gt; (string) [required] The name of the event destination. The name must meet the fol- lowing requirements: o Contain only ASCII letters (a-z, A-Z), numbers (0-9), under- scores (_), or dashes (-). o Contain 64 characters or fewer. Enabled -&gt; (boolean) Sets whether Amazon SES publishes events to this destination when you send an email with the associated configuration set. Set to true to enable publishing to this destination; set to false to prevent publishing to this destination. The default value is false . MatchingEventTypes -&gt; (list) [required] The type of email sending events to publish to the event desti- nation. o send - The call was successful and Amazon SES is attempting to deliver the email. o reject - Amazon SES determined that the email contained a virus and rejected it. o bounce - The recipient's mail server permanently rejected the email. This corresponds to a hard bounce. o complaint - The recipient marked the email as spam. o delivery - Amazon SES successfully delivered the email to the recipient's mail server. o open - The recipient received the email and opened it in their email client. o click - The recipient clicked one or more links in the email. o renderingFailure - Amazon SES did not send the email because of a template rendering issue. (string) Possible values: o send o reject o bounce o complaint o delivery o open o click o renderingFailure KinesisFirehoseDestination -&gt; (structure) An object that contains the delivery stream ARN and the IAM role ARN associated with an Amazon Kinesis Firehose event destina- tion. IAMRoleARN -&gt; (string) [required] The ARN of the IAM role under which Amazon SES publishes email sending events to the Amazon Kinesis Firehose stream. DeliveryStreamARN -&gt; (string) [required] The ARN of the Amazon Kinesis Firehose stream that email sending events should be published to. CloudWatchDestination -&gt; (structure) An object that contains the names, default values, and sources of the dimensions associated with an Amazon CloudWatch event destination. DimensionConfigurations -&gt; (list) [required] A list of dimensions upon which to categorize your emails when you publish email sending events to Amazon CloudWatch. (structure) Contains the dimension configuration to use when you pub- lish email sending events to Amazon CloudWatch. For information about publishing email sending events to Amazon CloudWatch, see the Amazon SES Developer Guide . DimensionName -&gt; (string) [required] The name of an Amazon CloudWatch dimension associated with an email sending metric. The name must meet the following requirements: o Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), dashes (-), or colons (:). o Contain 256 characters or fewer. DimensionValueSource -&gt; (string) [required] The place where Amazon SES finds the value of a dimen- sion to publish to Amazon CloudWatch. To use the mes- sage tags that you specify using an X-SES-MESSAGE-TAGS header or a parameter to the SendEmail /SendRawEmail API, specify messageTag . To use your own email head- ers, specify emailHeader . To put a custom tag on any link included in your email, specify linkTag . Possible values: o messageTag o emailHeader o linkTag DefaultDimensionValue -&gt; (string) [required] The default value of the dimension that is published to Amazon CloudWatch if you do not provide the value of the dimension when you send an email. The default value must meet the following requirements: o Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), dashes (-), at signs (@), or periods (.). o Contain 256 characters or fewer. SNSDestination -&gt; (structure) An object that contains the topic ARN associated with an Amazon Simple Notification Service (Amazon SNS) event destination. TopicARN -&gt; (string) [required] The ARN of the Amazon SNS topic for email sending events. You can find the ARN of a topic by using the ListTopics Amazon SNS operation. For more information about Amazon SNS topics, see the Amazon SNS Developer Guide . JSON Syntax: { "Name": "string", "Enabled": true|false, "MatchingEventTypes": ["send"|"reject"|"bounce"|"complaint"|"delivery"|"open"|"click"|"renderingFailure", ...], "KinesisFirehoseDestination": { "IAMRoleARN": "string", "DeliveryStreamARN": "string" }, "CloudWatchDestination": { "DimensionConfigurations": [ { "DimensionName": "string", "DimensionValueSource": "messageTag"|"emailHeader"|"linkTag", "DefaultDimensionValue": "string" } ... ] }, "SNSDestination": { "TopicARN": "string" } }
+    /// </summary>
     [CliOption("--event-destination")]
-    public string? EventDestination { get; set; }
+    public string? EventDestination { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "create-cluster-scheduler-config")]
-public record AwsSagemakerCreateClusterSchedulerConfigOptions : AwsOptions
+public record AwsSagemakerCreateClusterSchedulerConfigOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Create cluster policy configuration. This policy is used for task pri- oritization and fair-share allocation of idle compute. This helps pri- oritize critical workloads and distributes idle compute across enti- ties. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">Name for the cluster policy. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="ClusterArn">ARN of the cluster. Constraints: o min: 0 o max: 256 o pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:clus- ter/[a-z0-9]{12}</param>
+    /// <param name="SchedulerConfig">Configuration about the monitoring schedule. PriorityClasses -&gt; (list) List of the priority classes, PriorityClass , of the cluster policy. When specified, these class configurations define how tasks are queued. Constraints: o min: 0 o max: 10 (structure) Priority class configuration. When included in Priority- Classes , these class configurations define how tasks are queued. Name -&gt; (string) [required] Name of the priority class. Constraints: o pattern: [a-z0-9]([-a-z0-9]*[a-z0-9]){0,39}? Weight -&gt; (integer) [required] Weight of the priority class. The value is within a range from 0 to 100, where 0 is the default. A weight of 0 is the lowest priority and 100 is the high- est. Weight 0 is the default. Constraints: o min: 0 o max: 100 FairShare -&gt; (string) When enabled, entities borrow idle compute based on their as- signed FairShareWeight . When disabled, entities borrow idle compute based on a first-come first-serve basis. Default is Enabled . Possible values: o Enabled o Disabled IdleResourceSharing -&gt; (string) Configuration for sharing idle compute resources across entities in the cluster. When enabled, unallocated resources are automat- ically calculated and made available for entities to borrow. Possible values: o Enabled o Disabled Shorthand Syntax: PriorityClasses=[{Name=string,Weight=integer},{Name=string,Weight=integer}],FairShare=string,IdleResourceSharing=string JSON Syntax: { "PriorityClasses": [ { "Name": "string", "Weight": integer } ... ], "FairShare": "Enabled"|"Disabled", "IdleResourceSharing": "Enabled"|"Disabled" }</param>
+    public AwsSagemakerCreateClusterSchedulerConfigOptions(
+        string Name,
+        string ClusterArn,
+        string SchedulerConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ClusterArn);
+        this.ClusterArn = ClusterArn;
+        global::System.ArgumentNullException.ThrowIfNull(SchedulerConfig);
+        this.SchedulerConfig = SchedulerConfig;
+    }
+
+    private AwsSagemakerCreateClusterSchedulerConfigOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerCreateClusterSchedulerConfigOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerCreateClusterSchedulerConfigOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Name for the cluster policy. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// ARN of the cluster. Constraints: o min: 0 o max: 256 o pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:clus- ter/[a-z0-9]{12}
+    /// </summary>
     [CliOption("--cluster-arn")]
-    public string? ClusterArn { get; set; }
+    public string? ClusterArn { get; private init; }
 
+    /// <summary>
+    /// Configuration about the monitoring schedule. PriorityClasses -&gt; (list) List of the priority classes, PriorityClass , of the cluster policy. When specified, these class configurations define how tasks are queued. Constraints: o min: 0 o max: 10 (structure) Priority class configuration. When included in Priority- Classes , these class configurations define how tasks are queued. Name -&gt; (string) [required] Name of the priority class. Constraints: o pattern: [a-z0-9]([-a-z0-9]*[a-z0-9]){0,39}? Weight -&gt; (integer) [required] Weight of the priority class. The value is within a range from 0 to 100, where 0 is the default. A weight of 0 is the lowest priority and 100 is the high- est. Weight 0 is the default. Constraints: o min: 0 o max: 100 FairShare -&gt; (string) When enabled, entities borrow idle compute based on their as- signed FairShareWeight . When disabled, entities borrow idle compute based on a first-come first-serve basis. Default is Enabled . Possible values: o Enabled o Disabled IdleResourceSharing -&gt; (string) Configuration for sharing idle compute resources across entities in the cluster. When enabled, unallocated resources are automat- ically calculated and made available for entities to borrow. Possible values: o Enabled o Disabled Shorthand Syntax: PriorityClasses=[{Name=string,Weight=integer},{Name=string,Weight=integer}],FairShare=string,IdleResourceSharing=string JSON Syntax: { "PriorityClasses": [ { "Name": "string", "Weight": integer } ... ], "FairShare": "Enabled"|"Disabled", "IdleResourceSharing": "Enabled"|"Disabled" }
+    /// </summary>
     [CliOption("--scheduler-config")]
-    public string? SchedulerConfig { get; set; }
+    public string? SchedulerConfig { get; private init; }
 
     /// <summary>
     /// Description of the cluster policy. Constraints: o min: 0 o max: 1024 o pattern: [\p{L}\p{M}\p{Z}\p{S}\p{N}\p{P}]*
@@ -47,5 +98,22 @@ public record AwsSagemakerCreateClusterSchedulerConfigOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

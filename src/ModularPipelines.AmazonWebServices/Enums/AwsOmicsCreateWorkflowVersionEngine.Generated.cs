@@ -16,18 +16,15 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsOmicsCreateWorkflowVersionEngine
 {
-    [EnumValue("WDL")]
-    Wdl = 1,
+    [EnumValue("CWL")]
+    Cwl,
 
     [EnumValue("NEXTFLOW")]
-    Nextflow = 2,
+    Nextflow,
 
-    [EnumValue("CWL")]
-    Cwl = 3,
+    [EnumValue("WDL")]
+    Wdl,
 
     [EnumValue("WDL_LENIENT")]
-    WdlLenient = 4,
-
-    [EnumValue("Constraints")]
-    Constraints = 5
+    WdlLenient
 }

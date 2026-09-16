@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,8 +20,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "assign-ipv6-addresses")]
-public record AwsEc2AssignIpv6AddressesOptions : AwsOptions
+public record AwsEc2AssignIpv6AddressesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Assigns the specified IPv6 addresses to the specified network inter- face. You can specify specific IPv6 addresses, or you can specify the number of IPv6 addresses to be automatically assigned from the subnet's IPv6 CIDR block range. You can assign as many IPv6 addresses to a net- work interface as you can assign private IPv4 addresses, and the limit varies by instance type. You must specify either the IPv6 addresses or the IPv6 address count in the request. You can optionally use Prefix Delegat...
+    /// </summary>
+    /// <param name="NetworkInterfaceId">The ID of the network interface.</param>
+    public AwsEc2AssignIpv6AddressesOptions(
+        string NetworkInterfaceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NetworkInterfaceId);
+        this.NetworkInterfaceId = NetworkInterfaceId;
+    }
+
+    private AwsEc2AssignIpv6AddressesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2AssignIpv6AddressesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2AssignIpv6AddressesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the network interface.
+    /// </summary>
+    [CliOption("--network-interface-id")]
+    public string? NetworkInterfaceId { get; private init; }
+
     /// <summary>
     /// The number of IPv6 prefixes that Amazon Web Services automatically assigns to the network interface. You cannot use this option if you use the Ipv6Prefixes option.
     /// </summary>
@@ -32,9 +72,6 @@ public record AwsEc2AssignIpv6AddressesOptions : AwsOptions
     /// </summary>
     [CliOption("--ipv6-prefixes", GroupValues = true)]
     public IEnumerable<string>? Ipv6Prefixes { get; set; }
-
-    [CliOption("--network-interface-id")]
-    public string? NetworkInterfaceId { get; set; }
 
     /// <summary>
     /// The IPv6 addresses to be assigned to the network interface. You can't use this option if you're specifying a number of IPv6 ad- dresses. (string) Syntax: "string" "string" ...
@@ -53,5 +90,22 @@ public record AwsEc2AssignIpv6AddressesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

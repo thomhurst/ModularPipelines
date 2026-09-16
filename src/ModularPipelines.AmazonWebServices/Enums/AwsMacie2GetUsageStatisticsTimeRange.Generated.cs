@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --timerange.
+/// Allowed values for --time-range.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsMacie2GetUsageStatisticsTimeRange
 {
     [EnumValue("MONTH_TO_DATE")]
-    MonthToDate = 1,
+    MonthToDate,
 
     [EnumValue("PAST_30_DAYS")]
-    Past_30Days = 2
+    Past30Days
 }

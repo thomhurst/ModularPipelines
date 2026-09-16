@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudfront", "update-distribution-tenant")]
-public record AwsCloudfrontUpdateDistributionTenantOptions : AwsOptions
+public record AwsCloudfrontUpdateDistributionTenantOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a distribution tenant. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Id">The ID of the distribution tenant.</param>
+    /// <param name="IfMatch">The value of the ETag header that you received when retrieving the distribution tenant to update. This value is returned in the re- sponse of the GetDistributionTenant API operation.</param>
+    public AwsCloudfrontUpdateDistributionTenantOptions(
+        string Id,
+        string IfMatch
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+        global::System.ArgumentNullException.ThrowIfNull(IfMatch);
+        this.IfMatch = IfMatch;
+    }
+
+    private AwsCloudfrontUpdateDistributionTenantOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudfrontUpdateDistributionTenantOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudfrontUpdateDistributionTenantOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the distribution tenant.
+    /// </summary>
     [CliOption("--id")]
-    public string? Id { get; set; }
+    public string? Id { get; private init; }
+
+    /// <summary>
+    /// The value of the ETag header that you received when retrieving the distribution tenant to update. This value is returned in the re- sponse of the GetDistributionTenant API operation.
+    /// </summary>
+    [CliOption("--if-match")]
+    public string? IfMatch { get; private init; }
 
     /// <summary>
     /// The ID for the multi-tenant distribution.
@@ -54,16 +101,16 @@ public record AwsCloudfrontUpdateDistributionTenantOptions : AwsOptions
     [CliOption("--connection-group-id")]
     public string? ConnectionGroupId { get; set; }
 
-    [CliOption("--if-match")]
-    public string? IfMatch { get; set; }
-
     /// <summary>
     /// An object that contains the CloudFront managed ACM certificate re- quest. ValidationTokenHost -&gt; (string) [required] Specify how the HTTP validation token will be served when re- questing the CloudFront managed ACM certificate. o For cloudfront , CloudFront will automatically serve the vali- dation token. Choose this mode if you can point the domain's DNS to CloudFront immediately. o For self-hosted , you serve the validation token from your ex- isting infrastructure. Choose this mode when you need to main- tain current traffic flow while your certificate is being is- sued. You can place the validation token at the well-known path on your existing web server, wait for ACM to validate and issue the certificate, and then update your DNS to point to CloudFront. Possible values: o cloudfront o self-hosted PrimaryDomainName -&gt; (string) The primary domain name associated with the CloudFront managed ACM certificate. CertificateTransparencyLoggingPreference -&gt; (string) You can opt out of certificate transparency logging by specify- ing the disabled option. Opt in by specifying enabled . For more information, see Certificate Transparency Logging in the Cer- tificate Manager User Guide . Possible values: o enabled o disabled Shorthand Syntax: ValidationTokenHost=string,PrimaryDomainName=string,CertificateTransparencyLoggingPreference=string JSON Syntax: { "ValidationTokenHost": "cloudfront"|"self-hosted", "PrimaryDomainName": "string", "CertificateTransparencyLoggingPreference": "enabled"|"disabled" }
     /// </summary>
     [CliOption("--managed-certificate-request")]
     public string? ManagedCertificateRequest { get; set; }
 
-    [CliFlag("--enabled")]
+    /// <summary>
+    /// Indicates whether the distribution tenant should be updated to an enabled state. If you update the distribution tenant and it's not enabled, the distribution tenant won't serve traffic.
+    /// </summary>
+    [CliFlag("--enabled", NegatedName = "--no-enabled")]
     public bool? Enabled { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -71,5 +118,22 @@ public record AwsCloudfrontUpdateDistributionTenantOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

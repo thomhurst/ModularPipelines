@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIotManagedIntegrationsListCloudConnectorsType
 {
     [EnumValue("LISTED")]
-    Listed = 1,
+    Listed,
 
     [EnumValue("UNLISTED")]
-    Unlisted = 2
+    Unlisted
 }

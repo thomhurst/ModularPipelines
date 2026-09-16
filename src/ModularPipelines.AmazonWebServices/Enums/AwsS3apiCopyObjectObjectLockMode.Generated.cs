@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --objectlockmode.
+/// Allowed values for --object-lock-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsS3apiCopyObjectObjectLockMode
 {
-    [EnumValue("GOVERNANCE")]
-    Governance = 1,
-
     [EnumValue("COMPLIANCE")]
-    Compliance = 2
+    Compliance,
+
+    [EnumValue("GOVERNANCE")]
+    Governance
 }

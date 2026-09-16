@@ -16,24 +16,24 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsS3apiCopyObjectAcl
 {
-    [EnumValue("private")]
-    Private = 1,
-
-    [EnumValue("public-read")]
-    PublicRead = 2,
-
-    [EnumValue("public-read-write")]
-    PublicReadWrite = 3,
-
     [EnumValue("authenticated-read")]
-    AuthenticatedRead = 4,
+    AuthenticatedRead,
 
     [EnumValue("aws-exec-read")]
-    AwsExecRead = 5,
-
-    [EnumValue("bucket-owner-read")]
-    BucketOwnerRead = 6,
+    AwsExecRead,
 
     [EnumValue("bucket-owner-full-control")]
-    BucketOwnerFullControl = 7
+    BucketOwnerFullControl,
+
+    [EnumValue("bucket-owner-read")]
+    BucketOwnerRead,
+
+    [EnumValue("private")]
+    Private,
+
+    [EnumValue("public-read")]
+    PublicRead,
+
+    [EnumValue("public-read-write")]
+    PublicReadWrite
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mgn", "update-source-server")]
-public record AwsMgnUpdateSourceServerOptions : AwsOptions
+public record AwsMgnUpdateSourceServerOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Update Source Server. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SourceServerId">Update Source Server request source server ID. Constraints: o min: 19 o max: 19 o pattern: s-[0-9a-zA-Z]{17}</param>
+    public AwsMgnUpdateSourceServerOptions(
+        string SourceServerId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceServerId);
+        this.SourceServerId = SourceServerId;
+    }
+
+    private AwsMgnUpdateSourceServerOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMgnUpdateSourceServerOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMgnUpdateSourceServerOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Update Source Server request source server ID. Constraints: o min: 19 o max: 19 o pattern: s-[0-9a-zA-Z]{17}
+    /// </summary>
+    [CliOption("--source-server-id")]
+    public string? SourceServerId { get; private init; }
+
     /// <summary>
     /// Update Source Server request account ID. Constraints: o min: 12 o max: 12 o pattern: .*[0-9]{12,}.*
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; set; }
-
-    [CliOption("--source-server-id")]
-    public string? SourceServerId { get; set; }
 
     /// <summary>
     /// Update Source Server request connector action. credentialsSecretArn -&gt; (string) Source Server connector action credentials secret arn. Constraints: o min: 20 o max: 256 o pattern: arn:[\w-]+:secretsman- ager:([a-z]{2}-(gov-)?[a-z]+-\d{1})?:(\d{12})?:secret:(.+) connectorArn -&gt; (string) Source Server connector action connector arn. Constraints: o min: 27 o max: 100 o pattern: arn:[\w-]+:mgn:([a-z]{2}-(gov-)?[a-z]+-\d{1})?:(\d{12})?:con- nector\/(connector-[0-9a-zA-Z]{17}) Shorthand Syntax: credentialsSecretArn=string,connectorArn=string JSON Syntax: { "credentialsSecretArn": "string", "connectorArn": "string" }
@@ -59,5 +96,22 @@ public record AwsMgnUpdateSourceServerOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

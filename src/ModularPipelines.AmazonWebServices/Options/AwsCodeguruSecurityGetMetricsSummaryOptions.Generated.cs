@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codeguru-security", "get-metrics-summary")]
-public record AwsCodeguruSecurityGetMetricsSummaryOptions : AwsOptions
+public record AwsCodeguruSecurityGetMetricsSummaryOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a summary of metrics for an account from a specified date, in- cluding number of open findings, the categories with most findings, the scans with most open findings, and scans with most open critical find- ings. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Date">The date you want to retrieve summary metrics from, rounded to the nearest day. The date must be within the past two years.</param>
+    public AwsCodeguruSecurityGetMetricsSummaryOptions(
+        string Date
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Date);
+        this.Date = Date;
+    }
+
+    private AwsCodeguruSecurityGetMetricsSummaryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodeguruSecurityGetMetricsSummaryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodeguruSecurityGetMetricsSummaryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The date you want to retrieve summary metrics from, rounded to the nearest day. The date must be within the past two years.
+    /// </summary>
     [CliOption("--date")]
-    public string? Date { get; set; }
+    public string? Date { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

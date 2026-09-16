@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsGameliftstreamsListStreamUrlsStatus
 {
     [EnumValue("ACTIVE")]
-    Active = 1,
+    Active,
 
     [EnumValue("EXPIRED")]
-    Expired = 2,
-
-    [EnumValue("REVOKED")]
-    Revoked = 3,
+    Expired,
 
     [EnumValue("LIMIT_REACHED")]
-    LimitReached = 4
+    LimitReached,
+
+    [EnumValue("REVOKED")]
+    Revoked
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,84 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "modify-vpc-endpoint-service-payer-responsibility")]
-public record AwsEc2ModifyVpcEndpointServicePayerResponsibilityOptions : AwsOptions
+public record AwsEc2ModifyVpcEndpointServicePayerResponsibilityOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--dry-run")]
-    public bool? DryRun { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Modifies the payer responsibility for your VPC endpoint service. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ServiceId">The ID of the service.</param>
+    /// <param name="PayerResponsibility">The entity that is responsible for the endpoint costs. The default is the endpoint owner. If you set the payer responsibility to the service owner, you cannot set it back to the endpoint owner. Possible values: o ServiceOwner</param>
+    public AwsEc2ModifyVpcEndpointServicePayerResponsibilityOptions(
+        string ServiceId,
+        AwsEc2ModifyVpcEndpointServicePayerResponsibilityPayerResponsibility PayerResponsibility
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceId);
+        this.ServiceId = ServiceId;
+        global::System.ArgumentNullException.ThrowIfNull(PayerResponsibility);
+        this.PayerResponsibility = PayerResponsibility;
+    }
+
+    private AwsEc2ModifyVpcEndpointServicePayerResponsibilityOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2ModifyVpcEndpointServicePayerResponsibilityOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2ModifyVpcEndpointServicePayerResponsibilityOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the service.
+    /// </summary>
     [CliOption("--service-id")]
-    public string? ServiceId { get; set; }
+    public string? ServiceId { get; private init; }
 
+    /// <summary>
+    /// The entity that is responsible for the endpoint costs. The default is the endpoint owner. If you set the payer responsibility to the service owner, you cannot set it back to the endpoint owner. Possible values: o ServiceOwner
+    /// </summary>
     [CliOption("--payer-responsibility")]
-    public string? PayerResponsibility { get; set; }
+    public AwsEc2ModifyVpcEndpointServicePayerResponsibilityPayerResponsibility? PayerResponsibility { get; private init; }
+
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
+    public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

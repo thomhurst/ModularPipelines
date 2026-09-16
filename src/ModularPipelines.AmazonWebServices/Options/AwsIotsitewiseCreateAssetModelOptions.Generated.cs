@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -22,10 +23,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotsitewise", "create-asset-model")]
-public record AwsIotsitewiseCreateAssetModelOptions : AwsOptions
+public record AwsIotsitewiseCreateAssetModelOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an asset model from specified property and hierarchy defini- tions. You create assets from asset models. With asset models, you can easily create assets of the same type that have standardized defini- tions. Each asset created from a model inherits the asset model's prop- erty and hierarchy definitions. For more information, see Defining as- set models in the IoT SiteWise User Guide . You can create three types of asset models, ASSET_MODEL , COMPO- NENT_MODEL , or an INTERFACE . o ASSET_...
+    /// </summary>
+    /// <param name="AssetModelName">A unique name for the asset model. Constraints: o min: 1 o max: 256 o pattern: [^\u0000-\u001F\u007F]+</param>
+    public AwsIotsitewiseCreateAssetModelOptions(
+        string AssetModelName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AssetModelName);
+        this.AssetModelName = AssetModelName;
+    }
+
+    private AwsIotsitewiseCreateAssetModelOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotsitewiseCreateAssetModelOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotsitewiseCreateAssetModelOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique name for the asset model. Constraints: o min: 1 o max: 256 o pattern: [^\u0000-\u001F\u007F]+
+    /// </summary>
     [CliOption("--asset-model-name")]
-    public string? AssetModelName { get; set; }
+    public string? AssetModelName { get; private init; }
 
     /// <summary>
     /// The type of asset model. o ASSET_MODEL (default) An asset model that you can use to create assets. Can't be included as a component in another asset model. o COMPONENT_MODEL A reusable component that you can include in the composite models of other asset models. You can't create assets directly from this type of asset model. Possible values: o ASSET_MODEL o COMPONENT_MODEL o INTERFACE
@@ -87,5 +124,22 @@ public record AwsIotsitewiseCreateAssetModelOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --noderecovery.
+/// Allowed values for --node-recovery.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSagemakerUpdateClusterNodeRecovery
 {
     [EnumValue("Automatic")]
-    Automatic = 1,
+    Automatic,
 
     [EnumValue("None")]
-    None = 2
+    None
 }

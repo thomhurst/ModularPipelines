@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("invoicing", "create-invoice-unit")]
-public record AwsInvoicingCreateInvoiceUnitOptions : AwsOptions
+public record AwsInvoicingCreateInvoiceUnitOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--name")]
-    public string? Name { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// This creates a new invoice unit with the provided definition. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The unique name of the invoice unit that is shown on the generated invoice. This can't be changed once it is set. To change this name, you must delete the invoice unit recreate. Constraints: o min: 1 o max: 50 o pattern: (?! )[\p{L}\p{N}\p{Z}-_]*(?&lt;! )</param>
+    /// <param name="InvoiceReceiver">The Amazon Web Services account ID chosen to be the receiver of an invoice unit. All invoices generated for that invoice unit will be sent to this account ID. Constraints: o pattern: \d{12}</param>
+    /// <param name="Rule">The InvoiceUnitRule object used to create invoice units. LinkedAccounts -&gt; (list) The list of LINKED_ACCOUNT IDs where charges are included within the invoice unit. Constraints: o min: 0 o max: 1000 (string) Constraints: o pattern: \d{12} BillSourceAccounts -&gt; (list) A list of Amazon Web Services account IDs that have delegated their billing responsibility to the receiver account through transfer billing. Unlike linked accounts, these bill source ac- counts can be payer accounts from other organizations that have authorized billing transfer to this account. Constraints: o min: 0 o max: 1000 (string) Constraints: o pattern: \d{12} Shorthand Syntax: LinkedAccounts=string,string,BillSourceAccounts=string,string JSON Syntax: { "LinkedAccounts": ["string", ...], "BillSourceAccounts": ["string", ...] }</param>
+    public AwsInvoicingCreateInvoiceUnitOptions(
+        string Name,
+        string InvoiceReceiver,
+        string Rule
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(InvoiceReceiver);
+        this.InvoiceReceiver = InvoiceReceiver;
+        global::System.ArgumentNullException.ThrowIfNull(Rule);
+        this.Rule = Rule;
+    }
+
+    private AwsInvoicingCreateInvoiceUnitOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsInvoicingCreateInvoiceUnitOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsInvoicingCreateInvoiceUnitOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique name of the invoice unit that is shown on the generated invoice. This can't be changed once it is set. To change this name, you must delete the invoice unit recreate. Constraints: o min: 1 o max: 50 o pattern: (?! )[\p{L}\p{N}\p{Z}-_]*(?&lt;! )
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The Amazon Web Services account ID chosen to be the receiver of an invoice unit. All invoices generated for that invoice unit will be sent to this account ID. Constraints: o pattern: \d{12}
+    /// </summary>
     [CliOption("--invoice-receiver")]
-    public string? InvoiceReceiver { get; set; }
+    public string? InvoiceReceiver { get; private init; }
+
+    /// <summary>
+    /// The InvoiceUnitRule object used to create invoice units. LinkedAccounts -&gt; (list) The list of LINKED_ACCOUNT IDs where charges are included within the invoice unit. Constraints: o min: 0 o max: 1000 (string) Constraints: o pattern: \d{12} BillSourceAccounts -&gt; (list) A list of Amazon Web Services account IDs that have delegated their billing responsibility to the receiver account through transfer billing. Unlike linked accounts, these bill source ac- counts can be payer accounts from other organizations that have authorized billing transfer to this account. Constraints: o min: 0 o max: 1000 (string) Constraints: o pattern: \d{12} Shorthand Syntax: LinkedAccounts=string,string,BillSourceAccounts=string,string JSON Syntax: { "LinkedAccounts": ["string", ...], "BillSourceAccounts": ["string", ...] }
+    /// </summary>
+    [CliOption("--rule")]
+    public string? Rule { get; private init; }
 
     /// <summary>
     /// The invoice unit's description. This can be changed at a later time. Constraints: o min: 0 o max: 500 o pattern: [\S\s]*
@@ -34,11 +88,11 @@ public record AwsInvoicingCreateInvoiceUnitOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliFlag("--tax-inheritance-disabled")]
+    /// <summary>
+    /// Whether the invoice unit based tax inheritance is/ should be enabled or disabled.
+    /// </summary>
+    [CliFlag("--tax-inheritance-disabled", NegatedName = "--no-tax-inheritance-disabled")]
     public bool? TaxInheritanceDisabled { get; set; }
-
-    [CliOption("--rule")]
-    public string? Rule { get; set; }
 
     /// <summary>
     /// The tag structure that contains a tag key and value. Constraints: o min: 0 o max: 200 (structure) The tag structure that contains a tag key and value. Key -&gt; (string) [required] The object key of your of your resource tag. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The specific value of the resource tag. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -58,5 +112,22 @@ public record AwsInvoicingCreateInvoiceUnitOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

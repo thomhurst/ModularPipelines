@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --aggregationduration.
+/// Allowed values for --aggregation-duration.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsNotificationsUpdateNotificationConfigurationAggregationDuration
 {
     [EnumValue("LONG")]
-    Long = 1,
-
-    [EnumValue("SHORT")]
-    Short = 2,
+    Long,
 
     [EnumValue("NONE")]
-    None = 3
+    None,
+
+    [EnumValue("SHORT")]
+    Short
 }

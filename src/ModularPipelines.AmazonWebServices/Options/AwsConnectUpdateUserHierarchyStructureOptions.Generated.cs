@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "update-user-hierarchy-structure")]
-public record AwsConnectUpdateUserHierarchyStructureOptions : AwsOptions
+public record AwsConnectUpdateUserHierarchyStructureOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--hierarchy-structure")]
-    public string? HierarchyStructure { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the user hierarchy structure: add, remove, and rename user hi- erarchy levels. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="HierarchyStructure">The hierarchy levels to update. LevelOne -&gt; (structure) The update for level one. Name -&gt; (string) [required] The name of the user hierarchy level. Must not be more than 50 characters. LevelTwo -&gt; (structure) The update for level two. Name -&gt; (string) [required] The name of the user hierarchy level. Must not be more than 50 characters. LevelThree -&gt; (structure) The update for level three. Name -&gt; (string) [required] The name of the user hierarchy level. Must not be more than 50 characters. LevelFour -&gt; (structure) The update for level four. Name -&gt; (string) [required] The name of the user hierarchy level. Must not be more than 50 characters. LevelFive -&gt; (structure) The update for level five. Name -&gt; (string) [required] The name of the user hierarchy level. Must not be more than 50 characters. Shorthand Syntax: LevelOne={Name=string},LevelTwo={Name=string},LevelThree={Name=string},LevelFour={Name=string},LevelFive={Name=string} JSON Syntax: { "LevelOne": { "Name": "string" }, "LevelTwo": { "Name": "string" }, "LevelThree": { "Name": "string" }, "LevelFour": { "Name": "string" }, "LevelFive": { "Name": "string" } }</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    public AwsConnectUpdateUserHierarchyStructureOptions(
+        string HierarchyStructure,
+        string InstanceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HierarchyStructure);
+        this.HierarchyStructure = HierarchyStructure;
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+    }
+
+    private AwsConnectUpdateUserHierarchyStructureOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectUpdateUserHierarchyStructureOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectUpdateUserHierarchyStructureOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The hierarchy levels to update. LevelOne -&gt; (structure) The update for level one. Name -&gt; (string) [required] The name of the user hierarchy level. Must not be more than 50 characters. LevelTwo -&gt; (structure) The update for level two. Name -&gt; (string) [required] The name of the user hierarchy level. Must not be more than 50 characters. LevelThree -&gt; (structure) The update for level three. Name -&gt; (string) [required] The name of the user hierarchy level. Must not be more than 50 characters. LevelFour -&gt; (structure) The update for level four. Name -&gt; (string) [required] The name of the user hierarchy level. Must not be more than 50 characters. LevelFive -&gt; (structure) The update for level five. Name -&gt; (string) [required] The name of the user hierarchy level. Must not be more than 50 characters. Shorthand Syntax: LevelOne={Name=string},LevelTwo={Name=string},LevelThree={Name=string},LevelFour={Name=string},LevelFive={Name=string} JSON Syntax: { "LevelOne": { "Name": "string" }, "LevelTwo": { "Name": "string" }, "LevelThree": { "Name": "string" }, "LevelFour": { "Name": "string" }, "LevelFive": { "Name": "string" } }
+    /// </summary>
+    [CliOption("--hierarchy-structure")]
+    public string? HierarchyStructure { get; private init; }
+
+    /// <summary>
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

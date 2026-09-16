@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotdeviceadvisor", "update-suite-definition")]
-public record AwsIotdeviceadvisorUpdateSuiteDefinitionOptions : AwsOptions
+public record AwsIotdeviceadvisorUpdateSuiteDefinitionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--suite-definition-id")]
-    public string? SuiteDefinitionId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates a Device Advisor test suite. Requires permission to access the UpdateSuiteDefinition action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SuiteDefinitionId">Suite definition ID of the test suite to be updated. Constraints: o min: 12 o max: 36</param>
+    /// <param name="SuiteDefinitionConfiguration">Updates a Device Advisor test suite with suite definition configura- tion. suiteDefinitionName -&gt; (string) [required] Gets the suite definition name. This is a required parameter. Constraints: o min: 1 o max: 256 devices -&gt; (list) Gets the devices configured. Constraints: o min: 0 o max: 2 (structure) Information of a test device. A thing ARN, certificate ARN or device role ARN is required. thingArn -&gt; (string) Lists device's thing ARN. Constraints: o min: 20 o max: 2048 certificateArn -&gt; (string) Lists device's certificate ARN. Constraints: o min: 20 o max: 2048 deviceRoleArn -&gt; (string) Lists device's role ARN. Constraints: o min: 20 o max: 2048 intendedForQualification -&gt; (boolean) Gets the tests intended for qualification in a suite. isLongDurationTest -&gt; (boolean) Verifies if the test suite is a long duration test. rootGroup -&gt; (string) [required] Gets the test suite root group. This is a required parameter. For updating or creating the latest qualification suite, if in- tendedForQualification is set to true, rootGroup can be an empty string. If intendedForQualification is false, rootGroup cannot be an empty string. If rootGroup is empty, and intendedForQuali- fication is set to true, all the qualification tests are in- cluded, and the configuration is default. For a qualification suite, the minimum length is 0, and the max- imum is 2048. For a non-qualification suite, the minimum length is 1, and the maximum is 2048. Constraints: o min: 0 o max: 2048 devicePermissionRoleArn -&gt; (string) [required] Gets the device permission ARN. This is a required parameter. Constraints: o min: 20 o max: 2048 protocol -&gt; (string) Sets the MQTT protocol that is configured in the suite defini- tion. Possible values: o MqttV3_1_1 o MqttV5 o MqttV3_1_1_OverWebSocket o MqttV5_OverWebSocket Shorthand Syntax: suiteDefinitionName=string,devices=[{thingArn=string,certificateArn=string,deviceRoleArn=string},{thingArn=string,certificateArn=string,deviceRoleArn=string}],intendedForQualification=boolean,isLongDurationTest=boolean,rootGroup=string,devicePermissionRoleArn=string,protocol=string JSON Syntax: { "suiteDefinitionName": "string", "devices": [ { "thingArn": "string", "certificateArn": "string", "deviceRoleArn": "string" } ... ], "intendedForQualification": true|false, "isLongDurationTest": true|false, "rootGroup": "string", "devicePermissionRoleArn": "string", "protocol": "MqttV3_1_1"|"MqttV5"|"MqttV3_1_1_OverWebSocket"|"MqttV5_OverWebSocket" }</param>
+    public AwsIotdeviceadvisorUpdateSuiteDefinitionOptions(
+        string SuiteDefinitionId,
+        string SuiteDefinitionConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SuiteDefinitionId);
+        this.SuiteDefinitionId = SuiteDefinitionId;
+        global::System.ArgumentNullException.ThrowIfNull(SuiteDefinitionConfiguration);
+        this.SuiteDefinitionConfiguration = SuiteDefinitionConfiguration;
+    }
+
+    private AwsIotdeviceadvisorUpdateSuiteDefinitionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotdeviceadvisorUpdateSuiteDefinitionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotdeviceadvisorUpdateSuiteDefinitionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Suite definition ID of the test suite to be updated. Constraints: o min: 12 o max: 36
+    /// </summary>
+    [CliOption("--suite-definition-id")]
+    public string? SuiteDefinitionId { get; private init; }
+
+    /// <summary>
+    /// Updates a Device Advisor test suite with suite definition configura- tion. suiteDefinitionName -&gt; (string) [required] Gets the suite definition name. This is a required parameter. Constraints: o min: 1 o max: 256 devices -&gt; (list) Gets the devices configured. Constraints: o min: 0 o max: 2 (structure) Information of a test device. A thing ARN, certificate ARN or device role ARN is required. thingArn -&gt; (string) Lists device's thing ARN. Constraints: o min: 20 o max: 2048 certificateArn -&gt; (string) Lists device's certificate ARN. Constraints: o min: 20 o max: 2048 deviceRoleArn -&gt; (string) Lists device's role ARN. Constraints: o min: 20 o max: 2048 intendedForQualification -&gt; (boolean) Gets the tests intended for qualification in a suite. isLongDurationTest -&gt; (boolean) Verifies if the test suite is a long duration test. rootGroup -&gt; (string) [required] Gets the test suite root group. This is a required parameter. For updating or creating the latest qualification suite, if in- tendedForQualification is set to true, rootGroup can be an empty string. If intendedForQualification is false, rootGroup cannot be an empty string. If rootGroup is empty, and intendedForQuali- fication is set to true, all the qualification tests are in- cluded, and the configuration is default. For a qualification suite, the minimum length is 0, and the max- imum is 2048. For a non-qualification suite, the minimum length is 1, and the maximum is 2048. Constraints: o min: 0 o max: 2048 devicePermissionRoleArn -&gt; (string) [required] Gets the device permission ARN. This is a required parameter. Constraints: o min: 20 o max: 2048 protocol -&gt; (string) Sets the MQTT protocol that is configured in the suite defini- tion. Possible values: o MqttV3_1_1 o MqttV5 o MqttV3_1_1_OverWebSocket o MqttV5_OverWebSocket Shorthand Syntax: suiteDefinitionName=string,devices=[{thingArn=string,certificateArn=string,deviceRoleArn=string},{thingArn=string,certificateArn=string,deviceRoleArn=string}],intendedForQualification=boolean,isLongDurationTest=boolean,rootGroup=string,devicePermissionRoleArn=string,protocol=string JSON Syntax: { "suiteDefinitionName": "string", "devices": [ { "thingArn": "string", "certificateArn": "string", "deviceRoleArn": "string" } ... ], "intendedForQualification": true|false, "isLongDurationTest": true|false, "rootGroup": "string", "devicePermissionRoleArn": "string", "protocol": "MqttV3_1_1"|"MqttV5"|"MqttV3_1_1_OverWebSocket"|"MqttV5_OverWebSocket" }
+    /// </summary>
     [CliOption("--suite-definition-configuration")]
-    public string? SuiteDefinitionConfiguration { get; set; }
+    public string? SuiteDefinitionConfiguration { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +21,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "list-tags-for-resource")]
-public record AwsSsmListTagsForResourceOptions : AwsOptions
+public record AwsSsmListTagsForResourceOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--resource-type")]
-    public string? ResourceType { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Returns a list of the tags assigned to the specified resource. For information about the ID format for each supported resource type, see AddTagsToResource . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceType">Returns a list of tags for a specific resource type. Possible values: o Document o ManagedInstance o MaintenanceWindow o Parameter o PatchBaseline o OpsItem o OpsMetadata o Automation o Association o CloudConnector</param>
+    /// <param name="ResourceId">The resource ID for which you want to see a list of tags.</param>
+    public AwsSsmListTagsForResourceOptions(
+        AwsSsmListTagsForResourceResourceType ResourceType,
+        string ResourceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
+        this.ResourceType = ResourceType;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceId);
+        this.ResourceId = ResourceId;
+    }
+
+    private AwsSsmListTagsForResourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmListTagsForResourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmListTagsForResourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Returns a list of tags for a specific resource type. Possible values: o Document o ManagedInstance o MaintenanceWindow o Parameter o PatchBaseline o OpsItem o OpsMetadata o Automation o Association o CloudConnector
+    /// </summary>
+    [CliOption("--resource-type")]
+    public AwsSsmListTagsForResourceResourceType? ResourceType { get; private init; }
+
+    /// <summary>
+    /// The resource ID for which you want to see a list of tags.
+    /// </summary>
     [CliOption("--resource-id")]
-    public string? ResourceId { get; set; }
+    public string? ResourceId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

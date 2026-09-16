@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --sortby.
+/// Allowed values for --sort-by.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsWafv2ListSettlementRecordsSortBy
 {
-    [EnumValue("TIMESTAMP")]
-    Timestamp = 1,
-
     [EnumValue("AMOUNT")]
-    Amount = 2,
+    Amount,
 
     [EnumValue("NAME")]
-    Name = 3,
+    Name,
 
     [EnumValue("STATUS")]
-    Status = 4
+    Status,
+
+    [EnumValue("TIMESTAMP")]
+    Timestamp
 }

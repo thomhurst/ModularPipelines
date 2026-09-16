@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "update-recovery-point-index-settings")]
-public record AwsBackupUpdateRecoveryPointIndexSettingsOptions : AwsOptions
+public record AwsBackupUpdateRecoveryPointIndexSettingsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--backup-vault-name")]
-    public string? BackupVaultName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// This operation updates the settings of a recovery point index. Required: BackupVaultName, RecoveryPointArn, and IAMRoleArn See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BackupVaultName">The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Region where they are created. Accepted characters include lowercase letters, numbers, and hyphens. Constraints: o pattern: ^[a-zA-Z0-9\-\_]{2,50}$</param>
+    /// <param name="RecoveryPointArn">An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recov- ery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45 .</param>
+    /// <param name="Index">Index can have 1 of 2 possible values, either ENABLED or DISABLED . To create a backup index for an eligible ACTIVE recovery point that does not yet have a backup index, set value to ENABLED . To delete a backup index, set value to DISABLED . Possible values: o ENABLED o DISABLED</param>
+    public AwsBackupUpdateRecoveryPointIndexSettingsOptions(
+        string BackupVaultName,
+        string RecoveryPointArn,
+        AwsBackupUpdateRecoveryPointIndexSettingsIndex Index
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BackupVaultName);
+        this.BackupVaultName = BackupVaultName;
+        global::System.ArgumentNullException.ThrowIfNull(RecoveryPointArn);
+        this.RecoveryPointArn = RecoveryPointArn;
+        global::System.ArgumentNullException.ThrowIfNull(Index);
+        this.Index = Index;
+    }
+
+    private AwsBackupUpdateRecoveryPointIndexSettingsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBackupUpdateRecoveryPointIndexSettingsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBackupUpdateRecoveryPointIndexSettingsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Region where they are created. Accepted characters include lowercase letters, numbers, and hyphens. Constraints: o pattern: ^[a-zA-Z0-9\-\_]{2,50}$
+    /// </summary>
+    [CliOption("--backup-vault-name")]
+    public string? BackupVaultName { get; private init; }
+
+    /// <summary>
+    /// An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recov- ery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45 .
+    /// </summary>
     [CliOption("--recovery-point-arn")]
-    public string? RecoveryPointArn { get; set; }
+    public string? RecoveryPointArn { get; private init; }
+
+    /// <summary>
+    /// Index can have 1 of 2 possible values, either ENABLED or DISABLED . To create a backup index for an eligible ACTIVE recovery point that does not yet have a backup index, set value to ENABLED . To delete a backup index, set value to DISABLED . Possible values: o ENABLED o DISABLED
+    /// </summary>
+    [CliOption("--index")]
+    public AwsBackupUpdateRecoveryPointIndexSettingsIndex? Index { get; private init; }
 
     /// <summary>
     /// This specifies the IAM role ARN used for this operation. For example, arn:aws:iam::123456789012:role/S3Access
@@ -33,13 +88,27 @@ public record AwsBackupUpdateRecoveryPointIndexSettingsOptions : AwsOptions
     [CliOption("--iam-role-arn")]
     public string? IamRoleArn { get; set; }
 
-    [CliOption("--index")]
-    public string? Index { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

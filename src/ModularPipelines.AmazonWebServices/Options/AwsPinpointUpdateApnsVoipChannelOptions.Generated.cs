@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pinpoint", "update-apns-voip-channel")]
-public record AwsPinpointUpdateApnsVoipChannelOptions : AwsOptions
+public record AwsPinpointUpdateApnsVoipChannelOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--apns-voip-channel-request")]
-    public string? ApnsVoipChannelRequest { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Enables the APNs VoIP channel for an application or updates the status and settings of the APNs VoIP channel for an application. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApnsVoipChannelRequest">Specifies the status and settings of the APNs (Apple Push Notifica- tion service) VoIP channel for an application. BundleId -&gt; (string) The bundle identifier that's assigned to your iOS app. This identifier is used for APNs tokens. Certificate -&gt; (string) The APNs client certificate that you received from Apple, if you want Amazon Pinpoint to communicate with APNs by using an APNs certificate. DefaultAuthenticationMethod -&gt; (string) The default authentication method that you want Amazon Pinpoint to use when authenticating with APNs, key or certificate. Enabled -&gt; (boolean) Specifies whether to enable the APNs VoIP channel for the appli- cation. PrivateKey -&gt; (string) The private key for the APNs client certificate that you want Amazon Pinpoint to use to communicate with APNs. TeamId -&gt; (string) The identifier that's assigned to your Apple developer account team. This identifier is used for APNs tokens. TokenKey -&gt; (string) The authentication key to use for APNs tokens. TokenKeyId -&gt; (string) The key identifier that's assigned to your APNs signing key, if you want Amazon Pinpoint to communicate with APNs by using APNs tokens. Shorthand Syntax: BundleId=string,Certificate=string,DefaultAuthenticationMethod=string,Enabled=boolean,PrivateKey=string,TeamId=string,TokenKey=string,TokenKeyId=string JSON Syntax: { "BundleId": "string", "Certificate": "string", "DefaultAuthenticationMethod": "string", "Enabled": true|false, "PrivateKey": "string", "TeamId": "string", "TokenKey": "string", "TokenKeyId": "string" }</param>
+    /// <param name="ApplicationId">The unique identifier for the application. This identifier is dis- played as the Project ID on the Amazon Pinpoint console.</param>
+    public AwsPinpointUpdateApnsVoipChannelOptions(
+        string ApnsVoipChannelRequest,
+        string ApplicationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApnsVoipChannelRequest);
+        this.ApnsVoipChannelRequest = ApnsVoipChannelRequest;
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationId);
+        this.ApplicationId = ApplicationId;
+    }
+
+    private AwsPinpointUpdateApnsVoipChannelOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPinpointUpdateApnsVoipChannelOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPinpointUpdateApnsVoipChannelOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the status and settings of the APNs (Apple Push Notifica- tion service) VoIP channel for an application. BundleId -&gt; (string) The bundle identifier that's assigned to your iOS app. This identifier is used for APNs tokens. Certificate -&gt; (string) The APNs client certificate that you received from Apple, if you want Amazon Pinpoint to communicate with APNs by using an APNs certificate. DefaultAuthenticationMethod -&gt; (string) The default authentication method that you want Amazon Pinpoint to use when authenticating with APNs, key or certificate. Enabled -&gt; (boolean) Specifies whether to enable the APNs VoIP channel for the appli- cation. PrivateKey -&gt; (string) The private key for the APNs client certificate that you want Amazon Pinpoint to use to communicate with APNs. TeamId -&gt; (string) The identifier that's assigned to your Apple developer account team. This identifier is used for APNs tokens. TokenKey -&gt; (string) The authentication key to use for APNs tokens. TokenKeyId -&gt; (string) The key identifier that's assigned to your APNs signing key, if you want Amazon Pinpoint to communicate with APNs by using APNs tokens. Shorthand Syntax: BundleId=string,Certificate=string,DefaultAuthenticationMethod=string,Enabled=boolean,PrivateKey=string,TeamId=string,TokenKey=string,TokenKeyId=string JSON Syntax: { "BundleId": "string", "Certificate": "string", "DefaultAuthenticationMethod": "string", "Enabled": true|false, "PrivateKey": "string", "TeamId": "string", "TokenKey": "string", "TokenKeyId": "string" }
+    /// </summary>
+    [CliOption("--apns-voip-channel-request")]
+    public string? ApnsVoipChannelRequest { get; private init; }
+
+    /// <summary>
+    /// The unique identifier for the application. This identifier is dis- played as the Project ID on the Amazon Pinpoint console.
+    /// </summary>
     [CliOption("--application-id")]
-    public string? ApplicationId { get; set; }
+    public string? ApplicationId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

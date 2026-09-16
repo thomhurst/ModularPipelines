@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connectcases", "create-layout")]
-public record AwsConnectcasesCreateLayoutOptions : AwsOptions
+public record AwsConnectcasesCreateLayoutOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a layout in the Cases domain. Layouts define the following con- figuration in the top section and More Info tab of the Cases user in- terface: o Fields to display to the users o Field ordering NOTE: Title and Status fields cannot be part of layouts since they are not configurable. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainId">The unique identifier of the Cases domain. Constraints: o min: 1 o max: 500</param>
+    /// <param name="Name">The name of the layout. It must be unique for the Cases domain. Constraints: o min: 1 o max: 100 o pattern: .*[\S]</param>
+    /// <param name="Content">Information about which fields will be present in the layout, and information about the order of the fields. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: basic. basic -&gt; (structure) Content specific to BasicLayout type. It configures fields in the top panel and More Info tab of Cases user interface. topPanel -&gt; (structure) This represents sections in a panel of the page layout. sections -&gt; (list) Ordered list containing different kinds of sections that can be added. Constraints: o min: 0 o max: 1 (tagged union structure) This represents a sections within a panel or tab of the page layout. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: fieldGroup. fieldGroup -&gt; (structure) Consists of a group of fields and associated prop- erties. name -&gt; (string) Name of the field group. Constraints: o min: 0 o max: 100 fields -&gt; (list) [required] Represents an ordered list containing field re- lated information. Constraints: o min: 0 o max: 220 (structure) Object for field related information. id -&gt; (string) [required] Unique identifier of a field. Constraints: o min: 1 o max: 500 moreInfo -&gt; (structure) This represents sections in a tab of the page layout. sections -&gt; (list) Ordered list containing different kinds of sections that can be added. Constraints: o min: 0 o max: 1 (tagged union structure) This represents a sections within a panel or tab of the page layout. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: fieldGroup. fieldGroup -&gt; (structure) Consists of a group of fields and associated prop- erties. name -&gt; (string) Name of the field group. Constraints: o min: 0 o max: 100 fields -&gt; (list) [required] Represents an ordered list containing field re- lated information. Constraints: o min: 0 o max: 220 (structure) Object for field related information. id -&gt; (string) [required] Unique identifier of a field. Constraints: o min: 1 o max: 500 JSON Syntax: { "basic": { "topPanel": { "sections": [ { "fieldGroup": { "name": "string", "fields": [ { "id": "string" } ... ] } } ... ] }, "moreInfo": { "sections": [ { "fieldGroup": { "name": "string", "fields": [ { "id": "string" } ... ] } } ... ] } } }</param>
+    public AwsConnectcasesCreateLayoutOptions(
+        string DomainId,
+        string Name,
+        string Content
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainId);
+        this.DomainId = DomainId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Content);
+        this.Content = Content;
+    }
+
+    private AwsConnectcasesCreateLayoutOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectcasesCreateLayoutOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectcasesCreateLayoutOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the Cases domain. Constraints: o min: 1 o max: 500
+    /// </summary>
     [CliOption("--domain-id")]
-    public string? DomainId { get; set; }
+    public string? DomainId { get; private init; }
 
+    /// <summary>
+    /// The name of the layout. It must be unique for the Cases domain. Constraints: o min: 1 o max: 100 o pattern: .*[\S]
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// Information about which fields will be present in the layout, and information about the order of the fields. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: basic. basic -&gt; (structure) Content specific to BasicLayout type. It configures fields in the top panel and More Info tab of Cases user interface. topPanel -&gt; (structure) This represents sections in a panel of the page layout. sections -&gt; (list) Ordered list containing different kinds of sections that can be added. Constraints: o min: 0 o max: 1 (tagged union structure) This represents a sections within a panel or tab of the page layout. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: fieldGroup. fieldGroup -&gt; (structure) Consists of a group of fields and associated prop- erties. name -&gt; (string) Name of the field group. Constraints: o min: 0 o max: 100 fields -&gt; (list) [required] Represents an ordered list containing field re- lated information. Constraints: o min: 0 o max: 220 (structure) Object for field related information. id -&gt; (string) [required] Unique identifier of a field. Constraints: o min: 1 o max: 500 moreInfo -&gt; (structure) This represents sections in a tab of the page layout. sections -&gt; (list) Ordered list containing different kinds of sections that can be added. Constraints: o min: 0 o max: 1 (tagged union structure) This represents a sections within a panel or tab of the page layout. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: fieldGroup. fieldGroup -&gt; (structure) Consists of a group of fields and associated prop- erties. name -&gt; (string) Name of the field group. Constraints: o min: 0 o max: 100 fields -&gt; (list) [required] Represents an ordered list containing field re- lated information. Constraints: o min: 0 o max: 220 (structure) Object for field related information. id -&gt; (string) [required] Unique identifier of a field. Constraints: o min: 1 o max: 500 JSON Syntax: { "basic": { "topPanel": { "sections": [ { "fieldGroup": { "name": "string", "fields": [ { "id": "string" } ... ] } } ... ] }, "moreInfo": { "sections": [ { "fieldGroup": { "name": "string", "fields": [ { "id": "string" } ... ] } } ... ] } } }
+    /// </summary>
     [CliOption("--content")]
-    public string? Content { get; set; }
+    public string? Content { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

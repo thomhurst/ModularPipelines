@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("es", "update-package")]
-public record AwsEsUpdatePackageOptions : AwsOptions
+public record AwsEsUpdatePackageOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--package-id")]
-    public string? PackageId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates a package for use with Amazon ES domains. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PackageId">Unique identifier for the package.</param>
+    /// <param name="PackageSource">The S3 location for importing the package specified as S3BucketName and S3Key S3BucketName -&gt; (string) Name of the bucket containing the package. Constraints: o min: 3 o max: 63 S3Key -&gt; (string) Key (file name) of the package. Shorthand Syntax: S3BucketName=string,S3Key=string JSON Syntax: { "S3BucketName": "string", "S3Key": "string" }</param>
+    public AwsEsUpdatePackageOptions(
+        string PackageId,
+        string PackageSource
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PackageId);
+        this.PackageId = PackageId;
+        global::System.ArgumentNullException.ThrowIfNull(PackageSource);
+        this.PackageSource = PackageSource;
+    }
+
+    private AwsEsUpdatePackageOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEsUpdatePackageOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEsUpdatePackageOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Unique identifier for the package.
+    /// </summary>
+    [CliOption("--package-id")]
+    public string? PackageId { get; private init; }
+
+    /// <summary>
+    /// The S3 location for importing the package specified as S3BucketName and S3Key S3BucketName -&gt; (string) Name of the bucket containing the package. Constraints: o min: 3 o max: 63 S3Key -&gt; (string) Key (file name) of the package. Shorthand Syntax: S3BucketName=string,S3Key=string JSON Syntax: { "S3BucketName": "string", "S3Key": "string" }
+    /// </summary>
     [CliOption("--package-source")]
-    public string? PackageSource { get; set; }
+    public string? PackageSource { get; private init; }
 
     /// <summary>
     /// New description of the package. Constraints: o max: 1024
@@ -44,5 +88,22 @@ public record AwsEsUpdatePackageOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

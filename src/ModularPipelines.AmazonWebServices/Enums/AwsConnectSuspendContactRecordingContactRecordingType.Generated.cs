@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --contactrecordingtype.
+/// Allowed values for --contact-recording-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsConnectSuspendContactRecordingContactRecordingType
 {
     [EnumValue("AGENT")]
-    Agent = 1,
+    Agent,
 
     [EnumValue("IVR")]
-    Ivr = 2,
+    Ivr,
 
     [EnumValue("SCREEN")]
-    Screen = 3
+    Screen
 }

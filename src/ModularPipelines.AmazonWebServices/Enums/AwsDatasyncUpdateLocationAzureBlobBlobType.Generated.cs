@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --blobtype.
+/// Allowed values for --blob-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDatasyncUpdateLocationAzureBlobBlobType
 {
     [EnumValue("BLOCK")]
-    Block = 1
+    Block,
+
+    [EnumValue("o")]
+    O
 }

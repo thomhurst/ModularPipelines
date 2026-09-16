@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("memorydb", "reset-parameter-group")]
-public record AwsMemorydbResetParameterGroupOptions : AwsOptions
+public record AwsMemorydbResetParameterGroupOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--parameter-group-name")]
-    public string? ParameterGroupName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--all-parameters")]
+    /// <summary>
+    /// Modifies the parameters of a parameter group to the engine or system default value. You can reset specific parameters by submitting a list of parameter names. To reset the entire parameter group, specify the AllParameters and ParameterGroupName parameters. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ParameterGroupName">The name of the parameter group to reset.</param>
+    public AwsMemorydbResetParameterGroupOptions(
+        string ParameterGroupName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ParameterGroupName);
+        this.ParameterGroupName = ParameterGroupName;
+    }
+
+    private AwsMemorydbResetParameterGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMemorydbResetParameterGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMemorydbResetParameterGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the parameter group to reset.
+    /// </summary>
+    [CliOption("--parameter-group-name")]
+    public string? ParameterGroupName { get; private init; }
+
+    /// <summary>
+    /// If true, all parameters in the parameter group are reset to their default values. If false, only the parameters listed by Parameter- Names are reset to their default values.
+    /// </summary>
+    [CliFlag("--all-parameters", NegatedName = "--no-all-parameters")]
     public bool? AllParameters { get; set; }
 
     /// <summary>
@@ -38,5 +78,22 @@ public record AwsMemorydbResetParameterGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

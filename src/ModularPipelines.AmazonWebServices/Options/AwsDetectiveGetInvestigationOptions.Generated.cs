@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("detective", "get-investigation")]
-public record AwsDetectiveGetInvestigationOptions : AwsOptions
+public record AwsDetectiveGetInvestigationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--graph-arn")]
-    public string? GraphArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Detective investigations lets you investigate IAM users and IAM roles using indicators of compromise. An indicator of compromise (IOC) is an artifact observed in or on a network, system, or environment that can (with a high level of confidence) identify malicious activity or a se- curity incident. GetInvestigation returns the investigation results of an investigation for a behavior graph. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="GraphArn">The Amazon Resource Name (ARN) of the behavior graph. Constraints: o pattern: ^arn:aws[-\w]{0,10}?:detec- tive:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$</param>
+    /// <param name="InvestigationId">The investigation ID of the investigation report. Constraints: o min: 21 o max: 21 o pattern: ^[0-9]+$</param>
+    public AwsDetectiveGetInvestigationOptions(
+        string GraphArn,
+        string InvestigationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GraphArn);
+        this.GraphArn = GraphArn;
+        global::System.ArgumentNullException.ThrowIfNull(InvestigationId);
+        this.InvestigationId = InvestigationId;
+    }
+
+    private AwsDetectiveGetInvestigationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDetectiveGetInvestigationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDetectiveGetInvestigationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the behavior graph. Constraints: o pattern: ^arn:aws[-\w]{0,10}?:detec- tive:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$
+    /// </summary>
+    [CliOption("--graph-arn")]
+    public string? GraphArn { get; private init; }
+
+    /// <summary>
+    /// The investigation ID of the investigation report. Constraints: o min: 21 o max: 21 o pattern: ^[0-9]+$
+    /// </summary>
     [CliOption("--investigation-id")]
-    public string? InvestigationId { get; set; }
+    public string? InvestigationId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

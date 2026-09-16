@@ -12,6 +12,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,16 +23,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("wisdom", "create-assistant-association")]
-public record AwsWisdomCreateAssistantAssociationOptions : AwsOptions
+public record AwsWisdomCreateAssistantAssociationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an association between an Amazon Connect Wisdom assistant and another resource. Currently, the only supported association is with a knowledge base. An assistant can have only a single association. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AssistantId">The identifier of the Wisdom assistant. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})?$</param>
+    /// <param name="Association">The identifier of the associated resource. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: knowledgeBaseId. knowledgeBaseId -&gt; (string) The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Constraints: o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$ Shorthand Syntax: knowledgeBaseId=string JSON Syntax: { "knowledgeBaseId": "string" }</param>
+    /// <param name="AssociationType">The type of association. Possible values: o KNOWLEDGE_BASE</param>
+    public AwsWisdomCreateAssistantAssociationOptions(
+        string AssistantId,
+        string Association,
+        AwsWisdomCreateAssistantAssociationAssociationType AssociationType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AssistantId);
+        this.AssistantId = AssistantId;
+        global::System.ArgumentNullException.ThrowIfNull(Association);
+        this.Association = Association;
+        global::System.ArgumentNullException.ThrowIfNull(AssociationType);
+        this.AssociationType = AssociationType;
+    }
+
+    private AwsWisdomCreateAssistantAssociationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWisdomCreateAssistantAssociationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWisdomCreateAssistantAssociationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Wisdom assistant. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})?$
+    /// </summary>
     [CliOption("--assistant-id")]
-    public string? AssistantId { get; set; }
+    public string? AssistantId { get; private init; }
 
+    /// <summary>
+    /// The identifier of the associated resource. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: knowledgeBaseId. knowledgeBaseId -&gt; (string) The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Constraints: o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$ Shorthand Syntax: knowledgeBaseId=string JSON Syntax: { "knowledgeBaseId": "string" }
+    /// </summary>
     [CliOption("--association")]
-    public string? Association { get; set; }
+    public string? Association { get; private init; }
 
+    /// <summary>
+    /// The type of association. Possible values: o KNOWLEDGE_BASE
+    /// </summary>
     [CliOption("--association-type")]
-    public string? AssociationType { get; set; }
+    public AwsWisdomCreateAssistantAssociationAssociationType? AssociationType { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o min: 1 o max: 4096
@@ -50,5 +102,22 @@ public record AwsWisdomCreateAssistantAssociationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

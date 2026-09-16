@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,16 +21,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sesv2", "put-configuration-set-delivery-options")]
-public record AwsSesv2PutConfigurationSetDeliveryOptionsOptions : AwsOptions
+public record AwsSesv2PutConfigurationSetDeliveryOptionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Associate a configuration set with a dedicated IP pool. You can use dedicated IP pools to create groups of dedicated IP addresses for send- ing specific types of email. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ConfigurationSetName">The name of the configuration set to associate with a dedicated IP pool.</param>
+    public AwsSesv2PutConfigurationSetDeliveryOptionsOptions(
+        string ConfigurationSetName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConfigurationSetName);
+        this.ConfigurationSetName = ConfigurationSetName;
+    }
+
+    private AwsSesv2PutConfigurationSetDeliveryOptionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSesv2PutConfigurationSetDeliveryOptionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSesv2PutConfigurationSetDeliveryOptionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the configuration set to associate with a dedicated IP pool.
+    /// </summary>
     [CliOption("--configuration-set-name")]
-    public string? ConfigurationSetName { get; set; }
+    public string? ConfigurationSetName { get; private init; }
 
     /// <summary>
     /// Specifies whether messages that use the configuration set are re- quired to use Transport Layer Security (TLS). If the value is Re- quire , messages are only delivered if a TLS connection can be es- tablished. If the value is Optional , messages can be delivered in plain text if a TLS connection can't be established. Possible values: o REQUIRE o OPTIONAL
     /// </summary>
     [CliOption("--tls-policy")]
-    public AwsSesv2PutConfigurationSetDeliveryTlsPolicy? TlsPolicy { get; set; }
+    public AwsSesv2PutConfigurationSetDeliveryOptionsTlsPolicy? TlsPolicy { get; set; }
 
     /// <summary>
     /// The name of the dedicated IP pool to associate with the configura- tion set.
@@ -48,5 +85,22 @@ public record AwsSesv2PutConfigurationSetDeliveryOptionsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

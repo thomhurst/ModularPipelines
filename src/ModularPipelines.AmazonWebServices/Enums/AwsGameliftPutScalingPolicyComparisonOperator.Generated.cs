@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --comparisonoperator.
+/// Allowed values for --comparison-operator.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGameliftPutScalingPolicyComparisonOperator
 {
     [EnumValue("GreaterThanOrEqualToThreshold")]
-    GreaterThanOrEqualToThreshold = 1,
+    GreaterThanOrEqualToThreshold,
 
     [EnumValue("GreaterThanThreshold")]
-    GreaterThanThreshold = 2,
-
-    [EnumValue("LessThanThreshold")]
-    LessThanThreshold = 3,
+    GreaterThanThreshold,
 
     [EnumValue("LessThanOrEqualToThreshold")]
-    LessThanOrEqualToThreshold = 4
+    LessThanOrEqualToThreshold,
+
+    [EnumValue("LessThanThreshold")]
+    LessThanThreshold
 }

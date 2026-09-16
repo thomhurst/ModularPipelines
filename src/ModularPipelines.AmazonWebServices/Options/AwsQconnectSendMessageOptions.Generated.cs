@@ -12,6 +12,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,19 +23,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("qconnect", "send-message")]
-public record AwsQconnectSendMessageOptions : AwsOptions
+public record AwsQconnectSendMessageOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Submits a message to the Amazon Q in Connect session. See also: AWS API Documentation send-message uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// </summary>
+    /// <param name="AssistantId">The identifier of the Amazon Q in Connect assistant. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}</param>
+    /// <param name="SessionId">The identifier of the Amazon Q in Connect session. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}</param>
+    /// <param name="Type">The message type. Possible values: o TEXT o TOOL_USE_RESULT</param>
+    /// <param name="Message">The message data to submit to the Amazon Q in Connect session. value -&gt; (tagged union structure) [required] The message input value. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: text, toolUseResult. text -&gt; (structure) The message data in text type. value -&gt; (string) The value of the message data in text type. Constraints: o min: 0 o max: 25000 citations -&gt; (list) The citations associated with the text message. (structure) A citation that references source content. contentId -&gt; (string) The identifier of the content being cited. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} title -&gt; (string) The title of the cited content. knowledgeBaseId -&gt; (string) The identifier of the knowledge base containing the cited content. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} citationSpan -&gt; (structure) [required] Contains information about where the text with a citation begins and ends in the generated output. beginOffsetInclusive -&gt; (integer) Where the text with a citation starts in the generated output. endOffsetExclusive -&gt; (integer) Where the text with a citation ends in the gen- erated output. sourceURL -&gt; (string) The source URL for the citation. referenceType -&gt; (string) [required] A type to define the KB origin of a cited content Possible values: o WEB_CRAWLER o KNOWLEDGE_BASE o BEDROCK_KB_S3 o BEDROCK_KB_WEB o BEDROCK_KB_CONFLUENCE o BEDROCK_KB_SALESFORCE o BEDROCK_KB_SHAREPOINT o BEDROCK_KB_KENDRA o BEDROCK_KB_CUSTOM_DOCUMENT o BEDROCK_KB_SQL aiGuardrailAssessment -&gt; (structure) The AI Guardrail assessment for the text message. blocked -&gt; (boolean) [required] Indicates whether the AI Guardrail blocked the con- tent. toolUseResult -&gt; (structure) The result of tool usage in the message. toolUseId -&gt; (string) [required] The identifier of the tool use instance. Constraints: o min: 1 o max: 4096 toolName -&gt; (string) [required] The name of the tool that was used. Constraints: o min: 1 o max: 4096 toolResult -&gt; (document) [required] The result of the tool usage. inputSchema -&gt; (document) The input schema for the tool use result. JSON Syntax: { "value": { "text": { "value": "string", "citations": [ { "contentId": "string", "title": "string", "knowledgeBaseId": "string", "citationSpan": { "beginOffsetInclusive": integer, "endOffsetExclusive": integer }, "sourceURL": "string", "referenceType": "WEB_CRAWLER"|"KNOWLEDGE_BASE"|"BEDROCK_KB_S3"|"BEDROCK_KB_WEB"|"BEDROCK_KB_CONFLUENCE"|"BEDROCK_KB_SALESFORCE"|"BEDROCK_KB_SHAREPOINT"|"BEDROCK_KB_KENDRA"|"BEDROCK_KB_CUSTOM_DOCUMENT"|"BEDROCK_KB_SQL" } ... ], "aiGuardrailAssessment": { "blocked": true|false } }, "toolUseResult": { "toolUseId": "string", "toolName": "string", "toolResult": {...}, "inputSchema": {...} } } }</param>
+    public AwsQconnectSendMessageOptions(
+        string AssistantId,
+        string SessionId,
+        AwsQconnectSendMessageType Type,
+        string Message
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AssistantId);
+        this.AssistantId = AssistantId;
+        global::System.ArgumentNullException.ThrowIfNull(SessionId);
+        this.SessionId = SessionId;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+        global::System.ArgumentNullException.ThrowIfNull(Message);
+        this.Message = Message;
+    }
+
+    private AwsQconnectSendMessageOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQconnectSendMessageOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQconnectSendMessageOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Amazon Q in Connect assistant. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}
+    /// </summary>
     [CliOption("--assistant-id")]
-    public string? AssistantId { get; set; }
+    public string? AssistantId { get; private init; }
 
+    /// <summary>
+    /// The identifier of the Amazon Q in Connect session. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}
+    /// </summary>
     [CliOption("--session-id")]
-    public string? SessionId { get; set; }
+    public string? SessionId { get; private init; }
 
+    /// <summary>
+    /// The message type. Possible values: o TEXT o TOOL_USE_RESULT
+    /// </summary>
     [CliOption("--type")]
-    public string? Type { get; set; }
+    public AwsQconnectSendMessageType? Type { get; private init; }
 
+    /// <summary>
+    /// The message data to submit to the Amazon Q in Connect session. value -&gt; (tagged union structure) [required] The message input value. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: text, toolUseResult. text -&gt; (structure) The message data in text type. value -&gt; (string) The value of the message data in text type. Constraints: o min: 0 o max: 25000 citations -&gt; (list) The citations associated with the text message. (structure) A citation that references source content. contentId -&gt; (string) The identifier of the content being cited. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} title -&gt; (string) The title of the cited content. knowledgeBaseId -&gt; (string) The identifier of the knowledge base containing the cited content. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} citationSpan -&gt; (structure) [required] Contains information about where the text with a citation begins and ends in the generated output. beginOffsetInclusive -&gt; (integer) Where the text with a citation starts in the generated output. endOffsetExclusive -&gt; (integer) Where the text with a citation ends in the gen- erated output. sourceURL -&gt; (string) The source URL for the citation. referenceType -&gt; (string) [required] A type to define the KB origin of a cited content Possible values: o WEB_CRAWLER o KNOWLEDGE_BASE o BEDROCK_KB_S3 o BEDROCK_KB_WEB o BEDROCK_KB_CONFLUENCE o BEDROCK_KB_SALESFORCE o BEDROCK_KB_SHAREPOINT o BEDROCK_KB_KENDRA o BEDROCK_KB_CUSTOM_DOCUMENT o BEDROCK_KB_SQL aiGuardrailAssessment -&gt; (structure) The AI Guardrail assessment for the text message. blocked -&gt; (boolean) [required] Indicates whether the AI Guardrail blocked the con- tent. toolUseResult -&gt; (structure) The result of tool usage in the message. toolUseId -&gt; (string) [required] The identifier of the tool use instance. Constraints: o min: 1 o max: 4096 toolName -&gt; (string) [required] The name of the tool that was used. Constraints: o min: 1 o max: 4096 toolResult -&gt; (document) [required] The result of the tool usage. inputSchema -&gt; (document) The input schema for the tool use result. JSON Syntax: { "value": { "text": { "value": "string", "citations": [ { "contentId": "string", "title": "string", "knowledgeBaseId": "string", "citationSpan": { "beginOffsetInclusive": integer, "endOffsetExclusive": integer }, "sourceURL": "string", "referenceType": "WEB_CRAWLER"|"KNOWLEDGE_BASE"|"BEDROCK_KB_S3"|"BEDROCK_KB_WEB"|"BEDROCK_KB_CONFLUENCE"|"BEDROCK_KB_SALESFORCE"|"BEDROCK_KB_SHAREPOINT"|"BEDROCK_KB_KENDRA"|"BEDROCK_KB_CUSTOM_DOCUMENT"|"BEDROCK_KB_SQL" } ... ], "aiGuardrailAssessment": { "blocked": true|false } }, "toolUseResult": { "toolUseId": "string", "toolName": "string", "toolResult": {...}, "inputSchema": {...} } } }
+    /// </summary>
     [CliOption("--message")]
-    public string? Message { get; set; }
+    public string? Message { get; private init; }
 
     /// <summary>
     /// The identifier of the AI Agent to use for processing the message. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(:[A-Z0-9_$]+){0,1}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}(:[A-Z0-9_$]+){0,1}
@@ -83,5 +142,22 @@ public record AwsQconnectSendMessageOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

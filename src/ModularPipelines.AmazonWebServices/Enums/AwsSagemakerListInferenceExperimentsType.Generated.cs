@@ -16,6 +16,9 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSagemakerListInferenceExperimentsType
 {
+    [EnumValue("o")]
+    O,
+
     [EnumValue("ShadowMode")]
-    ShadowMode = 1
+    ShadowMode
 }

@@ -11,32 +11,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --statefilter.
+/// Allowed values for --state-filter.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsAthenaListSessionsStateFilter
 {
-    [EnumValue("CREATING")]
-    Creating = 1,
+    [EnumValue("BUSY")]
+    Busy,
 
     [EnumValue("CREATED")]
-    Created = 2,
+    Created,
 
-    [EnumValue("IDLE")]
-    Idle = 3,
-
-    [EnumValue("BUSY")]
-    Busy = 4,
-
-    [EnumValue("TERMINATING")]
-    Terminating = 5,
-
-    [EnumValue("TERMINATED")]
-    Terminated = 6,
+    [EnumValue("CREATING")]
+    Creating,
 
     [EnumValue("DEGRADED")]
-    Degraded = 7,
+    Degraded,
 
     [EnumValue("FAILED")]
-    Failed = 8
+    Failed,
+
+    [EnumValue("IDLE")]
+    Idle,
+
+    [EnumValue("TERMINATED")]
+    Terminated,
+
+    [EnumValue("TERMINATING")]
+    Terminating
 }

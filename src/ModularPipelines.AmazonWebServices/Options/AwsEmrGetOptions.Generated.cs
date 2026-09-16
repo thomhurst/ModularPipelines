@@ -21,19 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("emr", "get")]
 public record AwsEmrGetOptions : AwsOptions
 {
+    /// <summary>
+    /// Get file from master node. A value for the variable Key Pair File can be set in the AWS CLI config file using the "aws configure set emr.key_pair_file &lt;value&gt;" command.
+    /// </summary>
+    /// <param name="ClusterId"></param>
+    /// <param name="KeyPairFile"></param>
+    /// <param name="Src"></param>
+    public AwsEmrGetOptions(
+        string ClusterId,
+        string KeyPairFile,
+        string Src
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterId);
+        this.ClusterId = ClusterId;
+        global::System.ArgumentNullException.ThrowIfNull(KeyPairFile);
+        this.KeyPairFile = KeyPairFile;
+        global::System.ArgumentNullException.ThrowIfNull(Src);
+        this.Src = Src;
+    }
+
+    public void Deconstruct(out string ClusterId, out string KeyPairFile, out string Src)
+    {
+        ClusterId = this.ClusterId;
+        KeyPairFile = this.KeyPairFile;
+        Src = this.Src;
+    }
+
     [CliOption("--cluster-id")]
-    public string? ClusterId { get; set; }
+    public string ClusterId { get; private init; }
 
     [CliOption("--key-pair-file")]
-    public string? KeyPairFile { get; set; }
+    public string KeyPairFile { get; private init; }
 
     [CliOption("--src")]
-    public string? Src { get; set; }
+    public string Src { get; private init; }
 
     [CliOption("--dest")]
     public string? Dest { get; set; }
 
-    [CliOption("--ssh-options")]
-    public string? SshOptions { get; set; }
+    [CliOption("--ssh-options", GroupValues = true)]
+    public IEnumerable<string>? SshOptions { get; set; }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gamelift", "get-player-connection-details")]
-public record AwsGameliftGetPlayerConnectionDetailsOptions : AwsOptions
+public record AwsGameliftGetPlayerConnectionDetailsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--game-session-id")]
-    public string? GameSessionId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// This API works with the following fleet types: EC2 (server SDK 5.x or later), Container Retrieves connection details for game clients to connect to game ses- sions. Player gateway benefits: DDoS protection with negligible impact to latency. To enable player gateway on your fleet, set PlayerGatewayMode to EN- ABLED or REQUIRED when calling CreateFleet or CreateContainerFleet . How to use: After creating a game session and adding players, call this operation with the game session ID and player IDs...
+    /// </summary>
+    /// <param name="GameSessionId">An identifier for the game session that is unique across all regions for which to retrieve player connection details. The value is always a full ARN in the following format: For Home Region game session - arn:aws:gamelift:&lt;home_region&gt;::gamesession/&lt;fleet ID&gt;/&lt;ID string&gt; . For Remote Location game session - arn:aws:gamelift:&lt;home_re- gion&gt;::gamesession/&lt;fleet ID&gt;/&lt;location&gt;/&lt;ID string&gt; . Constraints: o min: 1 o max: 512 o pattern: ^[a-zA-Z0-9:/-]+$</param>
+    /// <param name="PlayerIds">List of unique identifiers for players. Connection details are re- turned for each player in this list. Constraints: o min: 1 o max: 25 (string) Constraints: o min: 1 o max: 1024 Syntax: "string" "string" ...</param>
+    public AwsGameliftGetPlayerConnectionDetailsOptions(
+        string GameSessionId,
+        IEnumerable<string> PlayerIds
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GameSessionId);
+        this.GameSessionId = GameSessionId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(PlayerIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(PlayerIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(PlayerIds));
+            }
+
+            PlayerIds = materialized;
+        }
+        this.PlayerIds = PlayerIds;
+    }
+
+    private AwsGameliftGetPlayerConnectionDetailsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGameliftGetPlayerConnectionDetailsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGameliftGetPlayerConnectionDetailsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// An identifier for the game session that is unique across all regions for which to retrieve player connection details. The value is always a full ARN in the following format: For Home Region game session - arn:aws:gamelift:&lt;home_region&gt;::gamesession/&lt;fleet ID&gt;/&lt;ID string&gt; . For Remote Location game session - arn:aws:gamelift:&lt;home_re- gion&gt;::gamesession/&lt;fleet ID&gt;/&lt;location&gt;/&lt;ID string&gt; . Constraints: o min: 1 o max: 512 o pattern: ^[a-zA-Z0-9:/-]+$
+    /// </summary>
+    [CliOption("--game-session-id")]
+    public string? GameSessionId { get; private init; }
+
+    /// <summary>
+    /// List of unique identifiers for players. Connection details are re- turned for each player in this list. Constraints: o min: 1 o max: 25 (string) Constraints: o min: 1 o max: 1024 Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--player-ids", GroupValues = true)]
-    public IEnumerable<string>? PlayerIds { get; set; }
+    public IEnumerable<string>? PlayerIds { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

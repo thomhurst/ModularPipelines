@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --bottype.
+/// Allowed values for --bot-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsLexv2ModelsCreateBotBotType
 {
     [EnumValue("Bot")]
-    Bot = 1,
+    Bot,
 
     [EnumValue("BotNetwork")]
-    BotNetwork = 2
+    BotNetwork
 }

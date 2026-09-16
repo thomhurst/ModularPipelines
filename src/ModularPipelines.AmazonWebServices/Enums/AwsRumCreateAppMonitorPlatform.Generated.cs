@@ -16,12 +16,12 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsRumCreateAppMonitorPlatform
 {
-    [EnumValue("Web")]
-    Web = 1,
-
     [EnumValue("Android")]
-    Android = 2,
+    Android,
 
     [EnumValue("iOS")]
-    IOs = 3
+    IOs,
+
+    [EnumValue("Web")]
+    Web
 }

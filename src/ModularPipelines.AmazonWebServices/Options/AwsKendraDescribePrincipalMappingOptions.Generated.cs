@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kendra", "describe-principal-mapping")]
-public record AwsKendraDescribePrincipalMappingOptions : AwsOptions
+public record AwsKendraDescribePrincipalMappingOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Describes the processing of PUT and DELETE actions for mapping users to their groups. This includes information on the status of actions cur- rently processing or yet to be processed, when actions were last up- dated, when actions were received by Amazon Kendra, the latest action that should process and apply after other actions, and useful error messages if an action could not be processed. DescribePrincipalMapping is currently not supported in the Amazon Web Services GovCloud (US-West) region....
+    /// </summary>
+    /// <param name="IndexId">The identifier of the index required to check the processing of PUT and DELETE actions for mapping users to their groups. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
+    /// <param name="GroupId">The identifier of the group required to check the processing of PUT and DELETE actions for mapping users to their groups. Constraints: o min: 1 o max: 1024 o pattern: ^\P{C}*$</param>
+    public AwsKendraDescribePrincipalMappingOptions(
+        string IndexId,
+        string GroupId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IndexId);
+        this.IndexId = IndexId;
+        global::System.ArgumentNullException.ThrowIfNull(GroupId);
+        this.GroupId = GroupId;
+    }
+
+    private AwsKendraDescribePrincipalMappingOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKendraDescribePrincipalMappingOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKendraDescribePrincipalMappingOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the index required to check the processing of PUT and DELETE actions for mapping users to their groups. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
+    /// </summary>
     [CliOption("--index-id")]
-    public string? IndexId { get; set; }
+    public string? IndexId { get; private init; }
+
+    /// <summary>
+    /// The identifier of the group required to check the processing of PUT and DELETE actions for mapping users to their groups. Constraints: o min: 1 o max: 1024 o pattern: ^\P{C}*$
+    /// </summary>
+    [CliOption("--group-id")]
+    public string? GroupId { get; private init; }
 
     /// <summary>
     /// The identifier of the data source to check the processing of PUT and DELETE actions for mapping users to their groups. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
@@ -30,13 +77,27 @@ public record AwsKendraDescribePrincipalMappingOptions : AwsOptions
     [CliOption("--data-source-id")]
     public string? DataSourceId { get; set; }
 
-    [CliOption("--group-id")]
-    public string? GroupId { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

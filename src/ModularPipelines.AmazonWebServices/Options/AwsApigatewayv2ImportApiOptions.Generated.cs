@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apigatewayv2", "import-api")]
-public record AwsApigatewayv2ImportApiOptions : AwsOptions
+public record AwsApigatewayv2ImportApiOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Imports an API. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Body">The OpenAPI definition. Supported only for HTTP APIs.</param>
+    public AwsApigatewayv2ImportApiOptions(
+        string Body
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Body);
+        this.Body = Body;
+    }
+
+    private AwsApigatewayv2ImportApiOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApigatewayv2ImportApiOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApigatewayv2ImportApiOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The OpenAPI definition. Supported only for HTTP APIs.
+    /// </summary>
+    [CliOption("--body")]
+    public string? Body { get; private init; }
+
     /// <summary>
     /// Specifies how to interpret the base path of the API during import. Valid values are ignore, prepend, and split. The default value is ignore. To learn more, see Set the OpenAPI basePath Property . Sup- ported only for HTTP APIs.
     /// </summary>
     [CliOption("--basepath")]
     public string? Basepath { get; set; }
 
-    [CliOption("--body")]
-    public string? Body { get; set; }
-
-    [CliFlag("--fail-on-warnings")]
+    /// <summary>
+    /// Specifies whether to rollback the API creation when a warning is en- countered. By default, API creation continues if a warning is en- countered.
+    /// </summary>
+    [CliFlag("--fail-on-warnings", NegatedName = "--no-fail-on-warnings")]
     public bool? FailOnWarnings { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -38,5 +78,22 @@ public record AwsApigatewayv2ImportApiOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

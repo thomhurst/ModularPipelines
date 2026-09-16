@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --updatestatus.
+/// Allowed values for --update-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsApplicationInsightsUpdateProblemUpdateStatus
 {
+    [EnumValue("o")]
+    O,
+
     [EnumValue("RESOLVED")]
-    Resolved = 1
+    Resolved
 }

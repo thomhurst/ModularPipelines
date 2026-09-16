@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "get-ipam-discovered-resource-cidrs")]
-public record AwsEc2GetIpamDiscoveredResourceCidrsOptions : AwsOptions
+public record AwsEc2GetIpamDiscoveredResourceCidrsOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--dry-run")]
-    public bool? DryRun { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Returns the resource CIDRs that are monitored as part of a resource discovery. A discovered resource is a resource CIDR monitored under a resource discovery. The following resources can be discovered: VPCs, Public IPv4 pools, VPC subnets, and Elastic IP addresses. See also: AWS API Documentation get-ipam-discovered-resource-cidrs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-pagin...
+    /// </summary>
+    /// <param name="IpamResourceDiscoveryId">A resource discovery ID.</param>
+    /// <param name="ResourceRegion">A resource Region.</param>
+    public AwsEc2GetIpamDiscoveredResourceCidrsOptions(
+        string IpamResourceDiscoveryId,
+        string ResourceRegion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IpamResourceDiscoveryId);
+        this.IpamResourceDiscoveryId = IpamResourceDiscoveryId;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceRegion);
+        this.ResourceRegion = ResourceRegion;
+    }
+
+    private AwsEc2GetIpamDiscoveredResourceCidrsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2GetIpamDiscoveredResourceCidrsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2GetIpamDiscoveredResourceCidrsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A resource discovery ID.
+    /// </summary>
     [CliOption("--ipam-resource-discovery-id")]
-    public string? IpamResourceDiscoveryId { get; set; }
+    public string? IpamResourceDiscoveryId { get; private init; }
 
+    /// <summary>
+    /// A resource Region.
+    /// </summary>
     [CliOption("--resource-region")]
-    public string? ResourceRegion { get; set; }
+    public string? ResourceRegion { get; private init; }
+
+    /// <summary>
+    /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
+    public bool? DryRun { get; set; }
 
     /// <summary>
     /// Filters. (structure) A filter name and value pair that is used to return a more spe- cific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. If you specify multiple filters, the filters are joined with an AND , and the request returns only results that match all of the specified filters. For more information, see List and filter using the CLI and API in the Amazon EC2 User Guide . Name -&gt; (string) The name of the filter. Filter names are case-sensitive. Values -&gt; (list) The filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are joined with an OR , and the request returns all results that match any of the specified values. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
@@ -61,5 +108,22 @@ public record AwsEc2GetIpamDiscoveredResourceCidrsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

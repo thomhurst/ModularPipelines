@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workspaces-web", "update-data-protection-settings")]
-public record AwsWorkspacesWebUpdateDataProtectionSettingsOptions : AwsOptions
+public record AwsWorkspacesWebUpdateDataProtectionSettingsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates data protection settings. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DataProtectionSettingsArn">The ARN of the data protection settings. Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=\/,.@-]+:[a-zA-Z0-9\-]+:[a-zA-Z0-9\-]*:[a-zA-Z0-9]{1,12}:[a-zA-Z]+(\/[a-fA-F0-9\-]{36})+</param>
+    public AwsWorkspacesWebUpdateDataProtectionSettingsOptions(
+        string DataProtectionSettingsArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataProtectionSettingsArn);
+        this.DataProtectionSettingsArn = DataProtectionSettingsArn;
+    }
+
+    private AwsWorkspacesWebUpdateDataProtectionSettingsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkspacesWebUpdateDataProtectionSettingsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkspacesWebUpdateDataProtectionSettingsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the data protection settings. Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=\/,.@-]+:[a-zA-Z0-9\-]+:[a-zA-Z0-9\-]*:[a-zA-Z0-9]{1,12}:[a-zA-Z]+(\/[a-fA-F0-9\-]{36})+
+    /// </summary>
     [CliOption("--data-protection-settings-arn")]
-    public string? DataProtectionSettingsArn { get; set; }
+    public string? DataProtectionSettingsArn { get; private init; }
 
     /// <summary>
     /// The inline redaction configuration of the data protection settings that will be applied to all sessions. inlineRedactionPatterns -&gt; (list) [required] The inline redaction patterns to be enabled for the inline redaction configuration. Constraints: o min: 0 o max: 150 (structure) The set of patterns that determine the data types redacted in session. builtInPatternId -&gt; (string) The built-in pattern from the list of preconfigured pat- terns. Either a customPattern or builtInPatternId is re- quired. Constraints: o min: 1 o max: 50 o pattern: [_\-\d\w]+ customPattern -&gt; (structure) &gt;The configuration for a custom pattern. Either a custom- Pattern or builtInPatternId is required. patternName -&gt; (string) [required] The pattern name for the custom pattern. Constraints: o min: 1 o max: 20 o pattern: [_\-\d\w]+ patternRegex -&gt; (string) [required] The pattern regex for the customer pattern. The format must follow JavaScript regex format. The pattern must be enclosed between slashes, and can have flags behind the second slash. For example: /ab+c/gi. Constraints: o min: 0 o max: 300 o pattern: \/((?:[^\n])+)\/([gimsuyvd]{0,8}) patternDescription -&gt; (string) The pattern description for the customer pattern. Constraints: o min: 1 o max: 256 o pattern: [ _\-\d\w]+ keywordRegex -&gt; (string) The keyword regex for the customer pattern. After there is a match to the pattern regex, the keyword regex is used to search within the proximity of the match. If there is a keyword match, then the match is confirmed. If no keyword regex is provided, the pat- tern regex match will automatically be confirmed. The format must follow JavaScript regex format. The pat- tern must be enclosed between slashes, and can have flags behind the second slash. For example, /ab+c/gi Constraints: o min: 0 o max: 300 o pattern: \/((?:[^\n])+)\/([gimsuyvd]{0,8}) redactionPlaceHolder -&gt; (structure) [required] The redaction placeholder that will replace the redacted text in session for the inline redaction pattern. redactionPlaceHolderType -&gt; (string) [required] The redaction placeholder type that will replace the redacted text in session. Possible values: o CustomText redactionPlaceHolderText -&gt; (string) The redaction placeholder text that will replace the redacted text in session for the custom text redaction placeholder type. Constraints: o min: 1 o max: 20 o pattern: [*_\-\d\w]+ enforcedUrls -&gt; (list) The enforced URL configuration for the inline redaction pattern. This will override the global enforced URL con- figuration. Constraints: o min: 1 o max: 20 (string) Constraints: o pattern: ((([a-zA-Z][a-zA-Z0-9+.-]*):\/\/(\*|[\w%._\-\+~#=@]+)?(\/[^@\s]*)?(?:\?([^*\s]+(?:\*?)))?)|(\*|[\w%._\-\+~#=@]+\.[\w%._\-\+~#=@]+)(?::(\d{1,5}))?(\/[^@\s]*)?(?:\?([^*\s]+(?:\*?)))?|(([a-zA-Z][a-zA-Z0-9+.-]*):(\/\/)?\*)) exemptUrls -&gt; (list) The exempt URL configuration for the inline redaction pattern. This will override the global exempt URL config- uration for the inline redaction pattern. Constraints: o min: 1 o max: 20 (string) Constraints: o pattern: ((([a-zA-Z][a-zA-Z0-9+.-]*):\/\/(\*|[\w%._\-\+~#=@]+)?(\/[^@\s]*)?(?:\?([^*\s]+(?:\*?)))?)|(\*|[\w%._\-\+~#=@]+\.[\w%._\-\+~#=@]+)(?::(\d{1,5}))?(\/[^@\s]*)?(?:\?([^*\s]+(?:\*?)))?|(([a-zA-Z][a-zA-Z0-9+.-]*):(\/\/)?\*)) confidenceLevel -&gt; (integer) The confidence level for inline redaction pattern. This indicates the certainty of data type matches in the redaction process. Confidence level 3 means high confi- dence, and requires a formatted text pattern match in or- der for content to be redacted. Confidence level 2 means medium confidence, and redaction considers both formatted and unformatted text, and adds keyword associate to the logic. Confidence level 1 means low confidence, and redaction is enforced for both formatted pattern + unfor- matted pattern without keyword. This overrides the global confidence level. Constraints: o min: 1 o max: 3 globalEnforcedUrls -&gt; (list) The global enforced URL configuration for the inline redaction configuration. This is applied to patterns that do not have a pattern-level enforced URL list. Constraints: o min: 1 o max: 100 (string) Constraints: o pattern: ((([a-zA-Z][a-zA-Z0-9+.-]*):\/\/(\*|[\w%._\-\+~#=@]+)?(\/[^@\s]*)?(?:\?([^*\s]+(?:\*?)))?)|(\*|[\w%._\-\+~#=@]+\.[\w%._\-\+~#=@]+)(?::(\d{1,5}))?(\/[^@\s]*)?(?:\?([^*\s]+(?:\*?)))?|(([a-zA-Z][a-zA-Z0-9+.-]*):(\/\/)?\*)) globalExemptUrls -&gt; (list) The global exempt URL configuration for the inline redaction configuration. This is applied to patterns that do not have a pattern-level exempt URL list. Constraints: o min: 1 o max: 100 (string) Constraints: o pattern: ((([a-zA-Z][a-zA-Z0-9+.-]*):\/\/(\*|[\w%._\-\+~#=@]+)?(\/[^@\s]*)?(?:\?([^*\s]+(?:\*?)))?)|(\*|[\w%._\-\+~#=@]+\.[\w%._\-\+~#=@]+)(?::(\d{1,5}))?(\/[^@\s]*)?(?:\?([^*\s]+(?:\*?)))?|(([a-zA-Z][a-zA-Z0-9+.-]*):(\/\/)?\*)) globalConfidenceLevel -&gt; (integer) The global confidence level for the inline redaction configura- tion. This indicates the certainty of data type matches in the redaction process. Confidence level 3 means high confidence, and requires a formatted text pattern match in order for content to be redacted. Confidence level 2 means medium confidence, and redaction considers both formatted and unformatted text, and adds keyword associate to the logic. Confidence level 1 means low confidence, and redaction is enforced for both formatted pattern + unformatted pattern without keyword. This is applied to patterns that do not have a pattern-level confidence level. Defaults to confidence level 2. Constraints: o min: 1 o max: 3 JSON Syntax: { "inlineRedactionPatterns": [ { "builtInPatternId": "string", "customPattern": { "patternName": "string", "patternRegex": "string", "patternDescription": "string", "keywordRegex": "string" }, "redactionPlaceHolder": { "redactionPlaceHolderType": "CustomText", "redactionPlaceHolderText": "string" }, "enforcedUrls": ["string", ...], "exemptUrls": ["string", ...], "confidenceLevel": integer } ... ], "globalEnforcedUrls": ["string", ...], "globalExemptUrls": ["string", ...], "globalConfidenceLevel": integer }
@@ -55,5 +92,22 @@ public record AwsWorkspacesWebUpdateDataProtectionSettingsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

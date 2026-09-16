@@ -11,26 +11,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --statusfilter.
+/// Allowed values for --status-filter.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsStepfunctionsListExecutionsStatusFilter
 {
-    [EnumValue("RUNNING")]
-    Running = 1,
-
-    [EnumValue("SUCCEEDED")]
-    Succeeded = 2,
+    [EnumValue("ABORTED")]
+    Aborted,
 
     [EnumValue("FAILED")]
-    Failed = 3,
-
-    [EnumValue("TIMED_OUT")]
-    TimedOut = 4,
-
-    [EnumValue("ABORTED")]
-    Aborted = 5,
+    Failed,
 
     [EnumValue("PENDING_REDRIVE")]
-    PendingRedrive = 6
+    PendingRedrive,
+
+    [EnumValue("RUNNING")]
+    Running,
+
+    [EnumValue("SUCCEEDED")]
+    Succeeded,
+
+    [EnumValue("TIMED_OUT")]
+    TimedOut
 }

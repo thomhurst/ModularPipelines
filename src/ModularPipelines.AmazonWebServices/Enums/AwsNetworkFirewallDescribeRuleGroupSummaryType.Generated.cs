@@ -16,33 +16,33 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsNetworkFirewallDescribeRuleGroupSummaryType
 {
-    [EnumValue("STATEFUL")]
-    Stateful = 0,
-
-    [EnumValue("Note")]
-    Note = 1,
-
-    [EnumValue("that")]
-    That = 2,
-
-    [EnumValue("STATELESS")]
-    Stateless = 3,
-
-    [EnumValue("exists")]
-    Exists = 4,
-
     [EnumValue("but")]
-    But = 5,
-
-    [EnumValue("is")]
-    Is = 6,
-
-    [EnumValue("not")]
-    Not = 7,
+    But,
 
     [EnumValue("currently")]
-    Currently = 8,
+    Currently,
+
+    [EnumValue("exists")]
+    Exists,
+
+    [EnumValue("is")]
+    Is,
+
+    [EnumValue("not")]
+    Not,
+
+    [EnumValue("Note")]
+    Note,
+
+    [EnumValue("STATEFUL")]
+    Stateful,
+
+    [EnumValue("STATELESS")]
+    Stateless,
 
     [EnumValue("supported")]
-    Supported = 9
+    Supported,
+
+    [EnumValue("that")]
+    That
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kinesisanalyticsv2", "add-application-vpc-configuration")]
-public record AwsKinesisanalyticsv2AddApplicationVpcConfigurationOptions : AwsOptions
+public record AwsKinesisanalyticsv2AddApplicationVpcConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Adds a Virtual Private Cloud (VPC) configuration to the application. Applications can use VPCs to store and access resources securely. Note the following about VPC configurations for Managed Service for Apache Flink applications: o VPC configurations are not supported for SQL applications. o When a VPC is added to a Managed Service for Apache Flink applica- tion, the application can no longer be accessed from the Internet di- rectly. To enable Internet access to the application, add an Internet ...
+    /// </summary>
+    /// <param name="ApplicationName">The name of an existing application. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="VpcConfiguration">Description of the VPC to add to the application. SubnetIds -&gt; (list) [required] The array of Subnet IDs used by the VPC configuration. Constraints: o min: 1 o max: 16 (string) SecurityGroupIds -&gt; (list) [required] The array of SecurityGroup IDs used by the VPC configuration. Constraints: o min: 1 o max: 5 (string) Shorthand Syntax: SubnetIds=string,string,SecurityGroupIds=string,string JSON Syntax: { "SubnetIds": ["string", ...], "SecurityGroupIds": ["string", ...] }</param>
+    public AwsKinesisanalyticsv2AddApplicationVpcConfigurationOptions(
+        string ApplicationName,
+        string VpcConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationName);
+        this.ApplicationName = ApplicationName;
+        global::System.ArgumentNullException.ThrowIfNull(VpcConfiguration);
+        this.VpcConfiguration = VpcConfiguration;
+    }
+
+    private AwsKinesisanalyticsv2AddApplicationVpcConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKinesisanalyticsv2AddApplicationVpcConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKinesisanalyticsv2AddApplicationVpcConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of an existing application. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
     [CliOption("--application-name")]
-    public string? ApplicationName { get; set; }
+    public string? ApplicationName { get; private init; }
+
+    /// <summary>
+    /// Description of the VPC to add to the application. SubnetIds -&gt; (list) [required] The array of Subnet IDs used by the VPC configuration. Constraints: o min: 1 o max: 16 (string) SecurityGroupIds -&gt; (list) [required] The array of SecurityGroup IDs used by the VPC configuration. Constraints: o min: 1 o max: 5 (string) Shorthand Syntax: SubnetIds=string,string,SecurityGroupIds=string,string JSON Syntax: { "SubnetIds": ["string", ...], "SecurityGroupIds": ["string", ...] }
+    /// </summary>
+    [CliOption("--vpc-configuration")]
+    public string? VpcConfiguration { get; private init; }
 
     /// <summary>
     /// The version of the application to which you want to add the VPC con- figuration. You must provide the CurrentApplicationVersionId or the ConditionalToken . You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is re- turned. For better concurrency support, use the ConditionalToken pa- rameter instead of CurrentApplicationVersionId . Constraints: o min: 1 o max: 999999999
     /// </summary>
     [CliOption("--current-application-version-id")]
     public int? CurrentApplicationVersionId { get; set; }
-
-    [CliOption("--vpc-configuration")]
-    public string? VpcConfiguration { get; set; }
 
     /// <summary>
     /// A value you use to implement strong concurrency for application up- dates. You must provide the ApplicationVersionID or the Conditional- Token . You get the application's current ConditionalToken using DescribeApplication . For better concurrency support, use the Condi- tionalToken parameter instead of CurrentApplicationVersionId . Constraints: o min: 1 o max: 512 o pattern: [a-zA-Z0-9-_+/=]+
@@ -46,5 +90,22 @@ public record AwsKinesisanalyticsv2AddApplicationVpcConfigurationOptions : AwsOp
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

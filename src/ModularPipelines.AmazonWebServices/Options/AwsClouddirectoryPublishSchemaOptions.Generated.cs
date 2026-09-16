@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("clouddirectory", "publish-schema")]
-public record AwsClouddirectoryPublishSchemaOptions : AwsOptions
+public record AwsClouddirectoryPublishSchemaOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Publishes a development schema with a major version and a recommended minor version. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DevelopmentSchemaArn">The Amazon Resource Name (ARN) that is associated with the develop- ment schema. For more information, see arns .</param>
+    /// <param name="SchemaVersion">The major version under which the schema will be published. Schemas have both a major and minor version associated with them. Constraints: o min: 1 o max: 10 o pattern: ^[a-zA-Z0-9._-]*$</param>
+    public AwsClouddirectoryPublishSchemaOptions(
+        string DevelopmentSchemaArn,
+        string SchemaVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DevelopmentSchemaArn);
+        this.DevelopmentSchemaArn = DevelopmentSchemaArn;
+        global::System.ArgumentNullException.ThrowIfNull(SchemaVersion);
+        this.SchemaVersion = SchemaVersion;
+    }
+
+    private AwsClouddirectoryPublishSchemaOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsClouddirectoryPublishSchemaOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsClouddirectoryPublishSchemaOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) that is associated with the develop- ment schema. For more information, see arns .
+    /// </summary>
     [CliOption("--development-schema-arn")]
-    public string? DevelopmentSchemaArn { get; set; }
+    public string? DevelopmentSchemaArn { get; private init; }
+
+    /// <summary>
+    /// The major version under which the schema will be published. Schemas have both a major and minor version associated with them. Constraints: o min: 1 o max: 10 o pattern: ^[a-zA-Z0-9._-]*$
+    /// </summary>
+    [CliOption("--schema-version")]
+    public string? SchemaVersion { get; private init; }
 
     /// <summary>
     /// The minor version under which the schema will be published. This pa- rameter is recommended. Schemas have both a major and minor version associated with them. Constraints: o min: 1 o max: 10 o pattern: ^[a-zA-Z0-9._-]*$
@@ -36,13 +83,27 @@ public record AwsClouddirectoryPublishSchemaOptions : AwsOptions
     [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CliOption("--schema-version")]
-    public string? SchemaVersion { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

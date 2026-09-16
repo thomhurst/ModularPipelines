@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --traininginputmode.
+/// Allowed values for --training-input-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCleanroomsmlCreateTrainedModelTrainingInputMode
 {
-    [EnumValue("File")]
-    File = 1,
-
     [EnumValue("FastFile")]
-    FastFile = 2,
+    FastFile,
+
+    [EnumValue("File")]
+    File,
 
     [EnumValue("Pipe")]
-    Pipe = 3
+    Pipe
 }

@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "register-thing")]
-public record AwsIotRegisterThingOptions : AwsOptions
+public record AwsIotRegisterThingOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Provisions a thing in the device registry. RegisterThing calls other IoT control plane APIs. These calls might exceed your account level IoT Throttling Limits and cause throttle errors. Please contact Amazon Web Services Customer Support to raise your throttling limits if necessary. Requires permission to access the RegisterThing action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TemplateBody">The provisioning template. See Provisioning Devices That Have Device Certificates for more information. Constraints: o min: 0 o max: 10240 o pattern: [\s\S]*</param>
+    public AwsIotRegisterThingOptions(
+        string TemplateBody
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TemplateBody);
+        this.TemplateBody = TemplateBody;
+    }
+
+    private AwsIotRegisterThingOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotRegisterThingOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotRegisterThingOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The provisioning template. See Provisioning Devices That Have Device Certificates for more information. Constraints: o min: 0 o max: 10240 o pattern: [\s\S]*
+    /// </summary>
     [CliOption("--template-body")]
-    public string? TemplateBody { get; set; }
+    public string? TemplateBody { get; private init; }
 
     /// <summary>
     /// The parameters for provisioning a thing. See Provisioning Templates for more information. key -&gt; (string) Constraints: o min: 0 o max: 2048 o pattern: [\s\S]* value -&gt; (string) Constraints: o min: 0 o max: 4096 o pattern: [\s\S]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -36,5 +73,22 @@ public record AwsIotRegisterThingOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

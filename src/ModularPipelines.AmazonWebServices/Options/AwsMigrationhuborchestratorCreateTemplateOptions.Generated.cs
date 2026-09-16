@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,19 +22,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("migrationhuborchestrator", "create-template")]
-public record AwsMigrationhuborchestratorCreateTemplateOptions : AwsOptions
+public record AwsMigrationhuborchestratorCreateTemplateOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a migration workflow template. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TemplateName">The name of the migration workflow template. Constraints: o min: 1 o max: 128 o pattern: [ a-zA-Z0-9]*</param>
+    /// <param name="TemplateSource">The source of the migration workflow template. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: workflowId. workflowId -&gt; (string) The ID of the workflow from the source migration workflow tem- plate. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+ Shorthand Syntax: workflowId=string JSON Syntax: { "workflowId": "string" }</param>
+    public AwsMigrationhuborchestratorCreateTemplateOptions(
+        string TemplateName,
+        string TemplateSource
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TemplateName);
+        this.TemplateName = TemplateName;
+        global::System.ArgumentNullException.ThrowIfNull(TemplateSource);
+        this.TemplateSource = TemplateSource;
+    }
+
+    private AwsMigrationhuborchestratorCreateTemplateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMigrationhuborchestratorCreateTemplateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMigrationhuborchestratorCreateTemplateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the migration workflow template. Constraints: o min: 1 o max: 128 o pattern: [ a-zA-Z0-9]*
+    /// </summary>
     [CliOption("--template-name")]
-    public string? TemplateName { get; set; }
+    public string? TemplateName { get; private init; }
+
+    /// <summary>
+    /// The source of the migration workflow template. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: workflowId. workflowId -&gt; (string) The ID of the workflow from the source migration workflow tem- plate. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+ Shorthand Syntax: workflowId=string JSON Syntax: { "workflowId": "string" }
+    /// </summary>
+    [CliOption("--template-source")]
+    public string? TemplateSource { get; private init; }
 
     /// <summary>
     /// A description of the migration workflow template. Constraints: o min: 0 o max: 250 o pattern: .*
     /// </summary>
     [CliOption("--template-description")]
     public string? TemplateDescription { get; set; }
-
-    [CliOption("--template-source")]
-    public string? TemplateSource { get; set; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see Idempotency in the Smithy documentation. Constraints: o min: 1 o max: 256 o pattern: [-a-zA-Z0-9]*
@@ -53,5 +97,22 @@ public record AwsMigrationhuborchestratorCreateTemplateOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,25 +22,82 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("comprehend", "start-targeted-sentiment-detection-job")]
-public record AwsComprehendStartTargetedSentimentDetectionJobOptions : AwsOptions
+public record AwsComprehendStartTargetedSentimentDetectionJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts an asynchronous targeted sentiment detection job for a collec- tion of documents. Use the DescribeTargetedSentimentDetectionJob opera- tion to track the status of a job. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InputDataConfig">The input properties for an inference job. The document reader con- fig field applies only to non-text inputs for custom analysis. S3Uri -&gt; (string) [required] The Amazon S3 URI for the input data. The URI must be in same Region as the API endpoint that you are calling. The URI can point to a single input file or it can provide the prefix for a collection of data files. For example, if you use the URI S3://bucketName/prefix , if the prefix is a single file, Amazon Comprehend uses that file as in- put. If more than one file begins with the prefix, Amazon Com- prehend uses all of them as input. Constraints: o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? InputFormat -&gt; (string) Specifies how the text in an input file should be processed: o ONE_DOC_PER_FILE - Each file is considered a separate docu- ment. Use this option when you are processing large documents, such as newspaper articles or scientific papers. o ONE_DOC_PER_LINE - Each line in a file is considered a sepa- rate document. Use this option when you are processing many short documents, such as text messages. Possible values: o ONE_DOC_PER_FILE o ONE_DOC_PER_LINE DocumentReaderConfig -&gt; (structure) Provides configuration parameters to override the default ac- tions for extracting text from PDF documents and image files. DocumentReadAction -&gt; (string) [required] This field defines the Amazon Textract API operation that Amazon Comprehend uses to extract text from PDF files and im- age files. Enter one of the following values: o TEXTRACT_DETECT_DOCUMENT_TEXT - The Amazon Comprehend ser- vice uses the DetectDocumentText API operation. o TEXTRACT_ANALYZE_DOCUMENT - The Amazon Comprehend service uses the AnalyzeDocument API operation. Possible values: o TEXTRACT_DETECT_DOCUMENT_TEXT o TEXTRACT_ANALYZE_DOCUMENT DocumentReadMode -&gt; (string) Determines the text extraction actions for PDF files. Enter one of the following values: o SERVICE_DEFAULT - use the Amazon Comprehend service de- faults for PDF files. o FORCE_DOCUMENT_READ_ACTION - Amazon Comprehend uses the Textract API specified by DocumentReadAction for all PDF files, including digital PDF files. Possible values: o SERVICE_DEFAULT o FORCE_DOCUMENT_READ_ACTION FeatureTypes -&gt; (list) Specifies the type of Amazon Textract features to apply. If you chose TEXTRACT_ANALYZE_DOCUMENT as the read action, you must specify one or both of the following values: o TABLES - Returns additional information about any tables that are detected in the input document. o FORMS - Returns additional information about any forms that are detected in the input document. Constraints: o min: 1 o max: 2 (string) TABLES or FORMS Possible values: o TABLES o FORMS Shorthand Syntax: S3Uri=string,InputFormat=string,DocumentReaderConfig={DocumentReadAction=string,DocumentReadMode=string,FeatureTypes=[string,string]} JSON Syntax: { "S3Uri": "string", "InputFormat": "ONE_DOC_PER_FILE"|"ONE_DOC_PER_LINE", "DocumentReaderConfig": { "DocumentReadAction": "TEXTRACT_DETECT_DOCUMENT_TEXT"|"TEXTRACT_ANALYZE_DOCUMENT", "DocumentReadMode": "SERVICE_DEFAULT"|"FORCE_DOCUMENT_READ_ACTION", "FeatureTypes": ["TABLES"|"FORMS", ...] } }</param>
+    /// <param name="OutputDataConfig">Specifies where to send the output files. S3Uri -&gt; (string) [required] When you use the OutputDataConfig object with asynchronous oper- ations, you specify the Amazon S3 location where you want to write the output data. The URI must be in the same Region as the API endpoint that you are calling. The location is used as the prefix for the actual location of the output file. When the topic detection job is finished, the service creates an output file in a directory specific to the job. The S3Uri field contains the location of the output file, called output.tar.gz . It is a compressed archive that contains the ouput of the opera- tion. For a PII entity detection job, the output file is plain text, not a compressed archive. The output file name is the same as the input file, with .out appended at the end. Constraints: o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? KmsKeyId -&gt; (string) ID for the Amazon Web Services Key Management Service (KMS) key that Amazon Comprehend uses to encrypt the output results from an analysis job. Specify the Key Id of a symmetric key, because you cannot use an asymmetric key for uploading data to S3. The KmsKeyId can be one of the following formats: o KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab" o Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab" o KMS Key Alias: "alias/ExampleAlias" o ARN of a KMS Key Alias: "arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias" Constraints: o max: 2048 o pattern: ^\p{ASCII}+$ Shorthand Syntax: S3Uri=string,KmsKeyId=string JSON Syntax: { "S3Uri": "string", "KmsKeyId": "string" }</param>
+    /// <param name="DataAccessRoleArn">The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your input data. For more information, see Role-based permissions . Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+</param>
+    /// <param name="LanguageCode">The language of the input documents. Currently, English is the only supported language. Possible values: o en o es o fr o de o it o pt o ar o hi o ja o ko o zh o zh-TW</param>
+    public AwsComprehendStartTargetedSentimentDetectionJobOptions(
+        string InputDataConfig,
+        string OutputDataConfig,
+        string DataAccessRoleArn,
+        AwsComprehendStartTargetedSentimentDetectionJobLanguageCode LanguageCode
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InputDataConfig);
+        this.InputDataConfig = InputDataConfig;
+        global::System.ArgumentNullException.ThrowIfNull(OutputDataConfig);
+        this.OutputDataConfig = OutputDataConfig;
+        global::System.ArgumentNullException.ThrowIfNull(DataAccessRoleArn);
+        this.DataAccessRoleArn = DataAccessRoleArn;
+        global::System.ArgumentNullException.ThrowIfNull(LanguageCode);
+        this.LanguageCode = LanguageCode;
+    }
+
+    private AwsComprehendStartTargetedSentimentDetectionJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsComprehendStartTargetedSentimentDetectionJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsComprehendStartTargetedSentimentDetectionJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The input properties for an inference job. The document reader con- fig field applies only to non-text inputs for custom analysis. S3Uri -&gt; (string) [required] The Amazon S3 URI for the input data. The URI must be in same Region as the API endpoint that you are calling. The URI can point to a single input file or it can provide the prefix for a collection of data files. For example, if you use the URI S3://bucketName/prefix , if the prefix is a single file, Amazon Comprehend uses that file as in- put. If more than one file begins with the prefix, Amazon Com- prehend uses all of them as input. Constraints: o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? InputFormat -&gt; (string) Specifies how the text in an input file should be processed: o ONE_DOC_PER_FILE - Each file is considered a separate docu- ment. Use this option when you are processing large documents, such as newspaper articles or scientific papers. o ONE_DOC_PER_LINE - Each line in a file is considered a sepa- rate document. Use this option when you are processing many short documents, such as text messages. Possible values: o ONE_DOC_PER_FILE o ONE_DOC_PER_LINE DocumentReaderConfig -&gt; (structure) Provides configuration parameters to override the default ac- tions for extracting text from PDF documents and image files. DocumentReadAction -&gt; (string) [required] This field defines the Amazon Textract API operation that Amazon Comprehend uses to extract text from PDF files and im- age files. Enter one of the following values: o TEXTRACT_DETECT_DOCUMENT_TEXT - The Amazon Comprehend ser- vice uses the DetectDocumentText API operation. o TEXTRACT_ANALYZE_DOCUMENT - The Amazon Comprehend service uses the AnalyzeDocument API operation. Possible values: o TEXTRACT_DETECT_DOCUMENT_TEXT o TEXTRACT_ANALYZE_DOCUMENT DocumentReadMode -&gt; (string) Determines the text extraction actions for PDF files. Enter one of the following values: o SERVICE_DEFAULT - use the Amazon Comprehend service de- faults for PDF files. o FORCE_DOCUMENT_READ_ACTION - Amazon Comprehend uses the Textract API specified by DocumentReadAction for all PDF files, including digital PDF files. Possible values: o SERVICE_DEFAULT o FORCE_DOCUMENT_READ_ACTION FeatureTypes -&gt; (list) Specifies the type of Amazon Textract features to apply. If you chose TEXTRACT_ANALYZE_DOCUMENT as the read action, you must specify one or both of the following values: o TABLES - Returns additional information about any tables that are detected in the input document. o FORMS - Returns additional information about any forms that are detected in the input document. Constraints: o min: 1 o max: 2 (string) TABLES or FORMS Possible values: o TABLES o FORMS Shorthand Syntax: S3Uri=string,InputFormat=string,DocumentReaderConfig={DocumentReadAction=string,DocumentReadMode=string,FeatureTypes=[string,string]} JSON Syntax: { "S3Uri": "string", "InputFormat": "ONE_DOC_PER_FILE"|"ONE_DOC_PER_LINE", "DocumentReaderConfig": { "DocumentReadAction": "TEXTRACT_DETECT_DOCUMENT_TEXT"|"TEXTRACT_ANALYZE_DOCUMENT", "DocumentReadMode": "SERVICE_DEFAULT"|"FORCE_DOCUMENT_READ_ACTION", "FeatureTypes": ["TABLES"|"FORMS", ...] } }
+    /// </summary>
     [CliOption("--input-data-config")]
-    public string? InputDataConfig { get; set; }
+    public string? InputDataConfig { get; private init; }
 
+    /// <summary>
+    /// Specifies where to send the output files. S3Uri -&gt; (string) [required] When you use the OutputDataConfig object with asynchronous oper- ations, you specify the Amazon S3 location where you want to write the output data. The URI must be in the same Region as the API endpoint that you are calling. The location is used as the prefix for the actual location of the output file. When the topic detection job is finished, the service creates an output file in a directory specific to the job. The S3Uri field contains the location of the output file, called output.tar.gz . It is a compressed archive that contains the ouput of the opera- tion. For a PII entity detection job, the output file is plain text, not a compressed archive. The output file name is the same as the input file, with .out appended at the end. Constraints: o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? KmsKeyId -&gt; (string) ID for the Amazon Web Services Key Management Service (KMS) key that Amazon Comprehend uses to encrypt the output results from an analysis job. Specify the Key Id of a symmetric key, because you cannot use an asymmetric key for uploading data to S3. The KmsKeyId can be one of the following formats: o KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab" o Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab" o KMS Key Alias: "alias/ExampleAlias" o ARN of a KMS Key Alias: "arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias" Constraints: o max: 2048 o pattern: ^\p{ASCII}+$ Shorthand Syntax: S3Uri=string,KmsKeyId=string JSON Syntax: { "S3Uri": "string", "KmsKeyId": "string" }
+    /// </summary>
     [CliOption("--output-data-config")]
-    public string? OutputDataConfig { get; set; }
+    public string? OutputDataConfig { get; private init; }
 
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your input data. For more information, see Role-based permissions . Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+
+    /// </summary>
     [CliOption("--data-access-role-arn")]
-    public string? DataAccessRoleArn { get; set; }
+    public string? DataAccessRoleArn { get; private init; }
+
+    /// <summary>
+    /// The language of the input documents. Currently, English is the only supported language. Possible values: o en o es o fr o de o it o pt o ar o hi o ja o ko o zh o zh-TW
+    /// </summary>
+    [CliOption("--language-code")]
+    public AwsComprehendStartTargetedSentimentDetectionJobLanguageCode? LanguageCode { get; private init; }
 
     /// <summary>
     /// The identifier of the job. Constraints: o min: 1 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$
     /// </summary>
     [CliOption("--job-name")]
     public string? JobName { get; set; }
-
-    [CliOption("--language-code")]
-    public string? LanguageCode { get; set; }
 
     /// <summary>
     /// A unique identifier for the request. If you don't set the client re- quest token, Amazon Comprehend generates one. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-]+$
@@ -70,5 +129,22 @@ public record AwsComprehendStartTargetedSentimentDetectionJobOptions : AwsOption
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

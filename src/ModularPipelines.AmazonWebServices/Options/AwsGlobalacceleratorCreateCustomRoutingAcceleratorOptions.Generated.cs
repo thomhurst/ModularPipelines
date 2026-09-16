@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("globalaccelerator", "create-custom-routing-accelerator")]
-public record AwsGlobalacceleratorCreateCustomRoutingAcceleratorOptions : AwsOptions
+public record AwsGlobalacceleratorCreateCustomRoutingAcceleratorOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Create a custom routing accelerator. A custom routing accelerator di- rects traffic to one of possibly thousands of Amazon EC2 instance des- tinations running in a single or multiple virtual private clouds (VPC) subnet endpoints. Be aware that, by default, all destination EC2 instances in a VPC sub- net endpoint cannot receive traffic. To enable all destinations to re- ceive traffic, or to specify individual port mappings that can receive traffic, see the AllowCustomRoutingTraffic operation. WAR...
+    /// </summary>
+    /// <param name="Name">The name of a custom routing accelerator. The name can have a maxi- mum of 64 characters, must contain only alphanumeric characters or hyphens (-), and must not begin or end with a hyphen. Constraints: o max: 255</param>
+    public AwsGlobalacceleratorCreateCustomRoutingAcceleratorOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsGlobalacceleratorCreateCustomRoutingAcceleratorOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlobalacceleratorCreateCustomRoutingAcceleratorOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlobalacceleratorCreateCustomRoutingAcceleratorOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of a custom routing accelerator. The name can have a maxi- mum of 64 characters, must contain only alphanumeric characters or hyphens (-), and must not begin or end with a hyphen. Constraints: o max: 255
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
     /// <summary>
     /// The IP address type that an accelerator supports. For a custom rout- ing accelerator, the value must be IPV4. Possible values: o IPV4 o DUAL_STACK
@@ -38,7 +75,10 @@ public record AwsGlobalacceleratorCreateCustomRoutingAcceleratorOptions : AwsOpt
     [CliOption("--ip-addresses", GroupValues = true)]
     public IEnumerable<string>? IpAddresses { get; set; }
 
-    [CliFlag("--enabled")]
+    /// <summary>
+    /// Indicates whether an accelerator is enabled. The value is true or false. The default value is true. If the value is set to true, an accelerator cannot be deleted. If set to false, the accelerator can be deleted.
+    /// </summary>
+    [CliFlag("--enabled", NegatedName = "--no-enabled")]
     public bool? Enabled { get; set; }
 
     /// <summary>
@@ -59,5 +99,22 @@ public record AwsGlobalacceleratorCreateCustomRoutingAcceleratorOptions : AwsOpt
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

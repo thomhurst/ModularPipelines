@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("servicecatalog", "list-service-actions-for-provisioning-artifact")]
-public record AwsServicecatalogListServiceActionsForProvisioningArtifactOptions : AwsOptions
+public record AwsServicecatalogListServiceActionsForProvisioningArtifactOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--product-id")]
-    public string? ProductId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Returns a paginated list of self-service actions associated with the specified Product ID and Provisioning Artifact ID. See also: AWS API Documentation list-service-actions-for-provisioning-artifact is a paginated opera- tion. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data fro...
+    /// </summary>
+    /// <param name="ProductId">The product identifier. For example, prod-abcdzk7xy33qa . Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*</param>
+    /// <param name="ProvisioningArtifactId">The identifier of the provisioning artifact. For example, pa-4abcd- jnxjj6ne . Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*</param>
+    public AwsServicecatalogListServiceActionsForProvisioningArtifactOptions(
+        string ProductId,
+        string ProvisioningArtifactId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProductId);
+        this.ProductId = ProductId;
+        global::System.ArgumentNullException.ThrowIfNull(ProvisioningArtifactId);
+        this.ProvisioningArtifactId = ProvisioningArtifactId;
+    }
+
+    private AwsServicecatalogListServiceActionsForProvisioningArtifactOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsServicecatalogListServiceActionsForProvisioningArtifactOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsServicecatalogListServiceActionsForProvisioningArtifactOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The product identifier. For example, prod-abcdzk7xy33qa . Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// </summary>
+    [CliOption("--product-id")]
+    public string? ProductId { get; private init; }
+
+    /// <summary>
+    /// The identifier of the provisioning artifact. For example, pa-4abcd- jnxjj6ne . Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// </summary>
     [CliOption("--provisioning-artifact-id")]
-    public string? ProvisioningArtifactId { get; set; }
+    public string? ProvisioningArtifactId { get; private init; }
 
     /// <summary>
     /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 0 o max: 20
@@ -58,5 +102,22 @@ public record AwsServicecatalogListServiceActionsForProvisioningArtifactOptions 
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

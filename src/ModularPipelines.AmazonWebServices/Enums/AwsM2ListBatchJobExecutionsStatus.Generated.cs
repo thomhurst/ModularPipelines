@@ -16,36 +16,39 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsM2ListBatchJobExecutionsStatus
 {
-    [EnumValue("Submitting")]
-    Submitting = 1,
-
-    [EnumValue("Holding")]
-    Holding = 2,
-
-    [EnumValue("Dispatching")]
-    Dispatching = 3,
-
-    [EnumValue("Running")]
-    Running = 4,
+    [EnumValue("Cancelled")]
+    Cancelled,
 
     [EnumValue("Cancelling")]
-    Cancelling = 5,
+    Cancelling,
 
-    [EnumValue("Cancelled")]
-    Cancelled = 6,
-
-    [EnumValue("Succeeded")]
-    Succeeded = 7,
+    [EnumValue("Dispatching")]
+    Dispatching,
 
     [EnumValue("Failed")]
-    Failed = 8,
+    Failed,
+
+    [EnumValue("Holding")]
+    Holding,
+
+    [EnumValue("o")]
+    O,
 
     [EnumValue("Purged")]
-    Purged = 9,
+    Purged,
 
-    [EnumValue("With")]
-    With = 10,
+    [EnumValue("Running")]
+    Running,
+
+    [EnumValue("Submitting")]
+    Submitting,
+
+    [EnumValue("Succeeded")]
+    Succeeded,
 
     [EnumValue("Warning")]
-    Warning = 11
+    Warning,
+
+    [EnumValue("With")]
+    With
 }

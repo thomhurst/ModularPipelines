@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lambda", "update-capacity-provider")]
-public record AwsLambdaUpdateCapacityProviderOptions : AwsOptions
+public record AwsLambdaUpdateCapacityProviderOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the configuration of an existing capacity provider. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CapacityProviderName">The name of the capacity provider to update. Constraints: o min: 1 o max: 140 o pattern: (arn:aws[a-zA-Z-]*:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:ca- pacity-provider:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+</param>
+    public AwsLambdaUpdateCapacityProviderOptions(
+        string CapacityProviderName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CapacityProviderName);
+        this.CapacityProviderName = CapacityProviderName;
+    }
+
+    private AwsLambdaUpdateCapacityProviderOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLambdaUpdateCapacityProviderOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLambdaUpdateCapacityProviderOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the capacity provider to update. Constraints: o min: 1 o max: 140 o pattern: (arn:aws[a-zA-Z-]*:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:ca- pacity-provider:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+
+    /// </summary>
     [CliOption("--capacity-provider-name")]
-    public string? CapacityProviderName { get; set; }
+    public string? CapacityProviderName { get; private init; }
 
     /// <summary>
     /// The updated scaling configuration for the capacity provider. MaxVCpuCount -&gt; (integer) The maximum number of vCPUs that the capacity provider can pro- vision across all compute instances. Constraints: o min: 2 o max: 15000 ScalingMode -&gt; (string) The scaling mode that determines how the capacity provider re- sponds to changes in demand. Possible values: o Auto o Manual ScalingPolicies -&gt; (list) A list of scaling policies that define how the capacity provider scales compute instances based on metrics and thresholds. Constraints: o min: 1 o max: 10 (structure) A scaling policy for the capacity provider that automatically adjusts capacity to maintain a target value for a specific metric. PredefinedMetricType -&gt; (string) [required] The predefined metric type to track for scaling deci- sions. Possible values: o LambdaCapacityProviderAverageCPUUtilization TargetValue -&gt; (double) [required] The target value for the metric that the scaling policy attempts to maintain through scaling actions. Constraints: o min: 0 o max: 100 Shorthand Syntax: MaxVCpuCount=integer,ScalingMode=string,ScalingPolicies=[{PredefinedMetricType=string,TargetValue=double},{PredefinedMetricType=string,TargetValue=double}] JSON Syntax: { "MaxVCpuCount": integer, "ScalingMode": "Auto"|"Manual", "ScalingPolicies": [ { "PredefinedMetricType": "LambdaCapacityProviderAverageCPUUtilization", "TargetValue": double } ... ] }
@@ -47,5 +84,22 @@ public record AwsLambdaUpdateCapacityProviderOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

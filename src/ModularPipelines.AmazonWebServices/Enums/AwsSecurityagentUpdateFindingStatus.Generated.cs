@@ -16,15 +16,15 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSecurityagentUpdateFindingStatus
 {
-    [EnumValue("ACTIVE")]
-    Active = 1,
-
-    [EnumValue("RESOLVED")]
-    Resolved = 2,
-
     [EnumValue("ACCEPTED")]
-    Accepted = 3,
+    Accepted,
+
+    [EnumValue("ACTIVE")]
+    Active,
 
     [EnumValue("FALSE_POSITIVE")]
-    FalsePositive = 4
+    FalsePositive,
+
+    [EnumValue("RESOLVED")]
+    Resolved
 }

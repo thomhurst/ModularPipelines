@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "modify-vpn-tunnel-options")]
-public record AwsEc2ModifyVpnTunnelOptionsOptions : AwsOptions
+public record AwsEc2ModifyVpnTunnelOptionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies the options for a VPN tunnel in an Amazon Web Services Site-to-Site VPN connection. You can modify multiple options for a tun- nel in a single request, but you can only modify one tunnel at a time. For more information, see Site-to-Site VPN tunnel options for your Site-to-Site VPN connection in the Amazon Web Services Site-to-Site VPN User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="VpnConnectionId">The ID of the Amazon Web Services Site-to-Site VPN connection.</param>
+    /// <param name="VpnTunnelOutsideIpAddress">The external IP address of the VPN tunnel.</param>
+    /// <param name="TunnelOptions">The tunnel options to modify. TunnelInsideCidr -&gt; (string) The range of inside IPv4 addresses for the tunnel. Any specified CIDR blocks must be unique across all VPN connections that use the same virtual private gateway. Constraints: A size /30 CIDR block from the 169.254.0.0/16 range. The following CIDR blocks are reserved and cannot be used: o 169.254.0.0/30 o 169.254.1.0/30 o 169.254.2.0/30 o 169.254.3.0/30 o 169.254.4.0/30 o 169.254.5.0/30 o 169.254.169.252/30 TunnelInsideIpv6Cidr -&gt; (string) The range of inside IPv6 addresses for the tunnel. Any specified CIDR blocks must be unique across all VPN connections that use the same transit gateway. Constraints: A size /126 CIDR block from the local fd00::/8 range. PreSharedKey -&gt; (string) The pre-shared key (PSK) to establish initial authentication be- tween the virtual private gateway and the customer gateway. Constraints: Allowed characters are alphanumeric characters, pe- riods (.), and underscores (_). Must be between 8 and 64 charac- ters in length and cannot start with zero (0). Phase1LifetimeSeconds -&gt; (integer) The lifetime for phase 1 of the IKE negotiation, in seconds. Constraints: A value between 900 and 28,800. Default: 28800 Phase2LifetimeSeconds -&gt; (integer) The lifetime for phase 2 of the IKE negotiation, in seconds. Constraints: A value between 900 and 3,600. The value must be less than the value for Phase1LifetimeSeconds . Default: 3600 RekeyMarginTimeSeconds -&gt; (integer) The margin time, in seconds, before the phase 2 lifetime ex- pires, during which the Amazon Web Services side of the VPN con- nection performs an IKE rekey. The exact time of the rekey is randomly selected based on the value for RekeyFuzzPercentage . Constraints: A value between 60 and half of Phase2LifetimeSec- onds . Default: 270 RekeyFuzzPercentage -&gt; (integer) The percentage of the rekey window (determined by RekeyMargin- TimeSeconds ) during which the rekey time is randomly selected. Constraints: A value between 0 and 100. Default: 100 ReplayWindowSize -&gt; (integer) The number of packets in an IKE replay window. Constraints: A value between 64 and 2048. Default: 1024 DPDTimeoutSeconds -&gt; (integer) The number of seconds after which a DPD timeout occurs. A DPD timeout of 40 seconds means that the VPN endpoint will consider the peer dead 30 seconds after the first failed keep-alive. Constraints: A value greater than or equal to 30. Default: 40 DPDTimeoutAction -&gt; (string) The action to take after DPD timeout occurs. Specify restart to restart the IKE initiation. Specify clear to end the IKE ses- sion. Valid Values: clear | none | restart Default: clear Phase1EncryptionAlgorithms -&gt; (list) One or more encryption algorithms that are permitted for the VPN tunnel for phase 1 IKE negotiations. Valid values: AES128 | AES256 | AES128-GCM-16 | AES256-GCM-16 (structure) Specifies the encryption algorithm for the VPN tunnel for phase 1 IKE negotiations. Value -&gt; (string) The value for the encryption algorithm. Phase2EncryptionAlgorithms -&gt; (list) One or more encryption algorithms that are permitted for the VPN tunnel for phase 2 IKE negotiations. Valid values: AES128 | AES256 | AES128-GCM-16 | AES256-GCM-16 (structure) Specifies the encryption algorithm for the VPN tunnel for phase 2 IKE negotiations. Value -&gt; (string) The encryption algorithm. Phase1IntegrityAlgorithms -&gt; (list) One or more integrity algorithms that are permitted for the VPN tunnel for phase 1 IKE negotiations. Valid values: SHA1 | SHA2-256 | SHA2-384 | SHA2-512 (structure) Specifies the integrity algorithm for the VPN tunnel for phase 1 IKE negotiations. Value -&gt; (string) The value for the integrity algorithm. Phase2IntegrityAlgorithms -&gt; (list) One or more integrity algorithms that are permitted for the VPN tunnel for phase 2 IKE negotiations. Valid values: SHA1 | SHA2-256 | SHA2-384 | SHA2-512 (structure) Specifies the integrity algorithm for the VPN tunnel for phase 2 IKE negotiations. Value -&gt; (string) The integrity algorithm. Phase1DHGroupNumbers -&gt; (list) One or more Diffie-Hellman group numbers that are permitted for the VPN tunnel for phase 1 IKE negotiations. Valid values: 2 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 (structure) Specifies a Diffie-Hellman group number for the VPN tunnel for phase 1 IKE negotiations. Value -&gt; (integer) The Diffie-Hellmann group number. Phase2DHGroupNumbers -&gt; (list) One or more Diffie-Hellman group numbers that are permitted for the VPN tunnel for phase 2 IKE negotiations. Valid values: 2 | 5 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 (structure) Specifies a Diffie-Hellman group number for the VPN tunnel for phase 2 IKE negotiations. Value -&gt; (integer) The Diffie-Hellmann group number. IKEVersions -&gt; (list) The IKE versions that are permitted for the VPN tunnel. Valid values: ikev1 | ikev2 (structure) The IKE version that is permitted for the VPN tunnel. Value -&gt; (string) The IKE version. StartupAction -&gt; (string) The action to take when the establishing the tunnel for the VPN connection. By default, your customer gateway device must initi- ate the IKE negotiation and bring up the tunnel. Specify start for Amazon Web Services to initiate the IKE negotiation. Valid Values: add | start Default: add LogOptions -&gt; (structure) Options for logging VPN tunnel activity. CloudWatchLogOptions -&gt; (structure) Options for sending VPN tunnel logs to CloudWatch. LogEnabled -&gt; (boolean) Enable or disable VPN tunnel logging feature. Default value is False . Valid values: True | False LogGroupArn -&gt; (string) The Amazon Resource Name (ARN) of the CloudWatch log group to send logs to. LogOutputFormat -&gt; (string) Set log format. Default format is json . Valid values: json | text BgpLogEnabled -&gt; (boolean) Specifies whether to enable BGP logging for the VPN con- nection. Default value is False . Valid values: True | False BgpLogGroupArn -&gt; (string) The Amazon Resource Name (ARN) of the CloudWatch log group where BGP logs will be sent. BgpLogOutputFormat -&gt; (string) The desired output format for BGP logs to be sent to CloudWatch. Default format is json . Valid values: json | text EnableTunnelLifecycleControl -&gt; (boolean) Turn on or off tunnel endpoint lifecycle control feature. Shorthand Syntax: TunnelInsideCidr=string,TunnelInsideIpv6Cidr=string,PreSharedKey=string,Phase1LifetimeSeconds=integer,Phase2LifetimeSeconds=integer,RekeyMarginTimeSeconds=integer,RekeyFuzzPercentage=integer,ReplayWindowSize=integer,DPDTimeoutSeconds=integer,DPDTimeoutAction=string,Phase1EncryptionAlgorithms=[{Value=string},{Value=string}],Phase2EncryptionAlgorithms=[{Value=string},{Value=string}],Phase1IntegrityAlgorithms=[{Value=string},{Value=string}],Phase2IntegrityAlgorithms=[{Value=string},{Value=string}],Phase1DHGroupNumbers=[{Value=integer},{Value=integer}],Phase2DHGroupNumbers=[{Value=integer},{Value=integer}],IKEVersions=[{Value=string},{Value=string}],StartupAction=string,LogOptions={CloudWatchLogOptions={LogEnabled=boolean,LogGroupArn=string,LogOutputFormat=string,BgpLogEnabled=boolean,BgpLogGroupArn=string,BgpLogOutputFormat=string}},EnableTunnelLifecycleControl=boolean JSON Syntax: { "TunnelInsideCidr": "string", "TunnelInsideIpv6Cidr": "string", "PreSharedKey": "string", "Phase1LifetimeSeconds": integer, "Phase2LifetimeSeconds": integer, "RekeyMarginTimeSeconds": integer, "RekeyFuzzPercentage": integer, "ReplayWindowSize": integer, "DPDTimeoutSeconds": integer, "DPDTimeoutAction": "string", "Phase1EncryptionAlgorithms": [ { "Value": "string" } ... ], "Phase2EncryptionAlgorithms": [ { "Value": "string" } ... ], "Phase1IntegrityAlgorithms": [ { "Value": "string" } ... ], "Phase2IntegrityAlgorithms": [ { "Value": "string" } ... ], "Phase1DHGroupNumbers": [ { "Value": integer } ... ], "Phase2DHGroupNumbers": [ { "Value": integer } ... ], "IKEVersions": [ { "Value": "string" } ... ], "StartupAction": "string", "LogOptions": { "CloudWatchLogOptions": { "LogEnabled": true|false, "LogGroupArn": "string", "LogOutputFormat": "string", "BgpLogEnabled": true|false, "BgpLogGroupArn": "string", "BgpLogOutputFormat": "string" } }, "EnableTunnelLifecycleControl": true|false }</param>
+    public AwsEc2ModifyVpnTunnelOptionsOptions(
+        string VpnConnectionId,
+        string VpnTunnelOutsideIpAddress,
+        string TunnelOptions
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VpnConnectionId);
+        this.VpnConnectionId = VpnConnectionId;
+        global::System.ArgumentNullException.ThrowIfNull(VpnTunnelOutsideIpAddress);
+        this.VpnTunnelOutsideIpAddress = VpnTunnelOutsideIpAddress;
+        global::System.ArgumentNullException.ThrowIfNull(TunnelOptions);
+        this.TunnelOptions = TunnelOptions;
+    }
+
+    private AwsEc2ModifyVpnTunnelOptionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2ModifyVpnTunnelOptionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2ModifyVpnTunnelOptionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Amazon Web Services Site-to-Site VPN connection.
+    /// </summary>
     [CliOption("--vpn-connection-id")]
-    public string? VpnConnectionId { get; set; }
+    public string? VpnConnectionId { get; private init; }
 
+    /// <summary>
+    /// The external IP address of the VPN tunnel.
+    /// </summary>
     [CliOption("--vpn-tunnel-outside-ip-address")]
-    public string? VpnTunnelOutsideIpAddress { get; set; }
+    public string? VpnTunnelOutsideIpAddress { get; private init; }
 
+    /// <summary>
+    /// The tunnel options to modify. TunnelInsideCidr -&gt; (string) The range of inside IPv4 addresses for the tunnel. Any specified CIDR blocks must be unique across all VPN connections that use the same virtual private gateway. Constraints: A size /30 CIDR block from the 169.254.0.0/16 range. The following CIDR blocks are reserved and cannot be used: o 169.254.0.0/30 o 169.254.1.0/30 o 169.254.2.0/30 o 169.254.3.0/30 o 169.254.4.0/30 o 169.254.5.0/30 o 169.254.169.252/30 TunnelInsideIpv6Cidr -&gt; (string) The range of inside IPv6 addresses for the tunnel. Any specified CIDR blocks must be unique across all VPN connections that use the same transit gateway. Constraints: A size /126 CIDR block from the local fd00::/8 range. PreSharedKey -&gt; (string) The pre-shared key (PSK) to establish initial authentication be- tween the virtual private gateway and the customer gateway. Constraints: Allowed characters are alphanumeric characters, pe- riods (.), and underscores (_). Must be between 8 and 64 charac- ters in length and cannot start with zero (0). Phase1LifetimeSeconds -&gt; (integer) The lifetime for phase 1 of the IKE negotiation, in seconds. Constraints: A value between 900 and 28,800. Default: 28800 Phase2LifetimeSeconds -&gt; (integer) The lifetime for phase 2 of the IKE negotiation, in seconds. Constraints: A value between 900 and 3,600. The value must be less than the value for Phase1LifetimeSeconds . Default: 3600 RekeyMarginTimeSeconds -&gt; (integer) The margin time, in seconds, before the phase 2 lifetime ex- pires, during which the Amazon Web Services side of the VPN con- nection performs an IKE rekey. The exact time of the rekey is randomly selected based on the value for RekeyFuzzPercentage . Constraints: A value between 60 and half of Phase2LifetimeSec- onds . Default: 270 RekeyFuzzPercentage -&gt; (integer) The percentage of the rekey window (determined by RekeyMargin- TimeSeconds ) during which the rekey time is randomly selected. Constraints: A value between 0 and 100. Default: 100 ReplayWindowSize -&gt; (integer) The number of packets in an IKE replay window. Constraints: A value between 64 and 2048. Default: 1024 DPDTimeoutSeconds -&gt; (integer) The number of seconds after which a DPD timeout occurs. A DPD timeout of 40 seconds means that the VPN endpoint will consider the peer dead 30 seconds after the first failed keep-alive. Constraints: A value greater than or equal to 30. Default: 40 DPDTimeoutAction -&gt; (string) The action to take after DPD timeout occurs. Specify restart to restart the IKE initiation. Specify clear to end the IKE ses- sion. Valid Values: clear | none | restart Default: clear Phase1EncryptionAlgorithms -&gt; (list) One or more encryption algorithms that are permitted for the VPN tunnel for phase 1 IKE negotiations. Valid values: AES128 | AES256 | AES128-GCM-16 | AES256-GCM-16 (structure) Specifies the encryption algorithm for the VPN tunnel for phase 1 IKE negotiations. Value -&gt; (string) The value for the encryption algorithm. Phase2EncryptionAlgorithms -&gt; (list) One or more encryption algorithms that are permitted for the VPN tunnel for phase 2 IKE negotiations. Valid values: AES128 | AES256 | AES128-GCM-16 | AES256-GCM-16 (structure) Specifies the encryption algorithm for the VPN tunnel for phase 2 IKE negotiations. Value -&gt; (string) The encryption algorithm. Phase1IntegrityAlgorithms -&gt; (list) One or more integrity algorithms that are permitted for the VPN tunnel for phase 1 IKE negotiations. Valid values: SHA1 | SHA2-256 | SHA2-384 | SHA2-512 (structure) Specifies the integrity algorithm for the VPN tunnel for phase 1 IKE negotiations. Value -&gt; (string) The value for the integrity algorithm. Phase2IntegrityAlgorithms -&gt; (list) One or more integrity algorithms that are permitted for the VPN tunnel for phase 2 IKE negotiations. Valid values: SHA1 | SHA2-256 | SHA2-384 | SHA2-512 (structure) Specifies the integrity algorithm for the VPN tunnel for phase 2 IKE negotiations. Value -&gt; (string) The integrity algorithm. Phase1DHGroupNumbers -&gt; (list) One or more Diffie-Hellman group numbers that are permitted for the VPN tunnel for phase 1 IKE negotiations. Valid values: 2 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 (structure) Specifies a Diffie-Hellman group number for the VPN tunnel for phase 1 IKE negotiations. Value -&gt; (integer) The Diffie-Hellmann group number. Phase2DHGroupNumbers -&gt; (list) One or more Diffie-Hellman group numbers that are permitted for the VPN tunnel for phase 2 IKE negotiations. Valid values: 2 | 5 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 (structure) Specifies a Diffie-Hellman group number for the VPN tunnel for phase 2 IKE negotiations. Value -&gt; (integer) The Diffie-Hellmann group number. IKEVersions -&gt; (list) The IKE versions that are permitted for the VPN tunnel. Valid values: ikev1 | ikev2 (structure) The IKE version that is permitted for the VPN tunnel. Value -&gt; (string) The IKE version. StartupAction -&gt; (string) The action to take when the establishing the tunnel for the VPN connection. By default, your customer gateway device must initi- ate the IKE negotiation and bring up the tunnel. Specify start for Amazon Web Services to initiate the IKE negotiation. Valid Values: add | start Default: add LogOptions -&gt; (structure) Options for logging VPN tunnel activity. CloudWatchLogOptions -&gt; (structure) Options for sending VPN tunnel logs to CloudWatch. LogEnabled -&gt; (boolean) Enable or disable VPN tunnel logging feature. Default value is False . Valid values: True | False LogGroupArn -&gt; (string) The Amazon Resource Name (ARN) of the CloudWatch log group to send logs to. LogOutputFormat -&gt; (string) Set log format. Default format is json . Valid values: json | text BgpLogEnabled -&gt; (boolean) Specifies whether to enable BGP logging for the VPN con- nection. Default value is False . Valid values: True | False BgpLogGroupArn -&gt; (string) The Amazon Resource Name (ARN) of the CloudWatch log group where BGP logs will be sent. BgpLogOutputFormat -&gt; (string) The desired output format for BGP logs to be sent to CloudWatch. Default format is json . Valid values: json | text EnableTunnelLifecycleControl -&gt; (boolean) Turn on or off tunnel endpoint lifecycle control feature. Shorthand Syntax: TunnelInsideCidr=string,TunnelInsideIpv6Cidr=string,PreSharedKey=string,Phase1LifetimeSeconds=integer,Phase2LifetimeSeconds=integer,RekeyMarginTimeSeconds=integer,RekeyFuzzPercentage=integer,ReplayWindowSize=integer,DPDTimeoutSeconds=integer,DPDTimeoutAction=string,Phase1EncryptionAlgorithms=[{Value=string},{Value=string}],Phase2EncryptionAlgorithms=[{Value=string},{Value=string}],Phase1IntegrityAlgorithms=[{Value=string},{Value=string}],Phase2IntegrityAlgorithms=[{Value=string},{Value=string}],Phase1DHGroupNumbers=[{Value=integer},{Value=integer}],Phase2DHGroupNumbers=[{Value=integer},{Value=integer}],IKEVersions=[{Value=string},{Value=string}],StartupAction=string,LogOptions={CloudWatchLogOptions={LogEnabled=boolean,LogGroupArn=string,LogOutputFormat=string,BgpLogEnabled=boolean,BgpLogGroupArn=string,BgpLogOutputFormat=string}},EnableTunnelLifecycleControl=boolean JSON Syntax: { "TunnelInsideCidr": "string", "TunnelInsideIpv6Cidr": "string", "PreSharedKey": "string", "Phase1LifetimeSeconds": integer, "Phase2LifetimeSeconds": integer, "RekeyMarginTimeSeconds": integer, "RekeyFuzzPercentage": integer, "ReplayWindowSize": integer, "DPDTimeoutSeconds": integer, "DPDTimeoutAction": "string", "Phase1EncryptionAlgorithms": [ { "Value": "string" } ... ], "Phase2EncryptionAlgorithms": [ { "Value": "string" } ... ], "Phase1IntegrityAlgorithms": [ { "Value": "string" } ... ], "Phase2IntegrityAlgorithms": [ { "Value": "string" } ... ], "Phase1DHGroupNumbers": [ { "Value": integer } ... ], "Phase2DHGroupNumbers": [ { "Value": integer } ... ], "IKEVersions": [ { "Value": "string" } ... ], "StartupAction": "string", "LogOptions": { "CloudWatchLogOptions": { "LogEnabled": true|false, "LogGroupArn": "string", "LogOutputFormat": "string", "BgpLogEnabled": true|false, "BgpLogGroupArn": "string", "BgpLogOutputFormat": "string" } }, "EnableTunnelLifecycleControl": true|false }
+    /// </summary>
     [CliOption("--tunnel-options")]
-    public string? TunnelOptions { get; set; }
+    public string? TunnelOptions { get; private init; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
-    [CliFlag("--skip-tunnel-replacement")]
+    /// <summary>
+    /// Choose whether or not to trigger immediate tunnel replacement. This is only applicable when turning on or off EnableTunnelLifecycleCon- trol . Valid values: True | False
+    /// </summary>
+    [CliFlag("--skip-tunnel-replacement", NegatedName = "--no-skip-tunnel-replacement")]
     public bool? SkipTunnelReplacement { get; set; }
 
     /// <summary>
@@ -47,5 +104,22 @@ public record AwsEc2ModifyVpnTunnelOptionsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

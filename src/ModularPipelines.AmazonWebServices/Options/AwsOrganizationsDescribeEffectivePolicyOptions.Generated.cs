@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("organizations", "describe-effective-policy")]
-public record AwsOrganizationsDescribeEffectivePolicyOptions : AwsOptions
+public record AwsOrganizationsDescribeEffectivePolicyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns the contents of the effective policy for specified policy type and account. The effective policy is the aggregation of any policies of the specified type that the account inherits, plus any policy of that type that is directly attached to the account. This operation applies only to management policies. It does not apply to authorization policies: service control policies (SCPs) and resource control policies (RCPs). For more information about policy inheritance, see Understanding man- age...
+    /// </summary>
+    /// <param name="PolicyType">The type of policy that you want information about. You can specify one of the following values: o DECLARATIVE_POLICY_EC2 o BACKUP_POLICY o TAG_POLICY o CHATBOT_POLICY o AISERVICES_OPT_OUT_POLICY o SECURITYHUB_POLICY o UPGRADE_ROLLOUT_POLICY o INSPECTOR_POLICY o BEDROCK_POLICY o S3_POLICY o NETWORK_SECURITY_DIRECTOR_POLICY Possible values: o TAG_POLICY o BACKUP_POLICY o AISERVICES_OPT_OUT_POLICY o CHATBOT_POLICY o DECLARATIVE_POLICY_EC2 o SECURITYHUB_POLICY o INSPECTOR_POLICY o UPGRADE_ROLLOUT_POLICY o BEDROCK_POLICY o S3_POLICY o NETWORK_SECURITY_DIRECTOR_POLICY</param>
+    public AwsOrganizationsDescribeEffectivePolicyOptions(
+        AwsOrganizationsDescribeEffectivePolicyPolicyType PolicyType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyType);
+        this.PolicyType = PolicyType;
+    }
+
+    private AwsOrganizationsDescribeEffectivePolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOrganizationsDescribeEffectivePolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOrganizationsDescribeEffectivePolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The type of policy that you want information about. You can specify one of the following values: o DECLARATIVE_POLICY_EC2 o BACKUP_POLICY o TAG_POLICY o CHATBOT_POLICY o AISERVICES_OPT_OUT_POLICY o SECURITYHUB_POLICY o UPGRADE_ROLLOUT_POLICY o INSPECTOR_POLICY o BEDROCK_POLICY o S3_POLICY o NETWORK_SECURITY_DIRECTOR_POLICY Possible values: o TAG_POLICY o BACKUP_POLICY o AISERVICES_OPT_OUT_POLICY o CHATBOT_POLICY o DECLARATIVE_POLICY_EC2 o SECURITYHUB_POLICY o INSPECTOR_POLICY o UPGRADE_ROLLOUT_POLICY o BEDROCK_POLICY o S3_POLICY o NETWORK_SECURITY_DIRECTOR_POLICY
+    /// </summary>
     [CliOption("--policy-type")]
-    public string? PolicyType { get; set; }
+    public AwsOrganizationsDescribeEffectivePolicyPolicyType? PolicyType { get; private init; }
 
     /// <summary>
     /// When you're signed in as the management account, specify the ID of the account that you want details about. Specifying an organization root or organizational unit (OU) as the target is not supported. Constraints: o max: 100 o pattern: ^(r-[0-9a-z]{4,32})|(\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$
@@ -35,5 +73,22 @@ public record AwsOrganizationsDescribeEffectivePolicyOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -40,11 +40,11 @@ public class AwsPartnercentralRevenueMeasurement : IAwsPartnercentralRevenueMeas
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateMarketplaceRevenueShareAllocationAsync(
-        AwsPartnercentralRevenueMeasurementCreateMarketplaceRevenueShareAllocationOptions? options = null,
+        AwsPartnercentralRevenueMeasurementCreateMarketplaceRevenueShareAllocationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPartnercentralRevenueMeasurementCreateMarketplaceRevenueShareAllocationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -55,11 +55,11 @@ public class AwsPartnercentralRevenueMeasurement : IAwsPartnercentralRevenueMeas
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateMarketplaceRevenueShareAsync(
-        AwsPartnercentralRevenueMeasurementCreateMarketplaceRevenueShareOptions? options = null,
+        AwsPartnercentralRevenueMeasurementCreateMarketplaceRevenueShareOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPartnercentralRevenueMeasurementCreateMarketplaceRevenueShareOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -70,11 +70,11 @@ public class AwsPartnercentralRevenueMeasurement : IAwsPartnercentralRevenueMeas
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateRevenueAttributionAsync(
-        AwsPartnercentralRevenueMeasurementCreateRevenueAttributionOptions? options = null,
+        AwsPartnercentralRevenueMeasurementCreateRevenueAttributionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPartnercentralRevenueMeasurementCreateRevenueAttributionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -85,11 +85,11 @@ public class AwsPartnercentralRevenueMeasurement : IAwsPartnercentralRevenueMeas
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetMarketplaceRevenueShareAllocationAsync(
-        AwsPartnercentralRevenueMeasurementGetMarketplaceRevenueShareAllocationOptions? options = null,
+        AwsPartnercentralRevenueMeasurementGetMarketplaceRevenueShareAllocationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPartnercentralRevenueMeasurementGetMarketplaceRevenueShareAllocationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -100,11 +100,11 @@ public class AwsPartnercentralRevenueMeasurement : IAwsPartnercentralRevenueMeas
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetMarketplaceRevenueShareAsync(
-        AwsPartnercentralRevenueMeasurementGetMarketplaceRevenueShareOptions? options = null,
+        AwsPartnercentralRevenueMeasurementGetMarketplaceRevenueShareOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPartnercentralRevenueMeasurementGetMarketplaceRevenueShareOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -115,11 +115,11 @@ public class AwsPartnercentralRevenueMeasurement : IAwsPartnercentralRevenueMeas
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetRevenueAttributionAllocationAsync(
-        AwsPartnercentralRevenueMeasurementGetRevenueAttributionAllocationOptions? options = null,
+        AwsPartnercentralRevenueMeasurementGetRevenueAttributionAllocationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPartnercentralRevenueMeasurementGetRevenueAttributionAllocationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -130,11 +130,11 @@ public class AwsPartnercentralRevenueMeasurement : IAwsPartnercentralRevenueMeas
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetRevenueAttributionAllocationsTaskAsync(
-        AwsPartnercentralRevenueMeasurementGetRevenueAttributionAllocationsTaskOptions? options = null,
+        AwsPartnercentralRevenueMeasurementGetRevenueAttributionAllocationsTaskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPartnercentralRevenueMeasurementGetRevenueAttributionAllocationsTaskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -145,11 +145,11 @@ public class AwsPartnercentralRevenueMeasurement : IAwsPartnercentralRevenueMeas
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetRevenueAttributionAsync(
-        AwsPartnercentralRevenueMeasurementGetRevenueAttributionOptions? options = null,
+        AwsPartnercentralRevenueMeasurementGetRevenueAttributionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPartnercentralRevenueMeasurementGetRevenueAttributionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -160,11 +160,11 @@ public class AwsPartnercentralRevenueMeasurement : IAwsPartnercentralRevenueMeas
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListMarketplaceRevenueShareAllocationsAsync(
-        AwsPartnercentralRevenueMeasurementListMarketplaceRevenueShareAllocationsOptions? options = null,
+        AwsPartnercentralRevenueMeasurementListMarketplaceRevenueShareAllocationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPartnercentralRevenueMeasurementListMarketplaceRevenueShareAllocationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -175,11 +175,11 @@ public class AwsPartnercentralRevenueMeasurement : IAwsPartnercentralRevenueMeas
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListMarketplaceRevenueSharesAsync(
-        AwsPartnercentralRevenueMeasurementListMarketplaceRevenueSharesOptions? options = null,
+        AwsPartnercentralRevenueMeasurementListMarketplaceRevenueSharesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPartnercentralRevenueMeasurementListMarketplaceRevenueSharesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -190,11 +190,11 @@ public class AwsPartnercentralRevenueMeasurement : IAwsPartnercentralRevenueMeas
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListRevenueAttributionAllocationsAsync(
-        AwsPartnercentralRevenueMeasurementListRevenueAttributionAllocationsOptions? options = null,
+        AwsPartnercentralRevenueMeasurementListRevenueAttributionAllocationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPartnercentralRevenueMeasurementListRevenueAttributionAllocationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -205,11 +205,11 @@ public class AwsPartnercentralRevenueMeasurement : IAwsPartnercentralRevenueMeas
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListRevenueAttributionsAsync(
-        AwsPartnercentralRevenueMeasurementListRevenueAttributionsOptions? options = null,
+        AwsPartnercentralRevenueMeasurementListRevenueAttributionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPartnercentralRevenueMeasurementListRevenueAttributionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -220,11 +220,11 @@ public class AwsPartnercentralRevenueMeasurement : IAwsPartnercentralRevenueMeas
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListTagsForResourceAsync(
-        AwsPartnercentralRevenueMeasurementListTagsForResourceOptions? options = null,
+        AwsPartnercentralRevenueMeasurementListTagsForResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPartnercentralRevenueMeasurementListTagsForResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -235,11 +235,11 @@ public class AwsPartnercentralRevenueMeasurement : IAwsPartnercentralRevenueMeas
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartRevenueAttributionAllocationsTaskAsync(
-        AwsPartnercentralRevenueMeasurementStartRevenueAttributionAllocationsTaskOptions? options = null,
+        AwsPartnercentralRevenueMeasurementStartRevenueAttributionAllocationsTaskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPartnercentralRevenueMeasurementStartRevenueAttributionAllocationsTaskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -250,11 +250,11 @@ public class AwsPartnercentralRevenueMeasurement : IAwsPartnercentralRevenueMeas
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> TagResourceAsync(
-        AwsPartnercentralRevenueMeasurementTagResourceOptions? options = null,
+        AwsPartnercentralRevenueMeasurementTagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPartnercentralRevenueMeasurementTagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -265,11 +265,11 @@ public class AwsPartnercentralRevenueMeasurement : IAwsPartnercentralRevenueMeas
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UntagResourceAsync(
-        AwsPartnercentralRevenueMeasurementUntagResourceOptions? options = null,
+        AwsPartnercentralRevenueMeasurementUntagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPartnercentralRevenueMeasurementUntagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -280,11 +280,11 @@ public class AwsPartnercentralRevenueMeasurement : IAwsPartnercentralRevenueMeas
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateMarketplaceRevenueShareAllocationAsync(
-        AwsPartnercentralRevenueMeasurementUpdateMarketplaceRevenueShareAllocationOptions? options = null,
+        AwsPartnercentralRevenueMeasurementUpdateMarketplaceRevenueShareAllocationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPartnercentralRevenueMeasurementUpdateMarketplaceRevenueShareAllocationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -295,11 +295,11 @@ public class AwsPartnercentralRevenueMeasurement : IAwsPartnercentralRevenueMeas
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateRevenueAttributionAsync(
-        AwsPartnercentralRevenueMeasurementUpdateRevenueAttributionOptions? options = null,
+        AwsPartnercentralRevenueMeasurementUpdateRevenueAttributionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPartnercentralRevenueMeasurementUpdateRevenueAttributionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

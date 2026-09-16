@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudcontrol", "create-resource")]
-public record AwsCloudcontrolCreateResourceOptions : AwsOptions
+public record AwsCloudcontrolCreateResourceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates the specified resource. For more information, see Creating a resource in the Amazon Web Services Cloud Control API User Guide . After you have initiated a resource creation request, you can monitor the progress of your request by calling GetResourceRequestStatus using the RequestToken of the ProgressEvent type returned by CreateResource . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TypeName">The name of the resource type. Constraints: o min: 10 o max: 196 o pattern: [A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}</param>
+    /// <param name="DesiredState">Structured data format representing the desired state of the re- source, consisting of that resource's properties and their desired values. NOTE: Cloud Control API currently supports JSON as a structured data format. Specify the desired state as one of the following: o A JSON blob o A local path containing the desired state in JSON data format For more information, see Composing the desired state of the re- source in the Amazon Web Services Cloud Control API User Guide . For more information about the properties of a specific resource, refer to the related topic for the resource in the Resource and property types reference in the CloudFormation Users Guide . Constraints: o min: 1 o max: 262144 o pattern: [\s\S]*</param>
+    public AwsCloudcontrolCreateResourceOptions(
+        string TypeName,
+        string DesiredState
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TypeName);
+        this.TypeName = TypeName;
+        global::System.ArgumentNullException.ThrowIfNull(DesiredState);
+        this.DesiredState = DesiredState;
+    }
+
+    private AwsCloudcontrolCreateResourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudcontrolCreateResourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudcontrolCreateResourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the resource type. Constraints: o min: 10 o max: 196 o pattern: [A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}
+    /// </summary>
     [CliOption("--type-name")]
-    public string? TypeName { get; set; }
+    public string? TypeName { get; private init; }
+
+    /// <summary>
+    /// Structured data format representing the desired state of the re- source, consisting of that resource's properties and their desired values. NOTE: Cloud Control API currently supports JSON as a structured data format. Specify the desired state as one of the following: o A JSON blob o A local path containing the desired state in JSON data format For more information, see Composing the desired state of the re- source in the Amazon Web Services Cloud Control API User Guide . For more information about the properties of a specific resource, refer to the related topic for the resource in the Resource and property types reference in the CloudFormation Users Guide . Constraints: o min: 1 o max: 262144 o pattern: [\s\S]*
+    /// </summary>
+    [CliOption("--desired-state")]
+    public string? DesiredState { get; private init; }
 
     /// <summary>
     /// For private resource types, the type version to use in this resource operation. If you do not specify a resource version, CloudFormation uses the default version. Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9-]+
@@ -44,13 +91,27 @@ public record AwsCloudcontrolCreateResourceOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--desired-state")]
-    public string? DesiredState { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

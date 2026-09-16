@@ -17,26 +17,26 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDatazoneListDataSourceRunActivitiesStatus
 {
     [EnumValue("FAILED")]
-    Failed = 1,
+    Failed,
 
     [EnumValue("PUBLISHING_FAILED")]
-    PublishingFailed = 2,
-
-    [EnumValue("SUCCEEDED_CREATED")]
-    SucceededCreated = 3,
-
-    [EnumValue("SUCCEEDED_UPDATED")]
-    SucceededUpdated = 4,
+    PublishingFailed,
 
     [EnumValue("SKIPPED_ALREADY_IMPORTED")]
-    SkippedAlreadyImported = 5,
+    SkippedAlreadyImported,
 
     [EnumValue("SKIPPED_ARCHIVED")]
-    SkippedArchived = 6,
+    SkippedArchived,
 
     [EnumValue("SKIPPED_NO_ACCESS")]
-    SkippedNoAccess = 7,
+    SkippedNoAccess,
+
+    [EnumValue("SUCCEEDED_CREATED")]
+    SucceededCreated,
+
+    [EnumValue("SUCCEEDED_UPDATED")]
+    SucceededUpdated,
 
     [EnumValue("UNCHANGED")]
-    Unchanged = 8
+    Unchanged
 }

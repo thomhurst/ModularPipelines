@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pi", "create-performance-analysis-report")]
-public record AwsPiCreatePerformanceAnalysisReportOptions : AwsOptions
+public record AwsPiCreatePerformanceAnalysisReportOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new performance analysis report for a specific time period for the DB instance. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ServiceType">The Amazon Web Services service for which Performance Insights will return metrics. Valid value is RDS . Possible values: o RDS o DOCDB</param>
+    /// <param name="Identifier">An immutable, Amazon Web Services Region-unique identifier for a data source. Performance Insights gathers metrics from this data source. To use an Amazon RDS instance as a data source, you specify its DbiResourceId value. For example, specify db-ADECBTYHKT- SAUMUZQYPDS2GW4A . Constraints: o min: 0 o max: 256 o pattern: ^[a-zA-Z0-9-]+$</param>
+    /// <param name="StartTime">The start time defined for the analysis report.</param>
+    public AwsPiCreatePerformanceAnalysisReportOptions(
+        AwsPiCreatePerformanceAnalysisReportServiceType ServiceType,
+        string Identifier,
+        string StartTime
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceType);
+        this.ServiceType = ServiceType;
+        global::System.ArgumentNullException.ThrowIfNull(Identifier);
+        this.Identifier = Identifier;
+        global::System.ArgumentNullException.ThrowIfNull(StartTime);
+        this.StartTime = StartTime;
+    }
+
+    private AwsPiCreatePerformanceAnalysisReportOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPiCreatePerformanceAnalysisReportOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPiCreatePerformanceAnalysisReportOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Web Services service for which Performance Insights will return metrics. Valid value is RDS . Possible values: o RDS o DOCDB
+    /// </summary>
     [CliOption("--service-type")]
-    public string? ServiceType { get; set; }
+    public AwsPiCreatePerformanceAnalysisReportServiceType? ServiceType { get; private init; }
 
+    /// <summary>
+    /// An immutable, Amazon Web Services Region-unique identifier for a data source. Performance Insights gathers metrics from this data source. To use an Amazon RDS instance as a data source, you specify its DbiResourceId value. For example, specify db-ADECBTYHKT- SAUMUZQYPDS2GW4A . Constraints: o min: 0 o max: 256 o pattern: ^[a-zA-Z0-9-]+$
+    /// </summary>
     [CliOption("--identifier")]
-    public string? Identifier { get; set; }
+    public string? Identifier { get; private init; }
 
+    /// <summary>
+    /// The start time defined for the analysis report.
+    /// </summary>
     [CliOption("--start-time")]
-    public string? StartTime { get; set; }
+    public string? StartTime { get; private init; }
 
     /// <summary>
     /// The end time defined for the analysis report.
@@ -47,5 +99,22 @@ public record AwsPiCreatePerformanceAnalysisReportOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

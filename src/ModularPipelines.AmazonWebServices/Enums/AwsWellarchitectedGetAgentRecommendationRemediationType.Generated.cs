@@ -11,26 +11,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --remediationtype.
+/// Allowed values for --remediation-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsWellarchitectedGetAgentRecommendationRemediationType
 {
     [EnumValue("AUTO_REMEDIATION")]
-    AutoRemediation = 1,
-
-    [EnumValue("CONSOLE")]
-    Console = 2,
+    AutoRemediation,
 
     [EnumValue("CLI")]
-    Cli = 3,
+    Cli,
 
-    [EnumValue("SDK")]
-    Sdk = 4,
+    [EnumValue("CONSOLE")]
+    Console,
 
     [EnumValue("IAC")]
-    Iac = 5,
+    Iac,
 
     [EnumValue("MCP")]
-    Mcp = 6
+    Mcp,
+
+    [EnumValue("SDK")]
+    Sdk
 }

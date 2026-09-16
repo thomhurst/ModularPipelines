@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,99 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("application-signals", "report-instrumentation-configuration-status")]
-public record AwsApplicationSignalsReportInstrumentationConfigurationStatusOptions : AwsOptions
+public record AwsApplicationSignalsReportInstrumentationConfigurationStatusOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Reports the status of one or more instrumentation configurations from SDK instances. Use this to record when configurations become ready, hit errors, become active, or are disabled by limits. Report READY , ERROR , and DISABLED when the status changes. Report AC- TIVE periodically (for example, every minute) while instrumentation is running. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Service">The service that the reported configurations belong to. Constraints: o min: 1 o max: 255</param>
+    /// <param name="Environment">The environment that the service is running in. Constraints: o min: 1 o max: 255</param>
+    /// <param name="Configurations">An array of configuration status reports (up to 100) that include the instrumentation type, signal type, location hash, status, time- stamp, and optional error cause. Constraints: o min: 1 o max: 100 (structure) The status of a single instrumentation configuration reported by an SDK instance. InstrumentationType -&gt; (string) [required] The type of instrumentation configuration being reported. Possible values: o BREAKPOINT o PROBE SignalType -&gt; (string) [required] The telemetry signal type for this instrumentation configura- tion. Possible values: o SNAPSHOT LocationHash -&gt; (string) [required] The stable hash of the instrumentation location that identi- fies the configuration being reported. Constraints: o min: 16 o max: 16 Status -&gt; (string) [required] The status of the instrumentation configuration: READY , ER- ROR , ACTIVE , or DISABLED . Possible values: o READY o ERROR o ACTIVE o DISABLED Time -&gt; (timestamp) [required] The timestamp when the status event occurred. ErrorCause -&gt; (string) The error cause when the status is ERROR , such as the file or method not being found. Possible values: o FILE_NOT_FOUND o METHOD_NOT_FOUND o LINE_NOT_EXECUTABLE o OVERLOADED_METHODS o LANGUAGE_MISMATCH o RUNTIME_ERROR Shorthand Syntax: InstrumentationType=string,SignalType=string,LocationHash=string,Status=string,Time=timestamp,ErrorCause=string ... JSON Syntax: [ { "InstrumentationType": "BREAKPOINT"|"PROBE", "SignalType": "SNAPSHOT", "LocationHash": "string", "Status": "READY"|"ERROR"|"ACTIVE"|"DISABLED", "Time": timestamp, "ErrorCause": "FILE_NOT_FOUND"|"METHOD_NOT_FOUND"|"LINE_NOT_EXECUTABLE"|"OVERLOADED_METHODS"|"LANGUAGE_MISMATCH"|"RUNTIME_ERROR" } ... ]</param>
+    public AwsApplicationSignalsReportInstrumentationConfigurationStatusOptions(
+        string Service,
+        string Environment,
+        IEnumerable<string> Configurations
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Service);
+        this.Service = Service;
+        global::System.ArgumentNullException.ThrowIfNull(Environment);
+        this.Environment = Environment;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Configurations);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Configurations));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Configurations));
+            }
+
+            Configurations = materialized;
+        }
+        this.Configurations = Configurations;
+    }
+
+    private AwsApplicationSignalsReportInstrumentationConfigurationStatusOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApplicationSignalsReportInstrumentationConfigurationStatusOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApplicationSignalsReportInstrumentationConfigurationStatusOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The service that the reported configurations belong to. Constraints: o min: 1 o max: 255
+    /// </summary>
     [CliOption("--service")]
-    public string? Service { get; set; }
+    public string? Service { get; private init; }
 
+    /// <summary>
+    /// The environment that the service is running in. Constraints: o min: 1 o max: 255
+    /// </summary>
     [CliOption("--environment")]
-    public string? Environment { get; set; }
+    public string? Environment { get; private init; }
 
+    /// <summary>
+    /// An array of configuration status reports (up to 100) that include the instrumentation type, signal type, location hash, status, time- stamp, and optional error cause. Constraints: o min: 1 o max: 100 (structure) The status of a single instrumentation configuration reported by an SDK instance. InstrumentationType -&gt; (string) [required] The type of instrumentation configuration being reported. Possible values: o BREAKPOINT o PROBE SignalType -&gt; (string) [required] The telemetry signal type for this instrumentation configura- tion. Possible values: o SNAPSHOT LocationHash -&gt; (string) [required] The stable hash of the instrumentation location that identi- fies the configuration being reported. Constraints: o min: 16 o max: 16 Status -&gt; (string) [required] The status of the instrumentation configuration: READY , ER- ROR , ACTIVE , or DISABLED . Possible values: o READY o ERROR o ACTIVE o DISABLED Time -&gt; (timestamp) [required] The timestamp when the status event occurred. ErrorCause -&gt; (string) The error cause when the status is ERROR , such as the file or method not being found. Possible values: o FILE_NOT_FOUND o METHOD_NOT_FOUND o LINE_NOT_EXECUTABLE o OVERLOADED_METHODS o LANGUAGE_MISMATCH o RUNTIME_ERROR Shorthand Syntax: InstrumentationType=string,SignalType=string,LocationHash=string,Status=string,Time=timestamp,ErrorCause=string ... JSON Syntax: [ { "InstrumentationType": "BREAKPOINT"|"PROBE", "SignalType": "SNAPSHOT", "LocationHash": "string", "Status": "READY"|"ERROR"|"ACTIVE"|"DISABLED", "Time": timestamp, "ErrorCause": "FILE_NOT_FOUND"|"METHOD_NOT_FOUND"|"LINE_NOT_EXECUTABLE"|"OVERLOADED_METHODS"|"LANGUAGE_MISMATCH"|"RUNTIME_ERROR" } ... ]
+    /// </summary>
     [CliOption("--configurations", GroupValues = true)]
-    public IEnumerable<string>? Configurations { get; set; }
+    public IEnumerable<string>? Configurations { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

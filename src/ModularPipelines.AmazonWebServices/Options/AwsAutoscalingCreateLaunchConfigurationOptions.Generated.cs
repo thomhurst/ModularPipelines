@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("autoscaling", "create-launch-configuration")]
-public record AwsAutoscalingCreateLaunchConfigurationOptions : AwsOptions
+public record AwsAutoscalingCreateLaunchConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a launch configuration. If you exceed your maximum limit of launch configurations, the call fails. To query this limit, call the DescribeAccountLimits API. For in- formation about updating this limit, see Quotas for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide . For more information, see Launch configurations in the Amazon EC2 Auto Scaling User Guide . NOTE: Amazon EC2 Auto Scaling configures instances launched as part of an Auto Scaling group using either a launch t...
+    /// </summary>
+    /// <param name="LaunchConfigurationName">The name of the launch configuration. This name must be unique per Region per account. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
+    public AwsAutoscalingCreateLaunchConfigurationOptions(
+        string LaunchConfigurationName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LaunchConfigurationName);
+        this.LaunchConfigurationName = LaunchConfigurationName;
+    }
+
+    private AwsAutoscalingCreateLaunchConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAutoscalingCreateLaunchConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAutoscalingCreateLaunchConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the launch configuration. This name must be unique per Region per account. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// </summary>
     [CliOption("--launch-configuration-name")]
-    public string? LaunchConfigurationName { get; set; }
+    public string? LaunchConfigurationName { get; private init; }
 
     /// <summary>
     /// The ID of the Amazon Machine Image (AMI) that was assigned during registration. For more information, see Find a Linux AMI in the Ama- zon EC2 User Guide . If you specify InstanceId , an ImageId is not required. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
@@ -108,10 +145,16 @@ public record AwsAutoscalingCreateLaunchConfigurationOptions : AwsOptions
     [CliOption("--iam-instance-profile")]
     public string? IamInstanceProfile { get; set; }
 
-    [CliFlag("--ebs-optimized")]
+    /// <summary>
+    /// Specifies whether the launch configuration is optimized for EBS I/O (true ) or not (false ). The optimization provides dedicated throughput to Amazon EBS and an optimized configuration stack to provide optimal I/O performance. This optimization is not available with all instance types. Additional fees are incurred when you en- able EBS optimization for an instance type that is not EBS-optimized by default. For more information, see Amazon EBS-optimized instances in the Amazon EC2 User Guide . The default value is false .
+    /// </summary>
+    [CliFlag("--ebs-optimized", NegatedName = "--no-ebs-optimized")]
     public bool? EbsOptimized { get; set; }
 
-    [CliFlag("--associate-public-ip-address")]
+    /// <summary>
+    /// Specifies whether to assign a public IPv4 address to the group's in- stances. If the instance is launched into a default subnet, the de- fault is to assign a public IPv4 address, unless you disabled the option to assign a public IPv4 address on the subnet. If the in- stance is launched into a nondefault subnet, the default is not to assign a public IPv4 address, unless you enabled the option to as- sign a public IPv4 address on the subnet. If you specify true , each instance in the Auto Scaling group re- ceives a unique public IPv4 address. For more information, see Provide network connectivity for your Auto Scaling instances using Amazon VPC in the Amazon EC2 Auto Scaling User Guide . If you specify this property, you must specify at least one subnet for VPCZoneIdentifier when you create your group.
+    /// </summary>
+    [CliFlag("--associate-public-ip-address", NegatedName = "--no-associate-public-ip-address")]
     public bool? AssociatePublicIpAddress { get; set; }
 
     /// <summary>
@@ -131,5 +174,22 @@ public record AwsAutoscalingCreateLaunchConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lightsail", "register-container-image")]
-public record AwsLightsailRegisterContainerImageOptions : AwsOptions
+public record AwsLightsailRegisterContainerImageOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Registers a container image to your Amazon Lightsail container service. NOTE: This action is not required if you install and use the Lightsail Control (lightsailctl) plugin to push container images to your Lightsail container service. For more information, see Pushing and managing container images on your Amazon Lightsail container ser- vices in the Amazon Lightsail Developer Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ServiceName">The name of the container service for which to register a container image. Constraints: o min: 1 o max: 63 o pattern: ^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$</param>
+    /// <param name="Label">The label for the container image when it's registered to the con- tainer service. Use a descriptive label that you can use to track the different ver- sions of your registered container images. Use the GetContainerImages action to return the container images registered to a Lightsail container service. The label is the &lt;im- agelabel&gt; portion of the following image name example: o :container-service-1.&lt;imagelabel&gt;.1 If the name of your container service is mycontainerservice , and the label that you specify is mystaticwebsite , then the name of the registered container image will be :mycontainerservice.mystaticweb- site.1 . The number at the end of these image name examples represents the version of the registered container image. If you push and register another container image to the same Lightsail container service, with the same label, then the version number for the new registered container image will be 2 . If you push and register another con- tainer image, the version number will be 3 , and so on. Constraints: o min: 1 o max: 53 o pattern: ^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$</param>
+    /// <param name="Digest">The digest of the container image to be registered.</param>
+    public AwsLightsailRegisterContainerImageOptions(
+        string ServiceName,
+        string Label,
+        string Digest
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceName);
+        this.ServiceName = ServiceName;
+        global::System.ArgumentNullException.ThrowIfNull(Label);
+        this.Label = Label;
+        global::System.ArgumentNullException.ThrowIfNull(Digest);
+        this.Digest = Digest;
+    }
+
+    private AwsLightsailRegisterContainerImageOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLightsailRegisterContainerImageOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLightsailRegisterContainerImageOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the container service for which to register a container image. Constraints: o min: 1 o max: 63 o pattern: ^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$
+    /// </summary>
     [CliOption("--service-name")]
-    public string? ServiceName { get; set; }
+    public string? ServiceName { get; private init; }
 
+    /// <summary>
+    /// The label for the container image when it's registered to the con- tainer service. Use a descriptive label that you can use to track the different ver- sions of your registered container images. Use the GetContainerImages action to return the container images registered to a Lightsail container service. The label is the &lt;im- agelabel&gt; portion of the following image name example: o :container-service-1.&lt;imagelabel&gt;.1 If the name of your container service is mycontainerservice , and the label that you specify is mystaticwebsite , then the name of the registered container image will be :mycontainerservice.mystaticweb- site.1 . The number at the end of these image name examples represents the version of the registered container image. If you push and register another container image to the same Lightsail container service, with the same label, then the version number for the new registered container image will be 2 . If you push and register another con- tainer image, the version number will be 3 , and so on. Constraints: o min: 1 o max: 53 o pattern: ^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$
+    /// </summary>
     [CliOption("--label")]
-    public string? Label { get; set; }
+    public string? Label { get; private init; }
 
+    /// <summary>
+    /// The digest of the container image to be registered.
+    /// </summary>
     [CliOption("--digest")]
-    public string? Digest { get; set; }
+    public string? Digest { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

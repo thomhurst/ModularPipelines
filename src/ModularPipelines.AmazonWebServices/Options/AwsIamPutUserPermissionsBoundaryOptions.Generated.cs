@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "put-user-permissions-boundary")]
-public record AwsIamPutUserPermissionsBoundaryOptions : AwsOptions
+public record AwsIamPutUserPermissionsBoundaryOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--user-name")]
-    public string? UserName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Adds or updates the policy that is specified as the IAM user's permis- sions boundary. You can use an Amazon Web Services managed policy or a customer managed policy to set the boundary for a user. Use the bound- ary to control the maximum permissions that the user can have. Setting a permissions boundary is an advanced feature that can affect the per- missions for the user. WARNING: Policies that are used as permissions boundaries do not provide per- missions. You must also attach a permissions...
+    /// </summary>
+    /// <param name="UserName">The name (friendly name, not ARN) of the IAM user for which you want to set the permissions boundary. Constraints: o min: 1 o max: 64 o pattern: [\w+=,.@-]+</param>
+    /// <param name="PermissionsBoundary">The ARN of the managed policy that is used to set the permissions boundary for the user. A permissions boundary policy defines the maximum permissions that identity-based policies can grant to an entity, but does not grant permissions. Permissions boundaries do not define the maximum per- missions that a resource-based policy can grant to an entity. To learn more, see Permissions boundaries for IAM entities in the IAM User Guide . For more information about policy types, see Policy types in the IAM User Guide . Constraints: o min: 20 o max: 2048</param>
+    public AwsIamPutUserPermissionsBoundaryOptions(
+        string UserName,
+        string PermissionsBoundary
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(UserName);
+        this.UserName = UserName;
+        global::System.ArgumentNullException.ThrowIfNull(PermissionsBoundary);
+        this.PermissionsBoundary = PermissionsBoundary;
+    }
+
+    private AwsIamPutUserPermissionsBoundaryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIamPutUserPermissionsBoundaryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIamPutUserPermissionsBoundaryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name (friendly name, not ARN) of the IAM user for which you want to set the permissions boundary. Constraints: o min: 1 o max: 64 o pattern: [\w+=,.@-]+
+    /// </summary>
+    [CliOption("--user-name")]
+    public string? UserName { get; private init; }
+
+    /// <summary>
+    /// The ARN of the managed policy that is used to set the permissions boundary for the user. A permissions boundary policy defines the maximum permissions that identity-based policies can grant to an entity, but does not grant permissions. Permissions boundaries do not define the maximum per- missions that a resource-based policy can grant to an entity. To learn more, see Permissions boundaries for IAM entities in the IAM User Guide . For more information about policy types, see Policy types in the IAM User Guide . Constraints: o min: 20 o max: 2048
+    /// </summary>
     [CliOption("--permissions-boundary")]
-    public string? PermissionsBoundary { get; set; }
+    public string? PermissionsBoundary { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

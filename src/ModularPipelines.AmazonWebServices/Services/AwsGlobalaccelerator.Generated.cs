@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -40,11 +40,11 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddCustomRoutingEndpointsAsync(
-        AwsGlobalacceleratorAddCustomRoutingEndpointsOptions? options = null,
+        AwsGlobalacceleratorAddCustomRoutingEndpointsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorAddCustomRoutingEndpointsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -55,11 +55,11 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddEndpointsAsync(
-        AwsGlobalacceleratorAddEndpointsOptions? options = null,
+        AwsGlobalacceleratorAddEndpointsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorAddEndpointsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -70,11 +70,11 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AdvertiseByoipCidrAsync(
-        AwsGlobalacceleratorAdvertiseByoipCidrOptions? options = null,
+        AwsGlobalacceleratorAdvertiseByoipCidrOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorAdvertiseByoipCidrOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -85,11 +85,11 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AllowCustomRoutingTrafficAsync(
-        AwsGlobalacceleratorAllowCustomRoutingTrafficOptions? options = null,
+        AwsGlobalacceleratorAllowCustomRoutingTrafficOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorAllowCustomRoutingTrafficOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -100,11 +100,11 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateAcceleratorAsync(
-        AwsGlobalacceleratorCreateAcceleratorOptions? options = null,
+        AwsGlobalacceleratorCreateAcceleratorOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorCreateAcceleratorOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -115,11 +115,11 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateCrossAccountAttachmentAsync(
-        AwsGlobalacceleratorCreateCrossAccountAttachmentOptions? options = null,
+        AwsGlobalacceleratorCreateCrossAccountAttachmentOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorCreateCrossAccountAttachmentOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -130,11 +130,11 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateCustomRoutingAcceleratorAsync(
-        AwsGlobalacceleratorCreateCustomRoutingAcceleratorOptions? options = null,
+        AwsGlobalacceleratorCreateCustomRoutingAcceleratorOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorCreateCustomRoutingAcceleratorOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -145,11 +145,11 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateCustomRoutingEndpointGroupAsync(
-        AwsGlobalacceleratorCreateCustomRoutingEndpointGroupOptions? options = null,
+        AwsGlobalacceleratorCreateCustomRoutingEndpointGroupOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorCreateCustomRoutingEndpointGroupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -160,11 +160,11 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateCustomRoutingListenerAsync(
-        AwsGlobalacceleratorCreateCustomRoutingListenerOptions? options = null,
+        AwsGlobalacceleratorCreateCustomRoutingListenerOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorCreateCustomRoutingListenerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -175,11 +175,11 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateEndpointGroupAsync(
-        AwsGlobalacceleratorCreateEndpointGroupOptions? options = null,
+        AwsGlobalacceleratorCreateEndpointGroupOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorCreateEndpointGroupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -190,11 +190,11 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateListenerAsync(
-        AwsGlobalacceleratorCreateListenerOptions? options = null,
+        AwsGlobalacceleratorCreateListenerOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorCreateListenerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -205,11 +205,11 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteAcceleratorAsync(
-        AwsGlobalacceleratorDeleteAcceleratorOptions? options = null,
+        AwsGlobalacceleratorDeleteAcceleratorOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorDeleteAcceleratorOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -220,11 +220,11 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteCrossAccountAttachmentAsync(
-        AwsGlobalacceleratorDeleteCrossAccountAttachmentOptions? options = null,
+        AwsGlobalacceleratorDeleteCrossAccountAttachmentOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorDeleteCrossAccountAttachmentOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -235,11 +235,11 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteCustomRoutingAcceleratorAsync(
-        AwsGlobalacceleratorDeleteCustomRoutingAcceleratorOptions? options = null,
+        AwsGlobalacceleratorDeleteCustomRoutingAcceleratorOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorDeleteCustomRoutingAcceleratorOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -250,11 +250,11 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteCustomRoutingEndpointGroupAsync(
-        AwsGlobalacceleratorDeleteCustomRoutingEndpointGroupOptions? options = null,
+        AwsGlobalacceleratorDeleteCustomRoutingEndpointGroupOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorDeleteCustomRoutingEndpointGroupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -265,11 +265,11 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteCustomRoutingListenerAsync(
-        AwsGlobalacceleratorDeleteCustomRoutingListenerOptions? options = null,
+        AwsGlobalacceleratorDeleteCustomRoutingListenerOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorDeleteCustomRoutingListenerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -280,11 +280,11 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteEndpointGroupAsync(
-        AwsGlobalacceleratorDeleteEndpointGroupOptions? options = null,
+        AwsGlobalacceleratorDeleteEndpointGroupOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorDeleteEndpointGroupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -295,11 +295,11 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteListenerAsync(
-        AwsGlobalacceleratorDeleteListenerOptions? options = null,
+        AwsGlobalacceleratorDeleteListenerOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorDeleteListenerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -310,11 +310,11 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DenyCustomRoutingTrafficAsync(
-        AwsGlobalacceleratorDenyCustomRoutingTrafficOptions? options = null,
+        AwsGlobalacceleratorDenyCustomRoutingTrafficOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorDenyCustomRoutingTrafficOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -325,11 +325,11 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeprovisionByoipCidrAsync(
-        AwsGlobalacceleratorDeprovisionByoipCidrOptions? options = null,
+        AwsGlobalacceleratorDeprovisionByoipCidrOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorDeprovisionByoipCidrOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -340,11 +340,11 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeAcceleratorAttributesAsync(
-        AwsGlobalacceleratorDescribeAcceleratorAttributesOptions? options = null,
+        AwsGlobalacceleratorDescribeAcceleratorAttributesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorDescribeAcceleratorAttributesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -355,11 +355,11 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeAcceleratorAsync(
-        AwsGlobalacceleratorDescribeAcceleratorOptions? options = null,
+        AwsGlobalacceleratorDescribeAcceleratorOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorDescribeAcceleratorOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -370,11 +370,11 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeCrossAccountAttachmentAsync(
-        AwsGlobalacceleratorDescribeCrossAccountAttachmentOptions? options = null,
+        AwsGlobalacceleratorDescribeCrossAccountAttachmentOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorDescribeCrossAccountAttachmentOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -385,11 +385,11 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeCustomRoutingAcceleratorAttributesAsync(
-        AwsGlobalacceleratorDescribeCustomRoutingAcceleratorAttributesOptions? options = null,
+        AwsGlobalacceleratorDescribeCustomRoutingAcceleratorAttributesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorDescribeCustomRoutingAcceleratorAttributesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -400,11 +400,11 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeCustomRoutingAcceleratorAsync(
-        AwsGlobalacceleratorDescribeCustomRoutingAcceleratorOptions? options = null,
+        AwsGlobalacceleratorDescribeCustomRoutingAcceleratorOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorDescribeCustomRoutingAcceleratorOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -415,11 +415,11 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeCustomRoutingEndpointGroupAsync(
-        AwsGlobalacceleratorDescribeCustomRoutingEndpointGroupOptions? options = null,
+        AwsGlobalacceleratorDescribeCustomRoutingEndpointGroupOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorDescribeCustomRoutingEndpointGroupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -430,11 +430,11 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeCustomRoutingListenerAsync(
-        AwsGlobalacceleratorDescribeCustomRoutingListenerOptions? options = null,
+        AwsGlobalacceleratorDescribeCustomRoutingListenerOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorDescribeCustomRoutingListenerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -445,11 +445,11 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeEndpointGroupAsync(
-        AwsGlobalacceleratorDescribeEndpointGroupOptions? options = null,
+        AwsGlobalacceleratorDescribeEndpointGroupOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorDescribeEndpointGroupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -460,11 +460,11 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeListenerAsync(
-        AwsGlobalacceleratorDescribeListenerOptions? options = null,
+        AwsGlobalacceleratorDescribeListenerOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorDescribeListenerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -479,7 +479,7 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorListAcceleratorsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorListAcceleratorsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -494,7 +494,7 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorListByoipCidrsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorListByoipCidrsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -509,7 +509,7 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorListCrossAccountAttachmentsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorListCrossAccountAttachmentsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -524,7 +524,7 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorListCrossAccountResourceAccountsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorListCrossAccountResourceAccountsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -535,11 +535,11 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListCrossAccountResourcesAsync(
-        AwsGlobalacceleratorListCrossAccountResourcesOptions? options = null,
+        AwsGlobalacceleratorListCrossAccountResourcesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorListCrossAccountResourcesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -554,7 +554,7 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorListCustomRoutingAcceleratorsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorListCustomRoutingAcceleratorsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -565,11 +565,11 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListCustomRoutingEndpointGroupsAsync(
-        AwsGlobalacceleratorListCustomRoutingEndpointGroupsOptions? options = null,
+        AwsGlobalacceleratorListCustomRoutingEndpointGroupsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorListCustomRoutingEndpointGroupsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -580,11 +580,11 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListCustomRoutingListenersAsync(
-        AwsGlobalacceleratorListCustomRoutingListenersOptions? options = null,
+        AwsGlobalacceleratorListCustomRoutingListenersOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorListCustomRoutingListenersOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -595,11 +595,11 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListCustomRoutingPortMappingsByDestinationAsync(
-        AwsGlobalacceleratorListCustomRoutingPortMappingsByDestinationOptions? options = null,
+        AwsGlobalacceleratorListCustomRoutingPortMappingsByDestinationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorListCustomRoutingPortMappingsByDestinationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -610,11 +610,11 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListCustomRoutingPortMappingsAsync(
-        AwsGlobalacceleratorListCustomRoutingPortMappingsOptions? options = null,
+        AwsGlobalacceleratorListCustomRoutingPortMappingsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorListCustomRoutingPortMappingsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -625,11 +625,11 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListEndpointGroupsAsync(
-        AwsGlobalacceleratorListEndpointGroupsOptions? options = null,
+        AwsGlobalacceleratorListEndpointGroupsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorListEndpointGroupsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -640,11 +640,11 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListListenersAsync(
-        AwsGlobalacceleratorListListenersOptions? options = null,
+        AwsGlobalacceleratorListListenersOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorListListenersOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -655,11 +655,11 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListTagsForResourceAsync(
-        AwsGlobalacceleratorListTagsForResourceOptions? options = null,
+        AwsGlobalacceleratorListTagsForResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorListTagsForResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -670,11 +670,11 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ProvisionByoipCidrAsync(
-        AwsGlobalacceleratorProvisionByoipCidrOptions? options = null,
+        AwsGlobalacceleratorProvisionByoipCidrOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorProvisionByoipCidrOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -685,11 +685,11 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveCustomRoutingEndpointsAsync(
-        AwsGlobalacceleratorRemoveCustomRoutingEndpointsOptions? options = null,
+        AwsGlobalacceleratorRemoveCustomRoutingEndpointsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorRemoveCustomRoutingEndpointsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -700,11 +700,11 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveEndpointsAsync(
-        AwsGlobalacceleratorRemoveEndpointsOptions? options = null,
+        AwsGlobalacceleratorRemoveEndpointsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorRemoveEndpointsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -715,11 +715,11 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> TagResourceAsync(
-        AwsGlobalacceleratorTagResourceOptions? options = null,
+        AwsGlobalacceleratorTagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorTagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -730,11 +730,11 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UntagResourceAsync(
-        AwsGlobalacceleratorUntagResourceOptions? options = null,
+        AwsGlobalacceleratorUntagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorUntagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -745,11 +745,11 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateAcceleratorAttributesAsync(
-        AwsGlobalacceleratorUpdateAcceleratorAttributesOptions? options = null,
+        AwsGlobalacceleratorUpdateAcceleratorAttributesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorUpdateAcceleratorAttributesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -760,11 +760,11 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateAcceleratorAsync(
-        AwsGlobalacceleratorUpdateAcceleratorOptions? options = null,
+        AwsGlobalacceleratorUpdateAcceleratorOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorUpdateAcceleratorOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -775,11 +775,11 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateCrossAccountAttachmentAsync(
-        AwsGlobalacceleratorUpdateCrossAccountAttachmentOptions? options = null,
+        AwsGlobalacceleratorUpdateCrossAccountAttachmentOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorUpdateCrossAccountAttachmentOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -790,11 +790,11 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateCustomRoutingAcceleratorAttributesAsync(
-        AwsGlobalacceleratorUpdateCustomRoutingAcceleratorAttributesOptions? options = null,
+        AwsGlobalacceleratorUpdateCustomRoutingAcceleratorAttributesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorUpdateCustomRoutingAcceleratorAttributesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -805,11 +805,11 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateCustomRoutingAcceleratorAsync(
-        AwsGlobalacceleratorUpdateCustomRoutingAcceleratorOptions? options = null,
+        AwsGlobalacceleratorUpdateCustomRoutingAcceleratorOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorUpdateCustomRoutingAcceleratorOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -820,11 +820,11 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateCustomRoutingListenerAsync(
-        AwsGlobalacceleratorUpdateCustomRoutingListenerOptions? options = null,
+        AwsGlobalacceleratorUpdateCustomRoutingListenerOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorUpdateCustomRoutingListenerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -835,11 +835,11 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateEndpointGroupAsync(
-        AwsGlobalacceleratorUpdateEndpointGroupOptions? options = null,
+        AwsGlobalacceleratorUpdateEndpointGroupOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorUpdateEndpointGroupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -850,11 +850,11 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateListenerAsync(
-        AwsGlobalacceleratorUpdateListenerOptions? options = null,
+        AwsGlobalacceleratorUpdateListenerOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorUpdateListenerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -865,11 +865,11 @@ public class AwsGlobalaccelerator : IAwsGlobalaccelerator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> WithdrawByoipCidrAsync(
-        AwsGlobalacceleratorWithdrawByoipCidrOptions? options = null,
+        AwsGlobalacceleratorWithdrawByoipCidrOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlobalacceleratorWithdrawByoipCidrOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

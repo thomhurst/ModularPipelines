@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("configservice", "delete-remediation-exceptions")]
-public record AwsConfigserviceDeleteRemediationExceptionsOptions : AwsOptions
+public record AwsConfigserviceDeleteRemediationExceptionsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--config-rule-name")]
-    public string? ConfigRuleName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deletes one or more remediation exceptions mentioned in the resource keys. NOTE: Config generates a remediation exception when a problem occurs exe- cuting a remediation action to a specific resource. Remediation ex- ceptions blocks auto-remediation until the exception is cleared. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ConfigRuleName">The name of the Config rule for which you want to delete remediation exception configuration. Constraints: o min: 1 o max: 128 o pattern: .*\S.*</param>
+    /// <param name="ResourceKeys">An exception list of resource exception keys to be processed with the current request. Config adds exception for each resource key. For example, Config adds 3 exceptions for 3 resource keys. Constraints: o min: 1 o max: 100 (structure) The details that identify a resource within Config, including the resource type and resource ID. ResourceType -&gt; (string) The type of a resource. Constraints: o min: 1 o max: 256 ResourceId -&gt; (string) The ID of the resource (for example., sg-xxxxxx). Constraints: o min: 1 o max: 1024 Shorthand Syntax: ResourceType=string,ResourceId=string ... JSON Syntax: [ { "ResourceType": "string", "ResourceId": "string" } ... ]</param>
+    public AwsConfigserviceDeleteRemediationExceptionsOptions(
+        string ConfigRuleName,
+        IEnumerable<string> ResourceKeys
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConfigRuleName);
+        this.ConfigRuleName = ConfigRuleName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ResourceKeys);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ResourceKeys));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ResourceKeys));
+            }
+
+            ResourceKeys = materialized;
+        }
+        this.ResourceKeys = ResourceKeys;
+    }
+
+    private AwsConfigserviceDeleteRemediationExceptionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConfigserviceDeleteRemediationExceptionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConfigserviceDeleteRemediationExceptionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the Config rule for which you want to delete remediation exception configuration. Constraints: o min: 1 o max: 128 o pattern: .*\S.*
+    /// </summary>
+    [CliOption("--config-rule-name")]
+    public string? ConfigRuleName { get; private init; }
+
+    /// <summary>
+    /// An exception list of resource exception keys to be processed with the current request. Config adds exception for each resource key. For example, Config adds 3 exceptions for 3 resource keys. Constraints: o min: 1 o max: 100 (structure) The details that identify a resource within Config, including the resource type and resource ID. ResourceType -&gt; (string) The type of a resource. Constraints: o min: 1 o max: 256 ResourceId -&gt; (string) The ID of the resource (for example., sg-xxxxxx). Constraints: o min: 1 o max: 1024 Shorthand Syntax: ResourceType=string,ResourceId=string ... JSON Syntax: [ { "ResourceType": "string", "ResourceId": "string" } ... ]
+    /// </summary>
     [CliOption("--resource-keys", GroupValues = true)]
-    public IEnumerable<string>? ResourceKeys { get; set; }
+    public IEnumerable<string>? ResourceKeys { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

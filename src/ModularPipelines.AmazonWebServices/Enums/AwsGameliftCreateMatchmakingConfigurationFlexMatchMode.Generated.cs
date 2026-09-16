@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --flexmatchmode.
+/// Allowed values for --flex-match-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGameliftCreateMatchmakingConfigurationFlexMatchMode
 {
     [EnumValue("STANDALONE")]
-    Standalone = 1,
+    Standalone,
 
     [EnumValue("WITH_QUEUE")]
-    WithQueue = 2
+    WithQueue
 }

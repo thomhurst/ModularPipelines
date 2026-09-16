@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --sortorder.
+/// Allowed values for --sort-order.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSagemakerListInferenceComponentsSortOrder
 {
     [EnumValue("Ascending")]
-    Ascending = 1,
+    Ascending,
 
     [EnumValue("Descending")]
-    Descending = 2
+    Descending
 }

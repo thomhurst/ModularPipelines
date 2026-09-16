@@ -22,8 +22,39 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("appconfigdata", "get-latest-configuration")]
 public record AwsAppconfigdataGetLatestConfigurationOptions : AwsOptions
 {
+    /// <summary>
+    /// Retrieves the latest deployed configuration. This API may return empty configuration data if the client already has the latest version. For more information about this API action and to view example CLI commands that show how to use it with the StartConfigurationSession API action, see Retrieving the configuration in the AppConfig User Guide . WARNING: Note the following important information. o Each configuration token is only valid for one call to GetLatest- Configuration . The GetLatestConfig...
+    /// </summary>
+    /// <param name="ConfigurationToken">Token describing the current state of the configuration session. To obtain a token, first call the StartConfigurationSession API. Note that every call to GetLatestConfiguration will return a new Configu- rationToken (NextPollConfigurationToken in the response) and must be provided to subsequent GetLatestConfiguration API calls. WARNING: This token should only be used once. To support long poll use cases, the token is valid for up to 24 hours. If a GetLatestCon- figuration call uses an expired token, the system returns BadRequestException . Constraints: o pattern: \S{1,8192} outfile (string) [required] Filename where the content will be saved</param>
+    /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
+    public AwsAppconfigdataGetLatestConfigurationOptions(
+        string ConfigurationToken,
+        string Outfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConfigurationToken);
+        this.ConfigurationToken = ConfigurationToken;
+        global::System.ArgumentNullException.ThrowIfNull(Outfile);
+        this.Outfile = Outfile;
+    }
+
+    public void Deconstruct(out string ConfigurationToken, out string Outfile)
+    {
+        ConfigurationToken = this.ConfigurationToken;
+        Outfile = this.Outfile;
+    }
+
+    /// <summary>
+    /// Token describing the current state of the configuration session. To obtain a token, first call the StartConfigurationSession API. Note that every call to GetLatestConfiguration will return a new Configu- rationToken (NextPollConfigurationToken in the response) and must be provided to subsequent GetLatestConfiguration API calls. WARNING: This token should only be used once. To support long poll use cases, the token is valid for up to 24 hours. If a GetLatestCon- figuration call uses an expired token, the system returns BadRequestException . Constraints: o pattern: \S{1,8192} outfile (string) [required] Filename where the content will be saved
+    /// </summary>
     [SecretValue]
     [CliOption("--configuration-token")]
-    public string? ConfigurationToken { get; set; }
+    public string ConfigurationToken { get; private init; }
+
+    /// <summary>
+    /// The &lt;outfile&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Outfile { get; private init; }
 
 }

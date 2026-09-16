@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elbv2", "describe-target-group-attributes")]
-public record AwsElbv2DescribeTargetGroupAttributesOptions : AwsOptions
+public record AwsElbv2DescribeTargetGroupAttributesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Describes the attributes for the specified target group. For more information, see the following: o Target group attributes in the Application Load Balancers Guide o Target group attributes in the Network Load Balancers Guide o Target group attributes in the Gateway Load Balancers Guide See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TargetGroupArn">The Amazon Resource Name (ARN) of the target group.</param>
+    public AwsElbv2DescribeTargetGroupAttributesOptions(
+        string TargetGroupArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TargetGroupArn);
+        this.TargetGroupArn = TargetGroupArn;
+    }
+
+    private AwsElbv2DescribeTargetGroupAttributesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElbv2DescribeTargetGroupAttributesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElbv2DescribeTargetGroupAttributesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the target group.
+    /// </summary>
     [CliOption("--target-group-arn")]
-    public string? TargetGroupArn { get; set; }
+    public string? TargetGroupArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

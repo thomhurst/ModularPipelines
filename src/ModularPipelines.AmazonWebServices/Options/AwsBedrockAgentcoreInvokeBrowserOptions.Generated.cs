@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore", "invoke-browser")]
-public record AwsBedrockAgentcoreInvokeBrowserOptions : AwsOptions
+public record AwsBedrockAgentcoreInvokeBrowserOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Invokes an operating system-level action on a browser session in Amazon Bedrock AgentCore. This operation provides direct OS-level control over browser sessions, enabling mouse actions, keyboard input, and screen- shots that the WebSocket-based Chrome DevTools Protocol (CDP) cannot handle such as interacting with print dialogs, context menus, and JavaScript alerts. You send a request with exactly one action in the BrowserAction union, and receive a corresponding result in the BrowserActionResult...
+    /// </summary>
+    /// <param name="BrowserIdentifier">The unique identifier of the browser associated with the session. This must match the identifier used when creating the session with StartBrowserSession .</param>
+    /// <param name="SessionId">The unique identifier of the browser session on which to perform the action. This must be an active session created with StartBrowserSes- sion . Constraints: o pattern: [0-9a-zA-Z]{1,40}</param>
+    /// <param name="Action">The browser action to perform. Exactly one member of the BrowserAc- tion union must be set per request. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: mouseClick, mouseMove, mouseDrag, mous- eScroll, keyType, keyPress, keyShortcut, screenshot. mouseClick -&gt; (structure) Click at the specified coordinates. x -&gt; (integer) [required] The X coordinate on screen where the click occurs. y -&gt; (integer) [required] The Y coordinate on screen where the click occurs. button -&gt; (string) The mouse button to use. Defaults to LEFT . Possible values: o LEFT o RIGHT o MIDDLE clickCount -&gt; (integer) The number of clicks to perform. Valid range: 110. Defaults to 1. Constraints: o min: 1 o max: 10 mouseMove -&gt; (structure) Move the cursor to the specified coordinates. x -&gt; (integer) [required] The target X coordinate on screen. y -&gt; (integer) [required] The target Y coordinate on screen. mouseDrag -&gt; (structure) Drag from a start position to an end position. endX -&gt; (integer) [required] The ending X coordinate for the drag. endY -&gt; (integer) [required] The ending Y coordinate for the drag. startX -&gt; (integer) [required] The starting X coordinate for the drag. startY -&gt; (integer) [required] The starting Y coordinate for the drag. button -&gt; (string) The mouse button to use for the drag. Defaults to LEFT . Possible values: o LEFT o RIGHT o MIDDLE mouseScroll -&gt; (structure) Scroll at the specified position. x -&gt; (integer) [required] The X coordinate on screen where the scroll occurs. y -&gt; (integer) [required] The Y coordinate on screen where the scroll occurs. deltaX -&gt; (integer) The horizontal scroll delta. Valid range: -1000 to 1000. Constraints: o min: -1000 o max: 1000 deltaY -&gt; (integer) The vertical scroll delta. Valid range: -1000 to 1000. Nega- tive values scroll down. Constraints: o min: -1000 o max: 1000 keyType -&gt; (structure) Type a string of text. text -&gt; (string) [required] The text string to type. Maximum length: 10,000 characters. Constraints: o min: 0 o max: 10000 keyPress -&gt; (structure) Press a key one or more times. key -&gt; (string) [required] The key name to press (for example, enter , tab , escape ). presses -&gt; (integer) The number of times to press the key. Valid range: 1100. De- faults to 1. Constraints: o min: 1 o max: 100 keyShortcut -&gt; (structure) Press a key combination. keys -&gt; (list) [required] The key combination to press (for example, ["ctrl", "s"] ). Maximum 5 keys. Constraints: o min: 1 o max: 5 (string) screenshot -&gt; (structure) Capture a full-screen screenshot. format -&gt; (string) The image format for the screenshot. Defaults to PNG . Possible values: o PNG Shorthand Syntax: mouseClick={x=integer,y=integer,button=string,clickCount=integer},mouseMove={x=integer,y=integer},mouseDrag={endX=integer,endY=integer,startX=integer,startY=integer,button=string},mouseScroll={x=integer,y=integer,deltaX=integer,deltaY=integer},keyType={text=string},keyPress={key=string,presses=integer},keyShortcut={keys=[string,string]},screenshot={format=string} JSON Syntax: { "mouseClick": { "x": integer, "y": integer, "button": "LEFT"|"RIGHT"|"MIDDLE", "clickCount": integer }, "mouseMove": { "x": integer, "y": integer }, "mouseDrag": { "endX": integer, "endY": integer, "startX": integer, "startY": integer, "button": "LEFT"|"RIGHT"|"MIDDLE" }, "mouseScroll": { "x": integer, "y": integer, "deltaX": integer, "deltaY": integer }, "keyType": { "text": "string" }, "keyPress": { "key": "string", "presses": integer }, "keyShortcut": { "keys": ["string", ...] }, "screenshot": { "format": "PNG" } }</param>
+    public AwsBedrockAgentcoreInvokeBrowserOptions(
+        string BrowserIdentifier,
+        string SessionId,
+        string Action
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BrowserIdentifier);
+        this.BrowserIdentifier = BrowserIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(SessionId);
+        this.SessionId = SessionId;
+        global::System.ArgumentNullException.ThrowIfNull(Action);
+        this.Action = Action;
+    }
+
+    private AwsBedrockAgentcoreInvokeBrowserOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreInvokeBrowserOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreInvokeBrowserOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the browser associated with the session. This must match the identifier used when creating the session with StartBrowserSession .
+    /// </summary>
     [CliOption("--browser-identifier")]
-    public string? BrowserIdentifier { get; set; }
+    public string? BrowserIdentifier { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the browser session on which to perform the action. This must be an active session created with StartBrowserSes- sion . Constraints: o pattern: [0-9a-zA-Z]{1,40}
+    /// </summary>
     [CliOption("--session-id")]
-    public string? SessionId { get; set; }
+    public string? SessionId { get; private init; }
 
+    /// <summary>
+    /// The browser action to perform. Exactly one member of the BrowserAc- tion union must be set per request. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: mouseClick, mouseMove, mouseDrag, mous- eScroll, keyType, keyPress, keyShortcut, screenshot. mouseClick -&gt; (structure) Click at the specified coordinates. x -&gt; (integer) [required] The X coordinate on screen where the click occurs. y -&gt; (integer) [required] The Y coordinate on screen where the click occurs. button -&gt; (string) The mouse button to use. Defaults to LEFT . Possible values: o LEFT o RIGHT o MIDDLE clickCount -&gt; (integer) The number of clicks to perform. Valid range: 110. Defaults to 1. Constraints: o min: 1 o max: 10 mouseMove -&gt; (structure) Move the cursor to the specified coordinates. x -&gt; (integer) [required] The target X coordinate on screen. y -&gt; (integer) [required] The target Y coordinate on screen. mouseDrag -&gt; (structure) Drag from a start position to an end position. endX -&gt; (integer) [required] The ending X coordinate for the drag. endY -&gt; (integer) [required] The ending Y coordinate for the drag. startX -&gt; (integer) [required] The starting X coordinate for the drag. startY -&gt; (integer) [required] The starting Y coordinate for the drag. button -&gt; (string) The mouse button to use for the drag. Defaults to LEFT . Possible values: o LEFT o RIGHT o MIDDLE mouseScroll -&gt; (structure) Scroll at the specified position. x -&gt; (integer) [required] The X coordinate on screen where the scroll occurs. y -&gt; (integer) [required] The Y coordinate on screen where the scroll occurs. deltaX -&gt; (integer) The horizontal scroll delta. Valid range: -1000 to 1000. Constraints: o min: -1000 o max: 1000 deltaY -&gt; (integer) The vertical scroll delta. Valid range: -1000 to 1000. Nega- tive values scroll down. Constraints: o min: -1000 o max: 1000 keyType -&gt; (structure) Type a string of text. text -&gt; (string) [required] The text string to type. Maximum length: 10,000 characters. Constraints: o min: 0 o max: 10000 keyPress -&gt; (structure) Press a key one or more times. key -&gt; (string) [required] The key name to press (for example, enter , tab , escape ). presses -&gt; (integer) The number of times to press the key. Valid range: 1100. De- faults to 1. Constraints: o min: 1 o max: 100 keyShortcut -&gt; (structure) Press a key combination. keys -&gt; (list) [required] The key combination to press (for example, ["ctrl", "s"] ). Maximum 5 keys. Constraints: o min: 1 o max: 5 (string) screenshot -&gt; (structure) Capture a full-screen screenshot. format -&gt; (string) The image format for the screenshot. Defaults to PNG . Possible values: o PNG Shorthand Syntax: mouseClick={x=integer,y=integer,button=string,clickCount=integer},mouseMove={x=integer,y=integer},mouseDrag={endX=integer,endY=integer,startX=integer,startY=integer,button=string},mouseScroll={x=integer,y=integer,deltaX=integer,deltaY=integer},keyType={text=string},keyPress={key=string,presses=integer},keyShortcut={keys=[string,string]},screenshot={format=string} JSON Syntax: { "mouseClick": { "x": integer, "y": integer, "button": "LEFT"|"RIGHT"|"MIDDLE", "clickCount": integer }, "mouseMove": { "x": integer, "y": integer }, "mouseDrag": { "endX": integer, "endY": integer, "startX": integer, "startY": integer, "button": "LEFT"|"RIGHT"|"MIDDLE" }, "mouseScroll": { "x": integer, "y": integer, "deltaX": integer, "deltaY": integer }, "keyType": { "text": "string" }, "keyPress": { "key": "string", "presses": integer }, "keyShortcut": { "keys": ["string", ...] }, "screenshot": { "format": "PNG" } }
+    /// </summary>
     [CliOption("--action")]
-    public string? Action { get; set; }
+    public string? Action { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

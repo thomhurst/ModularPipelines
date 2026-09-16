@@ -11,32 +11,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --provisioningstatusfilter.
+/// Allowed values for --provisioning-status-filter.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotManagedIntegrationsListManagedThingsProvisioningStatusFilter
 {
-    [EnumValue("UNASSOCIATED")]
-    Unassociated = 1,
-
-    [EnumValue("PRE_ASSOCIATED")]
-    PreAssociated = 2,
-
-    [EnumValue("DISCOVERED")]
-    Discovered = 3,
-
     [EnumValue("ACTIVATED")]
-    Activated = 4,
-
-    [EnumValue("DELETION_FAILED")]
-    DeletionFailed = 5,
-
-    [EnumValue("DELETE_IN_PROGRESS")]
-    DeleteInProgress = 6,
-
-    [EnumValue("ISOLATED")]
-    Isolated = 7,
+    Activated,
 
     [EnumValue("DELETED")]
-    Deleted = 8
+    Deleted,
+
+    [EnumValue("DELETE_IN_PROGRESS")]
+    DeleteInProgress,
+
+    [EnumValue("DELETION_FAILED")]
+    DeletionFailed,
+
+    [EnumValue("DISCOVERED")]
+    Discovered,
+
+    [EnumValue("ISOLATED")]
+    Isolated,
+
+    [EnumValue("PRE_ASSOCIATED")]
+    PreAssociated,
+
+    [EnumValue("UNASSOCIATED")]
+    Unassociated
 }

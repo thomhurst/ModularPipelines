@@ -12,6 +12,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,10 +23,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("omics", "create-multipart-read-set-upload")]
-public record AwsOmicsCreateMultipartReadSetUploadOptions : AwsOptions
+public record AwsOmicsCreateMultipartReadSetUploadOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Initiates a multipart read set upload for uploading partitioned source files into a sequence store. You can directly import source files from an EC2 instance and other local compute, or from an S3 bucket. To sepa- rate these source files into parts, use the split operation. Each part cannot be larger than 100 MB. If the operation is successful, it pro- vides an uploadId which is required by the UploadReadSetPart API opera- tion to upload parts into a sequence store. To continue uploading a multi...
+    /// </summary>
+    /// <param name="SequenceStoreId">The sequence store ID for the store that is the destination of the multipart uploads. Constraints: o min: 10 o max: 36 o pattern: [0-9]+</param>
+    /// <param name="SourceFileType">The type of file being uploaded. Possible values: o FASTQ o BAM o CRAM o UBAM</param>
+    /// <param name="SubjectId">The source's subject ID. Constraints: o min: 1 o max: 127 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+</param>
+    /// <param name="SampleId">The source's sample ID. Constraints: o min: 1 o max: 127 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+</param>
+    /// <param name="Name">The name of the read set. Constraints: o min: 1 o max: 127 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+</param>
+    public AwsOmicsCreateMultipartReadSetUploadOptions(
+        string SequenceStoreId,
+        AwsOmicsCreateMultipartReadSetUploadSourceFileType SourceFileType,
+        string SubjectId,
+        string SampleId,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SequenceStoreId);
+        this.SequenceStoreId = SequenceStoreId;
+        global::System.ArgumentNullException.ThrowIfNull(SourceFileType);
+        this.SourceFileType = SourceFileType;
+        global::System.ArgumentNullException.ThrowIfNull(SubjectId);
+        this.SubjectId = SubjectId;
+        global::System.ArgumentNullException.ThrowIfNull(SampleId);
+        this.SampleId = SampleId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsOmicsCreateMultipartReadSetUploadOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOmicsCreateMultipartReadSetUploadOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOmicsCreateMultipartReadSetUploadOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The sequence store ID for the store that is the destination of the multipart uploads. Constraints: o min: 10 o max: 36 o pattern: [0-9]+
+    /// </summary>
     [CliOption("--sequence-store-id")]
-    public string? SequenceStoreId { get; set; }
+    public string? SequenceStoreId { get; private init; }
+
+    /// <summary>
+    /// The type of file being uploaded. Possible values: o FASTQ o BAM o CRAM o UBAM
+    /// </summary>
+    [CliOption("--source-file-type")]
+    public AwsOmicsCreateMultipartReadSetUploadSourceFileType? SourceFileType { get; private init; }
+
+    /// <summary>
+    /// The source's subject ID. Constraints: o min: 1 o max: 127 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
+    /// </summary>
+    [CliOption("--subject-id")]
+    public string? SubjectId { get; private init; }
+
+    /// <summary>
+    /// The source's sample ID. Constraints: o min: 1 o max: 127 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
+    /// </summary>
+    [CliOption("--sample-id")]
+    public string? SampleId { get; private init; }
+
+    /// <summary>
+    /// The name of the read set. Constraints: o min: 1 o max: 127 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
 
     /// <summary>
     /// An idempotency token that can be used to avoid triggering multiple multipart uploads. Constraints: o min: 1 o max: 127 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
@@ -32,15 +110,6 @@ public record AwsOmicsCreateMultipartReadSetUploadOptions : AwsOptions
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--source-file-type")]
-    public string? SourceFileType { get; set; }
-
-    [CliOption("--subject-id")]
-    public string? SubjectId { get; set; }
-
-    [CliOption("--sample-id")]
-    public string? SampleId { get; set; }
 
     /// <summary>
     /// Where the source originated. Constraints: o min: 1 o max: 127 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
@@ -53,9 +122,6 @@ public record AwsOmicsCreateMultipartReadSetUploadOptions : AwsOptions
     /// </summary>
     [CliOption("--reference-arn")]
     public string? ReferenceArn { get; set; }
-
-    [CliOption("--name")]
-    public string? Name { get; set; }
 
     /// <summary>
     /// The description of the read set. Constraints: o min: 1 o max: 255 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
@@ -74,5 +140,22 @@ public record AwsOmicsCreateMultipartReadSetUploadOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

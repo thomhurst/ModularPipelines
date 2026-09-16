@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --tableclass.
+/// Allowed values for --table-class.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDynamodbUpdateTableTableClass
 {
     [EnumValue("STANDARD")]
-    Standard = 1,
+    Standard,
 
     [EnumValue("STANDARD_INFREQUENT_ACCESS")]
-    StandardInfrequentAccess = 2
+    StandardInfrequentAccess
 }

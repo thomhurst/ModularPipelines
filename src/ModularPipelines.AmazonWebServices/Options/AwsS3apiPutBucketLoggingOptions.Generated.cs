@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3api", "put-bucket-logging")]
-public record AwsS3apiPutBucketLoggingOptions : AwsOptions
+public record AwsS3apiPutBucketLoggingOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--bucket")]
-    public string? Bucket { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// WARNING: End of support notice: As of October 1, 2025, Amazon S3 has discon- tinued support for Email Grantee Access Control Lists (ACLs). If you attempt to use an Email Grantee ACL in a request after October 1, 2025, the request will receive an HTTP 405 (Method Not Allowed) er- ror. This change affects the following Amazon Web Services Regions: US East (N. Virginia), US West (N. California), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Europe (Ireland...
+    /// </summary>
+    /// <param name="Bucket">The name of the bucket for which to set the logging parameters.</param>
+    /// <param name="BucketLoggingStatus">Container for logging status information. LoggingEnabled -&gt; (structure) Describes where logs are stored and the prefix that Amazon S3 assigns to all log object keys for a bucket. For more informa- tion, see PUT Bucket logging in the Amazon S3 API Reference . TargetBucket -&gt; (string) [required] Specifies the bucket where you want Amazon S3 to store server access logs. You can have your logs delivered to any bucket that you own, including the same bucket that is being logged. You can also configure multiple buckets to deliver their logs to the same target bucket. In this case, you should choose a different TargetPrefix for each source bucket so that the de- livered log files can be distinguished by key. TargetGrants -&gt; (list) Container for granting information. Buckets that use the bucket owner enforced setting for Object Ownership don't support target grants. For more information, see Permissions for server access log delivery in the Amazon S3 User Guide . (structure) Container for granting information. Buckets that use the bucket owner enforced setting for Object Ownership don't support target grants. For more information, see Permissions server access log delivery in the Amazon S3 User Guide . Grantee -&gt; (structure) Container for the person being granted permissions. DisplayName -&gt; (string) EmailAddress -&gt; (string) ID -&gt; (string) The canonical user ID of the grantee. Type -&gt; (string) [required] Type of grantee Possible values: o CanonicalUser o AmazonCustomerByEmail o Group URI -&gt; (string) URI of the grantee group. Permission -&gt; (string) Logging permissions assigned to the grantee for the bucket. Possible values: o FULL_CONTROL o READ o WRITE TargetPrefix -&gt; (string) [required] A prefix for all log object keys. If you store log files from multiple Amazon S3 buckets in a single bucket, you can use a prefix to distinguish which log files came from which bucket. TargetObjectKeyFormat -&gt; (structure) Amazon S3 key format for log objects. SimplePrefix -&gt; (structure) To use the simple format for S3 keys for log objects. To specify SimplePrefix format, set SimplePrefix to {}. PartitionedPrefix -&gt; (structure) Partitioned S3 key for log objects. PartitionDateSource -&gt; (string) Specifies the partition date source for the parti- tioned prefix. PartitionDateSource can be EventTime or DeliveryTime . For DeliveryTime , the time in the log file names cor- responds to the delivery time for the log files. For EventTime , The logs delivered are for a specific day only. The year, month, and day correspond to the day on which the event occurred, and the hour, minutes and seconds are set to 00 in the key. Possible values: o EventTime o DeliveryTime JSON Syntax: { "LoggingEnabled": { "TargetBucket": "string", "TargetGrants": [ { "Grantee": { "DisplayName": "string", "EmailAddress": "string", "ID": "string", "Type": "CanonicalUser"|"AmazonCustomerByEmail"|"Group", "URI": "string" }, "Permission": "FULL_CONTROL"|"READ"|"WRITE" } ... ], "TargetPrefix": "string", "TargetObjectKeyFormat": { "SimplePrefix": { }, "PartitionedPrefix": { "PartitionDateSource": "EventTime"|"DeliveryTime" } } } }</param>
+    public AwsS3apiPutBucketLoggingOptions(
+        string Bucket,
+        string BucketLoggingStatus
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Bucket);
+        this.Bucket = Bucket;
+        global::System.ArgumentNullException.ThrowIfNull(BucketLoggingStatus);
+        this.BucketLoggingStatus = BucketLoggingStatus;
+    }
+
+    private AwsS3apiPutBucketLoggingOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3apiPutBucketLoggingOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3apiPutBucketLoggingOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the bucket for which to set the logging parameters.
+    /// </summary>
+    [CliOption("--bucket")]
+    public string? Bucket { get; private init; }
+
+    /// <summary>
+    /// Container for logging status information. LoggingEnabled -&gt; (structure) Describes where logs are stored and the prefix that Amazon S3 assigns to all log object keys for a bucket. For more informa- tion, see PUT Bucket logging in the Amazon S3 API Reference . TargetBucket -&gt; (string) [required] Specifies the bucket where you want Amazon S3 to store server access logs. You can have your logs delivered to any bucket that you own, including the same bucket that is being logged. You can also configure multiple buckets to deliver their logs to the same target bucket. In this case, you should choose a different TargetPrefix for each source bucket so that the de- livered log files can be distinguished by key. TargetGrants -&gt; (list) Container for granting information. Buckets that use the bucket owner enforced setting for Object Ownership don't support target grants. For more information, see Permissions for server access log delivery in the Amazon S3 User Guide . (structure) Container for granting information. Buckets that use the bucket owner enforced setting for Object Ownership don't support target grants. For more information, see Permissions server access log delivery in the Amazon S3 User Guide . Grantee -&gt; (structure) Container for the person being granted permissions. DisplayName -&gt; (string) EmailAddress -&gt; (string) ID -&gt; (string) The canonical user ID of the grantee. Type -&gt; (string) [required] Type of grantee Possible values: o CanonicalUser o AmazonCustomerByEmail o Group URI -&gt; (string) URI of the grantee group. Permission -&gt; (string) Logging permissions assigned to the grantee for the bucket. Possible values: o FULL_CONTROL o READ o WRITE TargetPrefix -&gt; (string) [required] A prefix for all log object keys. If you store log files from multiple Amazon S3 buckets in a single bucket, you can use a prefix to distinguish which log files came from which bucket. TargetObjectKeyFormat -&gt; (structure) Amazon S3 key format for log objects. SimplePrefix -&gt; (structure) To use the simple format for S3 keys for log objects. To specify SimplePrefix format, set SimplePrefix to {}. PartitionedPrefix -&gt; (structure) Partitioned S3 key for log objects. PartitionDateSource -&gt; (string) Specifies the partition date source for the parti- tioned prefix. PartitionDateSource can be EventTime or DeliveryTime . For DeliveryTime , the time in the log file names cor- responds to the delivery time for the log files. For EventTime , The logs delivered are for a specific day only. The year, month, and day correspond to the day on which the event occurred, and the hour, minutes and seconds are set to 00 in the key. Possible values: o EventTime o DeliveryTime JSON Syntax: { "LoggingEnabled": { "TargetBucket": "string", "TargetGrants": [ { "Grantee": { "DisplayName": "string", "EmailAddress": "string", "ID": "string", "Type": "CanonicalUser"|"AmazonCustomerByEmail"|"Group", "URI": "string" }, "Permission": "FULL_CONTROL"|"READ"|"WRITE" } ... ], "TargetPrefix": "string", "TargetObjectKeyFormat": { "SimplePrefix": { }, "PartitionedPrefix": { "PartitionDateSource": "EventTime"|"DeliveryTime" } } } }
+    /// </summary>
     [CliOption("--bucket-logging-status")]
-    public string? BucketLoggingStatus { get; set; }
+    public string? BucketLoggingStatus { get; private init; }
 
     /// <summary>
     /// The MD5 hash of the PutBucketLogging request body. For requests made using the Amazon Web Services Command Line Inter- face (CLI) or Amazon Web Services SDKs, this field is calculated au- tomatically.
@@ -51,5 +95,22 @@ public record AwsS3apiPutBucketLoggingOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

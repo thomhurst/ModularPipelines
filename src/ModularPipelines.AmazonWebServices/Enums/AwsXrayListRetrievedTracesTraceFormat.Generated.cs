@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --traceformat.
+/// Allowed values for --trace-format.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsXrayListRetrievedTracesTraceFormat
 {
-    [EnumValue("XRAY")]
-    Xray = 1,
-
     [EnumValue("OTEL")]
-    Otel = 2
+    Otel,
+
+    [EnumValue("XRAY")]
+    Xray
 }

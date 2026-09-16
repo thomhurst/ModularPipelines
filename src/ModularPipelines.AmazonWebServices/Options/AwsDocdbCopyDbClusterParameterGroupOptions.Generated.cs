@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("docdb", "copy-db-cluster-parameter-group")]
-public record AwsDocdbCopyDbClusterParameterGroupOptions : AwsOptions
+public record AwsDocdbCopyDbClusterParameterGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Copies the specified cluster parameter group. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SourceDbClusterParameterGroupIdentifier">The identifier or Amazon Resource Name (ARN) for the source cluster parameter group. Constraints: o Must specify a valid cluster parameter group. o If the source cluster parameter group is in the same Amazon Web Services Region as the copy, specify a valid parameter group iden- tifier; for example, my-db-cluster-param-group , or a valid ARN. o If the source parameter group is in a different Amazon Web Ser- vices Region than the copy, specify a valid cluster parameter group ARN; for example, arn:aws:rds:us-east-1:123456789012:sam- ple-cluster:sample-parameter-group .</param>
+    /// <param name="TargetDbClusterParameterGroupIdentifier">The identifier for the copied cluster parameter group. Constraints: o Cannot be null, empty, or blank. o Must contain from 1 to 255 letters, numbers, or hyphens. o The first character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. Example: my-cluster-param-group1</param>
+    /// <param name="TargetDbClusterParameterGroupDescription">A description for the copied cluster parameter group.</param>
+    public AwsDocdbCopyDbClusterParameterGroupOptions(
+        string SourceDbClusterParameterGroupIdentifier,
+        string TargetDbClusterParameterGroupIdentifier,
+        string TargetDbClusterParameterGroupDescription
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceDbClusterParameterGroupIdentifier);
+        this.SourceDbClusterParameterGroupIdentifier = SourceDbClusterParameterGroupIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(TargetDbClusterParameterGroupIdentifier);
+        this.TargetDbClusterParameterGroupIdentifier = TargetDbClusterParameterGroupIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(TargetDbClusterParameterGroupDescription);
+        this.TargetDbClusterParameterGroupDescription = TargetDbClusterParameterGroupDescription;
+    }
+
+    private AwsDocdbCopyDbClusterParameterGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDocdbCopyDbClusterParameterGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDocdbCopyDbClusterParameterGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier or Amazon Resource Name (ARN) for the source cluster parameter group. Constraints: o Must specify a valid cluster parameter group. o If the source cluster parameter group is in the same Amazon Web Services Region as the copy, specify a valid parameter group iden- tifier; for example, my-db-cluster-param-group , or a valid ARN. o If the source parameter group is in a different Amazon Web Ser- vices Region than the copy, specify a valid cluster parameter group ARN; for example, arn:aws:rds:us-east-1:123456789012:sam- ple-cluster:sample-parameter-group .
+    /// </summary>
     [CliOption("--source-db-cluster-parameter-group-identifier")]
-    public string? SourceDbClusterParameterGroupIdentifier { get; set; }
+    public string? SourceDbClusterParameterGroupIdentifier { get; private init; }
 
+    /// <summary>
+    /// The identifier for the copied cluster parameter group. Constraints: o Cannot be null, empty, or blank. o Must contain from 1 to 255 letters, numbers, or hyphens. o The first character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. Example: my-cluster-param-group1
+    /// </summary>
     [CliOption("--target-db-cluster-parameter-group-identifier")]
-    public string? TargetDbClusterParameterGroupIdentifier { get; set; }
+    public string? TargetDbClusterParameterGroupIdentifier { get; private init; }
 
+    /// <summary>
+    /// A description for the copied cluster parameter group.
+    /// </summary>
     [CliOption("--target-db-cluster-parameter-group-description")]
-    public string? TargetDbClusterParameterGroupDescription { get; set; }
+    public string? TargetDbClusterParameterGroupDescription { get; private init; }
 
     /// <summary>
     /// The tags that are to be assigned to the parameter group. (structure) Metadata assigned to an Amazon DocumentDB resource consisting of a key-value pair. Key -&gt; (string) The required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with "aws: " or "rds: ". The string can contain only the set of Unicode letters, digits, white space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). Value -&gt; (string) The optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and can't be prefixed with "aws: " or "rds: ". The string can contain only the set of Unicode letters, digits, white space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -41,5 +92,22 @@ public record AwsDocdbCopyDbClusterParameterGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

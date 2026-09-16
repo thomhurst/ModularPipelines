@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,25 +22,82 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("healthlake", "start-fhir-import-job")]
-public record AwsHealthlakeStartFhirImportJobOptions : AwsOptions
+public record AwsHealthlakeStartFhirImportJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Start importing bulk FHIR data into an ACTIVE data store. The import job imports FHIR data found in the InputDataConfig object and stores processing results in the JobOutputDataConfig object. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InputDataConfig">The input properties for the import job request. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: S3Uri. S3Uri -&gt; (string) The S3Uri is the user-specified Amazon S3 location of the FHIR data to be imported into HealthLake. Constraints: o min: 0 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? Shorthand Syntax: S3Uri=string JSON Syntax: { "S3Uri": "string" }</param>
+    /// <param name="JobOutputDataConfig">The output data configuration supplied when the export job was cre- ated. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: S3Configuration. S3Configuration -&gt; (structure) The output data configuration supplied when the export job was created. S3Uri -&gt; (string) [required] The S3Uri is the user-specified Amazon S3 location of the FHIR data to be imported into HealthLake. Constraints: o min: 0 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? KmsKeyId -&gt; (string) [required] The Key Management Service (KMS) key ID used to access the Amazon S3 bucket. Constraints: o min: 1 o max: 400 o pattern: (arn:aws((-us-gov)|(-iso)|(-iso-b)|(-cn))?:kms:)?([a-z]{2}-[a-z]+(-[a-z]+)?-\d:)?(\d{12}:)?(((key/)?[a-zA-Z0-9-_]+)|(alias/[a-zA-Z0-9:/_-]+)) Shorthand Syntax: S3Configuration={S3Uri=string,KmsKeyId=string} JSON Syntax: { "S3Configuration": { "S3Uri": "string", "KmsKeyId": "string" } }</param>
+    /// <param name="DatastoreId">The data store identifier. Constraints: o min: 1 o max: 32 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)</param>
+    /// <param name="DataAccessRoleArn">The Amazon Resource Name (ARN) that grants access permission to HealthLake. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+</param>
+    public AwsHealthlakeStartFhirImportJobOptions(
+        string InputDataConfig,
+        string JobOutputDataConfig,
+        string DatastoreId,
+        string DataAccessRoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InputDataConfig);
+        this.InputDataConfig = InputDataConfig;
+        global::System.ArgumentNullException.ThrowIfNull(JobOutputDataConfig);
+        this.JobOutputDataConfig = JobOutputDataConfig;
+        global::System.ArgumentNullException.ThrowIfNull(DatastoreId);
+        this.DatastoreId = DatastoreId;
+        global::System.ArgumentNullException.ThrowIfNull(DataAccessRoleArn);
+        this.DataAccessRoleArn = DataAccessRoleArn;
+    }
+
+    private AwsHealthlakeStartFhirImportJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsHealthlakeStartFhirImportJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsHealthlakeStartFhirImportJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The input properties for the import job request. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: S3Uri. S3Uri -&gt; (string) The S3Uri is the user-specified Amazon S3 location of the FHIR data to be imported into HealthLake. Constraints: o min: 0 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? Shorthand Syntax: S3Uri=string JSON Syntax: { "S3Uri": "string" }
+    /// </summary>
+    [CliOption("--input-data-config")]
+    public string? InputDataConfig { get; private init; }
+
+    /// <summary>
+    /// The output data configuration supplied when the export job was cre- ated. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: S3Configuration. S3Configuration -&gt; (structure) The output data configuration supplied when the export job was created. S3Uri -&gt; (string) [required] The S3Uri is the user-specified Amazon S3 location of the FHIR data to be imported into HealthLake. Constraints: o min: 0 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? KmsKeyId -&gt; (string) [required] The Key Management Service (KMS) key ID used to access the Amazon S3 bucket. Constraints: o min: 1 o max: 400 o pattern: (arn:aws((-us-gov)|(-iso)|(-iso-b)|(-cn))?:kms:)?([a-z]{2}-[a-z]+(-[a-z]+)?-\d:)?(\d{12}:)?(((key/)?[a-zA-Z0-9-_]+)|(alias/[a-zA-Z0-9:/_-]+)) Shorthand Syntax: S3Configuration={S3Uri=string,KmsKeyId=string} JSON Syntax: { "S3Configuration": { "S3Uri": "string", "KmsKeyId": "string" } }
+    /// </summary>
+    [CliOption("--job-output-data-config")]
+    public string? JobOutputDataConfig { get; private init; }
+
+    /// <summary>
+    /// The data store identifier. Constraints: o min: 1 o max: 32 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)
+    /// </summary>
+    [CliOption("--datastore-id")]
+    public string? DatastoreId { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) that grants access permission to HealthLake. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+
+    /// </summary>
+    [CliOption("--data-access-role-arn")]
+    public string? DataAccessRoleArn { get; private init; }
+
     /// <summary>
     /// The import job name. Constraints: o min: 1 o max: 64 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)
     /// </summary>
     [CliOption("--job-name")]
     public string? JobName { get; set; }
-
-    [CliOption("--input-data-config")]
-    public string? InputDataConfig { get; set; }
-
-    [CliOption("--job-output-data-config")]
-    public string? JobOutputDataConfig { get; set; }
-
-    [CliOption("--datastore-id")]
-    public string? DatastoreId { get; set; }
-
-    [CliOption("--data-access-role-arn")]
-    public string? DataAccessRoleArn { get; set; }
 
     /// <summary>
     /// The optional user-provided token used for ensuring API idempotency. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]+
@@ -66,10 +124,16 @@ public record AwsHealthlakeStartFhirImportJobOptions : AwsOptions
     [CliOption("--input-format")]
     public string? InputFormat { get; set; }
 
-    [CliFlag("--drift-detection-enabled")]
+    /// <summary>
+    /// Specifies whether to enable drift detection for the import job.
+    /// </summary>
+    [CliFlag("--drift-detection-enabled", NegatedName = "--no-drift-detection-enabled")]
     public bool? DriftDetectionEnabled { get; set; }
 
-    [CliFlag("--provenance-enabled")]
+    /// <summary>
+    /// Specifies whether to enable provenance for the import job.
+    /// </summary>
+    [CliFlag("--provenance-enabled", NegatedName = "--no-provenance-enabled")]
     public bool? ProvenanceEnabled { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -77,5 +141,22 @@ public record AwsHealthlakeStartFhirImportJobOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,23 +11,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --actiontype.
+/// Allowed values for --action-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotListMitigationActionsActionType
 {
-    [EnumValue("UPDATE_DEVICE_CERTIFICATE")]
-    UpdateDeviceCertificate = 1,
-
-    [EnumValue("UPDATE_CA_CERTIFICATE")]
-    UpdateCaCertificate = 2,
-
     [EnumValue("ADD_THINGS_TO_THING_GROUP")]
-    AddThingsToThingGroup = 3,
+    AddThingsToThingGroup,
 
     [EnumValue("ENABLE_IOT_LOGGING")]
-    EnableIotLogging = 4,
+    EnableIotLogging,
 
     [EnumValue("PUBLISH_FINDING_TO_SNS")]
-    PublishFindingToSns = 5
+    PublishFindingToSns,
+
+    [EnumValue("REPLACE_DEFAULT_POLICY_VERSION")]
+    ReplaceDefaultPolicyVersion,
+
+    [EnumValue("UPDATE_CA_CERTIFICATE")]
+    UpdateCaCertificate,
+
+    [EnumValue("UPDATE_DEVICE_CERTIFICATE")]
+    UpdateDeviceCertificate
 }

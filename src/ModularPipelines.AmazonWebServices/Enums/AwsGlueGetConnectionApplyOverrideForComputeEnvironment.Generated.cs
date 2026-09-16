@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --applyoverrideforcomputeenvironment.
+/// Allowed values for --apply-override-for-compute-environment.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGlueGetConnectionApplyOverrideForComputeEnvironment
 {
-    [EnumValue("SPARK")]
-    Spark = 1,
-
     [EnumValue("ATHENA")]
-    Athena = 2,
+    Athena,
 
     [EnumValue("PYTHON")]
-    Python = 3
+    Python,
+
+    [EnumValue("SPARK")]
+    Spark
 }

@@ -11,29 +11,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --keyalgorithm.
+/// Allowed values for --key-algorithm.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsAcmRequestCertificateKeyAlgorithm
 {
-    [EnumValue("RSA_1024")]
-    Rsa_1024 = 1,
-
-    [EnumValue("RSA_2048")]
-    Rsa_2048 = 2,
-
-    [EnumValue("RSA_3072")]
-    Rsa_3072 = 3,
-
-    [EnumValue("RSA_4096")]
-    Rsa_4096 = 4,
-
     [EnumValue("EC_prime256v1")]
-    EcPrime256v1 = 5,
+    EcPrime256V1,
 
     [EnumValue("EC_secp384r1")]
-    EcSecp384r1 = 6,
+    EcSecp384R1,
 
     [EnumValue("EC_secp521r1")]
-    EcSecp521r1 = 7
+    EcSecp521R1,
+
+    [EnumValue("RSA_1024")]
+    Rsa1024,
+
+    [EnumValue("RSA_2048")]
+    Rsa2048,
+
+    [EnumValue("RSA_3072")]
+    Rsa3072,
+
+    [EnumValue("RSA_4096")]
+    Rsa4096
 }

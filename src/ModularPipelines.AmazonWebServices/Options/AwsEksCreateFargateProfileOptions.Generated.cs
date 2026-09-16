@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,16 +22,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eks", "create-fargate-profile")]
-public record AwsEksCreateFargateProfileOptions : AwsOptions
+public record AwsEksCreateFargateProfileOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an Fargate profile for your Amazon EKS cluster. You must have at least one Fargate profile in a cluster to be able to run pods on Fargate. The Fargate profile allows an administrator to declare which pods run on Fargate and specify which pods run on which Fargate profile. This declaration is done through the profile's selectors. Each profile can have up to five selectors that contain a namespace and labels. A name- space is required for every selector. The label field consists of mul- ti...
+    /// </summary>
+    /// <param name="FargateProfileName">The name of the Fargate profile.</param>
+    /// <param name="ClusterName">The name of your cluster.</param>
+    /// <param name="PodExecutionRoleArn">The Amazon Resource Name (ARN) of the Pod execution role to use for a Pod that matches the selectors in the Fargate profile. The Pod ex- ecution role allows Fargate infrastructure to register with your cluster as a node, and it provides read access to Amazon ECR image repositories. For more information, see ` Pod execution role &lt;- https://docs.aws.amazon.com/eks/latest/userguide/pod-execu- tion-role.html&gt;`__ in the Amazon EKS User Guide .</param>
+    public AwsEksCreateFargateProfileOptions(
+        string FargateProfileName,
+        string ClusterName,
+        string PodExecutionRoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FargateProfileName);
+        this.FargateProfileName = FargateProfileName;
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+        global::System.ArgumentNullException.ThrowIfNull(PodExecutionRoleArn);
+        this.PodExecutionRoleArn = PodExecutionRoleArn;
+    }
+
+    private AwsEksCreateFargateProfileOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEksCreateFargateProfileOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEksCreateFargateProfileOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the Fargate profile.
+    /// </summary>
     [CliOption("--fargate-profile-name")]
-    public string? FargateProfileName { get; set; }
+    public string? FargateProfileName { get; private init; }
 
+    /// <summary>
+    /// The name of your cluster.
+    /// </summary>
     [CliOption("--cluster-name")]
-    public string? ClusterName { get; set; }
+    public string? ClusterName { get; private init; }
 
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the Pod execution role to use for a Pod that matches the selectors in the Fargate profile. The Pod ex- ecution role allows Fargate infrastructure to register with your cluster as a node, and it provides read access to Amazon ECR image repositories. For more information, see ` Pod execution role &lt;- https://docs.aws.amazon.com/eks/latest/userguide/pod-execu- tion-role.html&gt;`__ in the Amazon EKS User Guide .
+    /// </summary>
     [CliOption("--pod-execution-role-arn")]
-    public string? PodExecutionRoleArn { get; set; }
+    public string? PodExecutionRoleArn { get; private init; }
 
     /// <summary>
     /// The IDs of subnets to launch a Pod into. A Pod running on Fargate isn't assigned a public IP address, so only private subnets (with no direct route to an Internet Gateway) are accepted for this parame- ter. (string) Syntax: "string" "string" ...
@@ -62,5 +113,22 @@ public record AwsEksCreateFargateProfileOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

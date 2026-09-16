@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudformation", "delete-stack-instances")]
-public record AwsCloudformationDeleteStackInstancesOptions : AwsOptions
+public record AwsCloudformationDeleteStackInstancesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes stack instances for the specified accounts, in the specified Amazon Web Services Regions. NOTE: The maximum number of organizational unit (OUs) supported by a DeleteStackInstances operation is 50. If you need more than 50, consider the following options: o Batch processing: If you don't want to expose your OU hierarchy, split up the operations into multiple calls with less than 50 OUs each. o Parent OU strategy: If you don't mind exposing the OU hierarchy, target a parent OU that contain...
+    /// </summary>
+    /// <param name="StackSetName">The name or unique ID of the StackSet that you want to delete stack instances for.</param>
+    /// <param name="Regions">The Amazon Web Services Regions where you want to delete StackSet instances. (string) Constraints: o pattern: ^[a-zA-Z0-9-]{1,128}$ Syntax: "string" "string" ...</param>
+    /// <param name="RetainStacks">Removes the stack instances from the specified StackSet, but doesn't delete the stacks. You can't reassociate a retained stack or add an existing, saved stack to a new stack set. For more information, see StackSet operation options .</param>
+    public AwsCloudformationDeleteStackInstancesOptions(
+        string StackSetName,
+        IEnumerable<string> Regions,
+        bool RetainStacks
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StackSetName);
+        this.StackSetName = StackSetName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Regions);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Regions));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Regions));
+            }
+
+            Regions = materialized;
+        }
+        this.Regions = Regions;
+        this.RetainStacks = RetainStacks;
+    }
+
+    private AwsCloudformationDeleteStackInstancesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudformationDeleteStackInstancesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudformationDeleteStackInstancesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name or unique ID of the StackSet that you want to delete stack instances for.
+    /// </summary>
     [CliOption("--stack-set-name")]
-    public string? StackSetName { get; set; }
+    public string? StackSetName { get; private init; }
+
+    /// <summary>
+    /// The Amazon Web Services Regions where you want to delete StackSet instances. (string) Constraints: o pattern: ^[a-zA-Z0-9-]{1,128}$ Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--regions", GroupValues = true)]
+    public IEnumerable<string>? Regions { get; private init; }
+
+    /// <summary>
+    /// Removes the stack instances from the specified StackSet, but doesn't delete the stacks. You can't reassociate a retained stack or add an existing, saved stack to a new stack set. For more information, see StackSet operation options .
+    /// </summary>
+    [CliFlag("--retain-stacks", NegatedName = "--no-retain-stacks")]
+    public bool? RetainStacks { get; private init; }
 
     /// <summary>
     /// [Self-managed permissions] The account IDs of the Amazon Web Ser- vices accounts that you want to delete stack instances for. You can specify Accounts or DeploymentTargets , but not both. (string) Constraints: o pattern: ^[0-9]{12}$ Syntax: "string" "string" ...
@@ -37,17 +104,11 @@ public record AwsCloudformationDeleteStackInstancesOptions : AwsOptions
     [CliOption("--deployment-targets")]
     public string? DeploymentTargets { get; set; }
 
-    [CliOption("--regions", GroupValues = true)]
-    public IEnumerable<string>? Regions { get; set; }
-
     /// <summary>
     /// Preferences for how CloudFormation performs this StackSet operation. RegionConcurrencyType -&gt; (string) The concurrency type of deploying StackSets operations in Re- gions, could be in parallel or one Region at a time. Possible values: o SEQUENTIAL o PARALLEL RegionOrder -&gt; (list) The order of the Regions where you want to perform the stack op- eration. (string) Constraints: o pattern: ^[a-zA-Z0-9-]{1,128}$ FailureToleranceCount -&gt; (integer) The number of accounts per Region this operation can fail in be- fore CloudFormation stops the operation in that Region. If the operation is stopped in a Region, CloudFormation doesn't attempt the operation in any subsequent Regions. You can specify either FailureToleranceCount or FailureToleran- cePercentage , but not both. By default, 0 is specified. Constraints: o min: 0 FailureTolerancePercentage -&gt; (integer) The percentage of accounts per Region this stack operation can fail in before CloudFormation stops the operation in that Re- gion. If the operation is stopped in a Region, CloudFormation doesn't attempt the operation in any subsequent Regions. When calculating the number of accounts based on the specified percentage, CloudFormation rounds down to the next whole number. You can specify either FailureToleranceCount or FailureToleran- cePercentage , but not both. By default, 0 is specified. Constraints: o min: 0 o max: 100 MaxConcurrentCount -&gt; (integer) The maximum number of accounts in which to perform this opera- tion at one time. This can depend on the value of FailureToler- anceCount depending on your ConcurrencyMode . MaxConcurrentCount is at most one more than the FailureToleranceCount if you're us- ing STRICT_FAILURE_TOLERANCE . Note that this setting lets you specify the maximum for opera- tions. For large deployments, under certain circumstances the actual number of accounts acted upon concurrently may be lower due to service throttling. You can specify either MaxConcurrentCount or MaxConcurrentPer- centage , but not both. By default, 1 is specified. Constraints: o min: 1 MaxConcurrentPercentage -&gt; (integer) The maximum percentage of accounts in which to perform this op- eration at one time. When calculating the number of accounts based on the specified percentage, CloudFormation rounds down to the next whole number. This is true except in cases where rounding down would result is zero. In this case, CloudFormation sets the number as one in- stead. Note that this setting lets you specify the maximum for opera- tions. For large deployments, under certain circumstances the actual number of accounts acted upon concurrently may be lower due to service throttling. You can specify either MaxConcurrentCount or MaxConcurrentPer- centage , but not both. By default, 1 is specified. Constraints: o min: 1 o max: 100 ConcurrencyMode -&gt; (string) Specifies how the concurrency level behaves during the operation execution. o STRICT_FAILURE_TOLERANCE : This option dynamically lowers the concurrency level to ensure the number of failed accounts never exceeds the value of FailureToleranceCount +1. The ini- tial actual concurrency is set to the lower of either the value of the MaxConcurrentCount , or the value of FailureTol- eranceCount +1. The actual concurrency is then reduced propor- tionally by the number of failures. This is the default behav- ior. If failure tolerance or Maximum concurrent accounts are set to percentages, the behavior is similar. o SOFT_FAILURE_TOLERANCE : This option decouples FailureToler- anceCount from the actual concurrency. This allows StackSet operations to run at the concurrency level set by the MaxCon- currentCount value, or MaxConcurrentPercentage , regardless of the number of failures. Possible values: o STRICT_FAILURE_TOLERANCE o SOFT_FAILURE_TOLERANCE Shorthand Syntax: RegionConcurrencyType=string,RegionOrder=string,string,FailureToleranceCount=integer,FailureTolerancePercentage=integer,MaxConcurrentCount=integer,MaxConcurrentPercentage=integer,ConcurrencyMode=string JSON Syntax: { "RegionConcurrencyType": "SEQUENTIAL"|"PARALLEL", "RegionOrder": ["string", ...], "FailureToleranceCount": integer, "FailureTolerancePercentage": integer, "MaxConcurrentCount": integer, "MaxConcurrentPercentage": integer, "ConcurrencyMode": "STRICT_FAILURE_TOLERANCE"|"SOFT_FAILURE_TOLERANCE" }
     /// </summary>
     [CliOption("--operation-preferences")]
     public string? OperationPreferences { get; set; }
-
-    [CliFlag("--retain-stacks")]
-    public bool? RetainStacks { get; set; }
 
     /// <summary>
     /// The unique identifier for this StackSet operation. If you don't specify an operation ID, the SDK generates one automat- ically. The operation ID also functions as an idempotency token, to ensure that CloudFormation performs the StackSet operation only once, even if you retry the request multiple times. You can retry StackSet op- eration requests to ensure that CloudFormation successfully received them. Repeating this StackSet operation with a new operation ID retries all stack instances whose status is OUTDATED . Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9][-a-zA-Z0-9]*
@@ -66,5 +127,22 @@ public record AwsCloudformationDeleteStackInstancesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsWorkdocsDescribeFolderContentsSort
 {
     [EnumValue("DATE")]
-    Date = 1,
+    Date,
 
     [EnumValue("NAME")]
-    Name = 2
+    Name
 }

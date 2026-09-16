@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --functionversion.
+/// Allowed values for --function-version.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsLambdaListFunctionsFunctionVersion
 {
     [EnumValue("ALL")]
-    All = 1
+    All,
+
+    [EnumValue("o")]
+    O
 }

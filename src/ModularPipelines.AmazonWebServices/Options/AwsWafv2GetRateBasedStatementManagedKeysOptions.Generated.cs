@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +21,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("wafv2", "get-rate-based-statement-managed-keys")]
-public record AwsWafv2GetRateBasedStatementManagedKeysOptions : AwsOptions
+public record AwsWafv2GetRateBasedStatementManagedKeysOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves the IP addresses that are currently blocked by a rate-based rule instance. This is only available for rate-based rules that aggre- gate solely on the IP address or on the forwarded IP address. The maximum number of addresses that can be blocked for a single rate-based rule instance is 10,000. If more than 10,000 addresses ex- ceed the rate limit, those with the highest rates are blocked. For a rate-based rule that you've defined inside a rule group, provide the name of the rule group r...
+    /// </summary>
+    /// <param name="Scope">Specifies whether this is for a global resource type, such as a Ama- zon CloudFront distribution. For an Amplify application, use CLOUD- FRONT . To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows: o CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1 . o API and SDKs - For all calls, use the Region endpoint us-east-1. Possible values: o CLOUDFRONT o REGIONAL</param>
+    /// <param name="WebAclName">The name of the web ACL. You cannot change the name of a web ACL af- ter you create it. Constraints: o min: 1 o max: 128 o pattern: ^[\w\-]+$</param>
+    /// <param name="WebAclId">The unique identifier for the web ACL. This ID is returned in the responses to create and list commands. You provide it to operations like update and delete. Constraints: o min: 1 o max: 36 o pattern: ^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$</param>
+    /// <param name="RuleName">The name of the rate-based rule to get the keys for. If you have the rule defined inside a rule group that you're using in your web ACL, also provide the name of the rule group reference statement in the request parameter RuleGroupRuleName . Constraints: o min: 1 o max: 128 o pattern: ^[\w\-]+$</param>
+    public AwsWafv2GetRateBasedStatementManagedKeysOptions(
+        AwsWafv2GetRateBasedStatementManagedKeysScope Scope,
+        string WebAclName,
+        string WebAclId,
+        string RuleName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Scope);
+        this.Scope = Scope;
+        global::System.ArgumentNullException.ThrowIfNull(WebAclName);
+        this.WebAclName = WebAclName;
+        global::System.ArgumentNullException.ThrowIfNull(WebAclId);
+        this.WebAclId = WebAclId;
+        global::System.ArgumentNullException.ThrowIfNull(RuleName);
+        this.RuleName = RuleName;
+    }
+
+    private AwsWafv2GetRateBasedStatementManagedKeysOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWafv2GetRateBasedStatementManagedKeysOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWafv2GetRateBasedStatementManagedKeysOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies whether this is for a global resource type, such as a Ama- zon CloudFront distribution. For an Amplify application, use CLOUD- FRONT . To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows: o CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1 . o API and SDKs - For all calls, use the Region endpoint us-east-1. Possible values: o CLOUDFRONT o REGIONAL
+    /// </summary>
     [CliOption("--scope")]
-    public string? Scope { get; set; }
+    public AwsWafv2GetRateBasedStatementManagedKeysScope? Scope { get; private init; }
 
+    /// <summary>
+    /// The name of the web ACL. You cannot change the name of a web ACL af- ter you create it. Constraints: o min: 1 o max: 128 o pattern: ^[\w\-]+$
+    /// </summary>
     [CliOption("--web-acl-name")]
-    public string? WebAclName { get; set; }
+    public string? WebAclName { get; private init; }
 
+    /// <summary>
+    /// The unique identifier for the web ACL. This ID is returned in the responses to create and list commands. You provide it to operations like update and delete. Constraints: o min: 1 o max: 36 o pattern: ^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$
+    /// </summary>
     [CliOption("--web-acl-id")]
-    public string? WebAclId { get; set; }
+    public string? WebAclId { get; private init; }
+
+    /// <summary>
+    /// The name of the rate-based rule to get the keys for. If you have the rule defined inside a rule group that you're using in your web ACL, also provide the name of the rule group reference statement in the request parameter RuleGroupRuleName . Constraints: o min: 1 o max: 128 o pattern: ^[\w\-]+$
+    /// </summary>
+    [CliOption("--rule-name")]
+    public string? RuleName { get; private init; }
 
     /// <summary>
     /// The name of the rule group reference statement in your web ACL. This is required only when you have the rate-based rule nested inside a rule group. Constraints: o min: 1 o max: 128 o pattern: ^[\w\-]+$
@@ -36,13 +98,27 @@ public record AwsWafv2GetRateBasedStatementManagedKeysOptions : AwsOptions
     [CliOption("--rule-group-rule-name")]
     public string? RuleGroupRuleName { get; set; }
 
-    [CliOption("--rule-name")]
-    public string? RuleName { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("nova-act", "list-workflow-runs")]
-public record AwsNovaActListWorkflowRunsOptions : AwsOptions
+public record AwsNovaActListWorkflowRunsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists all workflow runs for a specific workflow definition with op- tional filtering and pagination. See also: AWS API Documentation list-workflow-runs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: w...
+    /// </summary>
+    /// <param name="WorkflowDefinitionName">The name of the workflow definition to list workflow runs for. Constraints: o min: 1 o max: 40 o pattern: [a-zA-Z0-9_-]{1,40}</param>
+    public AwsNovaActListWorkflowRunsOptions(
+        string WorkflowDefinitionName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkflowDefinitionName);
+        this.WorkflowDefinitionName = WorkflowDefinitionName;
+    }
+
+    private AwsNovaActListWorkflowRunsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNovaActListWorkflowRunsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNovaActListWorkflowRunsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the workflow definition to list workflow runs for. Constraints: o min: 1 o max: 40 o pattern: [a-zA-Z0-9_-]{1,40}
+    /// </summary>
     [CliOption("--workflow-definition-name")]
-    public string? WorkflowDefinitionName { get; set; }
+    public string? WorkflowDefinitionName { get; private init; }
 
     /// <summary>
     /// The sort order for the returned workflow runs (ascending or descend- ing). Possible values: o Ascending o Descending
@@ -56,5 +93,22 @@ public record AwsNovaActListWorkflowRunsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

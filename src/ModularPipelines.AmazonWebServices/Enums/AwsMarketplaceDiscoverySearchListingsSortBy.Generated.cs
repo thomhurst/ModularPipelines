@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --sortby.
+/// Allowed values for --sort-by.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsMarketplaceDiscoverySearchListingsSortBy
 {
-    [EnumValue("RELEVANCE")]
-    Relevance = 1,
-
     [EnumValue("AVERAGE_CUSTOMER_RATING")]
-    AverageCustomerRating = 2
+    AverageCustomerRating,
+
+    [EnumValue("RELEVANCE")]
+    Relevance
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("networkmanager", "update-device")]
-public record AwsNetworkmanagerUpdateDeviceOptions : AwsOptions
+public record AwsNetworkmanagerUpdateDeviceOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--global-network-id")]
-    public string? GlobalNetworkId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the details for an existing device. To remove information for any of the parameters, specify an empty string. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="GlobalNetworkId">The ID of the global network. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*</param>
+    /// <param name="DeviceId">The ID of the device. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*</param>
+    public AwsNetworkmanagerUpdateDeviceOptions(
+        string GlobalNetworkId,
+        string DeviceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GlobalNetworkId);
+        this.GlobalNetworkId = GlobalNetworkId;
+        global::System.ArgumentNullException.ThrowIfNull(DeviceId);
+        this.DeviceId = DeviceId;
+    }
+
+    private AwsNetworkmanagerUpdateDeviceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNetworkmanagerUpdateDeviceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNetworkmanagerUpdateDeviceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the global network. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*
+    /// </summary>
+    [CliOption("--global-network-id")]
+    public string? GlobalNetworkId { get; private init; }
+
+    /// <summary>
+    /// The ID of the device. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*
+    /// </summary>
     [CliOption("--device-id")]
-    public string? DeviceId { get; set; }
+    public string? DeviceId { get; private init; }
 
     /// <summary>
     /// The Amazon Web Services location of the device, if applicable. For an on-premises device, you can omit this parameter. Zone -&gt; (string) The Zone that the device is located in. Specify the ID of an Availability Zone, Local Zone, Wavelength Zone, or an Outpost. Constraints: o min: 0 o max: 256 o pattern: [\s\S]* SubnetArn -&gt; (string) The Amazon Resource Name (ARN) of the subnet that the device is located in. Constraints: o min: 0 o max: 500 o pattern: ^arn:[^:]{1,63}:ec2:[^:]{0,63}:[^:]{0,63}:sub- net\/subnet-[0-9a-f]{8,17}$|^$ Shorthand Syntax: Zone=string,SubnetArn=string JSON Syntax: { "Zone": "string", "SubnetArn": "string" }
@@ -80,5 +124,22 @@ public record AwsNetworkmanagerUpdateDeviceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

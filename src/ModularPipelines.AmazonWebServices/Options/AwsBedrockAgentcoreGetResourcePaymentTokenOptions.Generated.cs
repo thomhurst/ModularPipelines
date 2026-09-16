@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,24 +21,90 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore", "get-resource-payment-token")]
-public record AwsBedrockAgentcoreGetResourcePaymentTokenOptions : AwsOptions
+public record AwsBedrockAgentcoreGetResourcePaymentTokenOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Generates authentication tokens for payment providers that use ven- dor-specific authentication mechanisms. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="WorkloadIdentityToken">Workload access token for authorization. Constraints: o min: 1 o max: 131072</param>
+    /// <param name="ResourceCredentialProviderName">Name of the payment credential provider to use. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\-_]+</param>
+    /// <param name="PaymentTokenRequest">Vendor-specific token request input. Contains all request parameters in a type-safe, vendor-specific structure. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: coinbaseCdpTokenRequest, stripePrivyTo- kenRequest. coinbaseCdpTokenRequest -&gt; (structure) The Coinbase CDP token request. requestMethod -&gt; (string) [required] The HTTP method for the payment API request. Possible values: o GET o POST o PUT o DELETE o PATCH requestHost -&gt; (string) The host for the payment API request. Defaults to "api.cdp.coinbase.com". Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\-\.]+ requestPath -&gt; (string) [required] The path of the payment API request. Constraints: o min: 1 o max: 2048 o pattern: /[a-zA-Z0-9/_\-\.~%?=&amp;]+ includeWalletAuthToken -&gt; (boolean) Set to true for wallet write operations (requires walletSe- cret configured). requestBody -&gt; (string) Request body JSON used to generate wallet auth JWT. Constraints: o min: 1 o max: 16384 o pattern: [\u0009\u000A\u000D\u0020-\u007E]+ stripePrivyTokenRequest -&gt; (structure) The Stripe Privy token request. requestHost -&gt; (string) The host for the Privy API request. Defaults to "api.privy.io". Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\-\.]+ requestPath -&gt; (string) [required] The path of the Stripe Privy API request. Constraints: o min: 1 o max: 2048 o pattern: /[a-zA-Z0-9/_\-\.~%?=&amp;]+ requestBody -&gt; (string) [required] Request body JSON for the Privy API call. Constraints: o min: 1 o max: 16384 o pattern: [\u0009\u000A\u000D\u0020-\u007E]+ includeAuthorizationSignature -&gt; (boolean) Set to true to generate privy-authorization-signature. Shorthand Syntax: coinbaseCdpTokenRequest={requestMethod=string,requestHost=string,requestPath=string,includeWalletAuthToken=boolean,requestBody=string},stripePrivyTokenRequest={requestHost=string,requestPath=string,requestBody=string,includeAuthorizationSignature=boolean} JSON Syntax: { "coinbaseCdpTokenRequest": { "requestMethod": "GET"|"POST"|"PUT"|"DELETE"|"PATCH", "requestHost": "string", "requestPath": "string", "includeWalletAuthToken": true|false, "requestBody": "string" }, "stripePrivyTokenRequest": { "requestHost": "string", "requestPath": "string", "requestBody": "string", "includeAuthorizationSignature": true|false } }</param>
+    public AwsBedrockAgentcoreGetResourcePaymentTokenOptions(
+        string WorkloadIdentityToken,
+        string ResourceCredentialProviderName,
+        string PaymentTokenRequest
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkloadIdentityToken);
+        this.WorkloadIdentityToken = WorkloadIdentityToken;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceCredentialProviderName);
+        this.ResourceCredentialProviderName = ResourceCredentialProviderName;
+        global::System.ArgumentNullException.ThrowIfNull(PaymentTokenRequest);
+        this.PaymentTokenRequest = PaymentTokenRequest;
+    }
+
+    private AwsBedrockAgentcoreGetResourcePaymentTokenOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreGetResourcePaymentTokenOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreGetResourcePaymentTokenOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Workload access token for authorization. Constraints: o min: 1 o max: 131072
+    /// </summary>
     [SecretValue]
     [CliOption("--workload-identity-token")]
-    public string? WorkloadIdentityToken { get; set; }
+    public string? WorkloadIdentityToken { get; private init; }
 
-    [SecretValue]
+    /// <summary>
+    /// Name of the payment credential provider to use. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\-_]+
+    /// </summary>
     [CliOption("--resource-credential-provider-name")]
-    public string? ResourceCredentialProviderName { get; set; }
+    public string? ResourceCredentialProviderName { get; private init; }
 
+    /// <summary>
+    /// Vendor-specific token request input. Contains all request parameters in a type-safe, vendor-specific structure. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: coinbaseCdpTokenRequest, stripePrivyTo- kenRequest. coinbaseCdpTokenRequest -&gt; (structure) The Coinbase CDP token request. requestMethod -&gt; (string) [required] The HTTP method for the payment API request. Possible values: o GET o POST o PUT o DELETE o PATCH requestHost -&gt; (string) The host for the payment API request. Defaults to "api.cdp.coinbase.com". Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\-\.]+ requestPath -&gt; (string) [required] The path of the payment API request. Constraints: o min: 1 o max: 2048 o pattern: /[a-zA-Z0-9/_\-\.~%?=&amp;]+ includeWalletAuthToken -&gt; (boolean) Set to true for wallet write operations (requires walletSe- cret configured). requestBody -&gt; (string) Request body JSON used to generate wallet auth JWT. Constraints: o min: 1 o max: 16384 o pattern: [\u0009\u000A\u000D\u0020-\u007E]+ stripePrivyTokenRequest -&gt; (structure) The Stripe Privy token request. requestHost -&gt; (string) The host for the Privy API request. Defaults to "api.privy.io". Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\-\.]+ requestPath -&gt; (string) [required] The path of the Stripe Privy API request. Constraints: o min: 1 o max: 2048 o pattern: /[a-zA-Z0-9/_\-\.~%?=&amp;]+ requestBody -&gt; (string) [required] Request body JSON for the Privy API call. Constraints: o min: 1 o max: 16384 o pattern: [\u0009\u000A\u000D\u0020-\u007E]+ includeAuthorizationSignature -&gt; (boolean) Set to true to generate privy-authorization-signature. Shorthand Syntax: coinbaseCdpTokenRequest={requestMethod=string,requestHost=string,requestPath=string,includeWalletAuthToken=boolean,requestBody=string},stripePrivyTokenRequest={requestHost=string,requestPath=string,requestBody=string,includeAuthorizationSignature=boolean} JSON Syntax: { "coinbaseCdpTokenRequest": { "requestMethod": "GET"|"POST"|"PUT"|"DELETE"|"PATCH", "requestHost": "string", "requestPath": "string", "includeWalletAuthToken": true|false, "requestBody": "string" }, "stripePrivyTokenRequest": { "requestHost": "string", "requestPath": "string", "requestBody": "string", "includeAuthorizationSignature": true|false } }
+    /// </summary>
     [SecretValue]
     [CliOption("--payment-token-request")]
-    public string? PaymentTokenRequest { get; set; }
+    public string? PaymentTokenRequest { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

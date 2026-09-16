@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lambda", "send-durable-execution-callback-heartbeat")]
-public record AwsLambdaSendDurableExecutionCallbackHeartbeatOptions : AwsOptions
+public record AwsLambdaSendDurableExecutionCallbackHeartbeatOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Sends a heartbeat signal for a long-running callback operation to pre- vent timeout. Use this API to extend the callback timeout period while the external operation is still in progress. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CallbackId">The unique identifier for the callback operation. Constraints: o min: 1 o max: 1024 o pattern: [A-Za-z0-9+/]+={0,2}</param>
+    public AwsLambdaSendDurableExecutionCallbackHeartbeatOptions(
+        string CallbackId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CallbackId);
+        this.CallbackId = CallbackId;
+    }
+
+    private AwsLambdaSendDurableExecutionCallbackHeartbeatOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLambdaSendDurableExecutionCallbackHeartbeatOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLambdaSendDurableExecutionCallbackHeartbeatOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for the callback operation. Constraints: o min: 1 o max: 1024 o pattern: [A-Za-z0-9+/]+={0,2}
+    /// </summary>
     [CliOption("--callback-id")]
-    public string? CallbackId { get; set; }
+    public string? CallbackId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

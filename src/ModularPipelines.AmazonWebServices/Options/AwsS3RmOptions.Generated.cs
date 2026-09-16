@@ -19,10 +19,25 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3", "rm")]
-public record AwsS3RmOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string S3Uri
-) : AwsOptions
+public record AwsS3RmOptions : AwsOptions
 {
+    /// <summary>
+    /// Deletes an S3 object.
+    /// </summary>
+    /// <param name="S3Uri">S3 URI to operate on.</param>
+    public AwsS3RmOptions(
+        string S3Uri
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(S3Uri);
+        this.S3Uri = S3Uri;
+    }
+
+    public void Deconstruct(out string S3Uri)
+    {
+        S3Uri = this.S3Uri;
+    }
+
     [CliFlag("--dryrun")]
     public bool? Dryrun { get; set; }
 
@@ -46,5 +61,11 @@ public record AwsS3RmOptions(
 
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
+
+    /// <summary>
+    /// S3 URI to operate on.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string S3Uri { get; private init; }
 
 }

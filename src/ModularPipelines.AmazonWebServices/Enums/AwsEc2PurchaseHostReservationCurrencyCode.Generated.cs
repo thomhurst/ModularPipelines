@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --currencycode.
+/// Allowed values for --currency-code.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEc2PurchaseHostReservationCurrencyCode
 {
+    [EnumValue("o")]
+    O,
+
     [EnumValue("USD")]
-    Usd = 1
+    Usd
 }

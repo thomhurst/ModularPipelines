@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("configservice", "get-organization-conformance-pack-detailed-status")]
-public record AwsConfigserviceGetOrganizationConformancePackDetailedStatusOptions : AwsOptions
+public record AwsConfigserviceGetOrganizationConformancePackDetailedStatusOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns detailed status for each member account within an organization for a given organization conformance pack. See also: AWS API Documentation get-organization-conformance-pack-detailed-status is a paginated opera- tion. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data from t...
+    /// </summary>
+    /// <param name="OrganizationConformancePackName">The name of organization conformance pack for which you want status details for member accounts. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z][-a-zA-Z0-9]*</param>
+    public AwsConfigserviceGetOrganizationConformancePackDetailedStatusOptions(
+        string OrganizationConformancePackName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OrganizationConformancePackName);
+        this.OrganizationConformancePackName = OrganizationConformancePackName;
+    }
+
+    private AwsConfigserviceGetOrganizationConformancePackDetailedStatusOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConfigserviceGetOrganizationConformancePackDetailedStatusOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConfigserviceGetOrganizationConformancePackDetailedStatusOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of organization conformance pack for which you want status details for member accounts. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z][-a-zA-Z0-9]*
+    /// </summary>
     [CliOption("--organization-conformance-pack-name")]
-    public string? OrganizationConformancePackName { get; set; }
+    public string? OrganizationConformancePackName { get; private init; }
 
     /// <summary>
     /// An OrganizationResourceDetailedStatusFilters object. AccountId -&gt; (string) The 12-digit account ID of the member account within an organi- zation. Constraints: o pattern: \d{12} Status -&gt; (string) Indicates deployment status for conformance pack in a member ac- count. When management account calls PutOrganizationConforman- cePack action for the first time, conformance pack status is created in the member account. When management account calls PutOrganizationConformancePack action for the second time, con- formance pack status is updated in the member account. Confor- mance pack status is deleted when the management account deletes OrganizationConformancePack and disables service access for con- fig-multiaccountsetup.amazonaws.com . Config sets the state of the conformance pack to: o CREATE_SUCCESSFUL when conformance pack has been created in the member account. o CREATE_IN_PROGRESS when conformance pack is being created in the member account. o CREATE_FAILED when conformance pack creation has failed in the member account. o DELETE_FAILED when conformance pack deletion has failed in the member account. o DELETE_IN_PROGRESS when conformance pack is being deleted in the member account. o DELETE_SUCCESSFUL when conformance pack has been deleted in the member account. o UPDATE_SUCCESSFUL when conformance pack has been updated in the member account. o UPDATE_IN_PROGRESS when conformance pack is being updated in the member account. o UPDATE_FAILED when conformance pack deletion has failed in the member account. Possible values: o CREATE_SUCCESSFUL o CREATE_IN_PROGRESS o CREATE_FAILED o DELETE_SUCCESSFUL o DELETE_FAILED o DELETE_IN_PROGRESS o UPDATE_SUCCESSFUL o UPDATE_IN_PROGRESS o UPDATE_FAILED Shorthand Syntax: AccountId=string,Status=string JSON Syntax: { "AccountId": "string", "Status": "CREATE_SUCCESSFUL"|"CREATE_IN_PROGRESS"|"CREATE_FAILED"|"DELETE_SUCCESSFUL"|"DELETE_FAILED"|"DELETE_IN_PROGRESS"|"UPDATE_SUCCESSFUL"|"UPDATE_IN_PROGRESS"|"UPDATE_FAILED" }
@@ -55,5 +92,22 @@ public record AwsConfigserviceGetOrganizationConformancePackDetailedStatusOption
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

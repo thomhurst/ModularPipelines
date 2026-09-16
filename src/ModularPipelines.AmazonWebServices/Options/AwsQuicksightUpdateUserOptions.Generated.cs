@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,22 +21,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("quicksight", "update-user")]
-public record AwsQuicksightUpdateUserOptions : AwsOptions
+public record AwsQuicksightUpdateUserOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an Amazon Quick Sight user. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="UserName">The Amazon Quick Sight user name that you want to update. Constraints: o min: 1 o pattern: [\u0020-\u00FF]+</param>
+    /// <param name="AwsAccountId">The ID for the Amazon Web Services account that the user is in. Cur- rently, you use the ID for the Amazon Web Services account that con- tains your Amazon Quick Sight account. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="Namespace">The namespace. Currently, you should set this to default . Constraints: o max: 64 o pattern: ^[a-zA-Z0-9._-]*$</param>
+    /// <param name="Email">The email address of the user that you want to update.</param>
+    /// <param name="Role">The Amazon Quick Sight role of the user. The role can be one of the following default security cohorts: o READER : A user who has read-only access to dashboards. o AUTHOR : A user who can create data sources, datasets, analyses, and dashboards. o ADMIN : A user who is an author, who can also manage Amazon Quick Sight settings. o READER_PRO : Reader Pro adds Generative BI capabilities to the Reader role. Reader Pros have access to Amazon Q in Quick Sight, can build stories with Amazon Q, and can generate executive sum- maries from dashboards. o AUTHOR_PRO : Author Pro adds Generative BI capabilities to the Au- thor role. Author Pros can author dashboards with natural language with Amazon Q, build stories with Amazon Q, create Topics for Q&amp;A, and generate executive summaries from dashboards. o ADMIN_PRO : Admin Pros are Author Pros who can also manage Amazon Quick Sight administrative settings. Admin Pro users are billed at Author Pro pricing. The name of the Quick Sight role is invisible to the user except for the console screens dealing with permissions. Possible values: o ADMIN o AUTHOR o READER o RESTRICTED_AUTHOR o RESTRICTED_READER o ADMIN_PRO o AUTHOR_PRO o READER_PRO</param>
+    public AwsQuicksightUpdateUserOptions(
+        string UserName,
+        string AwsAccountId,
+        string Namespace,
+        string Email,
+        AwsQuicksightUpdateUserRole Role
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(UserName);
+        this.UserName = UserName;
+        global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
+        this.AwsAccountId = AwsAccountId;
+        global::System.ArgumentNullException.ThrowIfNull(Namespace);
+        this.Namespace = Namespace;
+        global::System.ArgumentNullException.ThrowIfNull(Email);
+        this.Email = Email;
+        global::System.ArgumentNullException.ThrowIfNull(Role);
+        this.Role = Role;
+    }
+
+    private AwsQuicksightUpdateUserOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQuicksightUpdateUserOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQuicksightUpdateUserOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Quick Sight user name that you want to update. Constraints: o min: 1 o pattern: [\u0020-\u00FF]+
+    /// </summary>
     [CliOption("--user-name")]
-    public string? UserName { get; set; }
+    public string? UserName { get; private init; }
 
+    /// <summary>
+    /// The ID for the Amazon Web Services account that the user is in. Cur- rently, you use the ID for the Amazon Web Services account that con- tains your Amazon Quick Sight account. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// </summary>
     [CliOption("--aws-account-id")]
-    public string? AwsAccountId { get; set; }
+    public string? AwsAccountId { get; private init; }
 
+    /// <summary>
+    /// The namespace. Currently, you should set this to default . Constraints: o max: 64 o pattern: ^[a-zA-Z0-9._-]*$
+    /// </summary>
     [CliOption("--namespace")]
-    public string? Namespace { get; set; }
+    public string? Namespace { get; private init; }
 
+    /// <summary>
+    /// The email address of the user that you want to update.
+    /// </summary>
     [CliOption("--email")]
-    public string? Email { get; set; }
+    public string? Email { get; private init; }
 
+    /// <summary>
+    /// The Amazon Quick Sight role of the user. The role can be one of the following default security cohorts: o READER : A user who has read-only access to dashboards. o AUTHOR : A user who can create data sources, datasets, analyses, and dashboards. o ADMIN : A user who is an author, who can also manage Amazon Quick Sight settings. o READER_PRO : Reader Pro adds Generative BI capabilities to the Reader role. Reader Pros have access to Amazon Q in Quick Sight, can build stories with Amazon Q, and can generate executive sum- maries from dashboards. o AUTHOR_PRO : Author Pro adds Generative BI capabilities to the Au- thor role. Author Pros can author dashboards with natural language with Amazon Q, build stories with Amazon Q, create Topics for Q&amp;A, and generate executive summaries from dashboards. o ADMIN_PRO : Admin Pros are Author Pros who can also manage Amazon Quick Sight administrative settings. Admin Pro users are billed at Author Pro pricing. The name of the Quick Sight role is invisible to the user except for the console screens dealing with permissions. Possible values: o ADMIN o AUTHOR o READER o RESTRICTED_AUTHOR o RESTRICTED_READER o ADMIN_PRO o AUTHOR_PRO o READER_PRO
+    /// </summary>
     [CliOption("--role")]
-    public string? Role { get; set; }
+    public AwsQuicksightUpdateUserRole? Role { get; private init; }
 
     /// <summary>
     /// (Enterprise edition only) The name of the custom permissions profile that you want to assign to this user. Customized permissions allows you to control a user's access by restricting access the following operations: o Create and update data sources o Create and update datasets o Create and update email reports o Subscribe to email reports A set of custom permissions includes any combination of these re- strictions. Currently, you need to create the profile names for cus- tom permission sets by using the Quick Sight console. Then, you use the RegisterUser API operation to assign the named set of permis- sions to a Quick Sight user. Quick Sight custom permissions are applied through IAM policies. Therefore, they override the permissions typically granted by as- signing Quick Sight users to one of the default security cohorts in Quick Sight (admin, author, reader). This feature is available only to Quick Sight Enterprise edition subscriptions. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9+=,.@_-]+$
@@ -42,7 +108,10 @@ public record AwsQuicksightUpdateUserOptions : AwsOptions
     [CliOption("--custom-permissions-name")]
     public string? CustomPermissionsName { get; set; }
 
-    [CliFlag("--unapply-custom-permissions")]
+    /// <summary>
+    /// A flag that you use to indicate that you want to remove all custom permissions from this user. Using this parameter resets the user to the state it was in before a custom permissions profile was applied. This parameter defaults to NULL and it doesn't accept any other value.
+    /// </summary>
+    [CliFlag("--unapply-custom-permissions", NegatedName = "--no-unapply-custom-permissions")]
     public bool? UnapplyCustomPermissions { get; set; }
 
     /// <summary>
@@ -68,5 +137,22 @@ public record AwsQuicksightUpdateUserOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

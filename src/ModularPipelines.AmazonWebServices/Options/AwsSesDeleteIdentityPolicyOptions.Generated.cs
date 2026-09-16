@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ses", "delete-identity-policy")]
-public record AwsSesDeleteIdentityPolicyOptions : AwsOptions
+public record AwsSesDeleteIdentityPolicyOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--identity")]
-    public string? Identity { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deletes the specified sending authorization policy for the given iden- tity (an email address or a domain). This operation returns success- fully even if a policy with the specified name does not exist. NOTE: This operation is for the identity owner only. If you have not veri- fied the identity, it returns an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the Amazon ...
+    /// </summary>
+    /// <param name="Identity">The identity that is associated with the policy to delete. You can specify the identity by using its name or by using its Amazon Re- source Name (ARN). Examples: user@example.com , example.com , arn:aws:ses:us-east-1:123456789012:identity/example.com . To successfully call this operation, you must own the identity.</param>
+    /// <param name="PolicyName">The name of the policy to be deleted. Constraints: o min: 1 o max: 64</param>
+    public AwsSesDeleteIdentityPolicyOptions(
+        string Identity,
+        string PolicyName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Identity);
+        this.Identity = Identity;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyName);
+        this.PolicyName = PolicyName;
+    }
+
+    private AwsSesDeleteIdentityPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSesDeleteIdentityPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSesDeleteIdentityPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identity that is associated with the policy to delete. You can specify the identity by using its name or by using its Amazon Re- source Name (ARN). Examples: user@example.com , example.com , arn:aws:ses:us-east-1:123456789012:identity/example.com . To successfully call this operation, you must own the identity.
+    /// </summary>
+    [CliOption("--identity")]
+    public string? Identity { get; private init; }
+
+    /// <summary>
+    /// The name of the policy to be deleted. Constraints: o min: 1 o max: 64
+    /// </summary>
     [CliOption("--policy-name")]
-    public string? PolicyName { get; set; }
+    public string? PolicyName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ses", "update-configuration-set-tracking-options")]
-public record AwsSesUpdateConfigurationSetTrackingOptionsOptions : AwsOptions
+public record AwsSesUpdateConfigurationSetTrackingOptionsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--configuration-set-name")]
-    public string? ConfigurationSetName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Modifies an association between a configuration set and a custom domain for open and click event tracking. By default, images and links used for tracking open and click events are hosted on domains operated by Amazon SES. You can configure a sub- domain of your own to handle these events. For information about using custom domains, see the Amazon SES Developer Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ConfigurationSetName">The name of the configuration set.</param>
+    /// <param name="TrackingOptions">A domain that is used to redirect email recipients to an Amazon SES-operated domain. This domain captures open and click events gen- erated by Amazon SES emails. For more information, see Configuring Custom Domains to Handle Open and Click Tracking in the Amazon SES Developer Guide . CustomRedirectDomain -&gt; (string) The custom subdomain that is used to redirect email recipients to the Amazon SES event tracking domain. Shorthand Syntax: CustomRedirectDomain=string JSON Syntax: { "CustomRedirectDomain": "string" }</param>
+    public AwsSesUpdateConfigurationSetTrackingOptionsOptions(
+        string ConfigurationSetName,
+        string TrackingOptions
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConfigurationSetName);
+        this.ConfigurationSetName = ConfigurationSetName;
+        global::System.ArgumentNullException.ThrowIfNull(TrackingOptions);
+        this.TrackingOptions = TrackingOptions;
+    }
+
+    private AwsSesUpdateConfigurationSetTrackingOptionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSesUpdateConfigurationSetTrackingOptionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSesUpdateConfigurationSetTrackingOptionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the configuration set.
+    /// </summary>
+    [CliOption("--configuration-set-name")]
+    public string? ConfigurationSetName { get; private init; }
+
+    /// <summary>
+    /// A domain that is used to redirect email recipients to an Amazon SES-operated domain. This domain captures open and click events gen- erated by Amazon SES emails. For more information, see Configuring Custom Domains to Handle Open and Click Tracking in the Amazon SES Developer Guide . CustomRedirectDomain -&gt; (string) The custom subdomain that is used to redirect email recipients to the Amazon SES event tracking domain. Shorthand Syntax: CustomRedirectDomain=string JSON Syntax: { "CustomRedirectDomain": "string" }
+    /// </summary>
     [CliOption("--tracking-options")]
-    public string? TrackingOptions { get; set; }
+    public string? TrackingOptions { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

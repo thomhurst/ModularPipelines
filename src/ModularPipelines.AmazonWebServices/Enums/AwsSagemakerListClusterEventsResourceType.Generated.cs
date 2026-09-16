@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --resourcetype.
+/// Allowed values for --resource-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSagemakerListClusterEventsResourceType
 {
     [EnumValue("Cluster")]
-    Cluster = 1,
-
-    [EnumValue("InstanceGroup")]
-    InstanceGroup = 2,
+    Cluster,
 
     [EnumValue("Instance")]
-    Instance = 3
+    Instance,
+
+    [EnumValue("InstanceGroup")]
+    InstanceGroup
 }

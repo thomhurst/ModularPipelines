@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,27 +20,90 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataexchange", "update-revision")]
-public record AwsDataexchangeUpdateRevisionOptions : AwsOptions
+public record AwsDataexchangeUpdateRevisionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This operation updates a revision. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DataSetId">The unique identifier for a data set. Constraints: o pattern: [a-zA-Z0-9]{30,40}</param>
+    /// <param name="RevisionId">The unique identifier for a revision. Constraints: o pattern: [a-zA-Z0-9]{30,40}</param>
+    public AwsDataexchangeUpdateRevisionOptions(
+        string DataSetId,
+        string RevisionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataSetId);
+        this.DataSetId = DataSetId;
+        global::System.ArgumentNullException.ThrowIfNull(RevisionId);
+        this.RevisionId = RevisionId;
+    }
+
+    private AwsDataexchangeUpdateRevisionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDataexchangeUpdateRevisionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDataexchangeUpdateRevisionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for a data set. Constraints: o pattern: [a-zA-Z0-9]{30,40}
+    /// </summary>
+    [CliOption("--data-set-id")]
+    public string? DataSetId { get; private init; }
+
+    /// <summary>
+    /// The unique identifier for a revision. Constraints: o pattern: [a-zA-Z0-9]{30,40}
+    /// </summary>
+    [CliOption("--revision-id")]
+    public string? RevisionId { get; private init; }
+
     /// <summary>
     /// An optional comment about the revision. Constraints: o min: 0 o max: 16384
     /// </summary>
     [CliOption("--comment")]
     public string? Comment { get; set; }
 
-    [CliOption("--data-set-id")]
-    public string? DataSetId { get; set; }
-
-    [CliFlag("--finalized")]
+    /// <summary>
+    /// Finalizing a revision tells AWS Data Exchange that your changes to the assets in the revision are complete. After it's in this read-only state, you can publish the revision to your products.
+    /// </summary>
+    [CliFlag("--finalized", NegatedName = "--no-finalized")]
     public bool? Finalized { get; set; }
-
-    [CliOption("--revision-id")]
-    public string? RevisionId { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -22,14 +22,55 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("lex-runtime", "put-session")]
 public record AwsLexRuntimePutSessionOptions : AwsOptions
 {
+    /// <summary>
+    /// Creates a new session or modifies an existing session with an Amazon Lex bot. Use this operation to enable your application to set the state of the bot. For more information, see Managing Sessions . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BotName">The name of the bot that contains the session data.</param>
+    /// <param name="BotAlias">The alias in use for the bot that contains the session data.</param>
+    /// <param name="UserId">The ID of the client application user. Amazon Lex uses this to iden- tify a user's conversation with your bot. Constraints: o min: 2 o max: 100 o pattern: [0-9a-zA-Z._:-]+</param>
+    /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
+    public AwsLexRuntimePutSessionOptions(
+        string BotName,
+        string BotAlias,
+        string UserId,
+        string Outfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BotName);
+        this.BotName = BotName;
+        global::System.ArgumentNullException.ThrowIfNull(BotAlias);
+        this.BotAlias = BotAlias;
+        global::System.ArgumentNullException.ThrowIfNull(UserId);
+        this.UserId = UserId;
+        global::System.ArgumentNullException.ThrowIfNull(Outfile);
+        this.Outfile = Outfile;
+    }
+
+    public void Deconstruct(out string BotName, out string BotAlias, out string UserId, out string Outfile)
+    {
+        BotName = this.BotName;
+        BotAlias = this.BotAlias;
+        UserId = this.UserId;
+        Outfile = this.Outfile;
+    }
+
+    /// <summary>
+    /// The name of the bot that contains the session data.
+    /// </summary>
     [CliOption("--bot-name")]
-    public string? BotName { get; set; }
+    public string BotName { get; private init; }
 
+    /// <summary>
+    /// The alias in use for the bot that contains the session data.
+    /// </summary>
     [CliOption("--bot-alias")]
-    public string? BotAlias { get; set; }
+    public string BotAlias { get; private init; }
 
+    /// <summary>
+    /// The ID of the client application user. Amazon Lex uses this to iden- tify a user's conversation with your bot. Constraints: o min: 2 o max: 100 o pattern: [0-9a-zA-Z._:-]+
+    /// </summary>
     [CliOption("--user-id")]
-    public string? UserId { get; set; }
+    public string UserId { get; private init; }
 
     /// <summary>
     /// Map of key/value pairs representing the session-specific context in- formation. It contains application information passed between Amazon Lex and a client application. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -60,5 +101,11 @@ public record AwsLexRuntimePutSessionOptions : AwsOptions
     /// </summary>
     [CliOption("--active-contexts", GroupValues = true)]
     public IEnumerable<string>? ActiveContexts { get; set; }
+
+    /// <summary>
+    /// The &lt;outfile&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Outfile { get; private init; }
 
 }

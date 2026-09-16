@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,22 +20,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("quicksight", "create-action-connector")]
-public record AwsQuicksightCreateActionConnectorOptions : AwsOptions
+public record AwsQuicksightCreateActionConnectorOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an action connector that enables Amazon Quick Sight to connect to external services and perform actions. Action connectors support various authentication methods and can be configured with specific ac- tions from supported connector types like Amazon S3, Salesforce, JIRA. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AwsAccountId">The Amazon Web Services account ID associated with the action con- nector. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="ActionConnectorId">A unique identifier for the action connector. This ID must be unique within the Amazon Web Services account. The ActionConnectorId must not start with the prefix quicksuite- Constraints: o min: 1 o max: 512 o pattern: [\w\-]+</param>
+    /// <param name="Name">A descriptive name for the action connector. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z0-9](?:[\w- ]*[A-Za-z0-9])?</param>
+    /// <param name="Type">The type of action connector. Possible values: o GENERIC_HTTP o SERVICENOW_NOW_PLATFORM o SALESFORCE_CRM o MICROSOFT_OUTLOOK o PAGERDUTY_ADVANCE o JIRA_CLOUD o ATLASSIAN_CONFLUENCE o AMAZON_S3 o AMAZON_BEDROCK_AGENT_RUNTIME o AMAZON_BEDROCK_RUNTIME o AMAZON_BEDROCK_DATA_AUTOMATION_RUNTIME o AMAZON_TEXTRACT o AMAZON_COMPREHEND o AMAZON_COMPREHEND_MEDICAL o MICROSOFT_ONEDRIVE o MICROSOFT_SHAREPOINT o MICROSOFT_TEAMS o SAP_BUSINESSPARTNER o SAP_PRODUCTMASTERDATA o SAP_PHYSICALINVENTORY o SAP_BILLOFMATERIALS o SAP_MATERIALSTOCK o ZENDESK_SUITE o SMARTSHEET o SLACK o ASANA o BAMBOO_HR</param>
+    /// <param name="AuthenticationConfig">The authentication configuration for connecting to the external ser- vice. This includes the authentication type, base URL, and authenti- cation metadata such as client credentials or API keys. AuthenticationType -&gt; (string) [required] The type of authentication method. Possible values: o BASIC o API_KEY o OAUTH2_CLIENT_CREDENTIALS o NONE o IAM o OAUTH2_AUTHORIZATION_CODE AuthenticationMetadata -&gt; (tagged union structure) [required] The authentication metadata containing the specific configura- tion for the chosen authentication type. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: AuthorizationCodeGrantMetadata, ClientCredentialsGrantMetadata, BasicAuthConnectionMetadata, ApiKeyConnectionMetadata, NoneConnectionMetadata, IamConnec- tionMetadata. AuthorizationCodeGrantMetadata -&gt; (structure) OAuth 2.0 authorization code grant authentication metadata. BaseEndpoint -&gt; (string) [required] The base URL endpoint for the external service. Constraints: o min: 1 o max: 8192 o pattern: https://.* RedirectUrl -&gt; (string) [required] The redirect URL for the OAuth authorization flow. Constraints: o min: 1 o max: 8192 o pattern: https://.* AuthorizationCodeGrantCredentialsSource -&gt; (string) The source of the authorization code grant credentials. Possible values: o PLAIN_CREDENTIALS AuthorizationCodeGrantCredentialsDetails -&gt; (tagged union structure) The detailed credentials configuration for authorization code grant. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: AuthorizationCode- GrantDetails. AuthorizationCodeGrantDetails -&gt; (structure) The authorization code grant configuration details. ClientId -&gt; (string) [required] The client ID for the OAuth application. Constraints: o min: 0 o max: 1024 ClientSecret -&gt; (string) [required] The client secret for the OAuth application. Constraints: o min: 0 o max: 2048 TokenEndpoint -&gt; (string) [required] The token endpoint URL for obtaining access to- kens. Constraints: o min: 1 o max: 8192 o pattern: https://.* AuthorizationEndpoint -&gt; (string) [required] The authorization endpoint URL for the OAuth flow. Constraints: o min: 1 o max: 8192 o pattern: https://.* ClientCredentialsGrantMetadata -&gt; (structure) OAuth 2.0 client credentials grant authentication metadata. BaseEndpoint -&gt; (string) [required] The base endpoint URL for the external service. Constraints: o min: 1 o max: 8192 o pattern: https://.* ClientCredentialsSource -&gt; (string) The source of the client credentials configuration. Possible values: o PLAIN_CREDENTIALS ClientCredentialsDetails -&gt; (tagged union structure) The detailed client credentials configuration including client ID, client secret, and token endpoint. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: ClientCredentials- GrantDetails. ClientCredentialsGrantDetails -&gt; (structure) The OAuth2 client credentials grant configuration de- tails for authentication. ClientId -&gt; (string) [required] The client identifier issued to the client during the registration process with the authorization server. Constraints: o min: 0 o max: 1024 ClientSecret -&gt; (string) [required] The client secret issued to the client during the registration process with the authorization server. Constraints: o min: 0 o max: 2048 TokenEndpoint -&gt; (string) [required] The authorization server endpoint used to obtain access tokens via the client credentials grant flow. Constraints: o min: 1 o max: 8192 o pattern: https://.* BasicAuthConnectionMetadata -&gt; (structure) Basic authentication metadata using username and password. BaseEndpoint -&gt; (string) [required] The base URL endpoint for the external service. Constraints: o min: 1 o max: 8192 o pattern: https://.* Username -&gt; (string) [required] The username for basic authentication. Password -&gt; (string) [required] The password for basic authentication. ApiKeyConnectionMetadata -&gt; (structure) API key authentication metadata. BaseEndpoint -&gt; (string) [required] The base URL endpoint for the external service. Constraints: o min: 1 o max: 8192 o pattern: https://.* ApiKey -&gt; (string) [required] The API key used for authentication. Email -&gt; (string) The email address associated with the API key, if re- quired. Constraints: o pattern: [\w.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,} NoneConnectionMetadata -&gt; (structure) No authentication metadata for services that don't require authentication. BaseEndpoint -&gt; (string) [required] The base endpoint URL for connections that do not require authentication. Constraints: o min: 1 o max: 8192 o pattern: https://.* IamConnectionMetadata -&gt; (structure) IAM role-based authentication metadata for Amazon Web Ser- vices services. RoleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the IAM role to assume for authentication with Amazon Web Services services. This IAM role should be in the same account as Quick Sight. Constraints: o min: 20 o max: 2048 JSON Syntax: { "AuthenticationType": "BASIC"|"API_KEY"|"OAUTH2_CLIENT_CREDENTIALS"|"NONE"|"IAM"|"OAUTH2_AUTHORIZATION_CODE", "AuthenticationMetadata": { "AuthorizationCodeGrantMetadata": { "BaseEndpoint": "string", "RedirectUrl": "string", "AuthorizationCodeGrantCredentialsSource": "PLAIN_CREDENTIALS", "AuthorizationCodeGrantCredentialsDetails": { "AuthorizationCodeGrantDetails": { "ClientId": "string", "ClientSecret": "string", "TokenEndpoint": "string", "AuthorizationEndpoint": "string" } } }, "ClientCredentialsGrantMetadata": { "BaseEndpoint": "string", "ClientCredentialsSource": "PLAIN_CREDENTIALS", "ClientCredentialsDetails": { "ClientCredentialsGrantDetails": { "ClientId": "string", "ClientSecret": "string", "TokenEndpoint": "string" } } }, "BasicAuthConnectionMetadata": { "BaseEndpoint": "string", "Username": "string", "Password": "string" }, "ApiKeyConnectionMetadata": { "BaseEndpoint": "string", "ApiKey": "string", "Email": "string" }, "NoneConnectionMetadata": { "BaseEndpoint": "string" }, "IamConnectionMetadata": { "RoleArn": "string" } } }</param>
+    public AwsQuicksightCreateActionConnectorOptions(
+        string AwsAccountId,
+        string ActionConnectorId,
+        string Name,
+        string Type,
+        string AuthenticationConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
+        this.AwsAccountId = AwsAccountId;
+        global::System.ArgumentNullException.ThrowIfNull(ActionConnectorId);
+        this.ActionConnectorId = ActionConnectorId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+        global::System.ArgumentNullException.ThrowIfNull(AuthenticationConfig);
+        this.AuthenticationConfig = AuthenticationConfig;
+    }
+
+    private AwsQuicksightCreateActionConnectorOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQuicksightCreateActionConnectorOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQuicksightCreateActionConnectorOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Web Services account ID associated with the action con- nector. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// </summary>
     [CliOption("--aws-account-id")]
-    public string? AwsAccountId { get; set; }
+    public string? AwsAccountId { get; private init; }
 
+    /// <summary>
+    /// A unique identifier for the action connector. This ID must be unique within the Amazon Web Services account. The ActionConnectorId must not start with the prefix quicksuite- Constraints: o min: 1 o max: 512 o pattern: [\w\-]+
+    /// </summary>
     [CliOption("--action-connector-id")]
-    public string? ActionConnectorId { get; set; }
+    public string? ActionConnectorId { get; private init; }
 
+    /// <summary>
+    /// A descriptive name for the action connector. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z0-9](?:[\w- ]*[A-Za-z0-9])?
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The type of action connector. Possible values: o GENERIC_HTTP o SERVICENOW_NOW_PLATFORM o SALESFORCE_CRM o MICROSOFT_OUTLOOK o PAGERDUTY_ADVANCE o JIRA_CLOUD o ATLASSIAN_CONFLUENCE o AMAZON_S3 o AMAZON_BEDROCK_AGENT_RUNTIME o AMAZON_BEDROCK_RUNTIME o AMAZON_BEDROCK_DATA_AUTOMATION_RUNTIME o AMAZON_TEXTRACT o AMAZON_COMPREHEND o AMAZON_COMPREHEND_MEDICAL o MICROSOFT_ONEDRIVE o MICROSOFT_SHAREPOINT o MICROSOFT_TEAMS o SAP_BUSINESSPARTNER o SAP_PRODUCTMASTERDATA o SAP_PHYSICALINVENTORY o SAP_BILLOFMATERIALS o SAP_MATERIALSTOCK o ZENDESK_SUITE o SMARTSHEET o SLACK o ASANA o BAMBOO_HR
+    /// </summary>
     [CliOption("--type")]
-    public string? Type { get; set; }
+    public string? Type { get; private init; }
 
+    /// <summary>
+    /// The authentication configuration for connecting to the external ser- vice. This includes the authentication type, base URL, and authenti- cation metadata such as client credentials or API keys. AuthenticationType -&gt; (string) [required] The type of authentication method. Possible values: o BASIC o API_KEY o OAUTH2_CLIENT_CREDENTIALS o NONE o IAM o OAUTH2_AUTHORIZATION_CODE AuthenticationMetadata -&gt; (tagged union structure) [required] The authentication metadata containing the specific configura- tion for the chosen authentication type. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: AuthorizationCodeGrantMetadata, ClientCredentialsGrantMetadata, BasicAuthConnectionMetadata, ApiKeyConnectionMetadata, NoneConnectionMetadata, IamConnec- tionMetadata. AuthorizationCodeGrantMetadata -&gt; (structure) OAuth 2.0 authorization code grant authentication metadata. BaseEndpoint -&gt; (string) [required] The base URL endpoint for the external service. Constraints: o min: 1 o max: 8192 o pattern: https://.* RedirectUrl -&gt; (string) [required] The redirect URL for the OAuth authorization flow. Constraints: o min: 1 o max: 8192 o pattern: https://.* AuthorizationCodeGrantCredentialsSource -&gt; (string) The source of the authorization code grant credentials. Possible values: o PLAIN_CREDENTIALS AuthorizationCodeGrantCredentialsDetails -&gt; (tagged union structure) The detailed credentials configuration for authorization code grant. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: AuthorizationCode- GrantDetails. AuthorizationCodeGrantDetails -&gt; (structure) The authorization code grant configuration details. ClientId -&gt; (string) [required] The client ID for the OAuth application. Constraints: o min: 0 o max: 1024 ClientSecret -&gt; (string) [required] The client secret for the OAuth application. Constraints: o min: 0 o max: 2048 TokenEndpoint -&gt; (string) [required] The token endpoint URL for obtaining access to- kens. Constraints: o min: 1 o max: 8192 o pattern: https://.* AuthorizationEndpoint -&gt; (string) [required] The authorization endpoint URL for the OAuth flow. Constraints: o min: 1 o max: 8192 o pattern: https://.* ClientCredentialsGrantMetadata -&gt; (structure) OAuth 2.0 client credentials grant authentication metadata. BaseEndpoint -&gt; (string) [required] The base endpoint URL for the external service. Constraints: o min: 1 o max: 8192 o pattern: https://.* ClientCredentialsSource -&gt; (string) The source of the client credentials configuration. Possible values: o PLAIN_CREDENTIALS ClientCredentialsDetails -&gt; (tagged union structure) The detailed client credentials configuration including client ID, client secret, and token endpoint. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: ClientCredentials- GrantDetails. ClientCredentialsGrantDetails -&gt; (structure) The OAuth2 client credentials grant configuration de- tails for authentication. ClientId -&gt; (string) [required] The client identifier issued to the client during the registration process with the authorization server. Constraints: o min: 0 o max: 1024 ClientSecret -&gt; (string) [required] The client secret issued to the client during the registration process with the authorization server. Constraints: o min: 0 o max: 2048 TokenEndpoint -&gt; (string) [required] The authorization server endpoint used to obtain access tokens via the client credentials grant flow. Constraints: o min: 1 o max: 8192 o pattern: https://.* BasicAuthConnectionMetadata -&gt; (structure) Basic authentication metadata using username and password. BaseEndpoint -&gt; (string) [required] The base URL endpoint for the external service. Constraints: o min: 1 o max: 8192 o pattern: https://.* Username -&gt; (string) [required] The username for basic authentication. Password -&gt; (string) [required] The password for basic authentication. ApiKeyConnectionMetadata -&gt; (structure) API key authentication metadata. BaseEndpoint -&gt; (string) [required] The base URL endpoint for the external service. Constraints: o min: 1 o max: 8192 o pattern: https://.* ApiKey -&gt; (string) [required] The API key used for authentication. Email -&gt; (string) The email address associated with the API key, if re- quired. Constraints: o pattern: [\w.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,} NoneConnectionMetadata -&gt; (structure) No authentication metadata for services that don't require authentication. BaseEndpoint -&gt; (string) [required] The base endpoint URL for connections that do not require authentication. Constraints: o min: 1 o max: 8192 o pattern: https://.* IamConnectionMetadata -&gt; (structure) IAM role-based authentication metadata for Amazon Web Ser- vices services. RoleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the IAM role to assume for authentication with Amazon Web Services services. This IAM role should be in the same account as Quick Sight. Constraints: o min: 20 o max: 2048 JSON Syntax: { "AuthenticationType": "BASIC"|"API_KEY"|"OAUTH2_CLIENT_CREDENTIALS"|"NONE"|"IAM"|"OAUTH2_AUTHORIZATION_CODE", "AuthenticationMetadata": { "AuthorizationCodeGrantMetadata": { "BaseEndpoint": "string", "RedirectUrl": "string", "AuthorizationCodeGrantCredentialsSource": "PLAIN_CREDENTIALS", "AuthorizationCodeGrantCredentialsDetails": { "AuthorizationCodeGrantDetails": { "ClientId": "string", "ClientSecret": "string", "TokenEndpoint": "string", "AuthorizationEndpoint": "string" } } }, "ClientCredentialsGrantMetadata": { "BaseEndpoint": "string", "ClientCredentialsSource": "PLAIN_CREDENTIALS", "ClientCredentialsDetails": { "ClientCredentialsGrantDetails": { "ClientId": "string", "ClientSecret": "string", "TokenEndpoint": "string" } } }, "BasicAuthConnectionMetadata": { "BaseEndpoint": "string", "Username": "string", "Password": "string" }, "ApiKeyConnectionMetadata": { "BaseEndpoint": "string", "ApiKey": "string", "Email": "string" }, "NoneConnectionMetadata": { "BaseEndpoint": "string" }, "IamConnectionMetadata": { "RoleArn": "string" } } }
+    /// </summary>
     [CliOption("--authentication-config")]
-    public string? AuthenticationConfig { get; set; }
+    public string? AuthenticationConfig { get; private init; }
 
     /// <summary>
     /// An optional description of the action connector. Constraints: o min: 1 o max: 2048 o pattern: [A-Za-z0-9 _.,!?-]*
@@ -65,5 +130,22 @@ public record AwsQuicksightCreateActionConnectorOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

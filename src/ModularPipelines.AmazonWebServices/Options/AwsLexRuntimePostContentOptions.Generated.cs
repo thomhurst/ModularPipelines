@@ -21,14 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("lex-runtime", "post-content")]
 public record AwsLexRuntimePostContentOptions : AwsOptions
 {
+    /// <summary>
+    /// Sends user input (text or speech) to Amazon Lex. Clients use this API to send text and audio requests to Amazon Lex at runtime. Amazon Lex interprets the user input using the machine learning model that it built for the bot. The PostContent operation supports audio input at 8kHz and 16kHz. You can use 8kHz audio to achieve higher speech recognition accuracy in telephone audio applications. In response, Amazon Lex returns the next message to convey to the user. Consider the following example mess...
+    /// </summary>
+    /// <param name="BotName">Name of the Amazon Lex bot.</param>
+    /// <param name="BotAlias">Alias of the Amazon Lex bot.</param>
+    /// <param name="UserId">The ID of the client application user. Amazon Lex uses this to iden- tify a user's conversation with your bot. At runtime, each request must contain the userID field. To decide the user ID to use for your application, consider the fol- lowing factors. o The userID field must not contain any personally identifiable in- formation of the user, for example, name, personal identification numbers, or other end user personal information. o If you want a user to start a conversation on one device and con- tinue on another device, use a user-specific identifier. o If you want the same user to be able to have two independent con- versations on two different devices, choose a device-specific identifier. o A user can't have two independent conversations with two different versions of the same bot. For example, a user can't have a conver- sation with the PROD and BETA versions of the same bot. If you an- ticipate that a user will need to have conversation with two dif- ferent versions, for example, while testing, include the bot alias in the user ID to separate the two conversations. Constraints: o min: 2 o max: 100 o pattern: [0-9a-zA-Z._:-]+</param>
+    /// <param name="ContentType">You pass this value as the Content-Type HTTP header. Indicates the audio format or text. The header value must start with one of the following prefixes: o PCM format, audio data must be in little-endian byte order. o audio/l16; rate=16000; channels=1 o audio/x-l16; sample-rate=16000; channel-count=1 o audio/lpcm; sample-rate=8000; sample-size-bits=16; chan- nel-count=1; is-big-endian=false o Opus format o audio/x-cbr-opus-with-preamble; preamble-size=0; bit-rate=256000; frame-size-milliseconds=4 o Text format o text/plain; charset=utf-8</param>
+    /// <param name="InputStream">User input in PCM or Opus audio format or text format as described in the Content-Type HTTP header. You can stream audio data to Amazon Lex or you can create a local buffer that captures all of the audio data before sending. In gen- eral, you get better performance if you stream audio data rather than buffering the data locally. NOTE: This argument is of type: streaming blob. Its value must be the path to a file (e.g. path/to/file) and must not be prefixed with file:// or fileb://</param>
+    /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
+    public AwsLexRuntimePostContentOptions(
+        string BotName,
+        string BotAlias,
+        string UserId,
+        string ContentType,
+        string InputStream,
+        string Outfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BotName);
+        this.BotName = BotName;
+        global::System.ArgumentNullException.ThrowIfNull(BotAlias);
+        this.BotAlias = BotAlias;
+        global::System.ArgumentNullException.ThrowIfNull(UserId);
+        this.UserId = UserId;
+        global::System.ArgumentNullException.ThrowIfNull(ContentType);
+        this.ContentType = ContentType;
+        global::System.ArgumentNullException.ThrowIfNull(InputStream);
+        this.InputStream = InputStream;
+        global::System.ArgumentNullException.ThrowIfNull(Outfile);
+        this.Outfile = Outfile;
+    }
+
+    public void Deconstruct(out string BotName, out string BotAlias, out string UserId, out string ContentType, out string InputStream, out string Outfile)
+    {
+        BotName = this.BotName;
+        BotAlias = this.BotAlias;
+        UserId = this.UserId;
+        ContentType = this.ContentType;
+        InputStream = this.InputStream;
+        Outfile = this.Outfile;
+    }
+
+    /// <summary>
+    /// Name of the Amazon Lex bot.
+    /// </summary>
     [CliOption("--bot-name")]
-    public string? BotName { get; set; }
+    public string BotName { get; private init; }
 
+    /// <summary>
+    /// Alias of the Amazon Lex bot.
+    /// </summary>
     [CliOption("--bot-alias")]
-    public string? BotAlias { get; set; }
+    public string BotAlias { get; private init; }
 
+    /// <summary>
+    /// The ID of the client application user. Amazon Lex uses this to iden- tify a user's conversation with your bot. At runtime, each request must contain the userID field. To decide the user ID to use for your application, consider the fol- lowing factors. o The userID field must not contain any personally identifiable in- formation of the user, for example, name, personal identification numbers, or other end user personal information. o If you want a user to start a conversation on one device and con- tinue on another device, use a user-specific identifier. o If you want the same user to be able to have two independent con- versations on two different devices, choose a device-specific identifier. o A user can't have two independent conversations with two different versions of the same bot. For example, a user can't have a conver- sation with the PROD and BETA versions of the same bot. If you an- ticipate that a user will need to have conversation with two dif- ferent versions, for example, while testing, include the bot alias in the user ID to separate the two conversations. Constraints: o min: 2 o max: 100 o pattern: [0-9a-zA-Z._:-]+
+    /// </summary>
     [CliOption("--user-id")]
-    public string? UserId { get; set; }
+    public string UserId { get; private init; }
+
+    /// <summary>
+    /// You pass this value as the Content-Type HTTP header. Indicates the audio format or text. The header value must start with one of the following prefixes: o PCM format, audio data must be in little-endian byte order. o audio/l16; rate=16000; channels=1 o audio/x-l16; sample-rate=16000; channel-count=1 o audio/lpcm; sample-rate=8000; sample-size-bits=16; chan- nel-count=1; is-big-endian=false o Opus format o audio/x-cbr-opus-with-preamble; preamble-size=0; bit-rate=256000; frame-size-milliseconds=4 o Text format o text/plain; charset=utf-8
+    /// </summary>
+    [CliOption("--content-type")]
+    public string ContentType { get; private init; }
+
+    /// <summary>
+    /// User input in PCM or Opus audio format or text format as described in the Content-Type HTTP header. You can stream audio data to Amazon Lex or you can create a local buffer that captures all of the audio data before sending. In gen- eral, you get better performance if you stream audio data rather than buffering the data locally. NOTE: This argument is of type: streaming blob. Its value must be the path to a file (e.g. path/to/file) and must not be prefixed with file:// or fileb://
+    /// </summary>
+    [CliOption("--input-stream")]
+    public string InputStream { get; private init; }
 
     /// <summary>
     /// You pass this value as the x-amz-lex-session-attributes HTTP header. Application-specific information passed between Amazon Lex and a client application. The value must be a JSON serialized and base64 encoded map with string keys and values. The total size of the ses- sionAttributes and requestAttributes headers is limited to 12 KB. For more information, see Setting Session Attributes .
@@ -42,22 +105,22 @@ public record AwsLexRuntimePostContentOptions : AwsOptions
     [CliOption("--request-attributes")]
     public string? RequestAttributes { get; set; }
 
-    [CliOption("--content-type")]
-    public string? ContentType { get; set; }
-
     /// <summary>
     /// You pass this value as the Accept HTTP header. The message Amazon Lex returns in the response can be either text or speech based on the Accept HTTP header value in the request. o If the value is text/plain; charset=utf-8 , Amazon Lex returns text in the response. o If the value begins with audio/ , Amazon Lex returns speech in the response. Amazon Lex uses Amazon Polly to generate the speech (us- ing the configuration you specified in the Accept header). For ex- ample, if you specify audio/mpeg as the value, Amazon Lex returns speech in the MPEG format. o If the value is audio/pcm , the speech returned is audio/pcm in 16-bit, little endian format. o The following are the accepted values: o audio/mpeg o audio/ogg o audio/pcm o text/plain; charset=utf-8 o audio/* (defaults to mpeg)
     /// </summary>
     [CliOption("--accept")]
     public string? Accept { get; set; }
 
-    [CliOption("--input-stream")]
-    public string? InputStream { get; set; }
-
     /// <summary>
     /// A list of contexts active for the request. A context can be acti- vated when a previous intent is fulfilled, or by including the con- text in the request, If you don't specify a list of contexts, Amazon Lex will use the current list of contexts for the session. If you specify an empty list, all contexts for the session are cleared. outfile (string) [required] Filename where the content will be saved
     /// </summary>
     [CliOption("--active-contexts")]
     public string? ActiveContexts { get; set; }
+
+    /// <summary>
+    /// The &lt;outfile&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Outfile { get; private init; }
 
 }

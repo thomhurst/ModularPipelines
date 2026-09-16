@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deploy", "list-deployment-targets")]
-public record AwsDeployListDeploymentTargetsOptions : AwsOptions
+public record AwsDeployListDeploymentTargetsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns an array of target IDs that are associated a deployment. See also: AWS API Documentation list-deployment-targets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: targetIds
+    /// </summary>
+    /// <param name="DeploymentId">The unique ID of a deployment.</param>
+    public AwsDeployListDeploymentTargetsOptions(
+        string DeploymentId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DeploymentId);
+        this.DeploymentId = DeploymentId;
+    }
+
+    private AwsDeployListDeploymentTargetsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDeployListDeploymentTargetsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDeployListDeploymentTargetsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique ID of a deployment.
+    /// </summary>
     [CliOption("--deployment-id")]
-    public string? DeploymentId { get; set; }
+    public string? DeploymentId { get; private init; }
 
     /// <summary>
     /// A key used to filter the returned targets. The two valid values are: o TargetStatus - A TargetStatus filter string can be Failed , In- Progress , Pending , Ready , Skipped , Succeeded , or Unknown . o ServerInstanceLabel - A ServerInstanceLabel filter string can be Blue or Green . key -&gt; (string) Possible values: o TargetStatus o ServerInstanceLabel value -&gt; (list) (string) Shorthand Syntax: KeyName1=string,string,KeyName2=string,string Where valid key names are: TargetStatus ServerInstanceLabel JSON Syntax: {"TargetStatus"|"ServerInstanceLabel": ["string", ...] ...}
@@ -50,5 +87,22 @@ public record AwsDeployListDeploymentTargetsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

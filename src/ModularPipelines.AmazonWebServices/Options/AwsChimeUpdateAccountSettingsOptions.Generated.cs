@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chime", "update-account-settings")]
-public record AwsChimeUpdateAccountSettingsOptions : AwsOptions
+public record AwsChimeUpdateAccountSettingsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--account-id")]
-    public string? AccountId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the settings for the specified Amazon Chime account. You can update settings for remote control of shared screens, or for the dial-out option. For more information about these settings, see Use the Policies Page in the Amazon Chime Administration Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AccountId">The Amazon Chime account ID. Constraints: o pattern: .*\S.*</param>
+    /// <param name="AccountSettings">The Amazon Chime account settings to update. DisableRemoteControl -&gt; (boolean) Setting that stops or starts remote control of shared screens during meetings. EnableDialOut -&gt; (boolean) Setting that allows meeting participants to choose the Call me at a phone number option. For more information, see Join a Meet- ing without the Amazon Chime App . Shorthand Syntax: DisableRemoteControl=boolean,EnableDialOut=boolean JSON Syntax: { "DisableRemoteControl": true|false, "EnableDialOut": true|false }</param>
+    public AwsChimeUpdateAccountSettingsOptions(
+        string AccountId,
+        string AccountSettings
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountId);
+        this.AccountId = AccountId;
+        global::System.ArgumentNullException.ThrowIfNull(AccountSettings);
+        this.AccountSettings = AccountSettings;
+    }
+
+    private AwsChimeUpdateAccountSettingsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChimeUpdateAccountSettingsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChimeUpdateAccountSettingsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Chime account ID. Constraints: o pattern: .*\S.*
+    /// </summary>
+    [CliOption("--account-id")]
+    public string? AccountId { get; private init; }
+
+    /// <summary>
+    /// The Amazon Chime account settings to update. DisableRemoteControl -&gt; (boolean) Setting that stops or starts remote control of shared screens during meetings. EnableDialOut -&gt; (boolean) Setting that allows meeting participants to choose the Call me at a phone number option. For more information, see Join a Meet- ing without the Amazon Chime App . Shorthand Syntax: DisableRemoteControl=boolean,EnableDialOut=boolean JSON Syntax: { "DisableRemoteControl": true|false, "EnableDialOut": true|false }
+    /// </summary>
     [CliOption("--account-settings")]
-    public string? AccountSettings { get; set; }
+    public string? AccountSettings { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }
