@@ -19,10 +19,10 @@ export function buildReview(rawReview, headSha) {
     throw new Error('The review requires a summary and an array of nonempty findings.');
   }
 
-  const sections = [review.summary.trim(), ...review.findings.map(finding => finding.trim())];
-  if (sections.some(section => /REVIEW_VERDICT\s*:/i.test(section))) {
-    throw new Error('Verdict markers must be added by the trusted publisher.');
-  }
+  // Reviews may discuss the verdict format. Render model-supplied HTML comments
+  // literally so only the publisher's footer can act as a machine-readable verdict.
+  const sections = [review.summary, ...review.findings]
+    .map(section => section.trim().replaceAll('<!--', '&lt;!--'));
 
   const verdict = review.findings.length === 0 ? 'CLEAR' : 'BLOCKING';
   const body = [
@@ -37,10 +37,11 @@ export function buildReview(rawReview, headSha) {
   return body;
 }
 
-function runGitHub(args, input) {
-  const result = spawnSync('gh', args, { input, encoding: 'utf8', shell: false });
+export function runGitHub(args, input, spawn = spawnSync) {
+  const result = spawn('gh', args, { input, encoding: 'utf8', shell: false });
   if (result.error || result.status !== 0) {
-    throw new Error('GitHub review publication request failed.');
+    const detail = (result.stderr || result.error?.message || 'No error details returned.').trim();
+    throw new Error(`GitHub ${args[0]} ${args[1]} failed (exit ${result.status}): ${detail}`);
   }
   return result.stdout;
 }
@@ -61,7 +62,10 @@ export function publishReview({ rawReview, headSha, prNumber, repository }, run 
   };
   verifyHead();
   // Keep model output out of shell commands and command-line arguments.
-  run(['pr', 'comment', prNumber, '--repo', repository, '--body-file', '-'], body);
+  // A formal review is visible to latestReviews in Assert-PrGreen.ps1. Bind it to
+  // the reviewed commit so a head-change race cannot authorize a different head.
+  run(['api', '--method', 'POST', `repos/${repository}/pulls/${prNumber}/reviews`, '--input', '-'],
+    JSON.stringify({ commit_id: headSha, event: 'COMMENT', body }));
   verifyHead();
 }
 
