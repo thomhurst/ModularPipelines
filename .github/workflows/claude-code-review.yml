@@ -78,6 +78,7 @@ jobs:
           PR_NUMBER: ${{ github.event.pull_request.number || inputs.pr_number }}
           REVIEW_HEAD_SHA: ${{ steps.pull_request.outputs.head_sha }}
         run: |
+          set -euo pipefail
           mkdir -p review-context
           gh pr view "$PR_NUMBER" --repo "$GH_REPO" --json number,title,body,headRefOid,baseRefOid | jq . > review-context/pull-request.json
           BASE_SHA=$(jq -r '.baseRefOid' review-context/pull-request.json)
