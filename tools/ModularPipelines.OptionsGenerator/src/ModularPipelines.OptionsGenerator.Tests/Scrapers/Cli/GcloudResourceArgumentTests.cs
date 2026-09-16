@@ -9,6 +9,28 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers.Cli;
 public class GcloudResourceArgumentTests
 {
     [Test]
+    public async Task Positional_Section_Groups_Are_Not_Deferred_As_Option_Only_Metadata()
+    {
+        const string help = """
+            SYNOPSIS
+                gcloud example create RESOURCE ((--a=A --x=X):--b=B)
+            POSITIONAL ARGUMENTS
+                 At least one of these must be specified:
+                   RESOURCE
+                      The resource operand.
+                   --a=A
+                      The first option.
+                   --x=X
+                      The second option.
+                   --b=B
+                      The third option.
+            """;
+        await Assert.That(() => new TestScraper().Parse(["gcloud", "example", "create"], help))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("unsupported required option-only colon group");
+    }
+
+    [Test]
     [Arguments("gcloud-ai-custom-jobs-local-run.txt")]
     [Arguments("gcloud-ai-platform-local-train.txt")]
     [Arguments("gcloud-app-instances-scp.txt")]
@@ -34,6 +56,7 @@ public class GcloudResourceArgumentTests
     [Arguments("gcloud-container-fleet-policycontroller-update.txt")]
     [Arguments("gcloud-container-hub-policycontroller-enable.txt")]
     [Arguments("gcloud-container-hub-policycontroller-update.txt")]
+    [Arguments("gcloud-dataplex-metadata-jobs-create.txt")]
     [Arguments("gcloud-dataproc-batches-submit-spark.txt")]
     [Arguments("gcloud-dataproc-jobs-submit-flink.txt")]
     [Arguments("gcloud-dataproc-jobs-submit-hadoop.txt")]
@@ -73,6 +96,33 @@ public class GcloudResourceArgumentTests
         await new TestScraper().Parse(["gcloud", .. commandPath.Split(' ')], help);
         var command = (await ScrapeFixture(commandPath, help)).Single();
         await Assert.That(command.FullCommand).IsEqualTo("gcloud " + commandPath);
+    }
+
+    [Test]
+    public async Task Captured_Metadata_Job_Retains_Nested_Export_Import_Constraints()
+    {
+        var help = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory,
+            "Fixtures", "Gcloud", "585.0.0", "gcloud-dataplex-metadata-jobs-create.txt"));
+        var command = (await ScrapeFixture("dataplex metadata-jobs create", help)).Single();
+        var operation = command.RequiredAlternativeGroups.Single(group => group.IsMutuallyExclusive
+            && group.PropertyNames.Contains("ExportOutputPath"));
+        await Assert.That(operation.IsRequired).IsTrue();
+        await Assert.That(operation.Groups).Count().IsEqualTo(2);
+        var export = operation.Groups.Single(group => group.PropertyNames.Contains("ExportOutputPath"));
+        await Assert.That(export.IsChoice).IsFalse();
+        await Assert.That(export.Members.Single(member => member.PropertyName == "ExportOutputPath").IsRequired).IsTrue();
+        var boundary = export.Groups.Single();
+        await Assert.That(boundary.IsRequired).IsTrue();
+        await Assert.That(boundary.IsChoice).IsTrue();
+        await Assert.That(boundary.IsMutuallyExclusive).IsFalse();
+        await Assert.That(boundary.Members.Select(member => member.PropertyName))
+            .IsEquivalentTo(["ExportAspectTypes", "ExportEntryTypes"]);
+        var scope = boundary.Groups.Single();
+        await Assert.That(scope.IsMutuallyExclusive).IsTrue();
+        await Assert.That(scope.PropertyNames).IsEquivalentTo(["ExportEntryGroups", "ExportOrganizationLevel", "ExportProjects"]);
+        await Assert.That(command.Options.Where(option => option.IsRequired).Select(option => option.PropertyName))
+            .IsEquivalentTo(["Type"]);
+        await Assert.That(command.PositionalArguments.Single().PropertyName).IsEqualTo("MetadataJob");
     }
 
     [Test]

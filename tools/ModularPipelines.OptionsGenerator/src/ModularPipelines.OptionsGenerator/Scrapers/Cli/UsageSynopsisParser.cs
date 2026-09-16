@@ -1,3 +1,4 @@
+using System.Text;
 using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
@@ -524,7 +525,7 @@ public static class UsageSynopsisParser
             ? $"option:{optionSwitch}"
             : $"operand:{member.PositionalPropertyName?.ToUpperInvariant()}";
 
-    private static IReadOnlyList<string> SplitTopLevelAlternatives(string content)
+    private static IReadOnlyList<string> SplitTopLevelAlternatives(string content, char separator = '|')
     {
         var alternatives = new List<string>();
         var closingDelimiters = new Stack<char>();
@@ -541,7 +542,7 @@ public static class UsageSynopsisParser
             {
                 closingDelimiters.Pop();
             }
-            else if (character == '|' && closingDelimiters.Count == 0)
+            else if (character == separator && closingDelimiters.Count == 0)
             {
                 alternatives.Add(content[start..index].Trim());
                 start = index + 1;
@@ -1311,7 +1312,7 @@ public static class UsageSynopsisParser
         }
 
         var content = TrimWrapper(normalizedToken).Trim();
-        var nestedTokens = Tokenize(content);
+        var nestedTokens = TokenizeNestedGroup(content);
         if (normalizedToken.StartsWith('[') && nestedTokens.Count > 1 && ContainsOnlyInlineOptions(nestedTokens))
         {
             // Optional option choices can share selector flags without declaring operands.
@@ -1350,11 +1351,81 @@ public static class UsageSynopsisParser
         return TryParseNestedOperands(nestedTokens, IsRequiredUsageToken(normalizedToken), positionIndex, phase, out arguments, out requiredOptionSwitches);
     }
 
+    internal static string DeferDocumentedOptionGroups(string synopsis, IReadOnlyList<CliArgumentGroup> groups)
+    {
+        // A colon can encode nested option cardinality that cannot be inferred from usage alone.
+        // Defer only complete, option-only groups with one exact documented constraint counterpart.
+        var result = new StringBuilder();
+        var offset = 0;
+        foreach (var token in Tokenize(synopsis))
+        {
+            var start = synopsis.IndexOf(token, offset, StringComparison.Ordinal);
+            result.Append(synopsis, offset, start - offset);
+            result.Append(IsDocumentedOptionGroup(token, groups) ? " " : token);
+            offset = start + token.Length;
+        }
+        return result.Append(synopsis, offset, synopsis.Length - offset).ToString();
+    }
+
+    private static bool IsDocumentedOptionGroup(string token, IReadOnlyList<CliArgumentGroup> groups)
+    {
+        if (!IsWrapped(token) || !token.Contains(':'))
+        {
+            return false;
+        }
+
+        var tokens = TokenizeOptionGroup(TrimWrapper(token));
+        if (!ContainsOnlyInlineOptions(tokens))
+        {
+            return false;
+        }
+
+        var switches = EnumerateInlineOptionSwitches(tokens).ToHashSet(StringComparer.Ordinal);
+        return EnumerateArgumentGroups(groups).Count(group => MatchesDocumentedOptionGroup(group, switches)) == 1;
+    }
+
+    private static IEnumerable<CliArgumentGroup> EnumerateArgumentGroups(IEnumerable<CliArgumentGroup> groups)
+    {
+        foreach (var group in groups)
+        {
+            yield return group;
+            foreach (var nested in EnumerateArgumentGroups(group.Groups))
+            {
+                yield return nested;
+            }
+        }
+    }
+
+    private static IEnumerable<string> EnumerateInlineOptionSwitches(IEnumerable<string> tokens) =>
+        tokens.SelectMany(static token => IsWrapped(token)
+            ? EnumerateInlineOptionSwitches(TokenizeOptionGroup(TrimWrapper(token)))
+            : GetOptionSwitches(token));
+
+    private static List<string> TokenizeOptionGroup(string content) =>
+        [.. SplitTopLevelAlternatives(content, ':').SelectMany((part, index) =>
+            index == 0 ? Tokenize(part) : [":", .. Tokenize(part)])];
+
+    private static List<string> TokenizeNestedGroup(string content)
+    {
+        var options = TokenizeOptionGroup(content);
+        // Colons inside resource names and values retain their original operand grammar.
+        return ContainsOnlyInlineOptions(options) ? options : Tokenize(content);
+    }
+
+    private static bool MatchesDocumentedOptionGroup(CliArgumentGroup group, HashSet<string> switches)
+    {
+        var arguments = group.FlattenArguments().ToArray();
+        // An at-most-one rule alone cannot preserve a required synopsis group's minimum cardinality.
+        return group.Kind.HasFlag(CliArgumentGroupKind.AtLeastOne)
+            && arguments.All(static argument => !argument.IsPositional)
+            && switches.SetEquals(arguments.Select(static argument => argument.SwitchName));
+    }
+
     private static bool ContainsOnlyInlineOptions(IEnumerable<string> tokens)
     {
         var optionTokens = tokens.Where(static token => token is not (":" or "|")).ToArray();
         return optionTokens.Length > 0 && optionTokens.All(static token => IsWrapped(token)
-            ? ContainsOnlyInlineOptions(Tokenize(TrimWrapper(token)))
+            ? ContainsOnlyInlineOptions(TokenizeOptionGroup(TrimWrapper(token)))
             : GetOptionSwitches(token).Count > 0);
     }
 

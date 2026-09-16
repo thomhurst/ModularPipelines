@@ -127,10 +127,98 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
-    public async Task Required_Option_Only_Nested_Colon_Group_Is_Not_Discarded()
+    [Arguments("((--a=A --x=X) : --b=B)")]
+    [Arguments("((--a=A|--x=X):--b=B)")]
+    public async Task Required_Option_Only_Nested_Colon_Group_Is_Not_Discarded(string group)
     {
         await Assert.That(() => UsageSynopsisParser.Parse(
-                "Usage: tool run ((--a=A --x=X) : --b=B)", ["tool", "run"]))
+                $"Usage: tool run {group}", ["tool", "run"]))
+            .Throws<InvalidOperationException>();
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Documented_Option_Groups_Preserve_Operands_And_Line_Boundaries(bool compact)
+    {
+        var group = compact ? "((--a=A|--b=B):--c=C)" : "((--a=A | --b=B) : --c=C)";
+        var synopsis = $"    tool run RESOURCE {group} --required=VALUE\n\n";
+        var normalized = UsageSynopsisParser.DeferDocumentedOptionGroups(synopsis,
+        [
+            new CliArgumentGroup
+            {
+                Kind = CliArgumentGroupKind.AtLeastOne,
+                Arguments = [new() { SwitchName = "--c" }],
+                Groups = [new() { Arguments = [new() { SwitchName = "--a" }, new() { SwitchName = "--b" }] }],
+            },
+        ]);
+        var usage = UsageSynopsisParser.Parse("Usage:\n" + normalized, ["tool", "run"]);
+        await Assert.That(normalized).EndsWith("\n\n");
+        await Assert.That(normalized).DoesNotContain("--a");
+        await Assert.That(usage.PositionalArguments.Single().PropertyName).IsEqualTo("Resource");
+        await Assert.That(usage.RequiredOptionSwitches).IsEquivalentTo(["--required"]);
+        await Assert.That(usage.UnparsedOperandTokens).IsEmpty();
+    }
+
+    [Test]
+    [Arguments(CliArgumentGroupKind.None, false, false)]
+    [Arguments(CliArgumentGroupKind.AtMostOne, false, false)]
+    [Arguments(CliArgumentGroupKind.AtLeastOne, true, false)]
+    [Arguments(CliArgumentGroupKind.AtLeastOne, false, true)]
+    public async Task Undocumented_Or_Mixed_Option_Groups_Are_Not_Deferred(
+        CliArgumentGroupKind kind, bool missingOption, bool positional)
+    {
+        const string synopsis = "tool run ((--a=A --x=X) : --b=B)";
+        var normalized = UsageSynopsisParser.DeferDocumentedOptionGroups(synopsis,
+        [
+            new CliArgumentGroup
+            {
+                Kind = kind,
+                Arguments =
+                [
+                    new() { SwitchName = "--a", IsPositional = positional },
+                    new() { SwitchName = missingOption ? "--other" : "--x" },
+                    new() { SwitchName = "--b" },
+                ],
+            },
+        ]);
+        await Assert.That(normalized).IsEqualTo(synopsis);
+        await Assert.That(() => UsageSynopsisParser.Parse("Usage: " + normalized, ["tool", "run"]))
+            .Throws<InvalidOperationException>();
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Deferral_Preserves_Identical_Text_Inside_Unmatched_Groups(bool nestedFirst)
+    {
+        const string group = "((--a=A|--b=B):--c=C)";
+        var nested = $"(RESOURCE | {group})";
+        var synopsis = nestedFirst ? $"tool run {nested}\n {group}\n" : $"tool run {group}\n {nested}\n";
+        var normalized = UsageSynopsisParser.DeferDocumentedOptionGroups(synopsis,
+        [
+            new CliArgumentGroup
+            {
+                Kind = CliArgumentGroupKind.AtLeastOne,
+                Arguments = [new() { SwitchName = "--a" }, new() { SwitchName = "--b" }, new() { SwitchName = "--c" }],
+            },
+        ]);
+        await Assert.That(normalized).IsEqualTo(nestedFirst ? $"tool run {nested}\n  \n" : $"tool run  \n {nested}\n");
+    }
+
+    [Test]
+    public async Task Duplicate_Documented_Option_Sets_Are_Not_Deferred()
+    {
+        const string synopsis = "tool run ((--a=A --x=X) : --b=B)";
+        var group = new CliArgumentGroup
+        {
+            Kind = CliArgumentGroupKind.AtLeastOne,
+            Arguments = [new() { SwitchName = "--a" }, new() { SwitchName = "--x" }, new() { SwitchName = "--b" }],
+        };
+        var normalized = UsageSynopsisParser.DeferDocumentedOptionGroups(synopsis,
+            [group, group with { Kind = CliArgumentGroupKind.AtLeastOne | CliArgumentGroupKind.AtMostOne }]);
+        await Assert.That(normalized).IsEqualTo(synopsis);
+        await Assert.That(() => UsageSynopsisParser.Parse("Usage: " + normalized, ["tool", "run"]))
             .Throws<InvalidOperationException>();
     }
 
