@@ -7,6 +7,45 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers.Cli;
 public partial class NestedArgumentGroupParsingTests
 {
     [Test]
+    public async Task Heading_Level_Peers_Remain_Outside_Nested_Resource_Choices()
+    {
+        const string help = """
+            NAME
+                gcloud example choose - choose a certificate
+            FLAGS
+                 Exactly one of these must be specified:
+
+                     Certificate resource - The certificate to revoke.
+                     --certificate=CERTIFICATE
+                        The certificate identifier.
+
+                   --serial-number=SERIAL_NUMBER
+                      The serial number of the certificate.
+
+                 --reason=REASON
+                    An optional reason.
+            """;
+        var command = (await GcloudResourceArgumentTests.ScrapeFixture("example choose", help)).Single();
+        await Assert.That(command.RequiredAlternativeGroups.Single().PropertyNames)
+            .IsEquivalentTo(["Certificate", "SerialNumber"]);
+        await Assert.That(command.Options.Any(option => option.IsRequired)).IsFalse();
+        var generated = (await new OptionsClassGenerator().GenerateAsync(CreateGcloudValidationTool(command))).Single().Content;
+        await VerifyGeneratedValidation(generated, command.ClassName, async type =>
+        {
+            for (var mask = 0; mask < 8; mask++)
+            {
+                var instance = Activator.CreateInstance(type)!;
+                type.GetProperty("Certificate")!.SetValue(instance, (mask & 1) != 0 ? "certificate" : null);
+                type.GetProperty("SerialNumber")!.SetValue(instance, (mask & 2) != 0 ? "7dc1d918" : null);
+                type.GetProperty("Reason")!.SetValue(instance, (mask & 4) != 0 ? "reason" : null);
+                var errors = ((IValidatableObject) instance).Validate(new(instance)).ToArray();
+                await Assert.That(errors.Length == 0).IsEqualTo((mask & 3) is 1 or 2)
+                    .Because($"mask={mask}: " + string.Join("; ", errors.Select(error => error.ErrorMessage)));
+            }
+        });
+    }
+
+    [Test]
     public async Task Captured_Certificate_Revocation_Validates_Alternatives_At_Runtime()
     {
         var help = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory,

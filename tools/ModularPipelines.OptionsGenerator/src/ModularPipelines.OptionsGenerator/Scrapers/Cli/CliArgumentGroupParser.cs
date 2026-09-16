@@ -167,12 +167,12 @@ internal static partial class CliArgumentGroupParser
         }
 
         // A constraint heading can precede the first branch heading before any option appears.
-        // The choice belongs to its heading; resource branches can indent their flags further
-        // than a sibling flag without ending that choice.
+        // Keep the choice boundary just below its heading: heading-level peers are outside,
+        // while resource branches can indent their flags further than a sibling flag.
         // "Or" headings continue the existing choice and retain their nested branch depth.
         var parentIndentation = kind.HasFlag(CliArgumentGroupKind.Alternative)
             ? argument.Indentation
-            : GetMinimumContentIndentation(preludeLines[..childStart]);
+            : GetMinimumContentIndentation(preludeLines[..childStart]) + 1;
         BeginArgumentGroup(stack, parentIndentation, parentDescription, true);
         var branch = new ArgumentGroupBuilder(argument.Indentation,
             NormalizeDocumentation(preludeLines[childStart..]));
