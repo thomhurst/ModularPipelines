@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "describe-instance-patch-states-for-patch-group")]
-public record AwsSsmDescribeInstancePatchStatesForPatchGroupOptions : AwsOptions
+public record AwsSsmDescribeInstancePatchStatesForPatchGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves the high-level patch state for the managed nodes in the spec- ified patch group. See also: AWS API Documentation describe-instance-patch-states-for-patch-group is a paginated opera- tion. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data from the results of the followin...
+    /// </summary>
+    /// <param name="PatchGroup">The name of the patch group for which the patch state information should be retrieved. Constraints: o min: 1 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$</param>
+    public AwsSsmDescribeInstancePatchStatesForPatchGroupOptions(
+        string PatchGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PatchGroup);
+        this.PatchGroup = PatchGroup;
+    }
+
+    private AwsSsmDescribeInstancePatchStatesForPatchGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmDescribeInstancePatchStatesForPatchGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmDescribeInstancePatchStatesForPatchGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the patch group for which the patch state information should be retrieved. Constraints: o min: 1 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$
+    /// </summary>
     [CliOption("--patch-group")]
-    public string? PatchGroup { get; set; }
+    public string? PatchGroup { get; private init; }
 
     /// <summary>
     /// Each entry in the array is a structure containing: o Key (string between 1 and 200 characters) o Values (array containing a single string) o Type (string "Equal", "NotEqual", "LessThan", "GreaterThan") Constraints: o min: 0 o max: 4 (structure) Defines a filter used in DescribeInstancePatchStatesForPatch- Group to scope down the information returned by the API. Example : To filter for all managed nodes in a patch group having more than three patches with a FailedCount status, use the following for the filter: o Value for Key : FailedCount o Value for Type : GreaterThan o Value for Values : 3 Key -&gt; (string) [required] The key for the filter. Supported values include the follow- ing: o InstalledCount o InstalledOtherCount o InstalledPendingRebootCount o InstalledRejectedCount o MissingCount o FailedCount o UnreportedNotApplicableCount o NotApplicableCount Constraints: o min: 1 o max: 200 Values -&gt; (list) [required] The value for the filter. Must be an integer greater than or equal to 0. Constraints: o min: 1 o max: 1 (string) Type -&gt; (string) [required] The type of comparison that should be performed for the value. Possible values: o Equal o NotEqual o LessThan o GreaterThan Shorthand Syntax: Key=string,Values=string,string,Type=string ... JSON Syntax: [ { "Key": "string", "Values": ["string", ...], "Type": "Equal"|"NotEqual"|"LessThan"|"GreaterThan" } ... ]
@@ -55,5 +92,22 @@ public record AwsSsmDescribeInstancePatchStatesForPatchGroupOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

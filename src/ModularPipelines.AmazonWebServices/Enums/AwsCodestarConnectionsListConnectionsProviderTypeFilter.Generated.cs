@@ -11,23 +11,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --providertypefilter.
+/// Allowed values for --provider-type-filter.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCodestarConnectionsListConnectionsProviderTypeFilter
 {
     [EnumValue("Bitbucket")]
-    Bitbucket = 1,
+    Bitbucket,
 
     [EnumValue("GitHub")]
-    GitHub = 2,
+    GitHub,
 
     [EnumValue("GitHubEnterpriseServer")]
-    GitHubEnterpriseServer = 3,
+    GitHubEnterpriseServer,
 
     [EnumValue("GitLab")]
-    GitLab = 4,
+    GitLab,
 
     [EnumValue("GitLabSelfManaged")]
-    GitLabSelfManaged = 5
+    GitLabSelfManaged
 }

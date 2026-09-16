@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ecr", "put-account-setting")]
-public record AwsEcrPutAccountSettingOptions : AwsOptions
+public record AwsEcrPutAccountSettingOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--name")]
-    public string? Name { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Allows you to change the basic scan type version or registry policy scope. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the account setting, such as BASIC_SCAN_TYPE_VERSION , REGISTRY_POLICY_SCOPE , or BLOB_MOUNTING . Constraints: o min: 1 o max: 64</param>
+    /// <param name="Value">Setting value that is specified. Valid value for basic scan type: AWS_NATIVE . Valid values for registry policy scope: V2 . Valid val- ues for blob mounting: ENABLED or DISABLED .</param>
+    public AwsEcrPutAccountSettingOptions(
+        string Name,
+        string Value
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Value);
+        this.Value = Value;
+    }
+
+    private AwsEcrPutAccountSettingOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEcrPutAccountSettingOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEcrPutAccountSettingOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the account setting, such as BASIC_SCAN_TYPE_VERSION , REGISTRY_POLICY_SCOPE , or BLOB_MOUNTING . Constraints: o min: 1 o max: 64
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// Setting value that is specified. Valid value for basic scan type: AWS_NATIVE . Valid values for registry policy scope: V2 . Valid val- ues for blob mounting: ENABLED or DISABLED .
+    /// </summary>
     [CliOption("--value")]
-    public string? Value { get; set; }
+    public string? Value { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

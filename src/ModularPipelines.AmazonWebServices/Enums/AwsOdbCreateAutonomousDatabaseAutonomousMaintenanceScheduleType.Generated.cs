@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --autonomousmaintenancescheduletype.
+/// Allowed values for --autonomous-maintenance-schedule-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsOdbCreateAutonomousDatabaseAutonomousMaintenanceScheduleType
 {
     [EnumValue("EARLY")]
-    Early = 1,
+    Early,
 
     [EnumValue("REGULAR")]
-    Regular = 2
+    Regular
 }

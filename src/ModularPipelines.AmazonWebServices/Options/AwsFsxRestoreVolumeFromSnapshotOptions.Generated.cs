@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,20 +21,63 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("fsx", "restore-volume-from-snapshot")]
-public record AwsFsxRestoreVolumeFromSnapshotOptions : AwsOptions
+public record AwsFsxRestoreVolumeFromSnapshotOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns an Amazon FSx for OpenZFS volume to the state saved by the specified snapshot. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="VolumeId">The ID of the volume that you are restoring. Constraints: o min: 23 o max: 23 o pattern: ^(fsvol-[0-9a-f]{17,})$</param>
+    /// <param name="SnapshotId">The ID of the source snapshot. Specifies the snapshot that you are restoring from. Constraints: o min: 11 o max: 28 o pattern: ^((fs)?volsnap-[0-9a-f]{8,})$</param>
+    public AwsFsxRestoreVolumeFromSnapshotOptions(
+        string VolumeId,
+        string SnapshotId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VolumeId);
+        this.VolumeId = VolumeId;
+        global::System.ArgumentNullException.ThrowIfNull(SnapshotId);
+        this.SnapshotId = SnapshotId;
+    }
+
+    private AwsFsxRestoreVolumeFromSnapshotOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFsxRestoreVolumeFromSnapshotOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFsxRestoreVolumeFromSnapshotOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the volume that you are restoring. Constraints: o min: 23 o max: 23 o pattern: ^(fsvol-[0-9a-f]{17,})$
+    /// </summary>
+    [CliOption("--volume-id")]
+    public string? VolumeId { get; private init; }
+
+    /// <summary>
+    /// The ID of the source snapshot. Specifies the snapshot that you are restoring from. Constraints: o min: 11 o max: 28 o pattern: ^((fs)?volsnap-[0-9a-f]{8,})$
+    /// </summary>
+    [CliOption("--snapshot-id")]
+    public string? SnapshotId { get; private init; }
+
     /// <summary>
     /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Ama- zon Web Services SDK. Constraints: o min: 1 o max: 63 o pattern: [A-za-z0-9_.-]{0,63}$
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
-
-    [CliOption("--volume-id")]
-    public string? VolumeId { get; set; }
-
-    [CliOption("--snapshot-id")]
-    public string? SnapshotId { get; set; }
 
     /// <summary>
     /// The settings used when restoring the specified volume from snapshot. o DELETE_INTERMEDIATE_SNAPSHOTS - Deletes snapshots between the cur- rent state and the specified snapshot. If there are intermediate snapshots and this option isn't used, RestoreVolumeFromSnapshot fails. o DELETE_CLONED_VOLUMES - Deletes any dependent clone volumes cre- ated from intermediate snapshots. If there are any dependent clone volumes and this option isn't used, RestoreVolumeFromSnapshot fails. Constraints: o max: 2 (string) Possible values: o DELETE_INTERMEDIATE_SNAPSHOTS o DELETE_CLONED_VOLUMES Syntax: "string" "string" ...
@@ -46,5 +90,22 @@ public record AwsFsxRestoreVolumeFromSnapshotOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

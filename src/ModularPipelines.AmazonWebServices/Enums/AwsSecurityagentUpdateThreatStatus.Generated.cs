@@ -16,12 +16,12 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSecurityagentUpdateThreatStatus
 {
+    [EnumValue("DISMISSED")]
+    Dismissed,
+
     [EnumValue("OPEN")]
-    Open = 1,
+    Open,
 
     [EnumValue("RESOLVED")]
-    Resolved = 2,
-
-    [EnumValue("DISMISSED")]
-    Dismissed = 3
+    Resolved
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,16 +21,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "create-snapshots")]
-public record AwsEc2CreateSnapshotsOptions : AwsOptions
+public record AwsEc2CreateSnapshotsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates crash-consistent snapshots of multiple EBS volumes attached to an Amazon EC2 instance. Volumes are chosen by specifying an instance. Each volume attached to the specified instance will produce one snap- shot that is crash-consistent across the instance. You can include all of the volumes currently attached to the instance, or you can exclude the root volume or specific data (non-root) volumes from the multi-vol- ume snapshot set. The location of the source instance determines where you c...
+    /// </summary>
+    /// <param name="InstanceSpecification">The instance to specify which volumes should be included in the snapshots. InstanceId -&gt; (string) [required] The instance to specify which volumes should be snapshotted. ExcludeBootVolume -&gt; (boolean) Excludes the root volume from being snapshotted. ExcludeDataVolumeIds -&gt; (list) The IDs of the data (non-root) volumes to exclude from the multi-volume snapshot set. If you specify the ID of the root volume, the request fails. To exclude the root volume, use Ex- cludeBootVolume . You can specify up to 40 volume IDs per request. (string) Shorthand Syntax: InstanceId=string,ExcludeBootVolume=boolean,ExcludeDataVolumeIds=string,string JSON Syntax: { "InstanceId": "string", "ExcludeBootVolume": true|false, "ExcludeDataVolumeIds": ["string", ...] }</param>
+    public AwsEc2CreateSnapshotsOptions(
+        string InstanceSpecification
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceSpecification);
+        this.InstanceSpecification = InstanceSpecification;
+    }
+
+    private AwsEc2CreateSnapshotsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2CreateSnapshotsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2CreateSnapshotsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The instance to specify which volumes should be included in the snapshots. InstanceId -&gt; (string) [required] The instance to specify which volumes should be snapshotted. ExcludeBootVolume -&gt; (boolean) Excludes the root volume from being snapshotted. ExcludeDataVolumeIds -&gt; (list) The IDs of the data (non-root) volumes to exclude from the multi-volume snapshot set. If you specify the ID of the root volume, the request fails. To exclude the root volume, use Ex- cludeBootVolume . You can specify up to 40 volume IDs per request. (string) Shorthand Syntax: InstanceId=string,ExcludeBootVolume=boolean,ExcludeDataVolumeIds=string,string JSON Syntax: { "InstanceId": "string", "ExcludeBootVolume": true|false, "ExcludeDataVolumeIds": ["string", ...] }
+    /// </summary>
+    [CliOption("--instance-specification")]
+    public string? InstanceSpecification { get; private init; }
+
     /// <summary>
     /// A description propagated to every snapshot specified by the in- stance.
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--instance-specification")]
-    public string? InstanceSpecification { get; set; }
 
     /// <summary>
     /// NOTE: Only supported for instances on Outposts. If the source instance is not on an Outpost, omit this parameter. o To create the snapshots on the same Outpost as the source in- stance, specify the ARN of that Outpost. The snapshots must be created on the same Outpost as the instance. o To create the snapshots in the parent Region of the Outpost, omit this parameter. For more information, see Create local snapshots from volumes on an Outpost in the Amazon EBS User Guide .
@@ -43,14 +80,17 @@ public record AwsEc2CreateSnapshotsOptions : AwsOptions
     [CliOption("--tag-specifications", GroupValues = true)]
     public IEnumerable<string>? TagSpecifications { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
     /// Copies the tags from the specified volume to corresponding snapshot. Possible values: o volume
     /// </summary>
     [CliOption("--copy-tags-from-source")]
-    public AwsEc2CreateSnapshotsCopyTagsFromSource? CopyTagsFromSource { get; set; }
+    public string? CopyTagsFromSource { get; set; }
 
     /// <summary>
     /// NOTE: Only supported for instances in Local Zones. If the source in- stance is not in a Local Zone, omit this parameter. o To create local snapshots in the same Local Zone as the source in- stance, specify local . o To create regional snapshots in the parent Region of the Local Zone, specify regional or omit this parameter. Default value: regional Possible values: o regional o local
@@ -63,5 +103,22 @@ public record AwsEc2CreateSnapshotsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

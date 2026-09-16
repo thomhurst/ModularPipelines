@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,28 +21,92 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lightsail", "create-relational-database")]
-public record AwsLightsailCreateRelationalDatabaseOptions : AwsOptions
+public record AwsLightsailCreateRelationalDatabaseOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new database in Amazon Lightsail. The create relational database operation supports tag-based access con- trol via request tags. For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RelationalDatabaseName">The name to use for your new Lightsail database resource. Constraints: o Must contain from 2 to 255 alphanumeric characters, or hyphens. o The first and last character must be a letter or number. Constraints: o pattern: \w[\w\-]*\w</param>
+    /// <param name="RelationalDatabaseBlueprintId">The blueprint ID for your new database. A blueprint describes the major engine version of a database. You can get a list of database blueprints IDs by using the get rela- tional database blueprints operation.</param>
+    /// <param name="RelationalDatabaseBundleId">The bundle ID for your new database. A bundle describes the perfor- mance specifications for your database. You can get a list of database bundle IDs by using the get rela- tional database bundles operation.</param>
+    /// <param name="MasterDatabaseName">The meaning of this parameter differs according to the database en- gine you use. MySQL The name of the database to create when the Lightsail database re- source is created. If this parameter isn't specified, no database is created in the database resource. Constraints: o Must contain 1 to 64 letters or numbers. o Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0- 9). o Can't be a word reserved by the specified database engine. For more information about reserved words in MySQL, see the Keywords and Reserved Words articles for MySQL 5.6 , MySQL 5.7 , and MySQL 8.0 . PostgreSQL The name of the database to create when the Lightsail database re- source is created. If this parameter isn't specified, a database named postgres is created in the database resource. Constraints: o Must contain 1 to 63 letters or numbers. o Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0- 9). o Can't be a word reserved by the specified database engine. For more information about reserved words in PostgreSQL, see the SQL Key Words articles for PostgreSQL 9.6 , PostgreSQL 10 , PostgreSQL 11 , and PostgreSQL 12 .</param>
+    /// <param name="MasterUsername">The name for the master user. MySQL Constraints: o Required for MySQL. o Must be 1 to 16 letters or numbers. Can contain underscores. o First character must be a letter. o Can't be a reserved word for the chosen database engine. For more information about reserved words in MySQL 5.6 or 5.7, see the Key- words and Reserved Words articles for MySQL 5.6 , MySQL 5.7 , or MySQL 8.0 . PostgreSQL Constraints: o Required for PostgreSQL. o Must be 1 to 63 letters or numbers. Can contain underscores. o First character must be a letter. o Can't be a reserved word for the chosen database engine. For more information about reserved words in MySQL 5.6 or 5.7, see the Key- words and Reserved Words articles for PostgreSQL 9.6 , PostgreSQL 10 , PostgreSQL 11 , and PostgreSQL 12 .</param>
+    public AwsLightsailCreateRelationalDatabaseOptions(
+        string RelationalDatabaseName,
+        string RelationalDatabaseBlueprintId,
+        string RelationalDatabaseBundleId,
+        string MasterDatabaseName,
+        string MasterUsername
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RelationalDatabaseName);
+        this.RelationalDatabaseName = RelationalDatabaseName;
+        global::System.ArgumentNullException.ThrowIfNull(RelationalDatabaseBlueprintId);
+        this.RelationalDatabaseBlueprintId = RelationalDatabaseBlueprintId;
+        global::System.ArgumentNullException.ThrowIfNull(RelationalDatabaseBundleId);
+        this.RelationalDatabaseBundleId = RelationalDatabaseBundleId;
+        global::System.ArgumentNullException.ThrowIfNull(MasterDatabaseName);
+        this.MasterDatabaseName = MasterDatabaseName;
+        global::System.ArgumentNullException.ThrowIfNull(MasterUsername);
+        this.MasterUsername = MasterUsername;
+    }
+
+    private AwsLightsailCreateRelationalDatabaseOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLightsailCreateRelationalDatabaseOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLightsailCreateRelationalDatabaseOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name to use for your new Lightsail database resource. Constraints: o Must contain from 2 to 255 alphanumeric characters, or hyphens. o The first and last character must be a letter or number. Constraints: o pattern: \w[\w\-]*\w
+    /// </summary>
     [CliOption("--relational-database-name")]
-    public string? RelationalDatabaseName { get; set; }
+    public string? RelationalDatabaseName { get; private init; }
+
+    /// <summary>
+    /// The blueprint ID for your new database. A blueprint describes the major engine version of a database. You can get a list of database blueprints IDs by using the get rela- tional database blueprints operation.
+    /// </summary>
+    [CliOption("--relational-database-blueprint-id")]
+    public string? RelationalDatabaseBlueprintId { get; private init; }
+
+    /// <summary>
+    /// The bundle ID for your new database. A bundle describes the perfor- mance specifications for your database. You can get a list of database bundle IDs by using the get rela- tional database bundles operation.
+    /// </summary>
+    [CliOption("--relational-database-bundle-id")]
+    public string? RelationalDatabaseBundleId { get; private init; }
+
+    /// <summary>
+    /// The meaning of this parameter differs according to the database en- gine you use. MySQL The name of the database to create when the Lightsail database re- source is created. If this parameter isn't specified, no database is created in the database resource. Constraints: o Must contain 1 to 64 letters or numbers. o Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0- 9). o Can't be a word reserved by the specified database engine. For more information about reserved words in MySQL, see the Keywords and Reserved Words articles for MySQL 5.6 , MySQL 5.7 , and MySQL 8.0 . PostgreSQL The name of the database to create when the Lightsail database re- source is created. If this parameter isn't specified, a database named postgres is created in the database resource. Constraints: o Must contain 1 to 63 letters or numbers. o Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0- 9). o Can't be a word reserved by the specified database engine. For more information about reserved words in PostgreSQL, see the SQL Key Words articles for PostgreSQL 9.6 , PostgreSQL 10 , PostgreSQL 11 , and PostgreSQL 12 .
+    /// </summary>
+    [CliOption("--master-database-name")]
+    public string? MasterDatabaseName { get; private init; }
+
+    /// <summary>
+    /// The name for the master user. MySQL Constraints: o Required for MySQL. o Must be 1 to 16 letters or numbers. Can contain underscores. o First character must be a letter. o Can't be a reserved word for the chosen database engine. For more information about reserved words in MySQL 5.6 or 5.7, see the Key- words and Reserved Words articles for MySQL 5.6 , MySQL 5.7 , or MySQL 8.0 . PostgreSQL Constraints: o Required for PostgreSQL. o Must be 1 to 63 letters or numbers. Can contain underscores. o First character must be a letter. o Can't be a reserved word for the chosen database engine. For more information about reserved words in MySQL 5.6 or 5.7, see the Key- words and Reserved Words articles for PostgreSQL 9.6 , PostgreSQL 10 , PostgreSQL 11 , and PostgreSQL 12 .
+    /// </summary>
+    [CliOption("--master-username")]
+    public string? MasterUsername { get; private init; }
 
     /// <summary>
     /// The Availability Zone in which to create your new database. Use the us-east-2a case-sensitive format. You can get a list of Availability Zones by using the get regions operation. Be sure to add the include relational database Availabil- ity Zones parameter to your request.
     /// </summary>
     [CliOption("--availability-zone")]
     public string? AvailabilityZone { get; set; }
-
-    [CliOption("--relational-database-blueprint-id")]
-    public string? RelationalDatabaseBlueprintId { get; set; }
-
-    [CliOption("--relational-database-bundle-id")]
-    public string? RelationalDatabaseBundleId { get; set; }
-
-    [CliOption("--master-database-name")]
-    public string? MasterDatabaseName { get; set; }
-
-    [CliOption("--master-username")]
-    public string? MasterUsername { get; set; }
 
     /// <summary>
     /// The password for the master user. The password can include any printable ASCII character except "/", """, or "@". It cannot contain spaces. MySQL Constraints: Must contain from 8 to 41 characters. PostgreSQL Constraints: Must contain from 8 to 128 characters.
@@ -62,7 +127,10 @@ public record AwsLightsailCreateRelationalDatabaseOptions : AwsOptions
     [CliOption("--preferred-maintenance-window")]
     public string? PreferredMaintenanceWindow { get; set; }
 
-    [CliFlag("--publicly-accessible")]
+    /// <summary>
+    /// Specifies the accessibility options for your new database. A value of true specifies a database that is available to resources outside of your Lightsail account. A value of false specifies a database that is available only to your Lightsail resources in the same re- gion as your database.
+    /// </summary>
+    [CliFlag("--publicly-accessible", NegatedName = "--no-publicly-accessible")]
     public bool? PubliclyAccessible { get; set; }
 
     /// <summary>
@@ -76,5 +144,22 @@ public record AwsLightsailCreateRelationalDatabaseOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

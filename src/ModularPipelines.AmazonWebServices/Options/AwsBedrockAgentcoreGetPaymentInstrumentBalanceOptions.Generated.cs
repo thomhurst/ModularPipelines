@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +22,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore", "get-payment-instrument-balance")]
-public record AwsBedrockAgentcoreGetPaymentInstrumentBalanceOptions : AwsOptions
+public record AwsBedrockAgentcoreGetPaymentInstrumentBalanceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Get the balance of a payment instrument. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PaymentManagerArn">The ARN of the payment manager that owns this payment instrument. Constraints: o min: 66 o max: 2048 o pattern: arn:(aws|aws-[a-z0-9-]+):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:payment-man- ager/[a-z0-9]([a-z0-9-]{0,47}[a-z0-9])?-[a-z0-9]{10}</param>
+    /// <param name="PaymentConnectorId">The ID of the payment connector associated with this instrument. Constraints: o min: 12 o max: 211 o pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}</param>
+    /// <param name="PaymentInstrumentId">The ID of the payment instrument to query balance for. Constraints: o min: 34 o max: 34 o pattern: payment-instrument-[0-9a-zA-Z-]{15}</param>
+    /// <param name="Chain">The specific blockchain chain to query balance on. Required because balances are chain-specific. Possible values: o BASE o BASE_SEPOLIA o ETHEREUM o SOLANA o SOLANA_DEVNET</param>
+    /// <param name="Token">The token to query balance for. Only tokens supported for X402 pay- ments are returned. Possible values: o USDC</param>
+    public AwsBedrockAgentcoreGetPaymentInstrumentBalanceOptions(
+        string PaymentManagerArn,
+        string PaymentConnectorId,
+        string PaymentInstrumentId,
+        AwsBedrockAgentcoreGetPaymentInstrumentBalanceChain Chain,
+        string Token
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PaymentManagerArn);
+        this.PaymentManagerArn = PaymentManagerArn;
+        global::System.ArgumentNullException.ThrowIfNull(PaymentConnectorId);
+        this.PaymentConnectorId = PaymentConnectorId;
+        global::System.ArgumentNullException.ThrowIfNull(PaymentInstrumentId);
+        this.PaymentInstrumentId = PaymentInstrumentId;
+        global::System.ArgumentNullException.ThrowIfNull(Chain);
+        this.Chain = Chain;
+        global::System.ArgumentNullException.ThrowIfNull(Token);
+        this.Token = Token;
+    }
+
+    private AwsBedrockAgentcoreGetPaymentInstrumentBalanceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreGetPaymentInstrumentBalanceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreGetPaymentInstrumentBalanceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the payment manager that owns this payment instrument. Constraints: o min: 66 o max: 2048 o pattern: arn:(aws|aws-[a-z0-9-]+):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:payment-man- ager/[a-z0-9]([a-z0-9-]{0,47}[a-z0-9])?-[a-z0-9]{10}
+    /// </summary>
+    [CliOption("--payment-manager-arn")]
+    public string? PaymentManagerArn { get; private init; }
+
+    /// <summary>
+    /// The ID of the payment connector associated with this instrument. Constraints: o min: 12 o max: 211 o pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}
+    /// </summary>
+    [CliOption("--payment-connector-id")]
+    public string? PaymentConnectorId { get; private init; }
+
+    /// <summary>
+    /// The ID of the payment instrument to query balance for. Constraints: o min: 34 o max: 34 o pattern: payment-instrument-[0-9a-zA-Z-]{15}
+    /// </summary>
+    [CliOption("--payment-instrument-id")]
+    public string? PaymentInstrumentId { get; private init; }
+
+    /// <summary>
+    /// The specific blockchain chain to query balance on. Required because balances are chain-specific. Possible values: o BASE o BASE_SEPOLIA o ETHEREUM o SOLANA o SOLANA_DEVNET
+    /// </summary>
+    [CliOption("--chain")]
+    public AwsBedrockAgentcoreGetPaymentInstrumentBalanceChain? Chain { get; private init; }
+
+    /// <summary>
+    /// The token to query balance for. Only tokens supported for X402 pay- ments are returned. Possible values: o USDC
+    /// </summary>
+    [SecretValue]
+    [CliOption("--token")]
+    public string? Token { get; private init; }
+
     /// <summary>
     /// The user ID associated with this payment instrument. Constraints: o min: 0 o max: 120
     /// </summary>
@@ -34,26 +116,27 @@ public record AwsBedrockAgentcoreGetPaymentInstrumentBalanceOptions : AwsOptions
     [CliOption("--agent-name")]
     public string? AgentName { get; set; }
 
-    [CliOption("--payment-manager-arn")]
-    public string? PaymentManagerArn { get; set; }
-
-    [CliOption("--payment-connector-id")]
-    public string? PaymentConnectorId { get; set; }
-
-    [CliOption("--payment-instrument-id")]
-    public string? PaymentInstrumentId { get; set; }
-
-    [CliOption("--chain")]
-    public string? Chain { get; set; }
-
-    [SecretValue]
-    [CliOption("--token")]
-    public string? Token { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

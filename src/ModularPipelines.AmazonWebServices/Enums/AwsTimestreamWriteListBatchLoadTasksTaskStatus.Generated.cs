@@ -11,26 +11,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --taskstatus.
+/// Allowed values for --task-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsTimestreamWriteListBatchLoadTasksTaskStatus
 {
     [EnumValue("CREATED")]
-    Created = 1,
-
-    [EnumValue("IN_PROGRESS")]
-    InProgress = 2,
+    Created,
 
     [EnumValue("FAILED")]
-    Failed = 3,
+    Failed,
 
-    [EnumValue("SUCCEEDED")]
-    Succeeded = 4,
-
-    [EnumValue("PROGRESS_STOPPED")]
-    ProgressStopped = 5,
+    [EnumValue("IN_PROGRESS")]
+    InProgress,
 
     [EnumValue("PENDING_RESUME")]
-    PendingResume = 6
+    PendingResume,
+
+    [EnumValue("PROGRESS_STOPPED")]
+    ProgressStopped,
+
+    [EnumValue("SUCCEEDED")]
+    Succeeded
 }

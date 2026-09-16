@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --enginetype.
+/// Allowed values for --engine-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsOpensearchListDomainNamesEngineType
 {
-    [EnumValue("OpenSearch")]
-    OpenSearch = 1,
-
     [EnumValue("Elasticsearch")]
-    Elasticsearch = 2
+    Elasticsearch,
+
+    [EnumValue("OpenSearch")]
+    OpenSearch
 }

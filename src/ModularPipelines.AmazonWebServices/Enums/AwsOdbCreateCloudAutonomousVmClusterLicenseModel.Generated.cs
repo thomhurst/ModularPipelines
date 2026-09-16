@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --licensemodel.
+/// Allowed values for --license-model.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsOdbCreateCloudAutonomousVmClusterLicenseModel
 {
     [EnumValue("BRING_YOUR_OWN_LICENSE")]
-    BringYourOwnLicense = 1,
+    BringYourOwnLicense,
 
     [EnumValue("LICENSE_INCLUDED")]
-    LicenseIncluded = 2
+    LicenseIncluded
 }

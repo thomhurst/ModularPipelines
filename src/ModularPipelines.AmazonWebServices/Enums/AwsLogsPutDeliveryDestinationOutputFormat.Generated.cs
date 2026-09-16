@@ -11,23 +11,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --outputformat.
+/// Allowed values for --output-format.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsLogsPutDeliveryDestinationOutputFormat
 {
     [EnumValue("json")]
-    Json = 1,
-
-    [EnumValue("plain")]
-    Plain = 2,
-
-    [EnumValue("w3c")]
-    W3c = 3,
-
-    [EnumValue("raw")]
-    Raw = 4,
+    Json,
 
     [EnumValue("parquet")]
-    Parquet = 5
+    Parquet,
+
+    [EnumValue("plain")]
+    Plain,
+
+    [EnumValue("raw")]
+    Raw,
+
+    [EnumValue("w3c")]
+    W3C
 }

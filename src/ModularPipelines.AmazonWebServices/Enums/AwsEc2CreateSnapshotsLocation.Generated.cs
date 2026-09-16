@@ -16,9 +16,9 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEc2CreateSnapshotsLocation
 {
-    [EnumValue("regional")]
-    Regional = 1,
-
     [EnumValue("local")]
-    Local = 2
+    Local,
+
+    [EnumValue("regional")]
+    Regional
 }

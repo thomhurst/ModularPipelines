@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chime", "put-retention-settings")]
-public record AwsChimePutRetentionSettingsOptions : AwsOptions
+public record AwsChimePutRetentionSettingsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--account-id")]
-    public string? AccountId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Puts retention settings for the specified Amazon Chime Enterprise ac- count. We recommend using AWS CloudTrail to monitor usage of this API for your account. For more information, see Logging Amazon Chime API Calls with AWS CloudTrail in the Amazon Chime Administration Guide . To turn off existing retention settings, remove the number of days from the corresponding RetentionDays field in the RetentionSettings object. For more information about retention settings, see Managing Chat Reten- tion Po...
+    /// </summary>
+    /// <param name="AccountId">The Amazon Chime account ID. Constraints: o pattern: .*\S.*</param>
+    /// <param name="RetentionSettings">The retention settings. RoomRetentionSettings -&gt; (structure) The chat room retention settings. RetentionDays -&gt; (integer) The number of days for which to retain chat-room messages. Constraints: o min: 1 o max: 5475 ConversationRetentionSettings -&gt; (structure) The chat conversation retention settings. RetentionDays -&gt; (integer) The number of days for which to retain conversation messages. Constraints: o min: 1 o max: 5475 Shorthand Syntax: RoomRetentionSettings={RetentionDays=integer},ConversationRetentionSettings={RetentionDays=integer} JSON Syntax: { "RoomRetentionSettings": { "RetentionDays": integer }, "ConversationRetentionSettings": { "RetentionDays": integer } }</param>
+    public AwsChimePutRetentionSettingsOptions(
+        string AccountId,
+        string RetentionSettings
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountId);
+        this.AccountId = AccountId;
+        global::System.ArgumentNullException.ThrowIfNull(RetentionSettings);
+        this.RetentionSettings = RetentionSettings;
+    }
+
+    private AwsChimePutRetentionSettingsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChimePutRetentionSettingsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChimePutRetentionSettingsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Chime account ID. Constraints: o pattern: .*\S.*
+    /// </summary>
+    [CliOption("--account-id")]
+    public string? AccountId { get; private init; }
+
+    /// <summary>
+    /// The retention settings. RoomRetentionSettings -&gt; (structure) The chat room retention settings. RetentionDays -&gt; (integer) The number of days for which to retain chat-room messages. Constraints: o min: 1 o max: 5475 ConversationRetentionSettings -&gt; (structure) The chat conversation retention settings. RetentionDays -&gt; (integer) The number of days for which to retain conversation messages. Constraints: o min: 1 o max: 5475 Shorthand Syntax: RoomRetentionSettings={RetentionDays=integer},ConversationRetentionSettings={RetentionDays=integer} JSON Syntax: { "RoomRetentionSettings": { "RetentionDays": integer }, "ConversationRetentionSettings": { "RetentionDays": integer } }
+    /// </summary>
     [CliOption("--retention-settings")]
-    public string? RetentionSettings { get; set; }
+    public string? RetentionSettings { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

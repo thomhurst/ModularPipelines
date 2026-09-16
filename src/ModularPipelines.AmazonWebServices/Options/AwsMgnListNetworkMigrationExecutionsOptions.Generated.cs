@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mgn", "list-network-migration-executions")]
-public record AwsMgnListNetworkMigrationExecutionsOptions : AwsOptions
+public record AwsMgnListNetworkMigrationExecutionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists network migration execution instances for a given definition, showing the status and progress of each execution. See also: AWS API Documentation list-network-migration-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results ...
+    /// </summary>
+    /// <param name="NetworkMigrationDefinitionId">The unique identifier of the network migration definition to list executions for. Constraints: o min: 21 o max: 21 o pattern: nmd-[0-9a-zA-Z]{17}</param>
+    public AwsMgnListNetworkMigrationExecutionsOptions(
+        string NetworkMigrationDefinitionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NetworkMigrationDefinitionId);
+        this.NetworkMigrationDefinitionId = NetworkMigrationDefinitionId;
+    }
+
+    private AwsMgnListNetworkMigrationExecutionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMgnListNetworkMigrationExecutionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMgnListNetworkMigrationExecutionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the network migration definition to list executions for. Constraints: o min: 21 o max: 21 o pattern: nmd-[0-9a-zA-Z]{17}
+    /// </summary>
     [CliOption("--network-migration-definition-id")]
-    public string? NetworkMigrationDefinitionId { get; set; }
+    public string? NetworkMigrationDefinitionId { get; private init; }
 
     /// <summary>
     /// Filters to apply when listing executions, such as status or execu- tion ID. networkMigrationExecutionIDs -&gt; (list) A list of execution IDs to filter by. Constraints: o min: 0 o max: 20 (string) Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} networkMigrationExecutionStatuses -&gt; (list) A list of execution statuses to filter by. Constraints: o min: 0 o max: 20 (string) Possible values: o PENDING o STARTED o SUCCEEDED o FAILED Shorthand Syntax: networkMigrationExecutionIDs=string,string,networkMigrationExecutionStatuses=string,string JSON Syntax: { "networkMigrationExecutionIDs": ["string", ...], "networkMigrationExecutionStatuses": ["PENDING"|"STARTED"|"SUCCEEDED"|"FAILED", ...] }
@@ -55,5 +92,22 @@ public record AwsMgnListNetworkMigrationExecutionsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

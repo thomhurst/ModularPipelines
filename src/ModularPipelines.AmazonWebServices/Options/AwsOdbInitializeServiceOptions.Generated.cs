@@ -6,7 +6,6 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -23,13 +22,15 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("odb", "initialize-service")]
 public record AwsOdbInitializeServiceOptions : AwsOptions
 {
-    [CliFlag("--oci-identity-domain")]
+    /// <summary>
+    /// The Oracle Cloud Infrastructure (OCI) identity domain configuration for service initialization.
+    /// </summary>
+    [CliFlag("--oci-identity-domain", NegatedName = "--no-oci-identity-domain")]
     public bool? OciIdentityDomain { get; set; }
 
     /// <summary>
     /// Specifies whether to enable or disable the OCI service-account role for Amazon Web Services Secrets Manager integration with Autonomous Database. Possible values: o ENABLED o DISABLED
     /// </summary>
-    [SecretValue]
     [CliOption("--autonomous-database-oci-aws-secrets-manager-integration")]
     public AwsOdbInitializeServiceAutonomousDatabaseOciAwsSecretsManagerIntegration? AutonomousDatabaseOciAwsSecretsManagerIntegration { get; set; }
 

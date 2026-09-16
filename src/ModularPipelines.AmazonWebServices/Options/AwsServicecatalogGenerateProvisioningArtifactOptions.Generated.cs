@@ -21,22 +21,64 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("servicecatalog", "generate", "provisioning-artifact")]
 public record AwsServicecatalogGenerateProvisioningArtifactOptions : AwsOptions
 {
+    /// <summary>
+    /// Create a new provisioning artifact for the specified product using a CloudFormation template specified as a local file path
+    /// </summary>
+    /// <param name="FilePath"></param>
+    /// <param name="BucketName"></param>
+    /// <param name="ProvisioningArtifactName"></param>
+    /// <param name="ProvisioningArtifactDescription"></param>
+    /// <param name="ProvisioningArtifactType"></param>
+    /// <param name="ProductId"></param>
+    public AwsServicecatalogGenerateProvisioningArtifactOptions(
+        string FilePath,
+        string BucketName,
+        string ProvisioningArtifactName,
+        string ProvisioningArtifactDescription,
+        string ProvisioningArtifactType,
+        string ProductId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FilePath);
+        this.FilePath = FilePath;
+        global::System.ArgumentNullException.ThrowIfNull(BucketName);
+        this.BucketName = BucketName;
+        global::System.ArgumentNullException.ThrowIfNull(ProvisioningArtifactName);
+        this.ProvisioningArtifactName = ProvisioningArtifactName;
+        global::System.ArgumentNullException.ThrowIfNull(ProvisioningArtifactDescription);
+        this.ProvisioningArtifactDescription = ProvisioningArtifactDescription;
+        global::System.ArgumentNullException.ThrowIfNull(ProvisioningArtifactType);
+        this.ProvisioningArtifactType = ProvisioningArtifactType;
+        global::System.ArgumentNullException.ThrowIfNull(ProductId);
+        this.ProductId = ProductId;
+    }
+
+    public void Deconstruct(out string FilePath, out string BucketName, out string ProvisioningArtifactName, out string ProvisioningArtifactDescription, out string ProvisioningArtifactType, out string ProductId)
+    {
+        FilePath = this.FilePath;
+        BucketName = this.BucketName;
+        ProvisioningArtifactName = this.ProvisioningArtifactName;
+        ProvisioningArtifactDescription = this.ProvisioningArtifactDescription;
+        ProvisioningArtifactType = this.ProvisioningArtifactType;
+        ProductId = this.ProductId;
+    }
+
     [CliOption("--file-path")]
-    public string? FilePath { get; set; }
+    public string FilePath { get; private init; }
 
     [CliOption("--bucket-name")]
-    public string? BucketName { get; set; }
+    public string BucketName { get; private init; }
 
     [CliOption("--provisioning-artifact-name")]
-    public string? ProvisioningArtifactName { get; set; }
+    public string ProvisioningArtifactName { get; private init; }
 
     [CliOption("--provisioning-artifact-description")]
-    public string? ProvisioningArtifactDescription { get; set; }
+    public string ProvisioningArtifactDescription { get; private init; }
 
     [CliOption("--provisioning-artifact-type")]
-    public string? ProvisioningArtifactType { get; set; }
+    public string ProvisioningArtifactType { get; private init; }
 
     [CliOption("--product-id")]
-    public string? ProductId { get; set; }
+    public string ProductId { get; private init; }
 
 }

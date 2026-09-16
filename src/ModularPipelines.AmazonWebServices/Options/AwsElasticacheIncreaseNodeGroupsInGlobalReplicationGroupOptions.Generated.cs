@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,64 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elasticache", "increase-node-groups-in-global-replication-group")]
-public record AwsElasticacheIncreaseNodeGroupsInGlobalReplicationGroupOptions : AwsOptions
+public record AwsElasticacheIncreaseNodeGroupsInGlobalReplicationGroupOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--global-replication-group-id")]
-    public string? GlobalReplicationGroupId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Increase the number of node groups in the Global datastore See also: AWS API Documentation
+    /// </summary>
+    /// <param name="GlobalReplicationGroupId">The name of the Global datastore</param>
+    /// <param name="NodeGroupCount">Total number of node groups you want</param>
+    /// <param name="ApplyImmediately">Indicates that the process begins immediately. At present, the only permitted value for this parameter is true.</param>
+    public AwsElasticacheIncreaseNodeGroupsInGlobalReplicationGroupOptions(
+        string GlobalReplicationGroupId,
+        int NodeGroupCount,
+        bool ApplyImmediately
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GlobalReplicationGroupId);
+        this.GlobalReplicationGroupId = GlobalReplicationGroupId;
+        this.NodeGroupCount = NodeGroupCount;
+        this.ApplyImmediately = ApplyImmediately;
+    }
+
+    private AwsElasticacheIncreaseNodeGroupsInGlobalReplicationGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElasticacheIncreaseNodeGroupsInGlobalReplicationGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElasticacheIncreaseNodeGroupsInGlobalReplicationGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the Global datastore
+    /// </summary>
+    [CliOption("--global-replication-group-id")]
+    public string? GlobalReplicationGroupId { get; private init; }
+
+    /// <summary>
+    /// Total number of node groups you want
+    /// </summary>
     [CliOption("--node-group-count")]
-    public int? NodeGroupCount { get; set; }
+    public int? NodeGroupCount { get; private init; }
+
+    /// <summary>
+    /// Indicates that the process begins immediately. At present, the only permitted value for this parameter is true.
+    /// </summary>
+    [CliFlag("--apply-immediately", NegatedName = "--no-apply-immediately")]
+    public bool? ApplyImmediately { get; private init; }
 
     /// <summary>
     /// Describes the replication group IDs, the Amazon regions where they are stored and the shard configuration for each that comprise the Global datastore (structure) A list of the replication groups ReplicationGroupId -&gt; (string) [required] The name of the secondary cluster ReplicationGroupRegion -&gt; (string) [required] The Amazon region where the cluster is stored ReshardingConfiguration -&gt; (list) [required] A list of PreferredAvailabilityZones objects that specifies the configuration of a node group in the resharded cluster. (structure) A list of PreferredAvailabilityZones objects that speci- fies the configuration of a node group in the resharded cluster. NodeGroupId -&gt; (string) Either the ElastiCache supplied 4-digit id or a user supplied id for the node group these configuration values apply to. Constraints: o min: 1 o max: 4 o pattern: \d+ PreferredAvailabilityZones -&gt; (list) A list of preferred availability zones for the nodes in this cluster. (string) JSON Syntax: [ { "ReplicationGroupId": "string", "ReplicationGroupRegion": "string", "ReshardingConfiguration": [ { "NodeGroupId": "string", "PreferredAvailabilityZones": ["string", ...] } ... ] } ... ]
@@ -33,13 +85,27 @@ public record AwsElasticacheIncreaseNodeGroupsInGlobalReplicationGroupOptions : 
     [CliOption("--regional-configurations", GroupValues = true)]
     public IEnumerable<string>? RegionalConfigurations { get; set; }
 
-    [CliFlag("--apply-immediately")]
-    public bool? ApplyImmediately { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

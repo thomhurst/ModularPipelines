@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognito-idp", "get-provisioned-limit")]
-public record AwsCognitoIdpGetProvisionedLimitOptions : AwsOptions
+public record AwsCognitoIdpGetProvisionedLimitOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns the current provisioned limit for a specific API category. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more o Signing Amazon Web Services API Requests o Using the Amazon Cognito user pools API and user pool endpoints See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LimitDefinition">The limit to retrieve. Specify the limit class and the attributes that identify the limit. LimitClass -&gt; (string) [required] The class of the limit. For API rate limits, this is API_CATE- GORY . Possible values: o API_CATEGORY Attributes -&gt; (map) [required] The attributes that identify the specific limit. For API rate limits, specify the Category key with a value like UserAuthenti- cation or UserCreation . key -&gt; (string) Constraints: o min: 0 o max: 131072 value -&gt; (string) Constraints: o min: 0 o max: 131072 Shorthand Syntax: LimitClass=string,Attributes={KeyName1=string,KeyName2=string} JSON Syntax: { "LimitClass": "API_CATEGORY", "Attributes": {"string": "string" ...} }</param>
+    public AwsCognitoIdpGetProvisionedLimitOptions(
+        string LimitDefinition
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LimitDefinition);
+        this.LimitDefinition = LimitDefinition;
+    }
+
+    private AwsCognitoIdpGetProvisionedLimitOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCognitoIdpGetProvisionedLimitOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCognitoIdpGetProvisionedLimitOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The limit to retrieve. Specify the limit class and the attributes that identify the limit. LimitClass -&gt; (string) [required] The class of the limit. For API rate limits, this is API_CATE- GORY . Possible values: o API_CATEGORY Attributes -&gt; (map) [required] The attributes that identify the specific limit. For API rate limits, specify the Category key with a value like UserAuthenti- cation or UserCreation . key -&gt; (string) Constraints: o min: 0 o max: 131072 value -&gt; (string) Constraints: o min: 0 o max: 131072 Shorthand Syntax: LimitClass=string,Attributes={KeyName1=string,KeyName2=string} JSON Syntax: { "LimitClass": "API_CATEGORY", "Attributes": {"string": "string" ...} }
+    /// </summary>
     [CliOption("--limit-definition")]
-    public string? LimitDefinition { get; set; }
+    public string? LimitDefinition { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

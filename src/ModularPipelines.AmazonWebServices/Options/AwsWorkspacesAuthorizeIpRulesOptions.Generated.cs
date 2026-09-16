@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workspaces", "authorize-ip-rules")]
-public record AwsWorkspacesAuthorizeIpRulesOptions : AwsOptions
+public record AwsWorkspacesAuthorizeIpRulesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--group-id")]
-    public string? GroupId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Adds one or more rules to the specified IP access control group. This action gives users permission to access their WorkSpaces from the CIDR address ranges specified in the rules. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="GroupId">The identifier of the group. Constraints: o pattern: wsipg-[0-9a-z]{8,63}$</param>
+    /// <param name="UserRules">The rules to add to the group. (structure) Describes a rule for an IP access control group. ipRule -&gt; (string) The IP address range, in CIDR notation. ruleDesc -&gt; (string) The description. Shorthand Syntax: ipRule=string,ruleDesc=string ... JSON Syntax: [ { "ipRule": "string", "ruleDesc": "string" } ... ]</param>
+    public AwsWorkspacesAuthorizeIpRulesOptions(
+        string GroupId,
+        IEnumerable<string> UserRules
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GroupId);
+        this.GroupId = GroupId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(UserRules);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(UserRules));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(UserRules));
+            }
+
+            UserRules = materialized;
+        }
+        this.UserRules = UserRules;
+    }
+
+    private AwsWorkspacesAuthorizeIpRulesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkspacesAuthorizeIpRulesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkspacesAuthorizeIpRulesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the group. Constraints: o pattern: wsipg-[0-9a-z]{8,63}$
+    /// </summary>
+    [CliOption("--group-id")]
+    public string? GroupId { get; private init; }
+
+    /// <summary>
+    /// The rules to add to the group. (structure) Describes a rule for an IP access control group. ipRule -&gt; (string) The IP address range, in CIDR notation. ruleDesc -&gt; (string) The description. Shorthand Syntax: ipRule=string,ruleDesc=string ... JSON Syntax: [ { "ipRule": "string", "ruleDesc": "string" } ... ]
+    /// </summary>
     [CliOption("--user-rules", GroupValues = true)]
-    public IEnumerable<string>? UserRules { get; set; }
+    public IEnumerable<string>? UserRules { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

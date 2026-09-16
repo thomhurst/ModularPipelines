@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,22 +20,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("swf", "signal-workflow-execution")]
-public record AwsSwfSignalWorkflowExecutionOptions : AwsOptions
+public record AwsSwfSignalWorkflowExecutionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--domain")]
-    public string? Domain { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Records a WorkflowExecutionSignaled event in the workflow execution history and creates a decision task for the workflow execution identi- fied by the given domain, workflowId and runId. The event is recorded with the specified user defined signalName and input (if provided). NOTE: If a runId isn't specified, then the WorkflowExecutionSignaled event is recorded in the history of the current open workflow with the matching workflowId in the domain. NOTE: If the specified workflow execution isn't ...
+    /// </summary>
+    /// <param name="Domain">The name of the domain containing the workflow execution to signal. Constraints: o min: 1 o max: 256</param>
+    /// <param name="WorkflowId">The workflowId of the workflow execution to signal. Constraints: o min: 1 o max: 256</param>
+    /// <param name="SignalName">The name of the signal. This name must be meaningful to the target workflow. Constraints: o min: 1 o max: 256</param>
+    public AwsSwfSignalWorkflowExecutionOptions(
+        string Domain,
+        string WorkflowId,
+        string SignalName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Domain);
+        this.Domain = Domain;
+        global::System.ArgumentNullException.ThrowIfNull(WorkflowId);
+        this.WorkflowId = WorkflowId;
+        global::System.ArgumentNullException.ThrowIfNull(SignalName);
+        this.SignalName = SignalName;
+    }
+
+    private AwsSwfSignalWorkflowExecutionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSwfSignalWorkflowExecutionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSwfSignalWorkflowExecutionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the domain containing the workflow execution to signal. Constraints: o min: 1 o max: 256
+    /// </summary>
+    [CliOption("--domain")]
+    public string? Domain { get; private init; }
+
+    /// <summary>
+    /// The workflowId of the workflow execution to signal. Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--workflow-id")]
-    public string? WorkflowId { get; set; }
+    public string? WorkflowId { get; private init; }
+
+    /// <summary>
+    /// The name of the signal. This name must be meaningful to the target workflow. Constraints: o min: 1 o max: 256
+    /// </summary>
+    [CliOption("--signal-name")]
+    public string? SignalName { get; private init; }
 
     /// <summary>
     /// The runId of the workflow execution to signal. Constraints: o max: 64
     /// </summary>
     [CliOption("--run-id")]
     public string? RunId { get; set; }
-
-    [CliOption("--signal-name")]
-    public string? SignalName { get; set; }
 
     /// <summary>
     /// Data to attach to the WorkflowExecutionSignaled event in the target workflow execution's history. Constraints: o max: 32768
@@ -47,5 +98,22 @@ public record AwsSwfSignalWorkflowExecutionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

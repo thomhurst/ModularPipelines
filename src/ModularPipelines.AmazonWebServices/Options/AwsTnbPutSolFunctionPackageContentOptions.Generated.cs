@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,24 +20,84 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("tnb", "put-sol-function-package-content")]
-public record AwsTnbPutSolFunctionPackageContentOptions : AwsOptions
+public record AwsTnbPutSolFunctionPackageContentOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Uploads the contents of a function package. A function package is a .zip file in CSAR (Cloud Service Archive) for- mat that contains a network function (an ETSI standard telecommunica- tion application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your net- work. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="File">Function package file.</param>
+    /// <param name="VnfPkgId">Function package ID. Constraints: o pattern: ^fp-[a-f0-9]{17}$</param>
+    public AwsTnbPutSolFunctionPackageContentOptions(
+        string File,
+        string VnfPkgId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(File);
+        this.File = File;
+        global::System.ArgumentNullException.ThrowIfNull(VnfPkgId);
+        this.VnfPkgId = VnfPkgId;
+    }
+
+    private AwsTnbPutSolFunctionPackageContentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTnbPutSolFunctionPackageContentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTnbPutSolFunctionPackageContentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Function package file.
+    /// </summary>
+    [CliOption("--file")]
+    public string? File { get; private init; }
+
+    /// <summary>
+    /// Function package ID. Constraints: o pattern: ^fp-[a-f0-9]{17}$
+    /// </summary>
+    [CliOption("--vnf-pkg-id")]
+    public string? VnfPkgId { get; private init; }
+
     /// <summary>
     /// Function package content type. Possible values: o application/zip
     /// </summary>
     [CliOption("--content-type")]
-    public AwsTnbPutSolFunctionPackageContentContentType? ContentType { get; set; }
-
-    [CliOption("--file")]
-    public string? File { get; set; }
-
-    [CliOption("--vnf-pkg-id")]
-    public string? VnfPkgId { get; set; }
+    public string? ContentType { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

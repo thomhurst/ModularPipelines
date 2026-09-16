@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("odb", "delete-odb-network")]
-public record AwsOdbDeleteOdbNetworkOptions : AwsOptions
+public record AwsOdbDeleteOdbNetworkOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--odb-network-id")]
-    public string? OdbNetworkId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--delete-associated-resources")]
-    public bool? DeleteAssociatedResources { get; set; }
+    /// <summary>
+    /// Deletes the specified ODB network. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="OdbNetworkId">The unique identifier of the ODB network to delete. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})</param>
+    /// <param name="DeleteAssociatedResources">Specifies whether to delete associated OCI networking resources along with the ODB network.</param>
+    public AwsOdbDeleteOdbNetworkOptions(
+        string OdbNetworkId,
+        bool DeleteAssociatedResources
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OdbNetworkId);
+        this.OdbNetworkId = OdbNetworkId;
+        this.DeleteAssociatedResources = DeleteAssociatedResources;
+    }
+
+    private AwsOdbDeleteOdbNetworkOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOdbDeleteOdbNetworkOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOdbDeleteOdbNetworkOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the ODB network to delete. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})
+    /// </summary>
+    [CliOption("--odb-network-id")]
+    public string? OdbNetworkId { get; private init; }
+
+    /// <summary>
+    /// Specifies whether to delete associated OCI networking resources along with the ODB network.
+    /// </summary>
+    [CliFlag("--delete-associated-resources", NegatedName = "--no-delete-associated-resources")]
+    public bool? DeleteAssociatedResources { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ses", "create-configuration-set")]
-public record AwsSesCreateConfigurationSetOptions : AwsOptions
+public record AwsSesCreateConfigurationSetOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a configuration set. Configuration sets enable you to publish email sending events. For in- formation about using configuration sets, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ConfigurationSet">A data structure that contains the name of the configuration set. Name -&gt; (string) [required] The name of the configuration set. The name must meet the fol- lowing requirements: o Contain only letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-). o Contain 64 characters or fewer. Shorthand Syntax: Name=string JSON Syntax: { "Name": "string" }</param>
+    public AwsSesCreateConfigurationSetOptions(
+        string ConfigurationSet
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConfigurationSet);
+        this.ConfigurationSet = ConfigurationSet;
+    }
+
+    private AwsSesCreateConfigurationSetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSesCreateConfigurationSetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSesCreateConfigurationSetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A data structure that contains the name of the configuration set. Name -&gt; (string) [required] The name of the configuration set. The name must meet the fol- lowing requirements: o Contain only letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-). o Contain 64 characters or fewer. Shorthand Syntax: Name=string JSON Syntax: { "Name": "string" }
+    /// </summary>
     [CliOption("--configuration-set")]
-    public string? ConfigurationSet { get; set; }
+    public string? ConfigurationSet { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

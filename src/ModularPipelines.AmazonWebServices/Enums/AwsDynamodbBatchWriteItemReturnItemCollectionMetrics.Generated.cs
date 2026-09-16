@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --returnitemcollectionmetrics.
+/// Allowed values for --return-item-collection-metrics.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDynamodbBatchWriteItemReturnItemCollectionMetrics
 {
-    [EnumValue("SIZE")]
-    Size = 1,
-
     [EnumValue("NONE")]
-    None = 2
+    None,
+
+    [EnumValue("SIZE")]
+    Size
 }

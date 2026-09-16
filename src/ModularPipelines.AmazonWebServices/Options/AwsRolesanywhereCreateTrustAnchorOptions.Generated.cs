@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rolesanywhere", "create-trust-anchor")]
-public record AwsRolesanywhereCreateTrustAnchorOptions : AwsOptions
+public record AwsRolesanywhereCreateTrustAnchorOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a trust anchor to establish trust between IAM Roles Anywhere and your certificate authority (CA). You can define a trust anchor as a reference to an Private Certificate Authority (Private CA) or by up- loading a CA certificate. Your Amazon Web Services workloads can au- thenticate with the trust anchor using certificates issued by the CA in exchange for temporary Amazon Web Services credentials. Required permissions: rolesanywhere:CreateTrustAnchor . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the trust anchor. Constraints: o min: 1 o max: 255 o pattern: [ a-zA-Z0-9-_]*</param>
+    /// <param name="Source">The trust anchor type and its related certificate data. sourceType -&gt; (string) The type of the trust anchor. Possible values: o AWS_ACM_PCA o CERTIFICATE_BUNDLE o SELF_SIGNED_REPOSITORY sourceData -&gt; (tagged union structure) The data field of the trust anchor depending on its type. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: x509CertificateData, acmPcaArn. x509CertificateData -&gt; (string) The PEM-encoded data for the certificate anchor. Included for trust anchors of type CERTIFICATE_BUNDLE . Constraints: o min: 1 o max: 204800 acmPcaArn -&gt; (string) The root certificate of the Private Certificate Authority specified by this ARN is used in trust validation for tempo- rary credential requests. Included for trust anchors of type AWS_ACM_PCA . Shorthand Syntax: sourceType=string,sourceData={x509CertificateData=string,acmPcaArn=string} JSON Syntax: { "sourceType": "AWS_ACM_PCA"|"CERTIFICATE_BUNDLE"|"SELF_SIGNED_REPOSITORY", "sourceData": { "x509CertificateData": "string", "acmPcaArn": "string" } }</param>
+    public AwsRolesanywhereCreateTrustAnchorOptions(
+        string Name,
+        string Source
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Source);
+        this.Source = Source;
+    }
+
+    private AwsRolesanywhereCreateTrustAnchorOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRolesanywhereCreateTrustAnchorOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRolesanywhereCreateTrustAnchorOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the trust anchor. Constraints: o min: 1 o max: 255 o pattern: [ a-zA-Z0-9-_]*
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The trust anchor type and its related certificate data. sourceType -&gt; (string) The type of the trust anchor. Possible values: o AWS_ACM_PCA o CERTIFICATE_BUNDLE o SELF_SIGNED_REPOSITORY sourceData -&gt; (tagged union structure) The data field of the trust anchor depending on its type. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: x509CertificateData, acmPcaArn. x509CertificateData -&gt; (string) The PEM-encoded data for the certificate anchor. Included for trust anchors of type CERTIFICATE_BUNDLE . Constraints: o min: 1 o max: 204800 acmPcaArn -&gt; (string) The root certificate of the Private Certificate Authority specified by this ARN is used in trust validation for tempo- rary credential requests. Included for trust anchors of type AWS_ACM_PCA . Shorthand Syntax: sourceType=string,sourceData={x509CertificateData=string,acmPcaArn=string} JSON Syntax: { "sourceType": "AWS_ACM_PCA"|"CERTIFICATE_BUNDLE"|"SELF_SIGNED_REPOSITORY", "sourceData": { "x509CertificateData": "string", "acmPcaArn": "string" } }
+    /// </summary>
     [CliOption("--source")]
-    public string? Source { get; set; }
+    public string? Source { get; private init; }
 
-    [CliFlag("--enabled")]
+    /// <summary>
+    /// Specifies whether the trust anchor is enabled.
+    /// </summary>
+    [CliFlag("--enabled", NegatedName = "--no-enabled")]
     public bool? Enabled { get; set; }
 
     /// <summary>
@@ -47,5 +94,22 @@ public record AwsRolesanywhereCreateTrustAnchorOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

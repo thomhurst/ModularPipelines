@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "modify-instance-connect-endpoint")]
-public record AwsEc2ModifyInstanceConnectEndpointOptions : AwsOptions
+public record AwsEc2ModifyInstanceConnectEndpointOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--dry-run")]
-    public bool? DryRun { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Modifies the specified EC2 Instance Connect Endpoint. For more information, see Modify an EC2 Instance Connect Endpoint in the Amazon EC2 User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceConnectEndpointId">The ID of the EC2 Instance Connect Endpoint to modify.</param>
+    public AwsEc2ModifyInstanceConnectEndpointOptions(
+        string InstanceConnectEndpointId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceConnectEndpointId);
+        this.InstanceConnectEndpointId = InstanceConnectEndpointId;
+    }
+
+    private AwsEc2ModifyInstanceConnectEndpointOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2ModifyInstanceConnectEndpointOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2ModifyInstanceConnectEndpointOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the EC2 Instance Connect Endpoint to modify.
+    /// </summary>
     [CliOption("--instance-connect-endpoint-id")]
-    public string? InstanceConnectEndpointId { get; set; }
+    public string? InstanceConnectEndpointId { get; private init; }
+
+    /// <summary>
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
+    public bool? DryRun { get; set; }
 
     /// <summary>
     /// The new IP address type for the EC2 Instance Connect Endpoint. NOTE: PreserveClientIp is only supported on IPv4 EC2 Instance Connect Endpoints. To use PreserveClientIp , the value for IpAddressType must be ipv4 . Possible values: o ipv4 o dualstack o ipv6
@@ -40,7 +80,10 @@ public record AwsEc2ModifyInstanceConnectEndpointOptions : AwsOptions
     [CliOption("--security-group-ids", GroupValues = true)]
     public IEnumerable<string>? SecurityGroupIds { get; set; }
 
-    [CliFlag("--preserve-client-ip")]
+    /// <summary>
+    /// Indicates whether the client IP address is preserved as the source when you connect to a resource. The following are the possible val- ues. o true - Use the IP address of the client. Your instance must have an IPv4 address. o false - Use the IP address of the network interface.
+    /// </summary>
+    [CliFlag("--preserve-client-ip", NegatedName = "--no-preserve-client-ip")]
     public bool? PreserveClientIp { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -48,5 +91,22 @@ public record AwsEc2ModifyInstanceConnectEndpointOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

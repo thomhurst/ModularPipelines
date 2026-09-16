@@ -11,6 +11,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("inspector2", "create-code-security-integration")]
-public record AwsInspector2CreateCodeSecurityIntegrationOptions : AwsOptions
+public record AwsInspector2CreateCodeSecurityIntegrationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--name")]
-    public string? Name { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a code security integration with a source code repository provider. After calling the CreateCodeSecurityIntegration operation, you complete authentication and authorization with your provider. Next you call the UpdateCodeSecurityIntegration operation to provide the details to com- plete the integration setup See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the code security integration. Constraints: o min: 1 o max: 60 o pattern: [a-zA-Z0-9-_$:.]*</param>
+    /// <param name="Type">The type of repository provider for the integration. Possible values: o GITLAB_SELF_MANAGED o GITHUB</param>
+    public AwsInspector2CreateCodeSecurityIntegrationOptions(
+        string Name,
+        AwsInspector2CreateCodeSecurityIntegrationType Type
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+    }
+
+    private AwsInspector2CreateCodeSecurityIntegrationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsInspector2CreateCodeSecurityIntegrationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsInspector2CreateCodeSecurityIntegrationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the code security integration. Constraints: o min: 1 o max: 60 o pattern: [a-zA-Z0-9-_$:.]*
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The type of repository provider for the integration. Possible values: o GITLAB_SELF_MANAGED o GITHUB
+    /// </summary>
     [CliOption("--type")]
-    public string? Type { get; set; }
+    public AwsInspector2CreateCodeSecurityIntegrationType? Type { get; private init; }
 
     /// <summary>
     /// The integration details specific to the repository provider type. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: gitlabSelfManaged. gitlabSelfManaged -&gt; (structure) Details specific to creating an integration with a self-managed GitLab instance. instanceUrl -&gt; (string) [required] The URL of the self-managed GitLab instance. Constraints: o pattern: https://[-a-zA-Z0-9()@:%_+.~#?&amp;//=]{1,1024} accessToken -&gt; (string) [required] The personal access token used to authenticate with the self-managed GitLab instance. Shorthand Syntax: gitlabSelfManaged={instanceUrl=string,accessToken=string} JSON Syntax: { "gitlabSelfManaged": { "instanceUrl": "string", "accessToken": "string" } }
@@ -45,5 +90,22 @@ public record AwsInspector2CreateCodeSecurityIntegrationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

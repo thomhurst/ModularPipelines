@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --validationmethod.
+/// Allowed values for --validation-method.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsAcmRequestCertificateValidationMethod
 {
-    [EnumValue("EMAIL")]
-    Email = 1,
-
     [EnumValue("DNS")]
-    Dns = 2,
+    Dns,
+
+    [EnumValue("EMAIL")]
+    Email,
 
     [EnumValue("HTTP")]
-    Http = 3
+    Http
 }

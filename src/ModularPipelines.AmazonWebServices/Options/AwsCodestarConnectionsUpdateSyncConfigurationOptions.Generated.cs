@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,8 +21,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codestar-connections", "update-sync-configuration")]
-public record AwsCodestarConnectionsUpdateSyncConfigurationOptions : AwsOptions
+public record AwsCodestarConnectionsUpdateSyncConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the sync configuration for your connection and a specified ex- ternal Git repository. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceName">The name of the Amazon Web Services resource for the sync configura- tion to be updated. Constraints: o min: 1 o max: 100 o pattern: ^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$</param>
+    /// <param name="SyncType">The sync type for the sync configuration to be updated. Possible values: o CFN_STACK_SYNC</param>
+    public AwsCodestarConnectionsUpdateSyncConfigurationOptions(
+        string ResourceName,
+        string SyncType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceName);
+        this.ResourceName = ResourceName;
+        global::System.ArgumentNullException.ThrowIfNull(SyncType);
+        this.SyncType = SyncType;
+    }
+
+    private AwsCodestarConnectionsUpdateSyncConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodestarConnectionsUpdateSyncConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodestarConnectionsUpdateSyncConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the Amazon Web Services resource for the sync configura- tion to be updated. Constraints: o min: 1 o max: 100 o pattern: ^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$
+    /// </summary>
+    [CliOption("--resource-name")]
+    public string? ResourceName { get; private init; }
+
+    /// <summary>
+    /// The sync type for the sync configuration to be updated. Possible values: o CFN_STACK_SYNC
+    /// </summary>
+    [CliOption("--sync-type")]
+    public string? SyncType { get; private init; }
+
     /// <summary>
     /// The branch for the sync configuration to be updated. Constraints: o min: 1 o max: 255 o pattern: ^.*$
     /// </summary>
@@ -40,17 +90,11 @@ public record AwsCodestarConnectionsUpdateSyncConfigurationOptions : AwsOptions
     [CliOption("--repository-link-id")]
     public string? RepositoryLinkId { get; set; }
 
-    [CliOption("--resource-name")]
-    public string? ResourceName { get; set; }
-
     /// <summary>
     /// The ARN of the IAM role for the sync configuration to be updated. Constraints: o min: 1 o max: 1024 o pattern: arn:aws(-[\w]+)*:iam::\d{12}:role/[a-zA-Z_0-9+=,.@\-_/]+
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
-
-    [CliOption("--sync-type")]
-    public string? SyncType { get; set; }
 
     /// <summary>
     /// Whether to enable or disable publishing of deployment status to source providers. Possible values: o ENABLED o DISABLED
@@ -69,5 +113,22 @@ public record AwsCodestarConnectionsUpdateSyncConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

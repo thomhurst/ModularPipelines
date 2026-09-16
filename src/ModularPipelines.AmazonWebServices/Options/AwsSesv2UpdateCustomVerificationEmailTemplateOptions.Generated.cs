@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,30 +20,118 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sesv2", "update-custom-verification-email-template")]
-public record AwsSesv2UpdateCustomVerificationEmailTemplateOptions : AwsOptions
+public record AwsSesv2UpdateCustomVerificationEmailTemplateOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an existing custom verification email template. For more information about custom verification email templates, see Using custom verification email templates in the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TemplateName">The name of the custom verification email template that you want to update. Constraints: o min: 1</param>
+    /// <param name="FromEmailAddress">The email address that the custom verification email is sent from.</param>
+    /// <param name="TemplateSubject">The subject line of the custom verification email.</param>
+    /// <param name="TemplateContent">The content of the custom verification email. The total size of the email must be less than 10 MB. The message body may contain HTML, with some limitations. For more information, see Custom verification email frequently asked questions in the Amazon SES Developer Guide .</param>
+    /// <param name="SuccessRedirectionUrl">The URL that the recipient of the verification email is sent to if his or her address is successfully verified.</param>
+    /// <param name="FailureRedirectionUrl">The URL that the recipient of the verification email is sent to if his or her address is not successfully verified.</param>
+    public AwsSesv2UpdateCustomVerificationEmailTemplateOptions(
+        string TemplateName,
+        string FromEmailAddress,
+        string TemplateSubject,
+        string TemplateContent,
+        string SuccessRedirectionUrl,
+        string FailureRedirectionUrl
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TemplateName);
+        this.TemplateName = TemplateName;
+        global::System.ArgumentNullException.ThrowIfNull(FromEmailAddress);
+        this.FromEmailAddress = FromEmailAddress;
+        global::System.ArgumentNullException.ThrowIfNull(TemplateSubject);
+        this.TemplateSubject = TemplateSubject;
+        global::System.ArgumentNullException.ThrowIfNull(TemplateContent);
+        this.TemplateContent = TemplateContent;
+        global::System.ArgumentNullException.ThrowIfNull(SuccessRedirectionUrl);
+        this.SuccessRedirectionUrl = SuccessRedirectionUrl;
+        global::System.ArgumentNullException.ThrowIfNull(FailureRedirectionUrl);
+        this.FailureRedirectionUrl = FailureRedirectionUrl;
+    }
+
+    private AwsSesv2UpdateCustomVerificationEmailTemplateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSesv2UpdateCustomVerificationEmailTemplateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSesv2UpdateCustomVerificationEmailTemplateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the custom verification email template that you want to update. Constraints: o min: 1
+    /// </summary>
     [CliOption("--template-name")]
-    public string? TemplateName { get; set; }
+    public string? TemplateName { get; private init; }
 
+    /// <summary>
+    /// The email address that the custom verification email is sent from.
+    /// </summary>
     [CliOption("--from-email-address")]
-    public string? FromEmailAddress { get; set; }
+    public string? FromEmailAddress { get; private init; }
 
+    /// <summary>
+    /// The subject line of the custom verification email.
+    /// </summary>
     [CliOption("--template-subject")]
-    public string? TemplateSubject { get; set; }
+    public string? TemplateSubject { get; private init; }
 
+    /// <summary>
+    /// The content of the custom verification email. The total size of the email must be less than 10 MB. The message body may contain HTML, with some limitations. For more information, see Custom verification email frequently asked questions in the Amazon SES Developer Guide .
+    /// </summary>
     [CliOption("--template-content")]
-    public string? TemplateContent { get; set; }
+    public string? TemplateContent { get; private init; }
 
+    /// <summary>
+    /// The URL that the recipient of the verification email is sent to if his or her address is successfully verified.
+    /// </summary>
     [CliOption("--success-redirection-url")]
-    public string? SuccessRedirectionUrl { get; set; }
+    public string? SuccessRedirectionUrl { get; private init; }
 
+    /// <summary>
+    /// The URL that the recipient of the verification email is sent to if his or her address is not successfully verified.
+    /// </summary>
     [CliOption("--failure-redirection-url")]
-    public string? FailureRedirectionUrl { get; set; }
+    public string? FailureRedirectionUrl { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

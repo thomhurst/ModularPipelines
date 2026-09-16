@@ -16,12 +16,12 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEc2ModifyInstancePlacementTenancy
 {
-    [EnumValue("default")]
-    Default = 1,
-
     [EnumValue("dedicated")]
-    Dedicated = 2,
+    Dedicated,
+
+    [EnumValue("default")]
+    Default,
 
     [EnumValue("host")]
-    Host = 3
+    Host
 }

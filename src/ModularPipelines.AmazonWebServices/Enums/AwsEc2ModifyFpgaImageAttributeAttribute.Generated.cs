@@ -17,14 +17,14 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEc2ModifyFpgaImageAttributeAttribute
 {
     [EnumValue("description")]
-    Description = 1,
-
-    [EnumValue("name")]
-    Name = 2,
+    Description,
 
     [EnumValue("loadPermission")]
-    LoadPermission = 3,
+    LoadPermission,
+
+    [EnumValue("name")]
+    Name,
 
     [EnumValue("productCodes")]
-    ProductCodes = 4
+    ProductCodes
 }

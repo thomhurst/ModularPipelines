@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agent", "delete-knowledge-base-documents")]
-public record AwsBedrockAgentDeleteKnowledgeBaseDocumentsOptions : AwsOptions
+public record AwsBedrockAgentDeleteKnowledgeBaseDocumentsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--knowledge-base-id")]
-    public string? KnowledgeBaseId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deletes documents from a data source and syncs the changes to the knowledge base that is connected to it. For more information, see Ingest changes directly into a knowledge base in the Amazon Bedrock User Guide. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="KnowledgeBaseId">The unique identifier of the knowledge base that is connected to the data source. Constraints: o pattern: [0-9a-zA-Z]{10}</param>
+    /// <param name="DataSourceId">The unique identifier of the data source that contains the docu- ments. Constraints: o pattern: [0-9a-zA-Z]{10}</param>
+    /// <param name="DocumentIdentifiers">A list of objects, each of which contains information to identify a document to delete. Constraints: o min: 1 o max: 10 (structure) Contains information that identifies the document. dataSourceType -&gt; (string) [required] The type of data source connected to the knowledge base that contains the document. Possible values: o CUSTOM o S3 s3 -&gt; (structure) Contains information that identifies the document in an S3 data source. uri -&gt; (string) [required] The location's URI. For example, s3://my-bucket/chunk-processor/ . Constraints: o min: 1 o max: 2048 o pattern: s3://.{1,128} custom -&gt; (structure) Contains information that identifies the document in a custom data source. id -&gt; (string) [required] The identifier of the document to ingest into a custom data source. Constraints: o min: 1 o max: 2048 Shorthand Syntax: dataSourceType=string,s3={uri=string},custom={id=string} ... JSON Syntax: [ { "dataSourceType": "CUSTOM"|"S3", "s3": { "uri": "string" }, "custom": { "id": "string" } } ... ]</param>
+    public AwsBedrockAgentDeleteKnowledgeBaseDocumentsOptions(
+        string KnowledgeBaseId,
+        string DataSourceId,
+        IEnumerable<string> DocumentIdentifiers
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KnowledgeBaseId);
+        this.KnowledgeBaseId = KnowledgeBaseId;
+        global::System.ArgumentNullException.ThrowIfNull(DataSourceId);
+        this.DataSourceId = DataSourceId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(DocumentIdentifiers);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(DocumentIdentifiers));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(DocumentIdentifiers));
+            }
+
+            DocumentIdentifiers = materialized;
+        }
+        this.DocumentIdentifiers = DocumentIdentifiers;
+    }
+
+    private AwsBedrockAgentDeleteKnowledgeBaseDocumentsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentDeleteKnowledgeBaseDocumentsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentDeleteKnowledgeBaseDocumentsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the knowledge base that is connected to the data source. Constraints: o pattern: [0-9a-zA-Z]{10}
+    /// </summary>
+    [CliOption("--knowledge-base-id")]
+    public string? KnowledgeBaseId { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the data source that contains the docu- ments. Constraints: o pattern: [0-9a-zA-Z]{10}
+    /// </summary>
     [CliOption("--data-source-id")]
-    public string? DataSourceId { get; set; }
+    public string? DataSourceId { get; private init; }
+
+    /// <summary>
+    /// A list of objects, each of which contains information to identify a document to delete. Constraints: o min: 1 o max: 10 (structure) Contains information that identifies the document. dataSourceType -&gt; (string) [required] The type of data source connected to the knowledge base that contains the document. Possible values: o CUSTOM o S3 s3 -&gt; (structure) Contains information that identifies the document in an S3 data source. uri -&gt; (string) [required] The location's URI. For example, s3://my-bucket/chunk-processor/ . Constraints: o min: 1 o max: 2048 o pattern: s3://.{1,128} custom -&gt; (structure) Contains information that identifies the document in a custom data source. id -&gt; (string) [required] The identifier of the document to ingest into a custom data source. Constraints: o min: 1 o max: 2048 Shorthand Syntax: dataSourceType=string,s3={uri=string},custom={id=string} ... JSON Syntax: [ { "dataSourceType": "CUSTOM"|"S3", "s3": { "uri": "string" }, "custom": { "id": "string" } } ... ]
+    /// </summary>
+    [CliOption("--document-identifiers", GroupValues = true)]
+    public IEnumerable<string>? DocumentIdentifiers { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency . Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
@@ -35,13 +100,27 @@ public record AwsBedrockAgentDeleteKnowledgeBaseDocumentsOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--document-identifiers", GroupValues = true)]
-    public IEnumerable<string>? DocumentIdentifiers { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

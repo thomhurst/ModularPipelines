@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --resolveconflicts.
+/// Allowed values for --resolve-conflicts.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEksUpdateAddonResolveConflicts
 {
-    [EnumValue("OVERWRITE")]
-    Overwrite = 1,
-
     [EnumValue("NONE")]
-    None = 2,
+    None,
+
+    [EnumValue("OVERWRITE")]
+    Overwrite,
 
     [EnumValue("PRESERVE")]
-    Preserve = 3
+    Preserve
 }

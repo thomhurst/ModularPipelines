@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --persistentappuitype.
+/// Allowed values for --persistent-app-ui-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEmrGetPersistentAppUiPresignedUrlPersistentAppUiType
 {
     [EnumValue("SHS")]
-    Shs = 1,
+    Shs,
 
     [EnumValue("TEZ")]
-    Tez = 2,
+    Tez,
 
     [EnumValue("YTS")]
-    Yts = 3
+    Yts
 }

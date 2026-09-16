@@ -11,32 +11,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --applicationcomponentcriteria.
+/// Allowed values for --application-component-criteria.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsMigrationhubstrategyListApplicationComponentsApplicationComponentCriteria
 {
-    [EnumValue("NOT_DEFINED")]
-    NotDefined = 1,
+    [EnumValue("ANALYSIS_STATUS")]
+    AnalysisStatus,
 
     [EnumValue("APP_NAME")]
-    AppName = 2,
-
-    [EnumValue("SERVER_ID")]
-    ServerId = 3,
+    AppName,
 
     [EnumValue("APP_TYPE")]
-    AppType = 4,
-
-    [EnumValue("STRATEGY")]
-    Strategy = 5,
+    AppType,
 
     [EnumValue("DESTINATION")]
-    Destination = 6,
-
-    [EnumValue("ANALYSIS_STATUS")]
-    AnalysisStatus = 7,
+    Destination,
 
     [EnumValue("ERROR_CATEGORY")]
-    ErrorCategory = 8
+    ErrorCategory,
+
+    [EnumValue("NOT_DEFINED")]
+    NotDefined,
+
+    [EnumValue("SERVER_ID")]
+    ServerId,
+
+    [EnumValue("STRATEGY")]
+    Strategy
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("networkmanager", "create-core-network-prefix-list-association")]
-public record AwsNetworkmanagerCreateCoreNetworkPrefixListAssociationOptions : AwsOptions
+public record AwsNetworkmanagerCreateCoreNetworkPrefixListAssociationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an association between a core network and a prefix list for routing control. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CoreNetworkId">The ID of the core network to associate with the prefix list. Constraints: o min: 0 o max: 50 o pattern: ^core-network-([0-9a-f]{8,17})$</param>
+    /// <param name="PrefixListArn">The ARN of the prefix list to associate with the core network. Constraints: o min: 0 o max: 500 o pattern: [\s\S]*</param>
+    /// <param name="PrefixListAlias">An optional alias for the prefix list association. Constraints: o min: 0 o max: 256 o pattern: [\s\S]*</param>
+    public AwsNetworkmanagerCreateCoreNetworkPrefixListAssociationOptions(
+        string CoreNetworkId,
+        string PrefixListArn,
+        string PrefixListAlias
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CoreNetworkId);
+        this.CoreNetworkId = CoreNetworkId;
+        global::System.ArgumentNullException.ThrowIfNull(PrefixListArn);
+        this.PrefixListArn = PrefixListArn;
+        global::System.ArgumentNullException.ThrowIfNull(PrefixListAlias);
+        this.PrefixListAlias = PrefixListAlias;
+    }
+
+    private AwsNetworkmanagerCreateCoreNetworkPrefixListAssociationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNetworkmanagerCreateCoreNetworkPrefixListAssociationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNetworkmanagerCreateCoreNetworkPrefixListAssociationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the core network to associate with the prefix list. Constraints: o min: 0 o max: 50 o pattern: ^core-network-([0-9a-f]{8,17})$
+    /// </summary>
     [CliOption("--core-network-id")]
-    public string? CoreNetworkId { get; set; }
+    public string? CoreNetworkId { get; private init; }
 
+    /// <summary>
+    /// The ARN of the prefix list to associate with the core network. Constraints: o min: 0 o max: 500 o pattern: [\s\S]*
+    /// </summary>
     [CliOption("--prefix-list-arn")]
-    public string? PrefixListArn { get; set; }
+    public string? PrefixListArn { get; private init; }
 
+    /// <summary>
+    /// An optional alias for the prefix list association. Constraints: o min: 0 o max: 256 o pattern: [\s\S]*
+    /// </summary>
     [CliOption("--prefix-list-alias")]
-    public string? PrefixListAlias { get; set; }
+    public string? PrefixListAlias { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 0 o max: 256 o pattern: [\s\S]*
@@ -43,5 +94,22 @@ public record AwsNetworkmanagerCreateCoreNetworkPrefixListAssociationOptions : A
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

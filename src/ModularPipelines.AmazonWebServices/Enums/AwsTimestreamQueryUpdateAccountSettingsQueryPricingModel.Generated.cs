@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --querypricingmodel.
+/// Allowed values for --query-pricing-model.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsTimestreamQueryUpdateAccountSettingsQueryPricingModel
 {
     [EnumValue("BYTES_SCANNED")]
-    BytesScanned = 1,
+    BytesScanned,
 
     [EnumValue("COMPUTE_UNITS")]
-    ComputeUnits = 2
+    ComputeUnits
 }

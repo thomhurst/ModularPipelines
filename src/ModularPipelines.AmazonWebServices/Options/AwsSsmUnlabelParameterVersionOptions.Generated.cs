@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "unlabel-parameter-version")]
-public record AwsSsmUnlabelParameterVersionOptions : AwsOptions
+public record AwsSsmUnlabelParameterVersionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Remove a label or labels from a parameter. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the speci- fied name for a parameter contains spaces between characters, the re- quest fails with a ValidationException error. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the parameter from which you want to delete one or more labels. NOTE: You can't enter the Amazon Resource Name (ARN) for a parameter, only the parameter name itself. Constraints: o min: 1 o max: 2048</param>
+    /// <param name="ParameterVersion">The specific version of the parameter which you want to delete one or more labels from. If it isn't present, the call will fail.</param>
+    /// <param name="Labels">One or more labels to delete from the specified parameter version. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 100 Syntax: "string" "string" ...</param>
+    public AwsSsmUnlabelParameterVersionOptions(
+        string Name,
+        int ParameterVersion,
+        IEnumerable<string> Labels
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        this.ParameterVersion = ParameterVersion;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Labels);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Labels));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Labels));
+            }
+
+            Labels = materialized;
+        }
+        this.Labels = Labels;
+    }
+
+    private AwsSsmUnlabelParameterVersionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmUnlabelParameterVersionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmUnlabelParameterVersionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the parameter from which you want to delete one or more labels. NOTE: You can't enter the Amazon Resource Name (ARN) for a parameter, only the parameter name itself. Constraints: o min: 1 o max: 2048
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The specific version of the parameter which you want to delete one or more labels from. If it isn't present, the call will fail.
+    /// </summary>
     [CliOption("--parameter-version")]
-    public int? ParameterVersion { get; set; }
+    public int? ParameterVersion { get; private init; }
 
+    /// <summary>
+    /// One or more labels to delete from the specified parameter version. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 100 Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--labels", GroupValues = true)]
-    public IEnumerable<string>? Labels { get; set; }
+    public IEnumerable<string>? Labels { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

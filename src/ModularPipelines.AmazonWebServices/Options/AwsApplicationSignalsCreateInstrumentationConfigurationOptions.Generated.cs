@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,22 +21,96 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("application-signals", "create-instrumentation-configuration")]
-public record AwsApplicationSignalsCreateInstrumentationConfigurationOptions : AwsOptions
+public record AwsApplicationSignalsCreateInstrumentationConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a dynamic instrumentation configuration for a specific code or endpoint location within a service and environment. Configurations are immutable after creation. For BREAKPOINT type configurations, they expire after 24 hours unless a shorter expiration is provided. For PROBE type configurations, they persist until explicitly deleted; an expiration cannot be set for PROBE configurations. If a configuration already exists for the same service, environment, signal type, and location, this ope...
+    /// </summary>
+    /// <param name="InstrumentationType">Type of instrumentation: BREAKPOINT (temporary) or PROBE (permanent) Possible values: o BREAKPOINT o PROBE</param>
+    /// <param name="Service">The name of the service to instrument. This should match the ser- vice.name resource attribute reported by the application. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z0-9:/+=,.@_-]+</param>
+    /// <param name="Environment">The environment that the service is running in, such as eks:clus- ter-prod/namespace or ec2:production . Constraints: o min: 1 o max: 255 o pattern: [A-Za-z0-9:/+=,.@_-]+</param>
+    /// <param name="SignalType">The telemetry signal type to emit for this instrumentation. The sup- ported value is SNAPSHOT . Possible values: o SNAPSHOT</param>
+    /// <param name="Location">The location where instrumentation should be applied. Specify a CodeLocation for code-level instrumentation. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: CodeLocation. CodeLocation -&gt; (structure) A code location for code-level instrumentation, including lan- guage, code unit, class, method, file path, and optional line number. Language -&gt; (string) [required] The programming language for this instrumentation point, such as Java, Python, or JavaScript. Possible values: o Java o Python o Javascript CodeUnit -&gt; (string) The package, module, or namespace that contains the target code, for example com.amazon.payment or payment_service . Constraints: o min: 1 o max: 128 ClassName -&gt; (string) The class or type name that contains the method. This is re- quired for Java and optional for Python module-level func- tions. Constraints: o min: 1 o max: 128 MethodName -&gt; (string) The method or function name to instrument, such as validate- CreditCard or __init__ . Constraints: o min: 1 o max: 80 FilePath -&gt; (string) [required] The source file path relative to the project or source root, such as src/payment/PaymentProcessor.java or src/payment/Pay- mentProcessor.py . Constraints: o min: 1 o max: 1024 LineNumber -&gt; (integer) The line number to instrument. Provide this to disambiguate overloaded methods and to target a specific line when needed. Constraints: o min: 1 Shorthand Syntax: CodeLocation={Language=string,CodeUnit=string,ClassName=string,MethodName=string,FilePath=string,LineNumber=integer} JSON Syntax: { "CodeLocation": { "Language": "Java"|"Python"|"Javascript", "CodeUnit": "string", "ClassName": "string", "MethodName": "string", "FilePath": "string", "LineNumber": integer } }</param>
+    /// <param name="CaptureConfiguration">Specifies what to capture when the instrumentation point is hit. Specify CodeCapture for code-level capture settings. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: CodeCapture. CodeCapture -&gt; (structure) Capture settings for code-level instrumentation, including argu- ments, return values, stack traces, local variables, and safety limits. CaptureArguments -&gt; (list) The function arguments to capture. Omit to capture defaults, use an empty list to capture none, use ["*"] to capture all arguments, or specify argument names to capture selectively (up to 10 entries). Constraints: o min: 0 o max: 10 (string) Constraints: o min: 1 o max: 80 CaptureReturn -&gt; (boolean) Whether to capture the return value. Defaults to false. CaptureStackTrace -&gt; (boolean) Whether to capture a stack trace when the instrumentation point is hit. Defaults to true. CaptureLocals -&gt; (list) The local variables to capture by name. Omit or pass an empty list to capture none. You can specify up to 20 names. Constraints: o min: 0 o max: 20 (string) Constraints: o min: 1 o max: 80 CaptureLimits -&gt; (structure) [required] Safety limits that bound what is captured, including hit counts, string length, collection depth, and stack trace size. MaxHits -&gt; (integer) The maximum number of times the instrumentation point can be hit before it is automatically disabled. Defaults to 100. Constraints: o min: 1 o max: 1000 MaxStringLength -&gt; (integer) The maximum length of captured string values in charac- ters. Strings longer than this are truncated. Defaults to 128. Constraints: o min: 1 o max: 255 MaxCollectionWidth -&gt; (integer) The maximum number of items to capture from any collec- tion to prevent large payloads. Defaults to 10. Constraints: o min: 1 o max: 20 MaxCollectionDepth -&gt; (integer) The maximum nesting depth to traverse inside collections. Defaults to 3. Constraints: o min: 1 o max: 5 MaxStackFrames -&gt; (integer) The maximum number of stack frames to capture in stack traces. Defaults to 2. Constraints: o min: 1 o max: 20 MaxStackTraceSize -&gt; (integer) The maximum total size, in bytes, of a captured stack trace. Defaults to 1000. Constraints: o min: 1 o max: 1000 MaxObjectDepth -&gt; (integer) The maximum depth for nested object traversal when cap- turing structured data. Defaults to 3. Constraints: o min: 1 o max: 5 MaxFieldsPerObject -&gt; (integer) The maximum number of fields to capture for any object. Defaults to 10. Constraints: o min: 1 o max: 20 Shorthand Syntax: CodeCapture={CaptureArguments=[string,string],CaptureReturn=boolean,CaptureStackTrace=boolean,CaptureLocals=[string,string],CaptureLimits={MaxHits=integer,MaxStringLength=integer,MaxCollectionWidth=integer,MaxCollectionDepth=integer,MaxStackFrames=integer,MaxStackTraceSize=integer,MaxObjectDepth=integer,MaxFieldsPerObject=integer}} JSON Syntax: { "CodeCapture": { "CaptureArguments": ["string", ...], "CaptureReturn": true|false, "CaptureStackTrace": true|false, "CaptureLocals": ["string", ...], "CaptureLimits": { "MaxHits": integer, "MaxStringLength": integer, "MaxCollectionWidth": integer, "MaxCollectionDepth": integer, "MaxStackFrames": integer, "MaxStackTraceSize": integer, "MaxObjectDepth": integer, "MaxFieldsPerObject": integer } } }</param>
+    public AwsApplicationSignalsCreateInstrumentationConfigurationOptions(
+        AwsApplicationSignalsCreateInstrumentationConfigurationInstrumentationType InstrumentationType,
+        string Service,
+        string Environment,
+        string SignalType,
+        string Location,
+        string CaptureConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstrumentationType);
+        this.InstrumentationType = InstrumentationType;
+        global::System.ArgumentNullException.ThrowIfNull(Service);
+        this.Service = Service;
+        global::System.ArgumentNullException.ThrowIfNull(Environment);
+        this.Environment = Environment;
+        global::System.ArgumentNullException.ThrowIfNull(SignalType);
+        this.SignalType = SignalType;
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        global::System.ArgumentNullException.ThrowIfNull(CaptureConfiguration);
+        this.CaptureConfiguration = CaptureConfiguration;
+    }
+
+    private AwsApplicationSignalsCreateInstrumentationConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApplicationSignalsCreateInstrumentationConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApplicationSignalsCreateInstrumentationConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Type of instrumentation: BREAKPOINT (temporary) or PROBE (permanent) Possible values: o BREAKPOINT o PROBE
+    /// </summary>
     [CliOption("--instrumentation-type")]
-    public string? InstrumentationType { get; set; }
+    public AwsApplicationSignalsCreateInstrumentationConfigurationInstrumentationType? InstrumentationType { get; private init; }
 
+    /// <summary>
+    /// The name of the service to instrument. This should match the ser- vice.name resource attribute reported by the application. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z0-9:/+=,.@_-]+
+    /// </summary>
     [CliOption("--service")]
-    public string? Service { get; set; }
+    public string? Service { get; private init; }
 
+    /// <summary>
+    /// The environment that the service is running in, such as eks:clus- ter-prod/namespace or ec2:production . Constraints: o min: 1 o max: 255 o pattern: [A-Za-z0-9:/+=,.@_-]+
+    /// </summary>
     [CliOption("--environment")]
-    public string? Environment { get; set; }
+    public string? Environment { get; private init; }
 
+    /// <summary>
+    /// The telemetry signal type to emit for this instrumentation. The sup- ported value is SNAPSHOT . Possible values: o SNAPSHOT
+    /// </summary>
     [CliOption("--signal-type")]
-    public string? SignalType { get; set; }
+    public string? SignalType { get; private init; }
 
+    /// <summary>
+    /// The location where instrumentation should be applied. Specify a CodeLocation for code-level instrumentation. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: CodeLocation. CodeLocation -&gt; (structure) A code location for code-level instrumentation, including lan- guage, code unit, class, method, file path, and optional line number. Language -&gt; (string) [required] The programming language for this instrumentation point, such as Java, Python, or JavaScript. Possible values: o Java o Python o Javascript CodeUnit -&gt; (string) The package, module, or namespace that contains the target code, for example com.amazon.payment or payment_service . Constraints: o min: 1 o max: 128 ClassName -&gt; (string) The class or type name that contains the method. This is re- quired for Java and optional for Python module-level func- tions. Constraints: o min: 1 o max: 128 MethodName -&gt; (string) The method or function name to instrument, such as validate- CreditCard or __init__ . Constraints: o min: 1 o max: 80 FilePath -&gt; (string) [required] The source file path relative to the project or source root, such as src/payment/PaymentProcessor.java or src/payment/Pay- mentProcessor.py . Constraints: o min: 1 o max: 1024 LineNumber -&gt; (integer) The line number to instrument. Provide this to disambiguate overloaded methods and to target a specific line when needed. Constraints: o min: 1 Shorthand Syntax: CodeLocation={Language=string,CodeUnit=string,ClassName=string,MethodName=string,FilePath=string,LineNumber=integer} JSON Syntax: { "CodeLocation": { "Language": "Java"|"Python"|"Javascript", "CodeUnit": "string", "ClassName": "string", "MethodName": "string", "FilePath": "string", "LineNumber": integer } }
+    /// </summary>
     [CliOption("--location")]
-    public string? Location { get; set; }
+    public string? Location { get; private init; }
+
+    /// <summary>
+    /// Specifies what to capture when the instrumentation point is hit. Specify CodeCapture for code-level capture settings. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: CodeCapture. CodeCapture -&gt; (structure) Capture settings for code-level instrumentation, including argu- ments, return values, stack traces, local variables, and safety limits. CaptureArguments -&gt; (list) The function arguments to capture. Omit to capture defaults, use an empty list to capture none, use ["*"] to capture all arguments, or specify argument names to capture selectively (up to 10 entries). Constraints: o min: 0 o max: 10 (string) Constraints: o min: 1 o max: 80 CaptureReturn -&gt; (boolean) Whether to capture the return value. Defaults to false. CaptureStackTrace -&gt; (boolean) Whether to capture a stack trace when the instrumentation point is hit. Defaults to true. CaptureLocals -&gt; (list) The local variables to capture by name. Omit or pass an empty list to capture none. You can specify up to 20 names. Constraints: o min: 0 o max: 20 (string) Constraints: o min: 1 o max: 80 CaptureLimits -&gt; (structure) [required] Safety limits that bound what is captured, including hit counts, string length, collection depth, and stack trace size. MaxHits -&gt; (integer) The maximum number of times the instrumentation point can be hit before it is automatically disabled. Defaults to 100. Constraints: o min: 1 o max: 1000 MaxStringLength -&gt; (integer) The maximum length of captured string values in charac- ters. Strings longer than this are truncated. Defaults to 128. Constraints: o min: 1 o max: 255 MaxCollectionWidth -&gt; (integer) The maximum number of items to capture from any collec- tion to prevent large payloads. Defaults to 10. Constraints: o min: 1 o max: 20 MaxCollectionDepth -&gt; (integer) The maximum nesting depth to traverse inside collections. Defaults to 3. Constraints: o min: 1 o max: 5 MaxStackFrames -&gt; (integer) The maximum number of stack frames to capture in stack traces. Defaults to 2. Constraints: o min: 1 o max: 20 MaxStackTraceSize -&gt; (integer) The maximum total size, in bytes, of a captured stack trace. Defaults to 1000. Constraints: o min: 1 o max: 1000 MaxObjectDepth -&gt; (integer) The maximum depth for nested object traversal when cap- turing structured data. Defaults to 3. Constraints: o min: 1 o max: 5 MaxFieldsPerObject -&gt; (integer) The maximum number of fields to capture for any object. Defaults to 10. Constraints: o min: 1 o max: 20 Shorthand Syntax: CodeCapture={CaptureArguments=[string,string],CaptureReturn=boolean,CaptureStackTrace=boolean,CaptureLocals=[string,string],CaptureLimits={MaxHits=integer,MaxStringLength=integer,MaxCollectionWidth=integer,MaxCollectionDepth=integer,MaxStackFrames=integer,MaxStackTraceSize=integer,MaxObjectDepth=integer,MaxFieldsPerObject=integer}} JSON Syntax: { "CodeCapture": { "CaptureArguments": ["string", ...], "CaptureReturn": true|false, "CaptureStackTrace": true|false, "CaptureLocals": ["string", ...], "CaptureLimits": { "MaxHits": integer, "MaxStringLength": integer, "MaxCollectionWidth": integer, "MaxCollectionDepth": integer, "MaxStackFrames": integer, "MaxStackTraceSize": integer, "MaxObjectDepth": integer, "MaxFieldsPerObject": integer } } }
+    /// </summary>
+    [CliOption("--capture-configuration")]
+    public string? CaptureConfiguration { get; private init; }
 
     /// <summary>
     /// An optional short description (up to 50 characters) that explains the purpose of this instrumentation. Constraints: o min: 1 o max: 50
@@ -54,9 +130,6 @@ public record AwsApplicationSignalsCreateInstrumentationConfigurationOptions : A
     [CliOption("--attribute-filters", GroupValues = true)]
     public IEnumerable<string>? AttributeFilters { get; set; }
 
-    [CliOption("--capture-configuration")]
-    public string? CaptureConfiguration { get; set; }
-
     /// <summary>
     /// An optional list of key-value pairs to associate with the instrumen- tation configuration. Tags can help you organize and categorize your resources. Constraints: o min: 0 o max: 200 (structure) A key-value pair associated with a resource. Tags can help you organize and categorize your resources. Key -&gt; (string) [required] A string that you can use to assign a value. The combination of tag keys and values can help you organize and categorize your resources. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value for the specified tag key. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
@@ -68,5 +141,22 @@ public record AwsApplicationSignalsCreateInstrumentationConfigurationOptions : A
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

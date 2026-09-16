@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --orderby.
+/// Allowed values for --order-by.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCodeguruprofilerListProfileTimesOrderBy
 {
-    [EnumValue("TimestampDescending")]
-    TimestampDescending = 1,
-
     [EnumValue("TimestampAscending")]
-    TimestampAscending = 2
+    TimestampAscending,
+
+    [EnumValue("TimestampDescending")]
+    TimestampDescending
 }

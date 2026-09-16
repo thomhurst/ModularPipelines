@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +22,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datazone", "batch-put-attributes-metadata")]
-public record AwsDatazoneBatchPutAttributesMetadataOptions : AwsOptions
+public record AwsDatazoneBatchPutAttributesMetadataOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Writes the attribute metadata. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainIdentifier">The domain ID where you want to write the attribute metadata. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="EntityType">The entity type for which you want to write the attribute metadata. Possible values: o ASSET o LISTING</param>
+    /// <param name="EntityIdentifier">The entity ID for which you want to write the attribute metadata. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Attributes">The attributes of the metadata. Constraints: o min: 0 o max: 5 (structure) The attribute input. attributeIdentifier -&gt; (string) [required] The ID of the attribute. Constraints: o min: 1 o max: 256 forms -&gt; (list) [required] The metadata forms as part of the attribute input. Constraints: o min: 0 o max: 10 (structure) The details of a metadata form. formName -&gt; (string) [required] The name of the metadata form. Constraints: o min: 1 o max: 128 o pattern: (?![0-9_])\w+$|^_\w*[a-zA-Z0-9]\w* typeIdentifier -&gt; (string) The ID of the metadata form type. Constraints: o min: 1 o max: 385 o pattern: (?!\.)[\w\.]*\w typeRevision -&gt; (string) The revision of the metadata form type. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+ content -&gt; (string) The content of the metadata form. Constraints: o min: 0 o max: 300000 Shorthand Syntax: attributeIdentifier=string,forms=[{formName=string,typeIdentifier=string,typeRevision=string,content=string},{formName=string,typeIdentifier=string,typeRevision=string,content=string}] ... JSON Syntax: [ { "attributeIdentifier": "string", "forms": [ { "formName": "string", "typeIdentifier": "string", "typeRevision": "string", "content": "string" } ... ] } ... ]</param>
+    public AwsDatazoneBatchPutAttributesMetadataOptions(
+        string DomainIdentifier,
+        AwsDatazoneBatchPutAttributesMetadataEntityType EntityType,
+        string EntityIdentifier,
+        IEnumerable<string> Attributes
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainIdentifier);
+        this.DomainIdentifier = DomainIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(EntityType);
+        this.EntityType = EntityType;
+        global::System.ArgumentNullException.ThrowIfNull(EntityIdentifier);
+        this.EntityIdentifier = EntityIdentifier;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Attributes);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Attributes));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Attributes));
+            }
+
+            Attributes = materialized;
+        }
+        this.Attributes = Attributes;
+    }
+
+    private AwsDatazoneBatchPutAttributesMetadataOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatazoneBatchPutAttributesMetadataOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatazoneBatchPutAttributesMetadataOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The domain ID where you want to write the attribute metadata. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// </summary>
     [CliOption("--domain-identifier")]
-    public string? DomainIdentifier { get; set; }
+    public string? DomainIdentifier { get; private init; }
 
+    /// <summary>
+    /// The entity type for which you want to write the attribute metadata. Possible values: o ASSET o LISTING
+    /// </summary>
     [CliOption("--entity-type")]
-    public string? EntityType { get; set; }
+    public AwsDatazoneBatchPutAttributesMetadataEntityType? EntityType { get; private init; }
 
+    /// <summary>
+    /// The entity ID for which you want to write the attribute metadata. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// </summary>
     [CliOption("--entity-identifier")]
-    public string? EntityIdentifier { get; set; }
+    public string? EntityIdentifier { get; private init; }
+
+    /// <summary>
+    /// The attributes of the metadata. Constraints: o min: 0 o max: 5 (structure) The attribute input. attributeIdentifier -&gt; (string) [required] The ID of the attribute. Constraints: o min: 1 o max: 256 forms -&gt; (list) [required] The metadata forms as part of the attribute input. Constraints: o min: 0 o max: 10 (structure) The details of a metadata form. formName -&gt; (string) [required] The name of the metadata form. Constraints: o min: 1 o max: 128 o pattern: (?![0-9_])\w+$|^_\w*[a-zA-Z0-9]\w* typeIdentifier -&gt; (string) The ID of the metadata form type. Constraints: o min: 1 o max: 385 o pattern: (?!\.)[\w\.]*\w typeRevision -&gt; (string) The revision of the metadata form type. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+ content -&gt; (string) The content of the metadata form. Constraints: o min: 0 o max: 300000 Shorthand Syntax: attributeIdentifier=string,forms=[{formName=string,typeIdentifier=string,typeRevision=string,content=string},{formName=string,typeIdentifier=string,typeRevision=string,content=string}] ... JSON Syntax: [ { "attributeIdentifier": "string", "forms": [ { "formName": "string", "typeIdentifier": "string", "typeRevision": "string", "content": "string" } ... ] } ... ]
+    /// </summary>
+    [CliOption("--attributes", GroupValues = true)]
+    public IEnumerable<string>? Attributes { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier to ensure idempotency of the re- quest. This field is automatically populated if not provided. Constraints: o min: 1 o max: 128 o pattern: [\x21-\x7E]+
@@ -38,13 +111,27 @@ public record AwsDatazoneBatchPutAttributesMetadataOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--attributes", GroupValues = true)]
-    public IEnumerable<string>? Attributes { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

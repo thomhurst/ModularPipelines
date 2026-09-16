@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --importtype.
+/// Allowed values for --import-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsKmsImportKeyMaterialImportType
 {
-    [EnumValue("NEW_KEY_MATERIAL")]
-    NewKeyMaterial = 1,
-
     [EnumValue("EXISTING_KEY_MATERIAL")]
-    ExistingKeyMaterial = 2
+    ExistingKeyMaterial,
+
+    [EnumValue("NEW_KEY_MATERIAL")]
+    NewKeyMaterial
 }

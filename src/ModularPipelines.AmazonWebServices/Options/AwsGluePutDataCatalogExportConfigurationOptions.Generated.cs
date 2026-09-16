@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("glue", "put-data-catalog-export-configuration")]
-public record AwsGluePutDataCatalogExportConfigurationOptions : AwsOptions
+public record AwsGluePutDataCatalogExportConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates or updates the export configuration for the Glue Data Catalog. Use this operation to enable or disable the export of catalog metadata to S3 Tables. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ExportSetting">The export setting for the data catalog. Specify ENABLED to start exporting catalog metadata to S3 Tables, or DISABLED to stop export- ing. This field is required. Possible values: o ENABLED o DISABLED</param>
+    public AwsGluePutDataCatalogExportConfigurationOptions(
+        AwsGluePutDataCatalogExportConfigurationExportSetting ExportSetting
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ExportSetting);
+        this.ExportSetting = ExportSetting;
+    }
+
+    private AwsGluePutDataCatalogExportConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGluePutDataCatalogExportConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGluePutDataCatalogExportConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The export setting for the data catalog. Specify ENABLED to start exporting catalog metadata to S3 Tables, or DISABLED to stop export- ing. This field is required. Possible values: o ENABLED o DISABLED
+    /// </summary>
     [CliOption("--export-setting")]
-    public string? ExportSetting { get; set; }
+    public AwsGluePutDataCatalogExportConfigurationExportSetting? ExportSetting { get; private init; }
 
     /// <summary>
     /// The encryption configuration for the exported data. If not speci- fied, the default encryption settings are used. SseAlgorithm -&gt; (string) The server-side encryption algorithm used for the exported data. Valid values are AES256 and aws:kms . KmsKeyArn -&gt; (string) The ARN of the KMS key used to encrypt the exported data. Constraints: o pattern: arn:aws[-a-z0-9]*:kms:[-a-z0-9]*:[0-9]{12}:key/.+ Shorthand Syntax: SseAlgorithm=string,KmsKeyArn=string JSON Syntax: { "SseAlgorithm": "string", "KmsKeyArn": "string" }
@@ -43,5 +81,22 @@ public record AwsGluePutDataCatalogExportConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

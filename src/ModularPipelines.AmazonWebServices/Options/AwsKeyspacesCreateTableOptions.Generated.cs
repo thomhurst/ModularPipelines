@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyspaces", "create-table")]
-public record AwsKeyspacesCreateTableOptions : AwsOptions
+public record AwsKeyspacesCreateTableOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// The CreateTable operation adds a new table to the specified keyspace. Within a keyspace, table names must be unique. CreateTable is an asynchronous operation. When the request is re- ceived, the status of the table is set to CREATING . You can monitor the creation status of the new table by using the GetTable opera- tion, which returns the current status of the table. You can start using a table when the status is ACTIVE . For more information, see Create a table in the Amazon Keyspaces Devel- o...
+    /// </summary>
+    /// <param name="KeyspaceName">The name of the keyspace that the table is going to be created in. Constraints: o min: 1 o max: 48 o pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}</param>
+    /// <param name="TableName">The name of the table. Constraints: o min: 1 o max: 48 o pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}</param>
+    /// <param name="SchemaDefinition">The schemaDefinition consists of the following parameters. For each column to be created: o name - The name of the column. o type - An Amazon Keyspaces data type. For more information, see Data types in the Amazon Keyspaces Developer Guide . The primary key of the table consists of the following columns: o partitionKeys - The partition key can be a single column, or it can be a compound value composed of two or more columns. The par- tition key portion of the primary key is required and determines how Amazon Keyspaces stores your data. o name - The name of each partition key column. o clusteringKeys - The optional clustering column portion of your primary key determines how the data is clustered and sorted within each partition. o name - The name of the clustering column. o orderBy - Sets the ascendant (ASC ) or descendant (DESC ) order modifier. To define a column as static use staticColumns - Static columns store values that are shared by all rows in the same par- tition: o name - The name of the column. o type - An Amazon Keyspaces data type. allColumns -&gt; (list) [required] The regular columns of the table. Constraints: o min: 1 (structure) The names and data types of regular columns. name -&gt; (string) [required] The name of the column. type -&gt; (string) [required] The data type of the column. For a list of available data types, see Data types in the Amazon Keyspaces Developer Guide . partitionKeys -&gt; (list) [required] The columns that are part of the partition key of the table . Constraints: o min: 1 (structure) The partition key portion of the primary key is required and determines how Amazon Keyspaces stores the data. The parti- tion key can be a single column, or it can be a compound value composed of two or more columns. name -&gt; (string) [required] The name(s) of the partition key column(s). clusteringKeys -&gt; (list) The columns that are part of the clustering key of the table. (structure) The optional clustering column portion of your primary key determines how the data is clustered and sorted within each partition. name -&gt; (string) [required] The name(s) of the clustering column(s). orderBy -&gt; (string) [required] Sets the ascendant (ASC ) or descendant (DESC ) order modifier. Possible values: o ASC o DESC staticColumns -&gt; (list) The columns that have been defined as STATIC . Static columns store values that are shared by all rows in the same partition. (structure) The static columns of the table. Static columns store values that are shared by all rows in the same partition. name -&gt; (string) [required] The name of the static column. Shorthand Syntax: allColumns=[{name=string,type=string},{name=string,type=string}],partitionKeys=[{name=string},{name=string}],clusteringKeys=[{name=string,orderBy=string},{name=string,orderBy=string}],staticColumns=[{name=string},{name=string}] JSON Syntax: { "allColumns": [ { "name": "string", "type": "string" } ... ], "partitionKeys": [ { "name": "string" } ... ], "clusteringKeys": [ { "name": "string", "orderBy": "ASC"|"DESC" } ... ], "staticColumns": [ { "name": "string" } ... ] }</param>
+    public AwsKeyspacesCreateTableOptions(
+        string KeyspaceName,
+        string TableName,
+        string SchemaDefinition
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KeyspaceName);
+        this.KeyspaceName = KeyspaceName;
+        global::System.ArgumentNullException.ThrowIfNull(TableName);
+        this.TableName = TableName;
+        global::System.ArgumentNullException.ThrowIfNull(SchemaDefinition);
+        this.SchemaDefinition = SchemaDefinition;
+    }
+
+    private AwsKeyspacesCreateTableOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKeyspacesCreateTableOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKeyspacesCreateTableOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the keyspace that the table is going to be created in. Constraints: o min: 1 o max: 48 o pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}
+    /// </summary>
     [CliOption("--keyspace-name")]
-    public string? KeyspaceName { get; set; }
+    public string? KeyspaceName { get; private init; }
 
+    /// <summary>
+    /// The name of the table. Constraints: o min: 1 o max: 48 o pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}
+    /// </summary>
     [CliOption("--table-name")]
-    public string? TableName { get; set; }
+    public string? TableName { get; private init; }
 
+    /// <summary>
+    /// The schemaDefinition consists of the following parameters. For each column to be created: o name - The name of the column. o type - An Amazon Keyspaces data type. For more information, see Data types in the Amazon Keyspaces Developer Guide . The primary key of the table consists of the following columns: o partitionKeys - The partition key can be a single column, or it can be a compound value composed of two or more columns. The par- tition key portion of the primary key is required and determines how Amazon Keyspaces stores your data. o name - The name of each partition key column. o clusteringKeys - The optional clustering column portion of your primary key determines how the data is clustered and sorted within each partition. o name - The name of the clustering column. o orderBy - Sets the ascendant (ASC ) or descendant (DESC ) order modifier. To define a column as static use staticColumns - Static columns store values that are shared by all rows in the same par- tition: o name - The name of the column. o type - An Amazon Keyspaces data type. allColumns -&gt; (list) [required] The regular columns of the table. Constraints: o min: 1 (structure) The names and data types of regular columns. name -&gt; (string) [required] The name of the column. type -&gt; (string) [required] The data type of the column. For a list of available data types, see Data types in the Amazon Keyspaces Developer Guide . partitionKeys -&gt; (list) [required] The columns that are part of the partition key of the table . Constraints: o min: 1 (structure) The partition key portion of the primary key is required and determines how Amazon Keyspaces stores the data. The parti- tion key can be a single column, or it can be a compound value composed of two or more columns. name -&gt; (string) [required] The name(s) of the partition key column(s). clusteringKeys -&gt; (list) The columns that are part of the clustering key of the table. (structure) The optional clustering column portion of your primary key determines how the data is clustered and sorted within each partition. name -&gt; (string) [required] The name(s) of the clustering column(s). orderBy -&gt; (string) [required] Sets the ascendant (ASC ) or descendant (DESC ) order modifier. Possible values: o ASC o DESC staticColumns -&gt; (list) The columns that have been defined as STATIC . Static columns store values that are shared by all rows in the same partition. (structure) The static columns of the table. Static columns store values that are shared by all rows in the same partition. name -&gt; (string) [required] The name of the static column. Shorthand Syntax: allColumns=[{name=string,type=string},{name=string,type=string}],partitionKeys=[{name=string},{name=string}],clusteringKeys=[{name=string,orderBy=string},{name=string,orderBy=string}],staticColumns=[{name=string},{name=string}] JSON Syntax: { "allColumns": [ { "name": "string", "type": "string" } ... ], "partitionKeys": [ { "name": "string" } ... ], "clusteringKeys": [ { "name": "string", "orderBy": "ASC"|"DESC" } ... ], "staticColumns": [ { "name": "string" } ... ] }
+    /// </summary>
     [CliOption("--schema-definition")]
-    public string? SchemaDefinition { get; set; }
+    public string? SchemaDefinition { get; private init; }
 
     /// <summary>
     /// This parameter allows to enter a description of the table. message -&gt; (string) [required] An optional description of the table. Shorthand Syntax: message=string JSON Syntax: { "message": "string" }
@@ -107,5 +158,22 @@ public record AwsKeyspacesCreateTableOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

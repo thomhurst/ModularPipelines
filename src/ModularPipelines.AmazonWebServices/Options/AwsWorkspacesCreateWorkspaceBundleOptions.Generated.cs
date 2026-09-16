@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,22 +20,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workspaces", "create-workspace-bundle")]
-public record AwsWorkspacesCreateWorkspaceBundleOptions : AwsOptions
+public record AwsWorkspacesCreateWorkspaceBundleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates the specified WorkSpace bundle. For more information about cre- ating WorkSpace bundles, see Create a Custom WorkSpaces Image and Bun- dle . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BundleName">The name of the bundle. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_./()\\-]+$</param>
+    /// <param name="BundleDescription">The description of the bundle. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9_./() -]+$</param>
+    /// <param name="ImageId">The identifier of the image that is used to create the bundle. Constraints: o pattern: wsi-[0-9a-z]{9,63}$</param>
+    /// <param name="ComputeType">Describes the compute type of the bundle. Name -&gt; (string) The compute type. Possible values: o VALUE o STANDARD o PERFORMANCE o POWER o GRAPHICS o POWERPRO o GENERALPURPOSE_4XLARGE o GENERALPURPOSE_8XLARGE o GRAPHICSPRO o GRAPHICS_G4DN o GRAPHICSPRO_G4DN o GRAPHICS_G6_XLARGE o GRAPHICS_G6_2XLARGE o GRAPHICS_G6_4XLARGE o GRAPHICS_G6_8XLARGE o GRAPHICS_G6_16XLARGE o GRAPHICS_GR6_4XLARGE o GRAPHICS_GR6_8XLARGE o GRAPHICS_G6F_LARGE o GRAPHICS_G6F_XLARGE o GRAPHICS_G6F_2XLARGE o GRAPHICS_G6F_4XLARGE o GRAPHICS_GR6F_4XLARGE o GRAPHICS_G7_2XLARGE o GRAPHICS_G7_4XLARGE o GRAPHICS_G7_8XLARGE o GRAPHICS_G7_12XLARGE Shorthand Syntax: Name=string JSON Syntax: { "Name": "VALUE"|"STANDARD"|"PERFORMANCE"|"POWER"|"GRAPHICS"|"POWERPRO"|"GENERALPURPOSE_4XLARGE"|"GENERALPURPOSE_8XLARGE"|"GRAPHICSPRO"|"GRAPHICS_G4DN"|"GRAPHICSPRO_G4DN"|"GRAPHICS_G6_XLARGE"|"GRAPHICS_G6_2XLARGE"|"GRAPHICS_G6_4XLARGE"|"GRAPHICS_G6_8XLARGE"|"GRAPHICS_G6_16XLARGE"|"GRAPHICS_GR6_4XLARGE"|"GRAPHICS_GR6_8XLARGE"|"GRAPHICS_G6F_LARGE"|"GRAPHICS_G6F_XLARGE"|"GRAPHICS_G6F_2XLARGE"|"GRAPHICS_G6F_4XLARGE"|"GRAPHICS_GR6F_4XLARGE"|"GRAPHICS_G7_2XLARGE"|"GRAPHICS_G7_4XLARGE"|"GRAPHICS_G7_8XLARGE"|"GRAPHICS_G7_12XLARGE" }</param>
+    /// <param name="UserStorage">Describes the user volume for a WorkSpace bundle. Capacity -&gt; (string) [required] The size of the user volume. Constraints: o min: 1 Shorthand Syntax: Capacity=string JSON Syntax: { "Capacity": "string" }</param>
+    public AwsWorkspacesCreateWorkspaceBundleOptions(
+        string BundleName,
+        string BundleDescription,
+        string ImageId,
+        string ComputeType,
+        string UserStorage
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BundleName);
+        this.BundleName = BundleName;
+        global::System.ArgumentNullException.ThrowIfNull(BundleDescription);
+        this.BundleDescription = BundleDescription;
+        global::System.ArgumentNullException.ThrowIfNull(ImageId);
+        this.ImageId = ImageId;
+        global::System.ArgumentNullException.ThrowIfNull(ComputeType);
+        this.ComputeType = ComputeType;
+        global::System.ArgumentNullException.ThrowIfNull(UserStorage);
+        this.UserStorage = UserStorage;
+    }
+
+    private AwsWorkspacesCreateWorkspaceBundleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkspacesCreateWorkspaceBundleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkspacesCreateWorkspaceBundleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the bundle. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_./()\\-]+$
+    /// </summary>
     [CliOption("--bundle-name")]
-    public string? BundleName { get; set; }
+    public string? BundleName { get; private init; }
 
+    /// <summary>
+    /// The description of the bundle. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9_./() -]+$
+    /// </summary>
     [CliOption("--bundle-description")]
-    public string? BundleDescription { get; set; }
+    public string? BundleDescription { get; private init; }
 
+    /// <summary>
+    /// The identifier of the image that is used to create the bundle. Constraints: o pattern: wsi-[0-9a-z]{9,63}$
+    /// </summary>
     [CliOption("--image-id")]
-    public string? ImageId { get; set; }
+    public string? ImageId { get; private init; }
 
+    /// <summary>
+    /// Describes the compute type of the bundle. Name -&gt; (string) The compute type. Possible values: o VALUE o STANDARD o PERFORMANCE o POWER o GRAPHICS o POWERPRO o GENERALPURPOSE_4XLARGE o GENERALPURPOSE_8XLARGE o GRAPHICSPRO o GRAPHICS_G4DN o GRAPHICSPRO_G4DN o GRAPHICS_G6_XLARGE o GRAPHICS_G6_2XLARGE o GRAPHICS_G6_4XLARGE o GRAPHICS_G6_8XLARGE o GRAPHICS_G6_16XLARGE o GRAPHICS_GR6_4XLARGE o GRAPHICS_GR6_8XLARGE o GRAPHICS_G6F_LARGE o GRAPHICS_G6F_XLARGE o GRAPHICS_G6F_2XLARGE o GRAPHICS_G6F_4XLARGE o GRAPHICS_GR6F_4XLARGE o GRAPHICS_G7_2XLARGE o GRAPHICS_G7_4XLARGE o GRAPHICS_G7_8XLARGE o GRAPHICS_G7_12XLARGE Shorthand Syntax: Name=string JSON Syntax: { "Name": "VALUE"|"STANDARD"|"PERFORMANCE"|"POWER"|"GRAPHICS"|"POWERPRO"|"GENERALPURPOSE_4XLARGE"|"GENERALPURPOSE_8XLARGE"|"GRAPHICSPRO"|"GRAPHICS_G4DN"|"GRAPHICSPRO_G4DN"|"GRAPHICS_G6_XLARGE"|"GRAPHICS_G6_2XLARGE"|"GRAPHICS_G6_4XLARGE"|"GRAPHICS_G6_8XLARGE"|"GRAPHICS_G6_16XLARGE"|"GRAPHICS_GR6_4XLARGE"|"GRAPHICS_GR6_8XLARGE"|"GRAPHICS_G6F_LARGE"|"GRAPHICS_G6F_XLARGE"|"GRAPHICS_G6F_2XLARGE"|"GRAPHICS_G6F_4XLARGE"|"GRAPHICS_GR6F_4XLARGE"|"GRAPHICS_G7_2XLARGE"|"GRAPHICS_G7_4XLARGE"|"GRAPHICS_G7_8XLARGE"|"GRAPHICS_G7_12XLARGE" }
+    /// </summary>
     [CliOption("--compute-type")]
-    public string? ComputeType { get; set; }
+    public string? ComputeType { get; private init; }
 
+    /// <summary>
+    /// Describes the user volume for a WorkSpace bundle. Capacity -&gt; (string) [required] The size of the user volume. Constraints: o min: 1 Shorthand Syntax: Capacity=string JSON Syntax: { "Capacity": "string" }
+    /// </summary>
     [CliOption("--user-storage")]
-    public string? UserStorage { get; set; }
+    public string? UserStorage { get; private init; }
 
     /// <summary>
     /// Describes the root volume for a WorkSpace bundle. Capacity -&gt; (string) [required] The size of the root volume. Constraints: o min: 1 Shorthand Syntax: Capacity=string JSON Syntax: { "Capacity": "string" }
@@ -53,5 +118,22 @@ public record AwsWorkspacesCreateWorkspaceBundleOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --policyexistscondition.
+/// Allowed values for --policy-exists-condition.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGluePutResourcePolicyPolicyExistsCondition
 {
     [EnumValue("MUST_EXIST")]
-    MustExist = 1,
-
-    [EnumValue("NOT_EXIST")]
-    NotExist = 2,
+    MustExist,
 
     [EnumValue("NONE")]
-    None = 3
+    None,
+
+    [EnumValue("NOT_EXIST")]
+    NotExist
 }

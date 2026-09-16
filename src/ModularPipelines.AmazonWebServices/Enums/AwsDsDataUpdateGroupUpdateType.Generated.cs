@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --updatetype.
+/// Allowed values for --update-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDsDataUpdateGroupUpdateType
 {
     [EnumValue("ADD")]
-    Add = 1,
-
-    [EnumValue("REPLACE")]
-    Replace = 2,
+    Add,
 
     [EnumValue("REMOVE")]
-    Remove = 3
+    Remove,
+
+    [EnumValue("REPLACE")]
+    Replace
 }

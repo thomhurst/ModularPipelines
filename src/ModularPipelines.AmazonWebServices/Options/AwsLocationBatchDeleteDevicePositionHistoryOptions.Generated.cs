@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("location", "batch-delete-device-position-history")]
-public record AwsLocationBatchDeleteDevicePositionHistoryOptions : AwsOptions
+public record AwsLocationBatchDeleteDevicePositionHistoryOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--tracker-name")]
-    public string? TrackerName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deletes the position history of one or more devices from a tracker re- source. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TrackerName">The name of the tracker resource to delete the device position his- tory from. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+</param>
+    /// <param name="DeviceIds">Devices whose position history you want to delete. o For example, for two devices: DeviceIds : [DeviceId1,DeviceId2] Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 100 o pattern: [-._\p{L}\p{N}]+ Syntax: "string" "string" ...</param>
+    public AwsLocationBatchDeleteDevicePositionHistoryOptions(
+        string TrackerName,
+        IEnumerable<string> DeviceIds
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TrackerName);
+        this.TrackerName = TrackerName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(DeviceIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(DeviceIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(DeviceIds));
+            }
+
+            DeviceIds = materialized;
+        }
+        this.DeviceIds = DeviceIds;
+    }
+
+    private AwsLocationBatchDeleteDevicePositionHistoryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLocationBatchDeleteDevicePositionHistoryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLocationBatchDeleteDevicePositionHistoryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the tracker resource to delete the device position his- tory from. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+
+    /// </summary>
+    [CliOption("--tracker-name")]
+    public string? TrackerName { get; private init; }
+
+    /// <summary>
+    /// Devices whose position history you want to delete. o For example, for two devices: DeviceIds : [DeviceId1,DeviceId2] Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 100 o pattern: [-._\p{L}\p{N}]+ Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--device-ids", GroupValues = true)]
-    public IEnumerable<string>? DeviceIds { get; set; }
+    public IEnumerable<string>? DeviceIds { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

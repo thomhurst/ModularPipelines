@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("location", "forecast-geofence-events")]
-public record AwsLocationForecastGeofenceEventsOptions : AwsOptions
+public record AwsLocationForecastGeofenceEventsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--collection-name")]
-    public string? CollectionName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// This action forecasts future geofence events that are likely to occur within a specified time horizon if a device continues moving at its current speed. Each forecasted event is associated with a geofence from a provided geofence collection. A forecast event can have one of the following states: ENTER : The device position is outside the referenced geofence, but the device may cross into the geofence during the forecasting time horizon if it maintains its current speed. EXIT : The device positio...
+    /// </summary>
+    /// <param name="CollectionName">The name of the geofence collection. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+</param>
+    /// <param name="DeviceState">Represents the device's state, including its current position and speed. When speed is omitted, this API performs a containment check . The containment check operation returns IDLE events for geofences where the device is currently inside of, but no other events. Position -&gt; (list) [required] The device's position. Constraints: o min: 2 o max: 2 (double) Speed -&gt; (double) The device's speed. Constraints: o min: 0 Shorthand Syntax: Position=double,double,Speed=double JSON Syntax: { "Position": [double, ...], "Speed": double }</param>
+    public AwsLocationForecastGeofenceEventsOptions(
+        string CollectionName,
+        string DeviceState
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CollectionName);
+        this.CollectionName = CollectionName;
+        global::System.ArgumentNullException.ThrowIfNull(DeviceState);
+        this.DeviceState = DeviceState;
+    }
+
+    private AwsLocationForecastGeofenceEventsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLocationForecastGeofenceEventsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLocationForecastGeofenceEventsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the geofence collection. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+
+    /// </summary>
+    [CliOption("--collection-name")]
+    public string? CollectionName { get; private init; }
+
+    /// <summary>
+    /// Represents the device's state, including its current position and speed. When speed is omitted, this API performs a containment check . The containment check operation returns IDLE events for geofences where the device is currently inside of, but no other events. Position -&gt; (list) [required] The device's position. Constraints: o min: 2 o max: 2 (double) Speed -&gt; (double) The device's speed. Constraints: o min: 0 Shorthand Syntax: Position=double,double,Speed=double JSON Syntax: { "Position": [double, ...], "Speed": double }
+    /// </summary>
     [CliOption("--device-state")]
-    public string? DeviceState { get; set; }
+    public string? DeviceState { get; private init; }
 
     /// <summary>
     /// The forward-looking time window for forecasting, specified in min- utes. The API only returns events that are predicted to occur within this time horizon. When no value is specified, this API performs a containment check . The containment check operation returns IDLE events for geofences where the device is currently inside of, but no other events. Constraints: o min: 0
@@ -71,5 +115,22 @@ public record AwsLocationForecastGeofenceEventsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

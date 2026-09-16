@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --imagetype.
+/// Allowed values for --image-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsWorkspacesDescribeWorkspaceImagesImageType
 {
     [EnumValue("OWNED")]
-    Owned = 1,
+    Owned,
 
     [EnumValue("SHARED")]
-    Shared = 2
+    Shared
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logs", "put-log-events")]
-public record AwsLogsPutLogEventsOptions : AwsOptions
+public record AwsLogsPutLogEventsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Uploads a batch of log events to the specified log stream. WARNING: The sequence token is now ignored in PutLogEvents actions. PutLo- gEvents actions are always accepted and never return InvalidSe- quenceTokenException or DataAlreadyAcceptedException even if the se- quence token is not valid. You can use parallel PutLogEvents actions on the same log stream. The batch of events must satisfy the following constraints: o The maximum batch size is 1,048,576 bytes. This size is calculated as the sum ...
+    /// </summary>
+    /// <param name="LogGroupName">The name of the log group. Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9]+</param>
+    /// <param name="LogStreamName">The name of the log stream. Constraints: o min: 1 o max: 512 o pattern: [^:*]*</param>
+    /// <param name="LogEvents">The log events. Constraints: o min: 1 o max: 10000 (structure) Represents a log event, which is a record of activity that was recorded by the application or resource being monitored. timestamp -&gt; (long) [required] The time the event occurred, expressed as the number of mil- liseconds after Jan 1, 1970 00:00:00 UTC . Constraints: o min: 0 message -&gt; (string) [required] The raw event message. Each log event can be no larger than 1 MB. Constraints: o min: 1 Shorthand Syntax: timestamp=long,message=string ... JSON Syntax: [ { "timestamp": long, "message": "string" } ... ]</param>
+    public AwsLogsPutLogEventsOptions(
+        string LogGroupName,
+        string LogStreamName,
+        IEnumerable<string> LogEvents
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LogGroupName);
+        this.LogGroupName = LogGroupName;
+        global::System.ArgumentNullException.ThrowIfNull(LogStreamName);
+        this.LogStreamName = LogStreamName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(LogEvents);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(LogEvents));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(LogEvents));
+            }
+
+            LogEvents = materialized;
+        }
+        this.LogEvents = LogEvents;
+    }
+
+    private AwsLogsPutLogEventsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLogsPutLogEventsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLogsPutLogEventsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the log group. Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9]+
+    /// </summary>
     [CliOption("--log-group-name")]
-    public string? LogGroupName { get; set; }
+    public string? LogGroupName { get; private init; }
 
+    /// <summary>
+    /// The name of the log stream. Constraints: o min: 1 o max: 512 o pattern: [^:*]*
+    /// </summary>
     [CliOption("--log-stream-name")]
-    public string? LogStreamName { get; set; }
+    public string? LogStreamName { get; private init; }
 
+    /// <summary>
+    /// The log events. Constraints: o min: 1 o max: 10000 (structure) Represents a log event, which is a record of activity that was recorded by the application or resource being monitored. timestamp -&gt; (long) [required] The time the event occurred, expressed as the number of mil- liseconds after Jan 1, 1970 00:00:00 UTC . Constraints: o min: 0 message -&gt; (string) [required] The raw event message. Each log event can be no larger than 1 MB. Constraints: o min: 1 Shorthand Syntax: timestamp=long,message=string ... JSON Syntax: [ { "timestamp": long, "message": "string" } ... ]
+    /// </summary>
     [CliOption("--log-events", GroupValues = true)]
-    public IEnumerable<string>? LogEvents { get; set; }
+    public IEnumerable<string>? LogEvents { get; private init; }
 
     /// <summary>
     /// The sequence token obtained from the response of the previous PutLo- gEvents call. WARNING: The sequenceToken parameter is now ignored in PutLogEvents ac- tions. PutLogEvents actions are now accepted and never return InvalidSequenceTokenException or DataAlreadyAcceptedException even if the sequence token is not valid. Constraints: o min: 1
@@ -49,5 +111,22 @@ public record AwsLogsPutLogEventsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

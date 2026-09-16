@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,29 +22,93 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("qconnect", "update-ai-guardrail")]
-public record AwsQconnectUpdateAiGuardrailOptions : AwsOptions
+public record AwsQconnectUpdateAiGuardrailOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an AI Guardrail. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AssistantId">The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}</param>
+    /// <param name="AiGuardrailId">The identifier of the Amazon Q in Connect AI Guardrail. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(:[A-Z0-9_$]+){0,1}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}(:[A-Z0-9_$]+){0,1}</param>
+    /// <param name="VisibilityStatus">The visibility status of the Amazon Q in Connect AI Guardrail. Possible values: o SAVED o PUBLISHED</param>
+    /// <param name="BlockedInputMessaging">The message to return when the AI Guardrail blocks a prompt. Constraints: o min: 1 o max: 500</param>
+    /// <param name="BlockedOutputsMessaging">The message to return when the AI Guardrail blocks a model response. Constraints: o min: 1 o max: 500</param>
+    public AwsQconnectUpdateAiGuardrailOptions(
+        string AssistantId,
+        string AiGuardrailId,
+        AwsQconnectUpdateAiGuardrailVisibilityStatus VisibilityStatus,
+        string BlockedInputMessaging,
+        string BlockedOutputsMessaging
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AssistantId);
+        this.AssistantId = AssistantId;
+        global::System.ArgumentNullException.ThrowIfNull(AiGuardrailId);
+        this.AiGuardrailId = AiGuardrailId;
+        global::System.ArgumentNullException.ThrowIfNull(VisibilityStatus);
+        this.VisibilityStatus = VisibilityStatus;
+        global::System.ArgumentNullException.ThrowIfNull(BlockedInputMessaging);
+        this.BlockedInputMessaging = BlockedInputMessaging;
+        global::System.ArgumentNullException.ThrowIfNull(BlockedOutputsMessaging);
+        this.BlockedOutputsMessaging = BlockedOutputsMessaging;
+    }
+
+    private AwsQconnectUpdateAiGuardrailOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQconnectUpdateAiGuardrailOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQconnectUpdateAiGuardrailOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}
+    /// </summary>
+    [CliOption("--assistant-id")]
+    public string? AssistantId { get; private init; }
+
+    /// <summary>
+    /// The identifier of the Amazon Q in Connect AI Guardrail. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(:[A-Z0-9_$]+){0,1}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}(:[A-Z0-9_$]+){0,1}
+    /// </summary>
+    [CliOption("--ai-guardrail-id")]
+    public string? AiGuardrailId { get; private init; }
+
+    /// <summary>
+    /// The visibility status of the Amazon Q in Connect AI Guardrail. Possible values: o SAVED o PUBLISHED
+    /// </summary>
+    [CliOption("--visibility-status")]
+    public AwsQconnectUpdateAiGuardrailVisibilityStatus? VisibilityStatus { get; private init; }
+
+    /// <summary>
+    /// The message to return when the AI Guardrail blocks a prompt. Constraints: o min: 1 o max: 500
+    /// </summary>
+    [CliOption("--blocked-input-messaging")]
+    public string? BlockedInputMessaging { get; private init; }
+
+    /// <summary>
+    /// The message to return when the AI Guardrail blocks a model response. Constraints: o min: 1 o max: 500
+    /// </summary>
+    [CliOption("--blocked-outputs-messaging")]
+    public string? BlockedOutputsMessaging { get; private init; }
+
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs .. Constraints: o min: 1 o max: 4096
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--assistant-id")]
-    public string? AssistantId { get; set; }
-
-    [CliOption("--ai-guardrail-id")]
-    public string? AiGuardrailId { get; set; }
-
-    [CliOption("--visibility-status")]
-    public string? VisibilityStatus { get; set; }
-
-    [CliOption("--blocked-input-messaging")]
-    public string? BlockedInputMessaging { get; set; }
-
-    [CliOption("--blocked-outputs-messaging")]
-    public string? BlockedOutputsMessaging { get; set; }
 
     /// <summary>
     /// A description of the AI Guardrail. Constraints: o min: 1 o max: 200
@@ -85,5 +151,22 @@ public record AwsQconnectUpdateAiGuardrailOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

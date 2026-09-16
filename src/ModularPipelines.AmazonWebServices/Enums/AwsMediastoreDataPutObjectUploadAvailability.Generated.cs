@@ -11,17 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --uploadavailability.
+/// Allowed values for --upload-availability.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsMediastoreDataPutObjectUploadAvailability
 {
     [EnumValue("STANDARD")]
-    Standard = 1,
+    Standard,
 
     [EnumValue("STREAMING")]
-    Streaming = 2,
-
-    [EnumValue("Constraints")]
-    Constraints = 3
+    Streaming
 }

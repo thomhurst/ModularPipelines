@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chime-sdk-media-pipelines", "create-media-capture-pipeline")]
-public record AwsChimeSdkMediaPipelinesCreateMediaCapturePipelineOptions : AwsOptions
+public record AwsChimeSdkMediaPipelinesCreateMediaCapturePipelineOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a media pipeline. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SourceType">Source type from which the media artifacts are captured. A Chime SDK Meeting is the only supported source. Possible values: o ChimeSdkMeeting</param>
+    /// <param name="SourceArn">ARN of the source from which the media artifacts are captured. Constraints: o min: 1 o max: 1024 o pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$</param>
+    /// <param name="SinkType">Destination type to which the media artifacts are saved. You must use an S3 bucket. Possible values: o S3Bucket</param>
+    /// <param name="SinkArn">The ARN of the sink type. Constraints: o min: 1 o max: 1024 o pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$</param>
+    public AwsChimeSdkMediaPipelinesCreateMediaCapturePipelineOptions(
+        string SourceType,
+        string SourceArn,
+        string SinkType,
+        string SinkArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceType);
+        this.SourceType = SourceType;
+        global::System.ArgumentNullException.ThrowIfNull(SourceArn);
+        this.SourceArn = SourceArn;
+        global::System.ArgumentNullException.ThrowIfNull(SinkType);
+        this.SinkType = SinkType;
+        global::System.ArgumentNullException.ThrowIfNull(SinkArn);
+        this.SinkArn = SinkArn;
+    }
+
+    private AwsChimeSdkMediaPipelinesCreateMediaCapturePipelineOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChimeSdkMediaPipelinesCreateMediaCapturePipelineOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChimeSdkMediaPipelinesCreateMediaCapturePipelineOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Source type from which the media artifacts are captured. A Chime SDK Meeting is the only supported source. Possible values: o ChimeSdkMeeting
+    /// </summary>
     [CliOption("--source-type")]
-    public string? SourceType { get; set; }
+    public string? SourceType { get; private init; }
 
+    /// <summary>
+    /// ARN of the source from which the media artifacts are captured. Constraints: o min: 1 o max: 1024 o pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$
+    /// </summary>
     [CliOption("--source-arn")]
-    public string? SourceArn { get; set; }
+    public string? SourceArn { get; private init; }
 
+    /// <summary>
+    /// Destination type to which the media artifacts are saved. You must use an S3 bucket. Possible values: o S3Bucket
+    /// </summary>
     [CliOption("--sink-type")]
-    public string? SinkType { get; set; }
+    public string? SinkType { get; private init; }
 
+    /// <summary>
+    /// The ARN of the sink type. Constraints: o min: 1 o max: 1024 o pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$
+    /// </summary>
     [CliOption("--sink-arn")]
-    public string? SinkArn { get; set; }
+    public string? SinkArn { get; private init; }
 
     /// <summary>
     /// The unique identifier for the client request. The token makes the API request idempotent. Use a unique token for each media pipeline request. Constraints: o min: 2 o max: 64 o pattern: [-_a-zA-Z0-9]*
@@ -70,5 +128,22 @@ public record AwsChimeSdkMediaPipelinesCreateMediaCapturePipelineOptions : AwsOp
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

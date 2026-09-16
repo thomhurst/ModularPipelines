@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --querylanguage.
+/// Allowed values for --query-language.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsLogsDescribeQueryDefinitionsQueryLanguage
 {
     [EnumValue("CWLI")]
-    Cwli = 1,
-
-    [EnumValue("SQL")]
-    Sql = 2,
+    Cwli,
 
     [EnumValue("PPL")]
-    Ppl = 3
+    Ppl,
+
+    [EnumValue("SQL")]
+    Sql
 }

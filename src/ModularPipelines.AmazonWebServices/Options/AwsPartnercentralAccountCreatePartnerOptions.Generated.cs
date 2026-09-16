@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +22,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("partnercentral-account", "create-partner")]
-public record AwsPartnercentralAccountCreatePartnerOptions : AwsOptions
+public record AwsPartnercentralAccountCreatePartnerOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new partner account in the AWS Partner Network with the spec- ified details and configuration. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Catalog">The catalog identifier where the partner account will be created. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]+</param>
+    /// <param name="LegalName">The legal name of the organization becoming a partner. Constraints: o min: 1 o max: 80 o pattern: [\u0020-\u007E\u00A0-\uD7FF\uE000-\uFFFD]+</param>
+    /// <param name="PrimarySolutionType">The primary type of solution or service the partner provides (e.g., consulting, software, managed services). Possible values: o SOFTWARE_PRODUCTS o CONSULTING_SERVICES o PROFESSIONAL_SERVICES o MANAGED_SERVICES o HARDWARE_PRODUCTS o COMMUNICATION_SERVICES o VALUE_ADDED_RESALE_AWS_SERVICES o TRAINING_SERVICES</param>
+    /// <param name="AllianceLeadContact">The primary contact person for alliance and partnership matters. FirstName -&gt; (string) [required] The first name of the alliance lead contact person. Constraints: o min: 1 o max: 80 o pattern: [\u0020-\u007E\u00A0-\uD7FF\uE000-\uFFFD]+ LastName -&gt; (string) [required] The last name of the alliance lead contact person. Constraints: o min: 1 o max: 80 o pattern: [\u0020-\u007E\u00A0-\uD7FF\uE000-\uFFFD]+ Email -&gt; (string) [required] The email address of the alliance lead contact person. Constraints: o min: 1 o max: 320 o pattern: [a-zA-Z0-9.!#$%&amp;'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)* BusinessTitle -&gt; (string) [required] The business title or role of the alliance lead contact person. Constraints: o min: 1 o max: 80 o pattern: [\u0020-\u007E\u00A0-\uD7FF\uE000-\uFFFD]+ Shorthand Syntax: FirstName=string,LastName=string,Email=string,BusinessTitle=string JSON Syntax: { "FirstName": "string", "LastName": "string", "Email": "string", "BusinessTitle": "string" }</param>
+    /// <param name="EmailVerificationCode">The verification code sent to the alliance lead contact's email to confirm account creation. Constraints: o min: 6 o max: 6 o pattern: [0-9]+</param>
+    public AwsPartnercentralAccountCreatePartnerOptions(
+        string Catalog,
+        string LegalName,
+        AwsPartnercentralAccountCreatePartnerPrimarySolutionType PrimarySolutionType,
+        string AllianceLeadContact,
+        string EmailVerificationCode
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+        global::System.ArgumentNullException.ThrowIfNull(LegalName);
+        this.LegalName = LegalName;
+        global::System.ArgumentNullException.ThrowIfNull(PrimarySolutionType);
+        this.PrimarySolutionType = PrimarySolutionType;
+        global::System.ArgumentNullException.ThrowIfNull(AllianceLeadContact);
+        this.AllianceLeadContact = AllianceLeadContact;
+        global::System.ArgumentNullException.ThrowIfNull(EmailVerificationCode);
+        this.EmailVerificationCode = EmailVerificationCode;
+    }
+
+    private AwsPartnercentralAccountCreatePartnerOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPartnercentralAccountCreatePartnerOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPartnercentralAccountCreatePartnerOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The catalog identifier where the partner account will be created. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]+
+    /// </summary>
     [CliOption("--catalog")]
-    public string? Catalog { get; set; }
+    public string? Catalog { get; private init; }
+
+    /// <summary>
+    /// The legal name of the organization becoming a partner. Constraints: o min: 1 o max: 80 o pattern: [\u0020-\u007E\u00A0-\uD7FF\uE000-\uFFFD]+
+    /// </summary>
+    [CliOption("--legal-name")]
+    public string? LegalName { get; private init; }
+
+    /// <summary>
+    /// The primary type of solution or service the partner provides (e.g., consulting, software, managed services). Possible values: o SOFTWARE_PRODUCTS o CONSULTING_SERVICES o PROFESSIONAL_SERVICES o MANAGED_SERVICES o HARDWARE_PRODUCTS o COMMUNICATION_SERVICES o VALUE_ADDED_RESALE_AWS_SERVICES o TRAINING_SERVICES
+    /// </summary>
+    [CliOption("--primary-solution-type")]
+    public AwsPartnercentralAccountCreatePartnerPrimarySolutionType? PrimarySolutionType { get; private init; }
+
+    /// <summary>
+    /// The primary contact person for alliance and partnership matters. FirstName -&gt; (string) [required] The first name of the alliance lead contact person. Constraints: o min: 1 o max: 80 o pattern: [\u0020-\u007E\u00A0-\uD7FF\uE000-\uFFFD]+ LastName -&gt; (string) [required] The last name of the alliance lead contact person. Constraints: o min: 1 o max: 80 o pattern: [\u0020-\u007E\u00A0-\uD7FF\uE000-\uFFFD]+ Email -&gt; (string) [required] The email address of the alliance lead contact person. Constraints: o min: 1 o max: 320 o pattern: [a-zA-Z0-9.!#$%&amp;'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)* BusinessTitle -&gt; (string) [required] The business title or role of the alliance lead contact person. Constraints: o min: 1 o max: 80 o pattern: [\u0020-\u007E\u00A0-\uD7FF\uE000-\uFFFD]+ Shorthand Syntax: FirstName=string,LastName=string,Email=string,BusinessTitle=string JSON Syntax: { "FirstName": "string", "LastName": "string", "Email": "string", "BusinessTitle": "string" }
+    /// </summary>
+    [CliOption("--alliance-lead-contact")]
+    public string? AllianceLeadContact { get; private init; }
+
+    /// <summary>
+    /// The verification code sent to the alliance lead contact's email to confirm account creation. Constraints: o min: 6 o max: 6 o pattern: [0-9]+
+    /// </summary>
+    [CliOption("--email-verification-code")]
+    public string? EmailVerificationCode { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9-_]+
@@ -31,18 +109,6 @@ public record AwsPartnercentralAccountCreatePartnerOptions : AwsOptions
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--legal-name")]
-    public string? LegalName { get; set; }
-
-    [CliOption("--primary-solution-type")]
-    public string? PrimarySolutionType { get; set; }
-
-    [CliOption("--alliance-lead-contact")]
-    public string? AllianceLeadContact { get; set; }
-
-    [CliOption("--email-verification-code")]
-    public string? EmailVerificationCode { get; set; }
 
     /// <summary>
     /// A list of tags to associate with the partner account for organiza- tion and billing purposes. Constraints: o min: 0 o max: 200 (structure) A key-value pair used to associate metadata with AWS Partner Central Account resources. Key -&gt; (string) [required] The key name of the tag. Tag keys are case-sensitive. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value associated with the tag key. Tag values are case-sensitive. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -55,5 +121,22 @@ public record AwsPartnercentralAccountCreatePartnerOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

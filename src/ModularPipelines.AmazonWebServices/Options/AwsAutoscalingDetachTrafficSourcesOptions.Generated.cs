@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("autoscaling", "detach-traffic-sources")]
-public record AwsAutoscalingDetachTrafficSourcesOptions : AwsOptions
+public record AwsAutoscalingDetachTrafficSourcesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--auto-scaling-group-name")]
-    public string? AutoScalingGroupName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Detaches one or more traffic sources from the specified Auto Scaling group. When you detach a traffic source, it enters the Removing state while deregistering the instances in the group. When all instances are dereg- istered, then you can no longer describe the traffic source using the DescribeTrafficSources API call. The instances continue to run. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AutoScalingGroupName">The name of the Auto Scaling group. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
+    /// <param name="TrafficSources">The unique identifiers of one or more traffic sources. You can spec- ify up to 10 traffic sources. (structure) Identifying information for a traffic source. Identifier -&gt; (string) [required] Identifies the traffic source. For Application Load Balancers, Gateway Load Balancers, Net- work Load Balancers, and VPC Lattice, this will be the Amazon Resource Name (ARN) for a target group in this account and Region. For Classic Load Balancers, this will be the name of the Classic Load Balancer in this account and Region. For example: o Application Load Balancer ARN: arn:aws:elasticloadbalanc- ing:us-west-2:123456789012:targetgroup/my-tar- gets/1234567890123456 o Classic Load Balancer name: my-classic-load-balancer o VPC Lattice ARN: arn:aws:vpc-lat- tice:us-west-2:123456789012:targetgroup/tg-1234567890123456 To get the ARN of a target group for a Application Load Bal- ancer, Gateway Load Balancer, or Network Load Balancer, or the name of a Classic Load Balancer, use the Elastic Load Balancing DescribeTargetGroups and DescribeLoadBalancers API operations. To get the ARN of a target group for VPC Lattice, use the VPC Lattice GetTargetGroup API operation. Constraints: o min: 1 o max: 511 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Type -&gt; (string) Provides additional context for the value of Identifier . The following lists the valid values: o elb if Identifier is the name of a Classic Load Balancer. o elbv2 if Identifier is the ARN of an Application Load Bal- ancer, Gateway Load Balancer, or Network Load Balancer tar- get group. o vpc-lattice if Identifier is the ARN of a VPC Lattice tar- get group. Required if the identifier is the name of a Classic Load Bal- ancer. Constraints: o min: 1 o max: 511 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Shorthand Syntax: Identifier=string,Type=string ... JSON Syntax: [ { "Identifier": "string", "Type": "string" } ... ]</param>
+    public AwsAutoscalingDetachTrafficSourcesOptions(
+        string AutoScalingGroupName,
+        IEnumerable<string> TrafficSources
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AutoScalingGroupName);
+        this.AutoScalingGroupName = AutoScalingGroupName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(TrafficSources);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(TrafficSources));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(TrafficSources));
+            }
+
+            TrafficSources = materialized;
+        }
+        this.TrafficSources = TrafficSources;
+    }
+
+    private AwsAutoscalingDetachTrafficSourcesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAutoscalingDetachTrafficSourcesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAutoscalingDetachTrafficSourcesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the Auto Scaling group. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// </summary>
+    [CliOption("--auto-scaling-group-name")]
+    public string? AutoScalingGroupName { get; private init; }
+
+    /// <summary>
+    /// The unique identifiers of one or more traffic sources. You can spec- ify up to 10 traffic sources. (structure) Identifying information for a traffic source. Identifier -&gt; (string) [required] Identifies the traffic source. For Application Load Balancers, Gateway Load Balancers, Net- work Load Balancers, and VPC Lattice, this will be the Amazon Resource Name (ARN) for a target group in this account and Region. For Classic Load Balancers, this will be the name of the Classic Load Balancer in this account and Region. For example: o Application Load Balancer ARN: arn:aws:elasticloadbalanc- ing:us-west-2:123456789012:targetgroup/my-tar- gets/1234567890123456 o Classic Load Balancer name: my-classic-load-balancer o VPC Lattice ARN: arn:aws:vpc-lat- tice:us-west-2:123456789012:targetgroup/tg-1234567890123456 To get the ARN of a target group for a Application Load Bal- ancer, Gateway Load Balancer, or Network Load Balancer, or the name of a Classic Load Balancer, use the Elastic Load Balancing DescribeTargetGroups and DescribeLoadBalancers API operations. To get the ARN of a target group for VPC Lattice, use the VPC Lattice GetTargetGroup API operation. Constraints: o min: 1 o max: 511 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Type -&gt; (string) Provides additional context for the value of Identifier . The following lists the valid values: o elb if Identifier is the name of a Classic Load Balancer. o elbv2 if Identifier is the ARN of an Application Load Bal- ancer, Gateway Load Balancer, or Network Load Balancer tar- get group. o vpc-lattice if Identifier is the ARN of a VPC Lattice tar- get group. Required if the identifier is the name of a Classic Load Bal- ancer. Constraints: o min: 1 o max: 511 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Shorthand Syntax: Identifier=string,Type=string ... JSON Syntax: [ { "Identifier": "string", "Type": "string" } ... ]
+    /// </summary>
     [CliOption("--traffic-sources", GroupValues = true)]
-    public IEnumerable<string>? TrafficSources { get; set; }
+    public IEnumerable<string>? TrafficSources { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

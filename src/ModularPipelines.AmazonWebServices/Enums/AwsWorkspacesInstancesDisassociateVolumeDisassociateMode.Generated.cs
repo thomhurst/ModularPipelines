@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --disassociatemode.
+/// Allowed values for --disassociate-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsWorkspacesInstancesDisassociateVolumeDisassociateMode
 {
     [EnumValue("FORCE")]
-    Force = 1,
+    Force,
 
     [EnumValue("NO_FORCE")]
-    NoForce = 2
+    NoForce
 }

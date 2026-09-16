@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,55 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mturk", "create-additional-assignments-for-hit")]
-public record AwsMturkCreateAdditionalAssignmentsForHitOptions : AwsOptions
+public record AwsMturkCreateAdditionalAssignmentsForHitOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--hit-id")]
-    public string? HitId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// The CreateAdditionalAssignmentsForHIT operation increases the maximum number of assignments of an existing HIT. To extend the maximum number of assignments, specify the number of ad- ditional assignments. NOTE: o HITs created with fewer than 10 assignments cannot be extended to have 10 or more assignments. Attempting to add assignments in a way that brings the total number of assignments for a HIT from fewer than 10 assignments to 10 or more assignments will result in an AWS.MechanicalTurk.Inval...
+    /// </summary>
+    /// <param name="HitId">The ID of the HIT to extend. Constraints: o min: 1 o max: 64 o pattern: ^[A-Z0-9]+$</param>
+    /// <param name="NumberOfAdditionalAssignments">The number of additional assignments to request for this HIT.</param>
+    public AwsMturkCreateAdditionalAssignmentsForHitOptions(
+        string HitId,
+        int NumberOfAdditionalAssignments
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HitId);
+        this.HitId = HitId;
+        this.NumberOfAdditionalAssignments = NumberOfAdditionalAssignments;
+    }
+
+    private AwsMturkCreateAdditionalAssignmentsForHitOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMturkCreateAdditionalAssignmentsForHitOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMturkCreateAdditionalAssignmentsForHitOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the HIT to extend. Constraints: o min: 1 o max: 64 o pattern: ^[A-Z0-9]+$
+    /// </summary>
+    [CliOption("--hit-id")]
+    public string? HitId { get; private init; }
+
+    /// <summary>
+    /// The number of additional assignments to request for this HIT.
+    /// </summary>
     [CliOption("--number-of-additional-assignments")]
-    public int? NumberOfAdditionalAssignments { get; set; }
+    public int? NumberOfAdditionalAssignments { get; private init; }
 
     /// <summary>
     /// A unique identifier for this request, which allows you to retry the call on error without extending the HIT multiple times. This is use- ful in cases such as network timeouts where it is unclear whether or not the call succeeded on the server. If the extend HIT already ex- ists in the system from a previous call using the same Uni- queRequestToken , subsequent calls will return an error with a mes- sage containing the request ID. Constraints: o min: 1 o max: 64
@@ -40,5 +83,22 @@ public record AwsMturkCreateAdditionalAssignmentsForHitOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

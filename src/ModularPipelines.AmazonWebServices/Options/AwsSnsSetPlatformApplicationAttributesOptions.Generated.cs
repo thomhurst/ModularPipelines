@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,18 +21,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sns", "set-platform-application-attributes")]
-public record AwsSnsSetPlatformApplicationAttributesOptions : AwsOptions
+public record AwsSnsSetPlatformApplicationAttributesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--platform-application-arn")]
-    public string? PlatformApplicationArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Sets the attributes of the platform application object for the sup- ported push notification services, such as APNS and GCM (Firebase Cloud Messaging). For more information, see Using Amazon SNS Mobile Push No- tifications . For information on configuring attributes for message de- livery status, see Using Amazon SNS Application Attributes for Message Delivery Status . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PlatformApplicationArn">PlatformApplicationArn for SetPlatformApplicationAttributes action.</param>
+    /// <param name="Attributes">A map of the platform application attributes. Attributes in this map include the following: o PlatformCredential The credential received from the notification service. o For ADM, PlatformCredential is client secret. o For Apple Services using certificate credentials, PlatformCre- dential is private key. o For Apple Services using token credentials, PlatformCredential is signing key. o For GCM (Firebase Cloud Messaging) using key credentials, there is no PlatformPrincipal . The PlatformCredential is API key . o For GCM (Firebase Cloud Messaging) using token credentials, there is no PlatformPrincipal . The PlatformCredential is a JSON formatted private key file. When using the Amazon Web Services CLI, the file must be in string format and special characters must be ignored. To format the file correctly, Amazon SNS recom- mends using the following command: SERVICE_JSON=`jq @json &lt;&lt;&lt; cat service.json` . o PlatformPrincipal The principal received from the notification service. o For ADM, PlatformPrincipal is client id. o For Apple Services using certificate credentials, PlatformPrin- cipal is SSL certificate. o For Apple Services using token credentials, PlatformPrincipal is signing key ID. o For GCM (Firebase Cloud Messaging), there is no PlatformPrinci- pal . o EventEndpointCreated Topic ARN to which EndpointCreated event no- tifications are sent. o EventEndpointDeleted Topic ARN to which EndpointDeleted event no- tifications are sent. o EventEndpointUpdated Topic ARN to which EndpointUpdate event no- tifications are sent. o EventDeliveryFailure Topic ARN to which DeliveryFailure event no- tifications are sent upon Direct Publish delivery failure (perma- nent) to one of the application's endpoints. o SuccessFeedbackRoleArn IAM role ARN used to give Amazon SNS write access to use CloudWatch Logs on your behalf. o FailureFeedbackRoleArn IAM role ARN used to give Amazon SNS write access to use CloudWatch Logs on your behalf. o SuccessFeedbackSampleRate Sample rate percentage (0-100) of suc- cessfully delivered messages. The following attributes only apply to APNs token-based authentica- tion: o ApplePlatformTeamID The identifier that's assigned to your Apple developer account team. o ApplePlatformBundleID The bundle identifier that's assigned to your iOS app. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    public AwsSnsSetPlatformApplicationAttributesOptions(
+        string PlatformApplicationArn,
+        IReadOnlyList<KeyValue> Attributes
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PlatformApplicationArn);
+        this.PlatformApplicationArn = PlatformApplicationArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Attributes);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(Attributes));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Attributes));
+            }
+
+            Attributes = materialized;
+        }
+        this.Attributes = Attributes;
+    }
+
+    private AwsSnsSetPlatformApplicationAttributesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSnsSetPlatformApplicationAttributesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSnsSetPlatformApplicationAttributesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// PlatformApplicationArn for SetPlatformApplicationAttributes action.
+    /// </summary>
+    [CliOption("--platform-application-arn")]
+    public string? PlatformApplicationArn { get; private init; }
+
+    /// <summary>
+    /// A map of the platform application attributes. Attributes in this map include the following: o PlatformCredential The credential received from the notification service. o For ADM, PlatformCredential is client secret. o For Apple Services using certificate credentials, PlatformCre- dential is private key. o For Apple Services using token credentials, PlatformCredential is signing key. o For GCM (Firebase Cloud Messaging) using key credentials, there is no PlatformPrincipal . The PlatformCredential is API key . o For GCM (Firebase Cloud Messaging) using token credentials, there is no PlatformPrincipal . The PlatformCredential is a JSON formatted private key file. When using the Amazon Web Services CLI, the file must be in string format and special characters must be ignored. To format the file correctly, Amazon SNS recom- mends using the following command: SERVICE_JSON=`jq @json &lt;&lt;&lt; cat service.json` . o PlatformPrincipal The principal received from the notification service. o For ADM, PlatformPrincipal is client id. o For Apple Services using certificate credentials, PlatformPrin- cipal is SSL certificate. o For Apple Services using token credentials, PlatformPrincipal is signing key ID. o For GCM (Firebase Cloud Messaging), there is no PlatformPrinci- pal . o EventEndpointCreated Topic ARN to which EndpointCreated event no- tifications are sent. o EventEndpointDeleted Topic ARN to which EndpointDeleted event no- tifications are sent. o EventEndpointUpdated Topic ARN to which EndpointUpdate event no- tifications are sent. o EventDeliveryFailure Topic ARN to which DeliveryFailure event no- tifications are sent upon Direct Publish delivery failure (perma- nent) to one of the application's endpoints. o SuccessFeedbackRoleArn IAM role ARN used to give Amazon SNS write access to use CloudWatch Logs on your behalf. o FailureFeedbackRoleArn IAM role ARN used to give Amazon SNS write access to use CloudWatch Logs on your behalf. o SuccessFeedbackSampleRate Sample rate percentage (0-100) of suc- cessfully delivered messages. The following attributes only apply to APNs token-based authentica- tion: o ApplePlatformTeamID The identifier that's assigned to your Apple developer account team. o ApplePlatformBundleID The bundle identifier that's assigned to your iOS app. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// </summary>
     [CliOption("--attributes", CollectionSeparator = ",")]
-    public IReadOnlyList<KeyValue>? Attributes { get; set; }
+    public IReadOnlyList<KeyValue>? Attributes { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "get-service-linked-role-deletion-status")]
-public record AwsIamGetServiceLinkedRoleDeletionStatusOptions : AwsOptions
+public record AwsIamGetServiceLinkedRoleDeletionStatusOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves the status of your service-linked role deletion. After you use DeleteServiceLinkedRole to submit a service-linked role for dele- tion, you can use the DeletionTaskId parameter in GetServiceLinke- dRoleDeletionStatus to check the status of the deletion. If the dele- tion fails, this operation returns the reason that it failed, if that information is returned by the service. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DeletionTaskId">The deletion task identifier. This identifier is returned by the DeleteServiceLinkedRole operation in the format task/aws-ser- vice-role/&lt;service-principal-name&gt;/&lt;role-name&gt;/&lt;task-uuid&gt; . Constraints: o min: 1 o max: 1000</param>
+    public AwsIamGetServiceLinkedRoleDeletionStatusOptions(
+        string DeletionTaskId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DeletionTaskId);
+        this.DeletionTaskId = DeletionTaskId;
+    }
+
+    private AwsIamGetServiceLinkedRoleDeletionStatusOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIamGetServiceLinkedRoleDeletionStatusOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIamGetServiceLinkedRoleDeletionStatusOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The deletion task identifier. This identifier is returned by the DeleteServiceLinkedRole operation in the format task/aws-ser- vice-role/&lt;service-principal-name&gt;/&lt;role-name&gt;/&lt;task-uuid&gt; . Constraints: o min: 1 o max: 1000
+    /// </summary>
     [CliOption("--deletion-task-id")]
-    public string? DeletionTaskId { get; set; }
+    public string? DeletionTaskId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

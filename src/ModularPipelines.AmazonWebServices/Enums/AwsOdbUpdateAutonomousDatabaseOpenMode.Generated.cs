@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --openmode.
+/// Allowed values for --open-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsOdbUpdateAutonomousDatabaseOpenMode
 {
     [EnumValue("READ_ONLY")]
-    ReadOnly = 1,
+    ReadOnly,
 
     [EnumValue("READ_WRITE")]
-    ReadWrite = 2
+    ReadWrite
 }

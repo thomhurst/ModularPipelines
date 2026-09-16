@@ -11,26 +11,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --otaupdatestatus.
+/// Allowed values for --ota-update-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotListOtaUpdatesOtaUpdateStatus
 {
-    [EnumValue("CREATE_PENDING")]
-    CreatePending = 1,
-
-    [EnumValue("CREATE_IN_PROGRESS")]
-    CreateInProgress = 2,
-
     [EnumValue("CREATE_COMPLETE")]
-    CreateComplete = 3,
+    CreateComplete,
 
     [EnumValue("CREATE_FAILED")]
-    CreateFailed = 4,
+    CreateFailed,
 
-    [EnumValue("DELETE_IN_PROGRESS")]
-    DeleteInProgress = 5,
+    [EnumValue("CREATE_IN_PROGRESS")]
+    CreateInProgress,
+
+    [EnumValue("CREATE_PENDING")]
+    CreatePending,
 
     [EnumValue("DELETE_FAILED")]
-    DeleteFailed = 6
+    DeleteFailed,
+
+    [EnumValue("DELETE_IN_PROGRESS")]
+    DeleteInProgress
 }

@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +22,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "create-partner-app")]
-public record AwsSagemakerCreatePartnerAppOptions : AwsOptions
+public record AwsSagemakerCreatePartnerAppOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an Amazon SageMaker Partner AI App. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name to give the SageMaker Partner AI App. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9]+</param>
+    /// <param name="Type">The type of SageMaker Partner AI App to create. Must be one of the following: lakera-guard , comet , deepchecks-llm-evaluation , or fiddler . Possible values: o lakera-guard o comet o deepchecks-llm-evaluation o fiddler</param>
+    /// <param name="ExecutionRoleArn">The ARN of the IAM role that the partner application uses. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+</param>
+    /// <param name="Tier">Indicates the instance type and size of the cluster attached to the SageMaker Partner AI App. Constraints: o min: 0 o max: 64 o pattern: (?!\s*$).+</param>
+    /// <param name="AuthType">The authorization type that users use to access the SageMaker Part- ner AI App. Valid values: o IAM : Users access the SageMaker Partner AI App with their Amazon Web Services IAM identity. o IDC : Users access the SageMaker Partner AI App with their Amazon Web Services IAM Identity Center identity. Specify the Identity Center instance to use in IdcConfig . Possible values: o IAM o IDC</param>
+    public AwsSagemakerCreatePartnerAppOptions(
+        string Name,
+        AwsSagemakerCreatePartnerAppType Type,
+        string ExecutionRoleArn,
+        string Tier,
+        string AuthType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+        global::System.ArgumentNullException.ThrowIfNull(ExecutionRoleArn);
+        this.ExecutionRoleArn = ExecutionRoleArn;
+        global::System.ArgumentNullException.ThrowIfNull(Tier);
+        this.Tier = Tier;
+        global::System.ArgumentNullException.ThrowIfNull(AuthType);
+        this.AuthType = AuthType;
+    }
+
+    private AwsSagemakerCreatePartnerAppOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerCreatePartnerAppOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerCreatePartnerAppOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name to give the SageMaker Partner AI App. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9]+
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The type of SageMaker Partner AI App to create. Must be one of the following: lakera-guard , comet , deepchecks-llm-evaluation , or fiddler . Possible values: o lakera-guard o comet o deepchecks-llm-evaluation o fiddler
+    /// </summary>
     [CliOption("--type")]
-    public string? Type { get; set; }
+    public AwsSagemakerCreatePartnerAppType? Type { get; private init; }
 
+    /// <summary>
+    /// The ARN of the IAM role that the partner application uses. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+
+    /// </summary>
     [CliOption("--execution-role-arn")]
-    public string? ExecutionRoleArn { get; set; }
+    public string? ExecutionRoleArn { get; private init; }
+
+    /// <summary>
+    /// Indicates the instance type and size of the cluster attached to the SageMaker Partner AI App. Constraints: o min: 0 o max: 64 o pattern: (?!\s*$).+
+    /// </summary>
+    [CliOption("--tier")]
+    public string? Tier { get; private init; }
+
+    /// <summary>
+    /// The authorization type that users use to access the SageMaker Part- ner AI App. Valid values: o IAM : Users access the SageMaker Partner AI App with their Amazon Web Services IAM identity. o IDC : Users access the SageMaker Partner AI App with their Amazon Web Services IAM Identity Center identity. Specify the Identity Center instance to use in IdcConfig . Possible values: o IAM o IDC
+    /// </summary>
+    [CliOption("--auth-type")]
+    public string? AuthType { get; private init; }
 
     /// <summary>
     /// SageMaker Partner AI Apps uses Amazon Web Services KMS to encrypt data at rest using an Amazon Web Services managed key by default. For more control, specify a customer managed key. Constraints: o min: 0 o max: 2048 o pattern: [a-zA-Z0-9:/_-]*
@@ -43,9 +115,6 @@ public record AwsSagemakerCreatePartnerAppOptions : AwsOptions
     [CliOption("--maintenance-config")]
     public string? MaintenanceConfig { get; set; }
 
-    [CliOption("--tier")]
-    public string? Tier { get; set; }
-
     /// <summary>
     /// Configuration settings for the SageMaker Partner AI App. AdminUsers -&gt; (list) The list of users that are given admin access to the SageMaker Partner AI App. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 0 o max: 256 o pattern: (?!\s*$).+ Arguments -&gt; (map) This is a map of required inputs for a SageMaker Partner AI App. Based on the application type, the map is populated with a key and value pair that is specific to the user and application. Constraints: o min: 0 o max: 5 key -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: (?!\s*$).+ value -&gt; (string) Constraints: o min: 0 o max: 1024 AssignedGroupPatterns -&gt; (list) A list of Amazon Web Services IAM Identity Center group patterns that can access the SageMaker Partner AI App. Group names sup- port wildcard matching using * . An empty list indicates the app will not use Identity Center group features. All groups speci- fied in RoleGroupAssignments must match patterns in this list. Constraints: o min: 0 o max: 10 (string) Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@*-]+ RoleGroupAssignments -&gt; (list) A map of in-app roles to Amazon Web Services IAM Identity Center group patterns. Groups assigned to specific roles receive those permissions, while groups in AssignedGroupPatterns but not in this map receive default in-app role depending on app type. Group patterns support wildcard matching using * . Currently supported by Fiddler version 1.3 and later with roles: ORG_MEM- BER (default) and ORG_ADMIN . Constraints: o min: 0 o max: 10 (structure) Defines the mapping between an in-app role and the Amazon Web Services IAM Identity Center group patterns that should be assigned to that role within the SageMaker Partner AI App. RoleName -&gt; (string) [required] The name of the in-app role within the SageMaker Partner AI App. The specific roles available depend on the app type and version. Constraints: o min: 0 o max: 256 o pattern: (?!\s*$).+ GroupPatterns -&gt; (list) [required] A list of Amazon Web Services IAM Identity Center group patterns that should be assigned to the specified role. Group patterns support wildcard matching using * . Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@*-]+ JSON Syntax: { "AdminUsers": ["string", ...], "Arguments": {"string": "string" ...}, "AssignedGroupPatterns": ["string", ...], "RoleGroupAssignments": [ { "RoleName": "string", "GroupPatterns": ["string", ...] } ... ] }
     /// </summary>
@@ -58,16 +127,16 @@ public record AwsSagemakerCreatePartnerAppOptions : AwsOptions
     [CliOption("--idc-config")]
     public string? IdcConfig { get; set; }
 
-    [CliOption("--auth-type")]
-    public string? AuthType { get; set; }
-
     /// <summary>
-    /// | --no-enable-iam-ses- sion-based-identity (boolean) When set to TRUE , the SageMaker Partner AI App sets the Amazon Web Services IAM session name or the authenticated IAM user as the iden- tity of the SageMaker Partner AI App user.
+    /// sion-based-identity (boolean) When set to TRUE , the SageMaker Partner AI App sets the Amazon Web Services IAM session name or the authenticated IAM user as the iden- tity of the SageMaker Partner AI App user.
     /// </summary>
-    [CliFlag("--enable-iam-session-based-identity")]
+    [CliFlag("--enable-iam-session-based-identity", NegatedName = "--no-enable-iam-session-based-identity")]
     public bool? EnableIamSessionBasedIdentity { get; set; }
 
-    [CliFlag("--enable-auto-minor-version-upgrade")]
+    /// <summary>
+    /// sion-upgrade (boolean) When set to TRUE , the SageMaker Partner AI App is automatically up- graded to the latest minor version during the next scheduled mainte- nance window, if one is available. Default is FALSE .
+    /// </summary>
+    [CliFlag("--enable-auto-minor-version-upgrade", NegatedName = "--no-enable-auto-minor-version-upgrade")]
     public bool? EnableAutoMinorVersionUpgrade { get; set; }
 
     /// <summary>
@@ -88,5 +157,22 @@ public record AwsSagemakerCreatePartnerAppOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

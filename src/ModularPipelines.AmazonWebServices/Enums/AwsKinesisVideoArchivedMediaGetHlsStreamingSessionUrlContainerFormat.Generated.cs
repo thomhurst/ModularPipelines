@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --containerformat.
+/// Allowed values for --container-format.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsKinesisVideoArchivedMediaGetHlsStreamingSessionUrlContainerFormat
 {
     [EnumValue("FRAGMENTED_MP4")]
-    FragmentedMp4 = 1,
+    FragmentedMp4,
 
     [EnumValue("MPEG_TS")]
-    MpegTs = 2
+    MpegTs
 }

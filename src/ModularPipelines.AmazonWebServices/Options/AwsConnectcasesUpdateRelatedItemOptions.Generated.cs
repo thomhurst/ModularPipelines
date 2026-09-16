@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +20,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connectcases", "update-related-item")]
-public record AwsConnectcasesUpdateRelatedItemOptions : AwsOptions
+public record AwsConnectcasesUpdateRelatedItemOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the content of a related item associated with a case. The fol- lowing related item types are supported: o Comment - Update the text content of an existing comment o Custom - Update the fields of a custom related item. You can add, modify, and remove fields from a custom related item. There's a quota for the number of fields allowed in a Custom type related item. See Amazon Connect Cases quotas . Important things to know o When updating a Custom related item, all existing and new fields, ...
+    /// </summary>
+    /// <param name="DomainId">The unique identifier of the Cases domain. Constraints: o min: 1 o max: 500</param>
+    /// <param name="CaseId">A unique identifier of the case. Constraints: o min: 1 o max: 500</param>
+    /// <param name="RelatedItemId">Unique identifier of a related item. Constraints: o min: 1 o max: 500</param>
+    /// <param name="Content">The content of a related item to be updated. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: comment, custom. comment -&gt; (structure) Represents the updated content of a Comment related item. body -&gt; (string) [required] Updated text in the body of a Comment on a case. Constraints: o min: 1 o max: 15000 contentType -&gt; (string) [required] Type of the text in the box of a Comment on a case. Possible values: o Text/Plain custom -&gt; (structure) Represents the updated content of a Custom related item. fields -&gt; (list) [required] List of updated field values for the Custom related item. All existing and new fields, and their associated values should be included. Fields not included as part of this request will be removed. Constraints: o min: 1 o max: 50 (structure) Object for case field values. id -&gt; (string) [required] Unique identifier of a field. Constraints: o min: 1 o max: 500 value -&gt; (tagged union structure) [required] Union of potential field value types. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: stringValue, doubleValue, booleanValue, emptyValue, userArn- Value. stringValue -&gt; (string) String value type. Constraints: o min: 0 o max: 4100 doubleValue -&gt; (double) Can be either null, or have a Double number value type. Only one value can be provided. booleanValue -&gt; (boolean) Can be either null, or have a Boolean value type. Only one value can be provided. emptyValue -&gt; (structure) An empty value. userArnValue -&gt; (string) Represents the user that performed the audit. JSON Syntax: { "comment": { "body": "string", "contentType": "Text/Plain" }, "custom": { "fields": [ { "id": "string", "value": { "stringValue": "string", "doubleValue": double, "booleanValue": true|false, "emptyValue": { }, "userArnValue": "string" } } ... ] } }</param>
+    public AwsConnectcasesUpdateRelatedItemOptions(
+        string DomainId,
+        string CaseId,
+        string RelatedItemId,
+        string Content
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainId);
+        this.DomainId = DomainId;
+        global::System.ArgumentNullException.ThrowIfNull(CaseId);
+        this.CaseId = CaseId;
+        global::System.ArgumentNullException.ThrowIfNull(RelatedItemId);
+        this.RelatedItemId = RelatedItemId;
+        global::System.ArgumentNullException.ThrowIfNull(Content);
+        this.Content = Content;
+    }
+
+    private AwsConnectcasesUpdateRelatedItemOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectcasesUpdateRelatedItemOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectcasesUpdateRelatedItemOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the Cases domain. Constraints: o min: 1 o max: 500
+    /// </summary>
     [CliOption("--domain-id")]
-    public string? DomainId { get; set; }
+    public string? DomainId { get; private init; }
 
+    /// <summary>
+    /// A unique identifier of the case. Constraints: o min: 1 o max: 500
+    /// </summary>
     [CliOption("--case-id")]
-    public string? CaseId { get; set; }
+    public string? CaseId { get; private init; }
 
+    /// <summary>
+    /// Unique identifier of a related item. Constraints: o min: 1 o max: 500
+    /// </summary>
     [CliOption("--related-item-id")]
-    public string? RelatedItemId { get; set; }
+    public string? RelatedItemId { get; private init; }
 
+    /// <summary>
+    /// The content of a related item to be updated. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: comment, custom. comment -&gt; (structure) Represents the updated content of a Comment related item. body -&gt; (string) [required] Updated text in the body of a Comment on a case. Constraints: o min: 1 o max: 15000 contentType -&gt; (string) [required] Type of the text in the box of a Comment on a case. Possible values: o Text/Plain custom -&gt; (structure) Represents the updated content of a Custom related item. fields -&gt; (list) [required] List of updated field values for the Custom related item. All existing and new fields, and their associated values should be included. Fields not included as part of this request will be removed. Constraints: o min: 1 o max: 50 (structure) Object for case field values. id -&gt; (string) [required] Unique identifier of a field. Constraints: o min: 1 o max: 500 value -&gt; (tagged union structure) [required] Union of potential field value types. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: stringValue, doubleValue, booleanValue, emptyValue, userArn- Value. stringValue -&gt; (string) String value type. Constraints: o min: 0 o max: 4100 doubleValue -&gt; (double) Can be either null, or have a Double number value type. Only one value can be provided. booleanValue -&gt; (boolean) Can be either null, or have a Boolean value type. Only one value can be provided. emptyValue -&gt; (structure) An empty value. userArnValue -&gt; (string) Represents the user that performed the audit. JSON Syntax: { "comment": { "body": "string", "contentType": "Text/Plain" }, "custom": { "fields": [ { "id": "string", "value": { "stringValue": "string", "doubleValue": double, "booleanValue": true|false, "emptyValue": { }, "userArnValue": "string" } } ... ] } }
+    /// </summary>
     [CliOption("--content")]
-    public string? Content { get; set; }
+    public string? Content { get; private init; }
 
     /// <summary>
     /// Represents the user who performed the update of the related item. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: userArn, customEntity. userArn -&gt; (string) Represents the Amazon Connect ARN of the user. Constraints: o min: 1 o max: 500 customEntity -&gt; (string) Any provided entity. Constraints: o min: 1 o max: 500 o pattern: [a-zA-Z0-9_\-\.@:/ ]*[a-zA-Z0-9_\-\.@:/] Shorthand Syntax: userArn=string,customEntity=string JSON Syntax: { "userArn": "string", "customEntity": "string" }
@@ -44,5 +102,22 @@ public record AwsConnectcasesUpdateRelatedItemOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

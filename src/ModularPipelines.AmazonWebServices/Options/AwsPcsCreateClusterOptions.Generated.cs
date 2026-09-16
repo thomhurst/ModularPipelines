@@ -12,6 +12,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,19 +23,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pcs", "create-cluster")]
-public record AwsPcsCreateClusterOptions : AwsOptions
+public record AwsPcsCreateClusterOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a cluster in your account. PCS creates the cluster controller in a service-owned account. The cluster controller communicates with the cluster resources in your account. The subnets and security groups for the cluster must already exist before you use this API action. NOTE: It takes time for PCS to create the cluster. The cluster is in a Creating state until it is ready to use. There can only be 1 cluster in a Creating state per Amazon Web Services Region per Amazon Web Services account....
+    /// </summary>
+    /// <param name="ClusterName">A name to identify the cluster. Example: MyCluster Constraints: o min: 3 o max: 40 o pattern: (?!pcs_)^[A-Za-z][A-Za-z0-9-]+</param>
+    /// <param name="Scheduler">The cluster management and job scheduling software associated with the cluster. type -&gt; (string) [required] The software PCS uses to manage cluster scaling and job schedul- ing. Possible values: o SLURM version -&gt; (string) [required] The version of the specified scheduling software that PCS uses to manage cluster scaling and job scheduling. For more informa- tion, see Slurm versions in PCS in the PCS User Guide . Valid Values: 24.11 | 25.05 | 25.11 | 26.05 Shorthand Syntax: type=string,version=string JSON Syntax: { "type": "SLURM", "version": "string" }</param>
+    /// <param name="Size">A value that determines the maximum number of compute nodes in the cluster and the maximum number of jobs (active and queued). o SMALL : 32 compute nodes and 256 jobs o MEDIUM : 512 compute nodes and 8192 jobs o LARGE : 2048 compute nodes and 16,384 jobs Possible values: o SMALL o MEDIUM o LARGE</param>
+    /// <param name="Networking">The networking configuration used to set up the cluster's control plane. subnetIds -&gt; (list) The list of subnet IDs where PCS creates an Elastic Network In- terface (ENI) to enable communication between managed con- trollers and PCS resources. Subnet IDs have the form sub- net-0123456789abcdef0 . Subnets can't be in Outposts, Wavelength or an Amazon Web Ser- vices Local Zone. NOTE: PCS currently supports only 1 subnet in this list. Constraints: o min: 1 (string) Constraints: o pattern: subnet-\w{8,17} securityGroupIds -&gt; (list) A list of security group IDs associated with the Elastic Network Interface (ENI) created in subnets. (string) Constraints: o pattern: sg-\w{8,17} networkType -&gt; (string) The IP address version the cluster uses. The default is IPV4 . Possible values: o IPV4 o IPV6 Shorthand Syntax: subnetIds=string,string,securityGroupIds=string,string,networkType=string JSON Syntax: { "subnetIds": ["string", ...], "securityGroupIds": ["string", ...], "networkType": "IPV4"|"IPV6" }</param>
+    public AwsPcsCreateClusterOptions(
+        string ClusterName,
+        string Scheduler,
+        AwsPcsCreateClusterSize Size,
+        string Networking
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+        global::System.ArgumentNullException.ThrowIfNull(Scheduler);
+        this.Scheduler = Scheduler;
+        global::System.ArgumentNullException.ThrowIfNull(Size);
+        this.Size = Size;
+        global::System.ArgumentNullException.ThrowIfNull(Networking);
+        this.Networking = Networking;
+    }
+
+    private AwsPcsCreateClusterOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPcsCreateClusterOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPcsCreateClusterOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A name to identify the cluster. Example: MyCluster Constraints: o min: 3 o max: 40 o pattern: (?!pcs_)^[A-Za-z][A-Za-z0-9-]+
+    /// </summary>
     [CliOption("--cluster-name")]
-    public string? ClusterName { get; set; }
+    public string? ClusterName { get; private init; }
 
+    /// <summary>
+    /// The cluster management and job scheduling software associated with the cluster. type -&gt; (string) [required] The software PCS uses to manage cluster scaling and job schedul- ing. Possible values: o SLURM version -&gt; (string) [required] The version of the specified scheduling software that PCS uses to manage cluster scaling and job scheduling. For more informa- tion, see Slurm versions in PCS in the PCS User Guide . Valid Values: 24.11 | 25.05 | 25.11 | 26.05 Shorthand Syntax: type=string,version=string JSON Syntax: { "type": "SLURM", "version": "string" }
+    /// </summary>
     [CliOption("--scheduler")]
-    public string? Scheduler { get; set; }
+    public string? Scheduler { get; private init; }
 
+    /// <summary>
+    /// A value that determines the maximum number of compute nodes in the cluster and the maximum number of jobs (active and queued). o SMALL : 32 compute nodes and 256 jobs o MEDIUM : 512 compute nodes and 8192 jobs o LARGE : 2048 compute nodes and 16,384 jobs Possible values: o SMALL o MEDIUM o LARGE
+    /// </summary>
     [CliOption("--size")]
-    public string? Size { get; set; }
+    public AwsPcsCreateClusterSize? Size { get; private init; }
 
+    /// <summary>
+    /// The networking configuration used to set up the cluster's control plane. subnetIds -&gt; (list) The list of subnet IDs where PCS creates an Elastic Network In- terface (ENI) to enable communication between managed con- trollers and PCS resources. Subnet IDs have the form sub- net-0123456789abcdef0 . Subnets can't be in Outposts, Wavelength or an Amazon Web Ser- vices Local Zone. NOTE: PCS currently supports only 1 subnet in this list. Constraints: o min: 1 (string) Constraints: o pattern: subnet-\w{8,17} securityGroupIds -&gt; (list) A list of security group IDs associated with the Elastic Network Interface (ENI) created in subnets. (string) Constraints: o pattern: sg-\w{8,17} networkType -&gt; (string) The IP address version the cluster uses. The default is IPV4 . Possible values: o IPV4 o IPV6 Shorthand Syntax: subnetIds=string,string,securityGroupIds=string,string,networkType=string JSON Syntax: { "subnetIds": ["string", ...], "securityGroupIds": ["string", ...], "networkType": "IPV4"|"IPV6" }
+    /// </summary>
     [CliOption("--networking")]
-    public string? Networking { get; set; }
+    public string? Networking { get; private init; }
 
     /// <summary>
     /// Additional options related to the Slurm scheduler. scaleDownIdleTimeInSeconds -&gt; (integer) The time (in seconds) before an idle node is scaled down. Default: 600 Constraints: o min: 1 o max: 10000000 slurmCustomSettings -&gt; (list) Additional Slurm-specific configuration that directly maps to Slurm settings. (structure) Additional settings that directly map to Slurm settings. WARNING: PCS supports a subset of Slurm settings. For more infor- mation, see Configuring custom Slurm settings in PCS in the PCS User Guide . parameterName -&gt; (string) [required] PCS supports custom Slurm settings for clusters, compute node groups, and queues. For more information, see Configuring custom Slurm settings in PCS in the PCS User Guide . parameterValue -&gt; (string) [required] The values for the configured Slurm settings. slurmdbdCustomSettings -&gt; (list) Additional SlurmDBD-specific configuration that directly maps to SlurmDBD settings. (structure) Additional settings that directly map to SlurmDBD settings. WARNING: PCS supports a subset of SlurmDBD settings. For more in- formation, see Configuring custom SlurmDBD settings in PCS in the PCS User Guide . parameterName -&gt; (string) [required] PCS supports custom SlurmDBD settings for clusters. For more information, see Configuring custom SlurmDBD set- tings in PCS in the PCS User Guide . parameterValue -&gt; (string) [required] The values for the configured SlurmDBD settings. cgroupCustomSettings -&gt; (list) Additional Cgroup-specific configuration that directly maps to Cgroup settings. (structure) Additional settings that directly map to Cgroup settings. WARNING: PCS supports a subset of Cgroup settings. For more infor- mation, see Configuring custom Cgroup settings in PCS in the PCS User Guide . parameterName -&gt; (string) [required] PCS supports custom Cgroup settings for clusters. For more information, see Configuring custom Cgroup settings in PCS in the PCS User Guide . parameterValue -&gt; (string) [required] The values for the configured Cgroup settings. accounting -&gt; (structure) The accounting configuration includes configurable settings for Slurm accounting. defaultPurgeTimeInDays -&gt; (integer) The default value for all purge settings for slurmdbd.conf . For more information, see the slurmdbd.conf documentation at SchedMD . The default value for defaultPurgeTimeInDays is -1 . A value of -1 means there is no purge time and records per- sist as long as the cluster exists. WARNING: 0 isn't a valid value. Constraints: o min: -1 o max: 10000 mode -&gt; (string) [required] The default value for mode is NONE . A value of STANDARD means Slurm accounting is enabled. Possible values: o STANDARD o NONE slurmRest -&gt; (structure) The Slurm REST API configuration for the cluster. mode -&gt; (string) [required] The default value for mode is NONE . A value of STANDARD means the Slurm REST API is enabled. Possible values: o STANDARD o NONE Shorthand Syntax: scaleDownIdleTimeInSeconds=integer,slurmCustomSettings=[{parameterName=string,parameterValue=string},{parameterName=string,parameterValue=string}],slurmdbdCustomSettings=[{parameterName=string,parameterValue=string},{parameterName=string,parameterValue=string}],cgroupCustomSettings=[{parameterName=string,parameterValue=string},{parameterName=string,parameterValue=string}],accounting={defaultPurgeTimeInDays=integer,mode=string},slurmRest={mode=string} JSON Syntax: { "scaleDownIdleTimeInSeconds": integer, "slurmCustomSettings": [ { "parameterName": "string", "parameterValue": "string" } ... ], "slurmdbdCustomSettings": [ { "parameterName": "string", "parameterValue": "string" } ... ], "cgroupCustomSettings": [ { "parameterName": "string", "parameterValue": "string" } ... ], "accounting": { "defaultPurgeTimeInDays": integer, "mode": "STANDARD"|"NONE" }, "slurmRest": { "mode": "STANDARD"|"NONE" } }
@@ -59,5 +118,22 @@ public record AwsPcsCreateClusterOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

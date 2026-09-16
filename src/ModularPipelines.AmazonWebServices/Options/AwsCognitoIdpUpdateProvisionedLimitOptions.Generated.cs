@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognito-idp", "update-provisioned-limit")]
-public record AwsCognitoIdpUpdateProvisionedLimitOptions : AwsOptions
+public record AwsCognitoIdpUpdateProvisionedLimitOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--limit-definition")]
-    public string? LimitDefinition { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Sets the provisioned limit for a specific API category. The value must be between the default limit and your account-level maximum limit in Service Quotas. Managed login user pools don't support adjustments to the UserAuthenti- cation or UserFederation categories. To increase these limits, submit a Service Quotas increase request. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to ...
+    /// </summary>
+    /// <param name="LimitDefinition">The limit to update. Specify the limit class and the attributes that identify the limit. LimitClass -&gt; (string) [required] The class of the limit. For API rate limits, this is API_CATE- GORY . Possible values: o API_CATEGORY Attributes -&gt; (map) [required] The attributes that identify the specific limit. For API rate limits, specify the Category key with a value like UserAuthenti- cation or UserCreation . key -&gt; (string) Constraints: o min: 0 o max: 131072 value -&gt; (string) Constraints: o min: 0 o max: 131072 Shorthand Syntax: LimitClass=string,Attributes={KeyName1=string,KeyName2=string} JSON Syntax: { "LimitClass": "API_CATEGORY", "Attributes": {"string": "string" ...} }</param>
+    /// <param name="RequestedLimitValue">The provisioned rate to set, in requests per second (RPS).</param>
+    public AwsCognitoIdpUpdateProvisionedLimitOptions(
+        string LimitDefinition,
+        int RequestedLimitValue
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LimitDefinition);
+        this.LimitDefinition = LimitDefinition;
+        this.RequestedLimitValue = RequestedLimitValue;
+    }
+
+    private AwsCognitoIdpUpdateProvisionedLimitOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCognitoIdpUpdateProvisionedLimitOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCognitoIdpUpdateProvisionedLimitOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The limit to update. Specify the limit class and the attributes that identify the limit. LimitClass -&gt; (string) [required] The class of the limit. For API rate limits, this is API_CATE- GORY . Possible values: o API_CATEGORY Attributes -&gt; (map) [required] The attributes that identify the specific limit. For API rate limits, specify the Category key with a value like UserAuthenti- cation or UserCreation . key -&gt; (string) Constraints: o min: 0 o max: 131072 value -&gt; (string) Constraints: o min: 0 o max: 131072 Shorthand Syntax: LimitClass=string,Attributes={KeyName1=string,KeyName2=string} JSON Syntax: { "LimitClass": "API_CATEGORY", "Attributes": {"string": "string" ...} }
+    /// </summary>
+    [CliOption("--limit-definition")]
+    public string? LimitDefinition { get; private init; }
+
+    /// <summary>
+    /// The provisioned rate to set, in requests per second (RPS).
+    /// </summary>
     [CliOption("--requested-limit-value")]
-    public int? RequestedLimitValue { get; set; }
+    public int? RequestedLimitValue { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +21,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("wellarchitected", "update-share-invitation")]
-public record AwsWellarchitectedUpdateShareInvitationOptions : AwsOptions
+public record AwsWellarchitectedUpdateShareInvitationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--share-invitation-id")]
-    public string? ShareInvitationId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Update a workload or custom lens share invitation. NOTE: This API operation can be called independently of any resource. Pre- vious documentation implied that a workload ARN must be specified. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ShareInvitationId">The ID assigned to the share invitation. Constraints: o pattern: [0-9a-f]{32}</param>
+    /// <param name="ShareInvitationAction">Share invitation action taken by contributor. Possible values: o ACCEPT o REJECT</param>
+    public AwsWellarchitectedUpdateShareInvitationOptions(
+        string ShareInvitationId,
+        AwsWellarchitectedUpdateShareInvitationShareInvitationAction ShareInvitationAction
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ShareInvitationId);
+        this.ShareInvitationId = ShareInvitationId;
+        global::System.ArgumentNullException.ThrowIfNull(ShareInvitationAction);
+        this.ShareInvitationAction = ShareInvitationAction;
+    }
+
+    private AwsWellarchitectedUpdateShareInvitationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWellarchitectedUpdateShareInvitationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWellarchitectedUpdateShareInvitationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID assigned to the share invitation. Constraints: o pattern: [0-9a-f]{32}
+    /// </summary>
+    [CliOption("--share-invitation-id")]
+    public string? ShareInvitationId { get; private init; }
+
+    /// <summary>
+    /// Share invitation action taken by contributor. Possible values: o ACCEPT o REJECT
+    /// </summary>
     [CliOption("--share-invitation-action")]
-    public string? ShareInvitationAction { get; set; }
+    public AwsWellarchitectedUpdateShareInvitationShareInvitationAction? ShareInvitationAction { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

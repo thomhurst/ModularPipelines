@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("clouddirectory", "create-typed-link-facet")]
-public record AwsClouddirectoryCreateTypedLinkFacetOptions : AwsOptions
+public record AwsClouddirectoryCreateTypedLinkFacetOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--schema-arn")]
-    public string? SchemaArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a TypedLinkFacet . For more information, see Typed Links . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SchemaArn">The Amazon Resource Name (ARN) that is associated with the schema. For more information, see arns .</param>
+    /// <param name="Facet">Facet structure that is associated with the typed link facet. Name -&gt; (string) [required] The unique name of the typed link facet. Constraints: o pattern: ^[a-zA-Z0-9._-]*$ Attributes -&gt; (list) [required] A set of key-value pairs associated with the typed link. Typed link attributes are used when you have data values that are re- lated to the link itself, and not to one of the two objects be- ing linked. Identity attributes also serve to distinguish the link from others of the same type between the same objects. (structure) A typed link attribute definition. Name -&gt; (string) [required] The unique name of the typed link attribute. Constraints: o min: 1 o max: 230 o pattern: ^[a-zA-Z0-9._:-]*$ Type -&gt; (string) [required] The type of the attribute. Possible values: o STRING o BINARY o BOOLEAN o NUMBER o DATETIME o VARIANT DefaultValue -&gt; (structure) The default value of the attribute (if configured). StringValue -&gt; (string) A string data value. BinaryValue -&gt; (blob) A binary data value. BooleanValue -&gt; (boolean) A Boolean data value. NumberValue -&gt; (string) A number data value. DatetimeValue -&gt; (timestamp) A date and time value. IsImmutable -&gt; (boolean) Whether the attribute is mutable or not. Rules -&gt; (map) Validation rules that are attached to the attribute defi- nition. key -&gt; (string) Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9._-]*$ value -&gt; (structure) Contains an Amazon Resource Name (ARN) and parameters that are associated with the rule. Type -&gt; (string) The type of attribute validation rule. Possible values: o BINARY_LENGTH o NUMBER_COMPARISON o STRING_FROM_SET o STRING_LENGTH Parameters -&gt; (map) The minimum and maximum parameters that are asso- ciated with the rule. key -&gt; (string) value -&gt; (string) RequiredBehavior -&gt; (string) [required] The required behavior of the TypedLinkAttributeDefinition . Possible values: o REQUIRED_ALWAYS o NOT_REQUIRED IdentityAttributeOrder -&gt; (list) [required] The set of attributes that distinguish links made from this facet from each other, in the order of significance. Listing typed links can filter on the values of these attributes. See ListOutgoingTypedLinks and ListIncomingTypedLinks for details. (string) Constraints: o min: 1 o max: 230 o pattern: ^[a-zA-Z0-9._:-]*$ JSON Syntax: { "Name": "string", "Attributes": [ { "Name": "string", "Type": "STRING"|"BINARY"|"BOOLEAN"|"NUMBER"|"DATETIME"|"VARIANT", "DefaultValue": { "StringValue": "string", "BinaryValue": blob, "BooleanValue": true|false, "NumberValue": "string", "DatetimeValue": timestamp }, "IsImmutable": true|false, "Rules": {"string": { "Type": "BINARY_LENGTH"|"NUMBER_COMPARISON"|"STRING_FROM_SET"|"STRING_LENGTH", "Parameters": {"string": "string" ...} } ...}, "RequiredBehavior": "REQUIRED_ALWAYS"|"NOT_REQUIRED" } ... ], "IdentityAttributeOrder": ["string", ...] }</param>
+    public AwsClouddirectoryCreateTypedLinkFacetOptions(
+        string SchemaArn,
+        string Facet
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SchemaArn);
+        this.SchemaArn = SchemaArn;
+        global::System.ArgumentNullException.ThrowIfNull(Facet);
+        this.Facet = Facet;
+    }
+
+    private AwsClouddirectoryCreateTypedLinkFacetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsClouddirectoryCreateTypedLinkFacetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsClouddirectoryCreateTypedLinkFacetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) that is associated with the schema. For more information, see arns .
+    /// </summary>
+    [CliOption("--schema-arn")]
+    public string? SchemaArn { get; private init; }
+
+    /// <summary>
+    /// Facet structure that is associated with the typed link facet. Name -&gt; (string) [required] The unique name of the typed link facet. Constraints: o pattern: ^[a-zA-Z0-9._-]*$ Attributes -&gt; (list) [required] A set of key-value pairs associated with the typed link. Typed link attributes are used when you have data values that are re- lated to the link itself, and not to one of the two objects be- ing linked. Identity attributes also serve to distinguish the link from others of the same type between the same objects. (structure) A typed link attribute definition. Name -&gt; (string) [required] The unique name of the typed link attribute. Constraints: o min: 1 o max: 230 o pattern: ^[a-zA-Z0-9._:-]*$ Type -&gt; (string) [required] The type of the attribute. Possible values: o STRING o BINARY o BOOLEAN o NUMBER o DATETIME o VARIANT DefaultValue -&gt; (structure) The default value of the attribute (if configured). StringValue -&gt; (string) A string data value. BinaryValue -&gt; (blob) A binary data value. BooleanValue -&gt; (boolean) A Boolean data value. NumberValue -&gt; (string) A number data value. DatetimeValue -&gt; (timestamp) A date and time value. IsImmutable -&gt; (boolean) Whether the attribute is mutable or not. Rules -&gt; (map) Validation rules that are attached to the attribute defi- nition. key -&gt; (string) Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9._-]*$ value -&gt; (structure) Contains an Amazon Resource Name (ARN) and parameters that are associated with the rule. Type -&gt; (string) The type of attribute validation rule. Possible values: o BINARY_LENGTH o NUMBER_COMPARISON o STRING_FROM_SET o STRING_LENGTH Parameters -&gt; (map) The minimum and maximum parameters that are asso- ciated with the rule. key -&gt; (string) value -&gt; (string) RequiredBehavior -&gt; (string) [required] The required behavior of the TypedLinkAttributeDefinition . Possible values: o REQUIRED_ALWAYS o NOT_REQUIRED IdentityAttributeOrder -&gt; (list) [required] The set of attributes that distinguish links made from this facet from each other, in the order of significance. Listing typed links can filter on the values of these attributes. See ListOutgoingTypedLinks and ListIncomingTypedLinks for details. (string) Constraints: o min: 1 o max: 230 o pattern: ^[a-zA-Z0-9._:-]*$ JSON Syntax: { "Name": "string", "Attributes": [ { "Name": "string", "Type": "STRING"|"BINARY"|"BOOLEAN"|"NUMBER"|"DATETIME"|"VARIANT", "DefaultValue": { "StringValue": "string", "BinaryValue": blob, "BooleanValue": true|false, "NumberValue": "string", "DatetimeValue": timestamp }, "IsImmutable": true|false, "Rules": {"string": { "Type": "BINARY_LENGTH"|"NUMBER_COMPARISON"|"STRING_FROM_SET"|"STRING_LENGTH", "Parameters": {"string": "string" ...} } ...}, "RequiredBehavior": "REQUIRED_ALWAYS"|"NOT_REQUIRED" } ... ], "IdentityAttributeOrder": ["string", ...] }
+    /// </summary>
     [CliOption("--facet")]
-    public string? Facet { get; set; }
+    public string? Facet { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --recommendationtype.
+/// Allowed values for --recommendation-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsApplicationInsightsDescribeComponentConfigurationRecommendationRecommendationType
 {
+    [EnumValue("ALL")]
+    All,
+
     [EnumValue("INFRA_ONLY")]
-    InfraOnly = 1,
+    InfraOnly,
 
     [EnumValue("WORKLOAD_ONLY")]
-    WorkloadOnly = 2,
-
-    [EnumValue("ALL")]
-    All = 3
+    WorkloadOnly
 }

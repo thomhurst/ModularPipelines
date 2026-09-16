@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cur", "modify-report-definition")]
-public record AwsCurModifyReportDefinitionOptions : AwsOptions
+public record AwsCurModifyReportDefinitionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--report-name")]
-    public string? ReportName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Allows you to programmatically update your report preferences. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ReportName">The name of the report that you want to create. The name must be unique, is case sensitive, and can't include spaces. Constraints: o max: 256 o pattern: [0-9A-Za-z!\-_.*\'()]+</param>
+    /// <param name="ReportDefinition">The definition of Amazon Web Services Cost and Usage Report. You can specify the report name, time unit, report format, compression for- mat, S3 bucket, additional artifacts, and schema elements in the de- finition. ReportName -&gt; (string) [required] The name of the report that you want to create. The name must be unique, is case sensitive, and can't include spaces. Constraints: o max: 256 o pattern: [0-9A-Za-z!\-_.*\'()]+ TimeUnit -&gt; (string) [required] The length of time covered by the report. Possible values: o HOURLY o DAILY o MONTHLY Format -&gt; (string) [required] The format that Amazon Web Services saves the report in. Possible values: o textORcsv o Parquet Compression -&gt; (string) [required] The compression format that Amazon Web Services uses for the re- port. Possible values: o ZIP o GZIP o Parquet AdditionalSchemaElements -&gt; (list) [required] A list of strings that indicate additional content that Amazon Web Services includes in the report, such as individual resource IDs. (string) Whether or not Amazon Web Services includes resource IDs in the report. Possible values: o RESOURCES o SPLIT_COST_ALLOCATION_DATA o MANUAL_DISCOUNT_COMPATIBILITY S3Bucket -&gt; (string) [required] The S3 bucket where Amazon Web Services delivers the report. Constraints: o max: 256 o pattern: [A-Za-z0-9_\.\-]+ S3Prefix -&gt; (string) [required] The prefix that Amazon Web Services adds to the report name when Amazon Web Services delivers the report. Your prefix can't in- clude spaces. Constraints: o max: 256 o pattern: [0-9A-Za-z!\-_.*\'()/]* S3Region -&gt; (string) [required] The region of the S3 bucket that Amazon Web Services delivers the report into. Possible values: o af-south-1 o ap-east-1 o ap-south-1 o ap-south-2 o ap-southeast-1 o ap-southeast-2 o ap-southeast-3 o ap-northeast-1 o ap-northeast-2 o ap-northeast-3 o ca-central-1 o eu-central-1 o eu-central-2 o eu-west-1 o eu-west-2 o eu-west-3 o eu-north-1 o eu-south-1 o eu-south-2 o me-central-1 o me-south-1 o sa-east-1 o us-east-1 o us-east-2 o us-west-1 o us-west-2 o cn-north-1 o cn-northwest-1 AdditionalArtifacts -&gt; (list) A list of manifests that you want Amazon Web Services to create for this report. (string) The types of manifest that you want Amazon Web Services to create for this report. Possible values: o REDSHIFT o QUICKSIGHT o ATHENA RefreshClosedReports -&gt; (boolean) Whether you want Amazon Web Services to update your reports af- ter they have been finalized if Amazon Web Services detects charges related to previous months. These charges can include refunds, credits, or support fees. ReportVersioning -&gt; (string) Whether you want Amazon Web Services to overwrite the previous version of each report or to deliver the report in addition to the previous versions. Possible values: o CREATE_NEW_REPORT o OVERWRITE_REPORT BillingViewArn -&gt; (string) The Amazon resource name of the billing view. The BillingViewArn is needed to create Amazon Web Services Cost and Usage Report for each billing group maintained in the Amazon Web Services Billing Conductor service. The BillingViewArn for a billing group can be constructed as: arn:aws:billing::payer-ac- count-id:billingview/billing-group-primary-account-id Constraints: o max: 128 o pattern: (arn:aws(-cn)?:billing::[0-9]{12}:billingview/)?[a-zA-Z0-9_\+=\.\-@].{1,30} ReportStatus -&gt; (structure) The status of the report. lastDelivery -&gt; (string) A timestamp that gives the date of a report delivery. Constraints: o min: 16 o max: 20 o pattern: [0-9]{8}[T][0-9]{6}([Z]|[+-][0-9]{4}) lastStatus -&gt; (string) An enum that gives the status of a report delivery. Possible values: o SUCCESS o ERROR_PERMISSIONS o ERROR_NO_BUCKET Shorthand Syntax: ReportName=string,TimeUnit=string,Format=string,Compression=string,AdditionalSchemaElements=string,string,S3Bucket=string,S3Prefix=string,S3Region=string,AdditionalArtifacts=string,string,RefreshClosedReports=boolean,ReportVersioning=string,BillingViewArn=string,ReportStatus={lastDelivery=string,lastStatus=string} JSON Syntax: { "ReportName": "string", "TimeUnit": "HOURLY"|"DAILY"|"MONTHLY", "Format": "textORcsv"|"Parquet", "Compression": "ZIP"|"GZIP"|"Parquet", "AdditionalSchemaElements": ["RESOURCES"|"SPLIT_COST_ALLOCATION_DATA"|"MANUAL_DISCOUNT_COMPATIBILITY", ...], "S3Bucket": "string", "S3Prefix": "string", "S3Region": "af-south-1"|"ap-east-1"|"ap-south-1"|"ap-south-2"|"ap-southeast-1"|"ap-southeast-2"|"ap-southeast-3"|"ap-northeast-1"|"ap-northeast-2"|"ap-northeast-3"|"ca-central-1"|"eu-central-1"|"eu-central-2"|"eu-west-1"|"eu-west-2"|"eu-west-3"|"eu-north-1"|"eu-south-1"|"eu-south-2"|"me-central-1"|"me-south-1"|"sa-east-1"|"us-east-1"|"us-east-2"|"us-west-1"|"us-west-2"|"cn-north-1"|"cn-northwest-1", "AdditionalArtifacts": ["REDSHIFT"|"QUICKSIGHT"|"ATHENA", ...], "RefreshClosedReports": true|false, "ReportVersioning": "CREATE_NEW_REPORT"|"OVERWRITE_REPORT", "BillingViewArn": "string", "ReportStatus": { "lastDelivery": "string", "lastStatus": "SUCCESS"|"ERROR_PERMISSIONS"|"ERROR_NO_BUCKET" } }</param>
+    public AwsCurModifyReportDefinitionOptions(
+        string ReportName,
+        string ReportDefinition
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReportName);
+        this.ReportName = ReportName;
+        global::System.ArgumentNullException.ThrowIfNull(ReportDefinition);
+        this.ReportDefinition = ReportDefinition;
+    }
+
+    private AwsCurModifyReportDefinitionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCurModifyReportDefinitionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCurModifyReportDefinitionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the report that you want to create. The name must be unique, is case sensitive, and can't include spaces. Constraints: o max: 256 o pattern: [0-9A-Za-z!\-_.*\'()]+
+    /// </summary>
+    [CliOption("--report-name")]
+    public string? ReportName { get; private init; }
+
+    /// <summary>
+    /// The definition of Amazon Web Services Cost and Usage Report. You can specify the report name, time unit, report format, compression for- mat, S3 bucket, additional artifacts, and schema elements in the de- finition. ReportName -&gt; (string) [required] The name of the report that you want to create. The name must be unique, is case sensitive, and can't include spaces. Constraints: o max: 256 o pattern: [0-9A-Za-z!\-_.*\'()]+ TimeUnit -&gt; (string) [required] The length of time covered by the report. Possible values: o HOURLY o DAILY o MONTHLY Format -&gt; (string) [required] The format that Amazon Web Services saves the report in. Possible values: o textORcsv o Parquet Compression -&gt; (string) [required] The compression format that Amazon Web Services uses for the re- port. Possible values: o ZIP o GZIP o Parquet AdditionalSchemaElements -&gt; (list) [required] A list of strings that indicate additional content that Amazon Web Services includes in the report, such as individual resource IDs. (string) Whether or not Amazon Web Services includes resource IDs in the report. Possible values: o RESOURCES o SPLIT_COST_ALLOCATION_DATA o MANUAL_DISCOUNT_COMPATIBILITY S3Bucket -&gt; (string) [required] The S3 bucket where Amazon Web Services delivers the report. Constraints: o max: 256 o pattern: [A-Za-z0-9_\.\-]+ S3Prefix -&gt; (string) [required] The prefix that Amazon Web Services adds to the report name when Amazon Web Services delivers the report. Your prefix can't in- clude spaces. Constraints: o max: 256 o pattern: [0-9A-Za-z!\-_.*\'()/]* S3Region -&gt; (string) [required] The region of the S3 bucket that Amazon Web Services delivers the report into. Possible values: o af-south-1 o ap-east-1 o ap-south-1 o ap-south-2 o ap-southeast-1 o ap-southeast-2 o ap-southeast-3 o ap-northeast-1 o ap-northeast-2 o ap-northeast-3 o ca-central-1 o eu-central-1 o eu-central-2 o eu-west-1 o eu-west-2 o eu-west-3 o eu-north-1 o eu-south-1 o eu-south-2 o me-central-1 o me-south-1 o sa-east-1 o us-east-1 o us-east-2 o us-west-1 o us-west-2 o cn-north-1 o cn-northwest-1 AdditionalArtifacts -&gt; (list) A list of manifests that you want Amazon Web Services to create for this report. (string) The types of manifest that you want Amazon Web Services to create for this report. Possible values: o REDSHIFT o QUICKSIGHT o ATHENA RefreshClosedReports -&gt; (boolean) Whether you want Amazon Web Services to update your reports af- ter they have been finalized if Amazon Web Services detects charges related to previous months. These charges can include refunds, credits, or support fees. ReportVersioning -&gt; (string) Whether you want Amazon Web Services to overwrite the previous version of each report or to deliver the report in addition to the previous versions. Possible values: o CREATE_NEW_REPORT o OVERWRITE_REPORT BillingViewArn -&gt; (string) The Amazon resource name of the billing view. The BillingViewArn is needed to create Amazon Web Services Cost and Usage Report for each billing group maintained in the Amazon Web Services Billing Conductor service. The BillingViewArn for a billing group can be constructed as: arn:aws:billing::payer-ac- count-id:billingview/billing-group-primary-account-id Constraints: o max: 128 o pattern: (arn:aws(-cn)?:billing::[0-9]{12}:billingview/)?[a-zA-Z0-9_\+=\.\-@].{1,30} ReportStatus -&gt; (structure) The status of the report. lastDelivery -&gt; (string) A timestamp that gives the date of a report delivery. Constraints: o min: 16 o max: 20 o pattern: [0-9]{8}[T][0-9]{6}([Z]|[+-][0-9]{4}) lastStatus -&gt; (string) An enum that gives the status of a report delivery. Possible values: o SUCCESS o ERROR_PERMISSIONS o ERROR_NO_BUCKET Shorthand Syntax: ReportName=string,TimeUnit=string,Format=string,Compression=string,AdditionalSchemaElements=string,string,S3Bucket=string,S3Prefix=string,S3Region=string,AdditionalArtifacts=string,string,RefreshClosedReports=boolean,ReportVersioning=string,BillingViewArn=string,ReportStatus={lastDelivery=string,lastStatus=string} JSON Syntax: { "ReportName": "string", "TimeUnit": "HOURLY"|"DAILY"|"MONTHLY", "Format": "textORcsv"|"Parquet", "Compression": "ZIP"|"GZIP"|"Parquet", "AdditionalSchemaElements": ["RESOURCES"|"SPLIT_COST_ALLOCATION_DATA"|"MANUAL_DISCOUNT_COMPATIBILITY", ...], "S3Bucket": "string", "S3Prefix": "string", "S3Region": "af-south-1"|"ap-east-1"|"ap-south-1"|"ap-south-2"|"ap-southeast-1"|"ap-southeast-2"|"ap-southeast-3"|"ap-northeast-1"|"ap-northeast-2"|"ap-northeast-3"|"ca-central-1"|"eu-central-1"|"eu-central-2"|"eu-west-1"|"eu-west-2"|"eu-west-3"|"eu-north-1"|"eu-south-1"|"eu-south-2"|"me-central-1"|"me-south-1"|"sa-east-1"|"us-east-1"|"us-east-2"|"us-west-1"|"us-west-2"|"cn-north-1"|"cn-northwest-1", "AdditionalArtifacts": ["REDSHIFT"|"QUICKSIGHT"|"ATHENA", ...], "RefreshClosedReports": true|false, "ReportVersioning": "CREATE_NEW_REPORT"|"OVERWRITE_REPORT", "BillingViewArn": "string", "ReportStatus": { "lastDelivery": "string", "lastStatus": "SUCCESS"|"ERROR_PERMISSIONS"|"ERROR_NO_BUCKET" } }
+    /// </summary>
     [CliOption("--report-definition")]
-    public string? ReportDefinition { get; set; }
+    public string? ReportDefinition { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

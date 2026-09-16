@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +22,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("application-signals", "list-instrumentation-configurations")]
-public record AwsApplicationSignalsListInstrumentationConfigurationsOptions : AwsOptions
+public record AwsApplicationSignalsListInstrumentationConfigurationsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns all active instrumentation configurations for a service and en- vironment. SDKs use this operation to sync configurations and apply client-side filters locally. Include the previous SyncedAt value to perform incremental syncs. When no changes are detected, the response sets Changed to false and omits configuration details. See also: AWS API Documentation list-instrumentation-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set...
+    /// </summary>
+    /// <param name="Service">The name of the service to retrieve instrumentation configurations for. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z0-9:/+=,.@_-]+</param>
+    /// <param name="Environment">The environment that the service is running in. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z0-9:/+=,.@_-]+</param>
+    /// <param name="InstrumentationType">Type of instrumentation configuration (BREAKPOINT or PROBE). Re- quired to determine which backing store to query. Possible values: o BREAKPOINT o PROBE</param>
+    public AwsApplicationSignalsListInstrumentationConfigurationsOptions(
+        string Service,
+        string Environment,
+        AwsApplicationSignalsListInstrumentationConfigurationsInstrumentationType InstrumentationType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Service);
+        this.Service = Service;
+        global::System.ArgumentNullException.ThrowIfNull(Environment);
+        this.Environment = Environment;
+        global::System.ArgumentNullException.ThrowIfNull(InstrumentationType);
+        this.InstrumentationType = InstrumentationType;
+    }
+
+    private AwsApplicationSignalsListInstrumentationConfigurationsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApplicationSignalsListInstrumentationConfigurationsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApplicationSignalsListInstrumentationConfigurationsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the service to retrieve instrumentation configurations for. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z0-9:/+=,.@_-]+
+    /// </summary>
     [CliOption("--service")]
-    public string? Service { get; set; }
+    public string? Service { get; private init; }
 
+    /// <summary>
+    /// The environment that the service is running in. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z0-9:/+=,.@_-]+
+    /// </summary>
     [CliOption("--environment")]
-    public string? Environment { get; set; }
+    public string? Environment { get; private init; }
 
+    /// <summary>
+    /// Type of instrumentation configuration (BREAKPOINT or PROBE). Re- quired to determine which backing store to query. Possible values: o BREAKPOINT o PROBE
+    /// </summary>
     [CliOption("--instrumentation-type")]
-    public string? InstrumentationType { get; set; }
+    public AwsApplicationSignalsListInstrumentationConfigurationsInstrumentationType? InstrumentationType { get; private init; }
 
     /// <summary>
     /// The timestamp from the last successful sync. When provided, the re- sponse returns Changed as false if nothing is new since this time, or returns the latest configurations when changes exist.
@@ -61,5 +113,22 @@ public record AwsApplicationSignalsListInstrumentationConfigurationsOptions : Aw
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

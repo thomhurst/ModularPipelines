@@ -12,6 +12,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,17 +23,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore-control", "create-payment-credential-provider")]
-public record AwsBedrockAgentcoreControlCreatePaymentCredentialProviderOptions : AwsOptions
+public record AwsBedrockAgentcoreControlCreatePaymentCredentialProviderOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new payment credential provider for storing authentication credentials used by payment connectors to communicate with external payment providers. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">Unique name for the payment credential provider. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\-_]+</param>
+    /// <param name="CredentialProviderVendor">The vendor type for the payment credential provider (e.g., Coin- baseCDP, StripePrivy). Possible values: o CoinbaseCDP o StripePrivy</param>
+    /// <param name="ProviderConfigurationInput">Configuration specific to the vendor, including API credentials. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: coinbaseCdpConfiguration, stripePrivyCon- figuration. coinbaseCdpConfiguration -&gt; (structure) The Coinbase CDP configuration. apiKeyId -&gt; (string) [required] The API key identifier provided by Coinbase Developer Plat- form. Constraints: o min: 1 o max: 512 o pattern: [a-zA-Z0-9\-_]+ apiKeySecret -&gt; (string) The API key secret provided by Coinbase Developer Platform. Constraints: o min: 0 o max: 2048 o pattern: [a-zA-Z0-9+/=\-_\s]* apiKeySecretSource -&gt; (string) The source type of the API key secret for the Coinbase Devel- oper Platform. Use MANAGED if the secret is managed by the service, or EXTERNAL if you manage the secret yourself in Amazon Web Services Secrets Manager. Possible values: o MANAGED o EXTERNAL apiKeySecretConfig -&gt; (structure) A reference to the Amazon Web Services Secrets Manager secret that stores the API key secret. This includes the secret ID and the JSON key used to extract the API key secret value from the secret. Required when apiKeySecretSource is set to EXTERNAL . secretId -&gt; (string) [required] The ID of the Amazon Web Services Secrets Manager secret that stores the secret value. Constraints: o min: 1 o max: 2048 jsonKey -&gt; (string) [required] The JSON key used to extract the secret value from the Amazon Web Services Secrets Manager secret. Constraints: o min: 1 o max: 128 walletSecret -&gt; (string) The wallet secret provided by Coinbase Developer Platform. Constraints: o min: 0 o max: 2048 o pattern: [a-zA-Z0-9+/=\-_\s]* walletSecretSource -&gt; (string) The source type of the wallet secret for the Coinbase Devel- oper Platform. Use MANAGED if the secret is managed by the service, or EXTERNAL if you manage the secret yourself in Amazon Web Services Secrets Manager. Possible values: o MANAGED o EXTERNAL walletSecretConfig -&gt; (structure) A reference to the Amazon Web Services Secrets Manager secret that stores the wallet secret. This includes the secret ID and the JSON key used to extract the wallet secret value from the secret. Required when walletSecretSource is set to EXTER- NAL . secretId -&gt; (string) [required] The ID of the Amazon Web Services Secrets Manager secret that stores the secret value. Constraints: o min: 1 o max: 2048 jsonKey -&gt; (string) [required] The JSON key used to extract the secret value from the Amazon Web Services Secrets Manager secret. Constraints: o min: 1 o max: 128 stripePrivyConfiguration -&gt; (structure) The Stripe Privy configuration. appId -&gt; (string) [required] The app ID provided by Privy. Constraints: o min: 1 o max: 512 o pattern: [a-zA-Z0-9\-_]+ appSecret -&gt; (string) The app secret provided by Privy. Constraints: o min: 0 o max: 2048 o pattern: [a-zA-Z0-9+/=\-_\s]* appSecretSource -&gt; (string) The source type of the app secret. Use MANAGED if the secret is managed by the service, or EXTERNAL if you manage the se- cret yourself in Amazon Web Services Secrets Manager. Possible values: o MANAGED o EXTERNAL appSecretConfig -&gt; (structure) A reference to the Amazon Web Services Secrets Manager secret that stores the app secret. This includes the secret ID and the JSON key used to extract the app secret value from the secret. Required when appSecretSource is set to EXTERNAL . secretId -&gt; (string) [required] The ID of the Amazon Web Services Secrets Manager secret that stores the secret value. Constraints: o min: 1 o max: 2048 jsonKey -&gt; (string) [required] The JSON key used to extract the secret value from the Amazon Web Services Secrets Manager secret. Constraints: o min: 1 o max: 128 authorizationPrivateKey -&gt; (string) The authorization private key for the Stripe Privy integra- tion. Constraints: o min: 0 o max: 2048 o pattern: (wallet-auth:)?[a-zA-Z0-9+/=\-_\s]* authorizationPrivateKeySource -&gt; (string) The source type of the authorization private key. Use MANAGED if the secret is managed by the service, or EXTERNAL if you manage the secret yourself in Amazon Web Services Secrets Manager. Possible values: o MANAGED o EXTERNAL authorizationPrivateKeyConfig -&gt; (structure) A reference to the Amazon Web Services Secrets Manager secret that stores the authorization private key. This includes the secret ID and the JSON key used to extract the authorization private key value from the secret. Required when authoriza- tionPrivateKeySource is set to EXTERNAL . secretId -&gt; (string) [required] The ID of the Amazon Web Services Secrets Manager secret that stores the secret value. Constraints: o min: 1 o max: 2048 jsonKey -&gt; (string) [required] The JSON key used to extract the secret value from the Amazon Web Services Secrets Manager secret. Constraints: o min: 1 o max: 128 authorizationId -&gt; (string) [required] The authorization ID for the Stripe Privy integration. Constraints: o min: 1 o max: 512 o pattern: [a-zA-Z0-9\-_]+ Shorthand Syntax: coinbaseCdpConfiguration={apiKeyId=string,apiKeySecret=string,apiKeySecretSource=string,apiKeySecretConfig={secretId=string,jsonKey=string},walletSecret=string,walletSecretSource=string,walletSecretConfig={secretId=string,jsonKey=string}},stripePrivyConfiguration={appId=string,appSecret=string,appSecretSource=string,appSecretConfig={secretId=string,jsonKey=string},authorizationPrivateKey=string,authorizationPrivateKeySource=string,authorizationPrivateKeyConfig={secretId=string,jsonKey=string},authorizationId=string} JSON Syntax: { "coinbaseCdpConfiguration": { "apiKeyId": "string", "apiKeySecret": "string", "apiKeySecretSource": "MANAGED"|"EXTERNAL", "apiKeySecretConfig": { "secretId": "string", "jsonKey": "string" }, "walletSecret": "string", "walletSecretSource": "MANAGED"|"EXTERNAL", "walletSecretConfig": { "secretId": "string", "jsonKey": "string" } }, "stripePrivyConfiguration": { "appId": "string", "appSecret": "string", "appSecretSource": "MANAGED"|"EXTERNAL", "appSecretConfig": { "secretId": "string", "jsonKey": "string" }, "authorizationPrivateKey": "string", "authorizationPrivateKeySource": "MANAGED"|"EXTERNAL", "authorizationPrivateKeyConfig": { "secretId": "string", "jsonKey": "string" }, "authorizationId": "string" } }</param>
+    public AwsBedrockAgentcoreControlCreatePaymentCredentialProviderOptions(
+        string Name,
+        AwsBedrockAgentcoreControlCreatePaymentCredentialProviderCredentialProviderVendor CredentialProviderVendor,
+        string ProviderConfigurationInput
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(CredentialProviderVendor);
+        this.CredentialProviderVendor = CredentialProviderVendor;
+        global::System.ArgumentNullException.ThrowIfNull(ProviderConfigurationInput);
+        this.ProviderConfigurationInput = ProviderConfigurationInput;
+    }
+
+    private AwsBedrockAgentcoreControlCreatePaymentCredentialProviderOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreControlCreatePaymentCredentialProviderOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreControlCreatePaymentCredentialProviderOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Unique name for the payment credential provider. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\-_]+
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
-    [SecretValue]
+    /// <summary>
+    /// The vendor type for the payment credential provider (e.g., Coin- baseCDP, StripePrivy). Possible values: o CoinbaseCDP o StripePrivy
+    /// </summary>
     [CliOption("--credential-provider-vendor")]
-    public string? CredentialProviderVendor { get; set; }
+    public AwsBedrockAgentcoreControlCreatePaymentCredentialProviderCredentialProviderVendor? CredentialProviderVendor { get; private init; }
 
+    /// <summary>
+    /// Configuration specific to the vendor, including API credentials. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: coinbaseCdpConfiguration, stripePrivyCon- figuration. coinbaseCdpConfiguration -&gt; (structure) The Coinbase CDP configuration. apiKeyId -&gt; (string) [required] The API key identifier provided by Coinbase Developer Plat- form. Constraints: o min: 1 o max: 512 o pattern: [a-zA-Z0-9\-_]+ apiKeySecret -&gt; (string) The API key secret provided by Coinbase Developer Platform. Constraints: o min: 0 o max: 2048 o pattern: [a-zA-Z0-9+/=\-_\s]* apiKeySecretSource -&gt; (string) The source type of the API key secret for the Coinbase Devel- oper Platform. Use MANAGED if the secret is managed by the service, or EXTERNAL if you manage the secret yourself in Amazon Web Services Secrets Manager. Possible values: o MANAGED o EXTERNAL apiKeySecretConfig -&gt; (structure) A reference to the Amazon Web Services Secrets Manager secret that stores the API key secret. This includes the secret ID and the JSON key used to extract the API key secret value from the secret. Required when apiKeySecretSource is set to EXTERNAL . secretId -&gt; (string) [required] The ID of the Amazon Web Services Secrets Manager secret that stores the secret value. Constraints: o min: 1 o max: 2048 jsonKey -&gt; (string) [required] The JSON key used to extract the secret value from the Amazon Web Services Secrets Manager secret. Constraints: o min: 1 o max: 128 walletSecret -&gt; (string) The wallet secret provided by Coinbase Developer Platform. Constraints: o min: 0 o max: 2048 o pattern: [a-zA-Z0-9+/=\-_\s]* walletSecretSource -&gt; (string) The source type of the wallet secret for the Coinbase Devel- oper Platform. Use MANAGED if the secret is managed by the service, or EXTERNAL if you manage the secret yourself in Amazon Web Services Secrets Manager. Possible values: o MANAGED o EXTERNAL walletSecretConfig -&gt; (structure) A reference to the Amazon Web Services Secrets Manager secret that stores the wallet secret. This includes the secret ID and the JSON key used to extract the wallet secret value from the secret. Required when walletSecretSource is set to EXTER- NAL . secretId -&gt; (string) [required] The ID of the Amazon Web Services Secrets Manager secret that stores the secret value. Constraints: o min: 1 o max: 2048 jsonKey -&gt; (string) [required] The JSON key used to extract the secret value from the Amazon Web Services Secrets Manager secret. Constraints: o min: 1 o max: 128 stripePrivyConfiguration -&gt; (structure) The Stripe Privy configuration. appId -&gt; (string) [required] The app ID provided by Privy. Constraints: o min: 1 o max: 512 o pattern: [a-zA-Z0-9\-_]+ appSecret -&gt; (string) The app secret provided by Privy. Constraints: o min: 0 o max: 2048 o pattern: [a-zA-Z0-9+/=\-_\s]* appSecretSource -&gt; (string) The source type of the app secret. Use MANAGED if the secret is managed by the service, or EXTERNAL if you manage the se- cret yourself in Amazon Web Services Secrets Manager. Possible values: o MANAGED o EXTERNAL appSecretConfig -&gt; (structure) A reference to the Amazon Web Services Secrets Manager secret that stores the app secret. This includes the secret ID and the JSON key used to extract the app secret value from the secret. Required when appSecretSource is set to EXTERNAL . secretId -&gt; (string) [required] The ID of the Amazon Web Services Secrets Manager secret that stores the secret value. Constraints: o min: 1 o max: 2048 jsonKey -&gt; (string) [required] The JSON key used to extract the secret value from the Amazon Web Services Secrets Manager secret. Constraints: o min: 1 o max: 128 authorizationPrivateKey -&gt; (string) The authorization private key for the Stripe Privy integra- tion. Constraints: o min: 0 o max: 2048 o pattern: (wallet-auth:)?[a-zA-Z0-9+/=\-_\s]* authorizationPrivateKeySource -&gt; (string) The source type of the authorization private key. Use MANAGED if the secret is managed by the service, or EXTERNAL if you manage the secret yourself in Amazon Web Services Secrets Manager. Possible values: o MANAGED o EXTERNAL authorizationPrivateKeyConfig -&gt; (structure) A reference to the Amazon Web Services Secrets Manager secret that stores the authorization private key. This includes the secret ID and the JSON key used to extract the authorization private key value from the secret. Required when authoriza- tionPrivateKeySource is set to EXTERNAL . secretId -&gt; (string) [required] The ID of the Amazon Web Services Secrets Manager secret that stores the secret value. Constraints: o min: 1 o max: 2048 jsonKey -&gt; (string) [required] The JSON key used to extract the secret value from the Amazon Web Services Secrets Manager secret. Constraints: o min: 1 o max: 128 authorizationId -&gt; (string) [required] The authorization ID for the Stripe Privy integration. Constraints: o min: 1 o max: 512 o pattern: [a-zA-Z0-9\-_]+ Shorthand Syntax: coinbaseCdpConfiguration={apiKeyId=string,apiKeySecret=string,apiKeySecretSource=string,apiKeySecretConfig={secretId=string,jsonKey=string},walletSecret=string,walletSecretSource=string,walletSecretConfig={secretId=string,jsonKey=string}},stripePrivyConfiguration={appId=string,appSecret=string,appSecretSource=string,appSecretConfig={secretId=string,jsonKey=string},authorizationPrivateKey=string,authorizationPrivateKeySource=string,authorizationPrivateKeyConfig={secretId=string,jsonKey=string},authorizationId=string} JSON Syntax: { "coinbaseCdpConfiguration": { "apiKeyId": "string", "apiKeySecret": "string", "apiKeySecretSource": "MANAGED"|"EXTERNAL", "apiKeySecretConfig": { "secretId": "string", "jsonKey": "string" }, "walletSecret": "string", "walletSecretSource": "MANAGED"|"EXTERNAL", "walletSecretConfig": { "secretId": "string", "jsonKey": "string" } }, "stripePrivyConfiguration": { "appId": "string", "appSecret": "string", "appSecretSource": "MANAGED"|"EXTERNAL", "appSecretConfig": { "secretId": "string", "jsonKey": "string" }, "authorizationPrivateKey": "string", "authorizationPrivateKeySource": "MANAGED"|"EXTERNAL", "authorizationPrivateKeyConfig": { "secretId": "string", "jsonKey": "string" }, "authorizationId": "string" } }
+    /// </summary>
+    [SecretValue]
     [CliOption("--provider-configuration-input")]
-    public string? ProviderConfigurationInput { get; set; }
+    public string? ProviderConfigurationInput { get; private init; }
 
     /// <summary>
     /// Optional tags for resource organization. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\s._:/=+@-]* value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9\s._:/=+@-]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -44,5 +96,22 @@ public record AwsBedrockAgentcoreControlCreatePaymentCredentialProviderOptions :
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

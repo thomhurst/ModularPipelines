@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codecommit", "update-repository-name")]
-public record AwsCodecommitUpdateRepositoryNameOptions : AwsOptions
+public record AwsCodecommitUpdateRepositoryNameOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--old-name")]
-    public string? OldName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Renames a repository. The repository name must be unique across the calling Amazon Web Services account. Repository names are limited to 100 alphanumeric, dash, and underscore characters, and cannot include certain characters. The suffix .git is prohibited. For more information about the limits on repository names, see Quotas in the CodeCommit User Guide. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="OldName">The current name of the repository. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+</param>
+    /// <param name="NewName">The new name for the repository. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+</param>
+    public AwsCodecommitUpdateRepositoryNameOptions(
+        string OldName,
+        string NewName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OldName);
+        this.OldName = OldName;
+        global::System.ArgumentNullException.ThrowIfNull(NewName);
+        this.NewName = NewName;
+    }
+
+    private AwsCodecommitUpdateRepositoryNameOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodecommitUpdateRepositoryNameOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodecommitUpdateRepositoryNameOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The current name of the repository. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+
+    /// </summary>
+    [CliOption("--old-name")]
+    public string? OldName { get; private init; }
+
+    /// <summary>
+    /// The new name for the repository. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+
+    /// </summary>
     [CliOption("--new-name")]
-    public string? NewName { get; set; }
+    public string? NewName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

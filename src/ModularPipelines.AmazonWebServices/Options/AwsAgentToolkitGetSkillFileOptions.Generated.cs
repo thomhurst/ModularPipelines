@@ -21,11 +21,33 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("agent-toolkit", "get-skill-file")]
 public record AwsAgentToolkitGetSkillFileOptions : AwsOptions
 {
+    /// <summary>
+    /// Retrieve the contents of a single file from a skill. Use aws agent-toolkit get-skill-metadata to discover available file names for each skill. By default the latest version is retrieved, use --skill-version for a specific skill version.
+    /// </summary>
+    /// <param name="SkillName"></param>
+    /// <param name="FilePath"></param>
+    public AwsAgentToolkitGetSkillFileOptions(
+        string SkillName,
+        string FilePath
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SkillName);
+        this.SkillName = SkillName;
+        global::System.ArgumentNullException.ThrowIfNull(FilePath);
+        this.FilePath = FilePath;
+    }
+
+    public void Deconstruct(out string SkillName, out string FilePath)
+    {
+        SkillName = this.SkillName;
+        FilePath = this.FilePath;
+    }
+
     [CliOption("--skill-name")]
-    public string? SkillName { get; set; }
+    public string SkillName { get; private init; }
 
     [CliOption("--file-path")]
-    public string? FilePath { get; set; }
+    public string FilePath { get; private init; }
 
     [CliOption("--skill-version")]
     public string? SkillVersion { get; set; }

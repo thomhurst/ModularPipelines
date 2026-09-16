@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rbin", "lock-rule")]
-public record AwsRbinLockRuleOptions : AwsOptions
+public record AwsRbinLockRuleOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--identifier")]
-    public string? Identifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Locks a Region-level retention rule. A locked retention rule can't be modified or deleted. NOTE: You can't lock tag-level retention rules, or Region-level retention rules that have exclusion tags. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Identifier">The unique ID of the retention rule. Constraints: o pattern: [0-9a-zA-Z]{11}</param>
+    /// <param name="LockConfiguration">Information about the retention rule lock configuration. UnlockDelay -&gt; (structure) [required] Information about the retention rule unlock delay. UnlockDelayValue -&gt; (integer) [required] The unlock delay period, measured in the unit specified for UnlockDelayUnit . Constraints: o min: 7 o max: 30 UnlockDelayUnit -&gt; (string) [required] The unit of time in which to measure the unlock delay. Cur- rently, the unlock delay can be measured only in days. Possible values: o DAYS Shorthand Syntax: UnlockDelay={UnlockDelayValue=integer,UnlockDelayUnit=string} JSON Syntax: { "UnlockDelay": { "UnlockDelayValue": integer, "UnlockDelayUnit": "DAYS" } }</param>
+    public AwsRbinLockRuleOptions(
+        string Identifier,
+        string LockConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Identifier);
+        this.Identifier = Identifier;
+        global::System.ArgumentNullException.ThrowIfNull(LockConfiguration);
+        this.LockConfiguration = LockConfiguration;
+    }
+
+    private AwsRbinLockRuleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRbinLockRuleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRbinLockRuleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique ID of the retention rule. Constraints: o pattern: [0-9a-zA-Z]{11}
+    /// </summary>
+    [CliOption("--identifier")]
+    public string? Identifier { get; private init; }
+
+    /// <summary>
+    /// Information about the retention rule lock configuration. UnlockDelay -&gt; (structure) [required] Information about the retention rule unlock delay. UnlockDelayValue -&gt; (integer) [required] The unlock delay period, measured in the unit specified for UnlockDelayUnit . Constraints: o min: 7 o max: 30 UnlockDelayUnit -&gt; (string) [required] The unit of time in which to measure the unlock delay. Cur- rently, the unlock delay can be measured only in days. Possible values: o DAYS Shorthand Syntax: UnlockDelay={UnlockDelayValue=integer,UnlockDelayUnit=string} JSON Syntax: { "UnlockDelay": { "UnlockDelayValue": integer, "UnlockDelayUnit": "DAYS" } }
+    /// </summary>
     [CliOption("--lock-configuration")]
-    public string? LockConfiguration { get; set; }
+    public string? LockConfiguration { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

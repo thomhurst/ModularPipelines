@@ -22,11 +22,33 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("cloudformation", "package")]
 public record AwsCloudformationPackageOptions : AwsOptions
 {
+    /// <summary>
+    /// Packages the local artifacts (local paths) that your AWS CloudFormation template references. The command uploads local artifacts, such as source code for an AWS Lambda function or a Swagger file for an AWS API Gateway REST API, to an S3 bucket. The command returns a copy of your template, replacing references to local artifacts with the S3 location where the command uploaded the artifacts. Use this command to quickly upload local artifacts that might be re- quired by your template. After you pac...
+    /// </summary>
+    /// <param name="TemplateFile"></param>
+    /// <param name="S3Bucket"></param>
+    public AwsCloudformationPackageOptions(
+        string TemplateFile,
+        string S3Bucket
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TemplateFile);
+        this.TemplateFile = TemplateFile;
+        global::System.ArgumentNullException.ThrowIfNull(S3Bucket);
+        this.S3Bucket = S3Bucket;
+    }
+
+    public void Deconstruct(out string TemplateFile, out string S3Bucket)
+    {
+        TemplateFile = this.TemplateFile;
+        S3Bucket = this.S3Bucket;
+    }
+
     [CliOption("--template-file")]
-    public string? TemplateFile { get; set; }
+    public string TemplateFile { get; private init; }
 
     [CliOption("--s3-bucket")]
-    public string? S3Bucket { get; set; }
+    public string S3Bucket { get; private init; }
 
     [CliOption("--s3-prefix")]
     public string? S3Prefix { get; set; }

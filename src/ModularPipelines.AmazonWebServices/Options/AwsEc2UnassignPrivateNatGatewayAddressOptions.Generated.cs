@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "unassign-private-nat-gateway-address")]
-public record AwsEc2UnassignPrivateNatGatewayAddressOptions : AwsOptions
+public record AwsEc2UnassignPrivateNatGatewayAddressOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--nat-gateway-id")]
-    public string? NatGatewayId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Unassigns secondary private IPv4 addresses from a private NAT gateway. You cannot unassign your primary private IP. For more information, see Edit secondary IP address associations in the Amazon VPC User Guide . While unassigning is in progress, you cannot assign/unassign additional IP addresses while the connections are being drained. You are, however, allowed to delete the NAT gateway. A private IP address will only be released at the end of MaxDrainDura- tionSeconds. The private IP addresses ...
+    /// </summary>
+    /// <param name="NatGatewayId">The ID of the NAT gateway.</param>
+    /// <param name="PrivateIpAddresses">The private IPv4 addresses you want to unassign. (string) Syntax: "string" "string" ...</param>
+    public AwsEc2UnassignPrivateNatGatewayAddressOptions(
+        string NatGatewayId,
+        IEnumerable<string> PrivateIpAddresses
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NatGatewayId);
+        this.NatGatewayId = NatGatewayId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(PrivateIpAddresses);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(PrivateIpAddresses));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(PrivateIpAddresses));
+            }
+
+            PrivateIpAddresses = materialized;
+        }
+        this.PrivateIpAddresses = PrivateIpAddresses;
+    }
+
+    private AwsEc2UnassignPrivateNatGatewayAddressOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2UnassignPrivateNatGatewayAddressOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2UnassignPrivateNatGatewayAddressOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the NAT gateway.
+    /// </summary>
+    [CliOption("--nat-gateway-id")]
+    public string? NatGatewayId { get; private init; }
+
+    /// <summary>
+    /// The private IPv4 addresses you want to unassign. (string) Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--private-ip-addresses", GroupValues = true)]
-    public IEnumerable<string>? PrivateIpAddresses { get; set; }
+    public IEnumerable<string>? PrivateIpAddresses { get; private init; }
 
     /// <summary>
     /// The maximum amount of time to wait (in seconds) before forcibly re- leasing the IP addresses if connections are still in progress. De- fault value is 350 seconds. Constraints: o min: 1 o max: 4000
@@ -33,7 +88,10 @@ public record AwsEc2UnassignPrivateNatGatewayAddressOptions : AwsOptions
     [CliOption("--max-drain-duration-seconds")]
     public int? MaxDrainDurationSeconds { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -41,5 +99,22 @@ public record AwsEc2UnassignPrivateNatGatewayAddressOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "cancel-legal-hold")]
-public record AwsBackupCancelLegalHoldOptions : AwsOptions
+public record AwsBackupCancelLegalHoldOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--legal-hold-id")]
-    public string? LegalHoldId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Removes the specified legal hold on a recovery point. This action can only be performed by a user with sufficient permissions. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LegalHoldId">The ID of the legal hold.</param>
+    /// <param name="CancelDescription">A string the describes the reason for removing the legal hold.</param>
+    public AwsBackupCancelLegalHoldOptions(
+        string LegalHoldId,
+        string CancelDescription
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LegalHoldId);
+        this.LegalHoldId = LegalHoldId;
+        global::System.ArgumentNullException.ThrowIfNull(CancelDescription);
+        this.CancelDescription = CancelDescription;
+    }
+
+    private AwsBackupCancelLegalHoldOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBackupCancelLegalHoldOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBackupCancelLegalHoldOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the legal hold.
+    /// </summary>
+    [CliOption("--legal-hold-id")]
+    public string? LegalHoldId { get; private init; }
+
+    /// <summary>
+    /// A string the describes the reason for removing the legal hold.
+    /// </summary>
     [CliOption("--cancel-description")]
-    public string? CancelDescription { get; set; }
+    public string? CancelDescription { get; private init; }
 
     /// <summary>
     /// The integer amount, in days, after which to remove legal hold.
@@ -38,5 +82,22 @@ public record AwsBackupCancelLegalHoldOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

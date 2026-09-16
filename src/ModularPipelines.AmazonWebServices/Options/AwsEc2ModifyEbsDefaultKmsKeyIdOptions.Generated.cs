@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "modify-ebs-default-kms-key-id")]
-public record AwsEc2ModifyEbsDefaultKmsKeyIdOptions : AwsOptions
+public record AwsEc2ModifyEbsDefaultKmsKeyIdOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--kms-key-id")]
-    public string? KmsKeyId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Changes the default KMS key for EBS encryption by default for your ac- count in this Region. Amazon Web Services creates a unique Amazon Web Services managed KMS key in each Region for use with encryption by default. If you change the default KMS key to a symmetric customer managed KMS key, it is used instead of the Amazon Web Services managed KMS key. Amazon EBS does not support asymmetric KMS keys. If you delete or disable the customer managed KMS key that you speci- fied for use with encrypti...
+    /// </summary>
+    /// <param name="KmsKeyId">The identifier of the KMS key to use for Amazon EBS encryption. If this parameter is not specified, your KMS key for Amazon EBS is used. If KmsKeyId is specified, the encrypted state must be true . You can specify the KMS key using any of the following: o Key ID. For example, 1234abcd-12ab-34cd-56ef-1234567890ab. o Key alias. For example, alias/ExampleAlias. o Key ARN. For example, arn:aws:kms:us-east-1:012345678910:key/1234abcd-12ab-34cd-56ef-1234567890ab. o Alias ARN. For example, arn:aws:kms:us-east-1:012345678910:alias/ExampleAlias. Amazon Web Services authenticates the KMS key asynchronously. There- fore, if you specify an ID, alias, or ARN that is not valid, the ac- tion can appear to complete, but eventually fails. Amazon EBS does not support asymmetric KMS keys.</param>
+    public AwsEc2ModifyEbsDefaultKmsKeyIdOptions(
+        string KmsKeyId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KmsKeyId);
+        this.KmsKeyId = KmsKeyId;
+    }
+
+    private AwsEc2ModifyEbsDefaultKmsKeyIdOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2ModifyEbsDefaultKmsKeyIdOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2ModifyEbsDefaultKmsKeyIdOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the KMS key to use for Amazon EBS encryption. If this parameter is not specified, your KMS key for Amazon EBS is used. If KmsKeyId is specified, the encrypted state must be true . You can specify the KMS key using any of the following: o Key ID. For example, 1234abcd-12ab-34cd-56ef-1234567890ab. o Key alias. For example, alias/ExampleAlias. o Key ARN. For example, arn:aws:kms:us-east-1:012345678910:key/1234abcd-12ab-34cd-56ef-1234567890ab. o Alias ARN. For example, arn:aws:kms:us-east-1:012345678910:alias/ExampleAlias. Amazon Web Services authenticates the KMS key asynchronously. There- fore, if you specify an ID, alias, or ARN that is not valid, the ac- tion can appear to complete, but eventually fails. Amazon EBS does not support asymmetric KMS keys.
+    /// </summary>
+    [CliOption("--kms-key-id")]
+    public string? KmsKeyId { get; private init; }
+
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -32,5 +72,22 @@ public record AwsEc2ModifyEbsDefaultKmsKeyIdOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

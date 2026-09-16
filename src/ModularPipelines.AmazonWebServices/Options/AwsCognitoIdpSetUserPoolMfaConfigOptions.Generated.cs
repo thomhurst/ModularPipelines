@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognito-idp", "set-user-pool-mfa-config")]
-public record AwsCognitoIdpSetUserPoolMfaConfigOptions : AwsOptions
+public record AwsCognitoIdpSetUserPoolMfaConfigOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Sets user pool multi-factor authentication (MFA) and passkey configura- tion. For more information about user pool MFA, see Adding MFA . For more information about WebAuthn passkeys see Authentication flows . NOTE: This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with Am...
+    /// </summary>
+    /// <param name="UserPoolId">The user pool ID. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+</param>
+    public AwsCognitoIdpSetUserPoolMfaConfigOptions(
+        string UserPoolId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(UserPoolId);
+        this.UserPoolId = UserPoolId;
+    }
+
+    private AwsCognitoIdpSetUserPoolMfaConfigOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCognitoIdpSetUserPoolMfaConfigOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCognitoIdpSetUserPoolMfaConfigOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The user pool ID. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+
+    /// </summary>
     [CliOption("--user-pool-id")]
-    public string? UserPoolId { get; set; }
+    public string? UserPoolId { get; private init; }
 
     /// <summary>
     /// Configures user pool SMS messages for MFA. Sets the message template and the SMS message sending configuration for Amazon SNS. SmsAuthenticationMessage -&gt; (string) The SMS authentication message that will be sent to users with the code they must sign in with. The message must contain the {####} placeholder. Your user pool replaces the placeholder with the MFA code. If this parameter isn't provided, your user pool sends a default message. Constraints: o min: 6 o max: 140 o pattern: .*\{####\}.* SmsConfiguration -&gt; (structure) User pool configuration for delivery of SMS messages with Amazon Simple Notification Service. To send SMS messages with Amazon SNS in the Amazon Web Services Region that you want, the Amazon Cognito user pool uses an Identity and Access Management (IAM) role in your Amazon Web Services account. You can set SmsConfiguration in CreateUserPool and UpdateUser- Pool , or in SetUserPoolMfaConfig . SnsCallerArn -&gt; (string) The Amazon Resource Name (ARN) of the Amazon SNS caller. This is the ARN of the IAM role in your Amazon Web Services ac- count that Amazon Cognito will use to send SMS messages. SMS messages are subject to a spending limit . Constraints: o min: 0 o max: 2048 o pattern: (arn:[\w+=/,.@-]+:[\w+=/,.@-]+:([\w+=/,.@-]*)?:[0-9]+:[\w+=/,.@-]+(:[\w+=/,.@-]+)?(:[\w+=/,.@-]+)?)? ExternalId -&gt; (string) The external ID provides additional security for your IAM role. You can use an ExternalId with the IAM role that you use with Amazon SNS to send SMS messages for your user pool. If you provide an ExternalId , your Amazon Cognito user pool includes it in the request to assume your IAM role. You can configure the role trust policy to require that Amazon Cog- nito, and any principal, provide the ExternalID . If you use the Amazon Cognito Management Console to create a role for SMS multi-factor authentication (MFA), Amazon Cognito creates a role with the required permissions and a trust policy that demonstrates use of the ExternalId . For more information about the ExternalId of a role, see How to use an external ID when granting access to your Amazon Web Services resources to a third party . Constraints: o min: 0 o max: 131072 SnsRegion -&gt; (string) The Amazon Web Services Region to use with Amazon SNS inte- gration. You can choose the same Region as your user pool, or a supported Legacy Amazon SNS alternate Region . Amazon Cognito resources in the Asia Pacific (Seoul) Amazon Web Services Region must use your Amazon SNS configuration in the Asia Pacific (Tokyo) Region. For more information, see SMS message settings for Amazon Cognito user pools . Constraints: o min: 5 o max: 32 EumsSms -&gt; (structure) The configuration for sending SMS messages through Amazon Web Services End User Messaging SMS, as an alternative to Amazon SNS. In a user pool, provide either the Amazon SNS configura- tion (SnsCallerArn ) or this configuration, but not both. In Amazon Web Services Regions where Amazon SNS is not avail- able, this configuration is required. CallerArn -&gt; (string) [required] The ARN of the IAM role that Amazon Cognito assumes to send SMS messages through Amazon Web Services End User Messaging SMS. The role must grant permission to call the sms-voice:SendTextMessage operation. Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=/,.@-]+:[\w+=/,.@-]+:([\w+=/,.@-]*)?:[0-9]+:[\w+=/,.@-]+(:[\w+=/,.@-]+)?(:[\w+=/,.@-]+)? ExternalId -&gt; (string) The external ID that Amazon Cognito includes when it as- sumes the CallerArn role. Use this value as a condition in the role trust policy to prevent the confused deputy problem. Constraints: o min: 0 o max: 131072 OriginationIdentity -&gt; (string) The origination identity that Amazon Web Services End User Messaging SMS uses to send messages to your users. This value can be one of the following: o A phone number A long code, toll-free number, or short code that is assigned to your account. o A sender ID An alphabetic name that identifies the message sender in supported countries. o A phone pool A group of phone numbers that Amazon Web Services End User Messaging SMS selects from when it sends messages. You can provide an E.164 phone number or the ARN of the phone number, sender ID, or phone pool. Amazon Web Ser- vices End User Messaging SMS evaluates IAM authorization with the value that you provide. If the permissions pol- icy of your CallerArn role scopes the sms-voice:Send- TextMessage resource to a specific ARN, provide that same ARN. If the formats do not match, requests fail with an InvalidSmsRoleAccessPolicyException . Depending on the destination country, you must provide an origination identity. For country-specific requirements, see Supported countries and regions for SMS messaging in the Amazon Web Services End User Messaging SMS User Guide. Constraints: o min: 0 o max: 131072 ConfigurationSetName -&gt; (string) The name of the Amazon Web Services End User Messaging SMS configuration set that Amazon Cognito applies to mes- sages, for logging and event destinations. If you omit this member, Amazon Cognito sends messages without apply- ing a configuration set. Constraints: o min: 0 o max: 131072 InEntityId -&gt; (string) The principal entity ID required by India's Distributed Ledger Technology (DLT) regulations for SMS messages. Constraints: o min: 0 o max: 131072 InTemplateId -&gt; (string) The registered template ID for the message template re- quired by India's DLT regulations for SMS messages. Constraints: o min: 0 o max: 131072 Region -&gt; (string) The Amazon Web Services Region of the Amazon Web Services End User Messaging SMS resources that Amazon Cognito uses to send messages. Amazon Web Services End User Messaging SMS must be available in your user pool's Region. If you omit this parameter, Amazon Cognito uses the same Region as your user pool. You can also set this parameter to your user pool's Region explicitly. Amazon Cognito re- jects any other value with an InvalidParameterException . Constraints: o min: 5 o max: 32 Shorthand Syntax: SmsAuthenticationMessage=string,SmsConfiguration={SnsCallerArn=string,ExternalId=string,SnsRegion=string,EumsSms={CallerArn=string,ExternalId=string,OriginationIdentity=string,ConfigurationSetName=string,InEntityId=string,InTemplateId=string,Region=string}} JSON Syntax: { "SmsAuthenticationMessage": "string", "SmsConfiguration": { "SnsCallerArn": "string", "ExternalId": "string", "SnsRegion": "string", "EumsSms": { "CallerArn": "string", "ExternalId": "string", "OriginationIdentity": "string", "ConfigurationSetName": "string", "InEntityId": "string", "InTemplateId": "string", "Region": "string" } } }
@@ -62,5 +99,22 @@ public record AwsCognitoIdpSetUserPoolMfaConfigOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

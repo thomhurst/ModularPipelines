@@ -21,10 +21,16 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("lightsail", "get-regions")]
 public record AwsLightsailGetRegionsOptions : AwsOptions
 {
-    [CliFlag("--include-availability-zones")]
+    /// <summary>
+    /// A Boolean value indicating whether to also include Availability Zones in your get regions request. Availability Zones are indicated with a letter: us-east-2a .
+    /// </summary>
+    [CliFlag("--include-availability-zones", NegatedName = "--no-include-availability-zones")]
     public bool? IncludeAvailabilityZones { get; set; }
 
-    [CliFlag("--include-relational-database-availability-zones")]
+    /// <summary>
+    /// tional-database-availability-zones (boolean) A Boolean value indicating whether to also include Availability Zones for databases in your get regions request. Availability Zones are indicated with a letter (us-east-2a ).
+    /// </summary>
+    [CliFlag("--include-relational-database-availability-zones", NegatedName = "--no-include-relational-database-availability-zones")]
     public bool? IncludeRelationalDatabaseAvailabilityZones { get; set; }
 
     [CliOption("--cli-input-json")]

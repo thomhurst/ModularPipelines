@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,84 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("glue", "update-database")]
-public record AwsGlueUpdateDatabaseOptions : AwsOptions
+public record AwsGlueUpdateDatabaseOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an existing database definition in a Data Catalog. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the database to update in the catalog. For Hive compati- bility, this is folded to lowercase. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="DatabaseInput">A DatabaseInput object specifying the new definition of the metadata database in the catalog. Name -&gt; (string) [required] The name of the database. For Hive compatibility, this is folded to lowercase when it is stored. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Description -&gt; (string) A description of the database. Constraints: o min: 0 o max: 2048 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* LocationUri -&gt; (string) The location of the database (for example, an HDFS path). Constraints: o min: 1 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Parameters -&gt; (map) These key-value pairs define parameters and properties of the database. These key-value pairs define parameters and properties of the database. key -&gt; (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* value -&gt; (string) Constraints: o max: 512000 CreateTableDefaultPermissions -&gt; (list) Creates a set of default permissions on the table for princi- pals. Used by Lake Formation. Not used in the normal course of Glue operations. (structure) Permissions granted to a principal. Principal -&gt; (structure) The principal who is granted permissions. DataLakePrincipalIdentifier -&gt; (string) An identifier for the Lake Formation principal. Constraints: o min: 1 o max: 255 Permissions -&gt; (list) The permissions that are granted to the principal. (string) Possible values: o ALL o SELECT o ALTER o DROP o DELETE o INSERT o CREATE_DATABASE o CREATE_TABLE o DATA_LOCATION_ACCESS TargetDatabase -&gt; (structure) A DatabaseIdentifier structure that describes a target database for resource linking. CatalogId -&gt; (string) The ID of the Data Catalog in which the database resides. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* DatabaseName -&gt; (string) The name of the catalog database. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Region -&gt; (string) Region of the target database. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* FederatedDatabase -&gt; (structure) A FederatedDatabase structure that references an entity outside the Glue Data Catalog. Identifier -&gt; (string) A unique identifier for the federated database. Constraints: o min: 1 o max: 512 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* ConnectionName -&gt; (string) The name of the connection to the external metastore. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* ConnectionType -&gt; (string) The type of connection used to access the federated database, such as JDBC, ODBC, or other supported connection protocols. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* JSON Syntax: { "Name": "string", "Description": "string", "LocationUri": "string", "Parameters": {"string": "string" ...}, "CreateTableDefaultPermissions": [ { "Principal": { "DataLakePrincipalIdentifier": "string" }, "Permissions": ["ALL"|"SELECT"|"ALTER"|"DROP"|"DELETE"|"INSERT"|"CREATE_DATABASE"|"CREATE_TABLE"|"DATA_LOCATION_ACCESS", ...] } ... ], "TargetDatabase": { "CatalogId": "string", "DatabaseName": "string", "Region": "string" }, "FederatedDatabase": { "Identifier": "string", "ConnectionName": "string", "ConnectionType": "string" } }</param>
+    public AwsGlueUpdateDatabaseOptions(
+        string Name,
+        string DatabaseInput
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(DatabaseInput);
+        this.DatabaseInput = DatabaseInput;
+    }
+
+    private AwsGlueUpdateDatabaseOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlueUpdateDatabaseOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlueUpdateDatabaseOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the database to update in the catalog. For Hive compati- bility, this is folded to lowercase. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// A DatabaseInput object specifying the new definition of the metadata database in the catalog. Name -&gt; (string) [required] The name of the database. For Hive compatibility, this is folded to lowercase when it is stored. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Description -&gt; (string) A description of the database. Constraints: o min: 0 o max: 2048 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* LocationUri -&gt; (string) The location of the database (for example, an HDFS path). Constraints: o min: 1 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Parameters -&gt; (map) These key-value pairs define parameters and properties of the database. These key-value pairs define parameters and properties of the database. key -&gt; (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* value -&gt; (string) Constraints: o max: 512000 CreateTableDefaultPermissions -&gt; (list) Creates a set of default permissions on the table for princi- pals. Used by Lake Formation. Not used in the normal course of Glue operations. (structure) Permissions granted to a principal. Principal -&gt; (structure) The principal who is granted permissions. DataLakePrincipalIdentifier -&gt; (string) An identifier for the Lake Formation principal. Constraints: o min: 1 o max: 255 Permissions -&gt; (list) The permissions that are granted to the principal. (string) Possible values: o ALL o SELECT o ALTER o DROP o DELETE o INSERT o CREATE_DATABASE o CREATE_TABLE o DATA_LOCATION_ACCESS TargetDatabase -&gt; (structure) A DatabaseIdentifier structure that describes a target database for resource linking. CatalogId -&gt; (string) The ID of the Data Catalog in which the database resides. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* DatabaseName -&gt; (string) The name of the catalog database. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Region -&gt; (string) Region of the target database. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* FederatedDatabase -&gt; (structure) A FederatedDatabase structure that references an entity outside the Glue Data Catalog. Identifier -&gt; (string) A unique identifier for the federated database. Constraints: o min: 1 o max: 512 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* ConnectionName -&gt; (string) The name of the connection to the external metastore. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* ConnectionType -&gt; (string) The type of connection used to access the federated database, such as JDBC, ODBC, or other supported connection protocols. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* JSON Syntax: { "Name": "string", "Description": "string", "LocationUri": "string", "Parameters": {"string": "string" ...}, "CreateTableDefaultPermissions": [ { "Principal": { "DataLakePrincipalIdentifier": "string" }, "Permissions": ["ALL"|"SELECT"|"ALTER"|"DROP"|"DELETE"|"INSERT"|"CREATE_DATABASE"|"CREATE_TABLE"|"DATA_LOCATION_ACCESS", ...] } ... ], "TargetDatabase": { "CatalogId": "string", "DatabaseName": "string", "Region": "string" }, "FederatedDatabase": { "Identifier": "string", "ConnectionName": "string", "ConnectionType": "string" } }
+    /// </summary>
+    [CliOption("--database-input")]
+    public string? DatabaseInput { get; private init; }
+
     /// <summary>
     /// The ID of the Data Catalog in which the metadata database resides. If none is provided, the Amazon Web Services account ID is used by default. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--catalog-id")]
     public string? CatalogId { get; set; }
 
-    [CliOption("--name")]
-    public string? Name { get; set; }
-
-    [CliOption("--database-input")]
-    public string? DatabaseInput { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

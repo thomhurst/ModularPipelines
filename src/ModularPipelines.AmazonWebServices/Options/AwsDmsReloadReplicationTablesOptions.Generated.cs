@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dms", "reload-replication-tables")]
-public record AwsDmsReloadReplicationTablesOptions : AwsOptions
+public record AwsDmsReloadReplicationTablesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--replication-config-arn")]
-    public string? ReplicationConfigArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Reloads the target database table with the source data for a given DMS Serverless replication configuration. You can only use this operation with a task in the RUNNING state, oth- erwise the service will throw an InvalidResourceStateFault exception. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ReplicationConfigArn">The Amazon Resource Name of the replication config for which to re- load tables.</param>
+    /// <param name="TablesToReload">The list of tables to reload. (structure) Provides the name of the schema and table to be reloaded. SchemaName -&gt; (string) [required] The schema name of the table to be reloaded. TableName -&gt; (string) [required] The table name of the table to be reloaded. Shorthand Syntax: SchemaName=string,TableName=string ... JSON Syntax: [ { "SchemaName": "string", "TableName": "string" } ... ]</param>
+    public AwsDmsReloadReplicationTablesOptions(
+        string ReplicationConfigArn,
+        IEnumerable<string> TablesToReload
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReplicationConfigArn);
+        this.ReplicationConfigArn = ReplicationConfigArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(TablesToReload);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(TablesToReload));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(TablesToReload));
+            }
+
+            TablesToReload = materialized;
+        }
+        this.TablesToReload = TablesToReload;
+    }
+
+    private AwsDmsReloadReplicationTablesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDmsReloadReplicationTablesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDmsReloadReplicationTablesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name of the replication config for which to re- load tables.
+    /// </summary>
+    [CliOption("--replication-config-arn")]
+    public string? ReplicationConfigArn { get; private init; }
+
+    /// <summary>
+    /// The list of tables to reload. (structure) Provides the name of the schema and table to be reloaded. SchemaName -&gt; (string) [required] The schema name of the table to be reloaded. TableName -&gt; (string) [required] The table name of the table to be reloaded. Shorthand Syntax: SchemaName=string,TableName=string ... JSON Syntax: [ { "SchemaName": "string", "TableName": "string" } ... ]
+    /// </summary>
     [CliOption("--tables-to-reload", GroupValues = true)]
-    public IEnumerable<string>? TablesToReload { get; set; }
+    public IEnumerable<string>? TablesToReload { get; private init; }
 
     /// <summary>
     /// Options for reload. Specify data-reload to reload the data and re-validate it if validation is enabled. Specify validate-only to re-validate the table. This option applies only when validation is enabled for the replication. Possible values: o data-reload o validate-only
@@ -39,5 +94,22 @@ public record AwsDmsReloadReplicationTablesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

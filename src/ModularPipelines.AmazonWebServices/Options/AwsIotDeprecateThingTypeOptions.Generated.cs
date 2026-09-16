@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "deprecate-thing-type")]
-public record AwsIotDeprecateThingTypeOptions : AwsOptions
+public record AwsIotDeprecateThingTypeOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--thing-type-name")]
-    public string? ThingTypeName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--undo-deprecate")]
+    /// <summary>
+    /// Deprecates a thing type. You can not associate new things with depre- cated thing type. Requires permission to access the DeprecateThingType action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ThingTypeName">The name of the thing type to deprecate. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+</param>
+    public AwsIotDeprecateThingTypeOptions(
+        string ThingTypeName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ThingTypeName);
+        this.ThingTypeName = ThingTypeName;
+    }
+
+    private AwsIotDeprecateThingTypeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotDeprecateThingTypeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotDeprecateThingTypeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the thing type to deprecate. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+
+    /// </summary>
+    [CliOption("--thing-type-name")]
+    public string? ThingTypeName { get; private init; }
+
+    /// <summary>
+    /// Whether to undeprecate a deprecated thing type. If true , the thing type will not be deprecated anymore and you can associate it with things.
+    /// </summary>
+    [CliFlag("--undo-deprecate", NegatedName = "--no-undo-deprecate")]
     public bool? UndoDeprecate { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -32,5 +72,22 @@ public record AwsIotDeprecateThingTypeOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

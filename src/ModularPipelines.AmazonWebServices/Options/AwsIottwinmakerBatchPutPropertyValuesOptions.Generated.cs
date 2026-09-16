@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iottwinmaker", "batch-put-property-values")]
-public record AwsIottwinmakerBatchPutPropertyValuesOptions : AwsOptions
+public record AwsIottwinmakerBatchPutPropertyValuesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--workspace-id")]
-    public string? WorkspaceId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Sets values for multiple time series properties. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="WorkspaceId">The ID of the workspace that contains the properties to set. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+</param>
+    /// <param name="Entries">An object that maps strings to the property value entries to set. Each string in the mapping must be unique to this object. Constraints: o min: 1 o max: 10 (structure) An object that specifies information about time series property values. This object is used and consumed by the BatchPutPropertyValues action. entityPropertyReference -&gt; (structure) [required] An object that contains information about the entity that has the property. componentName -&gt; (string) The name of the component. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z_\-0-9]+ componentPath -&gt; (string) This string specifies the path to the composite compo- nent, starting from the top-level component. Constraints: o min: 1 o max: 2048 o pattern: [a-zA-Z_\-0-9/]+ externalIdProperty -&gt; (map) A mapping of external IDs to property names. External IDs uniquely identify properties from external data stores. key -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: .* value -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: .* entityId -&gt; (string) The ID of the entity. Constraints: o min: 1 o max: 128 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|^[a-zA-Z0-9][a-zA-Z_\-0-9.:]*[a-zA-Z0-9]+ propertyName -&gt; (string) [required] The name of the property. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z_\-0-9]+ propertyValues -&gt; (list) A list of objects that specify time series property values. Constraints: o min: 1 o max: 10 (structure) An object that contains information about a value for a time series property. timestamp -&gt; (timestamp) The timestamp of a value for a time series property. value -&gt; (structure) [required] An object that specifies a value for a time series property. booleanValue -&gt; (boolean) A Boolean value. doubleValue -&gt; (double) A double value. integerValue -&gt; (integer) An integer value. longValue -&gt; (long) A long value. stringValue -&gt; (string) A string value. Constraints: o min: 1 o max: 256 o pattern: .* listValue -&gt; (list) A list of multiple values. Constraints: o min: 0 o max: 50 (structure) An object that specifies a value for a prop- erty. booleanValue -&gt; (boolean) A Boolean value. doubleValue -&gt; (double) A double value. integerValue -&gt; (integer) An integer value. longValue -&gt; (long) A long value. stringValue -&gt; (string) A string value. Constraints: o min: 1 o max: 256 o pattern: .* listValue -&gt; (list) A list of multiple values. Constraints: o min: 0 o max: 50 ( ... recursive ... ) mapValue -&gt; (map) An object that maps strings to multiple DataValue objects. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: .* ( ... recursive ... ) relationshipValue -&gt; (structure) A value that relates a component to another component. targetEntityId -&gt; (string) The ID of the target entity associated with this relationship value. Constraints: o min: 1 o max: 128 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|^[a-zA-Z0-9][a-zA-Z_\-0-9.:]*[a-zA-Z0-9]+ targetComponentName -&gt; (string) The name of the target component associ- ated with the relationship value. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z_\-0-9]+ expression -&gt; (string) An expression that produces the value. Constraints: o min: 1 o max: 316 o pattern: (^\$\{Parame- ters\.[a-zA-z]+([a-zA-z_0-9]*)}$) mapValue -&gt; (map) An object that maps strings to multiple DataValue objects. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: .* value -&gt; (structure) An object that specifies a value for a prop- erty. booleanValue -&gt; (boolean) A Boolean value. doubleValue -&gt; (double) A double value. integerValue -&gt; (integer) An integer value. longValue -&gt; (long) A long value. stringValue -&gt; (string) A string value. Constraints: o min: 1 o max: 256 o pattern: .* listValue -&gt; (list) A list of multiple values. Constraints: o min: 0 o max: 50 ( ... recursive ... ) mapValue -&gt; (map) An object that maps strings to multiple DataValue objects. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: .* ( ... recursive ... ) relationshipValue -&gt; (structure) A value that relates a component to another component. targetEntityId -&gt; (string) The ID of the target entity associated with this relationship value. Constraints: o min: 1 o max: 128 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|^[a-zA-Z0-9][a-zA-Z_\-0-9.:]*[a-zA-Z0-9]+ targetComponentName -&gt; (string) The name of the target component associ- ated with the relationship value. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z_\-0-9]+ expression -&gt; (string) An expression that produces the value. Constraints: o min: 1 o max: 316 o pattern: (^\$\{Parame- ters\.[a-zA-z]+([a-zA-z_0-9]*)}$) relationshipValue -&gt; (structure) A value that relates a component to another compo- nent. targetEntityId -&gt; (string) The ID of the target entity associated with this relationship value. Constraints: o min: 1 o max: 128 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|^[a-zA-Z0-9][a-zA-Z_\-0-9.:]*[a-zA-Z0-9]+ targetComponentName -&gt; (string) The name of the target component associated with the relationship value. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z_\-0-9]+ expression -&gt; (string) An expression that produces the value. Constraints: o min: 1 o max: 316 o pattern: (^\$\{Parame- ters\.[a-zA-z]+([a-zA-z_0-9]*)}$) time -&gt; (string) ISO8601 DateTime of a value for a time series prop- erty. The time for when the property value was recorded in ISO 8601 format: YYYY-MM-DDThh:mm:ss[.SSSSSSSSS][Z/HH:mm] . o [YYYY] : year o [MM] : month o [DD] : day o [hh] : hour o [mm] : minute o [ss] : seconds o [.SSSSSSSSS] : additional precision, where prece- dence is maintained. For example: [.573123] is equal to 573123000 nanoseconds. o Z : default timezone UTC o HH:mm : time zone offset in Hours and Minutes. Required sub-fields : YYYY-MM-DDThh:mm:ss and [Z/HH:mm] Constraints: o min: 20 o max: 35 JSON Syntax: [ { "entityPropertyReference": { "componentName": "string", "componentPath": "string", "externalIdProperty": {"string": "string" ...}, "entityId": "string", "propertyName": "string" }, "propertyValues": [ { "timestamp": timestamp, "value": { "booleanValue": true|false, "doubleValue": double, "integerValue": integer, "longValue": long, "stringValue": "string", "listValue": [ { "booleanValue": true|false, "doubleValue": double, "integerValue": integer, "longValue": long, "stringValue": "string", "listValue": [ { ... recursive ... } ... ], "mapValue": {"string": { ... recursive ... } ...}, "relationshipValue": { "targetEntityId": "string", "targetComponentName": "string" }, "expression": "string" } ... ], "mapValue": {"string": { "booleanValue": true|false, "doubleValue": double, "integerValue": integer, "longValue": long, "stringValue": "string", "listValue": [ { ... recursive ... } ... ], "mapValue": {"string": { ... recursive ... } ...}, "relationshipValue": { "targetEntityId": "string", "targetComponentName": "string" }, "expression": "string" } ...}, "relationshipValue": { "targetEntityId": "string", "targetComponentName": "string" }, "expression": "string" }, "time": "string" } ... ] } ... ]</param>
+    public AwsIottwinmakerBatchPutPropertyValuesOptions(
+        string WorkspaceId,
+        IEnumerable<string> Entries
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceId);
+        this.WorkspaceId = WorkspaceId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Entries);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Entries));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Entries));
+            }
+
+            Entries = materialized;
+        }
+        this.Entries = Entries;
+    }
+
+    private AwsIottwinmakerBatchPutPropertyValuesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIottwinmakerBatchPutPropertyValuesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIottwinmakerBatchPutPropertyValuesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the workspace that contains the properties to set. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+
+    /// </summary>
+    [CliOption("--workspace-id")]
+    public string? WorkspaceId { get; private init; }
+
+    /// <summary>
+    /// An object that maps strings to the property value entries to set. Each string in the mapping must be unique to this object. Constraints: o min: 1 o max: 10 (structure) An object that specifies information about time series property values. This object is used and consumed by the BatchPutPropertyValues action. entityPropertyReference -&gt; (structure) [required] An object that contains information about the entity that has the property. componentName -&gt; (string) The name of the component. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z_\-0-9]+ componentPath -&gt; (string) This string specifies the path to the composite compo- nent, starting from the top-level component. Constraints: o min: 1 o max: 2048 o pattern: [a-zA-Z_\-0-9/]+ externalIdProperty -&gt; (map) A mapping of external IDs to property names. External IDs uniquely identify properties from external data stores. key -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: .* value -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: .* entityId -&gt; (string) The ID of the entity. Constraints: o min: 1 o max: 128 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|^[a-zA-Z0-9][a-zA-Z_\-0-9.:]*[a-zA-Z0-9]+ propertyName -&gt; (string) [required] The name of the property. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z_\-0-9]+ propertyValues -&gt; (list) A list of objects that specify time series property values. Constraints: o min: 1 o max: 10 (structure) An object that contains information about a value for a time series property. timestamp -&gt; (timestamp) The timestamp of a value for a time series property. value -&gt; (structure) [required] An object that specifies a value for a time series property. booleanValue -&gt; (boolean) A Boolean value. doubleValue -&gt; (double) A double value. integerValue -&gt; (integer) An integer value. longValue -&gt; (long) A long value. stringValue -&gt; (string) A string value. Constraints: o min: 1 o max: 256 o pattern: .* listValue -&gt; (list) A list of multiple values. Constraints: o min: 0 o max: 50 (structure) An object that specifies a value for a prop- erty. booleanValue -&gt; (boolean) A Boolean value. doubleValue -&gt; (double) A double value. integerValue -&gt; (integer) An integer value. longValue -&gt; (long) A long value. stringValue -&gt; (string) A string value. Constraints: o min: 1 o max: 256 o pattern: .* listValue -&gt; (list) A list of multiple values. Constraints: o min: 0 o max: 50 ( ... recursive ... ) mapValue -&gt; (map) An object that maps strings to multiple DataValue objects. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: .* ( ... recursive ... ) relationshipValue -&gt; (structure) A value that relates a component to another component. targetEntityId -&gt; (string) The ID of the target entity associated with this relationship value. Constraints: o min: 1 o max: 128 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|^[a-zA-Z0-9][a-zA-Z_\-0-9.:]*[a-zA-Z0-9]+ targetComponentName -&gt; (string) The name of the target component associ- ated with the relationship value. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z_\-0-9]+ expression -&gt; (string) An expression that produces the value. Constraints: o min: 1 o max: 316 o pattern: (^\$\{Parame- ters\.[a-zA-z]+([a-zA-z_0-9]*)}$) mapValue -&gt; (map) An object that maps strings to multiple DataValue objects. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: .* value -&gt; (structure) An object that specifies a value for a prop- erty. booleanValue -&gt; (boolean) A Boolean value. doubleValue -&gt; (double) A double value. integerValue -&gt; (integer) An integer value. longValue -&gt; (long) A long value. stringValue -&gt; (string) A string value. Constraints: o min: 1 o max: 256 o pattern: .* listValue -&gt; (list) A list of multiple values. Constraints: o min: 0 o max: 50 ( ... recursive ... ) mapValue -&gt; (map) An object that maps strings to multiple DataValue objects. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: .* ( ... recursive ... ) relationshipValue -&gt; (structure) A value that relates a component to another component. targetEntityId -&gt; (string) The ID of the target entity associated with this relationship value. Constraints: o min: 1 o max: 128 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|^[a-zA-Z0-9][a-zA-Z_\-0-9.:]*[a-zA-Z0-9]+ targetComponentName -&gt; (string) The name of the target component associ- ated with the relationship value. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z_\-0-9]+ expression -&gt; (string) An expression that produces the value. Constraints: o min: 1 o max: 316 o pattern: (^\$\{Parame- ters\.[a-zA-z]+([a-zA-z_0-9]*)}$) relationshipValue -&gt; (structure) A value that relates a component to another compo- nent. targetEntityId -&gt; (string) The ID of the target entity associated with this relationship value. Constraints: o min: 1 o max: 128 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|^[a-zA-Z0-9][a-zA-Z_\-0-9.:]*[a-zA-Z0-9]+ targetComponentName -&gt; (string) The name of the target component associated with the relationship value. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z_\-0-9]+ expression -&gt; (string) An expression that produces the value. Constraints: o min: 1 o max: 316 o pattern: (^\$\{Parame- ters\.[a-zA-z]+([a-zA-z_0-9]*)}$) time -&gt; (string) ISO8601 DateTime of a value for a time series prop- erty. The time for when the property value was recorded in ISO 8601 format: YYYY-MM-DDThh:mm:ss[.SSSSSSSSS][Z/HH:mm] . o [YYYY] : year o [MM] : month o [DD] : day o [hh] : hour o [mm] : minute o [ss] : seconds o [.SSSSSSSSS] : additional precision, where prece- dence is maintained. For example: [.573123] is equal to 573123000 nanoseconds. o Z : default timezone UTC o HH:mm : time zone offset in Hours and Minutes. Required sub-fields : YYYY-MM-DDThh:mm:ss and [Z/HH:mm] Constraints: o min: 20 o max: 35 JSON Syntax: [ { "entityPropertyReference": { "componentName": "string", "componentPath": "string", "externalIdProperty": {"string": "string" ...}, "entityId": "string", "propertyName": "string" }, "propertyValues": [ { "timestamp": timestamp, "value": { "booleanValue": true|false, "doubleValue": double, "integerValue": integer, "longValue": long, "stringValue": "string", "listValue": [ { "booleanValue": true|false, "doubleValue": double, "integerValue": integer, "longValue": long, "stringValue": "string", "listValue": [ { ... recursive ... } ... ], "mapValue": {"string": { ... recursive ... } ...}, "relationshipValue": { "targetEntityId": "string", "targetComponentName": "string" }, "expression": "string" } ... ], "mapValue": {"string": { "booleanValue": true|false, "doubleValue": double, "integerValue": integer, "longValue": long, "stringValue": "string", "listValue": [ { ... recursive ... } ... ], "mapValue": {"string": { ... recursive ... } ...}, "relationshipValue": { "targetEntityId": "string", "targetComponentName": "string" }, "expression": "string" } ...}, "relationshipValue": { "targetEntityId": "string", "targetComponentName": "string" }, "expression": "string" }, "time": "string" } ... ] } ... ]
+    /// </summary>
     [CliOption("--entries", GroupValues = true)]
-    public IEnumerable<string>? Entries { get; set; }
+    public IEnumerable<string>? Entries { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

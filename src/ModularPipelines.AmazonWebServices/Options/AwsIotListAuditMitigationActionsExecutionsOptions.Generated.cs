@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,19 +22,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "list-audit-mitigation-actions-executions")]
-public record AwsIotListAuditMitigationActionsExecutionsOptions : AwsOptions
+public record AwsIotListAuditMitigationActionsExecutionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Gets the status of audit mitigation action tasks that were executed. Requires permission to access the ListAuditMitigationActionsExecutions action. See also: AWS API Documentation list-audit-mitigation-actions-executions is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument...
+    /// </summary>
+    /// <param name="TaskId">Specify this filter to limit results to actions for a specific audit mitigation actions task. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="FindingId">Specify this filter to limit results to those that were applied to a specific audit finding. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_-]+</param>
+    public AwsIotListAuditMitigationActionsExecutionsOptions(
+        string TaskId,
+        string FindingId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TaskId);
+        this.TaskId = TaskId;
+        global::System.ArgumentNullException.ThrowIfNull(FindingId);
+        this.FindingId = FindingId;
+    }
+
+    private AwsIotListAuditMitigationActionsExecutionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotListAuditMitigationActionsExecutionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotListAuditMitigationActionsExecutionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specify this filter to limit results to actions for a specific audit mitigation actions task. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_-]+
+    /// </summary>
     [CliOption("--task-id")]
-    public string? TaskId { get; set; }
+    public string? TaskId { get; private init; }
+
+    /// <summary>
+    /// Specify this filter to limit results to those that were applied to a specific audit finding. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_-]+
+    /// </summary>
+    [CliOption("--finding-id")]
+    public string? FindingId { get; private init; }
 
     /// <summary>
     /// Specify this filter to limit results to those with a specific sta- tus. Possible values: o IN_PROGRESS o COMPLETED o FAILED o CANCELED o SKIPPED o PENDING
     /// </summary>
     [CliOption("--action-status")]
     public AwsIotListAuditMitigationActionsExecutionsActionStatus? ActionStatus { get; set; }
-
-    [CliOption("--finding-id")]
-    public string? FindingId { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -59,5 +103,22 @@ public record AwsIotListAuditMitigationActionsExecutionsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

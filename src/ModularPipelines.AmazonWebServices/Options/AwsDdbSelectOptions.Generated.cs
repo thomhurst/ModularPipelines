@@ -23,6 +23,23 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsDdbSelectOptions : AwsOptions
 {
     /// <summary>
+    /// select searches a table or index. Under the hood, this operation will use query if --key-condition is specified, or scan otherwise. Only yaml output is supported for this operation.
+    /// </summary>
+    /// <param name="TableName">The &lt;table-name&gt; operand.</param>
+    public AwsDdbSelectOptions(
+        string TableName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TableName);
+        this.TableName = TableName;
+    }
+
+    public void Deconstruct(out string TableName)
+    {
+        TableName = this.TableName;
+    }
+
+    /// <summary>
     /// The name of a secondary index to scan. This index can be any local secondary index or global secondary index.
     /// </summary>
     [CliOption("--index-name")]
@@ -31,20 +48,20 @@ public record AwsDdbSelectOptions : AwsOptions
     /// <summary>
     /// A string that identifies one or more attributes to retrieve from the specified table or index. These attributes can include scalars, sets, or elements of a JSON document. The attributes in the expres- sion must be separated by commas. If any of the requested attributes are not found, they will not appear in the result. For more information, see Accessing Item Attributes in the Amazon DynamoDB Developer Guide . For CLI specific syntax see aws help ddb-expressions
     /// </summary>
-    [CliOption("--projection")]
-    public string? Projection { get; set; }
+    [CliOption("--projection", GroupValues = true)]
+    public IEnumerable<string>? Projection { get; set; }
 
     /// <summary>
     /// A string that contains conditions that DynamoDB applies after the operation, but before the data is returned to you. Items that do not satisfy the --filter criteria are not returned. NOTE: A --filter is applied after the items have already been read; the process of filtering does not consume any additional read capacity units. For more information, see Filter Expressions in the Amazon DynamoDB Developer Guide . For CLI specific syntax see aws help ddb-expressions
     /// </summary>
-    [CliOption("--filter")]
-    public string? Filter { get; set; }
+    [CliOption("--filter", GroupValues = true)]
+    public IEnumerable<string>? Filter { get; set; }
 
     /// <summary>
     /// The condition that specifies the key value(s) for items to be re- trieved. Must perform an equality test on a single partition key value. The condition can optionally perform one of several comparison tests on a single sort key value. This allows select to retrieve one item with a given partition key value and sort key value, or several items that have the same partition key value but different sort key values. The partition key equality test must be specified in the following format: partitionKeyName = :partitionkeyval If you also want to provide a condition for the sort key, it must be combined using AND with the condition for the sort key. Valid comparisons for the sort key condition are as follows: o sortKeyName = :sortkeyval - true if the sort key value is equal to :sortkeyval . o sortKeyName &lt; :sortkeyval - true if the sort key value is less than :sortkeyval . o sortKeyName &lt;= :sortkeyval - true if the sort key value is less than or equal to :sortkeyval . o sortKeyName &gt; :sortkeyval - true if the sort key value is greater than :sortkeyval . o sortKeyName &gt;= :sortkeyval - true if the sort key value is greater than or equal to :sortkeyval . o sortKeyName BETWEEN :sortkeyval1 AND :sortkeyval2 - true if the sort key value is greater than or equal to :sortkeyval1 , and less than or equal to :sortkeyval2 . o begins_with(sortKeyName, :sortkeyval) - true if the sort key value begins with a particular operand. (You cannot use this function with a sort key that is of type Number.) Note that the function name begins_with is case-sensitive. For CLI specific syntax see aws help ddb-expressions
     /// </summary>
-    [CliOption("--key-condition")]
-    public string? KeyCondition { get; set; }
+    [CliOption("--key-condition", GroupValues = true)]
+    public IEnumerable<string>? KeyCondition { get; set; }
 
     /// <summary>
     /// The attributes to be returned in the result. You can retrieve all item attributes, specific item attributes, the count of matching items, or in the case of an index, some or all of the attributes projected into the index. o ALL - Returns all of the item attributes from the specified table or index. If you query a local secondary index, then for each matching item in the index DynamoDB will fetch the entire item from the parent table. If the index is configured to project all item attributes, then all of the data can be obtained from the lo- cal secondary index, and no fetching is required. o ALL_PROJECTED - Allowed only when querying an index. Retrieves all attributes that have been projected into the index. If the index is configured to project all attributes, this return value is equivalent to specifying ALL. o COUNT - Returns the number of matching items, rather than the matching items themselves.
@@ -52,10 +69,16 @@ public record AwsDdbSelectOptions : AwsOptions
     [CliOption("--attributes")]
     public string? Attributes { get; set; }
 
-    [CliFlag("--consistent-read")]
+    /// <summary>
+    /// Determines the read consistency model: If set to --consistent-read , then the operation uses strongly consistent reads; otherwise, the operation uses eventually consistent reads. Strongly consistent reads are not supported on global secondary indexes. If you query a global secondary index with --consistent-read , you will receive a ValidationException .
+    /// </summary>
+    [CliFlag("--consistent-read", NegatedName = "--no-consistent-read")]
     public bool? ConsistentRead { get; set; }
 
-    [CliFlag("--return-consumed-capacity")]
+    /// <summary>
+    /// Will include the aggregate ConsumedCapacity for the operation. If --index-name is also specified, then the ConsumedCapacity for each table and secondary index that was accessed will be returned.
+    /// </summary>
+    [CliFlag("--return-consumed-capacity", NegatedName = "--no-return-consumed-capacity")]
     public bool? ReturnConsumedCapacity { get; set; }
 
     /// <summary>
@@ -76,5 +99,11 @@ public record AwsDdbSelectOptions : AwsOptions
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
+
+    /// <summary>
+    /// The &lt;table-name&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string TableName { get; private init; }
 
 }

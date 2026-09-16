@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mpa", "list-sessions")]
-public record AwsMpaListSessionsOptions : AwsOptions
+public record AwsMpaListSessionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a list of approval sessions. For more information, see Session in the Multi-party approval User Guide . See also: AWS API Documentation list-sessions is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expr...
+    /// </summary>
+    /// <param name="ApprovalTeamArn">Amazon Resource Name (ARN) for the approval team. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:mpa:[a-z0-9-]{1,20}:[0-9]{12}:ap- proval-team/[a-zA-Z0-9._-]+</param>
+    public AwsMpaListSessionsOptions(
+        string ApprovalTeamArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApprovalTeamArn);
+        this.ApprovalTeamArn = ApprovalTeamArn;
+    }
+
+    private AwsMpaListSessionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMpaListSessionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMpaListSessionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Amazon Resource Name (ARN) for the approval team. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:mpa:[a-z0-9-]{1,20}:[0-9]{12}:ap- proval-team/[a-zA-Z0-9._-]+
+    /// </summary>
     [CliOption("--approval-team-arn")]
-    public string? ApprovalTeamArn { get; set; }
+    public string? ApprovalTeamArn { get; private init; }
 
     /// <summary>
     /// An array of Filter objects. Contains the filter to apply when list- ing sessions. Constraints: o min: 0 o max: 10 (structure) Contains the filter to apply to requests. You can specify up to 10 filters for a request. FieldName -&gt; (string) Name of the filter to use. NOTE: Supported filters The supported filters for ListSessions are: ActionName , SessionStatus , and InitationTime . Possible values: o ActionName o ApprovalTeamName o VotingTime o Vote o SessionStatus o InitiationTime Operator -&gt; (string) Operator to use for filtering. o EQ : Equal to the specified value o NE : Not equal to the specified value o GT : Greater than the specified value o LT : Less than the specified value o GTE : Greater than or equal to the specified value o LTE : Less than or equal to the specified value o CONTAINS : Contains the specified value o NOT_CONTAINS : Does not contain the specified value o BETWEEN : Between two values, inclusive of the specified values. NOTE: Supported operators for each filter : o ActionName : EQ | NE | CONTAINS | NOT_CONTAINS o SessionStatus : EQ | NE o InitiationTime : GT | LT | GTE | LTE | BETWEEN Possible values: o EQ o NE o GT o LT o GTE o LTE o CONTAINS o NOT_CONTAINS o BETWEEN Value -&gt; (string) Value to use for filtering. For the BETWEEN operator, specify values in the format a AND b (AND is case-insensitive). Constraints: o min: 0 o max: 1000 Shorthand Syntax: FieldName=string,Operator=string,Value=string ... JSON Syntax: [ { "FieldName": "ActionName"|"ApprovalTeamName"|"VotingTime"|"Vote"|"SessionStatus"|"InitiationTime", "Operator": "EQ"|"NE"|"GT"|"LT"|"GTE"|"LTE"|"CONTAINS"|"NOT_CONTAINS"|"BETWEEN", "Value": "string" } ... ]
@@ -55,5 +92,22 @@ public record AwsMpaListSessionsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

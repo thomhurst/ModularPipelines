@@ -28,7 +28,10 @@ public record AwsControltowerListEnabledBaselinesOptions : AwsOptions
     [CliOption("--filter")]
     public string? Filter { get; set; }
 
-    [CliFlag("--include-children")]
+    /// <summary>
+    /// A value that can be set to include the child enabled baselines in responses. The default value is false.
+    /// </summary>
+    [CliFlag("--include-children", NegatedName = "--no-include-children")]
     public bool? IncludeChildren { get; set; }
 
     [CliOption("--cli-input-json")]

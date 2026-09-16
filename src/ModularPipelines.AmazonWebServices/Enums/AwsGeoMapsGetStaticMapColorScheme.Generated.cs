@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --colorscheme.
+/// Allowed values for --color-scheme.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGeoMapsGetStaticMapColorScheme
 {
-    [EnumValue("Light")]
-    Light = 1,
-
     [EnumValue("Dark")]
-    Dark = 2
+    Dark,
+
+    [EnumValue("Light")]
+    Light
 }

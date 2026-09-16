@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --themestyling.
+/// Allowed values for --theme-styling.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsAppstreamUpdateThemeForStackThemeStyling
 {
-    [EnumValue("LIGHT_BLUE")]
-    LightBlue = 1,
-
     [EnumValue("BLUE")]
-    Blue = 2,
+    Blue,
+
+    [EnumValue("LIGHT_BLUE")]
+    LightBlue,
 
     [EnumValue("PINK")]
-    Pink = 3,
+    Pink,
 
     [EnumValue("RED")]
-    Red = 4
+    Red
 }

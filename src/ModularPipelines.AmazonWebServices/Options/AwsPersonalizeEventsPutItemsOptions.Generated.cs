@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("personalize-events", "put-items")]
-public record AwsPersonalizeEventsPutItemsOptions : AwsOptions
+public record AwsPersonalizeEventsPutItemsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--dataset-arn")]
-    public string? DataSetArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Adds one or more items to an Items dataset. For more information see Importing items individually . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DataSetArn">The Amazon Resource Name (ARN) of the Items dataset you are adding the item or items to. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
+    /// <param name="Items">A list of item data. Constraints: o min: 1 o max: 10 (structure) Represents item metadata added to an Items dataset using the PutItems API. For more information see Importing items individu- ally . itemId -&gt; (string) [required] The ID associated with the item. Constraints: o min: 1 o max: 256 properties -&gt; (string) A string map of item-specific metadata. Each element in the map consists of a key-value pair. For example, {"numberOfRat- ings": "12"} . The keys use camel case names that match the fields in the schema for the Items dataset. In the previous example, the numberOfRatings matches the 'NUMBER_OF_RATINGS' field defined in the Items schema. For categorical string data, to include multiple categories for a single item, separate each category with a pipe separator (| ). For example, \"Horror|Action\" . Constraints: o min: 1 o max: 32000 Shorthand Syntax: itemId=string,properties=string ... JSON Syntax: [ { "itemId": "string", "properties": "string" } ... ]</param>
+    public AwsPersonalizeEventsPutItemsOptions(
+        string DataSetArn,
+        IEnumerable<string> Items
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataSetArn);
+        this.DataSetArn = DataSetArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Items);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Items));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Items));
+            }
+
+            Items = materialized;
+        }
+        this.Items = Items;
+    }
+
+    private AwsPersonalizeEventsPutItemsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPersonalizeEventsPutItemsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPersonalizeEventsPutItemsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the Items dataset you are adding the item or items to. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
+    /// </summary>
+    [CliOption("--dataset-arn")]
+    public string? DataSetArn { get; private init; }
+
+    /// <summary>
+    /// A list of item data. Constraints: o min: 1 o max: 10 (structure) Represents item metadata added to an Items dataset using the PutItems API. For more information see Importing items individu- ally . itemId -&gt; (string) [required] The ID associated with the item. Constraints: o min: 1 o max: 256 properties -&gt; (string) A string map of item-specific metadata. Each element in the map consists of a key-value pair. For example, {"numberOfRat- ings": "12"} . The keys use camel case names that match the fields in the schema for the Items dataset. In the previous example, the numberOfRatings matches the 'NUMBER_OF_RATINGS' field defined in the Items schema. For categorical string data, to include multiple categories for a single item, separate each category with a pipe separator (| ). For example, \"Horror|Action\" . Constraints: o min: 1 o max: 32000 Shorthand Syntax: itemId=string,properties=string ... JSON Syntax: [ { "itemId": "string", "properties": "string" } ... ]
+    /// </summary>
     [CliOption("--items", GroupValues = true)]
-    public IEnumerable<string>? Items { get; set; }
+    public IEnumerable<string>? Items { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

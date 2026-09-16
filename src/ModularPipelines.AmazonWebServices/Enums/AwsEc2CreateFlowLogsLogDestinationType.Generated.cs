@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --logdestinationtype.
+/// Allowed values for --log-destination-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEc2CreateFlowLogsLogDestinationType
 {
     [EnumValue("cloud-watch-logs")]
-    CloudWatchLogs = 1,
-
-    [EnumValue("s3")]
-    S3 = 2,
+    CloudWatchLogs,
 
     [EnumValue("kinesis-data-firehose")]
-    KinesisDataFirehose = 3
+    KinesisDataFirehose,
+
+    [EnumValue("s3")]
+    S3
 }

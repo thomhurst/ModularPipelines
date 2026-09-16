@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --responsetransfermode.
+/// Allowed values for --response-transfer-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsApigatewayPutIntegrationResponseTransferMode
 {
     [EnumValue("BUFFERED")]
-    Buffered = 1,
+    Buffered,
 
     [EnumValue("STREAM")]
-    Stream = 2
+    Stream
 }

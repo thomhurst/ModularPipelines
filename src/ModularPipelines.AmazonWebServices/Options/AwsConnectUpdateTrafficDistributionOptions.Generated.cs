@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "update-traffic-distribution")]
-public record AwsConnectUpdateTrafficDistributionOptions : AwsOptions
+public record AwsConnectUpdateTrafficDistributionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the traffic distribution for a given traffic distribution group. WARNING: When you shift telephony traffic, also shift agents and/or agent sign-ins to ensure they can handle the calls in the other Region. If you don't shift the agents, voice calls will go to the shifted Re- gion but there won't be any agents available to receive the calls. NOTE: The SignInConfig distribution is available only on a default Traf- ficDistributionGroup (see the IsDefault parameter in the TrafficDistributionG...
+    /// </summary>
+    /// <param name="Id">The identifier of the traffic distribution group. This can be the ID or the ARN if the API is being called in the Region where the traf- fic distribution group was created. The ARN must be provided if the call is from the replicated Region. Constraints: o pattern: ^(arn:(aws|aws-us-gov):con- nect:[a-z]{2}-[a-z-]+-[0-9]{1}:[0-9]{1,20}:traffic-distribu- tion-group/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
+    public AwsConnectUpdateTrafficDistributionOptions(
+        string Id
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+    }
+
+    private AwsConnectUpdateTrafficDistributionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectUpdateTrafficDistributionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectUpdateTrafficDistributionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the traffic distribution group. This can be the ID or the ARN if the API is being called in the Region where the traf- fic distribution group was created. The ARN must be provided if the call is from the replicated Region. Constraints: o pattern: ^(arn:(aws|aws-us-gov):con- nect:[a-z]{2}-[a-z-]+-[0-9]{1}:[0-9]{1,20}:traffic-distribu- tion-group/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+    /// </summary>
     [CliOption("--id")]
-    public string? Id { get; set; }
+    public string? Id { get; private init; }
 
     /// <summary>
     /// The distribution of traffic between the instance and its replica(s). Distributions -&gt; (list) [required] Information about traffic distributions. (structure) Information about a traffic distribution. Region -&gt; (string) [required] The Amazon Web Services Region where the traffic is dis- tributed. Constraints: o min: 8 o max: 31 o pattern: [a-z]{2}(-[a-z]+){1,2}(-[0-9])? Percentage -&gt; (integer) [required] The percentage of the traffic that is distributed, in in- crements of 10. Constraints: o min: 0 o max: 100 Shorthand Syntax: Distributions=[{Region=string,Percentage=integer},{Region=string,Percentage=integer}] JSON Syntax: { "Distributions": [ { "Region": "string", "Percentage": integer } ... ] }
@@ -47,5 +84,22 @@ public record AwsConnectUpdateTrafficDistributionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

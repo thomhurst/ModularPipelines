@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elasticbeanstalk", "create-platform-version")]
-public record AwsElasticbeanstalkCreatePlatformVersionOptions : AwsOptions
+public record AwsElasticbeanstalkCreatePlatformVersionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Create a new version of your custom platform. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PlatformName">The name of your custom platform.</param>
+    /// <param name="PlatformVersion">The number, such as 1.0.2, for the new platform version.</param>
+    /// <param name="PlatformDefinitionBundle">The location of the platform definition archive in Amazon S3. S3Bucket -&gt; (string) The Amazon S3 bucket where the data is located. Constraints: o max: 255 S3Key -&gt; (string) The Amazon S3 key where the data is located. Constraints: o max: 1024 Shorthand Syntax: S3Bucket=string,S3Key=string JSON Syntax: { "S3Bucket": "string", "S3Key": "string" }</param>
+    public AwsElasticbeanstalkCreatePlatformVersionOptions(
+        string PlatformName,
+        string PlatformVersion,
+        string PlatformDefinitionBundle
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PlatformName);
+        this.PlatformName = PlatformName;
+        global::System.ArgumentNullException.ThrowIfNull(PlatformVersion);
+        this.PlatformVersion = PlatformVersion;
+        global::System.ArgumentNullException.ThrowIfNull(PlatformDefinitionBundle);
+        this.PlatformDefinitionBundle = PlatformDefinitionBundle;
+    }
+
+    private AwsElasticbeanstalkCreatePlatformVersionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElasticbeanstalkCreatePlatformVersionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElasticbeanstalkCreatePlatformVersionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of your custom platform.
+    /// </summary>
     [CliOption("--platform-name")]
-    public string? PlatformName { get; set; }
+    public string? PlatformName { get; private init; }
 
+    /// <summary>
+    /// The number, such as 1.0.2, for the new platform version.
+    /// </summary>
     [CliOption("--platform-version")]
-    public string? PlatformVersion { get; set; }
+    public string? PlatformVersion { get; private init; }
 
+    /// <summary>
+    /// The location of the platform definition archive in Amazon S3. S3Bucket -&gt; (string) The Amazon S3 bucket where the data is located. Constraints: o max: 255 S3Key -&gt; (string) The Amazon S3 key where the data is located. Constraints: o max: 1024 Shorthand Syntax: S3Bucket=string,S3Key=string JSON Syntax: { "S3Bucket": "string", "S3Key": "string" }
+    /// </summary>
     [CliOption("--platform-definition-bundle")]
-    public string? PlatformDefinitionBundle { get; set; }
+    public string? PlatformDefinitionBundle { get; private init; }
 
     /// <summary>
     /// The name of the builder environment. Constraints: o min: 4 o max: 40
@@ -53,5 +104,22 @@ public record AwsElasticbeanstalkCreatePlatformVersionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

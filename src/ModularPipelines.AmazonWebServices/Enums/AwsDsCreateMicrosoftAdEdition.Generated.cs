@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsDsCreateMicrosoftAdEdition
 {
     [EnumValue("Enterprise")]
-    Enterprise = 1,
-
-    [EnumValue("Standard")]
-    Standard = 2,
+    Enterprise,
 
     [EnumValue("Hybrid")]
-    Hybrid = 3
+    Hybrid,
+
+    [EnumValue("Standard")]
+    Standard
 }

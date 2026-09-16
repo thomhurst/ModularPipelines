@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --osfamily.
+/// Allowed values for --os-family.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDeadlineUpdateStorageProfileOsFamily
 {
-    [EnumValue("WINDOWS")]
-    Windows = 1,
-
     [EnumValue("LINUX")]
-    Linux = 2,
+    Linux,
 
     [EnumValue("MACOS")]
-    Macos = 3
+    Macos,
+
+    [EnumValue("WINDOWS")]
+    Windows
 }

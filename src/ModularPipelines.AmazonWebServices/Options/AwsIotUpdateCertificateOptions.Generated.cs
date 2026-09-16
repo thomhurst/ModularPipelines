@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +21,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "update-certificate")]
-public record AwsIotUpdateCertificateOptions : AwsOptions
+public record AwsIotUpdateCertificateOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--certificate-id")]
-    public string? CertificateId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the status of the specified certificate. This operation is idempotent. Requires permission to access the UpdateCertificate action. Certificates must be in the ACTIVE state to authenticate devices that use a certificate to connect to IoT. Within a few minutes of updating a certificate from the ACTIVE state to any other state, IoT disconnects all devices that used that certificate to connect. Devices cannot use a certificate that is not in the ACTIVE state to reconnect. See also: AWS API D...
+    /// </summary>
+    /// <param name="CertificateId">The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.) Constraints: o min: 64 o max: 64 o pattern: (0x)?[a-fA-F0-9]+</param>
+    /// <param name="NewStatus">The new status. Note: Setting the status to PENDING_TRANSFER or PENDING_ACTIVA- TION will result in an exception being thrown. PENDING_TRANSFER and PENDING_ACTIVATION are statuses used internally by IoT. They are not intended for developer use. Note: The status value REGISTER_INACTIVE is deprecated and should not be used. Possible values: o ACTIVE o INACTIVE o REVOKED o PENDING_TRANSFER o REGISTER_INACTIVE o PENDING_ACTIVATION</param>
+    public AwsIotUpdateCertificateOptions(
+        string CertificateId,
+        AwsIotUpdateCertificateNewStatus NewStatus
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CertificateId);
+        this.CertificateId = CertificateId;
+        global::System.ArgumentNullException.ThrowIfNull(NewStatus);
+        this.NewStatus = NewStatus;
+    }
+
+    private AwsIotUpdateCertificateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotUpdateCertificateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotUpdateCertificateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.) Constraints: o min: 64 o max: 64 o pattern: (0x)?[a-fA-F0-9]+
+    /// </summary>
+    [CliOption("--certificate-id")]
+    public string? CertificateId { get; private init; }
+
+    /// <summary>
+    /// The new status. Note: Setting the status to PENDING_TRANSFER or PENDING_ACTIVA- TION will result in an exception being thrown. PENDING_TRANSFER and PENDING_ACTIVATION are statuses used internally by IoT. They are not intended for developer use. Note: The status value REGISTER_INACTIVE is deprecated and should not be used. Possible values: o ACTIVE o INACTIVE o REVOKED o PENDING_TRANSFER o REGISTER_INACTIVE o PENDING_ACTIVATION
+    /// </summary>
     [CliOption("--new-status")]
-    public string? NewStatus { get; set; }
+    public AwsIotUpdateCertificateNewStatus? NewStatus { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

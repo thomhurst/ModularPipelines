@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datazone", "update-account-pool")]
-public record AwsDatazoneUpdateAccountPoolOptions : AwsOptions
+public record AwsDatazoneUpdateAccountPoolOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--domain-identifier")]
-    public string? DomainIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the account pool. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainIdentifier">The domain ID where the account pool that is to be updated lives. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Identifier">The ID of the account pool that is to be updated. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    public AwsDatazoneUpdateAccountPoolOptions(
+        string DomainIdentifier,
+        string Identifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainIdentifier);
+        this.DomainIdentifier = DomainIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(Identifier);
+        this.Identifier = Identifier;
+    }
+
+    private AwsDatazoneUpdateAccountPoolOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatazoneUpdateAccountPoolOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatazoneUpdateAccountPoolOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The domain ID where the account pool that is to be updated lives. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// </summary>
+    [CliOption("--domain-identifier")]
+    public string? DomainIdentifier { get; private init; }
+
+    /// <summary>
+    /// The ID of the account pool that is to be updated. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// </summary>
     [CliOption("--identifier")]
-    public string? Identifier { get; set; }
+    public string? Identifier { get; private init; }
 
     /// <summary>
     /// The name of the account pool that is to be updated. Constraints: o min: 1 o max: 64 o pattern: [\w -]+
@@ -44,7 +87,7 @@ public record AwsDatazoneUpdateAccountPoolOptions : AwsOptions
     /// The mechanism used to resolve the account selection from the account pool. Possible values: o MANUAL
     /// </summary>
     [CliOption("--resolution-strategy")]
-    public AwsDatazoneUpdateAccountPoolResolutionStrategy? ResolutionStrategy { get; set; }
+    public string? ResolutionStrategy { get; set; }
 
     /// <summary>
     /// The source of accounts for the account pool. In the current release, it's either a static list of accounts provided by the customer or a custom Amazon Web Services Lambda handler. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: accounts, customAccountPoolHandler. accounts -&gt; (list) The static list of accounts within an account pool. Constraints: o min: 1 o max: 25 (structure) The account information within an account pool. awsAccountId -&gt; (string) [required] The account ID. Constraints: o pattern: \d{12} supportedRegions -&gt; (list) [required] The regions supported for an account within an account pool. Constraints: o min: 1 o max: 3 (string) Constraints: o pattern: [a-z]{2}-[a-z]{4,10}-\d awsAccountName -&gt; (string) The account name. Constraints: o min: 1 o max: 256 customAccountPoolHandler -&gt; (structure) The custom Amazon Web Services Lambda handler within an account pool. lambdaFunctionArn -&gt; (string) [required] The ARN of the Amazon Web Services Lambda function for the custom Amazon Web Services Lambda handler. Constraints: o pattern: arn:(?:aws|aws-cn|aws-us-gov):lambda:(?:[a-z]{2}(?:-gov)?-[a-z]+-\d{1,}):(\d{12}):func- tion:[a-zA-Z0-9-_]+(?::[a-zA-Z0-9-_]+)?(?:\$[\w-]+)? lambdaExecutionRoleArn -&gt; (string) The ARN of the IAM role that enables Amazon SageMaker Unified Studio to invoke the Amazon Web Services Lambda funtion if the account source is the custom account pool handler. Constraints: o pattern: arn:aws[^:]*:iam::\d{12}:(role|role/ser- vice-role)/[\w+=,.@-]* JSON Syntax: { "accounts": [ { "awsAccountId": "string", "supportedRegions": ["string", ...], "awsAccountName": "string" } ... ], "customAccountPoolHandler": { "lambdaFunctionArn": "string", "lambdaExecutionRoleArn": "string" } }
@@ -57,5 +100,22 @@ public record AwsDatazoneUpdateAccountPoolOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

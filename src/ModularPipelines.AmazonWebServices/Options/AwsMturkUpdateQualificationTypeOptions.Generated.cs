@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mturk", "update-qualification-type")]
-public record AwsMturkUpdateQualificationTypeOptions : AwsOptions
+public record AwsMturkUpdateQualificationTypeOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// The UpdateQualificationType operation modifies the attributes of an ex- isting Qualification type, which is represented by a QualificationType data structure. Only the owner of a Qualification type can modify its attributes. Most attributes of a Qualification type can be changed after the type has been created. However, the Name and Keywords fields cannot be modi- fied. The RetryDelayInSeconds parameter can be modified or added to change the delay or to enable retries, but RetryDelayInSeconds ca...
+    /// </summary>
+    /// <param name="QualificationTypeId">The ID of the Qualification type to update. Constraints: o min: 1 o max: 64 o pattern: ^[A-Z0-9]+$</param>
+    public AwsMturkUpdateQualificationTypeOptions(
+        string QualificationTypeId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(QualificationTypeId);
+        this.QualificationTypeId = QualificationTypeId;
+    }
+
+    private AwsMturkUpdateQualificationTypeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMturkUpdateQualificationTypeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMturkUpdateQualificationTypeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Qualification type to update. Constraints: o min: 1 o max: 64 o pattern: ^[A-Z0-9]+$
+    /// </summary>
     [CliOption("--qualification-type-id")]
-    public string? QualificationTypeId { get; set; }
+    public string? QualificationTypeId { get; private init; }
 
     /// <summary>
     /// The new description of the Qualification type.
@@ -61,7 +98,10 @@ public record AwsMturkUpdateQualificationTypeOptions : AwsOptions
     [CliOption("--retry-delay-in-seconds")]
     public int? RetryDelayInSeconds { get; set; }
 
-    [CliFlag("--auto-granted")]
+    /// <summary>
+    /// Specifies whether requests for the Qualification type are granted immediately, without prompting the Worker with a Qualification test. Constraints: If the Test parameter is specified, this parameter can- not be true.
+    /// </summary>
+    [CliFlag("--auto-granted", NegatedName = "--no-auto-granted")]
     public bool? AutoGranted { get; set; }
 
     /// <summary>
@@ -75,5 +115,22 @@ public record AwsMturkUpdateQualificationTypeOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

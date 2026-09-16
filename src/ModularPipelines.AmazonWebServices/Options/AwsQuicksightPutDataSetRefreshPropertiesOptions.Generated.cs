@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("quicksight", "put-data-set-refresh-properties")]
-public record AwsQuicksightPutDataSetRefreshPropertiesOptions : AwsOptions
+public record AwsQuicksightPutDataSetRefreshPropertiesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates or updates the dataset refresh properties for the dataset. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AwsAccountId">The Amazon Web Services account ID. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="DataSetId">The ID of the dataset.</param>
+    /// <param name="DataSetRefreshProperties">The dataset refresh properties. RefreshConfiguration -&gt; (structure) The refresh configuration for a dataset. IncrementalRefresh -&gt; (structure) [required] The incremental refresh for the dataset. LookbackWindow -&gt; (structure) [required] The lookback window setup for an incremental refresh con- figuration. ColumnName -&gt; (string) [required] The name of the lookback window column. Size -&gt; (long) [required] The lookback window column size. Constraints: o min: 1 SizeUnit -&gt; (string) [required] The size unit that is used for the lookback window column. Valid values for this structure are HOUR , DAY , and WEEK . Possible values: o HOUR o DAY o WEEK FailureConfiguration -&gt; (structure) The failure configuration for a dataset. EmailAlert -&gt; (structure) The email alert configuration for a dataset refresh failure. AlertStatus -&gt; (string) The status value that determines if email alerts are sent. Possible values: o ENABLED o DISABLED JSON Syntax: { "RefreshConfiguration": { "IncrementalRefresh": { "LookbackWindow": { "ColumnName": "string", "Size": long, "SizeUnit": "HOUR"|"DAY"|"WEEK" } } }, "FailureConfiguration": { "EmailAlert": { "AlertStatus": "ENABLED"|"DISABLED" } } }</param>
+    public AwsQuicksightPutDataSetRefreshPropertiesOptions(
+        string AwsAccountId,
+        string DataSetId,
+        string DataSetRefreshProperties
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
+        this.AwsAccountId = AwsAccountId;
+        global::System.ArgumentNullException.ThrowIfNull(DataSetId);
+        this.DataSetId = DataSetId;
+        global::System.ArgumentNullException.ThrowIfNull(DataSetRefreshProperties);
+        this.DataSetRefreshProperties = DataSetRefreshProperties;
+    }
+
+    private AwsQuicksightPutDataSetRefreshPropertiesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQuicksightPutDataSetRefreshPropertiesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQuicksightPutDataSetRefreshPropertiesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Web Services account ID. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// </summary>
     [CliOption("--aws-account-id")]
-    public string? AwsAccountId { get; set; }
+    public string? AwsAccountId { get; private init; }
 
+    /// <summary>
+    /// The ID of the dataset.
+    /// </summary>
     [CliOption("--data-set-id")]
-    public string? DataSetId { get; set; }
+    public string? DataSetId { get; private init; }
 
+    /// <summary>
+    /// The dataset refresh properties. RefreshConfiguration -&gt; (structure) The refresh configuration for a dataset. IncrementalRefresh -&gt; (structure) [required] The incremental refresh for the dataset. LookbackWindow -&gt; (structure) [required] The lookback window setup for an incremental refresh con- figuration. ColumnName -&gt; (string) [required] The name of the lookback window column. Size -&gt; (long) [required] The lookback window column size. Constraints: o min: 1 SizeUnit -&gt; (string) [required] The size unit that is used for the lookback window column. Valid values for this structure are HOUR , DAY , and WEEK . Possible values: o HOUR o DAY o WEEK FailureConfiguration -&gt; (structure) The failure configuration for a dataset. EmailAlert -&gt; (structure) The email alert configuration for a dataset refresh failure. AlertStatus -&gt; (string) The status value that determines if email alerts are sent. Possible values: o ENABLED o DISABLED JSON Syntax: { "RefreshConfiguration": { "IncrementalRefresh": { "LookbackWindow": { "ColumnName": "string", "Size": long, "SizeUnit": "HOUR"|"DAY"|"WEEK" } } }, "FailureConfiguration": { "EmailAlert": { "AlertStatus": "ENABLED"|"DISABLED" } } }
+    /// </summary>
     [CliOption("--data-set-refresh-properties")]
-    public string? DataSetRefreshProperties { get; set; }
+    public string? DataSetRefreshProperties { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

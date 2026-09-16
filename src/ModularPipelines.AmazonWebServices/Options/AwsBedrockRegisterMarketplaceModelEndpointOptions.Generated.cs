@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock", "register-marketplace-model-endpoint")]
-public record AwsBedrockRegisterMarketplaceModelEndpointOptions : AwsOptions
+public record AwsBedrockRegisterMarketplaceModelEndpointOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--endpoint-identifier")]
-    public string? EndpointIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Registers an existing Amazon SageMaker endpoint with Amazon Bedrock Marketplace, allowing it to be used with Amazon Bedrock APIs. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EndpointIdentifier">The ARN of the Amazon SageMaker endpoint you want to register with Amazon Bedrock Marketplace. Constraints: o min: 0 o max: 2048</param>
+    /// <param name="ModelSourceIdentifier">The ARN of the model from Amazon Bedrock Marketplace that is de- ployed on the endpoint. Constraints: o min: 0 o max: 2048 o pattern: .*arn:aws:sagemaker:.*:hub-content/SageMakerPub- licHub/Model/.*</param>
+    public AwsBedrockRegisterMarketplaceModelEndpointOptions(
+        string EndpointIdentifier,
+        string ModelSourceIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EndpointIdentifier);
+        this.EndpointIdentifier = EndpointIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(ModelSourceIdentifier);
+        this.ModelSourceIdentifier = ModelSourceIdentifier;
+    }
+
+    private AwsBedrockRegisterMarketplaceModelEndpointOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockRegisterMarketplaceModelEndpointOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockRegisterMarketplaceModelEndpointOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the Amazon SageMaker endpoint you want to register with Amazon Bedrock Marketplace. Constraints: o min: 0 o max: 2048
+    /// </summary>
+    [CliOption("--endpoint-identifier")]
+    public string? EndpointIdentifier { get; private init; }
+
+    /// <summary>
+    /// The ARN of the model from Amazon Bedrock Marketplace that is de- ployed on the endpoint. Constraints: o min: 0 o max: 2048 o pattern: .*arn:aws:sagemaker:.*:hub-content/SageMakerPub- licHub/Model/.*
+    /// </summary>
     [CliOption("--model-source-identifier")]
-    public string? ModelSourceIdentifier { get; set; }
+    public string? ModelSourceIdentifier { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

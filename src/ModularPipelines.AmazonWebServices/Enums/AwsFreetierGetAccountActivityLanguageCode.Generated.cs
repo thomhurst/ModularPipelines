@@ -11,47 +11,47 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --languagecode.
+/// Allowed values for --language-code.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsFreetierGetAccountActivityLanguageCode
 {
-    [EnumValue("en-US")]
-    EnUs = 1,
+    [EnumValue("de-DE")]
+    DeDe,
 
     [EnumValue("en-GB")]
-    EnGb = 2,
+    EnGb,
 
-    [EnumValue("id-ID")]
-    IdId = 3,
-
-    [EnumValue("de-DE")]
-    DeDe = 4,
+    [EnumValue("en-US")]
+    EnUs,
 
     [EnumValue("es-ES")]
-    EsEs = 5,
+    EsEs,
 
     [EnumValue("fr-FR")]
-    FrFr = 6,
+    FrFr,
 
-    [EnumValue("ja-JP")]
-    JaJp = 7,
+    [EnumValue("id-ID")]
+    IdId,
 
     [EnumValue("it-IT")]
-    ItIt = 8,
+    ItIt,
 
-    [EnumValue("pt-PT")]
-    PtPt = 9,
+    [EnumValue("ja-JP")]
+    JaJp,
 
     [EnumValue("ko-KR")]
-    KoKr = 10,
+    KoKr,
 
-    [EnumValue("zh-CN")]
-    ZhCn = 11,
-
-    [EnumValue("zh-TW")]
-    ZhTw = 12,
+    [EnumValue("pt-PT")]
+    PtPt,
 
     [EnumValue("tr-TR")]
-    TrTr = 13
+    TrTr,
+
+    [EnumValue("zh-CN")]
+    ZhCn,
+
+    [EnumValue("zh-TW")]
+    ZhTw
 }

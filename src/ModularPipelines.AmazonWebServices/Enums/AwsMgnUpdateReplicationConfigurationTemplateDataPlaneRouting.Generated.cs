@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --dataplanerouting.
+/// Allowed values for --data-plane-routing.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsMgnUpdateReplicationConfigurationTemplateDataPlaneRouting
 {
     [EnumValue("PRIVATE_IP")]
-    PrivateIp = 1,
+    PrivateIp,
 
     [EnumValue("PUBLIC_IP")]
-    PublicIp = 2
+    PublicIp
 }

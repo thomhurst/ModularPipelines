@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --trainingmode.
+/// Allowed values for --training-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsPersonalizeCreateSolutionVersionTrainingMode
 {
+    [EnumValue("AUTOTRAIN")]
+    Autotrain,
+
     [EnumValue("FULL")]
-    Full = 1,
+    Full,
 
     [EnumValue("UPDATE")]
-    Update = 2,
-
-    [EnumValue("AUTOTRAIN")]
-    Autotrain = 3
+    Update
 }

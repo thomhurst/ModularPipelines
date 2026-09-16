@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("partnercentral-channel", "get-relationship")]
-public record AwsPartnercentralChannelGetRelationshipOptions : AwsOptions
+public record AwsPartnercentralChannelGetRelationshipOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves details of a specific partner relationship. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Catalog">The catalog identifier for the relationship. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z]*</param>
+    /// <param name="ProgramManagementAccountIdentifier">The identifier of the program management account associated with the relationship. Constraints: o min: 17 o max: 1011 o pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:cata- log/[a-zA-Z]+/program-management-account/)?pma-[a-z0-9]{13}</param>
+    /// <param name="Identifier">The unique identifier of the relationship to retrieve. Constraints: o min: 16 o max: 1011 o pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:cata- log/[a-zA-Z]+/program-management-account/pma-[a-z0-9]{13}/rela- tionship/)?rs-[a-z0-9]{13}</param>
+    public AwsPartnercentralChannelGetRelationshipOptions(
+        string Catalog,
+        string ProgramManagementAccountIdentifier,
+        string Identifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+        global::System.ArgumentNullException.ThrowIfNull(ProgramManagementAccountIdentifier);
+        this.ProgramManagementAccountIdentifier = ProgramManagementAccountIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(Identifier);
+        this.Identifier = Identifier;
+    }
+
+    private AwsPartnercentralChannelGetRelationshipOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPartnercentralChannelGetRelationshipOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPartnercentralChannelGetRelationshipOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The catalog identifier for the relationship. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z]*
+    /// </summary>
     [CliOption("--catalog")]
-    public string? Catalog { get; set; }
+    public string? Catalog { get; private init; }
 
+    /// <summary>
+    /// The identifier of the program management account associated with the relationship. Constraints: o min: 17 o max: 1011 o pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:cata- log/[a-zA-Z]+/program-management-account/)?pma-[a-z0-9]{13}
+    /// </summary>
     [CliOption("--program-management-account-identifier")]
-    public string? ProgramManagementAccountIdentifier { get; set; }
+    public string? ProgramManagementAccountIdentifier { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the relationship to retrieve. Constraints: o min: 16 o max: 1011 o pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:cata- log/[a-zA-Z]+/program-management-account/pma-[a-z0-9]{13}/rela- tionship/)?rs-[a-z0-9]{13}
+    /// </summary>
     [CliOption("--identifier")]
-    public string? Identifier { get; set; }
+    public string? Identifier { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

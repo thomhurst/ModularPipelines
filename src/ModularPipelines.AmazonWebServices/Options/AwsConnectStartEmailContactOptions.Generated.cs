@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,16 +22,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "start-email-contact")]
-public record AwsConnectStartEmailContactOptions : AwsOptions
+public record AwsConnectStartEmailContactOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an inbound email contact and initiates a flow to start the email contact for the customer. Response of this API provides the Con- tactId of the email contact created. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="FromEmailAddress">The email address of the customer. EmailAddress -&gt; (string) [required] The email address, including the domain. Constraints: o min: 1 o max: 255 o pattern: [^\s@]+@[^\s@]+\.[^\s@]+ DisplayName -&gt; (string) The display name of email address. Constraints: o min: 0 o max: 256 Shorthand Syntax: EmailAddress=string,DisplayName=string JSON Syntax: { "EmailAddress": "string", "DisplayName": "string" }</param>
+    /// <param name="DestinationEmailAddress">The email address associated with the Connect Customer instance. Constraints: o min: 1 o max: 255 o pattern: [^\s@]+@[^\s@]+\.[^\s@]+</param>
+    /// <param name="EmailMessage">The email message body to be sent to the newly created email. MessageSourceType -&gt; (string) [required] The message source type, that is, RAW . Possible values: o RAW RawMessage -&gt; (structure) The raw email body content. Subject -&gt; (string) [required] The email subject. Constraints: o min: 0 o max: 998 Body -&gt; (string) [required] The email message body. Constraints: o min: 1 o max: 5242880 ContentType -&gt; (string) [required] Type of content, that is, text/plain or text/html . Constraints: o min: 1 o max: 100 Headers -&gt; (map) Headers present in inbound email. key -&gt; (string) Possible values: o REFERENCES o MESSAGE_ID o IN_REPLY_TO o X_SES_SPAM_VERDICT o X_SES_VIRUS_VERDICT value -&gt; (string) Constraints: o min: 1 o max: 20000 Shorthand Syntax: MessageSourceType=string,RawMessage={Subject=string,Body=string,ContentType=string,Headers={KeyName1=string,KeyName2=string}} JSON Syntax: { "MessageSourceType": "RAW", "RawMessage": { "Subject": "string", "Body": "string", "ContentType": "string", "Headers": {"REFERENCES"|"MESSAGE_ID"|"IN_REPLY_TO"|"X_SES_SPAM_VERDICT"|"X_SES_VIRUS_VERDICT": "string" ...} } }</param>
+    public AwsConnectStartEmailContactOptions(
+        string InstanceId,
+        string FromEmailAddress,
+        string DestinationEmailAddress,
+        string EmailMessage
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(FromEmailAddress);
+        this.FromEmailAddress = FromEmailAddress;
+        global::System.ArgumentNullException.ThrowIfNull(DestinationEmailAddress);
+        this.DestinationEmailAddress = DestinationEmailAddress;
+        global::System.ArgumentNullException.ThrowIfNull(EmailMessage);
+        this.EmailMessage = EmailMessage;
+    }
+
+    private AwsConnectStartEmailContactOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectStartEmailContactOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectStartEmailContactOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
+    /// <summary>
+    /// The email address of the customer. EmailAddress -&gt; (string) [required] The email address, including the domain. Constraints: o min: 1 o max: 255 o pattern: [^\s@]+@[^\s@]+\.[^\s@]+ DisplayName -&gt; (string) The display name of email address. Constraints: o min: 0 o max: 256 Shorthand Syntax: EmailAddress=string,DisplayName=string JSON Syntax: { "EmailAddress": "string", "DisplayName": "string" }
+    /// </summary>
     [CliOption("--from-email-address")]
-    public string? FromEmailAddress { get; set; }
+    public string? FromEmailAddress { get; private init; }
 
+    /// <summary>
+    /// The email address associated with the Connect Customer instance. Constraints: o min: 1 o max: 255 o pattern: [^\s@]+@[^\s@]+\.[^\s@]+
+    /// </summary>
     [CliOption("--destination-email-address")]
-    public string? DestinationEmailAddress { get; set; }
+    public string? DestinationEmailAddress { get; private init; }
+
+    /// <summary>
+    /// The email message body to be sent to the newly created email. MessageSourceType -&gt; (string) [required] The message source type, that is, RAW . Possible values: o RAW RawMessage -&gt; (structure) The raw email body content. Subject -&gt; (string) [required] The email subject. Constraints: o min: 0 o max: 998 Body -&gt; (string) [required] The email message body. Constraints: o min: 1 o max: 5242880 ContentType -&gt; (string) [required] Type of content, that is, text/plain or text/html . Constraints: o min: 1 o max: 100 Headers -&gt; (map) Headers present in inbound email. key -&gt; (string) Possible values: o REFERENCES o MESSAGE_ID o IN_REPLY_TO o X_SES_SPAM_VERDICT o X_SES_VIRUS_VERDICT value -&gt; (string) Constraints: o min: 1 o max: 20000 Shorthand Syntax: MessageSourceType=string,RawMessage={Subject=string,Body=string,ContentType=string,Headers={KeyName1=string,KeyName2=string}} JSON Syntax: { "MessageSourceType": "RAW", "RawMessage": { "Subject": "string", "Body": "string", "ContentType": "string", "Headers": {"REFERENCES"|"MESSAGE_ID"|"IN_REPLY_TO"|"X_SES_SPAM_VERDICT"|"X_SES_VIRUS_VERDICT": "string" ...} } }
+    /// </summary>
+    [CliOption("--email-message")]
+    public string? EmailMessage { get; private init; }
 
     /// <summary>
     /// A description of the email contact. Constraints: o min: 0 o max: 4096
@@ -49,9 +110,6 @@ public record AwsConnectStartEmailContactOptions : AwsOptions
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
-
-    [CliOption("--email-message")]
-    public string? EmailMessage { get; set; }
 
     /// <summary>
     /// The additional recipients address of the email. ToAddresses -&gt; (list) The additional recipients information present in to list. You must have 1 required recipient (DestinationEmailAddress ). You can then specify up to 49 additional recipients (across ToAd- dresses and CcAddresses ), for a total of 50 recipients. Constraints: o min: 1 o max: 50 (structure) Contains information about a source or destination email ad- dress. EmailAddress -&gt; (string) [required] The email address, including the domain. Constraints: o min: 1 o max: 255 o pattern: [^\s@]+@[^\s@]+\.[^\s@]+ DisplayName -&gt; (string) The display name of email address. Constraints: o min: 0 o max: 256 CcAddresses -&gt; (list) The additional recipients information present in cc list. You must have 1 required recipient (DestinationEmailAddress ). You can then specify up to 49 additional recipients (across ToAd- dresses and CcAddresses ), for a total of 50 recipients. Constraints: o min: 1 o max: 50 (structure) Contains information about a source or destination email ad- dress. EmailAddress -&gt; (string) [required] The email address, including the domain. Constraints: o min: 1 o max: 255 o pattern: [^\s@]+@[^\s@]+\.[^\s@]+ DisplayName -&gt; (string) The display name of email address. Constraints: o min: 0 o max: 256 Shorthand Syntax: ToAddresses=[{EmailAddress=string,DisplayName=string},{EmailAddress=string,DisplayName=string}],CcAddresses=[{EmailAddress=string,DisplayName=string},{EmailAddress=string,DisplayName=string}] JSON Syntax: { "ToAddresses": [ { "EmailAddress": "string", "DisplayName": "string" } ... ], "CcAddresses": [ { "EmailAddress": "string", "DisplayName": "string" } ... ] }
@@ -101,5 +159,22 @@ public record AwsConnectStartEmailContactOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

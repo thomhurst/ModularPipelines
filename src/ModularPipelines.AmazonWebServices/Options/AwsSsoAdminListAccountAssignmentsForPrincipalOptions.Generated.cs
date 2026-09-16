@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +22,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sso-admin", "list-account-assignments-for-principal")]
-public record AwsSsoAdminListAccountAssignmentsForPrincipalOptions : AwsOptions
+public record AwsSsoAdminListAccountAssignmentsForPrincipalOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves a list of the IAM Identity Center associated Amazon Web Ser- vices accounts that the principal has access to. This action must be called from the management account containing your organization in- stance of IAM Identity Center. This action is not valid for account in- stances of IAM Identity Center. See also: AWS API Documentation list-account-assignments-for-principal is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You...
+    /// </summary>
+    /// <param name="InstanceArn">Specifies the ARN of the instance of IAM Identity Center that con- tains the principal. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}</param>
+    /// <param name="PrincipalId">Specifies the principal for which you want to retrieve the list of account assignments. Constraints: o min: 1 o max: 47 o pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}</param>
+    /// <param name="PrincipalType">Specifies the type of the principal. Possible values: o USER o GROUP</param>
+    public AwsSsoAdminListAccountAssignmentsForPrincipalOptions(
+        string InstanceArn,
+        string PrincipalId,
+        AwsSsoAdminListAccountAssignmentsForPrincipalPrincipalType PrincipalType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceArn);
+        this.InstanceArn = InstanceArn;
+        global::System.ArgumentNullException.ThrowIfNull(PrincipalId);
+        this.PrincipalId = PrincipalId;
+        global::System.ArgumentNullException.ThrowIfNull(PrincipalType);
+        this.PrincipalType = PrincipalType;
+    }
+
+    private AwsSsoAdminListAccountAssignmentsForPrincipalOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsoAdminListAccountAssignmentsForPrincipalOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsoAdminListAccountAssignmentsForPrincipalOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the ARN of the instance of IAM Identity Center that con- tains the principal. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}
+    /// </summary>
     [CliOption("--instance-arn")]
-    public string? InstanceArn { get; set; }
+    public string? InstanceArn { get; private init; }
 
+    /// <summary>
+    /// Specifies the principal for which you want to retrieve the list of account assignments. Constraints: o min: 1 o max: 47 o pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}
+    /// </summary>
     [CliOption("--principal-id")]
-    public string? PrincipalId { get; set; }
+    public string? PrincipalId { get; private init; }
 
+    /// <summary>
+    /// Specifies the type of the principal. Possible values: o USER o GROUP
+    /// </summary>
     [CliOption("--principal-type")]
-    public string? PrincipalType { get; set; }
+    public AwsSsoAdminListAccountAssignmentsForPrincipalPrincipalType? PrincipalType { get; private init; }
 
     /// <summary>
     /// Specifies an Amazon Web Services account ID number. Results are fil- tered to only those that match this ID number. AccountId -&gt; (string) The ID number of an Amazon Web Services account that filters the results in the response. Constraints: o min: 12 o max: 12 o pattern: \d{12} Shorthand Syntax: AccountId=string JSON Syntax: { "AccountId": "string" }
@@ -61,5 +113,22 @@ public record AwsSsoAdminListAccountAssignmentsForPrincipalOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

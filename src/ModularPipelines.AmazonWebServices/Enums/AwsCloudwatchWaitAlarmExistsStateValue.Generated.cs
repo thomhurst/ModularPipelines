@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --statevalue.
+/// Allowed values for --state-value.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCloudwatchWaitAlarmExistsStateValue
 {
-    [EnumValue("OK")]
-    Ok = 1,
-
     [EnumValue("ALARM")]
-    Alarm = 2,
+    Alarm,
 
     [EnumValue("INSUFFICIENT_DATA")]
-    InsufficientData = 3
+    InsufficientData,
+
+    [EnumValue("OK")]
+    Ok
 }

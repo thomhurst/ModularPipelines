@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --deploymenttype.
+/// Allowed values for --deployment-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsTimestreamInfluxdbUpdateDbInstanceDeploymentType
 {
     [EnumValue("SINGLE_AZ")]
-    SingleAz = 1,
+    SingleAz,
 
     [EnumValue("WITH_MULTIAZ_STANDBY")]
-    WithMultiazStandby = 2
+    WithMultiazStandby
 }

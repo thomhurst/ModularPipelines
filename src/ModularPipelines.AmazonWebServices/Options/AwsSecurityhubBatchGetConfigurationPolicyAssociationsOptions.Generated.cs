@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,79 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("securityhub", "batch-get-configuration-policy-associations")]
-public record AwsSecurityhubBatchGetConfigurationPolicyAssociationsOptions : AwsOptions
+public record AwsSecurityhubBatchGetConfigurationPolicyAssociationsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns associations between an Security Hub CSPM configuration and a batch of target accounts, organizational units, or the root. Only the Security Hub CSPM delegated administrator can invoke this operation from the home Region. A configuration can refer to a configuration pol- icy or to a self-managed configuration. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ConfigurationPolicyAssociationIdentifiers">Specifies one or more target account IDs, organizational unit (OU) IDs, or the root ID to retrieve associations for. (structure) Provides details about the association between an Security Hub CSPM configuration and a target account, organizational unit, or the root. An association can exist between a target and a con- figuration policy, or between a target and self-managed behav- ior. Target -&gt; (tagged union structure) The target account, organizational unit, or the root. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: AccountId, Organization- alUnitId, RootId. AccountId -&gt; (string) The Amazon Web Services account ID of the target account. Constraints: o pattern: .*\S.* OrganizationalUnitId -&gt; (string) The organizational unit ID of the target organizational unit. Constraints: o pattern: .*\S.* RootId -&gt; (string) The ID of the organization root. Constraints: o pattern: .*\S.* Shorthand Syntax: Target={AccountId=string,OrganizationalUnitId=string,RootId=string} ... JSON Syntax: [ { "Target": { "AccountId": "string", "OrganizationalUnitId": "string", "RootId": "string" } } ... ]</param>
+    public AwsSecurityhubBatchGetConfigurationPolicyAssociationsOptions(
+        IEnumerable<string> ConfigurationPolicyAssociationIdentifiers
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ConfigurationPolicyAssociationIdentifiers);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ConfigurationPolicyAssociationIdentifiers));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ConfigurationPolicyAssociationIdentifiers));
+            }
+
+            ConfigurationPolicyAssociationIdentifiers = materialized;
+        }
+        this.ConfigurationPolicyAssociationIdentifiers = ConfigurationPolicyAssociationIdentifiers;
+    }
+
+    private AwsSecurityhubBatchGetConfigurationPolicyAssociationsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSecurityhubBatchGetConfigurationPolicyAssociationsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSecurityhubBatchGetConfigurationPolicyAssociationsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies one or more target account IDs, organizational unit (OU) IDs, or the root ID to retrieve associations for. (structure) Provides details about the association between an Security Hub CSPM configuration and a target account, organizational unit, or the root. An association can exist between a target and a con- figuration policy, or between a target and self-managed behav- ior. Target -&gt; (tagged union structure) The target account, organizational unit, or the root. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: AccountId, Organization- alUnitId, RootId. AccountId -&gt; (string) The Amazon Web Services account ID of the target account. Constraints: o pattern: .*\S.* OrganizationalUnitId -&gt; (string) The organizational unit ID of the target organizational unit. Constraints: o pattern: .*\S.* RootId -&gt; (string) The ID of the organization root. Constraints: o pattern: .*\S.* Shorthand Syntax: Target={AccountId=string,OrganizationalUnitId=string,RootId=string} ... JSON Syntax: [ { "Target": { "AccountId": "string", "OrganizationalUnitId": "string", "RootId": "string" } } ... ]
+    /// </summary>
     [CliOption("--configuration-policy-association-identifiers", GroupValues = true)]
-    public IEnumerable<string>? ConfigurationPolicyAssociationIdentifiers { get; set; }
+    public IEnumerable<string>? ConfigurationPolicyAssociationIdentifiers { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

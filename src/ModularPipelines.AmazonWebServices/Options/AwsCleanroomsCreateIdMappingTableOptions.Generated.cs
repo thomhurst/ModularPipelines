@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,22 +21,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cleanrooms", "create-id-mapping-table")]
-public record AwsCleanroomsCreateIdMappingTableOptions : AwsOptions
+public record AwsCleanroomsCreateIdMappingTableOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--membership-identifier")]
-    public string? MembershipIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an ID mapping table. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="MembershipIdentifier">The unique identifier of the membership that contains the ID mapping table. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="Name">A name for the ID mapping table. Constraints: o min: 0 o max: 128 o pattern: [a-zA-Z0-9_](([a-zA-Z0-9_ ]+-)*([a-zA-Z0-9_ ]+))?</param>
+    /// <param name="InputReferenceConfig">The input reference configuration needed to create the ID mapping table. inputReferenceArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the referenced resource in En- tity Resolution. Valid values are ID mapping workflow ARNs. Constraints: o min: 20 o max: 2048 o pattern: arn:(aws|aws-us-gov|aws-cn):entityresolu- tion:.*:[0-9]+:(idmappingworkflow/.*) manageResourcePolicies -&gt; (boolean) [required] When TRUE , Clean Rooms manages permissions for the ID mapping table resource. When FALSE , the resource owner manages permissions for the ID mapping table resource. Shorthand Syntax: inputReferenceArn=string,manageResourcePolicies=boolean JSON Syntax: { "inputReferenceArn": "string", "manageResourcePolicies": true|false }</param>
+    public AwsCleanroomsCreateIdMappingTableOptions(
+        string MembershipIdentifier,
+        string Name,
+        string InputReferenceConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MembershipIdentifier);
+        this.MembershipIdentifier = MembershipIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(InputReferenceConfig);
+        this.InputReferenceConfig = InputReferenceConfig;
+    }
+
+    private AwsCleanroomsCreateIdMappingTableOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCleanroomsCreateIdMappingTableOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCleanroomsCreateIdMappingTableOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the membership that contains the ID mapping table. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// </summary>
+    [CliOption("--membership-identifier")]
+    public string? MembershipIdentifier { get; private init; }
+
+    /// <summary>
+    /// A name for the ID mapping table. Constraints: o min: 0 o max: 128 o pattern: [a-zA-Z0-9_](([a-zA-Z0-9_ ]+-)*([a-zA-Z0-9_ ]+))?
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The input reference configuration needed to create the ID mapping table. inputReferenceArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the referenced resource in En- tity Resolution. Valid values are ID mapping workflow ARNs. Constraints: o min: 20 o max: 2048 o pattern: arn:(aws|aws-us-gov|aws-cn):entityresolu- tion:.*:[0-9]+:(idmappingworkflow/.*) manageResourcePolicies -&gt; (boolean) [required] When TRUE , Clean Rooms manages permissions for the ID mapping table resource. When FALSE , the resource owner manages permissions for the ID mapping table resource. Shorthand Syntax: inputReferenceArn=string,manageResourcePolicies=boolean JSON Syntax: { "inputReferenceArn": "string", "manageResourcePolicies": true|false }
+    /// </summary>
+    [CliOption("--input-reference-config")]
+    public string? InputReferenceConfig { get; private init; }
 
     /// <summary>
     /// A description of the ID mapping table. Constraints: o min: 0 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t\r\n]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--input-reference-config")]
-    public string? InputReferenceConfig { get; set; }
 
     /// <summary>
     /// An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -54,5 +105,22 @@ public record AwsCleanroomsCreateIdMappingTableOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

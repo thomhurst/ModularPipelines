@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --documentformat.
+/// Allowed values for --document-format.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSsmUpdateDocumentDocumentFormat
 {
-    [EnumValue("YAML")]
-    Yaml = 1,
-
     [EnumValue("JSON")]
-    Json = 2,
+    Json,
 
     [EnumValue("TEXT")]
-    Text = 3
+    Text,
+
+    [EnumValue("YAML")]
+    Yaml
 }

@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --authorizertype.
+/// Allowed values for --authorizer-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsBedrockAgentcoreControlListRegistriesAuthorizerType
 {
-    [EnumValue("CUSTOM_JWT")]
-    CustomJwt = 1,
-
     [EnumValue("AWS_IAM")]
-    AwsIam = 2
+    AwsIam,
+
+    [EnumValue("CUSTOM_JWT")]
+    CustomJwt
 }

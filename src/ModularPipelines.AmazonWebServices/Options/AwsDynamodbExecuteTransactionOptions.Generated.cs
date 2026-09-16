@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dynamodb", "execute-transaction")]
-public record AwsDynamodbExecuteTransactionOptions : AwsOptions
+public record AwsDynamodbExecuteTransactionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This operation allows you to perform transactional reads or writes on data stored in DynamoDB, using PartiQL. NOTE: The entire transaction must consist of either read statements or write statements, you cannot mix both in one transaction. The EXISTS function is an exception and can be used to check the condition of specific attributes of the item in a similar manner to Condi- tionCheck in the TransactWriteItems API. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TransactStatements">The list of PartiQL statements representing the transaction to run. Constraints: o min: 1 o max: 100 (structure) Represents a PartiQL statement that uses parameters. Statement -&gt; (string) [required] A PartiQL statement that uses parameters. Constraints: o min: 1 o max: 8192 Parameters -&gt; (list) The parameter values. Constraints: o min: 1 (structure) Represents the data for an attribute. Each attribute value is described as a name-value pair. The name is the data type, and the value is the data it- self. For more information, see Data Types in the Amazon Dy- namoDB Developer Guide . S -&gt; (string) An attribute of type String. For example: "S": "Hello" N -&gt; (string) An attribute of type Number. For example: "N": "123.45" Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations. B -&gt; (blob) An attribute of type Binary. For example: "B": "dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk" SS -&gt; (list) An attribute of type String Set. For example: "SS": ["Giraffe", "Hippo" ,"Zebra"] (string) NS -&gt; (list) An attribute of type Number Set. For example: "NS": ["42.2", "-19", "7.5", "3.14"] Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations. (string) BS -&gt; (list) An attribute of type Binary Set. For example: "BS": ["U3Vubnk=", "UmFpbnk=", "U25vd3k="] (blob) M -&gt; (map) An attribute of type Map. For example: "M": {"Name": {"S": "Joe"}, "Age": {"N": "35"}} key -&gt; (string) Constraints: o max: 65535 value -&gt; (structure) Represents the data for an attribute. Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself. For more information, see Data Types in the Amazon DynamoDB Developer Guide . S -&gt; (string) An attribute of type String. For example: "S": "Hello" N -&gt; (string) An attribute of type Number. For example: "N": "123.45" Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for math- ematical operations. B -&gt; (blob) An attribute of type Binary. For example: "B": "dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk" SS -&gt; (list) An attribute of type String Set. For example: "SS": ["Giraffe", "Hippo" ,"Zebra"] (string) NS -&gt; (list) An attribute of type Number Set. For example: "NS": ["42.2", "-19", "7.5", "3.14"] Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for math- ematical operations. (string) BS -&gt; (list) An attribute of type Binary Set. For example: "BS": ["U3Vubnk=", "UmFpbnk=", "U25vd3k="] (blob) M -&gt; (map) An attribute of type Map. For example: "M": {"Name": {"S": "Joe"}, "Age": {"N": "35"}} key -&gt; (string) Constraints: o max: 65535 ( ... recursive ... ) L -&gt; (list) An attribute of type List. For example: "L": [ {"S": "Cookies"} , {"S": "Coffee"}, {"N": "3.14159"}] ( ... recursive ... ) NULL -&gt; (boolean) An attribute of type Null. For example: "NULL": true BOOL -&gt; (boolean) An attribute of type Boolean. For example: "BOOL": true L -&gt; (list) An attribute of type List. For example: "L": [ {"S": "Cookies"} , {"S": "Coffee"}, {"N": "3.14159"}] (structure) Represents the data for an attribute. Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself. For more information, see Data Types in the Amazon DynamoDB Developer Guide . S -&gt; (string) An attribute of type String. For example: "S": "Hello" N -&gt; (string) An attribute of type Number. For example: "N": "123.45" Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for math- ematical operations. B -&gt; (blob) An attribute of type Binary. For example: "B": "dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk" SS -&gt; (list) An attribute of type String Set. For example: "SS": ["Giraffe", "Hippo" ,"Zebra"] (string) NS -&gt; (list) An attribute of type Number Set. For example: "NS": ["42.2", "-19", "7.5", "3.14"] Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for math- ematical operations. (string) BS -&gt; (list) An attribute of type Binary Set. For example: "BS": ["U3Vubnk=", "UmFpbnk=", "U25vd3k="] (blob) M -&gt; (map) An attribute of type Map. For example: "M": {"Name": {"S": "Joe"}, "Age": {"N": "35"}} key -&gt; (string) Constraints: o max: 65535 ( ... recursive ... ) L -&gt; (list) An attribute of type List. For example: "L": [ {"S": "Cookies"} , {"S": "Coffee"}, {"N": "3.14159"}] ( ... recursive ... ) NULL -&gt; (boolean) An attribute of type Null. For example: "NULL": true BOOL -&gt; (boolean) An attribute of type Boolean. For example: "BOOL": true NULL -&gt; (boolean) An attribute of type Null. For example: "NULL": true BOOL -&gt; (boolean) An attribute of type Boolean. For example: "BOOL": true ReturnValuesOnConditionCheckFailure -&gt; (string) An optional parameter that returns the item attributes for a PartiQL ParameterizedStatement operation that failed a condi- tion check. There is no additional cost associated with requesting a re- turn value aside from the small network and processing over- head of receiving a larger response. No read capacity units are consumed. Possible values: o ALL_OLD o NONE JSON Syntax: [ { "Statement": "string", "Parameters": [ { "S": "string", "N": "string", "B": blob, "SS": ["string", ...], "NS": ["string", ...], "BS": [blob, ...], "M": {"string": { "S": "string", "N": "string", "B": blob, "SS": ["string", ...], "NS": ["string", ...], "BS": [blob, ...], "M": {"string": { ... recursive ... } ...}, "L": [ { ... recursive ... } ... ], "NULL": true|false, "BOOL": true|false } ...}, "L": [ { "S": "string", "N": "string", "B": blob, "SS": ["string", ...], "NS": ["string", ...], "BS": [blob, ...], "M": {"string": { ... recursive ... } ...}, "L": [ { ... recursive ... } ... ], "NULL": true|false, "BOOL": true|false } ... ], "NULL": true|false, "BOOL": true|false } ... ], "ReturnValuesOnConditionCheckFailure": "ALL_OLD"|"NONE" } ... ]</param>
+    public AwsDynamodbExecuteTransactionOptions(
+        IEnumerable<string> TransactStatements
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(TransactStatements);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(TransactStatements));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(TransactStatements));
+            }
+
+            TransactStatements = materialized;
+        }
+        this.TransactStatements = TransactStatements;
+    }
+
+    private AwsDynamodbExecuteTransactionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDynamodbExecuteTransactionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDynamodbExecuteTransactionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The list of PartiQL statements representing the transaction to run. Constraints: o min: 1 o max: 100 (structure) Represents a PartiQL statement that uses parameters. Statement -&gt; (string) [required] A PartiQL statement that uses parameters. Constraints: o min: 1 o max: 8192 Parameters -&gt; (list) The parameter values. Constraints: o min: 1 (structure) Represents the data for an attribute. Each attribute value is described as a name-value pair. The name is the data type, and the value is the data it- self. For more information, see Data Types in the Amazon Dy- namoDB Developer Guide . S -&gt; (string) An attribute of type String. For example: "S": "Hello" N -&gt; (string) An attribute of type Number. For example: "N": "123.45" Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations. B -&gt; (blob) An attribute of type Binary. For example: "B": "dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk" SS -&gt; (list) An attribute of type String Set. For example: "SS": ["Giraffe", "Hippo" ,"Zebra"] (string) NS -&gt; (list) An attribute of type Number Set. For example: "NS": ["42.2", "-19", "7.5", "3.14"] Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations. (string) BS -&gt; (list) An attribute of type Binary Set. For example: "BS": ["U3Vubnk=", "UmFpbnk=", "U25vd3k="] (blob) M -&gt; (map) An attribute of type Map. For example: "M": {"Name": {"S": "Joe"}, "Age": {"N": "35"}} key -&gt; (string) Constraints: o max: 65535 value -&gt; (structure) Represents the data for an attribute. Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself. For more information, see Data Types in the Amazon DynamoDB Developer Guide . S -&gt; (string) An attribute of type String. For example: "S": "Hello" N -&gt; (string) An attribute of type Number. For example: "N": "123.45" Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for math- ematical operations. B -&gt; (blob) An attribute of type Binary. For example: "B": "dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk" SS -&gt; (list) An attribute of type String Set. For example: "SS": ["Giraffe", "Hippo" ,"Zebra"] (string) NS -&gt; (list) An attribute of type Number Set. For example: "NS": ["42.2", "-19", "7.5", "3.14"] Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for math- ematical operations. (string) BS -&gt; (list) An attribute of type Binary Set. For example: "BS": ["U3Vubnk=", "UmFpbnk=", "U25vd3k="] (blob) M -&gt; (map) An attribute of type Map. For example: "M": {"Name": {"S": "Joe"}, "Age": {"N": "35"}} key -&gt; (string) Constraints: o max: 65535 ( ... recursive ... ) L -&gt; (list) An attribute of type List. For example: "L": [ {"S": "Cookies"} , {"S": "Coffee"}, {"N": "3.14159"}] ( ... recursive ... ) NULL -&gt; (boolean) An attribute of type Null. For example: "NULL": true BOOL -&gt; (boolean) An attribute of type Boolean. For example: "BOOL": true L -&gt; (list) An attribute of type List. For example: "L": [ {"S": "Cookies"} , {"S": "Coffee"}, {"N": "3.14159"}] (structure) Represents the data for an attribute. Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself. For more information, see Data Types in the Amazon DynamoDB Developer Guide . S -&gt; (string) An attribute of type String. For example: "S": "Hello" N -&gt; (string) An attribute of type Number. For example: "N": "123.45" Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for math- ematical operations. B -&gt; (blob) An attribute of type Binary. For example: "B": "dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk" SS -&gt; (list) An attribute of type String Set. For example: "SS": ["Giraffe", "Hippo" ,"Zebra"] (string) NS -&gt; (list) An attribute of type Number Set. For example: "NS": ["42.2", "-19", "7.5", "3.14"] Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for math- ematical operations. (string) BS -&gt; (list) An attribute of type Binary Set. For example: "BS": ["U3Vubnk=", "UmFpbnk=", "U25vd3k="] (blob) M -&gt; (map) An attribute of type Map. For example: "M": {"Name": {"S": "Joe"}, "Age": {"N": "35"}} key -&gt; (string) Constraints: o max: 65535 ( ... recursive ... ) L -&gt; (list) An attribute of type List. For example: "L": [ {"S": "Cookies"} , {"S": "Coffee"}, {"N": "3.14159"}] ( ... recursive ... ) NULL -&gt; (boolean) An attribute of type Null. For example: "NULL": true BOOL -&gt; (boolean) An attribute of type Boolean. For example: "BOOL": true NULL -&gt; (boolean) An attribute of type Null. For example: "NULL": true BOOL -&gt; (boolean) An attribute of type Boolean. For example: "BOOL": true ReturnValuesOnConditionCheckFailure -&gt; (string) An optional parameter that returns the item attributes for a PartiQL ParameterizedStatement operation that failed a condi- tion check. There is no additional cost associated with requesting a re- turn value aside from the small network and processing over- head of receiving a larger response. No read capacity units are consumed. Possible values: o ALL_OLD o NONE JSON Syntax: [ { "Statement": "string", "Parameters": [ { "S": "string", "N": "string", "B": blob, "SS": ["string", ...], "NS": ["string", ...], "BS": [blob, ...], "M": {"string": { "S": "string", "N": "string", "B": blob, "SS": ["string", ...], "NS": ["string", ...], "BS": [blob, ...], "M": {"string": { ... recursive ... } ...}, "L": [ { ... recursive ... } ... ], "NULL": true|false, "BOOL": true|false } ...}, "L": [ { "S": "string", "N": "string", "B": blob, "SS": ["string", ...], "NS": ["string", ...], "BS": [blob, ...], "M": {"string": { ... recursive ... } ...}, "L": [ { ... recursive ... } ... ], "NULL": true|false, "BOOL": true|false } ... ], "NULL": true|false, "BOOL": true|false } ... ], "ReturnValuesOnConditionCheckFailure": "ALL_OLD"|"NONE" } ... ]
+    /// </summary>
     [CliOption("--transact-statements", GroupValues = true)]
-    public IEnumerable<string>? TransactStatements { get; set; }
+    public IEnumerable<string>? TransactStatements { get; private init; }
 
     /// <summary>
     /// Set this value to get remaining results, if NextToken was returned in the statement response. Constraints: o min: 1 o max: 36
@@ -44,5 +92,22 @@ public record AwsDynamodbExecuteTransactionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("organizations", "create-gov-cloud-account")]
-public record AwsOrganizationsCreateGovCloudAccountOptions : AwsOptions
+public record AwsOrganizationsCreateGovCloudAccountOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--email")]
-    public string? Email { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// This action is available if all of the following are true: o You're authorized to create accounts in the Amazon Web Services Gov- Cloud (US) Region. For more information on the Amazon Web Services GovCloud (US) Region, see the ` Amazon Web Services GovCloud User Guide . &lt;- https://docs.aws.amazon.com/govcloud-us/latest/UserGuide/wel- come.html&gt;`__ o You already have an account in the Amazon Web Services GovCloud (US) Region that is paired with a management account of an organization in the comme...
+    /// </summary>
+    /// <param name="Email">Specifies the email address of the owner to assign to the new member account in the commercial Region. This email address must not al- ready be associated with another Amazon Web Services account. You must use a valid email address to complete account creation. The rules for a valid email address: o The address must be a minimum of 6 and a maximum of 64 characters long. o All characters must be 7-bit ASCII characters. o There must be one and only one @ symbol, which separates the local name from the domain name. o The local name can't contain any of the following characters: whitespace, " ' ( ) &lt; &gt; [ ] : ; , | % &amp; o The local name can't begin with a dot (.) o The domain name can consist of only the characters [a-z],[A-Z],[0-9], hyphen (-), or dot (.) o The domain name can't begin or end with a hyphen (-) or dot (.) o The domain name must contain at least one dot You can't access the root user of the account or remove an account that was created with an invalid email address. Like all request pa- rameters for CreateGovCloudAccount , the request for the email ad- dress for the Amazon Web Services GovCloud (US) account originates from the commercial Region, not from the Amazon Web Services Gov- Cloud (US) Region. Constraints: o min: 6 o max: 64 o pattern: [^\s@]+@[^\s@]+\.[^\s@]+</param>
+    /// <param name="AccountName">The friendly name of the member account. The account name can consist of only the characters [a-z],[A-Z],[0-9], hyphen (-), or dot (.) You can't separate charac- ters with a dash (). Constraints: o min: 1 o max: 50 o pattern: [\u0020-\u007E]+</param>
+    public AwsOrganizationsCreateGovCloudAccountOptions(
+        string Email,
+        string AccountName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Email);
+        this.Email = Email;
+        global::System.ArgumentNullException.ThrowIfNull(AccountName);
+        this.AccountName = AccountName;
+    }
+
+    private AwsOrganizationsCreateGovCloudAccountOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOrganizationsCreateGovCloudAccountOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOrganizationsCreateGovCloudAccountOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the email address of the owner to assign to the new member account in the commercial Region. This email address must not al- ready be associated with another Amazon Web Services account. You must use a valid email address to complete account creation. The rules for a valid email address: o The address must be a minimum of 6 and a maximum of 64 characters long. o All characters must be 7-bit ASCII characters. o There must be one and only one @ symbol, which separates the local name from the domain name. o The local name can't contain any of the following characters: whitespace, " ' ( ) &lt; &gt; [ ] : ; , | % &amp; o The local name can't begin with a dot (.) o The domain name can consist of only the characters [a-z],[A-Z],[0-9], hyphen (-), or dot (.) o The domain name can't begin or end with a hyphen (-) or dot (.) o The domain name must contain at least one dot You can't access the root user of the account or remove an account that was created with an invalid email address. Like all request pa- rameters for CreateGovCloudAccount , the request for the email ad- dress for the Amazon Web Services GovCloud (US) account originates from the commercial Region, not from the Amazon Web Services Gov- Cloud (US) Region. Constraints: o min: 6 o max: 64 o pattern: [^\s@]+@[^\s@]+\.[^\s@]+
+    /// </summary>
+    [CliOption("--email")]
+    public string? Email { get; private init; }
+
+    /// <summary>
+    /// The friendly name of the member account. The account name can consist of only the characters [a-z],[A-Z],[0-9], hyphen (-), or dot (.) You can't separate charac- ters with a dash (). Constraints: o min: 1 o max: 50 o pattern: [\u0020-\u007E]+
+    /// </summary>
     [CliOption("--account-name")]
-    public string? AccountName { get; set; }
+    public string? AccountName { get; private init; }
 
     /// <summary>
     /// (Optional) The name of an IAM role that Organizations automatically preconfig- ures in the new member accounts in both the Amazon Web Services Gov- Cloud (US) Region and in the commercial Region. This role trusts the management account, allowing users in the management account to as- sume the role, as permitted by the management account administrator. The role has administrator permissions in the new member account. If you don't specify this parameter, the role name defaults to Orga- nizationAccountAccessRole . For more information about how to use this role to access the member account, see the following links: o Creating the OrganizationAccountAccessRole in an invited member account in the Organizations User Guide o Steps 2 and 3 in IAM Tutorial: Delegate access across Amazon Web Services accounts using IAM roles in the IAM User Guide The regex pattern that is used to validate this parameter. The pat- tern can include uppercase letters, lowercase letters, digits with no spaces, and any of the following characters: =,.@- Constraints: o max: 64 o pattern: [\w+=,.@-]{1,64}
@@ -51,5 +95,22 @@ public record AwsOrganizationsCreateGovCloudAccountOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -40,11 +40,11 @@ public class AwsBcmPricingCalculator : IAwsBcmPricingCalculator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchCreateBillScenarioCommitmentModificationAsync(
-        AwsBcmPricingCalculatorBatchCreateBillScenarioCommitmentModificationOptions? options = null,
+        AwsBcmPricingCalculatorBatchCreateBillScenarioCommitmentModificationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBcmPricingCalculatorBatchCreateBillScenarioCommitmentModificationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -55,11 +55,11 @@ public class AwsBcmPricingCalculator : IAwsBcmPricingCalculator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchCreateBillScenarioUsageModificationAsync(
-        AwsBcmPricingCalculatorBatchCreateBillScenarioUsageModificationOptions? options = null,
+        AwsBcmPricingCalculatorBatchCreateBillScenarioUsageModificationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBcmPricingCalculatorBatchCreateBillScenarioUsageModificationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -70,11 +70,11 @@ public class AwsBcmPricingCalculator : IAwsBcmPricingCalculator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchCreateWorkloadEstimateUsageAsync(
-        AwsBcmPricingCalculatorBatchCreateWorkloadEstimateUsageOptions? options = null,
+        AwsBcmPricingCalculatorBatchCreateWorkloadEstimateUsageOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBcmPricingCalculatorBatchCreateWorkloadEstimateUsageOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -85,11 +85,11 @@ public class AwsBcmPricingCalculator : IAwsBcmPricingCalculator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchDeleteBillScenarioCommitmentModificationAsync(
-        AwsBcmPricingCalculatorBatchDeleteBillScenarioCommitmentModificationOptions? options = null,
+        AwsBcmPricingCalculatorBatchDeleteBillScenarioCommitmentModificationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBcmPricingCalculatorBatchDeleteBillScenarioCommitmentModificationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -100,11 +100,11 @@ public class AwsBcmPricingCalculator : IAwsBcmPricingCalculator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchDeleteBillScenarioUsageModificationAsync(
-        AwsBcmPricingCalculatorBatchDeleteBillScenarioUsageModificationOptions? options = null,
+        AwsBcmPricingCalculatorBatchDeleteBillScenarioUsageModificationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBcmPricingCalculatorBatchDeleteBillScenarioUsageModificationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -115,11 +115,11 @@ public class AwsBcmPricingCalculator : IAwsBcmPricingCalculator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchDeleteWorkloadEstimateUsageAsync(
-        AwsBcmPricingCalculatorBatchDeleteWorkloadEstimateUsageOptions? options = null,
+        AwsBcmPricingCalculatorBatchDeleteWorkloadEstimateUsageOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBcmPricingCalculatorBatchDeleteWorkloadEstimateUsageOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -130,11 +130,11 @@ public class AwsBcmPricingCalculator : IAwsBcmPricingCalculator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchUpdateBillScenarioCommitmentModificationAsync(
-        AwsBcmPricingCalculatorBatchUpdateBillScenarioCommitmentModificationOptions? options = null,
+        AwsBcmPricingCalculatorBatchUpdateBillScenarioCommitmentModificationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBcmPricingCalculatorBatchUpdateBillScenarioCommitmentModificationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -145,11 +145,11 @@ public class AwsBcmPricingCalculator : IAwsBcmPricingCalculator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchUpdateBillScenarioUsageModificationAsync(
-        AwsBcmPricingCalculatorBatchUpdateBillScenarioUsageModificationOptions? options = null,
+        AwsBcmPricingCalculatorBatchUpdateBillScenarioUsageModificationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBcmPricingCalculatorBatchUpdateBillScenarioUsageModificationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -160,11 +160,11 @@ public class AwsBcmPricingCalculator : IAwsBcmPricingCalculator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchUpdateWorkloadEstimateUsageAsync(
-        AwsBcmPricingCalculatorBatchUpdateWorkloadEstimateUsageOptions? options = null,
+        AwsBcmPricingCalculatorBatchUpdateWorkloadEstimateUsageOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBcmPricingCalculatorBatchUpdateWorkloadEstimateUsageOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -175,11 +175,11 @@ public class AwsBcmPricingCalculator : IAwsBcmPricingCalculator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateBillEstimateAsync(
-        AwsBcmPricingCalculatorCreateBillEstimateOptions? options = null,
+        AwsBcmPricingCalculatorCreateBillEstimateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBcmPricingCalculatorCreateBillEstimateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -190,11 +190,11 @@ public class AwsBcmPricingCalculator : IAwsBcmPricingCalculator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateBillScenarioAsync(
-        AwsBcmPricingCalculatorCreateBillScenarioOptions? options = null,
+        AwsBcmPricingCalculatorCreateBillScenarioOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBcmPricingCalculatorCreateBillScenarioOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -205,11 +205,11 @@ public class AwsBcmPricingCalculator : IAwsBcmPricingCalculator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateWorkloadEstimateAsync(
-        AwsBcmPricingCalculatorCreateWorkloadEstimateOptions? options = null,
+        AwsBcmPricingCalculatorCreateWorkloadEstimateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBcmPricingCalculatorCreateWorkloadEstimateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -220,11 +220,11 @@ public class AwsBcmPricingCalculator : IAwsBcmPricingCalculator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteBillEstimateAsync(
-        AwsBcmPricingCalculatorDeleteBillEstimateOptions? options = null,
+        AwsBcmPricingCalculatorDeleteBillEstimateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBcmPricingCalculatorDeleteBillEstimateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -235,11 +235,11 @@ public class AwsBcmPricingCalculator : IAwsBcmPricingCalculator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteBillScenarioAsync(
-        AwsBcmPricingCalculatorDeleteBillScenarioOptions? options = null,
+        AwsBcmPricingCalculatorDeleteBillScenarioOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBcmPricingCalculatorDeleteBillScenarioOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -250,11 +250,11 @@ public class AwsBcmPricingCalculator : IAwsBcmPricingCalculator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteWorkloadEstimateAsync(
-        AwsBcmPricingCalculatorDeleteWorkloadEstimateOptions? options = null,
+        AwsBcmPricingCalculatorDeleteWorkloadEstimateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBcmPricingCalculatorDeleteWorkloadEstimateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -265,11 +265,11 @@ public class AwsBcmPricingCalculator : IAwsBcmPricingCalculator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetBillEstimateAsync(
-        AwsBcmPricingCalculatorGetBillEstimateOptions? options = null,
+        AwsBcmPricingCalculatorGetBillEstimateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBcmPricingCalculatorGetBillEstimateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -280,11 +280,11 @@ public class AwsBcmPricingCalculator : IAwsBcmPricingCalculator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetBillScenarioAsync(
-        AwsBcmPricingCalculatorGetBillScenarioOptions? options = null,
+        AwsBcmPricingCalculatorGetBillScenarioOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBcmPricingCalculatorGetBillScenarioOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -299,7 +299,7 @@ public class AwsBcmPricingCalculator : IAwsBcmPricingCalculator
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBcmPricingCalculatorGetPreferencesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBcmPricingCalculatorGetPreferencesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -310,11 +310,11 @@ public class AwsBcmPricingCalculator : IAwsBcmPricingCalculator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetWorkloadEstimateAsync(
-        AwsBcmPricingCalculatorGetWorkloadEstimateOptions? options = null,
+        AwsBcmPricingCalculatorGetWorkloadEstimateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBcmPricingCalculatorGetWorkloadEstimateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -325,11 +325,11 @@ public class AwsBcmPricingCalculator : IAwsBcmPricingCalculator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListBillEstimateCommitmentsAsync(
-        AwsBcmPricingCalculatorListBillEstimateCommitmentsOptions? options = null,
+        AwsBcmPricingCalculatorListBillEstimateCommitmentsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBcmPricingCalculatorListBillEstimateCommitmentsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -340,11 +340,11 @@ public class AwsBcmPricingCalculator : IAwsBcmPricingCalculator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListBillEstimateInputCommitmentModificationsAsync(
-        AwsBcmPricingCalculatorListBillEstimateInputCommitmentModificationsOptions? options = null,
+        AwsBcmPricingCalculatorListBillEstimateInputCommitmentModificationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBcmPricingCalculatorListBillEstimateInputCommitmentModificationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -355,11 +355,11 @@ public class AwsBcmPricingCalculator : IAwsBcmPricingCalculator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListBillEstimateInputUsageModificationsAsync(
-        AwsBcmPricingCalculatorListBillEstimateInputUsageModificationsOptions? options = null,
+        AwsBcmPricingCalculatorListBillEstimateInputUsageModificationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBcmPricingCalculatorListBillEstimateInputUsageModificationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -370,11 +370,11 @@ public class AwsBcmPricingCalculator : IAwsBcmPricingCalculator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListBillEstimateLineItemsAsync(
-        AwsBcmPricingCalculatorListBillEstimateLineItemsOptions? options = null,
+        AwsBcmPricingCalculatorListBillEstimateLineItemsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBcmPricingCalculatorListBillEstimateLineItemsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -389,7 +389,7 @@ public class AwsBcmPricingCalculator : IAwsBcmPricingCalculator
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBcmPricingCalculatorListBillEstimatesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBcmPricingCalculatorListBillEstimatesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -400,11 +400,11 @@ public class AwsBcmPricingCalculator : IAwsBcmPricingCalculator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListBillScenarioCommitmentModificationsAsync(
-        AwsBcmPricingCalculatorListBillScenarioCommitmentModificationsOptions? options = null,
+        AwsBcmPricingCalculatorListBillScenarioCommitmentModificationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBcmPricingCalculatorListBillScenarioCommitmentModificationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -419,7 +419,7 @@ public class AwsBcmPricingCalculator : IAwsBcmPricingCalculator
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBcmPricingCalculatorListBillScenariosOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBcmPricingCalculatorListBillScenariosOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -430,11 +430,11 @@ public class AwsBcmPricingCalculator : IAwsBcmPricingCalculator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListBillScenarioUsageModificationsAsync(
-        AwsBcmPricingCalculatorListBillScenarioUsageModificationsOptions? options = null,
+        AwsBcmPricingCalculatorListBillScenarioUsageModificationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBcmPricingCalculatorListBillScenarioUsageModificationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -445,11 +445,11 @@ public class AwsBcmPricingCalculator : IAwsBcmPricingCalculator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListTagsForResourceAsync(
-        AwsBcmPricingCalculatorListTagsForResourceOptions? options = null,
+        AwsBcmPricingCalculatorListTagsForResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBcmPricingCalculatorListTagsForResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -464,7 +464,7 @@ public class AwsBcmPricingCalculator : IAwsBcmPricingCalculator
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBcmPricingCalculatorListWorkloadEstimatesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBcmPricingCalculatorListWorkloadEstimatesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -475,11 +475,11 @@ public class AwsBcmPricingCalculator : IAwsBcmPricingCalculator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListWorkloadEstimateUsageAsync(
-        AwsBcmPricingCalculatorListWorkloadEstimateUsageOptions? options = null,
+        AwsBcmPricingCalculatorListWorkloadEstimateUsageOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBcmPricingCalculatorListWorkloadEstimateUsageOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -490,11 +490,11 @@ public class AwsBcmPricingCalculator : IAwsBcmPricingCalculator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> TagResourceAsync(
-        AwsBcmPricingCalculatorTagResourceOptions? options = null,
+        AwsBcmPricingCalculatorTagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBcmPricingCalculatorTagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -505,11 +505,11 @@ public class AwsBcmPricingCalculator : IAwsBcmPricingCalculator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UntagResourceAsync(
-        AwsBcmPricingCalculatorUntagResourceOptions? options = null,
+        AwsBcmPricingCalculatorUntagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBcmPricingCalculatorUntagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -520,11 +520,11 @@ public class AwsBcmPricingCalculator : IAwsBcmPricingCalculator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateBillEstimateAsync(
-        AwsBcmPricingCalculatorUpdateBillEstimateOptions? options = null,
+        AwsBcmPricingCalculatorUpdateBillEstimateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBcmPricingCalculatorUpdateBillEstimateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -535,11 +535,11 @@ public class AwsBcmPricingCalculator : IAwsBcmPricingCalculator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateBillScenarioAsync(
-        AwsBcmPricingCalculatorUpdateBillScenarioOptions? options = null,
+        AwsBcmPricingCalculatorUpdateBillScenarioOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBcmPricingCalculatorUpdateBillScenarioOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -554,7 +554,7 @@ public class AwsBcmPricingCalculator : IAwsBcmPricingCalculator
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBcmPricingCalculatorUpdatePreferencesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBcmPricingCalculatorUpdatePreferencesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -565,11 +565,11 @@ public class AwsBcmPricingCalculator : IAwsBcmPricingCalculator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateWorkloadEstimateAsync(
-        AwsBcmPricingCalculatorUpdateWorkloadEstimateOptions? options = null,
+        AwsBcmPricingCalculatorUpdateWorkloadEstimateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBcmPricingCalculatorUpdateWorkloadEstimateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

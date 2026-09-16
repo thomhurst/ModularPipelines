@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rds", "start-activity-stream")]
-public record AwsRdsStartActivityStreamOptions : AwsOptions
+public record AwsRdsStartActivityStreamOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts a database activity stream to monitor activity on the database. For more information, see Monitoring Amazon Aurora with Database Activ- ity Streams in the Amazon Aurora User Guide or Monitoring Amazon RDS with Database Activity Streams in the Amazon RDS User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the DB cluster, for example, arn:aws:rds:us-east-1:12345667890:cluster:das-cluster .</param>
+    /// <param name="Mode">Specifies the mode of the database activity stream. Database events such as a change or access generate an activity stream event. The database session can handle these events either synchronously or asynchronously. Possible values: o sync o async</param>
+    /// <param name="KmsKeyId">The Amazon Web Services KMS key identifier for encrypting messages in the database activity stream. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key.</param>
+    public AwsRdsStartActivityStreamOptions(
+        string ResourceArn,
+        AwsRdsStartActivityStreamMode Mode,
+        string KmsKeyId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
+        this.ResourceArn = ResourceArn;
+        global::System.ArgumentNullException.ThrowIfNull(Mode);
+        this.Mode = Mode;
+        global::System.ArgumentNullException.ThrowIfNull(KmsKeyId);
+        this.KmsKeyId = KmsKeyId;
+    }
+
+    private AwsRdsStartActivityStreamOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRdsStartActivityStreamOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRdsStartActivityStreamOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the DB cluster, for example, arn:aws:rds:us-east-1:12345667890:cluster:das-cluster .
+    /// </summary>
     [CliOption("--resource-arn")]
-    public string? ResourceArn { get; set; }
+    public string? ResourceArn { get; private init; }
 
+    /// <summary>
+    /// Specifies the mode of the database activity stream. Database events such as a change or access generate an activity stream event. The database session can handle these events either synchronously or asynchronously. Possible values: o sync o async
+    /// </summary>
     [CliOption("--mode")]
-    public string? Mode { get; set; }
+    public AwsRdsStartActivityStreamMode? Mode { get; private init; }
 
+    /// <summary>
+    /// The Amazon Web Services KMS key identifier for encrypting messages in the database activity stream. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key.
+    /// </summary>
     [CliOption("--kms-key-id")]
-    public string? KmsKeyId { get; set; }
+    public string? KmsKeyId { get; private init; }
 
-    [CliFlag("--apply-immediately")]
+    /// <summary>
+    /// Specifies whether or not the database activity stream is to start as soon as possible, regardless of the maintenance window for the data- base.
+    /// </summary>
+    [CliFlag("--apply-immediately", NegatedName = "--no-apply-immediately")]
     public bool? ApplyImmediately { get; set; }
 
-    [CliFlag("--engine-native-audit-fields-included")]
+    /// <summary>
+    /// dit-fields-included (boolean) Specifies whether the database activity stream includes engine-na- tive audit fields. This option applies to an Oracle or Microsoft SQL Server DB instance. By default, no engine-native audit fields are included.
+    /// </summary>
+    [CliFlag("--engine-native-audit-fields-included", NegatedName = "--no-engine-native-audit-fields-included")]
     public bool? EngineNativeAuditFieldsIncluded { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -41,5 +99,22 @@ public record AwsRdsStartActivityStreamOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

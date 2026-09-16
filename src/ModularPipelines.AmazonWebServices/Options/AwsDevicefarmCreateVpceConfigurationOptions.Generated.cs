@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("devicefarm", "create-vpce-configuration")]
-public record AwsDevicefarmCreateVpceConfigurationOptions : AwsOptions
+public record AwsDevicefarmCreateVpceConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a configuration record in Device Farm for your Amazon Virtual Private Cloud (VPC) endpoint. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="VpceConfigurationName">The friendly name you give to your VPC endpoint configuration, to manage your configurations more easily. Constraints: o min: 0 o max: 1024</param>
+    /// <param name="VpceServiceName">The name of the VPC endpoint service running in your AWS account that you want Device Farm to test. Constraints: o min: 0 o max: 2048</param>
+    /// <param name="ServiceDnsName">The DNS name of the service running in your VPC that you want Device Farm to test. Constraints: o min: 0 o max: 2048</param>
+    public AwsDevicefarmCreateVpceConfigurationOptions(
+        string VpceConfigurationName,
+        string VpceServiceName,
+        string ServiceDnsName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VpceConfigurationName);
+        this.VpceConfigurationName = VpceConfigurationName;
+        global::System.ArgumentNullException.ThrowIfNull(VpceServiceName);
+        this.VpceServiceName = VpceServiceName;
+        global::System.ArgumentNullException.ThrowIfNull(ServiceDnsName);
+        this.ServiceDnsName = ServiceDnsName;
+    }
+
+    private AwsDevicefarmCreateVpceConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDevicefarmCreateVpceConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDevicefarmCreateVpceConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The friendly name you give to your VPC endpoint configuration, to manage your configurations more easily. Constraints: o min: 0 o max: 1024
+    /// </summary>
     [CliOption("--vpce-configuration-name")]
-    public string? VpceConfigurationName { get; set; }
+    public string? VpceConfigurationName { get; private init; }
 
+    /// <summary>
+    /// The name of the VPC endpoint service running in your AWS account that you want Device Farm to test. Constraints: o min: 0 o max: 2048
+    /// </summary>
     [CliOption("--vpce-service-name")]
-    public string? VpceServiceName { get; set; }
+    public string? VpceServiceName { get; private init; }
 
+    /// <summary>
+    /// The DNS name of the service running in your VPC that you want Device Farm to test. Constraints: o min: 0 o max: 2048
+    /// </summary>
     [CliOption("--service-dns-name")]
-    public string? ServiceDnsName { get; set; }
+    public string? ServiceDnsName { get; private init; }
 
     /// <summary>
     /// An optional description that provides details about your VPC end- point configuration. Constraints: o min: 0 o max: 2048
@@ -41,5 +92,22 @@ public record AwsDevicefarmCreateVpceConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

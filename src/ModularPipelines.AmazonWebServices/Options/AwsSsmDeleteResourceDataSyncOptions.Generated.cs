@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "delete-resource-data-sync")]
-public record AwsSsmDeleteResourceDataSyncOptions : AwsOptions
+public record AwsSsmDeleteResourceDataSyncOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes a resource data sync configuration. After the configuration is deleted, changes to data on managed nodes are no longer synced to or from the target. Deleting a sync configuration doesn't delete data. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SyncName">The name of the configuration to delete. Constraints: o min: 1 o max: 64</param>
+    public AwsSsmDeleteResourceDataSyncOptions(
+        string SyncName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SyncName);
+        this.SyncName = SyncName;
+    }
+
+    private AwsSsmDeleteResourceDataSyncOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmDeleteResourceDataSyncOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmDeleteResourceDataSyncOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the configuration to delete. Constraints: o min: 1 o max: 64
+    /// </summary>
     [CliOption("--sync-name")]
-    public string? SyncName { get; set; }
+    public string? SyncName { get; private init; }
 
     /// <summary>
     /// Specify the type of resource data sync to delete. Constraints: o min: 1 o max: 64
@@ -35,5 +72,22 @@ public record AwsSsmDeleteResourceDataSyncOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

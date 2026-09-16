@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cleanroomsml", "get-collaboration-configured-model-algorithm-association")]
-public record AwsCleanroomsmlGetCollaborationConfiguredModelAlgorithmAssociationOptions : AwsOptions
+public record AwsCleanroomsmlGetCollaborationConfiguredModelAlgorithmAssociationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--configured-model-algorithm-association-arn")]
-    public string? ConfiguredModelAlgorithmAssociationArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Returns information about the configured model algorithm association in a collaboration. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ConfiguredModelAlgorithmAssociationArn">The Amazon Resource Name (ARN) of the configured model algorithm as- sociation that you want to return information about. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:member- ship/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/con- figured-model-algorithm-association/[-a-zA-Z0-9_/.]+</param>
+    /// <param name="CollaborationIdentifier">The collaboration ID for the collaboration that contains the config- ured model algorithm association that you want to return information about. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    public AwsCleanroomsmlGetCollaborationConfiguredModelAlgorithmAssociationOptions(
+        string ConfiguredModelAlgorithmAssociationArn,
+        string CollaborationIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConfiguredModelAlgorithmAssociationArn);
+        this.ConfiguredModelAlgorithmAssociationArn = ConfiguredModelAlgorithmAssociationArn;
+        global::System.ArgumentNullException.ThrowIfNull(CollaborationIdentifier);
+        this.CollaborationIdentifier = CollaborationIdentifier;
+    }
+
+    private AwsCleanroomsmlGetCollaborationConfiguredModelAlgorithmAssociationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCleanroomsmlGetCollaborationConfiguredModelAlgorithmAssociationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCleanroomsmlGetCollaborationConfiguredModelAlgorithmAssociationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the configured model algorithm as- sociation that you want to return information about. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:member- ship/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/con- figured-model-algorithm-association/[-a-zA-Z0-9_/.]+
+    /// </summary>
+    [CliOption("--configured-model-algorithm-association-arn")]
+    public string? ConfiguredModelAlgorithmAssociationArn { get; private init; }
+
+    /// <summary>
+    /// The collaboration ID for the collaboration that contains the config- ured model algorithm association that you want to return information about. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// </summary>
     [CliOption("--collaboration-identifier")]
-    public string? CollaborationIdentifier { get; set; }
+    public string? CollaborationIdentifier { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

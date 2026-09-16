@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,8 +21,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dynamodb", "restore-table-to-point-in-time")]
-public record AwsDynamodbRestoreTableToPointInTimeOptions : AwsOptions
+public record AwsDynamodbRestoreTableToPointInTimeOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Restores the specified table to the specified point in time within Ear- liestRestorableDateTime and LatestRestorableDateTime . You can restore your table to any point in time in the last 35 days. You can set the recovery period to any value between 1 and 35 days. Any number of users can execute up to 50 concurrent restores (any type of restore) in a given account. When you restore using point in time recovery, DynamoDB restores your table data to the state based on the selected date and time (da...
+    /// </summary>
+    /// <param name="TargetTableName">The name of the new table to which it must be restored to. Constraints: o min: 3 o max: 255 o pattern: [a-zA-Z0-9_.-]+</param>
+    public AwsDynamodbRestoreTableToPointInTimeOptions(
+        string TargetTableName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TargetTableName);
+        this.TargetTableName = TargetTableName;
+    }
+
+    private AwsDynamodbRestoreTableToPointInTimeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDynamodbRestoreTableToPointInTimeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDynamodbRestoreTableToPointInTimeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the new table to which it must be restored to. Constraints: o min: 3 o max: 255 o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
+    [CliOption("--target-table-name")]
+    public string? TargetTableName { get; private init; }
+
     /// <summary>
     /// The DynamoDB table that will be restored. This value is an Amazon Resource Name (ARN). Constraints: o min: 1 o max: 1024
     /// </summary>
@@ -34,10 +74,10 @@ public record AwsDynamodbRestoreTableToPointInTimeOptions : AwsOptions
     [CliOption("--source-table-name")]
     public string? SourceTableName { get; set; }
 
-    [CliOption("--target-table-name")]
-    public string? TargetTableName { get; set; }
-
-    [CliFlag("--use-latest-restorable-time")]
+    /// <summary>
+    /// Restore the table to the latest possible time. LatestRestorableDate- Time is typically 5 minutes before the current time.
+    /// </summary>
+    [CliFlag("--use-latest-restorable-time", NegatedName = "--no-use-latest-restorable-time")]
     public bool? UseLatestRestorableTime { get; set; }
 
     /// <summary>
@@ -93,5 +133,22 @@ public record AwsDynamodbRestoreTableToPointInTimeOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

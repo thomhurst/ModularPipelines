@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,8 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sesv2", "send-bulk-email")]
-public record AwsSesv2SendBulkEmailOptions : AwsOptions
+public record AwsSesv2SendBulkEmailOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Composes an email message to multiple destinations. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DefaultContent">An object that contains the body of the message. You can specify a template message. Template -&gt; (structure) The template to use for the bulk email message. TemplateName -&gt; (string) The name of the template. You will refer to this name when you send email using the SendEmail or SendBulkEmail opera- tions. Constraints: o min: 1 TemplateArn -&gt; (string) The Amazon Resource Name (ARN) of the template. Constraints: o min: 1 TemplateContent -&gt; (structure) The content of the template. NOTE: Amazon SES supports only simple substitions when you send email using the SendEmail or SendBulkEmail operations and you provide the full template content in the request. Subject -&gt; (string) The subject line of the email. Text -&gt; (string) The email body that will be visible to recipients whose email clients do not display HTML. Html -&gt; (string) The HTML body of the email. TemplateData -&gt; (string) An object that defines the values to use for message vari- ables in the template. This object is a set of key-value pairs. Each key defines a message variable in the template. The corresponding value defines the value to use for that variable. Constraints: o max: 262144 Headers -&gt; (list) The list of message headers that will be added to the email message. Constraints: o min: 0 o max: 15 (structure) Contains the name and value of a message header that you add to an email. Name -&gt; (string) [required] The name of the message header. The message header name has to meet the following criteria: o Can contain any printable ASCII character (33 - 126) except for colon (:). o Can contain no more than 126 characters. Constraints: o min: 1 o max: 126 o pattern: ^[!-9;-@A-~]+$ Value -&gt; (string) [required] The value of the message header. The message header value has to meet the following criteria: o Can contain any printable ASCII character. o Can contain no more than 995 characters. o The combined length of the header name and value must not exceed 996 characters. Constraints: o min: 1 o max: 995 o pattern: [ -~]* Attachments -&gt; (list) The List of attachments to include in your email. All recipi- ents will receive the same attachments. (structure) Contains metadata and attachment raw content. RawContent -&gt; (blob) [required] The raw data of the attachment. It needs to be base64-encoded if you are accessing Amazon SES di- rectly through the HTTPS interface. If you are access- ing Amazon SES using an Amazon Web Services SDK, the SDK takes care of the base 64-encoding for you. ContentDisposition -&gt; (string) A standard descriptor indicating how the attachment should be rendered in the email. Supported values: AT- TACHMENT or INLINE . Possible values: o ATTACHMENT o INLINE FileName -&gt; (string) [required] The file name for the attachment as it will appear in the email. Amazon SES restricts certain file exten- sions. To ensure attachments are accepted, check the Unsupported attachment types in the Amazon SES Devel- oper Guide. Constraints: o max: 255 ContentDescription -&gt; (string) A brief description of the attachment content. Constraints: o max: 1000 ContentId -&gt; (string) Unique identifier for the attachment, used for refer- encing attachments with INLINE disposition in HTML content. Constraints: o min: 1 o max: 78 ContentTransferEncoding -&gt; (string) Specifies how the attachment is encoded. Supported values: BASE64 , QUOTED_PRINTABLE , SEVEN_BIT . Possible values: o BASE64 o QUOTED_PRINTABLE o SEVEN_BIT ContentType -&gt; (string) The MIME type of the attachment. NOTE: Example: application/pdf , image/jpeg Constraints: o min: 1 o max: 78 JSON Syntax: { "Template": { "TemplateName": "string", "TemplateArn": "string", "TemplateContent": { "Subject": "string", "Text": "string", "Html": "string" }, "TemplateData": "string", "Headers": [ { "Name": "string", "Value": "string" } ... ], "Attachments": [ { "RawContent": blob, "ContentDisposition": "ATTACHMENT"|"INLINE", "FileName": "string", "ContentDescription": "string", "ContentId": "string", "ContentTransferEncoding": "BASE64"|"QUOTED_PRINTABLE"|"SEVEN_BIT", "ContentType": "string" } ... ] } }</param>
+    /// <param name="BulkEmailEntries">The list of bulk email entry objects. (structure) Destination -&gt; (structure) [required] Represents the destination of the message, consisting of To:, CC:, and BCC: fields. NOTE: Amazon SES does not support the SMTPUTF8 extension, as described in RFC6531 . For this reason, the local part of a destination email address (the part of the email ad- dress that precedes the @ sign) may only contain 7-bit ASCII characters . If the domain part of an address (the part after the @ sign) contains non-ASCII characters, they must be encoded using Punycode, as described in RFC3492 . ToAddresses -&gt; (list) An array that contains the email addresses of the "To" recipients for the email. (string) CcAddresses -&gt; (list) An array that contains the email addresses of the "CC" (carbon copy) recipients for the email. (string) BccAddresses -&gt; (list) An array that contains the email addresses of the "BCC" (blind carbon copy) recipients for the email. (string) ReplacementTags -&gt; (list) A list of tags, in the form of name/value pairs, to apply to an email that you send using the SendBulkTemplatedEmail oper- ation. Tags correspond to characteristics of the email that you define, so that you can publish email sending events. (structure) Contains the name and value of a tag that you apply to an email. You can use message tags when you publish email sending events. Name -&gt; (string) [required] The name of the message tag. The message tag name has to meet the following criteria: o It can only contain ASCII letters (az, AZ), numbers (09), underscores (_), or dashes (-). o It can contain no more than 256 characters. Value -&gt; (string) [required] The value of the message tag. The message tag value has to meet the following criteria: o It can only contain ASCII letters (az, AZ), numbers (09), underscores (_), or dashes (-). o It can contain no more than 256 characters. ReplacementEmailContent -&gt; (structure) The ReplacementEmailContent associated with a BulkEmailEntry . ReplacementTemplate -&gt; (structure) The ReplacementTemplate associated with ReplacementEmail- Content . ReplacementTemplateData -&gt; (string) A list of replacement values to apply to the template. This parameter is a JSON object, typically consisting of key-value pairs in which the keys correspond to re- placement tags in the email template. Constraints: o max: 262144 ReplacementHeaders -&gt; (list) The list of message headers associated with the BulkEmailEn- try data type. o Headers Not Present in BulkEmailEntry : If a header is specified in ` Template https://docs.aws.amazon.com/ses/latest/APIReference-V2/API_Template.html`__ but not in BulkEmailEntry , the header from Template will be added to the outgoing email. o Headers Present in BulkEmailEntry : If a header is speci- fied in BulkEmailEntry , it takes precedence over any header of the same name specified in ` Template https://docs.aws.amazon.com/ses/latest/APIReference-V2/API_Template.html`__ : o If the header is also defined within Template , the value from BulkEmailEntry will replace the header's value in the email. o If the header is not defined within Template , it will simply be added to the email as specified in BulkEmailEn- try . Constraints: o min: 0 o max: 15 (structure) Contains the name and value of a message header that you add to an email. Name -&gt; (string) [required] The name of the message header. The message header name has to meet the following criteria: o Can contain any printable ASCII character (33 - 126) except for colon (:). o Can contain no more than 126 characters. Constraints: o min: 1 o max: 126 o pattern: ^[!-9;-@A-~]+$ Value -&gt; (string) [required] The value of the message header. The message header value has to meet the following criteria: o Can contain any printable ASCII character. o Can contain no more than 995 characters. o The combined length of the header name and value must not exceed 996 characters. Constraints: o min: 1 o max: 995 o pattern: [ -~]* Shorthand Syntax: Destination={ToAddresses=[string,string],CcAddresses=[string,string],BccAddresses=[string,string]},ReplacementTags=[{Name=string,Value=string},{Name=string,Value=string}],ReplacementEmailContent={ReplacementTemplate={ReplacementTemplateData=string}},ReplacementHeaders=[{Name=string,Value=string},{Name=string,Value=string}] ... JSON Syntax: [ { "Destination": { "ToAddresses": ["string", ...], "CcAddresses": ["string", ...], "BccAddresses": ["string", ...] }, "ReplacementTags": [ { "Name": "string", "Value": "string" } ... ], "ReplacementEmailContent": { "ReplacementTemplate": { "ReplacementTemplateData": "string" } }, "ReplacementHeaders": [ { "Name": "string", "Value": "string" } ... ] } ... ]</param>
+    public AwsSesv2SendBulkEmailOptions(
+        string DefaultContent,
+        IEnumerable<string> BulkEmailEntries
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DefaultContent);
+        this.DefaultContent = DefaultContent;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(BulkEmailEntries);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(BulkEmailEntries));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(BulkEmailEntries));
+            }
+
+            BulkEmailEntries = materialized;
+        }
+        this.BulkEmailEntries = BulkEmailEntries;
+    }
+
+    private AwsSesv2SendBulkEmailOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSesv2SendBulkEmailOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSesv2SendBulkEmailOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// An object that contains the body of the message. You can specify a template message. Template -&gt; (structure) The template to use for the bulk email message. TemplateName -&gt; (string) The name of the template. You will refer to this name when you send email using the SendEmail or SendBulkEmail opera- tions. Constraints: o min: 1 TemplateArn -&gt; (string) The Amazon Resource Name (ARN) of the template. Constraints: o min: 1 TemplateContent -&gt; (structure) The content of the template. NOTE: Amazon SES supports only simple substitions when you send email using the SendEmail or SendBulkEmail operations and you provide the full template content in the request. Subject -&gt; (string) The subject line of the email. Text -&gt; (string) The email body that will be visible to recipients whose email clients do not display HTML. Html -&gt; (string) The HTML body of the email. TemplateData -&gt; (string) An object that defines the values to use for message vari- ables in the template. This object is a set of key-value pairs. Each key defines a message variable in the template. The corresponding value defines the value to use for that variable. Constraints: o max: 262144 Headers -&gt; (list) The list of message headers that will be added to the email message. Constraints: o min: 0 o max: 15 (structure) Contains the name and value of a message header that you add to an email. Name -&gt; (string) [required] The name of the message header. The message header name has to meet the following criteria: o Can contain any printable ASCII character (33 - 126) except for colon (:). o Can contain no more than 126 characters. Constraints: o min: 1 o max: 126 o pattern: ^[!-9;-@A-~]+$ Value -&gt; (string) [required] The value of the message header. The message header value has to meet the following criteria: o Can contain any printable ASCII character. o Can contain no more than 995 characters. o The combined length of the header name and value must not exceed 996 characters. Constraints: o min: 1 o max: 995 o pattern: [ -~]* Attachments -&gt; (list) The List of attachments to include in your email. All recipi- ents will receive the same attachments. (structure) Contains metadata and attachment raw content. RawContent -&gt; (blob) [required] The raw data of the attachment. It needs to be base64-encoded if you are accessing Amazon SES di- rectly through the HTTPS interface. If you are access- ing Amazon SES using an Amazon Web Services SDK, the SDK takes care of the base 64-encoding for you. ContentDisposition -&gt; (string) A standard descriptor indicating how the attachment should be rendered in the email. Supported values: AT- TACHMENT or INLINE . Possible values: o ATTACHMENT o INLINE FileName -&gt; (string) [required] The file name for the attachment as it will appear in the email. Amazon SES restricts certain file exten- sions. To ensure attachments are accepted, check the Unsupported attachment types in the Amazon SES Devel- oper Guide. Constraints: o max: 255 ContentDescription -&gt; (string) A brief description of the attachment content. Constraints: o max: 1000 ContentId -&gt; (string) Unique identifier for the attachment, used for refer- encing attachments with INLINE disposition in HTML content. Constraints: o min: 1 o max: 78 ContentTransferEncoding -&gt; (string) Specifies how the attachment is encoded. Supported values: BASE64 , QUOTED_PRINTABLE , SEVEN_BIT . Possible values: o BASE64 o QUOTED_PRINTABLE o SEVEN_BIT ContentType -&gt; (string) The MIME type of the attachment. NOTE: Example: application/pdf , image/jpeg Constraints: o min: 1 o max: 78 JSON Syntax: { "Template": { "TemplateName": "string", "TemplateArn": "string", "TemplateContent": { "Subject": "string", "Text": "string", "Html": "string" }, "TemplateData": "string", "Headers": [ { "Name": "string", "Value": "string" } ... ], "Attachments": [ { "RawContent": blob, "ContentDisposition": "ATTACHMENT"|"INLINE", "FileName": "string", "ContentDescription": "string", "ContentId": "string", "ContentTransferEncoding": "BASE64"|"QUOTED_PRINTABLE"|"SEVEN_BIT", "ContentType": "string" } ... ] } }
+    /// </summary>
+    [CliOption("--default-content")]
+    public string? DefaultContent { get; private init; }
+
+    /// <summary>
+    /// The list of bulk email entry objects. (structure) Destination -&gt; (structure) [required] Represents the destination of the message, consisting of To:, CC:, and BCC: fields. NOTE: Amazon SES does not support the SMTPUTF8 extension, as described in RFC6531 . For this reason, the local part of a destination email address (the part of the email ad- dress that precedes the @ sign) may only contain 7-bit ASCII characters . If the domain part of an address (the part after the @ sign) contains non-ASCII characters, they must be encoded using Punycode, as described in RFC3492 . ToAddresses -&gt; (list) An array that contains the email addresses of the "To" recipients for the email. (string) CcAddresses -&gt; (list) An array that contains the email addresses of the "CC" (carbon copy) recipients for the email. (string) BccAddresses -&gt; (list) An array that contains the email addresses of the "BCC" (blind carbon copy) recipients for the email. (string) ReplacementTags -&gt; (list) A list of tags, in the form of name/value pairs, to apply to an email that you send using the SendBulkTemplatedEmail oper- ation. Tags correspond to characteristics of the email that you define, so that you can publish email sending events. (structure) Contains the name and value of a tag that you apply to an email. You can use message tags when you publish email sending events. Name -&gt; (string) [required] The name of the message tag. The message tag name has to meet the following criteria: o It can only contain ASCII letters (az, AZ), numbers (09), underscores (_), or dashes (-). o It can contain no more than 256 characters. Value -&gt; (string) [required] The value of the message tag. The message tag value has to meet the following criteria: o It can only contain ASCII letters (az, AZ), numbers (09), underscores (_), or dashes (-). o It can contain no more than 256 characters. ReplacementEmailContent -&gt; (structure) The ReplacementEmailContent associated with a BulkEmailEntry . ReplacementTemplate -&gt; (structure) The ReplacementTemplate associated with ReplacementEmail- Content . ReplacementTemplateData -&gt; (string) A list of replacement values to apply to the template. This parameter is a JSON object, typically consisting of key-value pairs in which the keys correspond to re- placement tags in the email template. Constraints: o max: 262144 ReplacementHeaders -&gt; (list) The list of message headers associated with the BulkEmailEn- try data type. o Headers Not Present in BulkEmailEntry : If a header is specified in ` Template https://docs.aws.amazon.com/ses/latest/APIReference-V2/API_Template.html`__ but not in BulkEmailEntry , the header from Template will be added to the outgoing email. o Headers Present in BulkEmailEntry : If a header is speci- fied in BulkEmailEntry , it takes precedence over any header of the same name specified in ` Template https://docs.aws.amazon.com/ses/latest/APIReference-V2/API_Template.html`__ : o If the header is also defined within Template , the value from BulkEmailEntry will replace the header's value in the email. o If the header is not defined within Template , it will simply be added to the email as specified in BulkEmailEn- try . Constraints: o min: 0 o max: 15 (structure) Contains the name and value of a message header that you add to an email. Name -&gt; (string) [required] The name of the message header. The message header name has to meet the following criteria: o Can contain any printable ASCII character (33 - 126) except for colon (:). o Can contain no more than 126 characters. Constraints: o min: 1 o max: 126 o pattern: ^[!-9;-@A-~]+$ Value -&gt; (string) [required] The value of the message header. The message header value has to meet the following criteria: o Can contain any printable ASCII character. o Can contain no more than 995 characters. o The combined length of the header name and value must not exceed 996 characters. Constraints: o min: 1 o max: 995 o pattern: [ -~]* Shorthand Syntax: Destination={ToAddresses=[string,string],CcAddresses=[string,string],BccAddresses=[string,string]},ReplacementTags=[{Name=string,Value=string},{Name=string,Value=string}],ReplacementEmailContent={ReplacementTemplate={ReplacementTemplateData=string}},ReplacementHeaders=[{Name=string,Value=string},{Name=string,Value=string}] ... JSON Syntax: [ { "Destination": { "ToAddresses": ["string", ...], "CcAddresses": ["string", ...], "BccAddresses": ["string", ...] }, "ReplacementTags": [ { "Name": "string", "Value": "string" } ... ], "ReplacementEmailContent": { "ReplacementTemplate": { "ReplacementTemplateData": "string" } }, "ReplacementHeaders": [ { "Name": "string", "Value": "string" } ... ] } ... ]
+    /// </summary>
+    [CliOption("--bulk-email-entries", GroupValues = true)]
+    public IEnumerable<string>? BulkEmailEntries { get; private init; }
+
     /// <summary>
     /// The email address to use as the "From" address for the email. The address that you specify has to be verified.
     /// </summary>
@@ -57,12 +118,6 @@ public record AwsSesv2SendBulkEmailOptions : AwsOptions
     [CliOption("--default-email-tags", GroupValues = true)]
     public IEnumerable<string>? DefaultEmailTags { get; set; }
 
-    [CliOption("--default-content")]
-    public string? DefaultContent { get; set; }
-
-    [CliOption("--bulk-email-entries", GroupValues = true)]
-    public IEnumerable<string>? BulkEmailEntries { get; set; }
-
     /// <summary>
     /// The name of the configuration set to use when sending the email.
     /// </summary>
@@ -92,5 +147,22 @@ public record AwsSesv2SendBulkEmailOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

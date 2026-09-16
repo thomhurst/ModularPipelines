@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logs", "associate-kms-key")]
-public record AwsLogsAssociateKmsKeyOptions : AwsOptions
+public record AwsLogsAssociateKmsKeyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Associates the specified KMS key with either one log group in the ac- count, or with all stored CloudWatch Logs query insights results in the account. When you use AssociateKmsKey , you specify either the logGroupName pa- rameter or the resourceIdentifier parameter. You can't specify both of those parameters in the same operation. o Specify the logGroupName parameter to cause log events ingested into that log group to be encrypted with that key. Only the log events in- gested after the key is as...
+    /// </summary>
+    /// <param name="KmsKeyId">The Amazon Resource Name (ARN) of the KMS key to use when encrypting log data. This must be a symmetric KMS key. For more information, see Amazon Resource Names and Using Symmetric and Asymmetric Keys . Constraints: o max: 256</param>
+    public AwsLogsAssociateKmsKeyOptions(
+        string KmsKeyId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KmsKeyId);
+        this.KmsKeyId = KmsKeyId;
+    }
+
+    private AwsLogsAssociateKmsKeyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLogsAssociateKmsKeyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLogsAssociateKmsKeyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the KMS key to use when encrypting log data. This must be a symmetric KMS key. For more information, see Amazon Resource Names and Using Symmetric and Asymmetric Keys . Constraints: o max: 256
+    /// </summary>
+    [CliOption("--kms-key-id")]
+    public string? KmsKeyId { get; private init; }
+
     /// <summary>
     /// The name of the log group. In your AssociateKmsKey operation, you must specify either the re- sourceIdentifier parameter or the logGroup parameter, but you can't specify both. Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9]+
     /// </summary>
     [CliOption("--log-group-name")]
     public string? LogGroupName { get; set; }
-
-    [CliOption("--kms-key-id")]
-    public string? KmsKeyId { get; set; }
 
     /// <summary>
     /// Specifies the target for this operation. You must specify one of the following: o Specify the following ARN to have future GetQueryResults opera- tions in this account encrypt the results with the specified KMS key. Replace REGION and ACCOUNT_ID with your Region and account ID. arn:aws:logs:*REGION* :*ACCOUNT_ID* :query-result:* o Specify the ARN of a log group to have CloudWatch Logs use the KMS key to encrypt log events that are ingested and stored by that log group. The log group ARN must be in the following format. Replace REGION and ACCOUNT_ID with your Region and account ID. `` arn:aws:logs:REGION :ACCOUNT_ID :log-group:LOG_GROUP_NAME `` System Message: WARNING/2 (&lt;string&gt;:, line 159) Inline literal start-string without end-string. In your AssociateKmsKey operation, you must specify either the re- sourceIdentifier parameter or the logGroup parameter, but you can't specify both. Constraints: o min: 1 o max: 2048 o pattern: [\w+=/:,.@\-\*]*
@@ -41,5 +78,22 @@ public record AwsLogsAssociateKmsKeyOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

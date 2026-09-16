@@ -21,7 +21,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("iot", "get-v2-logging-options")]
 public record AwsIotGetV2LoggingOptionsOptions : AwsOptions
 {
-    [CliFlag("--verbose")]
+    /// <summary>
+    /// The flag is used to get all the event types and their respective configuration that event-based logging supports.
+    /// </summary>
+    [CliFlag("--verbose", NegatedName = "--no-verbose")]
     public bool? Verbose { get; set; }
 
     [CliOption("--cli-input-json")]

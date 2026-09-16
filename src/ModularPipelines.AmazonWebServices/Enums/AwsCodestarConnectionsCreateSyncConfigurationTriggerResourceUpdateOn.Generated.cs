@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --triggerresourceupdateon.
+/// Allowed values for --trigger-resource-update-on.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCodestarConnectionsCreateSyncConfigurationTriggerResourceUpdateOn
 {
     [EnumValue("ANY_CHANGE")]
-    AnyChange = 1,
+    AnyChange,
 
     [EnumValue("FILE_CHANGE")]
-    FileChange = 2
+    FileChange
 }

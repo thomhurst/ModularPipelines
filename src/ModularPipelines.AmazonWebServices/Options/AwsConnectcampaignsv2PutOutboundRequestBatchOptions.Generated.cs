@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connectcampaignsv2", "put-outbound-request-batch")]
-public record AwsConnectcampaignsv2PutOutboundRequestBatchOptions : AwsOptions
+public record AwsConnectcampaignsv2PutOutboundRequestBatchOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--id")]
-    public string? Id { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates outbound requests for the specified campaign Amazon Connect ac- count. This API is idempotent. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Id">Identifier representing a Campaign Constraints: o min: 1 o max: 256 o pattern: [-:/a-zA-Z0-9]+</param>
+    /// <param name="OutboundRequests">A list of outbound requests. Constraints: o min: 1 o max: 25 (structure) An outbound request for a campaign. clientToken -&gt; (string) [required] Client provided parameter used for idempotency. Its value must be unique for each request. Constraints: o min: 0 o max: 200 o pattern: [a-zA-Z0-9_\-.]* expirationTime -&gt; (timestamp) [required] Timestamp with no UTC offset or timezone channelSubtypeParameters -&gt; (tagged union structure) [required] ChannelSubtypeParameters for an outbound request NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: telephony, sms, email, whatsApp. telephony -&gt; (structure) Parameters for the Telephony Channel Subtype destinationPhoneNumber -&gt; (string) [required] The phone number of the customer, in E.164 format. Constraints: o min: 0 o max: 20 o pattern: [\d\-+]* attributes -&gt; (map) [required] A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in contact flows just like any other contact attributes. key -&gt; (string) The key of the attribute. Attribute keys can in- clude only alphanumeric, dash, and underscore characters. Constraints: o min: 0 o max: 32767 o pattern: [a-zA-Z0-9\-_]+ value -&gt; (string) The value of the attribute. Constraints: o min: 0 o max: 32767 o pattern: .* connectSourcePhoneNumber -&gt; (string) The phone number associated with the Amazon Connect instance, in E.164 format. If you do not specify a source phone number, you must specify a queue. Constraints: o min: 0 o max: 100 answerMachineDetectionConfig -&gt; (structure) Answering Machine Detection config enableAnswerMachineDetection -&gt; (boolean) [required] Enable or disable answering machine detection awaitAnswerMachinePrompt -&gt; (boolean) Enable or disable await answer machine prompt ringTimeout -&gt; (integer) Ring timeout for outbound calls Constraints: o min: 15 o max: 60 sms -&gt; (structure) Parameters for the SMS Channel Subtype destinationPhoneNumber -&gt; (string) [required] The phone number of the customer, in E.164 format. Constraints: o min: 0 o max: 20 o pattern: [\d\-+]* connectSourcePhoneNumberArn -&gt; (string) Amazon Resource Names(ARN) Constraints: o min: 20 o max: 500 o pattern: arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-z]{2}-[a-z]+-\d{1,2}:[a-zA-Z0-9-]+:[^:]+(?:/[^:]+)*(?:/[^:]+)?(?:\:[^:]+)? templateArn -&gt; (string) Amazon Resource Names(ARN) Constraints: o min: 20 o max: 500 o pattern: arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-z]{2}-[a-z]+-\d{1,2}:[a-zA-Z0-9-]+:[^:]+(?:/[^:]+)*(?:/[^:]+)?(?:\:[^:]+)? templateParameters -&gt; (map) [required] A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in contact flows just like any other contact attributes. key -&gt; (string) The key of the attribute. Attribute keys can in- clude only alphanumeric, dash, and underscore characters. Constraints: o min: 0 o max: 32767 o pattern: [a-zA-Z0-9\-_]+ value -&gt; (string) The value of the attribute. Constraints: o min: 0 o max: 32767 o pattern: .* email -&gt; (structure) Parameters for the Email Channel Subtype destinationEmailAddress -&gt; (string) [required] Source/Destination Email address used for Email mes- sages Constraints: o min: 1 o max: 255 o pattern: .*[^\s@]+@[^\s@]+\.[^\s@]+.* connectSourceEmailAddress -&gt; (string) Source/Destination Email address used for Email mes- sages Constraints: o min: 1 o max: 255 o pattern: .*[^\s@]+@[^\s@]+\.[^\s@]+.* templateArn -&gt; (string) Amazon Resource Names(ARN) Constraints: o min: 20 o max: 500 o pattern: arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-z]{2}-[a-z]+-\d{1,2}:[a-zA-Z0-9-]+:[^:]+(?:/[^:]+)*(?:/[^:]+)?(?:\:[^:]+)? templateParameters -&gt; (map) [required] A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in contact flows just like any other contact attributes. key -&gt; (string) The key of the attribute. Attribute keys can in- clude only alphanumeric, dash, and underscore characters. Constraints: o min: 0 o max: 32767 o pattern: [a-zA-Z0-9\-_]+ value -&gt; (string) The value of the attribute. Constraints: o min: 0 o max: 32767 o pattern: .* whatsApp -&gt; (structure) Parameters for the WhatsApp Channel Subtype destinationPhoneNumber -&gt; (string) [required] The phone number of the customer, in E.164 format. Constraints: o min: 0 o max: 20 o pattern: [\d\-+]* connectSourcePhoneNumberArn -&gt; (string) Amazon Resource Names(ARN) Constraints: o min: 20 o max: 500 o pattern: arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-z]{2}-[a-z]+-\d{1,2}:[a-zA-Z0-9-]+:[^:]+(?:/[^:]+)*(?:/[^:]+)?(?:\:[^:]+)? templateArn -&gt; (string) Amazon Resource Names(ARN) Constraints: o min: 20 o max: 500 o pattern: arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-z]{2}-[a-z]+-\d{1,2}:[a-zA-Z0-9-]+:[^:]+(?:/[^:]+)*(?:/[^:]+)?(?:\:[^:]+)? templateParameters -&gt; (map) [required] A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in contact flows just like any other contact attributes. key -&gt; (string) The key of the attribute. Attribute keys can in- clude only alphanumeric, dash, and underscore characters. Constraints: o min: 0 o max: 32767 o pattern: [a-zA-Z0-9\-_]+ value -&gt; (string) The value of the attribute. Constraints: o min: 0 o max: 32767 o pattern: .* JSON Syntax: [ { "clientToken": "string", "expirationTime": timestamp, "channelSubtypeParameters": { "telephony": { "destinationPhoneNumber": "string", "attributes": {"string": "string" ...}, "connectSourcePhoneNumber": "string", "answerMachineDetectionConfig": { "enableAnswerMachineDetection": true|false, "awaitAnswerMachinePrompt": true|false }, "ringTimeout": integer }, "sms": { "destinationPhoneNumber": "string", "connectSourcePhoneNumberArn": "string", "templateArn": "string", "templateParameters": {"string": "string" ...} }, "email": { "destinationEmailAddress": "string", "connectSourceEmailAddress": "string", "templateArn": "string", "templateParameters": {"string": "string" ...} }, "whatsApp": { "destinationPhoneNumber": "string", "connectSourcePhoneNumberArn": "string", "templateArn": "string", "templateParameters": {"string": "string" ...} } } } ... ]</param>
+    public AwsConnectcampaignsv2PutOutboundRequestBatchOptions(
+        string Id,
+        IEnumerable<string> OutboundRequests
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(OutboundRequests);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(OutboundRequests));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(OutboundRequests));
+            }
+
+            OutboundRequests = materialized;
+        }
+        this.OutboundRequests = OutboundRequests;
+    }
+
+    private AwsConnectcampaignsv2PutOutboundRequestBatchOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectcampaignsv2PutOutboundRequestBatchOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectcampaignsv2PutOutboundRequestBatchOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Identifier representing a Campaign Constraints: o min: 1 o max: 256 o pattern: [-:/a-zA-Z0-9]+
+    /// </summary>
+    [CliOption("--id")]
+    public string? Id { get; private init; }
+
+    /// <summary>
+    /// A list of outbound requests. Constraints: o min: 1 o max: 25 (structure) An outbound request for a campaign. clientToken -&gt; (string) [required] Client provided parameter used for idempotency. Its value must be unique for each request. Constraints: o min: 0 o max: 200 o pattern: [a-zA-Z0-9_\-.]* expirationTime -&gt; (timestamp) [required] Timestamp with no UTC offset or timezone channelSubtypeParameters -&gt; (tagged union structure) [required] ChannelSubtypeParameters for an outbound request NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: telephony, sms, email, whatsApp. telephony -&gt; (structure) Parameters for the Telephony Channel Subtype destinationPhoneNumber -&gt; (string) [required] The phone number of the customer, in E.164 format. Constraints: o min: 0 o max: 20 o pattern: [\d\-+]* attributes -&gt; (map) [required] A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in contact flows just like any other contact attributes. key -&gt; (string) The key of the attribute. Attribute keys can in- clude only alphanumeric, dash, and underscore characters. Constraints: o min: 0 o max: 32767 o pattern: [a-zA-Z0-9\-_]+ value -&gt; (string) The value of the attribute. Constraints: o min: 0 o max: 32767 o pattern: .* connectSourcePhoneNumber -&gt; (string) The phone number associated with the Amazon Connect instance, in E.164 format. If you do not specify a source phone number, you must specify a queue. Constraints: o min: 0 o max: 100 answerMachineDetectionConfig -&gt; (structure) Answering Machine Detection config enableAnswerMachineDetection -&gt; (boolean) [required] Enable or disable answering machine detection awaitAnswerMachinePrompt -&gt; (boolean) Enable or disable await answer machine prompt ringTimeout -&gt; (integer) Ring timeout for outbound calls Constraints: o min: 15 o max: 60 sms -&gt; (structure) Parameters for the SMS Channel Subtype destinationPhoneNumber -&gt; (string) [required] The phone number of the customer, in E.164 format. Constraints: o min: 0 o max: 20 o pattern: [\d\-+]* connectSourcePhoneNumberArn -&gt; (string) Amazon Resource Names(ARN) Constraints: o min: 20 o max: 500 o pattern: arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-z]{2}-[a-z]+-\d{1,2}:[a-zA-Z0-9-]+:[^:]+(?:/[^:]+)*(?:/[^:]+)?(?:\:[^:]+)? templateArn -&gt; (string) Amazon Resource Names(ARN) Constraints: o min: 20 o max: 500 o pattern: arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-z]{2}-[a-z]+-\d{1,2}:[a-zA-Z0-9-]+:[^:]+(?:/[^:]+)*(?:/[^:]+)?(?:\:[^:]+)? templateParameters -&gt; (map) [required] A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in contact flows just like any other contact attributes. key -&gt; (string) The key of the attribute. Attribute keys can in- clude only alphanumeric, dash, and underscore characters. Constraints: o min: 0 o max: 32767 o pattern: [a-zA-Z0-9\-_]+ value -&gt; (string) The value of the attribute. Constraints: o min: 0 o max: 32767 o pattern: .* email -&gt; (structure) Parameters for the Email Channel Subtype destinationEmailAddress -&gt; (string) [required] Source/Destination Email address used for Email mes- sages Constraints: o min: 1 o max: 255 o pattern: .*[^\s@]+@[^\s@]+\.[^\s@]+.* connectSourceEmailAddress -&gt; (string) Source/Destination Email address used for Email mes- sages Constraints: o min: 1 o max: 255 o pattern: .*[^\s@]+@[^\s@]+\.[^\s@]+.* templateArn -&gt; (string) Amazon Resource Names(ARN) Constraints: o min: 20 o max: 500 o pattern: arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-z]{2}-[a-z]+-\d{1,2}:[a-zA-Z0-9-]+:[^:]+(?:/[^:]+)*(?:/[^:]+)?(?:\:[^:]+)? templateParameters -&gt; (map) [required] A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in contact flows just like any other contact attributes. key -&gt; (string) The key of the attribute. Attribute keys can in- clude only alphanumeric, dash, and underscore characters. Constraints: o min: 0 o max: 32767 o pattern: [a-zA-Z0-9\-_]+ value -&gt; (string) The value of the attribute. Constraints: o min: 0 o max: 32767 o pattern: .* whatsApp -&gt; (structure) Parameters for the WhatsApp Channel Subtype destinationPhoneNumber -&gt; (string) [required] The phone number of the customer, in E.164 format. Constraints: o min: 0 o max: 20 o pattern: [\d\-+]* connectSourcePhoneNumberArn -&gt; (string) Amazon Resource Names(ARN) Constraints: o min: 20 o max: 500 o pattern: arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-z]{2}-[a-z]+-\d{1,2}:[a-zA-Z0-9-]+:[^:]+(?:/[^:]+)*(?:/[^:]+)?(?:\:[^:]+)? templateArn -&gt; (string) Amazon Resource Names(ARN) Constraints: o min: 20 o max: 500 o pattern: arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-z]{2}-[a-z]+-\d{1,2}:[a-zA-Z0-9-]+:[^:]+(?:/[^:]+)*(?:/[^:]+)?(?:\:[^:]+)? templateParameters -&gt; (map) [required] A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in contact flows just like any other contact attributes. key -&gt; (string) The key of the attribute. Attribute keys can in- clude only alphanumeric, dash, and underscore characters. Constraints: o min: 0 o max: 32767 o pattern: [a-zA-Z0-9\-_]+ value -&gt; (string) The value of the attribute. Constraints: o min: 0 o max: 32767 o pattern: .* JSON Syntax: [ { "clientToken": "string", "expirationTime": timestamp, "channelSubtypeParameters": { "telephony": { "destinationPhoneNumber": "string", "attributes": {"string": "string" ...}, "connectSourcePhoneNumber": "string", "answerMachineDetectionConfig": { "enableAnswerMachineDetection": true|false, "awaitAnswerMachinePrompt": true|false }, "ringTimeout": integer }, "sms": { "destinationPhoneNumber": "string", "connectSourcePhoneNumberArn": "string", "templateArn": "string", "templateParameters": {"string": "string" ...} }, "email": { "destinationEmailAddress": "string", "connectSourceEmailAddress": "string", "templateArn": "string", "templateParameters": {"string": "string" ...} }, "whatsApp": { "destinationPhoneNumber": "string", "connectSourcePhoneNumberArn": "string", "templateArn": "string", "templateParameters": {"string": "string" ...} } } } ... ]
+    /// </summary>
     [CliOption("--outbound-requests", GroupValues = true)]
-    public IEnumerable<string>? OutboundRequests { get; set; }
+    public IEnumerable<string>? OutboundRequests { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

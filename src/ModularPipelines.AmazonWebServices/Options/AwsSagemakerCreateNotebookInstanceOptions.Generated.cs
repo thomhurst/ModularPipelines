@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "create-notebook-instance")]
-public record AwsSagemakerCreateNotebookInstanceOptions : AwsOptions
+public record AwsSagemakerCreateNotebookInstanceOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--notebook-instance-name")]
-    public string? NotebookInstanceName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an SageMaker AI notebook instance. A notebook instance is a ma- chine learning (ML) compute instance running on a Jupyter notebook. In a CreateNotebookInstance request, specify the type of ML compute in- stance that you want to run. SageMaker AI launches the instance, in- stalls common libraries that you can use to explore datasets for model training, and attaches an ML storage volume to the notebook instance. SageMaker AI also provides a set of example notebooks. Each notebook demonstra...
+    /// </summary>
+    /// <param name="NotebookInstanceName">The name of the new notebook instance. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9])*</param>
+    /// <param name="InstanceType">The type of ML compute instance to launch for the notebook instance. Possible values: o ml.t2.medium o ml.t2.large o ml.t2.xlarge o ml.t2.2xlarge o ml.t3.medium o ml.t3.large o ml.t3.xlarge o ml.t3.2xlarge o ml.m4.xlarge o ml.m4.2xlarge o ml.m4.4xlarge o ml.m4.10xlarge o ml.m4.16xlarge o ml.m5.xlarge o ml.m5.2xlarge o ml.m5.4xlarge o ml.m5.12xlarge o ml.m5.24xlarge o ml.m5d.large o ml.m5d.xlarge o ml.m5d.2xlarge o ml.m5d.4xlarge o ml.m5d.8xlarge o ml.m5d.12xlarge o ml.m5d.16xlarge o ml.m5d.24xlarge o ml.c4.xlarge o ml.c4.2xlarge o ml.c4.4xlarge o ml.c4.8xlarge o ml.c5.xlarge o ml.c5.2xlarge o ml.c5.4xlarge o ml.c5.9xlarge o ml.c5.18xlarge o ml.c5d.xlarge o ml.c5d.2xlarge o ml.c5d.4xlarge o ml.c5d.9xlarge o ml.c5d.18xlarge o ml.p2.xlarge o ml.p2.8xlarge o ml.p2.16xlarge o ml.p3.2xlarge o ml.p3.8xlarge o ml.p3.16xlarge o ml.p3dn.24xlarge o ml.g4dn.xlarge o ml.g4dn.2xlarge o ml.g4dn.4xlarge o ml.g4dn.8xlarge o ml.g4dn.12xlarge o ml.g4dn.16xlarge o ml.r5.large o ml.r5.xlarge o ml.r5.2xlarge o ml.r5.4xlarge o ml.r5.8xlarge o ml.r5.12xlarge o ml.r5.16xlarge o ml.r5.24xlarge o ml.g5.xlarge o ml.g5.2xlarge o ml.g5.4xlarge o ml.g5.8xlarge o ml.g5.16xlarge o ml.g5.12xlarge o ml.g5.24xlarge o ml.g5.48xlarge o ml.inf1.xlarge o ml.inf1.2xlarge o ml.inf1.6xlarge o ml.inf1.24xlarge o ml.trn1.2xlarge o ml.trn1.32xlarge o ml.trn1n.32xlarge o ml.inf2.xlarge o ml.inf2.8xlarge o ml.inf2.24xlarge o ml.inf2.48xlarge o ml.p4d.24xlarge o ml.p4de.24xlarge o ml.p5.48xlarge o ml.p6-b200.48xlarge o ml.m6i.large o ml.m6i.xlarge o ml.m6i.2xlarge o ml.m6i.4xlarge o ml.m6i.8xlarge o ml.m6i.12xlarge o ml.m6i.16xlarge o ml.m6i.24xlarge o ml.m6i.32xlarge o ml.m7i.large o ml.m7i.xlarge o ml.m7i.2xlarge o ml.m7i.4xlarge o ml.m7i.8xlarge o ml.m7i.12xlarge o ml.m7i.16xlarge o ml.m7i.24xlarge o ml.m7i.48xlarge o ml.c6i.large o ml.c6i.xlarge o ml.c6i.2xlarge o ml.c6i.4xlarge o ml.c6i.8xlarge o ml.c6i.12xlarge o ml.c6i.16xlarge o ml.c6i.24xlarge o ml.c6i.32xlarge o ml.c7i.large o ml.c7i.xlarge o ml.c7i.2xlarge o ml.c7i.4xlarge o ml.c7i.8xlarge o ml.c7i.12xlarge o ml.c7i.16xlarge o ml.c7i.24xlarge o ml.c7i.48xlarge o ml.r6i.large o ml.r6i.xlarge o ml.r6i.2xlarge o ml.r6i.4xlarge o ml.r6i.8xlarge o ml.r6i.12xlarge o ml.r6i.16xlarge o ml.r6i.24xlarge o ml.r6i.32xlarge o ml.r7i.large o ml.r7i.xlarge o ml.r7i.2xlarge o ml.r7i.4xlarge o ml.r7i.8xlarge o ml.r7i.12xlarge o ml.r7i.16xlarge o ml.r7i.24xlarge o ml.r7i.48xlarge o ml.m6id.large o ml.m6id.xlarge o ml.m6id.2xlarge o ml.m6id.4xlarge o ml.m6id.8xlarge o ml.m6id.12xlarge o ml.m6id.16xlarge o ml.m6id.24xlarge o ml.m6id.32xlarge o ml.c6id.large o ml.c6id.xlarge o ml.c6id.2xlarge o ml.c6id.4xlarge o ml.c6id.8xlarge o ml.c6id.12xlarge o ml.c6id.16xlarge o ml.c6id.24xlarge o ml.c6id.32xlarge o ml.r6id.large o ml.r6id.xlarge o ml.r6id.2xlarge o ml.r6id.4xlarge o ml.r6id.8xlarge o ml.r6id.12xlarge o ml.r6id.16xlarge o ml.r6id.24xlarge o ml.r6id.32xlarge o ml.g6.xlarge o ml.g6.2xlarge o ml.g6.4xlarge o ml.g6.8xlarge o ml.g6.12xlarge o ml.g6.16xlarge o ml.g6.24xlarge o ml.g6.48xlarge o ml.g7e.2xlarge o ml.g7e.4xlarge o ml.g7e.8xlarge o ml.g7e.12xlarge o ml.g7e.24xlarge o ml.g7e.48xlarge o ml.p5.4xlarge o ml.p5en.48xlarge o ml.g6e.xlarge o ml.g6e.2xlarge o ml.g6e.4xlarge o ml.g6e.8xlarge o ml.g6e.12xlarge o ml.g6e.16xlarge o ml.g6e.24xlarge o ml.g6e.48xlarge</param>
+    /// <param name="RoleArn">When you send any requests to Amazon Web Services resources from the notebook instance, SageMaker AI assumes this role to perform tasks on your behalf. You must grant this role necessary permissions so SageMaker AI can perform these tasks. The policy must allow the SageMaker AI service principal (sagemaker.amazonaws.com) permissions to assume this role. For more information, see SageMaker AI Roles . NOTE: To be able to pass this role to SageMaker AI, the caller of this API must have the iam:PassRole permission. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+</param>
+    public AwsSagemakerCreateNotebookInstanceOptions(
+        string NotebookInstanceName,
+        string InstanceType,
+        string RoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NotebookInstanceName);
+        this.NotebookInstanceName = NotebookInstanceName;
+        global::System.ArgumentNullException.ThrowIfNull(InstanceType);
+        this.InstanceType = InstanceType;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+    }
+
+    private AwsSagemakerCreateNotebookInstanceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerCreateNotebookInstanceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerCreateNotebookInstanceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the new notebook instance. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9])*
+    /// </summary>
+    [CliOption("--notebook-instance-name")]
+    public string? NotebookInstanceName { get; private init; }
+
+    /// <summary>
+    /// The type of ML compute instance to launch for the notebook instance. Possible values: o ml.t2.medium o ml.t2.large o ml.t2.xlarge o ml.t2.2xlarge o ml.t3.medium o ml.t3.large o ml.t3.xlarge o ml.t3.2xlarge o ml.m4.xlarge o ml.m4.2xlarge o ml.m4.4xlarge o ml.m4.10xlarge o ml.m4.16xlarge o ml.m5.xlarge o ml.m5.2xlarge o ml.m5.4xlarge o ml.m5.12xlarge o ml.m5.24xlarge o ml.m5d.large o ml.m5d.xlarge o ml.m5d.2xlarge o ml.m5d.4xlarge o ml.m5d.8xlarge o ml.m5d.12xlarge o ml.m5d.16xlarge o ml.m5d.24xlarge o ml.c4.xlarge o ml.c4.2xlarge o ml.c4.4xlarge o ml.c4.8xlarge o ml.c5.xlarge o ml.c5.2xlarge o ml.c5.4xlarge o ml.c5.9xlarge o ml.c5.18xlarge o ml.c5d.xlarge o ml.c5d.2xlarge o ml.c5d.4xlarge o ml.c5d.9xlarge o ml.c5d.18xlarge o ml.p2.xlarge o ml.p2.8xlarge o ml.p2.16xlarge o ml.p3.2xlarge o ml.p3.8xlarge o ml.p3.16xlarge o ml.p3dn.24xlarge o ml.g4dn.xlarge o ml.g4dn.2xlarge o ml.g4dn.4xlarge o ml.g4dn.8xlarge o ml.g4dn.12xlarge o ml.g4dn.16xlarge o ml.r5.large o ml.r5.xlarge o ml.r5.2xlarge o ml.r5.4xlarge o ml.r5.8xlarge o ml.r5.12xlarge o ml.r5.16xlarge o ml.r5.24xlarge o ml.g5.xlarge o ml.g5.2xlarge o ml.g5.4xlarge o ml.g5.8xlarge o ml.g5.16xlarge o ml.g5.12xlarge o ml.g5.24xlarge o ml.g5.48xlarge o ml.inf1.xlarge o ml.inf1.2xlarge o ml.inf1.6xlarge o ml.inf1.24xlarge o ml.trn1.2xlarge o ml.trn1.32xlarge o ml.trn1n.32xlarge o ml.inf2.xlarge o ml.inf2.8xlarge o ml.inf2.24xlarge o ml.inf2.48xlarge o ml.p4d.24xlarge o ml.p4de.24xlarge o ml.p5.48xlarge o ml.p6-b200.48xlarge o ml.m6i.large o ml.m6i.xlarge o ml.m6i.2xlarge o ml.m6i.4xlarge o ml.m6i.8xlarge o ml.m6i.12xlarge o ml.m6i.16xlarge o ml.m6i.24xlarge o ml.m6i.32xlarge o ml.m7i.large o ml.m7i.xlarge o ml.m7i.2xlarge o ml.m7i.4xlarge o ml.m7i.8xlarge o ml.m7i.12xlarge o ml.m7i.16xlarge o ml.m7i.24xlarge o ml.m7i.48xlarge o ml.c6i.large o ml.c6i.xlarge o ml.c6i.2xlarge o ml.c6i.4xlarge o ml.c6i.8xlarge o ml.c6i.12xlarge o ml.c6i.16xlarge o ml.c6i.24xlarge o ml.c6i.32xlarge o ml.c7i.large o ml.c7i.xlarge o ml.c7i.2xlarge o ml.c7i.4xlarge o ml.c7i.8xlarge o ml.c7i.12xlarge o ml.c7i.16xlarge o ml.c7i.24xlarge o ml.c7i.48xlarge o ml.r6i.large o ml.r6i.xlarge o ml.r6i.2xlarge o ml.r6i.4xlarge o ml.r6i.8xlarge o ml.r6i.12xlarge o ml.r6i.16xlarge o ml.r6i.24xlarge o ml.r6i.32xlarge o ml.r7i.large o ml.r7i.xlarge o ml.r7i.2xlarge o ml.r7i.4xlarge o ml.r7i.8xlarge o ml.r7i.12xlarge o ml.r7i.16xlarge o ml.r7i.24xlarge o ml.r7i.48xlarge o ml.m6id.large o ml.m6id.xlarge o ml.m6id.2xlarge o ml.m6id.4xlarge o ml.m6id.8xlarge o ml.m6id.12xlarge o ml.m6id.16xlarge o ml.m6id.24xlarge o ml.m6id.32xlarge o ml.c6id.large o ml.c6id.xlarge o ml.c6id.2xlarge o ml.c6id.4xlarge o ml.c6id.8xlarge o ml.c6id.12xlarge o ml.c6id.16xlarge o ml.c6id.24xlarge o ml.c6id.32xlarge o ml.r6id.large o ml.r6id.xlarge o ml.r6id.2xlarge o ml.r6id.4xlarge o ml.r6id.8xlarge o ml.r6id.12xlarge o ml.r6id.16xlarge o ml.r6id.24xlarge o ml.r6id.32xlarge o ml.g6.xlarge o ml.g6.2xlarge o ml.g6.4xlarge o ml.g6.8xlarge o ml.g6.12xlarge o ml.g6.16xlarge o ml.g6.24xlarge o ml.g6.48xlarge o ml.g7e.2xlarge o ml.g7e.4xlarge o ml.g7e.8xlarge o ml.g7e.12xlarge o ml.g7e.24xlarge o ml.g7e.48xlarge o ml.p5.4xlarge o ml.p5en.48xlarge o ml.g6e.xlarge o ml.g6e.2xlarge o ml.g6e.4xlarge o ml.g6e.8xlarge o ml.g6e.12xlarge o ml.g6e.16xlarge o ml.g6e.24xlarge o ml.g6e.48xlarge
+    /// </summary>
     [CliOption("--instance-type")]
-    public string? InstanceType { get; set; }
+    public string? InstanceType { get; private init; }
+
+    /// <summary>
+    /// When you send any requests to Amazon Web Services resources from the notebook instance, SageMaker AI assumes this role to perform tasks on your behalf. You must grant this role necessary permissions so SageMaker AI can perform these tasks. The policy must allow the SageMaker AI service principal (sagemaker.amazonaws.com) permissions to assume this role. For more information, see SageMaker AI Roles . NOTE: To be able to pass this role to SageMaker AI, the caller of this API must have the iam:PassRole permission. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+
+    /// </summary>
+    [CliOption("--role-arn")]
+    public string? RoleArn { get; private init; }
 
     /// <summary>
     /// The ID of the subnet in a VPC to which you would like to have a con- nectivity from your ML compute instance. Constraints: o min: 0 o max: 32 o pattern: [-0-9a-zA-Z]+
@@ -45,9 +99,6 @@ public record AwsSagemakerCreateNotebookInstanceOptions : AwsOptions
     /// </summary>
     [CliOption("--ip-address-type")]
     public AwsSagemakerCreateNotebookInstanceIpAddressType? IpAddressType { get; set; }
-
-    [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
 
     /// <summary>
     /// The Amazon Resource Name (ARN) of a Amazon Web Services Key Manage- ment Service key that SageMaker AI uses to encrypt data on the stor- age volume attached to your notebook instance. The KMS key you pro- vide must be enabled. For information, see Enabling and Disabling Keys in the Amazon Web Services Key Management Service Developer Guide . Constraints: o min: 0 o max: 2048 o pattern: [a-zA-Z0-9:/_-]*
@@ -120,5 +171,22 @@ public record AwsSagemakerCreateNotebookInstanceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

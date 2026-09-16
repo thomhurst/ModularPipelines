@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,22 +21,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apigateway", "get-usage")]
-public record AwsApigatewayGetUsageOptions : AwsOptions
+public record AwsApigatewayGetUsageOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Gets the usage data of a usage plan in a specified time interval. See also: AWS API Documentation get-usage is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagi- nation by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query ar- gument must extract data from the results of the following query ex- pressions: items
+    /// </summary>
+    /// <param name="UsagePlanId">The Id of the usage plan associated with the usage data.</param>
+    /// <param name="StartDate">The starting date (e.g., 2016-01-01) of the usage data.</param>
+    /// <param name="EndDate">The ending date (e.g., 2016-12-31) of the usage data.</param>
+    public AwsApigatewayGetUsageOptions(
+        string UsagePlanId,
+        string StartDate,
+        string EndDate
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(UsagePlanId);
+        this.UsagePlanId = UsagePlanId;
+        global::System.ArgumentNullException.ThrowIfNull(StartDate);
+        this.StartDate = StartDate;
+        global::System.ArgumentNullException.ThrowIfNull(EndDate);
+        this.EndDate = EndDate;
+    }
+
+    private AwsApigatewayGetUsageOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApigatewayGetUsageOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApigatewayGetUsageOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Id of the usage plan associated with the usage data.
+    /// </summary>
     [CliOption("--usage-plan-id")]
-    public string? UsagePlanId { get; set; }
+    public string? UsagePlanId { get; private init; }
+
+    /// <summary>
+    /// The starting date (e.g., 2016-01-01) of the usage data.
+    /// </summary>
+    [CliOption("--start-date")]
+    public string? StartDate { get; private init; }
+
+    /// <summary>
+    /// The ending date (e.g., 2016-12-31) of the usage data.
+    /// </summary>
+    [CliOption("--end-date")]
+    public string? EndDate { get; private init; }
 
     /// <summary>
     /// The Id of the API key associated with the resultant usage data.
     /// </summary>
     [CliOption("--key-id")]
     public string? KeyId { get; set; }
-
-    [CliOption("--start-date")]
-    public string? StartDate { get; set; }
-
-    [CliOption("--end-date")]
-    public string? EndDate { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -61,5 +112,22 @@ public record AwsApigatewayGetUsageOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

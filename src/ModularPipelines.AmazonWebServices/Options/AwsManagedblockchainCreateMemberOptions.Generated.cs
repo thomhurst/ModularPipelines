@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("managedblockchain", "create-member")]
-public record AwsManagedblockchainCreateMemberOptions : AwsOptions
+public record AwsManagedblockchainCreateMemberOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a member within a Managed Blockchain network. Applies only to Hyperledger Fabric. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InvitationId">The unique identifier of the invitation that is sent to the member to join the network. Constraints: o min: 1 o max: 32</param>
+    /// <param name="NetworkId">The unique identifier of the network in which the member is created. Constraints: o min: 1 o max: 32</param>
+    /// <param name="MemberConfiguration">Member configuration parameters. Name -&gt; (string) [required] The name of the member. Constraints: o min: 1 o max: 64 o pattern: ^(?!-|[0-9])(?!.*-$)(?!.*?--)[a-zA-Z0-9-]+$ Description -&gt; (string) An optional description of the member. Constraints: o max: 128 FrameworkConfiguration -&gt; (structure) [required] Configuration properties of the blockchain framework relevant to the member. Fabric -&gt; (structure) Attributes of Hyperledger Fabric for a member on a Managed Blockchain network that uses Hyperledger Fabric. AdminUsername -&gt; (string) [required] The user name for the member's initial administrative user. Constraints: o min: 1 o max: 16 o pattern: ^[a-zA-Z][a-zA-Z0-9]*$ AdminPassword -&gt; (string) [required] The password for the member's initial administrative user. The AdminPassword must be at least 8 characters long and no more than 32 characters. It must contain at least one uppercase letter, one lowercase letter, and one digit. It cannot have a single quotation mark (), a dou- ble quotation marks (), a forward slash(/), a backward slash(), @, or a space. Constraints: o min: 8 o max: 32 o pattern: ^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?!.*[@'\\"/])[a-zA-Z0-9\S]*$ LogPublishingConfiguration -&gt; (structure) Configuration properties for logging events associated with a member of a Managed Blockchain network. Fabric -&gt; (structure) Configuration properties for logging events associated with a member of a Managed Blockchain network using the Hyperledger Fabric framework. CaLogs -&gt; (structure) Configuration properties for logging events associated with a member's Certificate Authority (CA). CA logs help you determine when a member in your account joins the network, or when new peers register with a member CA. Cloudwatch -&gt; (structure) Parameters for publishing logs to Amazon CloudWatch Logs. Enabled -&gt; (boolean) Indicates whether logging is enabled. Tags -&gt; (map) Tags assigned to the member. Tags consist of a key and optional value. When specifying tags during creation, you can specify multiple key-value pairs in a single request, with an overall maximum of 50 tags added to each resource. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Ethereum Developer Guide , or Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide . Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 KmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the customer managed key in Key Management Service (KMS) to use for encryption at rest in the member. This parameter is inherited by any nodes that this member creates. For more information, see Encryption at Rest in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide . Use one of the following options to specify this parameter: o Undefined or empty string - By default, use an KMS key that is owned and managed by Amazon Web Services on your behalf. o A valid symmetric customer managed KMS key - Use the specified KMS key in your account that you create, own, and manage. Ama- zon Managed Blockchain doesn't support asymmetric keys. For more information, see Using symmetric and asymmetric keys in the Key Management Service Developer Guide . The following is an example of a KMS key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab Constraints: o min: 1 o max: 1011 o pattern: ^arn:.+:.+:.+:.+:.+ JSON Syntax: { "Name": "string", "Description": "string", "FrameworkConfiguration": { "Fabric": { "AdminUsername": "string", "AdminPassword": "string" } }, "LogPublishingConfiguration": { "Fabric": { "CaLogs": { "Cloudwatch": { "Enabled": true|false } } } }, "Tags": {"string": "string" ...}, "KmsKeyArn": "string" }</param>
+    public AwsManagedblockchainCreateMemberOptions(
+        string InvitationId,
+        string NetworkId,
+        string MemberConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InvitationId);
+        this.InvitationId = InvitationId;
+        global::System.ArgumentNullException.ThrowIfNull(NetworkId);
+        this.NetworkId = NetworkId;
+        global::System.ArgumentNullException.ThrowIfNull(MemberConfiguration);
+        this.MemberConfiguration = MemberConfiguration;
+    }
+
+    private AwsManagedblockchainCreateMemberOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsManagedblockchainCreateMemberOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsManagedblockchainCreateMemberOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the invitation that is sent to the member to join the network. Constraints: o min: 1 o max: 32
+    /// </summary>
+    [CliOption("--invitation-id")]
+    public string? InvitationId { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the network in which the member is created. Constraints: o min: 1 o max: 32
+    /// </summary>
+    [CliOption("--network-id")]
+    public string? NetworkId { get; private init; }
+
+    /// <summary>
+    /// Member configuration parameters. Name -&gt; (string) [required] The name of the member. Constraints: o min: 1 o max: 64 o pattern: ^(?!-|[0-9])(?!.*-$)(?!.*?--)[a-zA-Z0-9-]+$ Description -&gt; (string) An optional description of the member. Constraints: o max: 128 FrameworkConfiguration -&gt; (structure) [required] Configuration properties of the blockchain framework relevant to the member. Fabric -&gt; (structure) Attributes of Hyperledger Fabric for a member on a Managed Blockchain network that uses Hyperledger Fabric. AdminUsername -&gt; (string) [required] The user name for the member's initial administrative user. Constraints: o min: 1 o max: 16 o pattern: ^[a-zA-Z][a-zA-Z0-9]*$ AdminPassword -&gt; (string) [required] The password for the member's initial administrative user. The AdminPassword must be at least 8 characters long and no more than 32 characters. It must contain at least one uppercase letter, one lowercase letter, and one digit. It cannot have a single quotation mark (), a dou- ble quotation marks (), a forward slash(/), a backward slash(), @, or a space. Constraints: o min: 8 o max: 32 o pattern: ^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?!.*[@'\\"/])[a-zA-Z0-9\S]*$ LogPublishingConfiguration -&gt; (structure) Configuration properties for logging events associated with a member of a Managed Blockchain network. Fabric -&gt; (structure) Configuration properties for logging events associated with a member of a Managed Blockchain network using the Hyperledger Fabric framework. CaLogs -&gt; (structure) Configuration properties for logging events associated with a member's Certificate Authority (CA). CA logs help you determine when a member in your account joins the network, or when new peers register with a member CA. Cloudwatch -&gt; (structure) Parameters for publishing logs to Amazon CloudWatch Logs. Enabled -&gt; (boolean) Indicates whether logging is enabled. Tags -&gt; (map) Tags assigned to the member. Tags consist of a key and optional value. When specifying tags during creation, you can specify multiple key-value pairs in a single request, with an overall maximum of 50 tags added to each resource. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Ethereum Developer Guide , or Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide . Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 KmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the customer managed key in Key Management Service (KMS) to use for encryption at rest in the member. This parameter is inherited by any nodes that this member creates. For more information, see Encryption at Rest in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide . Use one of the following options to specify this parameter: o Undefined or empty string - By default, use an KMS key that is owned and managed by Amazon Web Services on your behalf. o A valid symmetric customer managed KMS key - Use the specified KMS key in your account that you create, own, and manage. Ama- zon Managed Blockchain doesn't support asymmetric keys. For more information, see Using symmetric and asymmetric keys in the Key Management Service Developer Guide . The following is an example of a KMS key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab Constraints: o min: 1 o max: 1011 o pattern: ^arn:.+:.+:.+:.+:.+ JSON Syntax: { "Name": "string", "Description": "string", "FrameworkConfiguration": { "Fabric": { "AdminUsername": "string", "AdminPassword": "string" } }, "LogPublishingConfiguration": { "Fabric": { "CaLogs": { "Cloudwatch": { "Enabled": true|false } } } }, "Tags": {"string": "string" ...}, "KmsKeyArn": "string" }
+    /// </summary>
+    [CliOption("--member-configuration")]
+    public string? MemberConfiguration { get; private init; }
+
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than one time. This identifier is required only if you make a service request directly using an HTTP client. It is generated auto- matically if you use an Amazon Web Services SDK or the CLI. Constraints: o min: 1 o max: 64
     /// </summary>
@@ -29,19 +89,27 @@ public record AwsManagedblockchainCreateMemberOptions : AwsOptions
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CliOption("--invitation-id")]
-    public string? InvitationId { get; set; }
-
-    [CliOption("--network-id")]
-    public string? NetworkId { get; set; }
-
-    [CliOption("--member-configuration")]
-    public string? MemberConfiguration { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

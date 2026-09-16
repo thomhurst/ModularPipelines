@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +20,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudwatch", "put-alarm-mute-rule")]
-public record AwsCloudwatchPutAlarmMuteRuleOptions : AwsOptions
+public record AwsCloudwatchPutAlarmMuteRuleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates or updates an alarm mute rule. Alarm mute rules automatically mute alarm actions during predefined time windows. When a mute rule is active, targeted alarms continue to evaluate metrics and transition between states, but their configured actions (such as Amazon SNS notifications or Auto Scaling actions) are muted. You can create mute rules with recurring schedules using cron expres- sions or one-time mute windows using at expressions. Each mute rule can target up to 100 specific alarms b...
+    /// </summary>
+    /// <param name="Name">The name of the alarm mute rule. This name must be unique within your Amazon Web Services account and region. Constraints: o min: 1 o max: 255</param>
+    /// <param name="Rule">The configuration that defines when and how long alarms should be muted. Schedule -&gt; (structure) [required] The schedule configuration that defines when the mute rule acti- vates and how long it remains active. Expression -&gt; (string) [required] The schedule expression that defines when the mute rule acti- vates. The expression must be between 1 and 256 characters in length. You can use one of two expression formats: o Cron expressions - For recurring mute windows. Format: cron(Minutes Hours Day-of-month Month Day-of-week) Exam- ples: o cron(0 2 * * *) - Activates daily at 2:00 AM o cron(0 2 * * SUN) - Activates every Sunday at 2:00 AM for weekly system maintenance o cron(0 1 1 * *) - Activates on the first day of each month at 1:00 AM for monthly database maintenance o cron(0 18 * * FRI) - Activates every Friday at 6:00 PM o cron(0 23 * * *) - Activates every day at 11:00 PM during nightly backup operations The characters * , - , and , are supported in all fields. English names can be used for the month (JAN-DEC) and day of week (SUN-SAT) fields. o At expressions - For one-time mute windows. Format: at(yyyy-MM-ddThh:mm) Examples: o at(2024-05-10T14:00) - Activates once on May 10, 2024 at 2:00 PM during an active incident response session o at(2024-12-23T00:00) - Activates once on December 23, 2024 at midnight during annual company shutdown Constraints: o min: 1 o max: 256 Duration -&gt; (string) [required] The length of time that alarms remain muted when the schedule activates. The duration must be between 1 and 50 characters in length. Specify the duration using ISO 8601 duration format with a minimum of 1 minute (PT1M ) and maximum of 15 days (P15D ). Examples: o PT4H - 4 hours for weekly system maintenance o P2DT12H - 2 days and 12 hours for weekend muting from Fri- day 6:00 PM to Monday 6:00 AM o PT6H - 6 hours for monthly database maintenance o PT2H - 2 hours for nightly backup operations o P7D - 7 days for annual company shutdown The duration begins when the schedule expression time is reached. For recurring schedules, the duration applies to each occurrence. Constraints: o min: 1 o max: 50 Timezone -&gt; (string) The time zone to use when evaluating the schedule expression. The time zone must be between 1 and 50 characters in length. Specify the time zone using standard timezone identifiers (for example, America/New_York , Europe/London , or Asia/Tokyo ). If you don't specify a time zone, UTC is used by default. The time zone affects how cron and at expressions are inter- preted, as well as start and expire dates you specify Examples: o America/New_York - Eastern Time (US) o America/Los_Angeles - Pacific Time (US) o Europe/London - British Time o Asia/Tokyo - Japan Standard Time o UTC - Coordinated Universal Time Constraints: o min: 1 o max: 50 Shorthand Syntax: Schedule={Expression=string,Duration=string,Timezone=string} JSON Syntax: { "Schedule": { "Expression": "string", "Duration": "string", "Timezone": "string" } }</param>
+    public AwsCloudwatchPutAlarmMuteRuleOptions(
+        string Name,
+        string Rule
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Rule);
+        this.Rule = Rule;
+    }
+
+    private AwsCloudwatchPutAlarmMuteRuleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudwatchPutAlarmMuteRuleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudwatchPutAlarmMuteRuleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the alarm mute rule. This name must be unique within your Amazon Web Services account and region. Constraints: o min: 1 o max: 255
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The configuration that defines when and how long alarms should be muted. Schedule -&gt; (structure) [required] The schedule configuration that defines when the mute rule acti- vates and how long it remains active. Expression -&gt; (string) [required] The schedule expression that defines when the mute rule acti- vates. The expression must be between 1 and 256 characters in length. You can use one of two expression formats: o Cron expressions - For recurring mute windows. Format: cron(Minutes Hours Day-of-month Month Day-of-week) Exam- ples: o cron(0 2 * * *) - Activates daily at 2:00 AM o cron(0 2 * * SUN) - Activates every Sunday at 2:00 AM for weekly system maintenance o cron(0 1 1 * *) - Activates on the first day of each month at 1:00 AM for monthly database maintenance o cron(0 18 * * FRI) - Activates every Friday at 6:00 PM o cron(0 23 * * *) - Activates every day at 11:00 PM during nightly backup operations The characters * , - , and , are supported in all fields. English names can be used for the month (JAN-DEC) and day of week (SUN-SAT) fields. o At expressions - For one-time mute windows. Format: at(yyyy-MM-ddThh:mm) Examples: o at(2024-05-10T14:00) - Activates once on May 10, 2024 at 2:00 PM during an active incident response session o at(2024-12-23T00:00) - Activates once on December 23, 2024 at midnight during annual company shutdown Constraints: o min: 1 o max: 256 Duration -&gt; (string) [required] The length of time that alarms remain muted when the schedule activates. The duration must be between 1 and 50 characters in length. Specify the duration using ISO 8601 duration format with a minimum of 1 minute (PT1M ) and maximum of 15 days (P15D ). Examples: o PT4H - 4 hours for weekly system maintenance o P2DT12H - 2 days and 12 hours for weekend muting from Fri- day 6:00 PM to Monday 6:00 AM o PT6H - 6 hours for monthly database maintenance o PT2H - 2 hours for nightly backup operations o P7D - 7 days for annual company shutdown The duration begins when the schedule expression time is reached. For recurring schedules, the duration applies to each occurrence. Constraints: o min: 1 o max: 50 Timezone -&gt; (string) The time zone to use when evaluating the schedule expression. The time zone must be between 1 and 50 characters in length. Specify the time zone using standard timezone identifiers (for example, America/New_York , Europe/London , or Asia/Tokyo ). If you don't specify a time zone, UTC is used by default. The time zone affects how cron and at expressions are inter- preted, as well as start and expire dates you specify Examples: o America/New_York - Eastern Time (US) o America/Los_Angeles - Pacific Time (US) o Europe/London - British Time o Asia/Tokyo - Japan Standard Time o UTC - Coordinated Universal Time Constraints: o min: 1 o max: 50 Shorthand Syntax: Schedule={Expression=string,Duration=string,Timezone=string} JSON Syntax: { "Schedule": { "Expression": "string", "Duration": "string", "Timezone": "string" } }
+    /// </summary>
+    [CliOption("--rule")]
+    public string? Rule { get; private init; }
 
     /// <summary>
     /// A description of the alarm mute rule that helps you identify its purpose. Constraints: o min: 0 o max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--rule")]
-    public string? Rule { get; set; }
 
     /// <summary>
     /// Specifies which alarms this rule applies to. AlarmNames -&gt; (list) [required] The list of alarm names that this mute rule targets. You can specify up to 100 alarm names. Each alarm name must be between 1 and 255 characters in length. The alarm names must match existing alarms in your Amazon Web Services account and region. Constraints: o max: 100 (string) Constraints: o min: 1 o max: 255 Shorthand Syntax: AlarmNames=string,string JSON Syntax: { "AlarmNames": ["string", ...] }
@@ -62,5 +106,22 @@ public record AwsCloudwatchPutAlarmMuteRuleOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

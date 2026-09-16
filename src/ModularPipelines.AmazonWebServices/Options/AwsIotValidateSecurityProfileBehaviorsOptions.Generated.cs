@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,79 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "validate-security-profile-behaviors")]
-public record AwsIotValidateSecurityProfileBehaviorsOptions : AwsOptions
+public record AwsIotValidateSecurityProfileBehaviorsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Devel- oper Guide. There is no change to IoT Device Defender audit avail- ability. Validates a Device Defender security profile behaviors specification. Require...
+    /// </summary>
+    /// <param name="Behaviors">Specifies the behaviors that, when violated by a device (thing), cause an alert. Constraints: o max: 100 (structure) A Device Defender security profile behavior. name -&gt; (string) [required] The name you've given to the behavior. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+ metric -&gt; (string) What is measured by the behavior. metricDimension -&gt; (structure) The dimension for a metric in your behavior. For example, us- ing a TOPIC_FILTER dimension, you can narrow down the scope of the metric to only MQTT topics where the name matches the pattern specified in the dimension. This can't be used with custom metrics. dimensionName -&gt; (string) [required] A unique identifier for the dimension. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+ operator -&gt; (string) Defines how the dimensionValues of a dimension are inter- preted. For example, for dimension type TOPIC_FILTER, the IN operator, a message will be counted only if its topic matches one of the topic filters. With NOT_IN operator, a message will be counted only if it doesn't match any of the topic filters. The operator is optional: if it's not provided (is null ), it will be interpreted as IN . Possible values: o IN o NOT_IN criteria -&gt; (structure) The criteria that determine if a device is behaving normally in regard to the metric . NOTE: In the IoT console, you can choose to be sent an alert through Amazon SNS when IoT Device Defender detects that a device is behaving anomalously. comparisonOperator -&gt; (string) The operator that relates the thing measured (metric ) to the criteria (containing a value or statisticalThreshold ). Valid operators include: o string-list : in-set and not-in-set o number-list : in-set and not-in-set o ip-address-list : in-cidr-set and not-in-cidr-set o number : less-than , less-than-equals , greater-than , and greater-than-equals Possible values: o less-than o less-than-equals o greater-than o greater-than-equals o in-cidr-set o not-in-cidr-set o in-port-set o not-in-port-set o in-set o not-in-set value -&gt; (structure) The value to be compared with the metric . count -&gt; (long) If the comparisonOperator calls for a numeric value, use this to specify that numeric value to be compared with the metric . Constraints: o min: 0 cidrs -&gt; (list) If the comparisonOperator calls for a set of CIDRs, use this to specify that set to be compared with the metric . (string) Constraints: o min: 2 o max: 43 o pattern: [a-fA-F0-9:\.\/]+ ports -&gt; (list) If the comparisonOperator calls for a set of ports, use this to specify that set to be compared with the metric . (integer) Constraints: o min: 0 o max: 65535 number -&gt; (double) The numeral value of a metric. numbers -&gt; (list) The numeral values of a metric. (double) strings -&gt; (list) The string values of a metric. (string) durationSeconds -&gt; (integer) Use this to specify the time duration over which the be- havior is evaluated, for those criteria that have a time dimension (for example, NUM_MESSAGES_SENT ). For a sta- tisticalThreshhold metric comparison, measurements from all devices are accumulated over this time duration be- fore being used to calculate percentiles, and later, mea- surements from an individual device are also accumulated over this time duration before being given a percentile rank. Cannot be used with list-based metric datatypes. consecutiveDatapointsToAlarm -&gt; (integer) If a device is in violation of the behavior for the spec- ified number of consecutive datapoints, an alarm occurs. If not specified, the default is 1. Constraints: o min: 1 o max: 10 consecutiveDatapointsToClear -&gt; (integer) If an alarm has occurred and the offending device is no longer in violation of the behavior for the specified number of consecutive datapoints, the alarm is cleared. If not specified, the default is 1. Constraints: o min: 1 o max: 10 statisticalThreshold -&gt; (structure) A statistical ranking (percentile)that indicates a threshold value by which a behavior is determined to be in compliance or in violation of the behavior. statistic -&gt; (string) The percentile that resolves to a threshold value by which compliance with a behavior is determined. Met- rics are collected over the specified period (dura- tionSeconds ) from all reporting devices in your ac- count and statistical ranks are calculated. Then, the measurements from a device are collected over the same period. If the accumulated measurements from the de- vice fall above or below (comparisonOperator ) the value associated with the percentile specified, then the device is considered to be in compliance with the behavior, otherwise a violation occurs. Constraints: o pattern: (p0|p0\.1|p0\.01|p1|p10|p50|p90|p99|p99\.9|p99\.99|p100) mlDetectionConfig -&gt; (structure) The configuration of an ML Detect confidenceLevel -&gt; (string) [required] The sensitivity of anomalous behavior evaluation. Can be Low , Medium , or High . Possible values: o LOW o MEDIUM o HIGH suppressAlerts -&gt; (boolean) Suppresses alerts. exportMetric -&gt; (boolean) Value indicates exporting metrics related to the behavior when it is true. JSON Syntax: [ { "name": "string", "metric": "string", "metricDimension": { "dimensionName": "string", "operator": "IN"|"NOT_IN" }, "criteria": { "comparisonOperator": "less-than"|"less-than-equals"|"greater-than"|"greater-than-equals"|"in-cidr-set"|"not-in-cidr-set"|"in-port-set"|"not-in-port-set"|"in-set"|"not-in-set", "value": { "count": long, "cidrs": ["string", ...], "ports": [integer, ...], "number": double, "numbers": [double, ...], "strings": ["string", ...] }, "durationSeconds": integer, "consecutiveDatapointsToAlarm": integer, "consecutiveDatapointsToClear": integer, "statisticalThreshold": { "statistic": "string" }, "mlDetectionConfig": { "confidenceLevel": "LOW"|"MEDIUM"|"HIGH" } }, "suppressAlerts": true|false, "exportMetric": true|false } ... ]</param>
+    public AwsIotValidateSecurityProfileBehaviorsOptions(
+        IEnumerable<string> Behaviors
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Behaviors);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Behaviors));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Behaviors));
+            }
+
+            Behaviors = materialized;
+        }
+        this.Behaviors = Behaviors;
+    }
+
+    private AwsIotValidateSecurityProfileBehaviorsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotValidateSecurityProfileBehaviorsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotValidateSecurityProfileBehaviorsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the behaviors that, when violated by a device (thing), cause an alert. Constraints: o max: 100 (structure) A Device Defender security profile behavior. name -&gt; (string) [required] The name you've given to the behavior. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+ metric -&gt; (string) What is measured by the behavior. metricDimension -&gt; (structure) The dimension for a metric in your behavior. For example, us- ing a TOPIC_FILTER dimension, you can narrow down the scope of the metric to only MQTT topics where the name matches the pattern specified in the dimension. This can't be used with custom metrics. dimensionName -&gt; (string) [required] A unique identifier for the dimension. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+ operator -&gt; (string) Defines how the dimensionValues of a dimension are inter- preted. For example, for dimension type TOPIC_FILTER, the IN operator, a message will be counted only if its topic matches one of the topic filters. With NOT_IN operator, a message will be counted only if it doesn't match any of the topic filters. The operator is optional: if it's not provided (is null ), it will be interpreted as IN . Possible values: o IN o NOT_IN criteria -&gt; (structure) The criteria that determine if a device is behaving normally in regard to the metric . NOTE: In the IoT console, you can choose to be sent an alert through Amazon SNS when IoT Device Defender detects that a device is behaving anomalously. comparisonOperator -&gt; (string) The operator that relates the thing measured (metric ) to the criteria (containing a value or statisticalThreshold ). Valid operators include: o string-list : in-set and not-in-set o number-list : in-set and not-in-set o ip-address-list : in-cidr-set and not-in-cidr-set o number : less-than , less-than-equals , greater-than , and greater-than-equals Possible values: o less-than o less-than-equals o greater-than o greater-than-equals o in-cidr-set o not-in-cidr-set o in-port-set o not-in-port-set o in-set o not-in-set value -&gt; (structure) The value to be compared with the metric . count -&gt; (long) If the comparisonOperator calls for a numeric value, use this to specify that numeric value to be compared with the metric . Constraints: o min: 0 cidrs -&gt; (list) If the comparisonOperator calls for a set of CIDRs, use this to specify that set to be compared with the metric . (string) Constraints: o min: 2 o max: 43 o pattern: [a-fA-F0-9:\.\/]+ ports -&gt; (list) If the comparisonOperator calls for a set of ports, use this to specify that set to be compared with the metric . (integer) Constraints: o min: 0 o max: 65535 number -&gt; (double) The numeral value of a metric. numbers -&gt; (list) The numeral values of a metric. (double) strings -&gt; (list) The string values of a metric. (string) durationSeconds -&gt; (integer) Use this to specify the time duration over which the be- havior is evaluated, for those criteria that have a time dimension (for example, NUM_MESSAGES_SENT ). For a sta- tisticalThreshhold metric comparison, measurements from all devices are accumulated over this time duration be- fore being used to calculate percentiles, and later, mea- surements from an individual device are also accumulated over this time duration before being given a percentile rank. Cannot be used with list-based metric datatypes. consecutiveDatapointsToAlarm -&gt; (integer) If a device is in violation of the behavior for the spec- ified number of consecutive datapoints, an alarm occurs. If not specified, the default is 1. Constraints: o min: 1 o max: 10 consecutiveDatapointsToClear -&gt; (integer) If an alarm has occurred and the offending device is no longer in violation of the behavior for the specified number of consecutive datapoints, the alarm is cleared. If not specified, the default is 1. Constraints: o min: 1 o max: 10 statisticalThreshold -&gt; (structure) A statistical ranking (percentile)that indicates a threshold value by which a behavior is determined to be in compliance or in violation of the behavior. statistic -&gt; (string) The percentile that resolves to a threshold value by which compliance with a behavior is determined. Met- rics are collected over the specified period (dura- tionSeconds ) from all reporting devices in your ac- count and statistical ranks are calculated. Then, the measurements from a device are collected over the same period. If the accumulated measurements from the de- vice fall above or below (comparisonOperator ) the value associated with the percentile specified, then the device is considered to be in compliance with the behavior, otherwise a violation occurs. Constraints: o pattern: (p0|p0\.1|p0\.01|p1|p10|p50|p90|p99|p99\.9|p99\.99|p100) mlDetectionConfig -&gt; (structure) The configuration of an ML Detect confidenceLevel -&gt; (string) [required] The sensitivity of anomalous behavior evaluation. Can be Low , Medium , or High . Possible values: o LOW o MEDIUM o HIGH suppressAlerts -&gt; (boolean) Suppresses alerts. exportMetric -&gt; (boolean) Value indicates exporting metrics related to the behavior when it is true. JSON Syntax: [ { "name": "string", "metric": "string", "metricDimension": { "dimensionName": "string", "operator": "IN"|"NOT_IN" }, "criteria": { "comparisonOperator": "less-than"|"less-than-equals"|"greater-than"|"greater-than-equals"|"in-cidr-set"|"not-in-cidr-set"|"in-port-set"|"not-in-port-set"|"in-set"|"not-in-set", "value": { "count": long, "cidrs": ["string", ...], "ports": [integer, ...], "number": double, "numbers": [double, ...], "strings": ["string", ...] }, "durationSeconds": integer, "consecutiveDatapointsToAlarm": integer, "consecutiveDatapointsToClear": integer, "statisticalThreshold": { "statistic": "string" }, "mlDetectionConfig": { "confidenceLevel": "LOW"|"MEDIUM"|"HIGH" } }, "suppressAlerts": true|false, "exportMetric": true|false } ... ]
+    /// </summary>
     [CliOption("--behaviors", GroupValues = true)]
-    public IEnumerable<string>? Behaviors { get; set; }
+    public IEnumerable<string>? Behaviors { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

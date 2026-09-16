@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +21,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codeartifact", "describe-package-version")]
-public record AwsCodeartifactDescribePackageVersionOptions : AwsOptions
+public record AwsCodeartifactDescribePackageVersionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a PackageVersionDescription object that contains information about the requested package version. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Domain">The name of the domain that contains the repository that contains the package version. Constraints: o min: 2 o max: 50 o pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]</param>
+    /// <param name="Repository">The name of the repository that contains the package version. Constraints: o min: 2 o max: 100 o pattern: [A-Za-z0-9][A-Za-z0-9._\-]{1,99}</param>
+    /// <param name="Format">A format that specifies the type of the requested package version. Possible values: o npm o pypi o maven o nuget o generic o ruby o swift o cargo</param>
+    /// <param name="Package">The name of the requested package version. Constraints: o min: 1 o max: 255 o pattern: [^#/\s]+</param>
+    /// <param name="PackageVersion">A string that contains the package version (for example, 3.5.2 ). Constraints: o min: 1 o max: 255 o pattern: [^#/\s]+</param>
+    public AwsCodeartifactDescribePackageVersionOptions(
+        string Domain,
+        string Repository,
+        AwsCodeartifactDescribePackageVersionFormat Format,
+        string Package,
+        string PackageVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Domain);
+        this.Domain = Domain;
+        global::System.ArgumentNullException.ThrowIfNull(Repository);
+        this.Repository = Repository;
+        global::System.ArgumentNullException.ThrowIfNull(Format);
+        this.Format = Format;
+        global::System.ArgumentNullException.ThrowIfNull(Package);
+        this.Package = Package;
+        global::System.ArgumentNullException.ThrowIfNull(PackageVersion);
+        this.PackageVersion = PackageVersion;
+    }
+
+    private AwsCodeartifactDescribePackageVersionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodeartifactDescribePackageVersionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodeartifactDescribePackageVersionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the domain that contains the repository that contains the package version. Constraints: o min: 2 o max: 50 o pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]
+    /// </summary>
     [CliOption("--domain")]
-    public string? Domain { get; set; }
+    public string? Domain { get; private init; }
+
+    /// <summary>
+    /// The name of the repository that contains the package version. Constraints: o min: 2 o max: 100 o pattern: [A-Za-z0-9][A-Za-z0-9._\-]{1,99}
+    /// </summary>
+    [CliOption("--repository")]
+    public string? Repository { get; private init; }
+
+    /// <summary>
+    /// A format that specifies the type of the requested package version. Possible values: o npm o pypi o maven o nuget o generic o ruby o swift o cargo
+    /// </summary>
+    [CliOption("--format")]
+    public AwsCodeartifactDescribePackageVersionFormat? Format { get; private init; }
+
+    /// <summary>
+    /// The name of the requested package version. Constraints: o min: 1 o max: 255 o pattern: [^#/\s]+
+    /// </summary>
+    [CliOption("--package")]
+    public string? Package { get; private init; }
+
+    /// <summary>
+    /// A string that contains the package version (for example, 3.5.2 ). Constraints: o min: 1 o max: 255 o pattern: [^#/\s]+
+    /// </summary>
+    [CliOption("--package-version")]
+    public string? PackageVersion { get; private init; }
 
     /// <summary>
     /// The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include dashes or spaces. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12}
@@ -30,28 +108,33 @@ public record AwsCodeartifactDescribePackageVersionOptions : AwsOptions
     [CliOption("--domain-owner")]
     public string? DomainOwner { get; set; }
 
-    [CliOption("--repository")]
-    public string? Repository { get; set; }
-
-    [CliOption("--format")]
-    public string? Format { get; set; }
-
     /// <summary>
     /// The namespace of the requested package version. The package compo- nent that specifies its namespace depends on its type. For example: NOTE: The namespace is required when requesting package versions of the following formats: o Maven o Swift o generic o The namespace of a Maven package version is its groupId . o The namespace of an npm or Swift package version is its scope . o The namespace of a generic package is its namespace . o Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding component, package versions of those formats do not have a namespace. Constraints: o min: 1 o max: 255 o pattern: [^#/\s]+
     /// </summary>
     [CliOption("--namespace")]
     public string? Namespace { get; set; }
 
-    [CliOption("--package")]
-    public string? Package { get; set; }
-
-    [CliOption("--package-version")]
-    public string? PackageVersion { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

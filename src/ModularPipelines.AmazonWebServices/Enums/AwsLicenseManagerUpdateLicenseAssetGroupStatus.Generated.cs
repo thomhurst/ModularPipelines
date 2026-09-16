@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsLicenseManagerUpdateLicenseAssetGroupStatus
 {
     [EnumValue("ACTIVE")]
-    Active = 1,
-
-    [EnumValue("DISABLED")]
-    Disabled = 2,
+    Active,
 
     [EnumValue("DELETED")]
-    Deleted = 3
+    Deleted,
+
+    [EnumValue("DISABLED")]
+    Disabled
 }

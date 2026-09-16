@@ -41,7 +41,10 @@ public record AwsSignerListSigningJobsOptions : AwsOptions
     [CliOption("--requested-by")]
     public string? RequestedBy { get; set; }
 
-    [CliFlag("--is-revoked")]
+    /// <summary>
+    /// Filters results to return only signing jobs with revoked signatures.
+    /// </summary>
+    [CliFlag("--is-revoked", NegatedName = "--no-is-revoked")]
     public bool? IsRevoked { get; set; }
 
     /// <summary>

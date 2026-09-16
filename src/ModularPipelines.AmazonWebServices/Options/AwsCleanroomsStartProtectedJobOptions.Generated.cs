@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cleanrooms", "start-protected-job")]
-public record AwsCleanroomsStartProtectedJobOptions : AwsOptions
+public record AwsCleanroomsStartProtectedJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a protected job that is started by Clean Rooms. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Type">The type of protected job to start. Possible values: o PYSPARK</param>
+    /// <param name="MembershipIdentifier">A unique identifier for the membership to run this job against. Cur- rently accepts a membership ID. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="JobParameters">The job parameters. analysisTemplateArn -&gt; (string) [required] The ARN of the analysis template. Constraints: o min: 0 o max: 200 o pattern: arn:aws[-a-z]*:clean- rooms:[\w]{2}-[\w]{4,9}-[\d]:[\d]{12}:member- ship/[\d\w-]+/analysistemplate/[\d\w-]+ parameters -&gt; (map) Runtime configuration values passed to the PySpark analysis script. Parameter names and types must match those defined in the analysis template. key -&gt; (string) Constraints: o min: 1 o max: 100 o pattern: [0-9a-zA-Z_]+ value -&gt; (string) Constraints: o min: 0 o max: 1000 Shorthand Syntax: analysisTemplateArn=string,parameters={KeyName1=string,KeyName2=string} JSON Syntax: { "analysisTemplateArn": "string", "parameters": {"string": "string" ...} }</param>
+    public AwsCleanroomsStartProtectedJobOptions(
+        string Type,
+        string MembershipIdentifier,
+        string JobParameters
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+        global::System.ArgumentNullException.ThrowIfNull(MembershipIdentifier);
+        this.MembershipIdentifier = MembershipIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(JobParameters);
+        this.JobParameters = JobParameters;
+    }
+
+    private AwsCleanroomsStartProtectedJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCleanroomsStartProtectedJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCleanroomsStartProtectedJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The type of protected job to start. Possible values: o PYSPARK
+    /// </summary>
     [CliOption("--type")]
-    public string? Type { get; set; }
+    public string? Type { get; private init; }
 
+    /// <summary>
+    /// A unique identifier for the membership to run this job against. Cur- rently accepts a membership ID. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// </summary>
     [CliOption("--membership-identifier")]
-    public string? MembershipIdentifier { get; set; }
+    public string? MembershipIdentifier { get; private init; }
 
+    /// <summary>
+    /// The job parameters. analysisTemplateArn -&gt; (string) [required] The ARN of the analysis template. Constraints: o min: 0 o max: 200 o pattern: arn:aws[-a-z]*:clean- rooms:[\w]{2}-[\w]{4,9}-[\d]:[\d]{12}:member- ship/[\d\w-]+/analysistemplate/[\d\w-]+ parameters -&gt; (map) Runtime configuration values passed to the PySpark analysis script. Parameter names and types must match those defined in the analysis template. key -&gt; (string) Constraints: o min: 1 o max: 100 o pattern: [0-9a-zA-Z_]+ value -&gt; (string) Constraints: o min: 0 o max: 1000 Shorthand Syntax: analysisTemplateArn=string,parameters={KeyName1=string,KeyName2=string} JSON Syntax: { "analysisTemplateArn": "string", "parameters": {"string": "string" ...} }
+    /// </summary>
     [CliOption("--job-parameters")]
-    public string? JobParameters { get; set; }
+    public string? JobParameters { get; private init; }
 
     /// <summary>
     /// The details needed to write the job results. outputConfiguration -&gt; (tagged union structure) [required] The output configuration for a protected job result. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: member. member -&gt; (structure) The member of the protected job output configuration input. accountId -&gt; (string) [required] The account ID. Constraints: o min: 12 o max: 12 o pattern: \d+ Shorthand Syntax: outputConfiguration={member={accountId=string}} JSON Syntax: { "outputConfiguration": { "member": { "accountId": "string" } } }
@@ -53,5 +104,22 @@ public record AwsCleanroomsStartProtectedJobOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

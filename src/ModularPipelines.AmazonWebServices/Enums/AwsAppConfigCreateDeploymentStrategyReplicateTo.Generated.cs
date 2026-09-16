@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --replicateto.
+/// Allowed values for --replicate-to.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsAppConfigCreateDeploymentStrategyReplicateTo
 {
     [EnumValue("NONE")]
-    None = 1,
+    None,
 
     [EnumValue("SSM_DOCUMENT")]
-    SsmDocument = 2
+    SsmDocument
 }

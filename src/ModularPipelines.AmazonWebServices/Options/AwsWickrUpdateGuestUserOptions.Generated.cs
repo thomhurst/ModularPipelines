@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("wickr", "update-guest-user")]
-public record AwsWickrUpdateGuestUserOptions : AwsOptions
+public record AwsWickrUpdateGuestUserOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the block status of a guest user in a Wickr network. This oper- ation allows you to block or unblock a guest user from accessing the network. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="NetworkId">The ID of the Wickr network where the guest user's status will be updated. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}</param>
+    /// <param name="UsernameHash">The username hash (unique identifier) of the guest user to update. Constraints: o pattern: [\S\s]*</param>
+    /// <param name="Block">Set to true to block the guest user or false to unblock them.</param>
+    public AwsWickrUpdateGuestUserOptions(
+        string NetworkId,
+        string UsernameHash,
+        bool Block
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NetworkId);
+        this.NetworkId = NetworkId;
+        global::System.ArgumentNullException.ThrowIfNull(UsernameHash);
+        this.UsernameHash = UsernameHash;
+        this.Block = Block;
+    }
+
+    private AwsWickrUpdateGuestUserOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWickrUpdateGuestUserOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWickrUpdateGuestUserOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Wickr network where the guest user's status will be updated. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}
+    /// </summary>
     [CliOption("--network-id")]
-    public string? NetworkId { get; set; }
+    public string? NetworkId { get; private init; }
 
+    /// <summary>
+    /// The username hash (unique identifier) of the guest user to update. Constraints: o pattern: [\S\s]*
+    /// </summary>
     [CliOption("--username-hash")]
-    public string? UsernameHash { get; set; }
+    public string? UsernameHash { get; private init; }
 
-    [CliFlag("--block")]
-    public bool? Block { get; set; }
+    /// <summary>
+    /// Set to true to block the guest user or false to unblock them.
+    /// </summary>
+    [CliFlag("--block", NegatedName = "--no-block")]
+    public bool? Block { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,117 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "create-optimization-job")]
-public record AwsSagemakerCreateOptimizationJobOptions : AwsOptions
+public record AwsSagemakerCreateOptimizationJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a job that optimizes a model for inference performance. To cre- ate the job, you provide the location of a source model, and you pro- vide the settings for the optimization techniques that you want the job to apply. When the job completes successfully, SageMaker uploads the new optimized model to the output destination that you specify. For more information about how to use this action, and about the sup- ported optimization techniques, see Optimize model inference with Ama- zon SageMake...
+    /// </summary>
+    /// <param name="OptimizationJobName">A custom name for the new optimization job. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="RoleArn">The Amazon Resource Name (ARN) of an IAM role that enables Amazon SageMaker AI to perform tasks on your behalf. During model optimization, Amazon SageMaker AI needs your permission to: o Read input data from an S3 bucket o Write model artifacts to an S3 bucket o Write logs to Amazon CloudWatch Logs o Publish metrics to Amazon CloudWatch You grant permissions for all of these tasks to an IAM role. To pass this role to Amazon SageMaker AI, the caller of this API must have the iam:PassRole permission. For more information, see Amazon Sage- Maker AI Roles. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+</param>
+    /// <param name="ModelSource">The location of the source model to optimize with an optimization job. S3 -&gt; (structure) The Amazon S3 location of a source model to optimize with an op- timization job. S3Uri -&gt; (string) An Amazon S3 URI that locates a source model to optimize with an optimization job. Constraints: o min: 0 o max: 1024 o pattern: (https|s3)://([^/]+)/?(.*) ModelAccessConfig -&gt; (structure) The access configuration settings for the source ML model for an optimization job, where you can accept the model end-user license agreement (EULA). AcceptEula -&gt; (boolean) [required] Specifies agreement to the model end-user license agree- ment (EULA). The AcceptEula value must be explicitly de- fined as True in order to accept the EULA that this model requires. You are responsible for reviewing and complying with any applicable license terms and making sure they are acceptable for your use case before downloading or using a model. SageMakerModel -&gt; (structure) The name of an existing SageMaker model to optimize with an op- timization job. ModelName -&gt; (string) The name of a SageMaker model. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9]([\-a-zA-Z0-9]*[a-zA-Z0-9])? Shorthand Syntax: S3={S3Uri=string,ModelAccessConfig={AcceptEula=boolean}},SageMakerModel={ModelName=string} JSON Syntax: { "S3": { "S3Uri": "string", "ModelAccessConfig": { "AcceptEula": true|false } }, "SageMakerModel": { "ModelName": "string" } }</param>
+    /// <param name="DeploymentInstanceType">The type of instance that hosts the optimized model that you create with the optimization job. Possible values: o ml.p4d.24xlarge o ml.p4de.24xlarge o ml.p5.48xlarge o ml.p5e.48xlarge o ml.p5en.48xlarge o ml.g4dn.xlarge o ml.g4dn.2xlarge o ml.g4dn.4xlarge o ml.g4dn.8xlarge o ml.g4dn.12xlarge o ml.g4dn.16xlarge o ml.g5.xlarge o ml.g5.2xlarge o ml.g5.4xlarge o ml.g5.8xlarge o ml.g5.12xlarge o ml.g5.16xlarge o ml.g5.24xlarge o ml.g5.48xlarge o ml.g6.xlarge o ml.g6.2xlarge o ml.g6.4xlarge o ml.g6.8xlarge o ml.g6.12xlarge o ml.g6.16xlarge o ml.g6.24xlarge o ml.g6.48xlarge o ml.g6e.xlarge o ml.g6e.2xlarge o ml.g6e.4xlarge o ml.g6e.8xlarge o ml.g6e.12xlarge o ml.g6e.16xlarge o ml.g6e.24xlarge o ml.g6e.48xlarge o ml.inf2.xlarge o ml.inf2.8xlarge o ml.inf2.24xlarge o ml.inf2.48xlarge o ml.trn1.2xlarge o ml.trn1.32xlarge o ml.trn1n.32xlarge o ml.p6-b200.48xlarge o ml.g7e.2xlarge o ml.g7e.4xlarge o ml.g7e.8xlarge o ml.g7e.12xlarge o ml.g7e.24xlarge o ml.g7e.48xlarge o ml.g7.2xlarge o ml.g7.4xlarge o ml.g7.8xlarge o ml.g7.12xlarge o ml.g7.24xlarge o ml.g7.48xlarge</param>
+    /// <param name="OptimizationConfigs">Settings for each of the optimization techniques that the job ap- plies. Constraints: o min: 0 o max: 10 (tagged union structure) Settings for an optimization technique that you apply with a model optimization job. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: ModelQuantizationConfig, ModelCom- pilationConfig, ModelShardingConfig, ModelSpeculativeDecod- ingConfig. ModelQuantizationConfig -&gt; (structure) Settings for the model quantization technique that's applied by a model optimization job. Image -&gt; (string) The URI of an LMI DLC in Amazon ECR. SageMaker uses this image to run the optimization. Constraints: o min: 0 o max: 255 o pattern: [\S]+ OverrideEnvironment -&gt; (map) Environment variables that override the default ones in the model container. Constraints: o min: 0 o max: 25 key -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: (?!\s*$).+ value -&gt; (string) Constraints: o min: 0 o max: 256 ModelCompilationConfig -&gt; (structure) Settings for the model compilation technique that's applied by a model optimization job. Image -&gt; (string) The URI of an LMI DLC in Amazon ECR. SageMaker uses this image to run the optimization. Constraints: o min: 0 o max: 255 o pattern: [\S]+ OverrideEnvironment -&gt; (map) Environment variables that override the default ones in the model container. Constraints: o min: 0 o max: 25 key -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: (?!\s*$).+ value -&gt; (string) Constraints: o min: 0 o max: 256 ModelShardingConfig -&gt; (structure) Settings for the model sharding technique that's applied by a model optimization job. Image -&gt; (string) The URI of an LMI DLC in Amazon ECR. SageMaker uses this image to run the optimization. Constraints: o min: 0 o max: 255 o pattern: [\S]+ OverrideEnvironment -&gt; (map) Environment variables that override the default ones in the model container. Constraints: o min: 0 o max: 25 key -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: (?!\s*$).+ value -&gt; (string) Constraints: o min: 0 o max: 256 ModelSpeculativeDecodingConfig -&gt; (structure) Settings for the model speculative decoding technique that's applied by a model optimization job. Technique -&gt; (string) [required] The speculative decoding technique to apply during model optimization. Possible values: o EAGLE TrainingDataSource -&gt; (structure) The location of the training data to use for speculative decoding. The data must be formatted as ShareGPT, OpenAI Completions or OpenAI Chat Completions. The input can also be unencrypted captured data from a SageMaker end- point as long as the endpoint uses one of the above for- mats. S3Uri -&gt; (string) [required] The Amazon S3 URI that points to the training data for speculative decoding. Constraints: o min: 0 o max: 1024 o pattern: (https|s3)://([^/]+)/?(.*) S3DataType -&gt; (string) [required] The type of data stored in the Amazon S3 location. Valid values are S3Prefix or ManifestFile . Possible values: o S3Prefix o ManifestFile Shorthand Syntax: ModelQuantizationConfig={Image=string,OverrideEnvironment={KeyName1=string,KeyName2=string}},ModelCompilationConfig={Image=string,OverrideEnvironment={KeyName1=string,KeyName2=string}},ModelShardingConfig={Image=string,OverrideEnvironment={KeyName1=string,KeyName2=string}},ModelSpeculativeDecodingConfig={Technique=string,TrainingDataSource={S3Uri=string,S3DataType=string}} ... JSON Syntax: [ { "ModelQuantizationConfig": { "Image": "string", "OverrideEnvironment": {"string": "string" ...} }, "ModelCompilationConfig": { "Image": "string", "OverrideEnvironment": {"string": "string" ...} }, "ModelShardingConfig": { "Image": "string", "OverrideEnvironment": {"string": "string" ...} }, "ModelSpeculativeDecodingConfig": { "Technique": "EAGLE", "TrainingDataSource": { "S3Uri": "string", "S3DataType": "S3Prefix"|"ManifestFile" } } } ... ]</param>
+    /// <param name="OutputConfig">Details for where to store the optimized model that you create with the optimization job. KmsKeyId -&gt; (string) The Amazon Resource Name (ARN) of a key in Amazon Web Services KMS. SageMaker uses they key to encrypt the artifacts of the op- timized model when SageMaker uploads the model to Amazon S3. Constraints: o min: 0 o max: 2048 o pattern: [a-zA-Z0-9:/_-]* S3OutputLocation -&gt; (string) [required] The Amazon S3 URI for where to store the optimized model that you create with an optimization job. Constraints: o min: 0 o max: 1024 o pattern: (https|s3)://([^/]+)/?(.*) SageMakerModel -&gt; (structure) The name of a SageMaker model to use as the output destination for an optimization job. ModelName -&gt; (string) The name of a SageMaker model. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9]([\-a-zA-Z0-9]*[a-zA-Z0-9])? Shorthand Syntax: KmsKeyId=string,S3OutputLocation=string,SageMakerModel={ModelName=string} JSON Syntax: { "KmsKeyId": "string", "S3OutputLocation": "string", "SageMakerModel": { "ModelName": "string" } }</param>
+    /// <param name="StoppingCondition">Specifies a limit to how long a job can run. When the job reaches the time limit, SageMaker ends the job. Use this API to cap costs. To stop a training job, SageMaker sends the algorithm the SIGTERM signal, which delays job termination for 120 seconds. Algorithms can use this 120-second window to save the model artifacts, so the re- sults of training are not lost. The training algorithms provided by SageMaker automatically save the intermediate results of a model training job when possible. This at- tempt to save artifacts is only a best effort case as model might not be in a state from which it can be saved. For example, if train- ing has just started, the model might not be ready to save. When saved, this intermediate data is a valid model artifact. You can use it to create a model with CreateModel . NOTE: The Neural Topic Model (NTM) currently does not support saving intermediate model artifacts. When training NTMs, make sure that the maximum runtime is sufficient for the training job to com- plete. MaxRuntimeInSeconds -&gt; (integer) The maximum length of time, in seconds, that a training or com- pilation job can run before it is stopped. For compilation jobs, if the job does not complete during this time, a TimeOut error is generated. We recommend starting with 900 seconds and increasing as necessary based on your model. For all other jobs, if the job does not complete during this time, SageMaker ends the job. When RetryStrategy is specified in the job request, MaxRuntimeInSeconds specifies the maximum time for all of the attempts in total, not each individual attempt. The default value is 1 day. The maximum value is 28 days. The maximum time that a TrainingJob can run in total, including any time spent publishing metrics or archiving and uploading models after it has been stopped, is 30 days. Constraints: o min: 1 MaxWaitTimeInSeconds -&gt; (integer) The maximum length of time, in seconds, that a managed Spot training job has to complete. It is the amount of time spent waiting for Spot capacity plus the amount of time the job can run. It must be equal to or greater than MaxRuntimeInSeconds . If the job does not complete during this time, SageMaker ends the job. When RetryStrategy is specified in the job request, MaxWait- TimeInSeconds specifies the maximum time for all of the attempts in total, not each individual attempt. Constraints: o min: 1 MaxPendingTimeInSeconds -&gt; (integer) The maximum length of time, in seconds, that a training or com- pilation job can be pending before it is stopped. NOTE: When working with training jobs that use capacity from training plans , not all Pending job states count against the MaxPendingTimeInSeconds limit. The following scenarios do not increment the MaxPendingTimeInSeconds counter: o The plan is in a Scheduled state: Jobs queued (in Pending status) before a plan's start date (waiting for scheduled start time) o Between capacity reservations: Jobs temporarily back to Pending status between two capacity reservation periods MaxPendingTimeInSeconds only increments when jobs are ac- tively waiting for capacity in an Active plan. NOTE: o MaxPendingTimeInSeconds takes effect only for jobs that re- quest accelerated computing instance types, such as in- stances in the ml.p , ml.g , and ml.trn families. It has no effect on jobs that request CPU-only instance types. o If the job specifies InstancePreferences , MaxPending- TimeInSeconds bounds the total time SageMaker spends work- ing through your list of instance types. It is not applied per instance type preference, and takes effect only when the list includes at least one accelerated computing in- stance type. Constraints: o min: 1800 o max: 2419200 Shorthand Syntax: MaxRuntimeInSeconds=integer,MaxWaitTimeInSeconds=integer,MaxPendingTimeInSeconds=integer JSON Syntax: { "MaxRuntimeInSeconds": integer, "MaxWaitTimeInSeconds": integer, "MaxPendingTimeInSeconds": integer }</param>
+    public AwsSagemakerCreateOptimizationJobOptions(
+        string OptimizationJobName,
+        string RoleArn,
+        string ModelSource,
+        string DeploymentInstanceType,
+        IEnumerable<string> OptimizationConfigs,
+        string OutputConfig,
+        string StoppingCondition
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OptimizationJobName);
+        this.OptimizationJobName = OptimizationJobName;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+        global::System.ArgumentNullException.ThrowIfNull(ModelSource);
+        this.ModelSource = ModelSource;
+        global::System.ArgumentNullException.ThrowIfNull(DeploymentInstanceType);
+        this.DeploymentInstanceType = DeploymentInstanceType;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(OptimizationConfigs);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(OptimizationConfigs));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(OptimizationConfigs));
+            }
+
+            OptimizationConfigs = materialized;
+        }
+        this.OptimizationConfigs = OptimizationConfigs;
+        global::System.ArgumentNullException.ThrowIfNull(OutputConfig);
+        this.OutputConfig = OutputConfig;
+        global::System.ArgumentNullException.ThrowIfNull(StoppingCondition);
+        this.StoppingCondition = StoppingCondition;
+    }
+
+    private AwsSagemakerCreateOptimizationJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerCreateOptimizationJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerCreateOptimizationJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A custom name for the new optimization job. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// </summary>
     [CliOption("--optimization-job-name")]
-    public string? OptimizationJobName { get; set; }
+    public string? OptimizationJobName { get; private init; }
 
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of an IAM role that enables Amazon SageMaker AI to perform tasks on your behalf. During model optimization, Amazon SageMaker AI needs your permission to: o Read input data from an S3 bucket o Write model artifacts to an S3 bucket o Write logs to Amazon CloudWatch Logs o Publish metrics to Amazon CloudWatch You grant permissions for all of these tasks to an IAM role. To pass this role to Amazon SageMaker AI, the caller of this API must have the iam:PassRole permission. For more information, see Amazon Sage- Maker AI Roles. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+
+    /// </summary>
     [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
+    public string? RoleArn { get; private init; }
 
+    /// <summary>
+    /// The location of the source model to optimize with an optimization job. S3 -&gt; (structure) The Amazon S3 location of a source model to optimize with an op- timization job. S3Uri -&gt; (string) An Amazon S3 URI that locates a source model to optimize with an optimization job. Constraints: o min: 0 o max: 1024 o pattern: (https|s3)://([^/]+)/?(.*) ModelAccessConfig -&gt; (structure) The access configuration settings for the source ML model for an optimization job, where you can accept the model end-user license agreement (EULA). AcceptEula -&gt; (boolean) [required] Specifies agreement to the model end-user license agree- ment (EULA). The AcceptEula value must be explicitly de- fined as True in order to accept the EULA that this model requires. You are responsible for reviewing and complying with any applicable license terms and making sure they are acceptable for your use case before downloading or using a model. SageMakerModel -&gt; (structure) The name of an existing SageMaker model to optimize with an op- timization job. ModelName -&gt; (string) The name of a SageMaker model. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9]([\-a-zA-Z0-9]*[a-zA-Z0-9])? Shorthand Syntax: S3={S3Uri=string,ModelAccessConfig={AcceptEula=boolean}},SageMakerModel={ModelName=string} JSON Syntax: { "S3": { "S3Uri": "string", "ModelAccessConfig": { "AcceptEula": true|false } }, "SageMakerModel": { "ModelName": "string" } }
+    /// </summary>
     [CliOption("--model-source")]
-    public string? ModelSource { get; set; }
+    public string? ModelSource { get; private init; }
 
+    /// <summary>
+    /// The type of instance that hosts the optimized model that you create with the optimization job. Possible values: o ml.p4d.24xlarge o ml.p4de.24xlarge o ml.p5.48xlarge o ml.p5e.48xlarge o ml.p5en.48xlarge o ml.g4dn.xlarge o ml.g4dn.2xlarge o ml.g4dn.4xlarge o ml.g4dn.8xlarge o ml.g4dn.12xlarge o ml.g4dn.16xlarge o ml.g5.xlarge o ml.g5.2xlarge o ml.g5.4xlarge o ml.g5.8xlarge o ml.g5.12xlarge o ml.g5.16xlarge o ml.g5.24xlarge o ml.g5.48xlarge o ml.g6.xlarge o ml.g6.2xlarge o ml.g6.4xlarge o ml.g6.8xlarge o ml.g6.12xlarge o ml.g6.16xlarge o ml.g6.24xlarge o ml.g6.48xlarge o ml.g6e.xlarge o ml.g6e.2xlarge o ml.g6e.4xlarge o ml.g6e.8xlarge o ml.g6e.12xlarge o ml.g6e.16xlarge o ml.g6e.24xlarge o ml.g6e.48xlarge o ml.inf2.xlarge o ml.inf2.8xlarge o ml.inf2.24xlarge o ml.inf2.48xlarge o ml.trn1.2xlarge o ml.trn1.32xlarge o ml.trn1n.32xlarge o ml.p6-b200.48xlarge o ml.g7e.2xlarge o ml.g7e.4xlarge o ml.g7e.8xlarge o ml.g7e.12xlarge o ml.g7e.24xlarge o ml.g7e.48xlarge o ml.g7.2xlarge o ml.g7.4xlarge o ml.g7.8xlarge o ml.g7.12xlarge o ml.g7.24xlarge o ml.g7.48xlarge
+    /// </summary>
     [CliOption("--deployment-instance-type")]
-    public string? DeploymentInstanceType { get; set; }
+    public string? DeploymentInstanceType { get; private init; }
+
+    /// <summary>
+    /// Settings for each of the optimization techniques that the job ap- plies. Constraints: o min: 0 o max: 10 (tagged union structure) Settings for an optimization technique that you apply with a model optimization job. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: ModelQuantizationConfig, ModelCom- pilationConfig, ModelShardingConfig, ModelSpeculativeDecod- ingConfig. ModelQuantizationConfig -&gt; (structure) Settings for the model quantization technique that's applied by a model optimization job. Image -&gt; (string) The URI of an LMI DLC in Amazon ECR. SageMaker uses this image to run the optimization. Constraints: o min: 0 o max: 255 o pattern: [\S]+ OverrideEnvironment -&gt; (map) Environment variables that override the default ones in the model container. Constraints: o min: 0 o max: 25 key -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: (?!\s*$).+ value -&gt; (string) Constraints: o min: 0 o max: 256 ModelCompilationConfig -&gt; (structure) Settings for the model compilation technique that's applied by a model optimization job. Image -&gt; (string) The URI of an LMI DLC in Amazon ECR. SageMaker uses this image to run the optimization. Constraints: o min: 0 o max: 255 o pattern: [\S]+ OverrideEnvironment -&gt; (map) Environment variables that override the default ones in the model container. Constraints: o min: 0 o max: 25 key -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: (?!\s*$).+ value -&gt; (string) Constraints: o min: 0 o max: 256 ModelShardingConfig -&gt; (structure) Settings for the model sharding technique that's applied by a model optimization job. Image -&gt; (string) The URI of an LMI DLC in Amazon ECR. SageMaker uses this image to run the optimization. Constraints: o min: 0 o max: 255 o pattern: [\S]+ OverrideEnvironment -&gt; (map) Environment variables that override the default ones in the model container. Constraints: o min: 0 o max: 25 key -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: (?!\s*$).+ value -&gt; (string) Constraints: o min: 0 o max: 256 ModelSpeculativeDecodingConfig -&gt; (structure) Settings for the model speculative decoding technique that's applied by a model optimization job. Technique -&gt; (string) [required] The speculative decoding technique to apply during model optimization. Possible values: o EAGLE TrainingDataSource -&gt; (structure) The location of the training data to use for speculative decoding. The data must be formatted as ShareGPT, OpenAI Completions or OpenAI Chat Completions. The input can also be unencrypted captured data from a SageMaker end- point as long as the endpoint uses one of the above for- mats. S3Uri -&gt; (string) [required] The Amazon S3 URI that points to the training data for speculative decoding. Constraints: o min: 0 o max: 1024 o pattern: (https|s3)://([^/]+)/?(.*) S3DataType -&gt; (string) [required] The type of data stored in the Amazon S3 location. Valid values are S3Prefix or ManifestFile . Possible values: o S3Prefix o ManifestFile Shorthand Syntax: ModelQuantizationConfig={Image=string,OverrideEnvironment={KeyName1=string,KeyName2=string}},ModelCompilationConfig={Image=string,OverrideEnvironment={KeyName1=string,KeyName2=string}},ModelShardingConfig={Image=string,OverrideEnvironment={KeyName1=string,KeyName2=string}},ModelSpeculativeDecodingConfig={Technique=string,TrainingDataSource={S3Uri=string,S3DataType=string}} ... JSON Syntax: [ { "ModelQuantizationConfig": { "Image": "string", "OverrideEnvironment": {"string": "string" ...} }, "ModelCompilationConfig": { "Image": "string", "OverrideEnvironment": {"string": "string" ...} }, "ModelShardingConfig": { "Image": "string", "OverrideEnvironment": {"string": "string" ...} }, "ModelSpeculativeDecodingConfig": { "Technique": "EAGLE", "TrainingDataSource": { "S3Uri": "string", "S3DataType": "S3Prefix"|"ManifestFile" } } } ... ]
+    /// </summary>
+    [CliOption("--optimization-configs", GroupValues = true)]
+    public IEnumerable<string>? OptimizationConfigs { get; private init; }
+
+    /// <summary>
+    /// Details for where to store the optimized model that you create with the optimization job. KmsKeyId -&gt; (string) The Amazon Resource Name (ARN) of a key in Amazon Web Services KMS. SageMaker uses they key to encrypt the artifacts of the op- timized model when SageMaker uploads the model to Amazon S3. Constraints: o min: 0 o max: 2048 o pattern: [a-zA-Z0-9:/_-]* S3OutputLocation -&gt; (string) [required] The Amazon S3 URI for where to store the optimized model that you create with an optimization job. Constraints: o min: 0 o max: 1024 o pattern: (https|s3)://([^/]+)/?(.*) SageMakerModel -&gt; (structure) The name of a SageMaker model to use as the output destination for an optimization job. ModelName -&gt; (string) The name of a SageMaker model. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9]([\-a-zA-Z0-9]*[a-zA-Z0-9])? Shorthand Syntax: KmsKeyId=string,S3OutputLocation=string,SageMakerModel={ModelName=string} JSON Syntax: { "KmsKeyId": "string", "S3OutputLocation": "string", "SageMakerModel": { "ModelName": "string" } }
+    /// </summary>
+    [CliOption("--output-config")]
+    public string? OutputConfig { get; private init; }
+
+    /// <summary>
+    /// Specifies a limit to how long a job can run. When the job reaches the time limit, SageMaker ends the job. Use this API to cap costs. To stop a training job, SageMaker sends the algorithm the SIGTERM signal, which delays job termination for 120 seconds. Algorithms can use this 120-second window to save the model artifacts, so the re- sults of training are not lost. The training algorithms provided by SageMaker automatically save the intermediate results of a model training job when possible. This at- tempt to save artifacts is only a best effort case as model might not be in a state from which it can be saved. For example, if train- ing has just started, the model might not be ready to save. When saved, this intermediate data is a valid model artifact. You can use it to create a model with CreateModel . NOTE: The Neural Topic Model (NTM) currently does not support saving intermediate model artifacts. When training NTMs, make sure that the maximum runtime is sufficient for the training job to com- plete. MaxRuntimeInSeconds -&gt; (integer) The maximum length of time, in seconds, that a training or com- pilation job can run before it is stopped. For compilation jobs, if the job does not complete during this time, a TimeOut error is generated. We recommend starting with 900 seconds and increasing as necessary based on your model. For all other jobs, if the job does not complete during this time, SageMaker ends the job. When RetryStrategy is specified in the job request, MaxRuntimeInSeconds specifies the maximum time for all of the attempts in total, not each individual attempt. The default value is 1 day. The maximum value is 28 days. The maximum time that a TrainingJob can run in total, including any time spent publishing metrics or archiving and uploading models after it has been stopped, is 30 days. Constraints: o min: 1 MaxWaitTimeInSeconds -&gt; (integer) The maximum length of time, in seconds, that a managed Spot training job has to complete. It is the amount of time spent waiting for Spot capacity plus the amount of time the job can run. It must be equal to or greater than MaxRuntimeInSeconds . If the job does not complete during this time, SageMaker ends the job. When RetryStrategy is specified in the job request, MaxWait- TimeInSeconds specifies the maximum time for all of the attempts in total, not each individual attempt. Constraints: o min: 1 MaxPendingTimeInSeconds -&gt; (integer) The maximum length of time, in seconds, that a training or com- pilation job can be pending before it is stopped. NOTE: When working with training jobs that use capacity from training plans , not all Pending job states count against the MaxPendingTimeInSeconds limit. The following scenarios do not increment the MaxPendingTimeInSeconds counter: o The plan is in a Scheduled state: Jobs queued (in Pending status) before a plan's start date (waiting for scheduled start time) o Between capacity reservations: Jobs temporarily back to Pending status between two capacity reservation periods MaxPendingTimeInSeconds only increments when jobs are ac- tively waiting for capacity in an Active plan. NOTE: o MaxPendingTimeInSeconds takes effect only for jobs that re- quest accelerated computing instance types, such as in- stances in the ml.p , ml.g , and ml.trn families. It has no effect on jobs that request CPU-only instance types. o If the job specifies InstancePreferences , MaxPending- TimeInSeconds bounds the total time SageMaker spends work- ing through your list of instance types. It is not applied per instance type preference, and takes effect only when the list includes at least one accelerated computing in- stance type. Constraints: o min: 1800 o max: 2419200 Shorthand Syntax: MaxRuntimeInSeconds=integer,MaxWaitTimeInSeconds=integer,MaxPendingTimeInSeconds=integer JSON Syntax: { "MaxRuntimeInSeconds": integer, "MaxWaitTimeInSeconds": integer, "MaxPendingTimeInSeconds": integer }
+    /// </summary>
+    [CliOption("--stopping-condition")]
+    public string? StoppingCondition { get; private init; }
 
     /// <summary>
     /// The maximum number of instances to use for the optimization job. Constraints: o min: 1
@@ -45,15 +144,6 @@ public record AwsSagemakerCreateOptimizationJobOptions : AwsOptions
     /// </summary>
     [CliOption("--optimization-environment", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? OptimizationEnvironment { get; set; }
-
-    [CliOption("--optimization-configs", GroupValues = true)]
-    public IEnumerable<string>? OptimizationConfigs { get; set; }
-
-    [CliOption("--output-config")]
-    public string? OutputConfig { get; set; }
-
-    [CliOption("--stopping-condition")]
-    public string? StoppingCondition { get; set; }
 
     /// <summary>
     /// A list of key-value pairs associated with the optimization job. For more information, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference Guide . Constraints: o min: 0 o max: 50 (structure) A tag object that consists of a key and an optional value, used to manage metadata for SageMaker Amazon Web Services resources. You can add tags to notebook instances, training jobs, hyperpa- rameter tuning jobs, batch transform jobs, models, labeling jobs, work teams, endpoint configurations, and endpoints. For more information on adding tags to SageMaker resources, see AddTags . For more information on adding metadata to your Amazon Web Ser- vices resources with tagging, see Tagging Amazon Web Services resources . For advice on best practices for managing Amazon Web Services resources with tagging, see Tagging Best Practices: Im- plement an Effective Amazon Web Services Resource Tagging Strat- egy . Key -&gt; (string) [required] The tag key. Tag keys must be unique per resource. Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The tag value. Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -78,5 +168,22 @@ public record AwsSagemakerCreateOptimizationJobOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

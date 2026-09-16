@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codestar-notifications", "delete-target")]
-public record AwsCodestarNotificationsDeleteTargetOptions : AwsOptions
+public record AwsCodestarNotificationsDeleteTargetOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--target-address")]
-    public string? TargetAddress { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--force-unsubscribe-all")]
+    /// <summary>
+    /// Deletes a specified target for notifications. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TargetAddress">The Amazon Resource Name (ARN) of the Amazon Q Developer in chat ap- plications topic or Amazon Q Developer in chat applications client to delete. Constraints: o min: 1 o max: 320</param>
+    public AwsCodestarNotificationsDeleteTargetOptions(
+        string TargetAddress
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TargetAddress);
+        this.TargetAddress = TargetAddress;
+    }
+
+    private AwsCodestarNotificationsDeleteTargetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodestarNotificationsDeleteTargetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodestarNotificationsDeleteTargetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the Amazon Q Developer in chat ap- plications topic or Amazon Q Developer in chat applications client to delete. Constraints: o min: 1 o max: 320
+    /// </summary>
+    [CliOption("--target-address")]
+    public string? TargetAddress { get; private init; }
+
+    /// <summary>
+    /// A Boolean value that can be used to delete all associations with this Amazon Q Developer in chat applications topic. The default value is FALSE. If set to TRUE, all associations between that target and every notification rule in your Amazon Web Services account are deleted.
+    /// </summary>
+    [CliFlag("--force-unsubscribe-all", NegatedName = "--no-force-unsubscribe-all")]
     public bool? ForceUnsubscribeAll { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -32,5 +72,22 @@ public record AwsCodestarNotificationsDeleteTargetOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

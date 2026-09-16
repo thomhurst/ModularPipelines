@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +21,71 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lightsail", "set-ip-address-type")]
-public record AwsLightsailSetIpAddressTypeOptions : AwsOptions
+public record AwsLightsailSetIpAddressTypeOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Sets the IP address type for an Amazon Lightsail resource. Use this action to enable dual-stack for a resource, which enables IPv4 and IPv6 for the specified resource. Alternately, you can use this ac- tion to disable dual-stack, and enable IPv4 only. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceType">The resource type. The resource values are Distribution , Instance , and LoadBalancer . NOTE: Distribution-related APIs are available only in the N. Virginia (us-east-1 ) Amazon Web Services Region. Set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit distributions. Possible values: o ContainerService o Instance o StaticIp o KeyPair o InstanceSnapshot o Domain o PeeredVpc o LoadBalancer o LoadBalancerTlsCertificate o Disk o DiskSnapshot o RelationalDatabase o RelationalDatabaseSnapshot o ExportSnapshotRecord o CloudFormationStackRecord o Alarm o ContactMethod o Distribution o Certificate o Bucket</param>
+    /// <param name="ResourceName">The name of the resource for which to set the IP address type. Constraints: o pattern: \w[\w\-]*\w</param>
+    /// <param name="IpAddressType">The IP address type to set for the specified resource. The possible values are ipv4 for IPv4 only, ipv6 for IPv6 only, and dualstack for IPv4 and IPv6. Possible values: o dualstack o ipv4 o ipv6</param>
+    public AwsLightsailSetIpAddressTypeOptions(
+        AwsLightsailSetIpAddressTypeResourceType ResourceType,
+        string ResourceName,
+        AwsLightsailSetIpAddressTypeIpAddressType IpAddressType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
+        this.ResourceType = ResourceType;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceName);
+        this.ResourceName = ResourceName;
+        global::System.ArgumentNullException.ThrowIfNull(IpAddressType);
+        this.IpAddressType = IpAddressType;
+    }
+
+    private AwsLightsailSetIpAddressTypeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLightsailSetIpAddressTypeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLightsailSetIpAddressTypeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The resource type. The resource values are Distribution , Instance , and LoadBalancer . NOTE: Distribution-related APIs are available only in the N. Virginia (us-east-1 ) Amazon Web Services Region. Set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit distributions. Possible values: o ContainerService o Instance o StaticIp o KeyPair o InstanceSnapshot o Domain o PeeredVpc o LoadBalancer o LoadBalancerTlsCertificate o Disk o DiskSnapshot o RelationalDatabase o RelationalDatabaseSnapshot o ExportSnapshotRecord o CloudFormationStackRecord o Alarm o ContactMethod o Distribution o Certificate o Bucket
+    /// </summary>
     [CliOption("--resource-type")]
-    public string? ResourceType { get; set; }
+    public AwsLightsailSetIpAddressTypeResourceType? ResourceType { get; private init; }
 
+    /// <summary>
+    /// The name of the resource for which to set the IP address type. Constraints: o pattern: \w[\w\-]*\w
+    /// </summary>
     [CliOption("--resource-name")]
-    public string? ResourceName { get; set; }
+    public string? ResourceName { get; private init; }
 
+    /// <summary>
+    /// The IP address type to set for the specified resource. The possible values are ipv4 for IPv4 only, ipv6 for IPv6 only, and dualstack for IPv4 and IPv6. Possible values: o dualstack o ipv4 o ipv6
+    /// </summary>
     [CliOption("--ip-address-type")]
-    public string? IpAddressType { get; set; }
+    public AwsLightsailSetIpAddressTypeIpAddressType? IpAddressType { get; private init; }
 
-    [CliFlag("--accept-bundle-update")]
+    /// <summary>
+    /// Required parameter to accept the instance bundle update when chang- ing to, and from, IPv6-only. NOTE: An instance bundle will change when switching from dual-stack or ipv4 , to ipv6 . It also changes when switching from ipv6 , to dual-stack or ipv4 . You must include this parameter in the command to update the bundle. For example, if you switch from dual-stack to ipv6 , the bundle will be updated, and billing for the IPv6-only instance bundle begins immediately.
+    /// </summary>
+    [CliFlag("--accept-bundle-update", NegatedName = "--no-accept-bundle-update")]
     public bool? AcceptBundleUpdate { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -38,5 +93,22 @@ public record AwsLightsailSetIpAddressTypeOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

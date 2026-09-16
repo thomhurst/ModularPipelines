@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --executionstatus.
+/// Allowed values for --execution-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsBedrockAgentcoreUpdateAbTestExecutionStatus
 {
+    [EnumValue("NOT_STARTED")]
+    NotStarted,
+
     [EnumValue("PAUSED")]
-    Paused = 1,
+    Paused,
 
     [EnumValue("RUNNING")]
-    Running = 2,
+    Running,
 
     [EnumValue("STOPPED")]
-    Stopped = 3,
-
-    [EnumValue("NOT_STARTED")]
-    NotStarted = 4
+    Stopped
 }

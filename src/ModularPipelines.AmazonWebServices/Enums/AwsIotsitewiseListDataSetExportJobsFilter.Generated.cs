@@ -17,20 +17,20 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIotsitewiseListDataSetExportJobsFilter
 {
     [EnumValue("ALL")]
-    All = 1,
-
-    [EnumValue("SUBMITTED")]
-    Submitted = 2,
-
-    [EnumValue("RUNNING")]
-    Running = 3,
+    All,
 
     [EnumValue("COMPLETED")]
-    Completed = 4,
+    Completed,
 
     [EnumValue("COMPLETED_WITH_ERRORS")]
-    CompletedWithErrors = 5,
+    CompletedWithErrors,
 
     [EnumValue("FAILED")]
-    Failed = 6
+    Failed,
+
+    [EnumValue("RUNNING")]
+    Running,
+
+    [EnumValue("SUBMITTED")]
+    Submitted
 }

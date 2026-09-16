@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,22 +22,125 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("invoicing", "create-procurement-portal-preference")]
-public record AwsInvoicingCreateProcurementPortalPreferenceOptions : AwsOptions
+public record AwsInvoicingCreateProcurementPortalPreferenceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// o This feature API is subject to changing at any time. For more in- formation, see the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Betas and Previews). * Creates a procurement portal preference configuration for e-invoice de- livery and purchase order retrieval. This preference defines how in- voices are delivered to a procurement portal and how purchase orders are retrieved. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ProcurementPortalName">The name of the procurement portal. Possible values: o SAP_BUSINESS_NETWORK o COUPA</param>
+    /// <param name="BuyerDomain">The domain identifier for the buyer in the procurement portal. Possible values: o NetworkID</param>
+    /// <param name="BuyerIdentifier">The unique identifier for the buyer in the procurement portal. Constraints: o min: 0 o max: 1024 o pattern: \S+</param>
+    /// <param name="SupplierDomain">The domain identifier for the supplier in the procurement portal. Possible values: o NetworkID</param>
+    /// <param name="SupplierIdentifier">The unique identifier for the supplier in the procurement portal. Constraints: o min: 0 o max: 1024 o pattern: \S+</param>
+    /// <param name="EinvoiceDeliveryEnabled">Indicates whether e-invoice delivery is enabled for this procurement portal preference. Set to true to enable e-invoice delivery, false to disable.</param>
+    /// <param name="PurchaseOrderRetrievalEnabled">abled (boolean) [required] Indicates whether purchase order retrieval is enabled for this pro- curement portal preference. Set to true to enable PO retrieval, false to disable.</param>
+    /// <param name="Contacts">List of contact information for portal administrators and technical contacts responsible for the e-invoice integration. Constraints: o min: 1 o max: 1 (structure) Represents contact information for a person or role associated with the procurement portal preference. Name -&gt; (string) The name of the contact person or role. Constraints: o min: 0 o max: 1024 o pattern: [\s\S]* Email -&gt; (string) The email address of the contact person or role. Constraints: o min: 1 o max: 1024 o pattern: [a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,} Shorthand Syntax: Name=string,Email=string ... JSON Syntax: [ { "Name": "string", "Email": "string" } ... ]</param>
+    public AwsInvoicingCreateProcurementPortalPreferenceOptions(
+        AwsInvoicingCreateProcurementPortalPreferenceProcurementPortalName ProcurementPortalName,
+        string BuyerDomain,
+        string BuyerIdentifier,
+        string SupplierDomain,
+        string SupplierIdentifier,
+        bool EinvoiceDeliveryEnabled,
+        bool PurchaseOrderRetrievalEnabled,
+        IEnumerable<string> Contacts
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProcurementPortalName);
+        this.ProcurementPortalName = ProcurementPortalName;
+        global::System.ArgumentNullException.ThrowIfNull(BuyerDomain);
+        this.BuyerDomain = BuyerDomain;
+        global::System.ArgumentNullException.ThrowIfNull(BuyerIdentifier);
+        this.BuyerIdentifier = BuyerIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(SupplierDomain);
+        this.SupplierDomain = SupplierDomain;
+        global::System.ArgumentNullException.ThrowIfNull(SupplierIdentifier);
+        this.SupplierIdentifier = SupplierIdentifier;
+        this.EinvoiceDeliveryEnabled = EinvoiceDeliveryEnabled;
+        this.PurchaseOrderRetrievalEnabled = PurchaseOrderRetrievalEnabled;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Contacts);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Contacts));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Contacts));
+            }
+
+            Contacts = materialized;
+        }
+        this.Contacts = Contacts;
+    }
+
+    private AwsInvoicingCreateProcurementPortalPreferenceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsInvoicingCreateProcurementPortalPreferenceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsInvoicingCreateProcurementPortalPreferenceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the procurement portal. Possible values: o SAP_BUSINESS_NETWORK o COUPA
+    /// </summary>
     [CliOption("--procurement-portal-name")]
-    public string? ProcurementPortalName { get; set; }
+    public AwsInvoicingCreateProcurementPortalPreferenceProcurementPortalName? ProcurementPortalName { get; private init; }
 
+    /// <summary>
+    /// The domain identifier for the buyer in the procurement portal. Possible values: o NetworkID
+    /// </summary>
     [CliOption("--buyer-domain")]
-    public string? BuyerDomain { get; set; }
+    public string? BuyerDomain { get; private init; }
 
+    /// <summary>
+    /// The unique identifier for the buyer in the procurement portal. Constraints: o min: 0 o max: 1024 o pattern: \S+
+    /// </summary>
     [CliOption("--buyer-identifier")]
-    public string? BuyerIdentifier { get; set; }
+    public string? BuyerIdentifier { get; private init; }
 
+    /// <summary>
+    /// The domain identifier for the supplier in the procurement portal. Possible values: o NetworkID
+    /// </summary>
     [CliOption("--supplier-domain")]
-    public string? SupplierDomain { get; set; }
+    public string? SupplierDomain { get; private init; }
 
+    /// <summary>
+    /// The unique identifier for the supplier in the procurement portal. Constraints: o min: 0 o max: 1024 o pattern: \S+
+    /// </summary>
     [CliOption("--supplier-identifier")]
-    public string? SupplierIdentifier { get; set; }
+    public string? SupplierIdentifier { get; private init; }
+
+    /// <summary>
+    /// Indicates whether e-invoice delivery is enabled for this procurement portal preference. Set to true to enable e-invoice delivery, false to disable.
+    /// </summary>
+    [CliFlag("--einvoice-delivery-enabled", NegatedName = "--no-einvoice-delivery-enabled")]
+    public bool? EinvoiceDeliveryEnabled { get; private init; }
+
+    /// <summary>
+    /// abled (boolean) [required] Indicates whether purchase order retrieval is enabled for this pro- curement portal preference. Set to true to enable PO retrieval, false to disable.
+    /// </summary>
+    [CliFlag("--purchase-order-retrieval-enabled", NegatedName = "--no-purchase-order-retrieval-enabled")]
+    public bool? PurchaseOrderRetrievalEnabled { get; private init; }
+
+    /// <summary>
+    /// List of contact information for portal administrators and technical contacts responsible for the e-invoice integration. Constraints: o min: 1 o max: 1 (structure) Represents contact information for a person or role associated with the procurement portal preference. Name -&gt; (string) The name of the contact person or role. Constraints: o min: 0 o max: 1024 o pattern: [\s\S]* Email -&gt; (string) The email address of the contact person or role. Constraints: o min: 1 o max: 1024 o pattern: [a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,} Shorthand Syntax: Name=string,Email=string ... JSON Syntax: [ { "Name": "string", "Email": "string" } ... ]
+    /// </summary>
+    [CliOption("--contacts", GroupValues = true)]
+    public IEnumerable<string>? Contacts { get; private init; }
 
     /// <summary>
     /// Specifies criteria for selecting which invoices should be processed using a particular procurement portal preference. InvoiceUnitArns -&gt; (list) The Amazon Resource Name (ARN) of invoice unit identifiers to which this preference applies. Constraints: o min: 0 o max: 500 (string) Constraints: o min: 1 o max: 256 o pattern: arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+ SellerOfRecords -&gt; (list) The list of seller of record IDs to which this preference ap- plies. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 0 o max: 1024 o pattern: \S+ Shorthand Syntax: InvoiceUnitArns=string,string,SellerOfRecords=string,string JSON Syntax: { "InvoiceUnitArns": ["string", ...], "SellerOfRecords": ["string", ...] }
@@ -62,20 +167,11 @@ public record AwsInvoicingCreateProcurementPortalPreferenceOptions : AwsOptions
     [CliOption("--test-env-preference")]
     public string? TestEnvPreference { get; set; }
 
-    [CliFlag("--einvoice-delivery-enabled")]
-    public bool? EinvoiceDeliveryEnabled { get; set; }
-
     /// <summary>
     /// Specifies the e-invoice delivery configuration including document types, attachment types, and customization settings for the portal. EinvoiceDeliveryDocumentTypes -&gt; (list) [required] The types of e-invoice documents to be delivered. Constraints: o min: 0 o max: 10 (string) Possible values: o AWS_CLOUD_INVOICE o AWS_CLOUD_CREDIT_MEMO o AWS_MARKETPLACE_INVOICE o AWS_MARKETPLACE_CREDIT_MEMO o AWS_REQUEST_FOR_PAYMENT EinvoiceDeliveryAttachmentTypes -&gt; (list) The types of attachments to include with the e-invoice delivery. (string) Possible values: o INVOICE_PDF o RFP_PDF Protocol -&gt; (string) [required] The communication protocol to use for e-invoice delivery. Possible values: o CXML PurchaseOrderDataSources -&gt; (list) [required] The sources of purchase order data to use for e-invoice genera- tion and delivery. (structure) Specifies the source configuration for retrieving purchase order data. EinvoiceDeliveryDocumentType -&gt; (string) The type of e-invoice document that requires purchase or- der data. Possible values: o AWS_CLOUD_INVOICE o AWS_CLOUD_CREDIT_MEMO o AWS_MARKETPLACE_INVOICE o AWS_MARKETPLACE_CREDIT_MEMO o AWS_REQUEST_FOR_PAYMENT PurchaseOrderDataSourceType -&gt; (string) The type of source for purchase order data. Possible values: o ASSOCIATED_PURCHASE_ORDER_REQUIRED o PURCHASE_ORDER_NOT_REQUIRED ConnectionTestingMethod -&gt; (string) [required] The method to use for testing the connection to the procurement portal. Possible values: o PROD_ENV_DOLLAR_TEST o TEST_ENV_REPLAY_TEST EinvoiceDeliveryActivationDate -&gt; (timestamp) [required] The date when e-invoice delivery should be activated for this preference. Shorthand Syntax: EinvoiceDeliveryDocumentTypes=string,string,EinvoiceDeliveryAttachmentTypes=string,string,Protocol=string,PurchaseOrderDataSources=[{EinvoiceDeliveryDocumentType=string,PurchaseOrderDataSourceType=string},{EinvoiceDeliveryDocumentType=string,PurchaseOrderDataSourceType=string}],ConnectionTestingMethod=string,EinvoiceDeliveryActivationDate=timestamp JSON Syntax: { "EinvoiceDeliveryDocumentTypes": ["AWS_CLOUD_INVOICE"|"AWS_CLOUD_CREDIT_MEMO"|"AWS_MARKETPLACE_INVOICE"|"AWS_MARKETPLACE_CREDIT_MEMO"|"AWS_REQUEST_FOR_PAYMENT", ...], "EinvoiceDeliveryAttachmentTypes": ["INVOICE_PDF"|"RFP_PDF", ...], "Protocol": "CXML", "PurchaseOrderDataSources": [ { "EinvoiceDeliveryDocumentType": "AWS_CLOUD_INVOICE"|"AWS_CLOUD_CREDIT_MEMO"|"AWS_MARKETPLACE_INVOICE"|"AWS_MARKETPLACE_CREDIT_MEMO"|"AWS_REQUEST_FOR_PAYMENT", "PurchaseOrderDataSourceType": "ASSOCIATED_PURCHASE_ORDER_REQUIRED"|"PURCHASE_ORDER_NOT_REQUIRED" } ... ], "ConnectionTestingMethod": "PROD_ENV_DOLLAR_TEST"|"TEST_ENV_REPLAY_TEST", "EinvoiceDeliveryActivationDate": timestamp }
     /// </summary>
     [CliOption("--einvoice-delivery-preference")]
     public string? EinvoiceDeliveryPreference { get; set; }
-
-    [CliFlag("--purchase-order-retrieval-enabled")]
-    public bool? PurchaseOrderRetrievalEnabled { get; set; }
-
-    [CliOption("--contacts", GroupValues = true)]
-    public IEnumerable<string>? Contacts { get; set; }
 
     /// <summary>
     /// The tags to apply to this procurement portal preference resource. Each tag consists of a key and an optional value. Constraints: o min: 0 o max: 200 (structure) The tag structure that contains a tag key and value. Key -&gt; (string) [required] The object key of your of your resource tag. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The specific value of the resource tag. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -95,5 +191,22 @@ public record AwsInvoicingCreateProcurementPortalPreferenceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

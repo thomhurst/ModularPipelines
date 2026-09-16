@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --assertionencryptionmode.
+/// Allowed values for --assertion-encryption-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIamCreateSamlProviderAssertionEncryptionMode
 {
-    [EnumValue("Required")]
-    Required = 1,
-
     [EnumValue("Allowed")]
-    Allowed = 2
+    Allowed,
+
+    [EnumValue("Required")]
+    Required
 }

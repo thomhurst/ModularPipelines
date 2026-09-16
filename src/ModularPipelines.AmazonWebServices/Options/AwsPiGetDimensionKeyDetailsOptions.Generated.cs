@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +21,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pi", "get-dimension-key-details")]
-public record AwsPiGetDimensionKeyDetailsOptions : AwsOptions
+public record AwsPiGetDimensionKeyDetailsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Get the attributes of the specified dimension group for a DB instance or data source. For example, if you specify a SQL ID, GetDimensionKey- Details retrieves the full text of the dimension db.sql.statement asso- ciated with this ID. This operation is useful because GetResourceMet- rics and DescribeDimensionKeys don't support retrieval of large SQL statement text, lock snapshots, and execution plans. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ServiceType">The Amazon Web Services service for which Performance Insights re- turns data. The only valid value is RDS . Possible values: o RDS o DOCDB</param>
+    /// <param name="Identifier">The ID for a data source from which to gather dimension data. This ID must be immutable and unique within an Amazon Web Services Re- gion. When a DB instance is the data source, specify its DbiResour- ceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VW2X . Constraints: o min: 0 o max: 256 o pattern: ^[a-zA-Z0-9-]+$</param>
+    /// <param name="Group">The name of the dimension group. Performance Insights searches the specified group for the dimension group ID. The following group name values are valid: o db.execution_plan (Amazon RDS and Aurora only) o db.lock_snapshot (Aurora only) o db.query (Amazon DocumentDB only) o db.sql (Amazon RDS and Aurora only) Constraints: o min: 0 o max: 256 o pattern: .*\S.*</param>
+    /// <param name="GroupIdentifier">The ID of the dimension group from which to retrieve dimension de- tails. For dimension group db.sql , the group ID is db.sql.id . The following group ID values are valid: o db.execution_plan.id for dimension group db.execution_plan (Aurora and RDS only) o db.sql.id for dimension group db.sql (Aurora and RDS only) o db.query.id for dimension group db.query (DocumentDB only) o For the dimension group db.lock_snapshot , the GroupIdentifier is the epoch timestamp when Performance Insights captured the snap- shot, in seconds. You can retrieve this value with the GetRe- sourceMetrics operation for a 1 second period. Constraints: o min: 0 o max: 256 o pattern: .*\S.*</param>
+    public AwsPiGetDimensionKeyDetailsOptions(
+        AwsPiGetDimensionKeyDetailsServiceType ServiceType,
+        string Identifier,
+        string Group,
+        string GroupIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceType);
+        this.ServiceType = ServiceType;
+        global::System.ArgumentNullException.ThrowIfNull(Identifier);
+        this.Identifier = Identifier;
+        global::System.ArgumentNullException.ThrowIfNull(Group);
+        this.Group = Group;
+        global::System.ArgumentNullException.ThrowIfNull(GroupIdentifier);
+        this.GroupIdentifier = GroupIdentifier;
+    }
+
+    private AwsPiGetDimensionKeyDetailsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPiGetDimensionKeyDetailsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPiGetDimensionKeyDetailsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Web Services service for which Performance Insights re- turns data. The only valid value is RDS . Possible values: o RDS o DOCDB
+    /// </summary>
     [CliOption("--service-type")]
-    public string? ServiceType { get; set; }
+    public AwsPiGetDimensionKeyDetailsServiceType? ServiceType { get; private init; }
 
+    /// <summary>
+    /// The ID for a data source from which to gather dimension data. This ID must be immutable and unique within an Amazon Web Services Re- gion. When a DB instance is the data source, specify its DbiResour- ceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VW2X . Constraints: o min: 0 o max: 256 o pattern: ^[a-zA-Z0-9-]+$
+    /// </summary>
     [CliOption("--identifier")]
-    public string? Identifier { get; set; }
+    public string? Identifier { get; private init; }
 
+    /// <summary>
+    /// The name of the dimension group. Performance Insights searches the specified group for the dimension group ID. The following group name values are valid: o db.execution_plan (Amazon RDS and Aurora only) o db.lock_snapshot (Aurora only) o db.query (Amazon DocumentDB only) o db.sql (Amazon RDS and Aurora only) Constraints: o min: 0 o max: 256 o pattern: .*\S.*
+    /// </summary>
     [CliOption("--group")]
-    public string? Group { get; set; }
+    public string? Group { get; private init; }
 
+    /// <summary>
+    /// The ID of the dimension group from which to retrieve dimension de- tails. For dimension group db.sql , the group ID is db.sql.id . The following group ID values are valid: o db.execution_plan.id for dimension group db.execution_plan (Aurora and RDS only) o db.sql.id for dimension group db.sql (Aurora and RDS only) o db.query.id for dimension group db.query (DocumentDB only) o For the dimension group db.lock_snapshot , the GroupIdentifier is the epoch timestamp when Performance Insights captured the snap- shot, in seconds. You can retrieve this value with the GetRe- sourceMetrics operation for a 1 second period. Constraints: o min: 0 o max: 256 o pattern: .*\S.*
+    /// </summary>
     [CliOption("--group-identifier")]
-    public string? GroupIdentifier { get; set; }
+    public string? GroupIdentifier { get; private init; }
 
     /// <summary>
     /// A list of dimensions to retrieve the detail data for within the given dimension group. If you don't specify this parameter, Perfor- mance Insights returns all dimension data within the specified di- mension group. Specify dimension names for the following dimension groups: o db.execution_plan - Specify the dimension name db.execu- tion_plan.raw_plan or the short dimension name raw_plan (Amazon RDS and Aurora only) o db.lock_snapshot - Specify the dimension name db.lock_snap- shot.lock_trees or the short dimension name lock_trees . (Aurora only) o db.sql - Specify either the full dimension name db.sql.statement or the short dimension name statement (Aurora and RDS only). o db.query - Specify either the full dimension name db.query.state- ment or the short dimension name statement (DocumentDB only). Constraints: o min: 1 o max: 10 (string) A generic string type that forbids characters that could expose our service (or services downstream) to security risks around injections. Constraints: o min: 0 o max: 256 o pattern: ^[a-zA-Z0-9-_\.:/*)( ]+$ Syntax: "string" "string" ...
@@ -44,5 +103,22 @@ public record AwsPiGetDimensionKeyDetailsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

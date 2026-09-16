@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chime-sdk-identity", "create-app-instance-bot")]
-public record AwsChimeSdkIdentityCreateAppInstanceBotOptions : AwsOptions
+public record AwsChimeSdkIdentityCreateAppInstanceBotOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a bot under an Amazon Chime AppInstance . The request consists of a unique Configuration and Name for that bot. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AppInstanceArn">The ARN of the AppInstance request. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
+    /// <param name="Configuration">Configuration information about the Amazon Lex V2 V2 bot. Lex -&gt; (structure) [required] The configuration for an Amazon Lex V2 bot. RespondsTo -&gt; (string) WARNING: Deprecated . Use InvokedBy instead. Determines whether the Amazon Lex V2 bot responds to all standard messages. Control messages are not supported. Possible values: o STANDARD_MESSAGES InvokedBy -&gt; (structure) Specifies the type of message that triggers a bot. StandardMessages -&gt; (string) [required] Sets standard messages as the bot trigger. For standard messages: o ALL : The bot processes all standard messages. o AUTO : The bot responds to ALL messages when the chan- nel has one other non-hidden member, and responds to MENTIONS when the channel has more than one other non-hidden member. o MENTIONS : The bot processes all standard messages that have a message attribute with CHIME.mentions and a value of the bot ARN. o NONE : The bot processes no standard messages. Possible values: o AUTO o ALL o MENTIONS o NONE TargetedMessages -&gt; (string) [required] Sets targeted messages as the bot trigger. For targeted messages: o ALL : The bot processes all TargetedMessages sent to it. The bot then responds with a targeted message back to the sender. o NONE : The bot processes no targeted messages. Possible values: o ALL o NONE LexBotAliasArn -&gt; (string) [required] The ARN of the Amazon Lex V2 bot's alias. The ARN uses this format: arn:aws:lex:REGION:ACCOUNT:bot-alias/MYBOTID/MYBOTAL- IAS Constraints: o min: 15 o max: 2048 o pattern: arn:aws:lex:[a-z]{2}-[a-z]+-\d{1}:\d{12}:bot-alias/[A-Z0-9]{10}/[A-Z0-9]{10} LocaleId -&gt; (string) [required] Identifies the Amazon Lex V2 bot's language and locale. The string must match one of the supported locales in Amazon Lex V2. All of the intents, slot types, and slots used in the bot must have the same locale. For more information, see Supported languages in the Amazon Lex V2 Developer Guide . WelcomeIntent -&gt; (string) The name of the welcome intent configured in the Amazon Lex V2 bot. Constraints: o min: 1 o max: 100 o pattern: ^([A-Za-z]_?)+$ Shorthand Syntax: Lex={RespondsTo=string,InvokedBy={StandardMessages=string,TargetedMessages=string},LexBotAliasArn=string,LocaleId=string,WelcomeIntent=string} JSON Syntax: { "Lex": { "RespondsTo": "STANDARD_MESSAGES", "InvokedBy": { "StandardMessages": "AUTO"|"ALL"|"MENTIONS"|"NONE", "TargetedMessages": "ALL"|"NONE" }, "LexBotAliasArn": "string", "LocaleId": "string", "WelcomeIntent": "string" } }</param>
+    public AwsChimeSdkIdentityCreateAppInstanceBotOptions(
+        string AppInstanceArn,
+        string Configuration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AppInstanceArn);
+        this.AppInstanceArn = AppInstanceArn;
+        global::System.ArgumentNullException.ThrowIfNull(Configuration);
+        this.Configuration = Configuration;
+    }
+
+    private AwsChimeSdkIdentityCreateAppInstanceBotOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChimeSdkIdentityCreateAppInstanceBotOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChimeSdkIdentityCreateAppInstanceBotOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the AppInstance request. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
+    /// </summary>
     [CliOption("--app-instance-arn")]
-    public string? AppInstanceArn { get; set; }
+    public string? AppInstanceArn { get; private init; }
+
+    /// <summary>
+    /// Configuration information about the Amazon Lex V2 V2 bot. Lex -&gt; (structure) [required] The configuration for an Amazon Lex V2 bot. RespondsTo -&gt; (string) WARNING: Deprecated . Use InvokedBy instead. Determines whether the Amazon Lex V2 bot responds to all standard messages. Control messages are not supported. Possible values: o STANDARD_MESSAGES InvokedBy -&gt; (structure) Specifies the type of message that triggers a bot. StandardMessages -&gt; (string) [required] Sets standard messages as the bot trigger. For standard messages: o ALL : The bot processes all standard messages. o AUTO : The bot responds to ALL messages when the chan- nel has one other non-hidden member, and responds to MENTIONS when the channel has more than one other non-hidden member. o MENTIONS : The bot processes all standard messages that have a message attribute with CHIME.mentions and a value of the bot ARN. o NONE : The bot processes no standard messages. Possible values: o AUTO o ALL o MENTIONS o NONE TargetedMessages -&gt; (string) [required] Sets targeted messages as the bot trigger. For targeted messages: o ALL : The bot processes all TargetedMessages sent to it. The bot then responds with a targeted message back to the sender. o NONE : The bot processes no targeted messages. Possible values: o ALL o NONE LexBotAliasArn -&gt; (string) [required] The ARN of the Amazon Lex V2 bot's alias. The ARN uses this format: arn:aws:lex:REGION:ACCOUNT:bot-alias/MYBOTID/MYBOTAL- IAS Constraints: o min: 15 o max: 2048 o pattern: arn:aws:lex:[a-z]{2}-[a-z]+-\d{1}:\d{12}:bot-alias/[A-Z0-9]{10}/[A-Z0-9]{10} LocaleId -&gt; (string) [required] Identifies the Amazon Lex V2 bot's language and locale. The string must match one of the supported locales in Amazon Lex V2. All of the intents, slot types, and slots used in the bot must have the same locale. For more information, see Supported languages in the Amazon Lex V2 Developer Guide . WelcomeIntent -&gt; (string) The name of the welcome intent configured in the Amazon Lex V2 bot. Constraints: o min: 1 o max: 100 o pattern: ^([A-Za-z]_?)+$ Shorthand Syntax: Lex={RespondsTo=string,InvokedBy={StandardMessages=string,TargetedMessages=string},LexBotAliasArn=string,LocaleId=string,WelcomeIntent=string} JSON Syntax: { "Lex": { "RespondsTo": "STANDARD_MESSAGES", "InvokedBy": { "StandardMessages": "AUTO"|"ALL"|"MENTIONS"|"NONE", "TargetedMessages": "ALL"|"NONE" }, "LexBotAliasArn": "string", "LocaleId": "string", "WelcomeIntent": "string" } }
+    /// </summary>
+    [CliOption("--configuration")]
+    public string? Configuration { get; private init; }
 
     /// <summary>
     /// The user's name. Constraints: o min: 0 o max: 256 o pattern: [\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*
@@ -50,13 +97,27 @@ public record AwsChimeSdkIdentityCreateAppInstanceBotOptions : AwsOptions
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
-    [CliOption("--configuration")]
-    public string? Configuration { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

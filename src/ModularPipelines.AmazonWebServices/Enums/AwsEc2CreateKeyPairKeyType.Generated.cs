@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --keytype.
+/// Allowed values for --key-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEc2CreateKeyPairKeyType
 {
-    [EnumValue("rsa")]
-    Rsa = 1,
-
     [EnumValue("ed25519")]
-    Ed25519 = 2
+    Ed25519,
+
+    [EnumValue("rsa")]
+    Rsa
 }

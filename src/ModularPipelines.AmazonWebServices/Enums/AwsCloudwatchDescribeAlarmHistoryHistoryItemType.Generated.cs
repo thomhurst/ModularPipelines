@@ -11,23 +11,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --historyitemtype.
+/// Allowed values for --history-item-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCloudwatchDescribeAlarmHistoryHistoryItemType
 {
-    [EnumValue("ConfigurationUpdate")]
-    ConfigurationUpdate = 1,
-
-    [EnumValue("StateUpdate")]
-    StateUpdate = 2,
-
     [EnumValue("Action")]
-    Action = 3,
-
-    [EnumValue("AlarmContributorStateUpdate")]
-    AlarmContributorStateUpdate = 4,
+    Action,
 
     [EnumValue("AlarmContributorAction")]
-    AlarmContributorAction = 5
+    AlarmContributorAction,
+
+    [EnumValue("AlarmContributorStateUpdate")]
+    AlarmContributorStateUpdate,
+
+    [EnumValue("ConfigurationUpdate")]
+    ConfigurationUpdate,
+
+    [EnumValue("StateUpdate")]
+    StateUpdate
 }

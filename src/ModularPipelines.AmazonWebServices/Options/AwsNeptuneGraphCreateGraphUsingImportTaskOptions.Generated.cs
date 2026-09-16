@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("neptune-graph", "create-graph-using-import-task")]
-public record AwsNeptuneGraphCreateGraphUsingImportTaskOptions : AwsOptions
+public record AwsNeptuneGraphCreateGraphUsingImportTaskOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new Neptune Analytics graph and imports data into it, either from Amazon Simple Storage Service (S3) or from a Neptune database or a Neptune database snapshot. The data can be loaded from files in S3 that in either the Gremlin CSV format or the openCypher load format . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="GraphName">A name for the new Neptune Analytics graph to be created. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens. Only lowercase letters are allowed. Constraints: o min: 1 o max: 63 o pattern: (?!g-)[a-z][a-z0-9]*(-[a-z0-9]+)*</param>
+    /// <param name="Source">A URL identifying to the location of the data to be imported. This can be an Amazon S3 path, or can point to a Neptune database end- point or snapshot.</param>
+    /// <param name="RoleArn">The ARN of the IAM role that will allow access to the data that is to be imported. Constraints: o pattern: arn:aws[^:]*:iam::\d{12}:(role|role/ser- vice-role)(/[\w+=,.@-]+)+</param>
+    public AwsNeptuneGraphCreateGraphUsingImportTaskOptions(
+        string GraphName,
+        string Source,
+        string RoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GraphName);
+        this.GraphName = GraphName;
+        global::System.ArgumentNullException.ThrowIfNull(Source);
+        this.Source = Source;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+    }
+
+    private AwsNeptuneGraphCreateGraphUsingImportTaskOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNeptuneGraphCreateGraphUsingImportTaskOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNeptuneGraphCreateGraphUsingImportTaskOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A name for the new Neptune Analytics graph to be created. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens. Only lowercase letters are allowed. Constraints: o min: 1 o max: 63 o pattern: (?!g-)[a-z][a-z0-9]*(-[a-z0-9]+)*
+    /// </summary>
     [CliOption("--graph-name")]
-    public string? GraphName { get; set; }
+    public string? GraphName { get; private init; }
+
+    /// <summary>
+    /// A URL identifying to the location of the data to be imported. This can be an Amazon S3 path, or can point to a Neptune database end- point or snapshot.
+    /// </summary>
+    [CliOption("--source")]
+    public string? Source { get; private init; }
+
+    /// <summary>
+    /// The ARN of the IAM role that will allow access to the data that is to be imported. Constraints: o pattern: arn:aws[^:]*:iam::\d{12}:(role|role/ser- vice-role)(/[\w+=,.@-]+)+
+    /// </summary>
+    [CliOption("--role-arn")]
+    public string? RoleArn { get; private init; }
 
     /// <summary>
     /// Adds metadata tags to the new graph. These tags can also be used with cost allocation reporting, or used in a Condition statement in an IAM policy. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z+-=._:/]+ value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -32,7 +89,10 @@ public record AwsNeptuneGraphCreateGraphUsingImportTaskOptions : AwsOptions
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
-    [CliFlag("--public-connectivity")]
+    /// <summary>
+    /// Specifies whether or not the graph can be reachable over the inter- net. All access to graphs is IAM authenticated. (true to enable, or false to disable).
+    /// </summary>
+    [CliFlag("--public-connectivity", NegatedName = "--no-public-connectivity")]
     public bool? PublicConnectivity { get; set; }
 
     /// <summary>
@@ -53,7 +113,10 @@ public record AwsNeptuneGraphCreateGraphUsingImportTaskOptions : AwsOptions
     [CliOption("--replica-count")]
     public int? ReplicaCount { get; set; }
 
-    [CliFlag("--deletion-protection")]
+    /// <summary>
+    /// Indicates whether or not to enable deletion protection on the graph. The graph cant be deleted when deletion protection is enabled. (true or false ).
+    /// </summary>
+    [CliFlag("--deletion-protection", NegatedName = "--no-deletion-protection")]
     public bool? DeletionProtection { get; set; }
 
     /// <summary>
@@ -74,11 +137,11 @@ public record AwsNeptuneGraphCreateGraphUsingImportTaskOptions : AwsOptions
     [CliOption("--min-provisioned-memory")]
     public int? MinProvisionedMemory { get; set; }
 
-    [CliFlag("--fail-on-error")]
+    /// <summary>
+    /// If set to true , the task halts when an import error is encountered. If set to false , the task skips the data that caused the error and continues if possible.
+    /// </summary>
+    [CliFlag("--fail-on-error", NegatedName = "--no-fail-on-error")]
     public bool? FailOnError { get; set; }
-
-    [CliOption("--source")]
-    public string? Source { get; set; }
 
     /// <summary>
     /// Specifies the format of S3 data to be imported. Valid values are CSV , which identifies the Gremlin CSV format , OPEN_CYPHER , which identifies the openCypher load format , or ntriples , which identi- fies the RDF n-triples format. Possible values: o CSV o OPEN_CYPHER o PARQUET o NTRIPLES
@@ -90,21 +153,35 @@ public record AwsNeptuneGraphCreateGraphUsingImportTaskOptions : AwsOptions
     /// The parquet type of the import task. Possible values: o COLUMNAR
     /// </summary>
     [CliOption("--parquet-type")]
-    public AwsNeptuneGraphCreateGraphUsingImportTaskParquetType? ParquetType { get; set; }
+    public string? ParquetType { get; set; }
 
     /// <summary>
     /// The method to handle blank nodes in the dataset. Currently, only convertToIri is supported, meaning blank nodes are converted to unique IRIs at load time. Must be provided when format is ntriples . For more information, see Handling RDF values . Possible values: o convertToIri
     /// </summary>
     [CliOption("--blank-node-handling")]
-    public AwsNeptuneGraphCreateGraphUsingImportTaskBlankNodeHandling? BlankNodeHandling { get; set; }
-
-    [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
+    public string? BlankNodeHandling { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

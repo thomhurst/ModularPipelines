@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,8 +21,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift-serverless", "update-usage-limit")]
-public record AwsRedshiftServerlessUpdateUsageLimitOptions : AwsOptions
+public record AwsRedshiftServerlessUpdateUsageLimitOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Update a usage limit in Amazon Redshift Serverless. You can't update the usage type or period of a usage limit. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="UsageLimitId">The identifier of the usage limit to update.</param>
+    public AwsRedshiftServerlessUpdateUsageLimitOptions(
+        string UsageLimitId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(UsageLimitId);
+        this.UsageLimitId = UsageLimitId;
+    }
+
+    private AwsRedshiftServerlessUpdateUsageLimitOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftServerlessUpdateUsageLimitOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftServerlessUpdateUsageLimitOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the usage limit to update.
+    /// </summary>
+    [CliOption("--usage-limit-id")]
+    public string? UsageLimitId { get; private init; }
+
     /// <summary>
     /// The new limit amount. If time-based, this amount is in Redshift Pro- cessing Units (RPU) consumed per hour. If data-based, this amount is in terabytes (TB) of data transferred between Regions in cross-ac- count sharing. The value must be a positive number.
     /// </summary>
@@ -34,13 +74,27 @@ public record AwsRedshiftServerlessUpdateUsageLimitOptions : AwsOptions
     [CliOption("--breach-action")]
     public AwsRedshiftServerlessUpdateUsageLimitBreachAction? BreachAction { get; set; }
 
-    [CliOption("--usage-limit-id")]
-    public string? UsageLimitId { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

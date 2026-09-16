@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -40,11 +40,11 @@ public class AwsPaymentCryptographyData : IAwsPaymentCryptographyData
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DecryptDataAsync(
-        AwsPaymentCryptographyDataDecryptDataOptions? options = null,
+        AwsPaymentCryptographyDataDecryptDataOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPaymentCryptographyDataDecryptDataOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -55,11 +55,11 @@ public class AwsPaymentCryptographyData : IAwsPaymentCryptographyData
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> EncryptDataAsync(
-        AwsPaymentCryptographyDataEncryptDataOptions? options = null,
+        AwsPaymentCryptographyDataEncryptDataOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPaymentCryptographyDataEncryptDataOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -70,11 +70,11 @@ public class AwsPaymentCryptographyData : IAwsPaymentCryptographyData
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GenerateAs2805KekValidationAsync(
-        AwsPaymentCryptographyDataGenerateAs2805KekValidationOptions? options = null,
+        AwsPaymentCryptographyDataGenerateAs2805KekValidationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPaymentCryptographyDataGenerateAs2805KekValidationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -85,11 +85,11 @@ public class AwsPaymentCryptographyData : IAwsPaymentCryptographyData
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GenerateAuthRequestCryptogramAsync(
-        AwsPaymentCryptographyDataGenerateAuthRequestCryptogramOptions? options = null,
+        AwsPaymentCryptographyDataGenerateAuthRequestCryptogramOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPaymentCryptographyDataGenerateAuthRequestCryptogramOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -100,11 +100,11 @@ public class AwsPaymentCryptographyData : IAwsPaymentCryptographyData
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GenerateCardValidationDataAsync(
-        AwsPaymentCryptographyDataGenerateCardValidationDataOptions? options = null,
+        AwsPaymentCryptographyDataGenerateCardValidationDataOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPaymentCryptographyDataGenerateCardValidationDataOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -115,11 +115,11 @@ public class AwsPaymentCryptographyData : IAwsPaymentCryptographyData
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GenerateMacEmvPinChangeAsync(
-        AwsPaymentCryptographyDataGenerateMacEmvPinChangeOptions? options = null,
+        AwsPaymentCryptographyDataGenerateMacEmvPinChangeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPaymentCryptographyDataGenerateMacEmvPinChangeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -130,11 +130,11 @@ public class AwsPaymentCryptographyData : IAwsPaymentCryptographyData
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GenerateMacAsync(
-        AwsPaymentCryptographyDataGenerateMacOptions? options = null,
+        AwsPaymentCryptographyDataGenerateMacOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPaymentCryptographyDataGenerateMacOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -145,11 +145,11 @@ public class AwsPaymentCryptographyData : IAwsPaymentCryptographyData
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GeneratePinDataAsync(
-        AwsPaymentCryptographyDataGeneratePinDataOptions? options = null,
+        AwsPaymentCryptographyDataGeneratePinDataOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPaymentCryptographyDataGeneratePinDataOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -160,11 +160,11 @@ public class AwsPaymentCryptographyData : IAwsPaymentCryptographyData
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ReEncryptDataAsync(
-        AwsPaymentCryptographyDataReEncryptDataOptions? options = null,
+        AwsPaymentCryptographyDataReEncryptDataOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPaymentCryptographyDataReEncryptDataOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -175,11 +175,11 @@ public class AwsPaymentCryptographyData : IAwsPaymentCryptographyData
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> TranslateKeyMaterialAsync(
-        AwsPaymentCryptographyDataTranslateKeyMaterialOptions? options = null,
+        AwsPaymentCryptographyDataTranslateKeyMaterialOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPaymentCryptographyDataTranslateKeyMaterialOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -190,11 +190,11 @@ public class AwsPaymentCryptographyData : IAwsPaymentCryptographyData
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> TranslatePinDataAsync(
-        AwsPaymentCryptographyDataTranslatePinDataOptions? options = null,
+        AwsPaymentCryptographyDataTranslatePinDataOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPaymentCryptographyDataTranslatePinDataOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -205,11 +205,11 @@ public class AwsPaymentCryptographyData : IAwsPaymentCryptographyData
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> VerifyAuthRequestCryptogramAsync(
-        AwsPaymentCryptographyDataVerifyAuthRequestCryptogramOptions? options = null,
+        AwsPaymentCryptographyDataVerifyAuthRequestCryptogramOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPaymentCryptographyDataVerifyAuthRequestCryptogramOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -220,11 +220,11 @@ public class AwsPaymentCryptographyData : IAwsPaymentCryptographyData
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> VerifyCardValidationDataAsync(
-        AwsPaymentCryptographyDataVerifyCardValidationDataOptions? options = null,
+        AwsPaymentCryptographyDataVerifyCardValidationDataOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPaymentCryptographyDataVerifyCardValidationDataOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -235,11 +235,11 @@ public class AwsPaymentCryptographyData : IAwsPaymentCryptographyData
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> VerifyMacAsync(
-        AwsPaymentCryptographyDataVerifyMacOptions? options = null,
+        AwsPaymentCryptographyDataVerifyMacOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPaymentCryptographyDataVerifyMacOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -250,11 +250,11 @@ public class AwsPaymentCryptographyData : IAwsPaymentCryptographyData
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> VerifyPinDataAsync(
-        AwsPaymentCryptographyDataVerifyPinDataOptions? options = null,
+        AwsPaymentCryptographyDataVerifyPinDataOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPaymentCryptographyDataVerifyPinDataOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

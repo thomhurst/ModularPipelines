@@ -51,7 +51,7 @@ public record AwsRoute53domainsListOperationsOptions : AwsOptions
     /// The sort type for returned values. Possible values: o SubmittedDate
     /// </summary>
     [CliOption("--sort-by")]
-    public AwsRoute53domainsListOperationsSortBy? SortBy { get; set; }
+    public string? SortBy { get; set; }
 
     /// <summary>
     /// The sort order for returned values, either ascending or descending. Possible values: o ASC o DESC

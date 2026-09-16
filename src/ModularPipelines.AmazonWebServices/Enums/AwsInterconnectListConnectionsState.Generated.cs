@@ -17,26 +17,26 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsInterconnectListConnectionsState
 {
     [EnumValue("available")]
-    Available = 1,
-
-    [EnumValue("requested")]
-    Requested = 2,
-
-    [EnumValue("pending")]
-    Pending = 3,
-
-    [EnumValue("down")]
-    Down = 4,
-
-    [EnumValue("deleting")]
-    Deleting = 5,
+    Available,
 
     [EnumValue("deleted")]
-    Deleted = 6,
+    Deleted,
+
+    [EnumValue("deleting")]
+    Deleting,
+
+    [EnumValue("down")]
+    Down,
 
     [EnumValue("failed")]
-    Failed = 7,
+    Failed,
+
+    [EnumValue("pending")]
+    Pending,
+
+    [EnumValue("requested")]
+    Requested,
 
     [EnumValue("updating")]
-    Updating = 8
+    Updating
 }

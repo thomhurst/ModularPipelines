@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,79 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pinpoint", "send-otp-message")]
-public record AwsPinpointSendOtpMessageOptions : AwsOptions
+public record AwsPinpointSendOtpMessageOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--application-id")]
-    public string? ApplicationId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Send an OTP message See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationId">The unique ID of your Amazon Pinpoint application.</param>
+    /// <param name="SendOtpMessageRequestParameters">Send OTP message request parameters. AllowedAttempts -&gt; (integer) The attempts allowed to validate an OTP. BrandName -&gt; (string) [required] The brand name that will be substituted into the OTP message body. Should be owned by calling AWS account. Channel -&gt; (string) [required] Channel type for the OTP message. Supported values: [SMS]. CodeLength -&gt; (integer) The number of characters in the generated OTP. DestinationIdentity -&gt; (string) [required] The destination identity to send OTP to. EntityId -&gt; (string) A unique Entity ID received from DLT after entity registration is approved. Language -&gt; (string) The language to be used for the outgoing message body containing the OTP. OriginationIdentity -&gt; (string) [required] The origination identity used to send OTP from. ReferenceId -&gt; (string) [required] Developer-specified reference identifier. Required to match dur- ing OTP verification. TemplateId -&gt; (string) A unique Template ID received from DLT after entity registration is approved. ValidityPeriod -&gt; (integer) The time in minutes before the OTP is no longer valid. Shorthand Syntax: AllowedAttempts=integer,BrandName=string,Channel=string,CodeLength=integer,DestinationIdentity=string,EntityId=string,Language=string,OriginationIdentity=string,ReferenceId=string,TemplateId=string,ValidityPeriod=integer JSON Syntax: { "AllowedAttempts": integer, "BrandName": "string", "Channel": "string", "CodeLength": integer, "DestinationIdentity": "string", "EntityId": "string", "Language": "string", "OriginationIdentity": "string", "ReferenceId": "string", "TemplateId": "string", "ValidityPeriod": integer }</param>
+    public AwsPinpointSendOtpMessageOptions(
+        string ApplicationId,
+        string SendOtpMessageRequestParameters
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationId);
+        this.ApplicationId = ApplicationId;
+        global::System.ArgumentNullException.ThrowIfNull(SendOtpMessageRequestParameters);
+        this.SendOtpMessageRequestParameters = SendOtpMessageRequestParameters;
+    }
+
+    private AwsPinpointSendOtpMessageOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPinpointSendOtpMessageOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPinpointSendOtpMessageOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique ID of your Amazon Pinpoint application.
+    /// </summary>
+    [CliOption("--application-id")]
+    public string? ApplicationId { get; private init; }
+
+    /// <summary>
+    /// Send OTP message request parameters. AllowedAttempts -&gt; (integer) The attempts allowed to validate an OTP. BrandName -&gt; (string) [required] The brand name that will be substituted into the OTP message body. Should be owned by calling AWS account. Channel -&gt; (string) [required] Channel type for the OTP message. Supported values: [SMS]. CodeLength -&gt; (integer) The number of characters in the generated OTP. DestinationIdentity -&gt; (string) [required] The destination identity to send OTP to. EntityId -&gt; (string) A unique Entity ID received from DLT after entity registration is approved. Language -&gt; (string) The language to be used for the outgoing message body containing the OTP. OriginationIdentity -&gt; (string) [required] The origination identity used to send OTP from. ReferenceId -&gt; (string) [required] Developer-specified reference identifier. Required to match dur- ing OTP verification. TemplateId -&gt; (string) A unique Template ID received from DLT after entity registration is approved. ValidityPeriod -&gt; (integer) The time in minutes before the OTP is no longer valid. Shorthand Syntax: AllowedAttempts=integer,BrandName=string,Channel=string,CodeLength=integer,DestinationIdentity=string,EntityId=string,Language=string,OriginationIdentity=string,ReferenceId=string,TemplateId=string,ValidityPeriod=integer JSON Syntax: { "AllowedAttempts": integer, "BrandName": "string", "Channel": "string", "CodeLength": integer, "DestinationIdentity": "string", "EntityId": "string", "Language": "string", "OriginationIdentity": "string", "ReferenceId": "string", "TemplateId": "string", "ValidityPeriod": integer }
+    /// </summary>
     [SecretValue]
     [CliOption("--send-otp-message-request-parameters")]
-    public string? SendOtpMessageRequestParameters { get; set; }
+    public string? SendOtpMessageRequestParameters { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

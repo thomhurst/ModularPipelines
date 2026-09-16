@@ -50,7 +50,7 @@ public record AwsNeptunedataGetPropertygraphStreamOptions : AwsOptions
     /// If set to TRUE, Neptune compresses the response using gzip encoding. Possible values: o gzip
     /// </summary>
     [CliOption("--encoding")]
-    public AwsNeptunedataGetPropertygraphStreamEncoding? Encoding { get; set; }
+    public string? Encoding { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

@@ -22,8 +22,33 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("geo-maps", "get-style-descriptor")]
 public record AwsGeoMapsGetStyleDescriptorOptions : AwsOptions
 {
+    /// <summary>
+    /// GetStyleDescriptor returns information about the style. For more information, see Style dynamic maps in the Amazon Location Service Developer Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Style">Style specifies the desired map style. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only the Standard and Monochrome values. Possible values: o Standard o Monochrome o Hybrid o Satellite</param>
+    /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
+    public AwsGeoMapsGetStyleDescriptorOptions(
+        AwsGeoMapsGetStyleDescriptorStyle Style,
+        string Outfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Style);
+        this.Style = Style;
+        global::System.ArgumentNullException.ThrowIfNull(Outfile);
+        this.Outfile = Outfile;
+    }
+
+    public void Deconstruct(out AwsGeoMapsGetStyleDescriptorStyle Style, out string Outfile)
+    {
+        Style = this.Style;
+        Outfile = this.Outfile;
+    }
+
+    /// <summary>
+    /// Style specifies the desired map style. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only the Standard and Monochrome values. Possible values: o Standard o Monochrome o Hybrid o Satellite
+    /// </summary>
     [CliOption("--style")]
-    public string? Style { get; set; }
+    public AwsGeoMapsGetStyleDescriptorStyle Style { get; private init; }
 
     /// <summary>
     /// Sets the color tone for the map, such as dark and light. Example: Light Default value: Light NOTE: Valid values for ColorScheme are case sensitive. Possible values: o Light o Dark
@@ -65,7 +90,7 @@ public record AwsGeoMapsGetStyleDescriptorOptions : AwsOptions
     /// Adjusts how building details are rendered on the map. The following building styles are currently supported: o Buildings3D : Displays buildings as three-dimensional extrusions on the map. Buildings3D is valid only for the Standard and Monochrome map styles. Possible values: o Buildings3D
     /// </summary>
     [CliOption("--buildings")]
-    public AwsGeoMapsGetStyleDescriptorBuildings? Buildings { get; set; }
+    public string? Buildings { get; set; }
 
     /// <summary>
     /// Controls how densely points of interest are rendered on the map. The density value controls the zoom level at which each category of points of interest appears, and how quickly less prominent points of interest are revealed as you zoom in. Denser values display more points of interest at lower zoom levels. Use Off to hide all points of interest. When you omit this parame- ter, the map renders at Default density. NOTE: The difference between density values is most noticeable at mid-range zoom levels. At high zoom levels, all density values converge on displaying every available point of interest. This parameter is valid only for the Standard and Hybrid map styles. In ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers, this parameter is valid only for the Standard map style. Possible values: o Off o VerySparse o Sparse o Default o Dense o VeryDense
@@ -84,5 +109,11 @@ public record AwsGeoMapsGetStyleDescriptorOptions : AwsOptions
     /// </summary>
     [CliOption("--key")]
     public string? Key { get; set; }
+
+    /// <summary>
+    /// The &lt;outfile&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Outfile { get; private init; }
 
 }

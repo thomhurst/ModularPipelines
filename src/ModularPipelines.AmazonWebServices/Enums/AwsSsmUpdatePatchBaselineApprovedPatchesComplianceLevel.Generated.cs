@@ -11,26 +11,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --approvedpatchescompliancelevel.
+/// Allowed values for --approved-patches-compliance-level.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSsmUpdatePatchBaselineApprovedPatchesComplianceLevel
 {
     [EnumValue("CRITICAL")]
-    Critical = 1,
+    Critical,
 
     [EnumValue("HIGH")]
-    High = 2,
-
-    [EnumValue("MEDIUM")]
-    Medium = 3,
-
-    [EnumValue("LOW")]
-    Low = 4,
+    High,
 
     [EnumValue("INFORMATIONAL")]
-    Informational = 5,
+    Informational,
+
+    [EnumValue("LOW")]
+    Low,
+
+    [EnumValue("MEDIUM")]
+    Medium,
 
     [EnumValue("UNSPECIFIED")]
-    Unspecified = 6
+    Unspecified
 }

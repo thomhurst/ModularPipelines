@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +22,65 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datazone", "search-types")]
-public record AwsDatazoneSearchTypesOptions : AwsOptions
+public record AwsDatazoneSearchTypesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--domain-identifier")]
-    public string? DomainIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Searches for types in Amazon DataZone. Prerequisites: o The --domain-identifier must refer to an existing Amazon DataZone do- main. o --search-scope must be one of the valid values including: ASSET_TYPE, GLOSSARY_TERM_TYPE, DATA_PRODUCT_TYPE. o The --managed flag must be present without a value. o The user must have permissions for form or asset types in the domain. o If using --filters, ensure that the JSON is valid. o Filters contain correct structure (attribute, value, operator). See also: AW...
+    /// </summary>
+    /// <param name="DomainIdentifier">The identifier of the Amazon DataZone domain in which to invoke the SearchTypes action. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="SearchScope">Specifies the scope of the search for types. Possible values: o ASSET_TYPE o FORM_TYPE o LINEAGE_NODE_TYPE</param>
+    /// <param name="Managed">Specifies whether the search is managed.</param>
+    public AwsDatazoneSearchTypesOptions(
+        string DomainIdentifier,
+        AwsDatazoneSearchTypesSearchScope SearchScope,
+        bool Managed
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainIdentifier);
+        this.DomainIdentifier = DomainIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(SearchScope);
+        this.SearchScope = SearchScope;
+        this.Managed = Managed;
+    }
+
+    private AwsDatazoneSearchTypesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatazoneSearchTypesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatazoneSearchTypesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Amazon DataZone domain in which to invoke the SearchTypes action. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// </summary>
+    [CliOption("--domain-identifier")]
+    public string? DomainIdentifier { get; private init; }
+
+    /// <summary>
+    /// Specifies the scope of the search for types. Possible values: o ASSET_TYPE o FORM_TYPE o LINEAGE_NODE_TYPE
+    /// </summary>
     [CliOption("--search-scope")]
-    public string? SearchScope { get; set; }
+    public AwsDatazoneSearchTypesSearchScope? SearchScope { get; private init; }
+
+    /// <summary>
+    /// Specifies whether the search is managed.
+    /// </summary>
+    [CliFlag("--managed", NegatedName = "--no-managed")]
+    public bool? Managed { get; private init; }
 
     /// <summary>
     /// Specifies the text for which to search. Constraints: o min: 1 o max: 512
@@ -52,9 +106,6 @@ public record AwsDatazoneSearchTypesOptions : AwsOptions
     [CliOption("--sort")]
     public string? Sort { get; set; }
 
-    [CliFlag("--managed")]
-    public bool? Managed { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
@@ -79,5 +130,22 @@ public record AwsDatazoneSearchTypesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

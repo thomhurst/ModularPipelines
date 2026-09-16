@@ -16,12 +16,12 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotListPackageVersionsStatus
 {
+    [EnumValue("DEPRECATED")]
+    Deprecated,
+
     [EnumValue("DRAFT")]
-    Draft = 1,
+    Draft,
 
     [EnumValue("PUBLISHED")]
-    Published = 2,
-
-    [EnumValue("DEPRECATED")]
-    Deprecated = 3
+    Published
 }

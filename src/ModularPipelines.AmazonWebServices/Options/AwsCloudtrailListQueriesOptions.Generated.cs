@@ -11,20 +11,57 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of queries and query statuses for the past seven days. You must specify an ARN value for EventDataStore . Optionally, to shorten the list of results, you can specify a time range, formatted as timestamps, by adding StartTime and EndTime parameters, and a QuerySta- tus value. Valid values for QueryStatus include QUEUED , RUNNING , FIN- ISHED , FAILED , TIMED_OUT , or CANCELLED . See also: AWS API Documentation
+/// WARNING: CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see CloudTrail Lake availability change . Returns a list of queries and query statuses for the past seven days. You must specify an ARN value for EventDataStore . Optionally, to shorten the list of results, you can specify a time range, formatted as timestam...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudtrail", "list-queries")]
-public record AwsCloudtrailListQueriesOptions : AwsOptions
+public record AwsCloudtrailListQueriesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// WARNING: CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see CloudTrail Lake availability change . Returns a list of queries and query statuses for the past seven days. You must specify an ARN value for EventDataStore . Optionally, to shorten the list of results, you can specify a time range, formatted as timestam...
+    /// </summary>
+    /// <param name="EventDataStore">The ARN (or the ID suffix of the ARN) of an event data store on which queries were run. Constraints: o min: 3 o max: 256 o pattern: ^[a-zA-Z0-9._/\-:]+$</param>
+    public AwsCloudtrailListQueriesOptions(
+        string EventDataStore
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EventDataStore);
+        this.EventDataStore = EventDataStore;
+    }
+
+    private AwsCloudtrailListQueriesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudtrailListQueriesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudtrailListQueriesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN (or the ID suffix of the ARN) of an event data store on which queries were run. Constraints: o min: 3 o max: 256 o pattern: ^[a-zA-Z0-9._/\-:]+$
+    /// </summary>
     [CliOption("--event-data-store")]
-    public string? EventDataStore { get; set; }
+    public string? EventDataStore { get; private init; }
 
     /// <summary>
     /// A token you can use to get the next page of results. Constraints: o min: 4 o max: 1000 o pattern: .*
@@ -62,5 +99,22 @@ public record AwsCloudtrailListQueriesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

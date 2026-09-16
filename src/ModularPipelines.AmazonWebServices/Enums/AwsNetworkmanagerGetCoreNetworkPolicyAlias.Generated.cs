@@ -16,9 +16,9 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsNetworkmanagerGetCoreNetworkPolicyAlias
 {
-    [EnumValue("LIVE")]
-    Live = 1,
-
     [EnumValue("LATEST")]
-    Latest = 2
+    Latest,
+
+    [EnumValue("LIVE")]
+    Live
 }

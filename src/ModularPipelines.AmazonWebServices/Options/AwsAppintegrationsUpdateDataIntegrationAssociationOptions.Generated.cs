@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appintegrations", "update-data-integration-association")]
-public record AwsAppintegrationsUpdateDataIntegrationAssociationOptions : AwsOptions
+public record AwsAppintegrationsUpdateDataIntegrationAssociationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates and persists a DataIntegrationAssociation resource. NOTE: Updating a DataIntegrationAssociation with ExecutionConfiguration will rerun the on-demand job. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DataIntegrationIdentifier">A unique identifier for the DataIntegration. Constraints: o min: 1 o max: 255 o pattern: .*\S.*</param>
+    /// <param name="DataIntegrationAssociationIdentifier">A unique identifier. of the DataIntegrationAssociation resource Constraints: o min: 1 o max: 255 o pattern: .*\S.*</param>
+    /// <param name="ExecutionConfiguration">The configuration for how the files should be pulled from the source. ExecutionMode -&gt; (string) [required] The mode for data import/export execution. Possible values: o ON_DEMAND o SCHEDULED OnDemandConfiguration -&gt; (structure) The start and end time for data pull from the source. StartTime -&gt; (string) [required] The start time for data pull from the source as an Unix/epoch string in milliseconds Constraints: o min: 1 o max: 255 o pattern: .*\S.* EndTime -&gt; (string) The end time for data pull from the source as an Unix/epoch string in milliseconds Constraints: o min: 1 o max: 255 o pattern: .*\S.* ScheduleConfiguration -&gt; (structure) The name of the data and how often it should be pulled from the source. FirstExecutionFrom -&gt; (string) The start date for objects to import in the first flow run as an Unix/epoch timestamp in milliseconds or in ISO-8601 for- mat. Constraints: o min: 1 o max: 255 o pattern: .*\S.* Object -&gt; (string) The name of the object to pull from the data source. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9\/\._\-]+$ ScheduleExpression -&gt; (string) [required] How often the data should be pulled from data source. Constraints: o min: 1 o max: 255 o pattern: .*\S.* Shorthand Syntax: ExecutionMode=string,OnDemandConfiguration={StartTime=string,EndTime=string},ScheduleConfiguration={FirstExecutionFrom=string,Object=string,ScheduleExpression=string} JSON Syntax: { "ExecutionMode": "ON_DEMAND"|"SCHEDULED", "OnDemandConfiguration": { "StartTime": "string", "EndTime": "string" }, "ScheduleConfiguration": { "FirstExecutionFrom": "string", "Object": "string", "ScheduleExpression": "string" } }</param>
+    public AwsAppintegrationsUpdateDataIntegrationAssociationOptions(
+        string DataIntegrationIdentifier,
+        string DataIntegrationAssociationIdentifier,
+        string ExecutionConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataIntegrationIdentifier);
+        this.DataIntegrationIdentifier = DataIntegrationIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(DataIntegrationAssociationIdentifier);
+        this.DataIntegrationAssociationIdentifier = DataIntegrationAssociationIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(ExecutionConfiguration);
+        this.ExecutionConfiguration = ExecutionConfiguration;
+    }
+
+    private AwsAppintegrationsUpdateDataIntegrationAssociationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppintegrationsUpdateDataIntegrationAssociationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppintegrationsUpdateDataIntegrationAssociationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier for the DataIntegration. Constraints: o min: 1 o max: 255 o pattern: .*\S.*
+    /// </summary>
     [CliOption("--data-integration-identifier")]
-    public string? DataIntegrationIdentifier { get; set; }
+    public string? DataIntegrationIdentifier { get; private init; }
 
+    /// <summary>
+    /// A unique identifier. of the DataIntegrationAssociation resource Constraints: o min: 1 o max: 255 o pattern: .*\S.*
+    /// </summary>
     [CliOption("--data-integration-association-identifier")]
-    public string? DataIntegrationAssociationIdentifier { get; set; }
+    public string? DataIntegrationAssociationIdentifier { get; private init; }
 
+    /// <summary>
+    /// The configuration for how the files should be pulled from the source. ExecutionMode -&gt; (string) [required] The mode for data import/export execution. Possible values: o ON_DEMAND o SCHEDULED OnDemandConfiguration -&gt; (structure) The start and end time for data pull from the source. StartTime -&gt; (string) [required] The start time for data pull from the source as an Unix/epoch string in milliseconds Constraints: o min: 1 o max: 255 o pattern: .*\S.* EndTime -&gt; (string) The end time for data pull from the source as an Unix/epoch string in milliseconds Constraints: o min: 1 o max: 255 o pattern: .*\S.* ScheduleConfiguration -&gt; (structure) The name of the data and how often it should be pulled from the source. FirstExecutionFrom -&gt; (string) The start date for objects to import in the first flow run as an Unix/epoch timestamp in milliseconds or in ISO-8601 for- mat. Constraints: o min: 1 o max: 255 o pattern: .*\S.* Object -&gt; (string) The name of the object to pull from the data source. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9\/\._\-]+$ ScheduleExpression -&gt; (string) [required] How often the data should be pulled from data source. Constraints: o min: 1 o max: 255 o pattern: .*\S.* Shorthand Syntax: ExecutionMode=string,OnDemandConfiguration={StartTime=string,EndTime=string},ScheduleConfiguration={FirstExecutionFrom=string,Object=string,ScheduleExpression=string} JSON Syntax: { "ExecutionMode": "ON_DEMAND"|"SCHEDULED", "OnDemandConfiguration": { "StartTime": "string", "EndTime": "string" }, "ScheduleConfiguration": { "FirstExecutionFrom": "string", "Object": "string", "ScheduleExpression": "string" } }
+    /// </summary>
     [CliOption("--execution-configuration")]
-    public string? ExecutionConfiguration { get; set; }
+    public string? ExecutionConfiguration { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

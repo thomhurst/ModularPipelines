@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --instancematchcriteria.
+/// Allowed values for --instance-match-criteria.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEc2ModifyCapacityReservationInstanceMatchCriteria
 {
     [EnumValue("open")]
-    Open = 1,
+    Open,
 
     [EnumValue("targeted")]
-    Targeted = 2
+    Targeted
 }

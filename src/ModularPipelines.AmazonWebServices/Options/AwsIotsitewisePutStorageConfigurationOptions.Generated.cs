@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotsitewise", "put-storage-configuration")]
-public record AwsIotsitewisePutStorageConfigurationOptions : AwsOptions
+public record AwsIotsitewisePutStorageConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Configures storage settings for IoT SiteWise. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="StorageType">The storage tier that you specified for your data. The storageType parameter can be one of the following values: o SITEWISE_DEFAULT_STORAGE IoT SiteWise saves your data into the hot tier. The hot tier is a service-managed database. o MULTI_LAYER_STORAGE IoT SiteWise saves your data in both the cold tier and the hot tier. The cold tier is a customer-managed Amazon S3 bucket. Possible values: o SITEWISE_DEFAULT_STORAGE o MULTI_LAYER_STORAGE</param>
+    public AwsIotsitewisePutStorageConfigurationOptions(
+        AwsIotsitewisePutStorageConfigurationStorageType StorageType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StorageType);
+        this.StorageType = StorageType;
+    }
+
+    private AwsIotsitewisePutStorageConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotsitewisePutStorageConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotsitewisePutStorageConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The storage tier that you specified for your data. The storageType parameter can be one of the following values: o SITEWISE_DEFAULT_STORAGE IoT SiteWise saves your data into the hot tier. The hot tier is a service-managed database. o MULTI_LAYER_STORAGE IoT SiteWise saves your data in both the cold tier and the hot tier. The cold tier is a customer-managed Amazon S3 bucket. Possible values: o SITEWISE_DEFAULT_STORAGE o MULTI_LAYER_STORAGE
+    /// </summary>
     [CliOption("--storage-type")]
-    public string? StorageType { get; set; }
+    public AwsIotsitewisePutStorageConfigurationStorageType? StorageType { get; private init; }
 
     /// <summary>
     /// Identifies a storage destination. If you specified MULTI_LAYER_STOR- AGE for the storage type, you must specify a MultiLayerStorage ob- ject. customerManagedS3Storage -&gt; (structure) [required] Contains information about a customer managed Amazon S3 bucket. s3ResourceArn -&gt; (string) [required] The ARN of the Amazon S3 object. For more information about how to find the ARN for an Amazon S3 object, see Amazon S3 resources in the Amazon Simple Storage Service User Guide . Constraints: o min: 1 o max: 1600 o pattern: ^arn:aws(-cn|-us-gov)?:[a-zA-Z0-9-:\/_\.]+$ roleArn -&gt; (string) [required] The ARN of the Identity and Access Management role that al- lows IoT SiteWise to send data to Amazon S3. Constraints: o min: 1 o max: 1600 o pattern: ^arn:aws(-cn|-us-gov)?:[a-zA-Z0-9-:\/_\.]+$ Shorthand Syntax: customerManagedS3Storage={s3ResourceArn=string,roleArn=string} JSON Syntax: { "customerManagedS3Storage": { "s3ResourceArn": "string", "roleArn": "string" } }
@@ -55,7 +92,10 @@ public record AwsIotsitewisePutStorageConfigurationOptions : AwsOptions
     [CliOption("--warm-tier-retention-period")]
     public string? WarmTierRetentionPeriod { get; set; }
 
-    [CliFlag("--disallow-ingest-null-na-n")]
+    /// <summary>
+    /// Describes the configuration for ingesting NULL and NaN data. By de- fault the feature is allowed. The feature is disallowed if the value is true .
+    /// </summary>
+    [CliFlag("--disallow-ingest-null-na-n", NegatedName = "--no-disallow-ingest-null-na-n")]
     public bool? DisallowIngestNullNaN { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -63,5 +103,22 @@ public record AwsIotsitewisePutStorageConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

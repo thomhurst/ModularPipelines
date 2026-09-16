@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appsync", "evaluate-mapping-template")]
-public record AwsAppsyncEvaluateMappingTemplateOptions : AwsOptions
+public record AwsAppsyncEvaluateMappingTemplateOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--template")]
-    public string? Template { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Evaluates a given template and returns the response. The mapping tem- plate can be a request or response template. Request templates take the incoming request after a GraphQL operation is parsed and convert it into a request configuration for the selected data source operation. Response templates interpret responses from the data source and map it to the shape of the GraphQL field output type. Mapping templates are written in the Apache Velocity Template Language (VTL). See also: AWS API Documen...
+    /// </summary>
+    /// <param name="Template">The mapping template; this can be a request or response template. A template is required for this action. Constraints: o min: 2 o max: 65536 o pattern: ^[\s\S]*$</param>
+    /// <param name="Context">The map that holds all of the contextual information for your re- solver invocation. A context is required for this action. Constraints: o min: 2 o max: 28000 o pattern: ^[\s\S]*$</param>
+    public AwsAppsyncEvaluateMappingTemplateOptions(
+        string Template,
+        string Context
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Template);
+        this.Template = Template;
+        global::System.ArgumentNullException.ThrowIfNull(Context);
+        this.Context = Context;
+    }
+
+    private AwsAppsyncEvaluateMappingTemplateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppsyncEvaluateMappingTemplateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppsyncEvaluateMappingTemplateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The mapping template; this can be a request or response template. A template is required for this action. Constraints: o min: 2 o max: 65536 o pattern: ^[\s\S]*$
+    /// </summary>
+    [CliOption("--template")]
+    public string? Template { get; private init; }
+
+    /// <summary>
+    /// The map that holds all of the contextual information for your re- solver invocation. A context is required for this action. Constraints: o min: 2 o max: 28000 o pattern: ^[\s\S]*$
+    /// </summary>
     [CliOption("--context")]
-    public string? Context { get; set; }
+    public string? Context { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

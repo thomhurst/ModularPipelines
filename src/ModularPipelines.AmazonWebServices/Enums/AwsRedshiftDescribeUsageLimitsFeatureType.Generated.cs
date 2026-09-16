@@ -11,17 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --featuretype.
+/// Allowed values for --feature-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsRedshiftDescribeUsageLimitsFeatureType
 {
-    [EnumValue("spectrum")]
-    Spectrum = 1,
-
     [EnumValue("concurrency-scaling")]
-    ConcurrencyScaling = 2,
+    ConcurrencyScaling,
 
     [EnumValue("cross-region-datasharing")]
-    CrossRegionDatasharing = 3
+    CrossRegionDatasharing,
+
+    [EnumValue("extra-compute-for-automatic-optimization")]
+    ExtraComputeForAutomaticOptimization,
+
+    [EnumValue("spectrum")]
+    Spectrum
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eks", "update-addon")]
-public record AwsEksUpdateAddonOptions : AwsOptions
+public record AwsEksUpdateAddonOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--cluster-name")]
-    public string? ClusterName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates an Amazon EKS add-on. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ClusterName">The name of your cluster. Constraints: o min: 1 o max: 100 o pattern: ^[0-9A-Za-z][A-Za-z0-9\-_]*</param>
+    /// <param name="AddonName">The name of the add-on. The name must match one of the names re- turned by ` ListAddons https://docs.aws.amazon.com/eks/latest/APIReference/API_ListAddons.html`__ .</param>
+    public AwsEksUpdateAddonOptions(
+        string ClusterName,
+        string AddonName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+        global::System.ArgumentNullException.ThrowIfNull(AddonName);
+        this.AddonName = AddonName;
+    }
+
+    private AwsEksUpdateAddonOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEksUpdateAddonOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEksUpdateAddonOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of your cluster. Constraints: o min: 1 o max: 100 o pattern: ^[0-9A-Za-z][A-Za-z0-9\-_]*
+    /// </summary>
+    [CliOption("--cluster-name")]
+    public string? ClusterName { get; private init; }
+
+    /// <summary>
+    /// The name of the add-on. The name must match one of the names re- turned by ` ListAddons https://docs.aws.amazon.com/eks/latest/APIReference/API_ListAddons.html`__ .
+    /// </summary>
     [CliOption("--addon-name")]
-    public string? AddonName { get; set; }
+    public string? AddonName { get; private init; }
 
     /// <summary>
     /// The version of the add-on. The version must match one of the ver- sions returned by ` DescribeAddonVersions https://docs.aws.amazon.com/eks/latest/APIReference/API_DescribeAddonVersions.html`__ .
@@ -71,5 +115,22 @@ public record AwsEksUpdateAddonOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

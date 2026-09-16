@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,8 +22,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acm", "create-acme-endpoint")]
-public record AwsAcmCreateAcmeEndpointOptions : AwsOptions
+public record AwsAcmCreateAcmeEndpointOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an ACME endpoint, which is a managed ACME server with a unique endpoint URL. After creation, ACME clients can use the endpoint URL to automate certificate issuance using the ACME protocol. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AuthorizationBehavior">The authorization behavior for the ACME endpoint. Possible values: o PRE_APPROVED</param>
+    /// <param name="CertificateAuthority">The type of certificate authority to use for issuing certificates through this ACME endpoint. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: PublicCertificateAuthority. PublicCertificateAuthority -&gt; (structure) Configuration for using a public certificate authority. AllowedKeyAlgorithms -&gt; (list) The key algorithms allowed for certificates issued by this certificate authority. (string) Possible values: o RSA_2048 o EC_prime256v1 o EC_secp384r1 Shorthand Syntax: PublicCertificateAuthority={AllowedKeyAlgorithms=[string,string]} JSON Syntax: { "PublicCertificateAuthority": { "AllowedKeyAlgorithms": ["RSA_2048"|"EC_prime256v1"|"EC_secp384r1", ...] } }</param>
+    public AwsAcmCreateAcmeEndpointOptions(
+        string AuthorizationBehavior,
+        string CertificateAuthority
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AuthorizationBehavior);
+        this.AuthorizationBehavior = AuthorizationBehavior;
+        global::System.ArgumentNullException.ThrowIfNull(CertificateAuthority);
+        this.CertificateAuthority = CertificateAuthority;
+    }
+
+    private AwsAcmCreateAcmeEndpointOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAcmCreateAcmeEndpointOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAcmCreateAcmeEndpointOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The authorization behavior for the ACME endpoint. Possible values: o PRE_APPROVED
+    /// </summary>
+    [CliOption("--authorization-behavior")]
+    public string? AuthorizationBehavior { get; private init; }
+
+    /// <summary>
+    /// The type of certificate authority to use for issuing certificates through this ACME endpoint. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: PublicCertificateAuthority. PublicCertificateAuthority -&gt; (structure) Configuration for using a public certificate authority. AllowedKeyAlgorithms -&gt; (list) The key algorithms allowed for certificates issued by this certificate authority. (string) Possible values: o RSA_2048 o EC_prime256v1 o EC_secp384r1 Shorthand Syntax: PublicCertificateAuthority={AllowedKeyAlgorithms=[string,string]} JSON Syntax: { "PublicCertificateAuthority": { "AllowedKeyAlgorithms": ["RSA_2048"|"EC_prime256v1"|"EC_secp384r1", ...] } }
+    /// </summary>
+    [CliOption("--certificate-authority")]
+    public string? CertificateAuthority { get; private init; }
+
     /// <summary>
     /// A unique, case-sensitive identifier to ensure idempotency of the re- quest.
     /// </summary>
@@ -30,17 +80,11 @@ public record AwsAcmCreateAcmeEndpointOptions : AwsOptions
     [CliOption("--idempotency-token")]
     public string? IdempotencyToken { get; set; }
 
-    [CliOption("--authorization-behavior")]
-    public string? AuthorizationBehavior { get; set; }
-
     /// <summary>
     /// Specifies whether ACME clients must provide contact information dur- ing account registration. Possible values: o REQUIRED o NOT_REQUIRED
     /// </summary>
     [CliOption("--contact")]
     public AwsAcmCreateAcmeEndpointContact? Contact { get; set; }
-
-    [CliOption("--certificate-authority")]
-    public string? CertificateAuthority { get; set; }
 
     /// <summary>
     /// One or more tags to associate with the ACME endpoint. Constraints: o min: 1 o max: 50 (structure) A key-value pair that identifies or specifies metadata about an ACM resource. Key -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) The value of the tag. Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -59,5 +103,22 @@ public record AwsAcmCreateAcmeEndpointOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

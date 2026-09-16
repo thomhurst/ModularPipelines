@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,79 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53globalresolver", "batch-create-firewall-rule")]
-public record AwsRoute53globalresolverBatchCreateFirewallRuleOptions : AwsOptions
+public record AwsRoute53globalresolverBatchCreateFirewallRuleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates multiple DNS firewall rules in a single operation. This is more efficient than creating rules individually when you need to set up mul- tiple rules at once. WARNING: Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands. See al...
+    /// </summary>
+    /// <param name="FirewallRules">The BatchCreateFirewallRuleInputItem objects contain the information for each Firewall rule. (structure) Information about a DNS Firewall rule to create in a batch oper- ation. action -&gt; (string) [required] The action to take when a DNS query matches the firewall rule. Possible values: o ALLOW o ALERT o BLOCK blockOverrideDnsType -&gt; (string) The DNS record type for the custom response when the action is BLOCK. Possible values: o CNAME blockOverrideDomain -&gt; (string) The custom domain name for the BLOCK response. Constraints: o min: 1 o max: 256 o pattern: \*?[a-zA-Z0-9!"#$%&amp;'()*+,./:;&lt;=&gt;?@\[\\\]^_`{|}~-]+ blockOverrideTtl -&gt; (integer) The TTL value for the custom response when the action is BLOCK. Constraints: o min: 0 o max: 604800 blockResponse -&gt; (string) The type of block response to return when the action is BLOCK. Possible values: o NODATA o NXDOMAIN o OVERRIDE clientToken -&gt; (string) [required] A unique string that identifies the request and ensures idem- potency. Constraints: o min: 1 o max: 256 confidenceThreshold -&gt; (string) The confidence threshold for advanced threat detection. Possible values: o LOW o MEDIUM o HIGH description -&gt; (string) A description of the firewall rule. Constraints: o min: 1 o max: 256 dnsAdvancedProtection -&gt; (string) Whether to enable advanced DNS threat protection for the firewall rule. Possible values: o DGA o DNS_TUNNELING o DICTIONARY_DGA firewallDomainListId -&gt; (string) The ID of the firewall domain list to associate with the rule. Constraints: o min: 1 o max: 64 o pattern: [-.a-zA-Z0-9]+ name -&gt; (string) [required] A name for the firewall rule. Constraints: o min: 1 o max: 64 o pattern: (?!^[0-9]+$)([a-zA-Z0-9-_/' ']+) priority -&gt; (long) The priority of the firewall rule. Constraints: o min: 1 o max: 10000 dnsViewId -&gt; (string) [required] The ID of the DNS view to associate the firewall rule with. Constraints: o min: 1 o max: 64 o pattern: [-.a-zA-Z0-9]+ qType -&gt; (string) The DNS query type that the firewall rule should match. Constraints: o min: 0 o max: 16 Shorthand Syntax: action=string,blockOverrideDnsType=string,blockOverrideDomain=string,blockOverrideTtl=integer,blockResponse=string,clientToken=string,confidenceThreshold=string,description=string,dnsAdvancedProtection=string,firewallDomainListId=string,name=string,priority=long,dnsViewId=string,qType=string ... JSON Syntax: [ { "action": "ALLOW"|"ALERT"|"BLOCK", "blockOverrideDnsType": "CNAME", "blockOverrideDomain": "string", "blockOverrideTtl": integer, "blockResponse": "NODATA"|"NXDOMAIN"|"OVERRIDE", "clientToken": "string", "confidenceThreshold": "LOW"|"MEDIUM"|"HIGH", "description": "string", "dnsAdvancedProtection": "DGA"|"DNS_TUNNELING"|"DICTIONARY_DGA", "firewallDomainListId": "string", "name": "string", "priority": long, "dnsViewId": "string", "qType": "string" } ... ]</param>
+    public AwsRoute53globalresolverBatchCreateFirewallRuleOptions(
+        IEnumerable<string> FirewallRules
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(FirewallRules);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(FirewallRules));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(FirewallRules));
+            }
+
+            FirewallRules = materialized;
+        }
+        this.FirewallRules = FirewallRules;
+    }
+
+    private AwsRoute53globalresolverBatchCreateFirewallRuleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53globalresolverBatchCreateFirewallRuleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53globalresolverBatchCreateFirewallRuleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The BatchCreateFirewallRuleInputItem objects contain the information for each Firewall rule. (structure) Information about a DNS Firewall rule to create in a batch oper- ation. action -&gt; (string) [required] The action to take when a DNS query matches the firewall rule. Possible values: o ALLOW o ALERT o BLOCK blockOverrideDnsType -&gt; (string) The DNS record type for the custom response when the action is BLOCK. Possible values: o CNAME blockOverrideDomain -&gt; (string) The custom domain name for the BLOCK response. Constraints: o min: 1 o max: 256 o pattern: \*?[a-zA-Z0-9!"#$%&amp;'()*+,./:;&lt;=&gt;?@\[\\\]^_`{|}~-]+ blockOverrideTtl -&gt; (integer) The TTL value for the custom response when the action is BLOCK. Constraints: o min: 0 o max: 604800 blockResponse -&gt; (string) The type of block response to return when the action is BLOCK. Possible values: o NODATA o NXDOMAIN o OVERRIDE clientToken -&gt; (string) [required] A unique string that identifies the request and ensures idem- potency. Constraints: o min: 1 o max: 256 confidenceThreshold -&gt; (string) The confidence threshold for advanced threat detection. Possible values: o LOW o MEDIUM o HIGH description -&gt; (string) A description of the firewall rule. Constraints: o min: 1 o max: 256 dnsAdvancedProtection -&gt; (string) Whether to enable advanced DNS threat protection for the firewall rule. Possible values: o DGA o DNS_TUNNELING o DICTIONARY_DGA firewallDomainListId -&gt; (string) The ID of the firewall domain list to associate with the rule. Constraints: o min: 1 o max: 64 o pattern: [-.a-zA-Z0-9]+ name -&gt; (string) [required] A name for the firewall rule. Constraints: o min: 1 o max: 64 o pattern: (?!^[0-9]+$)([a-zA-Z0-9-_/' ']+) priority -&gt; (long) The priority of the firewall rule. Constraints: o min: 1 o max: 10000 dnsViewId -&gt; (string) [required] The ID of the DNS view to associate the firewall rule with. Constraints: o min: 1 o max: 64 o pattern: [-.a-zA-Z0-9]+ qType -&gt; (string) The DNS query type that the firewall rule should match. Constraints: o min: 0 o max: 16 Shorthand Syntax: action=string,blockOverrideDnsType=string,blockOverrideDomain=string,blockOverrideTtl=integer,blockResponse=string,clientToken=string,confidenceThreshold=string,description=string,dnsAdvancedProtection=string,firewallDomainListId=string,name=string,priority=long,dnsViewId=string,qType=string ... JSON Syntax: [ { "action": "ALLOW"|"ALERT"|"BLOCK", "blockOverrideDnsType": "CNAME", "blockOverrideDomain": "string", "blockOverrideTtl": integer, "blockResponse": "NODATA"|"NXDOMAIN"|"OVERRIDE", "clientToken": "string", "confidenceThreshold": "LOW"|"MEDIUM"|"HIGH", "description": "string", "dnsAdvancedProtection": "DGA"|"DNS_TUNNELING"|"DICTIONARY_DGA", "firewallDomainListId": "string", "name": "string", "priority": long, "dnsViewId": "string", "qType": "string" } ... ]
+    /// </summary>
     [CliOption("--firewall-rules", GroupValues = true)]
-    public IEnumerable<string>? FirewallRules { get; set; }
+    public IEnumerable<string>? FirewallRules { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

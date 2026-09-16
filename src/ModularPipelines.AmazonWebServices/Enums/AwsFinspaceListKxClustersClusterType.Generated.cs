@@ -11,23 +11,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --clustertype.
+/// Allowed values for --cluster-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsFinspaceListKxClustersClusterType
 {
-    [EnumValue("HDB")]
-    Hdb = 1,
-
-    [EnumValue("RDB")]
-    Rdb = 2,
-
     [EnumValue("GATEWAY")]
-    Gateway = 3,
+    Gateway,
 
     [EnumValue("GP")]
-    Gp = 4,
+    Gp,
+
+    [EnumValue("HDB")]
+    Hdb,
+
+    [EnumValue("RDB")]
+    Rdb,
 
     [EnumValue("TICKERPLANT")]
-    Tickerplant = 5
+    Tickerplant
 }

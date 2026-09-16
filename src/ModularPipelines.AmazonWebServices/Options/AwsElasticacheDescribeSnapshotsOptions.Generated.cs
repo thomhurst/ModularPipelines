@@ -46,7 +46,10 @@ public record AwsElasticacheDescribeSnapshotsOptions : AwsOptions
     [CliOption("--snapshot-source")]
     public string? SnapshotSource { get; set; }
 
-    [CliFlag("--show-node-group-config")]
+    /// <summary>
+    /// A Boolean value which if true, the node group (shard) configuration is included in the snapshot description.
+    /// </summary>
+    [CliFlag("--show-node-group-config", NegatedName = "--no-show-node-group-config")]
     public bool? ShowNodeGroupConfig { get; set; }
 
     [CliOption("--cli-input-json")]

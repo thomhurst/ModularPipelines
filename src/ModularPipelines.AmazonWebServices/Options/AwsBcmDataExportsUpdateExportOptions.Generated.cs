@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bcm-data-exports", "update-export")]
-public record AwsBcmDataExportsUpdateExportOptions : AwsOptions
+public record AwsBcmDataExportsUpdateExportOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--export-arn")]
-    public string? ExportArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates an existing data export by overwriting all export parameters. All export parameters must be provided in the UpdateExport request. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ExportArn">The Amazon Resource Name (ARN) for this export. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z0-9]*:(bcm-data-ex- ports):[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+</param>
+    /// <param name="Export">The name and query details for the export. ExportArn -&gt; (string) The Amazon Resource Name (ARN) for this export. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z0-9]*:(bcm-data-ex- ports):[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+ Name -&gt; (string) [required] The name of this specific data export. Constraints: o min: 1 o max: 128 o pattern: [0-9A-Za-z\-_]+ Description -&gt; (string) The description for this specific data export. Constraints: o min: 0 o max: 1024 o pattern: [\S\s]* DataQuery -&gt; (structure) [required] The data query for this specific data export. QueryStatement -&gt; (string) [required] The query statement. Constraints: o min: 1 o max: 36000 o pattern: [\S\s]* TableConfigurations -&gt; (map) The table configuration. key -&gt; (string) Constraints: o min: 0 o max: 1024 o pattern: [\S\s]* value -&gt; (map) key -&gt; (string) Constraints: o min: 0 o max: 1024 o pattern: [\S\s]* value -&gt; (string) Constraints: o min: 0 o max: 16384 o pattern: [\S\s]* DestinationConfigurations -&gt; (structure) [required] The destination configuration for this specific data export. S3Destination -&gt; (structure) [required] An object that describes the destination of the data exports file. S3Bucket -&gt; (string) [required] The name of the Amazon S3 bucket used as the destination of a data export file. Constraints: o min: 0 o max: 1024 o pattern: [\S\s]* S3BucketOwner -&gt; (string) The Amazon Web Services account ID that owns the S3 bucket used as the destination for the data export. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12} S3Prefix -&gt; (string) [required] The S3 path prefix you want prepended to the name of your data export. Constraints: o min: 0 o max: 1024 o pattern: [\S\s]* S3Region -&gt; (string) [required] The S3 bucket Region. Constraints: o min: 0 o max: 1024 o pattern: [\S\s]* S3OutputConfigurations -&gt; (structure) [required] The output configuration for the data export. OutputType -&gt; (string) [required] The output type for the data export. Possible values: o CUSTOM o ATHENA o REDSHIFT Format -&gt; (string) [required] The file format for the data export. Possible values: o TEXT_OR_CSV o PARQUET Compression -&gt; (string) [required] The compression type for the data export. Possible values: o GZIP o PARQUET o ZIP Overwrite -&gt; (string) [required] The rule to follow when generating a version of the data export file. You have the choice to overwrite the previous version or to be delivered in addition to the previous versions. Overwriting exports can save on Amazon S3 storage costs. Creating new export versions allows you to track the changes in cost and usage data over time. Possible values: o CREATE_NEW_REPORT o OVERWRITE_REPORT RefreshCadence -&gt; (structure) [required] The cadence for Amazon Web Services to update the export in your S3 bucket. Frequency -&gt; (string) [required] The frequency that data exports are updated. The export re- freshes each time the source data updates, up to three times daily. Possible values: o SYNCHRONOUS JSON Syntax: { "ExportArn": "string", "Name": "string", "Description": "string", "DataQuery": { "QueryStatement": "string", "TableConfigurations": {"string": {"string": "string" ...} ...} }, "DestinationConfigurations": { "S3Destination": { "S3Bucket": "string", "S3BucketOwner": "string", "S3Prefix": "string", "S3Region": "string", "S3OutputConfigurations": { "OutputType": "CUSTOM"|"ATHENA"|"REDSHIFT", "Format": "TEXT_OR_CSV"|"PARQUET", "Compression": "GZIP"|"PARQUET"|"ZIP", "Overwrite": "CREATE_NEW_REPORT"|"OVERWRITE_REPORT" } } }, "RefreshCadence": { "Frequency": "SYNCHRONOUS" } }</param>
+    public AwsBcmDataExportsUpdateExportOptions(
+        string ExportArn,
+        string Export
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ExportArn);
+        this.ExportArn = ExportArn;
+        global::System.ArgumentNullException.ThrowIfNull(Export);
+        this.Export = Export;
+    }
+
+    private AwsBcmDataExportsUpdateExportOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBcmDataExportsUpdateExportOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBcmDataExportsUpdateExportOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) for this export. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z0-9]*:(bcm-data-ex- ports):[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+
+    /// </summary>
+    [CliOption("--export-arn")]
+    public string? ExportArn { get; private init; }
+
+    /// <summary>
+    /// The name and query details for the export. ExportArn -&gt; (string) The Amazon Resource Name (ARN) for this export. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z0-9]*:(bcm-data-ex- ports):[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+ Name -&gt; (string) [required] The name of this specific data export. Constraints: o min: 1 o max: 128 o pattern: [0-9A-Za-z\-_]+ Description -&gt; (string) The description for this specific data export. Constraints: o min: 0 o max: 1024 o pattern: [\S\s]* DataQuery -&gt; (structure) [required] The data query for this specific data export. QueryStatement -&gt; (string) [required] The query statement. Constraints: o min: 1 o max: 36000 o pattern: [\S\s]* TableConfigurations -&gt; (map) The table configuration. key -&gt; (string) Constraints: o min: 0 o max: 1024 o pattern: [\S\s]* value -&gt; (map) key -&gt; (string) Constraints: o min: 0 o max: 1024 o pattern: [\S\s]* value -&gt; (string) Constraints: o min: 0 o max: 16384 o pattern: [\S\s]* DestinationConfigurations -&gt; (structure) [required] The destination configuration for this specific data export. S3Destination -&gt; (structure) [required] An object that describes the destination of the data exports file. S3Bucket -&gt; (string) [required] The name of the Amazon S3 bucket used as the destination of a data export file. Constraints: o min: 0 o max: 1024 o pattern: [\S\s]* S3BucketOwner -&gt; (string) The Amazon Web Services account ID that owns the S3 bucket used as the destination for the data export. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12} S3Prefix -&gt; (string) [required] The S3 path prefix you want prepended to the name of your data export. Constraints: o min: 0 o max: 1024 o pattern: [\S\s]* S3Region -&gt; (string) [required] The S3 bucket Region. Constraints: o min: 0 o max: 1024 o pattern: [\S\s]* S3OutputConfigurations -&gt; (structure) [required] The output configuration for the data export. OutputType -&gt; (string) [required] The output type for the data export. Possible values: o CUSTOM o ATHENA o REDSHIFT Format -&gt; (string) [required] The file format for the data export. Possible values: o TEXT_OR_CSV o PARQUET Compression -&gt; (string) [required] The compression type for the data export. Possible values: o GZIP o PARQUET o ZIP Overwrite -&gt; (string) [required] The rule to follow when generating a version of the data export file. You have the choice to overwrite the previous version or to be delivered in addition to the previous versions. Overwriting exports can save on Amazon S3 storage costs. Creating new export versions allows you to track the changes in cost and usage data over time. Possible values: o CREATE_NEW_REPORT o OVERWRITE_REPORT RefreshCadence -&gt; (structure) [required] The cadence for Amazon Web Services to update the export in your S3 bucket. Frequency -&gt; (string) [required] The frequency that data exports are updated. The export re- freshes each time the source data updates, up to three times daily. Possible values: o SYNCHRONOUS JSON Syntax: { "ExportArn": "string", "Name": "string", "Description": "string", "DataQuery": { "QueryStatement": "string", "TableConfigurations": {"string": {"string": "string" ...} ...} }, "DestinationConfigurations": { "S3Destination": { "S3Bucket": "string", "S3BucketOwner": "string", "S3Prefix": "string", "S3Region": "string", "S3OutputConfigurations": { "OutputType": "CUSTOM"|"ATHENA"|"REDSHIFT", "Format": "TEXT_OR_CSV"|"PARQUET", "Compression": "GZIP"|"PARQUET"|"ZIP", "Overwrite": "CREATE_NEW_REPORT"|"OVERWRITE_REPORT" } } }, "RefreshCadence": { "Frequency": "SYNCHRONOUS" } }
+    /// </summary>
     [CliOption("--export")]
-    public string? Export { get; set; }
+    public string? Export { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

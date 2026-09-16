@@ -16,21 +16,21 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotsitewiseListPipelineExecutionsState
 {
-    [EnumValue("NOT_STARTED")]
-    NotStarted = 1,
-
-    [EnumValue("RUNNING")]
-    Running = 2,
-
-    [EnumValue("SUCCEEDED")]
-    Succeeded = 3,
-
-    [EnumValue("FAILED")]
-    Failed = 4,
+    [EnumValue("CANCELLED")]
+    Cancelled,
 
     [EnumValue("CANCELLING")]
-    Cancelling = 5,
+    Cancelling,
 
-    [EnumValue("CANCELLED")]
-    Cancelled = 6
+    [EnumValue("FAILED")]
+    Failed,
+
+    [EnumValue("NOT_STARTED")]
+    NotStarted,
+
+    [EnumValue("RUNNING")]
+    Running,
+
+    [EnumValue("SUCCEEDED")]
+    Succeeded
 }

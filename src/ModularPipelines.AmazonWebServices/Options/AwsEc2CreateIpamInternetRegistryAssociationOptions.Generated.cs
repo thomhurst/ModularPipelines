@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "create-ipam-internet-registry-association")]
-public record AwsEc2CreateIpamInternetRegistryAssociationOptions : AwsOptions
+public record AwsEc2CreateIpamInternetRegistryAssociationOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--dry-run")]
-    public bool? DryRun { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an association between an IPAM and a Regional Internet Registry (RIR) for Resource Public Key Infrastructure (RPKI) management. You can use this association to create Route Origin Authorizations (ROAs) for IP address prefixes registered with the internet registry. Your IPAM must be in the Advanced tier to use this feature. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="IpamId">The ID of the IPAM to associate with the internet registry.</param>
+    /// <param name="Rir">The Regional Internet Registry to associate with. Possible values: o ripe - RIPE NCC (Europe, the Middle East, and Central Asia). o apnic - APNIC (Asia Pacific). o arin - ARIN (North America). o lacnic - LACNIC (Latin America and the Caribbean). Possible values: o ripe o apnic o arin o lacnic</param>
+    /// <param name="OrganizationHandle">The organization handle at the internet registry (for example, a RIPE NCC organization ID or ARIN Org ID).</param>
+    public AwsEc2CreateIpamInternetRegistryAssociationOptions(
+        string IpamId,
+        string Rir,
+        string OrganizationHandle
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IpamId);
+        this.IpamId = IpamId;
+        global::System.ArgumentNullException.ThrowIfNull(Rir);
+        this.Rir = Rir;
+        global::System.ArgumentNullException.ThrowIfNull(OrganizationHandle);
+        this.OrganizationHandle = OrganizationHandle;
+    }
+
+    private AwsEc2CreateIpamInternetRegistryAssociationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2CreateIpamInternetRegistryAssociationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2CreateIpamInternetRegistryAssociationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the IPAM to associate with the internet registry.
+    /// </summary>
     [CliOption("--ipam-id")]
-    public string? IpamId { get; set; }
+    public string? IpamId { get; private init; }
 
+    /// <summary>
+    /// The Regional Internet Registry to associate with. Possible values: o ripe - RIPE NCC (Europe, the Middle East, and Central Asia). o apnic - APNIC (Asia Pacific). o arin - ARIN (North America). o lacnic - LACNIC (Latin America and the Caribbean). Possible values: o ripe o apnic o arin o lacnic
+    /// </summary>
     [CliOption("--rir")]
-    public string? Rir { get; set; }
+    public string? Rir { get; private init; }
 
+    /// <summary>
+    /// The organization handle at the internet registry (for example, a RIPE NCC organization ID or ARIN Org ID).
+    /// </summary>
     [CliOption("--organization-handle")]
-    public string? OrganizationHandle { get; set; }
+    public string? OrganizationHandle { get; private init; }
+
+    /// <summary>
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
+    public bool? DryRun { get; set; }
 
     /// <summary>
     /// A description for the internet registry association.
@@ -58,5 +112,22 @@ public record AwsEc2CreateIpamInternetRegistryAssociationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

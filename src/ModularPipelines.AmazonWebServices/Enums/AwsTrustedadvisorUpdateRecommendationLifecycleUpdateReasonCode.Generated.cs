@@ -11,29 +11,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --updatereasoncode.
+/// Allowed values for --update-reason-code.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsTrustedadvisorUpdateRecommendationLifecycleUpdateReasonCode
 {
-    [EnumValue("non_critical_account")]
-    NonCriticalAccount = 1,
-
-    [EnumValue("temporary_account")]
-    TemporaryAccount = 2,
-
-    [EnumValue("valid_business_case")]
-    ValidBusinessCase = 3,
-
-    [EnumValue("other_methods_available")]
-    OtherMethodsAvailable = 4,
-
     [EnumValue("low_priority")]
-    LowPriority = 5,
+    LowPriority,
+
+    [EnumValue("non_critical_account")]
+    NonCriticalAccount,
 
     [EnumValue("not_applicable")]
-    NotApplicable = 6,
+    NotApplicable,
 
     [EnumValue("other")]
-    Other = 7
+    Other,
+
+    [EnumValue("other_methods_available")]
+    OtherMethodsAvailable,
+
+    [EnumValue("temporary_account")]
+    TemporaryAccount,
+
+    [EnumValue("valid_business_case")]
+    ValidBusinessCase
 }

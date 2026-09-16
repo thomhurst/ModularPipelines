@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --sortby.
+/// Allowed values for --sort-by.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDatazoneListSubscriptionTargetsSortBy
 {
     [EnumValue("CREATED_AT")]
-    CreatedAt = 1,
+    CreatedAt,
 
     [EnumValue("UPDATED_AT")]
-    UpdatedAt = 2
+    UpdatedAt
 }

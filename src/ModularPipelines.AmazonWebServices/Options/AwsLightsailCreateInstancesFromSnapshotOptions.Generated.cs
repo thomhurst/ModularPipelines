@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lightsail", "create-instances-from-snapshot")]
-public record AwsLightsailCreateInstancesFromSnapshotOptions : AwsOptions
+public record AwsLightsailCreateInstancesFromSnapshotOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates one or more new instances from a manual or automatic snapshot of an instance. The create instances from snapshot operation supports tag-based access control via request tags and resource tags applied to the resource identified by instance snapshot name . For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceNames">The names for your new instances. (string) Syntax: "string" "string" ...</param>
+    /// <param name="AvailabilityZone">The Availability Zone where you want to create your instances. Use the following formatting: us-east-2a (case sensitive). You can get a list of Availability Zones by using the get regions operation. Be sure to add the include Availability Zones parameter to your re- quest.</param>
+    /// <param name="BundleId">The bundle of specification information for your virtual private server (or instance ), including the pricing plan (micro_x_x ). Constraints: o pattern: .*\S.*</param>
+    public AwsLightsailCreateInstancesFromSnapshotOptions(
+        IEnumerable<string> InstanceNames,
+        string AvailabilityZone,
+        string BundleId
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(InstanceNames);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(InstanceNames));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(InstanceNames));
+            }
+
+            InstanceNames = materialized;
+        }
+        this.InstanceNames = InstanceNames;
+        global::System.ArgumentNullException.ThrowIfNull(AvailabilityZone);
+        this.AvailabilityZone = AvailabilityZone;
+        global::System.ArgumentNullException.ThrowIfNull(BundleId);
+        this.BundleId = BundleId;
+    }
+
+    private AwsLightsailCreateInstancesFromSnapshotOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLightsailCreateInstancesFromSnapshotOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLightsailCreateInstancesFromSnapshotOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The names for your new instances. (string) Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--instance-names", GroupValues = true)]
-    public IEnumerable<string>? InstanceNames { get; set; }
+    public IEnumerable<string>? InstanceNames { get; private init; }
+
+    /// <summary>
+    /// The Availability Zone where you want to create your instances. Use the following formatting: us-east-2a (case sensitive). You can get a list of Availability Zones by using the get regions operation. Be sure to add the include Availability Zones parameter to your re- quest.
+    /// </summary>
+    [CliOption("--availability-zone")]
+    public string? AvailabilityZone { get; private init; }
+
+    /// <summary>
+    /// The bundle of specification information for your virtual private server (or instance ), including the pricing plan (micro_x_x ). Constraints: o pattern: .*\S.*
+    /// </summary>
+    [CliOption("--bundle-id")]
+    public string? BundleId { get; private init; }
 
     /// <summary>
     /// An object containing information about one or more disk mappings. key -&gt; (string) Constraints: o pattern: \w[\w\-]*\w value -&gt; (list) (structure) Describes a block storage disk mapping. originalDiskPath -&gt; (string) The original disk path exposed to the instance (for exam- ple, /dev/sdh ). Constraints: o pattern: .*\S.* newDiskName -&gt; (string) The new disk name (my-new-disk ). Constraints: o pattern: \w[\w\-]*\w Shorthand Syntax: KeyName1=[{originalDiskPath=string,newDiskName=string},{originalDiskPath=string,newDiskName=string}],KeyName2=[{originalDiskPath=string,newDiskName=string},{originalDiskPath=string,newDiskName=string}] JSON Syntax: {"string": [ { "originalDiskPath": "string", "newDiskName": "string" } ... ] ...}
@@ -32,17 +100,11 @@ public record AwsLightsailCreateInstancesFromSnapshotOptions : AwsOptions
     [CliOption("--attached-disk-mapping", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? AttachedDiskMapping { get; set; }
 
-    [CliOption("--availability-zone")]
-    public string? AvailabilityZone { get; set; }
-
     /// <summary>
     /// The name of the instance snapshot on which you are basing your new instances. Use the get instance snapshots operation to return infor- mation about your existing snapshots. Constraint: o This parameter cannot be defined together with the source instance name parameter. The instance snapshot name and source instance name parameters are mutually exclusive. Constraints: o pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--instance-snapshot-name")]
     public string? InstanceSnapshotName { get; set; }
-
-    [CliOption("--bundle-id")]
-    public string? BundleId { get; set; }
 
     /// <summary>
     /// You can create a launch script that configures a server with addi- tional user data. For example, apt-get -y update . NOTE: Depending on the machine image you choose, the command to get software on your instance varies. Amazon Linux and CentOS use yum , Debian and Ubuntu use apt-get , and FreeBSD uses pkg . For a complete list, see the Amazon Lightsail Developer Guide .
@@ -86,7 +148,10 @@ public record AwsLightsailCreateInstancesFromSnapshotOptions : AwsOptions
     [CliOption("--restore-date")]
     public string? RestoreDate { get; set; }
 
-    [CliFlag("--use-latest-restorable-auto-snapshot")]
+    /// <summary>
+    /// able-auto-snapshot (boolean) A Boolean value to indicate whether to use the latest available au- tomatic snapshot. Constraints: o This parameter cannot be defined together with the restore date parameter. The use latest restorable auto snapshot and restore date parameters are mutually exclusive. o Define this parameter only when creating a new instance from an automatic snapshot. For more information, see the Amazon Lightsail Developer Guide .
+    /// </summary>
+    [CliFlag("--use-latest-restorable-auto-snapshot", NegatedName = "--no-use-latest-restorable-auto-snapshot")]
     public bool? UseLatestRestorableAutoSnapshot { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -94,5 +159,22 @@ public record AwsLightsailCreateInstancesFromSnapshotOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

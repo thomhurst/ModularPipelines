@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "get-attached-file")]
-public record AwsConnectGetAttachedFileOptions : AwsOptions
+public record AwsConnectGetAttachedFileOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Provides a pre-signed URL for download of an approved attached file. This API also returns metadata about the attached file. It will only return a downloadURL if the status of the attached file is APPROVED . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The unique identifier of the Connect Customer instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="FileId">The unique identifier of the attached file resource. Constraints: o min: 1 o max: 256</param>
+    /// <param name="AssociatedResourceArn">The resource to which the attached file is (being) uploaded to. The supported resources are Cases , Email , and Task . NOTE: This value must be a valid ARN.</param>
+    public AwsConnectGetAttachedFileOptions(
+        string InstanceId,
+        string FileId,
+        string AssociatedResourceArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(FileId);
+        this.FileId = FileId;
+        global::System.ArgumentNullException.ThrowIfNull(AssociatedResourceArn);
+        this.AssociatedResourceArn = AssociatedResourceArn;
+    }
+
+    private AwsConnectGetAttachedFileOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectGetAttachedFileOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectGetAttachedFileOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the Connect Customer instance. Constraints: o min: 1 o max: 100
+    /// </summary>
+    [CliOption("--instance-id")]
+    public string? InstanceId { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the attached file resource. Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--file-id")]
-    public string? FileId { get; set; }
+    public string? FileId { get; private init; }
+
+    /// <summary>
+    /// The resource to which the attached file is (being) uploaded to. The supported resources are Cases , Email , and Task . NOTE: This value must be a valid ARN.
+    /// </summary>
+    [CliOption("--associated-resource-arn")]
+    public string? AssociatedResourceArn { get; private init; }
 
     /// <summary>
     /// Optional override for the expiry of the pre-signed S3 URL in sec- onds. The default value is 300. Constraints: o min: 5 o max: 300
@@ -33,13 +87,27 @@ public record AwsConnectGetAttachedFileOptions : AwsOptions
     [CliOption("--url-expiry-in-seconds")]
     public int? UrlExpiryInSeconds { get; set; }
 
-    [CliOption("--associated-resource-arn")]
-    public string? AssociatedResourceArn { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

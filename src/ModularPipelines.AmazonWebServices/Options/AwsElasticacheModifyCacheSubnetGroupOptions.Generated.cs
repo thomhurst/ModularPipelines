@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elasticache", "modify-cache-subnet-group")]
-public record AwsElasticacheModifyCacheSubnetGroupOptions : AwsOptions
+public record AwsElasticacheModifyCacheSubnetGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies an existing cache subnet group. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CacheSubnetGroupName">The name for the cache subnet group. This value is stored as a low- ercase string. Constraints: Must contain no more than 255 alphanumeric characters or hyphens. Example: mysubnetgroup</param>
+    public AwsElasticacheModifyCacheSubnetGroupOptions(
+        string CacheSubnetGroupName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CacheSubnetGroupName);
+        this.CacheSubnetGroupName = CacheSubnetGroupName;
+    }
+
+    private AwsElasticacheModifyCacheSubnetGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElasticacheModifyCacheSubnetGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElasticacheModifyCacheSubnetGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name for the cache subnet group. This value is stored as a low- ercase string. Constraints: Must contain no more than 255 alphanumeric characters or hyphens. Example: mysubnetgroup
+    /// </summary>
     [CliOption("--cache-subnet-group-name")]
-    public string? CacheSubnetGroupName { get; set; }
+    public string? CacheSubnetGroupName { get; private init; }
 
     /// <summary>
     /// A description of the cache subnet group.
@@ -41,5 +78,22 @@ public record AwsElasticacheModifyCacheSubnetGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

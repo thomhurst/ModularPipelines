@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift", "create-qev2-idc-application")]
-public record AwsRedshiftCreateQev2IdcApplicationOptions : AwsOptions
+public record AwsRedshiftCreateQev2IdcApplicationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an Amazon Redshift Query Editor (QEV2) IAM Identity Center ap- plication. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="IdcInstanceArn">The Amazon Resource Name (ARN) of the IAM Identity Center instance used to create the Amazon Redshift Query Editor (QEV2) managed ap- plication. Constraints: o max: 2147483647</param>
+    /// <param name="Qev2IdcApplicationName">The name of the Amazon Redshift Query Editor (QEV2) application in IAM Identity Center. Constraints: o min: 1 o max: 63 o pattern: [a-z][a-z0-9]*(-[a-z0-9]+)*</param>
+    /// <param name="IdcDisplayName">The display name for the Amazon Redshift Query Editor (QEV2) IAM Identity Center application. It appears in the console. Constraints: o min: 1 o max: 127 o pattern: [\w+=,.@-]+</param>
+    public AwsRedshiftCreateQev2IdcApplicationOptions(
+        string IdcInstanceArn,
+        string Qev2IdcApplicationName,
+        string IdcDisplayName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IdcInstanceArn);
+        this.IdcInstanceArn = IdcInstanceArn;
+        global::System.ArgumentNullException.ThrowIfNull(Qev2IdcApplicationName);
+        this.Qev2IdcApplicationName = Qev2IdcApplicationName;
+        global::System.ArgumentNullException.ThrowIfNull(IdcDisplayName);
+        this.IdcDisplayName = IdcDisplayName;
+    }
+
+    private AwsRedshiftCreateQev2IdcApplicationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftCreateQev2IdcApplicationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftCreateQev2IdcApplicationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the IAM Identity Center instance used to create the Amazon Redshift Query Editor (QEV2) managed ap- plication. Constraints: o max: 2147483647
+    /// </summary>
     [CliOption("--idc-instance-arn")]
-    public string? IdcInstanceArn { get; set; }
+    public string? IdcInstanceArn { get; private init; }
 
+    /// <summary>
+    /// The name of the Amazon Redshift Query Editor (QEV2) application in IAM Identity Center. Constraints: o min: 1 o max: 63 o pattern: [a-z][a-z0-9]*(-[a-z0-9]+)*
+    /// </summary>
     [CliOption("--qev2-idc-application-name")]
-    public string? Qev2IdcApplicationName { get; set; }
+    public string? Qev2IdcApplicationName { get; private init; }
 
+    /// <summary>
+    /// The display name for the Amazon Redshift Query Editor (QEV2) IAM Identity Center application. It appears in the console. Constraints: o min: 1 o max: 127 o pattern: [\w+=,.@-]+
+    /// </summary>
     [CliOption("--idc-display-name")]
-    public string? IdcDisplayName { get; set; }
+    public string? IdcDisplayName { get; private init; }
 
     /// <summary>
     /// A list of tags to associate with the application. Tags are key-value pairs that you can use to organize and identify your resources. (structure) A tag consisting of a name/value pair for a resource. Key -&gt; (string) The key, or name, for the resource tag. Constraints: o max: 2147483647 Value -&gt; (string) The value for the resource tag. Constraints: o max: 2147483647 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -41,5 +92,22 @@ public record AwsRedshiftCreateQev2IdcApplicationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

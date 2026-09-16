@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot-managed-integrations", "update-connector-destination")]
-public record AwsIotManagedIntegrationsUpdateConnectorDestinationOptions : AwsOptions
+public record AwsIotManagedIntegrationsUpdateConnectorDestinationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the properties of an existing connector destination. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Identifier">The unique identifier of the connector destination to update. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9-_]+</param>
+    public AwsIotManagedIntegrationsUpdateConnectorDestinationOptions(
+        string Identifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Identifier);
+        this.Identifier = Identifier;
+    }
+
+    private AwsIotManagedIntegrationsUpdateConnectorDestinationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotManagedIntegrationsUpdateConnectorDestinationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotManagedIntegrationsUpdateConnectorDestinationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the connector destination to update. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9-_]+
+    /// </summary>
     [CliOption("--identifier")]
-    public string? Identifier { get; set; }
+    public string? Identifier { get; private init; }
 
     /// <summary>
     /// The new description to assign to the connector destination. Constraints: o min: 1 o max: 256 o pattern: [0-9A-Za-z_\- ]+
@@ -42,7 +78,7 @@ public record AwsIotManagedIntegrationsUpdateConnectorDestinationOptions : AwsOp
     /// The new authentication type to use for the connector destination. Possible values: o OAUTH
     /// </summary>
     [CliOption("--auth-type")]
-    public AwsIotManagedIntegrationsUpdateConnectorDestinationAuthType? AuthType { get; set; }
+    public string? AuthType { get; set; }
 
     /// <summary>
     /// The updated authentication configuration details for the connector destination. oAuthUpdate -&gt; (structure) The updated OAuth configuration settings for the authentication configuration. oAuthCompleteRedirectUrl -&gt; (string) The updated URL where users are redirected after completing the OAuth authorization process. proactiveRefreshTokenRenewal -&gt; (structure) Updated configuration for proactively refreshing OAuth tokens before they expire. enabled -&gt; (boolean) Indicates whether proactive refresh token renewal is en- abled. DaysBeforeRenewal -&gt; (integer) The days before token expiration when the system should attempt to renew the token, specified in days. Constraints: o min: 30 GeneralAuthorizationUpdate -&gt; (structure) The General Authorization update information containing autho- rization materials to add or update. AuthMaterialsToAdd -&gt; (list) The authorization materials to add. Constraints: o min: 0 o max: 3 (structure) The authorization material containing the Secrets Manager arn and version. SecretsManager -&gt; (structure) [required] Configuration for AWS Secrets Manager, used to se- curely store and manage sensitive information for con- nector destinations. arn -&gt; (string) [required] The Amazon Resource Name (ARN) of the AWS Secrets Manager secret. Constraints: o min: 20 o max: 2048 o pattern: arn:aws:secretsman- ager:[0-9a-zA-Z-]{1,32}:\d{12}:se- cret:[A-Za-z0-9/_+=.@-]{8,520} versionId -&gt; (string) [required] The version ID of the AWS Secrets Manager secret. Constraints: o min: 32 o max: 64 o pattern: [a-zA-Z0-9-_]+ AuthMaterialName -&gt; (string) [required] The name of the authorization material. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9=_+/-]+ AuthMaterialsToUpdate -&gt; (list) The authorization materials to update. Constraints: o min: 0 o max: 3 (structure) The authorization material containing the Secrets Manager arn and version. SecretsManager -&gt; (structure) [required] Configuration for AWS Secrets Manager, used to se- curely store and manage sensitive information for con- nector destinations. arn -&gt; (string) [required] The Amazon Resource Name (ARN) of the AWS Secrets Manager secret. Constraints: o min: 20 o max: 2048 o pattern: arn:aws:secretsman- ager:[0-9a-zA-Z-]{1,32}:\d{12}:se- cret:[A-Za-z0-9/_+=.@-]{8,520} versionId -&gt; (string) [required] The version ID of the AWS Secrets Manager secret. Constraints: o min: 32 o max: 64 o pattern: [a-zA-Z0-9-_]+ AuthMaterialName -&gt; (string) [required] The name of the authorization material. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9=_+/-]+ JSON Syntax: { "oAuthUpdate": { "oAuthCompleteRedirectUrl": "string", "proactiveRefreshTokenRenewal": { "enabled": true|false, "DaysBeforeRenewal": integer } }, "GeneralAuthorizationUpdate": { "AuthMaterialsToAdd": [ { "SecretsManager": { "arn": "string", "versionId": "string" }, "AuthMaterialName": "string" } ... ], "AuthMaterialsToUpdate": [ { "SecretsManager": { "arn": "string", "versionId": "string" }, "AuthMaterialName": "string" } ... ] } }
@@ -62,5 +98,22 @@ public record AwsIotManagedIntegrationsUpdateConnectorDestinationOptions : AwsOp
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

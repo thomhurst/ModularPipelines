@@ -16,18 +16,18 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsWorkdocsUpdateUserType
 {
-    [EnumValue("USER")]
-    User = 1,
-
     [EnumValue("ADMIN")]
-    Admin = 2,
-
-    [EnumValue("POWERUSER")]
-    Poweruser = 3,
+    Admin,
 
     [EnumValue("MINIMALUSER")]
-    Minimaluser = 4,
+    Minimaluser,
+
+    [EnumValue("POWERUSER")]
+    Poweruser,
+
+    [EnumValue("USER")]
+    User,
 
     [EnumValue("WORKSPACESUSER")]
-    Workspacesuser = 5
+    Workspacesuser
 }

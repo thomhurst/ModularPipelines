@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --awsservice.
+/// Allowed values for --aws-service.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEc2CreateIpamPoolAwsService
 {
     [EnumValue("ec2")]
-    Ec2 = 1,
+    Ec2,
 
     [EnumValue("global-services")]
-    GlobalServices = 2
+    GlobalServices
 }

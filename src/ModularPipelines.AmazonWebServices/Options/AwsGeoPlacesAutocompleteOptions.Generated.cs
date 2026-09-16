@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("geo-places", "autocomplete")]
-public record AwsGeoPlacesAutocompleteOptions : AwsOptions
+public record AwsGeoPlacesAutocompleteOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Autocomplete completes potential places and addresses as the user types, based on the partial input. The API enhances the efficiency and accuracy of address by completing query based on a few entered keystrokes. It helps you by completing partial queries with valid address completion. Also, the API supports the filtering of results based on geographic location, country, or specific place types, and can be tailored using optional parameters like language and politi- cal views. Not supported in ap...
+    /// </summary>
+    /// <param name="QueryText">The free-form text query to match addresses against. This is usually a partially typed address from an end user in an address box or form. NOTE: The fields QueryText , and QueryID are mutually exclusive. Constraints: o min: 1 o max: 200</param>
+    public AwsGeoPlacesAutocompleteOptions(
+        string QueryText
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(QueryText);
+        this.QueryText = QueryText;
+    }
+
+    private AwsGeoPlacesAutocompleteOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGeoPlacesAutocompleteOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGeoPlacesAutocompleteOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The free-form text query to match addresses against. This is usually a partially typed address from an end user in an address box or form. NOTE: The fields QueryText , and QueryID are mutually exclusive. Constraints: o min: 1 o max: 200
+    /// </summary>
     [CliOption("--query-text")]
-    public string? QueryText { get; set; }
+    public string? QueryText { get; private init; }
 
     /// <summary>
     /// An optional limit for the number of results returned in a single call. Default value: 5 Constraints: o min: 1 o max: 20
@@ -71,7 +108,7 @@ public record AwsGeoPlacesAutocompleteOptions : AwsOptions
     /// Indicates if the query results will be persisted in customer infra- structure. Defaults to SingleUse (not stored). Currently, Autocom- plete does not support storage of results. Possible values: o SingleUse
     /// </summary>
     [CliOption("--intended-use")]
-    public AwsGeoPlacesAutocompleteIntendedUse? IntendedUse { get; set; }
+    public string? IntendedUse { get; set; }
 
     /// <summary>
     /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request. Constraints: o min: 0 o max: 1000
@@ -84,5 +121,22 @@ public record AwsGeoPlacesAutocompleteOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --enginetype.
+/// Allowed values for --engine-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsM2ListEngineVersionsEngineType
 {
-    [EnumValue("microfocus")]
-    Microfocus = 1,
-
     [EnumValue("bluage")]
-    Bluage = 2
+    Bluage,
+
+    [EnumValue("microfocus")]
+    Microfocus
 }

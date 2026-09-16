@@ -6,11 +6,12 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,25 +21,84 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "update-access-key")]
-public record AwsIamUpdateAccessKeyOptions : AwsOptions
+public record AwsIamUpdateAccessKeyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Changes the status of the specified access key from Active to Inactive, or vice versa. This operation can be used to disable a user's key as part of a key rotation workflow. If the UserName is not specified, the user name is determined implic- itly based on the Amazon Web Services access key ID used to sign the request. If a temporary access key is used, then UserName is required. If a long-term key is assigned to the user, then UserName is not re- quired. This operation works for access keys un...
+    /// </summary>
+    /// <param name="AccessKeyId">The access key ID of the secret access key you want to update. This parameter allows (through its regex pattern ) a string of char- acters that can consist of any upper or lowercased letter or digit. Constraints: o min: 16 o max: 128 o pattern: [\w]+</param>
+    /// <param name="Status">The status you want to assign to the secret access key. Active means that the key can be used for programmatic calls to Amazon Web Ser- vices, while Inactive means that the key cannot be used. Possible values: o Active o Inactive o Expired</param>
+    public AwsIamUpdateAccessKeyOptions(
+        string AccessKeyId,
+        AwsIamUpdateAccessKeyStatus Status
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccessKeyId);
+        this.AccessKeyId = AccessKeyId;
+        global::System.ArgumentNullException.ThrowIfNull(Status);
+        this.Status = Status;
+    }
+
+    private AwsIamUpdateAccessKeyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIamUpdateAccessKeyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIamUpdateAccessKeyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The access key ID of the secret access key you want to update. This parameter allows (through its regex pattern ) a string of char- acters that can consist of any upper or lowercased letter or digit. Constraints: o min: 16 o max: 128 o pattern: [\w]+
+    /// </summary>
+    [CliOption("--access-key-id")]
+    public string? AccessKeyId { get; private init; }
+
+    /// <summary>
+    /// The status you want to assign to the secret access key. Active means that the key can be used for programmatic calls to Amazon Web Ser- vices, while Inactive means that the key cannot be used. Possible values: o Active o Inactive o Expired
+    /// </summary>
+    [CliOption("--status")]
+    public AwsIamUpdateAccessKeyStatus? Status { get; private init; }
+
     /// <summary>
     /// The name of the user whose key you want to update. This parameter allows (through its regex pattern ) a string of char- acters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following charac- ters: _+=,.@- Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+
     /// </summary>
     [CliOption("--user-name")]
     public string? UserName { get; set; }
 
-    [SecretValue]
-    [CliOption("--access-key-id")]
-    public string? AccessKeyId { get; set; }
-
-    [CliOption("--status")]
-    public string? Status { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsBillingconductorUpdateBillingGroupStatus
 {
     [EnumValue("ACTIVE")]
-    Active = 1,
-
-    [EnumValue("PRIMARY_ACCOUNT_MISSING")]
-    PrimaryAccountMissing = 2,
+    Active,
 
     [EnumValue("PENDING")]
-    Pending = 3
+    Pending,
+
+    [EnumValue("PRIMARY_ACCOUNT_MISSING")]
+    PrimaryAccountMissing
 }

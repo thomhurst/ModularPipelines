@@ -21,16 +21,55 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("medical-imaging", "get-image-set-metadata")]
 public record AwsMedicalImagingGetImageSetMetadataOptions : AwsOptions
 {
-    [CliOption("--datastore-id")]
-    public string? DatastoreId { get; set; }
+    /// <summary>
+    /// Get metadata attributes for an image set. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DatastoreId">The data store identifier. Constraints: o pattern: [0-9a-z]{32}</param>
+    /// <param name="ImageSetId">The image set identifier. Constraints: o pattern: [0-9a-z]{32}</param>
+    /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
+    public AwsMedicalImagingGetImageSetMetadataOptions(
+        string DatastoreId,
+        string ImageSetId,
+        string Outfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DatastoreId);
+        this.DatastoreId = DatastoreId;
+        global::System.ArgumentNullException.ThrowIfNull(ImageSetId);
+        this.ImageSetId = ImageSetId;
+        global::System.ArgumentNullException.ThrowIfNull(Outfile);
+        this.Outfile = Outfile;
+    }
 
+    public void Deconstruct(out string DatastoreId, out string ImageSetId, out string Outfile)
+    {
+        DatastoreId = this.DatastoreId;
+        ImageSetId = this.ImageSetId;
+        Outfile = this.Outfile;
+    }
+
+    /// <summary>
+    /// The data store identifier. Constraints: o pattern: [0-9a-z]{32}
+    /// </summary>
+    [CliOption("--datastore-id")]
+    public string DatastoreId { get; private init; }
+
+    /// <summary>
+    /// The image set identifier. Constraints: o pattern: [0-9a-z]{32}
+    /// </summary>
     [CliOption("--image-set-id")]
-    public string? ImageSetId { get; set; }
+    public string ImageSetId { get; private init; }
 
     /// <summary>
     /// The image set version identifier. Constraints: o pattern: \d+ outfile (string) [required] Filename where the content will be saved
     /// </summary>
     [CliOption("--version-id")]
     public string? VersionId { get; set; }
+
+    /// <summary>
+    /// The &lt;outfile&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Outfile { get; private init; }
 
 }

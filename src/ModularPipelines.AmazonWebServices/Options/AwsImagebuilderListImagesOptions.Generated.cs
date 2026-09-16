@@ -24,7 +24,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsImagebuilderListImagesOptions : AwsOptions
 {
     /// <summary>
-    /// The owner defines which images you want to list. By default, this request will only show images owned by your account. You can use this field to specify if you want to view images owned by yourself, by Amazon, or those images that have been shared with you by other customers. Possible values: o Self o Shared o Amazon o ThirdParty o AWSMarketplace
+    /// Filters the list to images owned by you, by Amazon, or shared with you by other accounts. By default, only your account's images are returned. Possible values: o Self o Shared o Amazon o ThirdParty o AWSMarketplace
     /// </summary>
     [CliOption("--owner")]
     public AwsImagebuilderListImagesOwner? Owner { get; set; }
@@ -35,10 +35,16 @@ public record AwsImagebuilderListImagesOptions : AwsOptions
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
-    [CliFlag("--by-name")]
+    /// <summary>
+    /// Requests a list of images with a specific recipe name.
+    /// </summary>
+    [CliFlag("--by-name", NegatedName = "--no-by-name")]
     public bool? ByName { get; set; }
 
-    [CliFlag("--include-deprecated")]
+    /// <summary>
+    /// Includes deprecated images in the response list.
+    /// </summary>
+    [CliFlag("--include-deprecated", NegatedName = "--no-include-deprecated")]
     public bool? IncludeDeprecated { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,22 +22,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lookoutequipment", "create-retraining-scheduler")]
-public record AwsLookoutequipmentCreateRetrainingSchedulerOptions : AwsOptions
+public record AwsLookoutequipmentCreateRetrainingSchedulerOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a retraining scheduler on the specified model. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ModelName">The name of the model to add the retraining scheduler to. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$</param>
+    /// <param name="RetrainingFrequency">This parameter uses the ISO 8601 standard to set the frequency at which you want retraining to occur in terms of Years, Months, and/or Days (note: other parameters like Time are not currently supported). The minimum value is 30 days (P30D) and the maximum value is 1 year (P1Y). For example, the following values are valid: o P3M15D Every 3 months and 15 days o P2M Every 2 months o P150D Every 150 days Constraints: o min: 1 o max: 10 o pattern: ^P(\dY)?(\d{1,2}M)?(\d{1,3}D)?$</param>
+    /// <param name="LookbackWindow">The number of past days of data that will be used for retraining. Constraints: o pattern: ^P180D$|^P360D$|^P540D$|^P720D$</param>
+    public AwsLookoutequipmentCreateRetrainingSchedulerOptions(
+        string ModelName,
+        string RetrainingFrequency,
+        string LookbackWindow
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ModelName);
+        this.ModelName = ModelName;
+        global::System.ArgumentNullException.ThrowIfNull(RetrainingFrequency);
+        this.RetrainingFrequency = RetrainingFrequency;
+        global::System.ArgumentNullException.ThrowIfNull(LookbackWindow);
+        this.LookbackWindow = LookbackWindow;
+    }
+
+    private AwsLookoutequipmentCreateRetrainingSchedulerOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLookoutequipmentCreateRetrainingSchedulerOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLookoutequipmentCreateRetrainingSchedulerOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the model to add the retraining scheduler to. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$
+    /// </summary>
     [CliOption("--model-name")]
-    public string? ModelName { get; set; }
+    public string? ModelName { get; private init; }
+
+    /// <summary>
+    /// This parameter uses the ISO 8601 standard to set the frequency at which you want retraining to occur in terms of Years, Months, and/or Days (note: other parameters like Time are not currently supported). The minimum value is 30 days (P30D) and the maximum value is 1 year (P1Y). For example, the following values are valid: o P3M15D Every 3 months and 15 days o P2M Every 2 months o P150D Every 150 days Constraints: o min: 1 o max: 10 o pattern: ^P(\dY)?(\d{1,2}M)?(\d{1,3}D)?$
+    /// </summary>
+    [CliOption("--retraining-frequency")]
+    public string? RetrainingFrequency { get; private init; }
+
+    /// <summary>
+    /// The number of past days of data that will be used for retraining. Constraints: o pattern: ^P180D$|^P360D$|^P540D$|^P720D$
+    /// </summary>
+    [CliOption("--lookback-window")]
+    public string? LookbackWindow { get; private init; }
 
     /// <summary>
     /// The start date for the retraining scheduler. Lookout for Equipment truncates the time you provide to the nearest UTC day.
     /// </summary>
     [CliOption("--retraining-start-date")]
     public string? RetrainingStartDate { get; set; }
-
-    [CliOption("--retraining-frequency")]
-    public string? RetrainingFrequency { get; set; }
-
-    [CliOption("--lookback-window")]
-    public string? LookbackWindow { get; set; }
 
     /// <summary>
     /// Indicates how the service will use new models. In MANAGED mode, new models will automatically be used for inference if they have better performance than the current model. In MANUAL mode, the new models will not be used until they are manually activated . Possible values: o MANAGED o MANUAL
@@ -56,5 +107,22 @@ public record AwsLookoutequipmentCreateRetrainingSchedulerOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

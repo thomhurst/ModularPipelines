@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,8 +20,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kinesisvideo", "start-edge-configuration-update")]
-public record AwsKinesisvideoStartEdgeConfigurationUpdateOptions : AwsOptions
+public record AwsKinesisvideoStartEdgeConfigurationUpdateOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// An asynchronous API that updates a streams existing edge configuration. The Kinesis Video Stream will sync the streams edge configuration with the Edge Agent IoT Greengrass component that runs on an IoT Hub Device, setup at your premise. The time to sync can vary and depends on the connectivity of the Hub Device. The SyncStatus will be updated as the edge configuration is acknowledged, and synced with the Edge Agent. If this API is invoked for the first time, a new edge configuration will be cre...
+    /// </summary>
+    /// <param name="EdgeConfig">The edge configuration details required to invoke the update process. HubDeviceArn -&gt; (string) [required] The "Internet of Things (IoT) Thing " Arn of the stream. Constraints: o min: 1 o max: 1024 o pattern: arn:[a-z\d-]+:iot:[a-z0-9-]+:[0-9]+:thing/[a-zA-Z0-9_.-]+ RecorderConfig -&gt; (structure) [required] The recorder configuration consists of the local MediaSourceCon- fig details, that are used as credentials to access the local media files streamed on the camera. MediaSourceConfig -&gt; (structure) [required] The configuration details that consist of the credentials re- quired (MediaUriSecretArn and MediaUriType ) to access the media files streamed to the camera. MediaUriSecretArn -&gt; (string) [required] The Amazon Web Services Secrets Manager ARN for the user- name and password of the camera, or a local media file location. Constraints: o min: 20 o max: 2048 o pattern: arn:[a-z\d-]+:secretsman- ager:[a-z0-9-]+:[0-9]+:secret:[a-zA-Z0-9_.-]+ MediaUriType -&gt; (string) [required] The Uniform Resource Identifier (URI) type. The FILE_URI value can be used to stream local media files. NOTE: Preview only supports the RTSP_URI media source URI format . Possible values: o RTSP_URI o FILE_URI ScheduleConfig -&gt; (structure) The configuration that consists of the ScheduleExpression and the DurationInMinutes details that specify the scheduling to record from a camera, or local media file, onto the Edge Agent. If the ScheduleExpression attribute is not provided, then the Edge Agent will always be set to recording mode. ScheduleExpression -&gt; (string) [required] The Quartz cron expression that takes care of scheduling jobs to record from the camera, or local media file, onto the Edge Agent. If the ScheduleExpression is not provided for the RecorderConfig , then the Edge Agent will always be set to recording mode. For more information about Quartz, refer to the ` Cron Trigger Tutorial https://www.quartz-scheduler.org/documentation/quartz-2.3.0/tutorials/crontrigger.html`__ page to understand the valid expressions and its use. Constraints: o min: 11 o max: 100 o pattern: [^\n]{11,100} DurationInSeconds -&gt; (integer) [required] The total duration to record the media. If the Schedule- Expression attribute is provided, then the DurationInSec- onds attribute should also be specified. Constraints: o min: 60 o max: 3600 UploaderConfig -&gt; (structure) The uploader configuration contains the ScheduleExpression de- tails that are used to schedule upload jobs for the recorded me- dia files from the Edge Agent to a Kinesis Video Stream. ScheduleConfig -&gt; (structure) [required] The configuration that consists of the ScheduleExpression and the DurationInMinutes details that specify the scheduling to record from a camera, or local media file, onto the Edge Agent. If the ScheduleConfig is not provided in this Upload- erConfig , then the Edge Agent will upload at regular inter- vals (every 1 hour). ScheduleExpression -&gt; (string) [required] The Quartz cron expression that takes care of scheduling jobs to record from the camera, or local media file, onto the Edge Agent. If the ScheduleExpression is not provided for the RecorderConfig , then the Edge Agent will always be set to recording mode. For more information about Quartz, refer to the ` Cron Trigger Tutorial https://www.quartz-scheduler.org/documentation/quartz-2.3.0/tutorials/crontrigger.html`__ page to understand the valid expressions and its use. Constraints: o min: 11 o max: 100 o pattern: [^\n]{11,100} DurationInSeconds -&gt; (integer) [required] The total duration to record the media. If the Schedule- Expression attribute is provided, then the DurationInSec- onds attribute should also be specified. Constraints: o min: 60 o max: 3600 DeletionConfig -&gt; (structure) The deletion configuration is made up of the retention time (EdgeRetentionInHours ) and local size configuration (LocalSize- Config ) details that are used to make the deletion. EdgeRetentionInHours -&gt; (integer) The number of hours that you want to retain the data in the stream on the Edge Agent. The default value of the retention time is 720 hours, which translates to 30 days. Constraints: o min: 1 o max: 720 LocalSizeConfig -&gt; (structure) The value of the local size required in order to delete the edge configuration. MaxLocalMediaSizeInMB -&gt; (integer) The overall maximum size of the media that you want to store for a stream on the Edge Agent. Constraints: o min: 64 o max: 2000000 StrategyOnFullSize -&gt; (string) The strategy to perform when a streams MaxLocalMedia- SizeInMB limit is reached. Possible values: o DELETE_OLDEST_MEDIA o DENY_NEW_MEDIA DeleteAfterUpload -&gt; (boolean) The boolean value used to indicate whether or not you want to mark the media for deletion, once it has been uploaded to the Kinesis Video Stream cloud. The media files can be deleted if any of the deletion configuration values are set to true , such as when the limit for the EdgeRetentionInHours , or the MaxLocalMediaSizeInMB , has been reached. Since the default value is set to true , configure the up- loader schedule such that the media files are not being deleted before they are initially uploaded to the Amazon Web Services cloud. Shorthand Syntax: HubDeviceArn=string,RecorderConfig={MediaSourceConfig={MediaUriSecretArn=string,MediaUriType=string},ScheduleConfig={ScheduleExpression=string,DurationInSeconds=integer}},UploaderConfig={ScheduleConfig={ScheduleExpression=string,DurationInSeconds=integer}},DeletionConfig={EdgeRetentionInHours=integer,LocalSizeConfig={MaxLocalMediaSizeInMB=integer,StrategyOnFullSize=string},DeleteAfterUpload=boolean} JSON Syntax: { "HubDeviceArn": "string", "RecorderConfig": { "MediaSourceConfig": { "MediaUriSecretArn": "string", "MediaUriType": "RTSP_URI"|"FILE_URI" }, "ScheduleConfig": { "ScheduleExpression": "string", "DurationInSeconds": integer } }, "UploaderConfig": { "ScheduleConfig": { "ScheduleExpression": "string", "DurationInSeconds": integer } }, "DeletionConfig": { "EdgeRetentionInHours": integer, "LocalSizeConfig": { "MaxLocalMediaSizeInMB": integer, "StrategyOnFullSize": "DELETE_OLDEST_MEDIA"|"DENY_NEW_MEDIA" }, "DeleteAfterUpload": true|false } }</param>
+    public AwsKinesisvideoStartEdgeConfigurationUpdateOptions(
+        string EdgeConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EdgeConfig);
+        this.EdgeConfig = EdgeConfig;
+    }
+
+    private AwsKinesisvideoStartEdgeConfigurationUpdateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKinesisvideoStartEdgeConfigurationUpdateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKinesisvideoStartEdgeConfigurationUpdateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The edge configuration details required to invoke the update process. HubDeviceArn -&gt; (string) [required] The "Internet of Things (IoT) Thing " Arn of the stream. Constraints: o min: 1 o max: 1024 o pattern: arn:[a-z\d-]+:iot:[a-z0-9-]+:[0-9]+:thing/[a-zA-Z0-9_.-]+ RecorderConfig -&gt; (structure) [required] The recorder configuration consists of the local MediaSourceCon- fig details, that are used as credentials to access the local media files streamed on the camera. MediaSourceConfig -&gt; (structure) [required] The configuration details that consist of the credentials re- quired (MediaUriSecretArn and MediaUriType ) to access the media files streamed to the camera. MediaUriSecretArn -&gt; (string) [required] The Amazon Web Services Secrets Manager ARN for the user- name and password of the camera, or a local media file location. Constraints: o min: 20 o max: 2048 o pattern: arn:[a-z\d-]+:secretsman- ager:[a-z0-9-]+:[0-9]+:secret:[a-zA-Z0-9_.-]+ MediaUriType -&gt; (string) [required] The Uniform Resource Identifier (URI) type. The FILE_URI value can be used to stream local media files. NOTE: Preview only supports the RTSP_URI media source URI format . Possible values: o RTSP_URI o FILE_URI ScheduleConfig -&gt; (structure) The configuration that consists of the ScheduleExpression and the DurationInMinutes details that specify the scheduling to record from a camera, or local media file, onto the Edge Agent. If the ScheduleExpression attribute is not provided, then the Edge Agent will always be set to recording mode. ScheduleExpression -&gt; (string) [required] The Quartz cron expression that takes care of scheduling jobs to record from the camera, or local media file, onto the Edge Agent. If the ScheduleExpression is not provided for the RecorderConfig , then the Edge Agent will always be set to recording mode. For more information about Quartz, refer to the ` Cron Trigger Tutorial https://www.quartz-scheduler.org/documentation/quartz-2.3.0/tutorials/crontrigger.html`__ page to understand the valid expressions and its use. Constraints: o min: 11 o max: 100 o pattern: [^\n]{11,100} DurationInSeconds -&gt; (integer) [required] The total duration to record the media. If the Schedule- Expression attribute is provided, then the DurationInSec- onds attribute should also be specified. Constraints: o min: 60 o max: 3600 UploaderConfig -&gt; (structure) The uploader configuration contains the ScheduleExpression de- tails that are used to schedule upload jobs for the recorded me- dia files from the Edge Agent to a Kinesis Video Stream. ScheduleConfig -&gt; (structure) [required] The configuration that consists of the ScheduleExpression and the DurationInMinutes details that specify the scheduling to record from a camera, or local media file, onto the Edge Agent. If the ScheduleConfig is not provided in this Upload- erConfig , then the Edge Agent will upload at regular inter- vals (every 1 hour). ScheduleExpression -&gt; (string) [required] The Quartz cron expression that takes care of scheduling jobs to record from the camera, or local media file, onto the Edge Agent. If the ScheduleExpression is not provided for the RecorderConfig , then the Edge Agent will always be set to recording mode. For more information about Quartz, refer to the ` Cron Trigger Tutorial https://www.quartz-scheduler.org/documentation/quartz-2.3.0/tutorials/crontrigger.html`__ page to understand the valid expressions and its use. Constraints: o min: 11 o max: 100 o pattern: [^\n]{11,100} DurationInSeconds -&gt; (integer) [required] The total duration to record the media. If the Schedule- Expression attribute is provided, then the DurationInSec- onds attribute should also be specified. Constraints: o min: 60 o max: 3600 DeletionConfig -&gt; (structure) The deletion configuration is made up of the retention time (EdgeRetentionInHours ) and local size configuration (LocalSize- Config ) details that are used to make the deletion. EdgeRetentionInHours -&gt; (integer) The number of hours that you want to retain the data in the stream on the Edge Agent. The default value of the retention time is 720 hours, which translates to 30 days. Constraints: o min: 1 o max: 720 LocalSizeConfig -&gt; (structure) The value of the local size required in order to delete the edge configuration. MaxLocalMediaSizeInMB -&gt; (integer) The overall maximum size of the media that you want to store for a stream on the Edge Agent. Constraints: o min: 64 o max: 2000000 StrategyOnFullSize -&gt; (string) The strategy to perform when a streams MaxLocalMedia- SizeInMB limit is reached. Possible values: o DELETE_OLDEST_MEDIA o DENY_NEW_MEDIA DeleteAfterUpload -&gt; (boolean) The boolean value used to indicate whether or not you want to mark the media for deletion, once it has been uploaded to the Kinesis Video Stream cloud. The media files can be deleted if any of the deletion configuration values are set to true , such as when the limit for the EdgeRetentionInHours , or the MaxLocalMediaSizeInMB , has been reached. Since the default value is set to true , configure the up- loader schedule such that the media files are not being deleted before they are initially uploaded to the Amazon Web Services cloud. Shorthand Syntax: HubDeviceArn=string,RecorderConfig={MediaSourceConfig={MediaUriSecretArn=string,MediaUriType=string},ScheduleConfig={ScheduleExpression=string,DurationInSeconds=integer}},UploaderConfig={ScheduleConfig={ScheduleExpression=string,DurationInSeconds=integer}},DeletionConfig={EdgeRetentionInHours=integer,LocalSizeConfig={MaxLocalMediaSizeInMB=integer,StrategyOnFullSize=string},DeleteAfterUpload=boolean} JSON Syntax: { "HubDeviceArn": "string", "RecorderConfig": { "MediaSourceConfig": { "MediaUriSecretArn": "string", "MediaUriType": "RTSP_URI"|"FILE_URI" }, "ScheduleConfig": { "ScheduleExpression": "string", "DurationInSeconds": integer } }, "UploaderConfig": { "ScheduleConfig": { "ScheduleExpression": "string", "DurationInSeconds": integer } }, "DeletionConfig": { "EdgeRetentionInHours": integer, "LocalSizeConfig": { "MaxLocalMediaSizeInMB": integer, "StrategyOnFullSize": "DELETE_OLDEST_MEDIA"|"DENY_NEW_MEDIA" }, "DeleteAfterUpload": true|false } }
+    /// </summary>
+    [CliOption("--edge-config")]
+    public string? EdgeConfig { get; private init; }
+
     /// <summary>
     /// The name of the stream whose edge configuration you want to update. Specify either the StreamName or the StreamARN . Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_.-]+
     /// </summary>
@@ -33,13 +73,27 @@ public record AwsKinesisvideoStartEdgeConfigurationUpdateOptions : AwsOptions
     [CliOption("--stream-arn")]
     public string? StreamArn { get; set; }
 
-    [CliOption("--edge-config")]
-    public string? EdgeConfig { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

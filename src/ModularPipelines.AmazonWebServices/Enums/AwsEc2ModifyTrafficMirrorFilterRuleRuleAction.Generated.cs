@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --ruleaction.
+/// Allowed values for --rule-action.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEc2ModifyTrafficMirrorFilterRuleRuleAction
 {
     [EnumValue("accept")]
-    Accept = 1,
+    Accept,
 
     [EnumValue("reject")]
-    Reject = 2
+    Reject
 }

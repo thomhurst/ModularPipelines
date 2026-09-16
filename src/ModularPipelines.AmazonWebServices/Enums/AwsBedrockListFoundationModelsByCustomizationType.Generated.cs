@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --bycustomizationtype.
+/// Allowed values for --by-customization-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsBedrockListFoundationModelsByCustomizationType
 {
-    [EnumValue("FINE_TUNING")]
-    FineTuning = 1,
-
     [EnumValue("CONTINUED_PRE_TRAINING")]
-    ContinuedPreTraining = 2,
+    ContinuedPreTraining,
 
     [EnumValue("DISTILLATION")]
-    Distillation = 3
+    Distillation,
+
+    [EnumValue("FINE_TUNING")]
+    FineTuning
 }

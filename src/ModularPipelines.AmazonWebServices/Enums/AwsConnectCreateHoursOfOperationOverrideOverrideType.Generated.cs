@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --overridetype.
+/// Allowed values for --override-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsConnectCreateHoursOfOperationOverrideOverrideType
 {
-    [EnumValue("STANDARD")]
-    Standard = 1,
+    [EnumValue("CLOSED")]
+    Closed,
 
     [EnumValue("OPEN")]
-    Open = 2,
+    Open,
 
-    [EnumValue("CLOSED")]
-    Closed = 3
+    [EnumValue("STANDARD")]
+    Standard
 }

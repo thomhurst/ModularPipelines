@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --keyspec.
+/// Allowed values for --key-spec.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsKmsGenerateDataKeyKeySpec
 {
-    [EnumValue("AES_256")]
-    Aes_256 = 1,
-
     [EnumValue("AES_128")]
-    Aes_128 = 2
+    Aes128,
+
+    [EnumValue("AES_256")]
+    Aes256
 }

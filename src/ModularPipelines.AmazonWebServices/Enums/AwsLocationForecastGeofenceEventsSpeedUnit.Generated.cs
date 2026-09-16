@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --speedunit.
+/// Allowed values for --speed-unit.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsLocationForecastGeofenceEventsSpeedUnit
 {
     [EnumValue("KilometersPerHour")]
-    KilometersPerHour = 1,
+    KilometersPerHour,
 
     [EnumValue("MilesPerHour")]
-    MilesPerHour = 2
+    MilesPerHour
 }

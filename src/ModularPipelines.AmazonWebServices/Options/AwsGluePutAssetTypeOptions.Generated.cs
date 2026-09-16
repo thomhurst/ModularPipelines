@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,13 +22,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("glue", "put-asset-type")]
-public record AwsGluePutAssetTypeOptions : AwsOptions
+public record AwsGluePutAssetTypeOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--name")]
-    public string? Name { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates or updates an asset type in Glue Data Catalog. An asset type defines the structure of assets by specifying which forms they include. If an asset type with the given name already exists, it is updated. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the asset type. Constraints: o min: 1 o max: 128 o pattern: ^(?![0-9_])\w+$|^_\w*[a-zA-Z0-9]\w*$</param>
+    /// <param name="Forms">The forms that make up the asset type, keyed by form name. Each en- try references the form type that defines the form's schema. Constraints: o min: 1 o max: 100 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?![0-9_])\w+$|^_\w*[a-zA-Z0-9]\w*$ value -&gt; (structure) A reference to a form type that is included in an asset type. FormTypeIdentifier -&gt; (string) [required] The identifier of the referenced form type. Constraints: o min: 1 o max: 256 Shorthand Syntax: KeyName1={FormTypeIdentifier=string},KeyName2={FormTypeIdentifier=string} JSON Syntax: {"string": { "FormTypeIdentifier": "string" } ...}</param>
+    public AwsGluePutAssetTypeOptions(
+        string Name,
+        IReadOnlyList<KeyValue> Forms
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Forms);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(Forms));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Forms));
+            }
+
+            Forms = materialized;
+        }
+        this.Forms = Forms;
+    }
+
+    private AwsGluePutAssetTypeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGluePutAssetTypeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGluePutAssetTypeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the asset type. Constraints: o min: 1 o max: 128 o pattern: ^(?![0-9_])\w+$|^_\w*[a-zA-Z0-9]\w*$
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The forms that make up the asset type, keyed by form name. Each en- try references the form type that defines the form's schema. Constraints: o min: 1 o max: 100 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?![0-9_])\w+$|^_\w*[a-zA-Z0-9]\w*$ value -&gt; (structure) A reference to a form type that is included in an asset type. FormTypeIdentifier -&gt; (string) [required] The identifier of the referenced form type. Constraints: o min: 1 o max: 256 Shorthand Syntax: KeyName1={FormTypeIdentifier=string},KeyName2={FormTypeIdentifier=string} JSON Syntax: {"string": { "FormTypeIdentifier": "string" } ...}
+    /// </summary>
     [CliOption("--forms", CollectionSeparator = ",")]
-    public IReadOnlyList<KeyValue>? Forms { get; set; }
+    public IReadOnlyList<KeyValue>? Forms { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
@@ -41,5 +96,22 @@ public record AwsGluePutAssetTypeOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

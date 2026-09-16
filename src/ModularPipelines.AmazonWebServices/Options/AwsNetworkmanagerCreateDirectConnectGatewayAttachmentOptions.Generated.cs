@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,22 +21,83 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("networkmanager", "create-direct-connect-gateway-attachment")]
-public record AwsNetworkmanagerCreateDirectConnectGatewayAttachmentOptions : AwsOptions
+public record AwsNetworkmanagerCreateDirectConnectGatewayAttachmentOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--core-network-id")]
-    public string? CoreNetworkId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an Amazon Web Services Direct Connect gateway attachment See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CoreNetworkId">The ID of the Cloud WAN core network that the Direct Connect gateway attachment should be attached to. Constraints: o min: 0 o max: 50 o pattern: ^core-network-([0-9a-f]{8,17})$</param>
+    /// <param name="DirectConnectGatewayArn">The ARN of the Direct Connect gateway attachment. Constraints: o min: 0 o max: 500 o pattern: ^arn:[^:]{1,63}:directconnect::[^:]{0,63}:dx-gate- way\/[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}$</param>
+    /// <param name="EdgeLocations">One or more core network edge locations that the Direct Connect gateway attachment is associated with. (string) Constraints: o min: 1 o max: 63 o pattern: [\s\S]* Syntax: "string" "string" ...</param>
+    public AwsNetworkmanagerCreateDirectConnectGatewayAttachmentOptions(
+        string CoreNetworkId,
+        string DirectConnectGatewayArn,
+        IEnumerable<string> EdgeLocations
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CoreNetworkId);
+        this.CoreNetworkId = CoreNetworkId;
+        global::System.ArgumentNullException.ThrowIfNull(DirectConnectGatewayArn);
+        this.DirectConnectGatewayArn = DirectConnectGatewayArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(EdgeLocations);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(EdgeLocations));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(EdgeLocations));
+            }
+
+            EdgeLocations = materialized;
+        }
+        this.EdgeLocations = EdgeLocations;
+    }
+
+    private AwsNetworkmanagerCreateDirectConnectGatewayAttachmentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNetworkmanagerCreateDirectConnectGatewayAttachmentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNetworkmanagerCreateDirectConnectGatewayAttachmentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Cloud WAN core network that the Direct Connect gateway attachment should be attached to. Constraints: o min: 0 o max: 50 o pattern: ^core-network-([0-9a-f]{8,17})$
+    /// </summary>
+    [CliOption("--core-network-id")]
+    public string? CoreNetworkId { get; private init; }
+
+    /// <summary>
+    /// The ARN of the Direct Connect gateway attachment. Constraints: o min: 0 o max: 500 o pattern: ^arn:[^:]{1,63}:directconnect::[^:]{0,63}:dx-gate- way\/[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}$
+    /// </summary>
     [CliOption("--direct-connect-gateway-arn")]
-    public string? DirectConnectGatewayArn { get; set; }
+    public string? DirectConnectGatewayArn { get; private init; }
+
+    /// <summary>
+    /// One or more core network edge locations that the Direct Connect gateway attachment is associated with. (string) Constraints: o min: 1 o max: 63 o pattern: [\s\S]* Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--edge-locations", GroupValues = true)]
+    public IEnumerable<string>? EdgeLocations { get; private init; }
 
     /// <summary>
     /// The routing policy label to apply to the Direct Connect Gateway at- tachment for traffic routing decisions. Constraints: o min: 0 o max: 256 o pattern: [\s\S]*
     /// </summary>
     [CliOption("--routing-policy-label")]
     public string? RoutingPolicyLabel { get; set; }
-
-    [CliOption("--edge-locations", GroupValues = true)]
-    public IEnumerable<string>? EdgeLocations { get; set; }
 
     /// <summary>
     /// The key value tags to apply to the Direct Connect gateway attachment during creation. (structure) Describes a tag. Key -&gt; (string) The tag key. Constraints: Maximum length of 128 characters. Constraints: o min: 0 o max: 10000000 o pattern: [\s\S]* Value -&gt; (string) The tag value. Constraints: Maximum length of 256 characters. Constraints: o min: 0 o max: 10000000 o pattern: [\s\S]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -55,5 +117,22 @@ public record AwsNetworkmanagerCreateDirectConnectGatewayAttachmentOptions : Aws
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

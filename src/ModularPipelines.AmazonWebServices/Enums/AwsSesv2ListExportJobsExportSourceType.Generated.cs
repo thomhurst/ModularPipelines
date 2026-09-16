@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --exportsourcetype.
+/// Allowed values for --export-source-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSesv2ListExportJobsExportSourceType
 {
-    [EnumValue("METRICS_DATA")]
-    MetricsData = 1,
-
     [EnumValue("MESSAGE_INSIGHTS")]
-    MessageInsights = 2
+    MessageInsights,
+
+    [EnumValue("METRICS_DATA")]
+    MetricsData
 }

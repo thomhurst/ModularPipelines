@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotwireless", "create-wireless-gateway")]
-public record AwsIotwirelessCreateWirelessGatewayOptions : AwsOptions
+public record AwsIotwirelessCreateWirelessGatewayOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Provisions a wireless gateway. NOTE: When provisioning a wireless gateway, you might run into duplication errors for the following reasons. o If you specify a GatewayEui value that already exists. o If you used a ClientRequestToken with the same parameters within the last 10 minutes. To avoid this error, make sure that you use unique identifiers and parameters for each request within the specified time period. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Lorawan">The gateway configuration information to use to create the wireless gateway. GatewayEui -&gt; (string) The gateway's EUI value. Constraints: o pattern: ^(([0-9A-Fa-f]{2}-){7}|([0-9A-Fa-f]{2}:){7}|([0-9A-Fa-f]{2}\s){7}|([0-9A-Fa-f]{2}){7})([0-9A-Fa-f]{2})$ RfRegion -&gt; (string) The frequency band (RFRegion) value. Constraints: o max: 64 JoinEuiFilters -&gt; (list) A list of JoinEuiRange used by LoRa gateways to filter LoRa frames. Constraints: o min: 0 o max: 3 (list) A pair of join EUI describing a range [BegEui, EndEui], both ends are inclusive. Constraints: o min: 2 o max: 2 (string) Constraints: o pattern: [a-fA-F0-9]{16} NetIdFilters -&gt; (list) A list of NetId values that are used by LoRa gateways to filter the uplink frames. Constraints: o min: 0 o max: 10 (string) LoRaWAN network ID. Constraints: o pattern: [a-fA-F0-9]{6} SubBands -&gt; (list) A list of integer indicating which sub bands are supported by LoRa gateway. Constraints: o min: 0 o max: 8 (integer) A subset of supported frequency channels in a certain RFRe- gion. Constraints: o min: 1 o max: 8 Beaconing -&gt; (structure) Beaconing object information, which consists of the data rate and frequency parameters. DataRate -&gt; (integer) The data rate for gateways that are sending the beacons. Constraints: o min: 0 o max: 15 Frequencies -&gt; (list) The frequency list for the gateways to send the beacons. Constraints: o min: 0 o max: 10 (integer) Constraints: o min: 100000000 o max: 1000000000 MaxEirp -&gt; (float) The MaxEIRP value. Constraints: o min: 0 o max: 30 Shorthand Syntax: GatewayEui=string,RfRegion=string,JoinEuiFilters=[[string,string],[string,string]],NetIdFilters=string,string,SubBands=integer,integer,Beaconing={DataRate=integer,Frequencies=[integer,integer]},MaxEirp=float JSON Syntax: { "GatewayEui": "string", "RfRegion": "string", "JoinEuiFilters": [ ["string", ...] ... ], "NetIdFilters": ["string", ...], "SubBands": [integer, ...], "Beaconing": { "DataRate": integer, "Frequencies": [integer, ...] }, "MaxEirp": float }</param>
+    public AwsIotwirelessCreateWirelessGatewayOptions(
+        string Lorawan
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Lorawan);
+        this.Lorawan = Lorawan;
+    }
+
+    private AwsIotwirelessCreateWirelessGatewayOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotwirelessCreateWirelessGatewayOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotwirelessCreateWirelessGatewayOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The gateway configuration information to use to create the wireless gateway. GatewayEui -&gt; (string) The gateway's EUI value. Constraints: o pattern: ^(([0-9A-Fa-f]{2}-){7}|([0-9A-Fa-f]{2}:){7}|([0-9A-Fa-f]{2}\s){7}|([0-9A-Fa-f]{2}){7})([0-9A-Fa-f]{2})$ RfRegion -&gt; (string) The frequency band (RFRegion) value. Constraints: o max: 64 JoinEuiFilters -&gt; (list) A list of JoinEuiRange used by LoRa gateways to filter LoRa frames. Constraints: o min: 0 o max: 3 (list) A pair of join EUI describing a range [BegEui, EndEui], both ends are inclusive. Constraints: o min: 2 o max: 2 (string) Constraints: o pattern: [a-fA-F0-9]{16} NetIdFilters -&gt; (list) A list of NetId values that are used by LoRa gateways to filter the uplink frames. Constraints: o min: 0 o max: 10 (string) LoRaWAN network ID. Constraints: o pattern: [a-fA-F0-9]{6} SubBands -&gt; (list) A list of integer indicating which sub bands are supported by LoRa gateway. Constraints: o min: 0 o max: 8 (integer) A subset of supported frequency channels in a certain RFRe- gion. Constraints: o min: 1 o max: 8 Beaconing -&gt; (structure) Beaconing object information, which consists of the data rate and frequency parameters. DataRate -&gt; (integer) The data rate for gateways that are sending the beacons. Constraints: o min: 0 o max: 15 Frequencies -&gt; (list) The frequency list for the gateways to send the beacons. Constraints: o min: 0 o max: 10 (integer) Constraints: o min: 100000000 o max: 1000000000 MaxEirp -&gt; (float) The MaxEIRP value. Constraints: o min: 0 o max: 30 Shorthand Syntax: GatewayEui=string,RfRegion=string,JoinEuiFilters=[[string,string],[string,string]],NetIdFilters=string,string,SubBands=integer,integer,Beaconing={DataRate=integer,Frequencies=[integer,integer]},MaxEirp=float JSON Syntax: { "GatewayEui": "string", "RfRegion": "string", "JoinEuiFilters": [ ["string", ...] ... ], "NetIdFilters": ["string", ...], "SubBands": [integer, ...], "Beaconing": { "DataRate": integer, "Frequencies": [integer, ...] }, "MaxEirp": float }
+    /// </summary>
+    [CliOption("--lorawan")]
+    public string? Lorawan { get; private init; }
+
     /// <summary>
     /// The name of the new resource. NOTE: The following special characters aren't accepted: &lt;&gt;^#~$ Constraints: o max: 256
     /// </summary>
@@ -47,13 +87,27 @@ public record AwsIotwirelessCreateWirelessGatewayOptions : AwsOptions
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CliOption("--lorawan")]
-    public string? Lorawan { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

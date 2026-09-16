@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,16 +22,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("signin", "introspect-oauth2-token-with-iam")]
-public record AwsSigninIntrospectOauth2TokenWithIamOptions : AwsOptions
+public record AwsSigninIntrospectOauth2TokenWithIamOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Grants permission to inspect the metadata and state of an OAuth 2.0 ac- cess token or refresh token Implements RFC 7662 OAuth 2.0 Token Introspection over a SigV4-authen- ticated endpoint. Inspects the metadata of an access_token or re- fresh_token issued by AWS Sign-In and returns the claims associated with it. Inactive token semantics (RFC 7662 2.2): when the supplied token is un- known, expired, revoked, malformed, or owned by a different account, the response body is exactly { "active": fals...
+    /// </summary>
+    /// <param name="Token">The string value of the token to introspect. May be either an ac- cess_token or a refresh_token issued by AWS Sign-In. Constraints: o min: 1 o max: 4096 o pattern: ASO[AR][A-Za-z0-9+/=_\-]+</param>
+    public AwsSigninIntrospectOauth2TokenWithIamOptions(
+        string Token
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Token);
+        this.Token = Token;
+    }
+
+    private AwsSigninIntrospectOauth2TokenWithIamOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSigninIntrospectOauth2TokenWithIamOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSigninIntrospectOauth2TokenWithIamOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The string value of the token to introspect. May be either an ac- cess_token or a refresh_token issued by AWS Sign-In. Constraints: o min: 1 o max: 4096 o pattern: ASO[AR][A-Za-z0-9+/=_\-]+
+    /// </summary>
     [SecretValue]
     [CliOption("--token")]
-    public string? Token { get; set; }
+    public string? Token { get; private init; }
 
     /// <summary>
     /// Optional hint about the type of the token submitted for introspec- tion. The server uses this hint to optimize lookup, but still falls back to the other token type on miss. Allowed values: access_token, refresh_token. Constraints: o pattern: (access_token|refresh_token)
     /// </summary>
-    [SecretValue]
     [CliOption("--token-type-hint")]
     public AwsSigninIntrospectOauth2TokenWithIamTokenTypeHint? TokenTypeHint { get; set; }
 
@@ -39,5 +75,22 @@ public record AwsSigninIntrospectOauth2TokenWithIamOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

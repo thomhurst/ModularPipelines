@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --provisionedresourcecleanup.
+/// Allowed values for --provisioned-resource-cleanup.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSyntheticsCreateCanaryProvisionedResourceCleanup
 {
     [EnumValue("AUTOMATIC")]
-    Automatic = 1,
+    Automatic,
 
     [EnumValue("OFF")]
-    Off = 2
+    Off
 }

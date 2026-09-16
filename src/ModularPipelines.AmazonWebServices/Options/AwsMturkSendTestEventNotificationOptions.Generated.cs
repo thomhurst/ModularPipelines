@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +21,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mturk", "send-test-event-notification")]
-public record AwsMturkSendTestEventNotificationOptions : AwsOptions
+public record AwsMturkSendTestEventNotificationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--notification")]
-    public string? Notification { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// The SendTestEventNotification operation causes Amazon Mechanical Turk to send a notification message as if a HIT event occurred, according to the provided notification specification. This allows you to test noti- fications without setting up notifications for a real HIT type and try- ing to trigger them using the website. When you call this operation, the service attempts to send the test notification immediately. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Notification">The notification specification to test. This value is identical to the value you would provide to the UpdateNotificationSettings opera- tion when you establish the notification specification for a HIT type. Destination -&gt; (string) [required] The target for notification messages. The Destinations format is determined by the specified Transport: o When Transport is Email, the Destination is your email ad- dress. o When Transport is SQS, the Destination is your queue URL. o When Transport is SNS, the Destination is the ARN of your topic. Transport -&gt; (string) [required] The method Amazon Mechanical Turk uses to send the notification. Valid Values: Email | SQS | SNS. Possible values: o Email o SQS o SNS Version -&gt; (string) [required] The version of the Notification API to use. Valid value is 2006-05-05. EventTypes -&gt; (list) [required] The list of events that should cause notifications to be sent. Valid Values: AssignmentAccepted | AssignmentAbandoned | Assign- mentReturned | AssignmentSubmitted | AssignmentRejected | As- signmentApproved | HITCreated | HITExtended | HITDisposed | HITReviewable | HITExpired | Ping. The Ping event is only valid for the SendTestEventNotification operation. (string) Possible values: o AssignmentAccepted o AssignmentAbandoned o AssignmentReturned o AssignmentSubmitted o AssignmentRejected o AssignmentApproved o HITCreated o HITExpired o HITReviewable o HITExtended o HITDisposed o Ping Shorthand Syntax: Destination=string,Transport=string,Version=string,EventTypes=string,string JSON Syntax: { "Destination": "string", "Transport": "Email"|"SQS"|"SNS", "Version": "string", "EventTypes": ["AssignmentAccepted"|"AssignmentAbandoned"|"AssignmentReturned"|"AssignmentSubmitted"|"AssignmentRejected"|"AssignmentApproved"|"HITCreated"|"HITExpired"|"HITReviewable"|"HITExtended"|"HITDisposed"|"Ping", ...] }</param>
+    /// <param name="TestEventType">The event to simulate to test the notification specification. This event is included in the test message even if the notification spec- ification does not include the event type. The notification specifi- cation does not filter out the test event. Possible values: o AssignmentAccepted o AssignmentAbandoned o AssignmentReturned o AssignmentSubmitted o AssignmentRejected o AssignmentApproved o HITCreated o HITExpired o HITReviewable o HITExtended o HITDisposed o Ping</param>
+    public AwsMturkSendTestEventNotificationOptions(
+        string Notification,
+        AwsMturkSendTestEventNotificationTestEventType TestEventType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Notification);
+        this.Notification = Notification;
+        global::System.ArgumentNullException.ThrowIfNull(TestEventType);
+        this.TestEventType = TestEventType;
+    }
+
+    private AwsMturkSendTestEventNotificationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMturkSendTestEventNotificationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMturkSendTestEventNotificationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The notification specification to test. This value is identical to the value you would provide to the UpdateNotificationSettings opera- tion when you establish the notification specification for a HIT type. Destination -&gt; (string) [required] The target for notification messages. The Destinations format is determined by the specified Transport: o When Transport is Email, the Destination is your email ad- dress. o When Transport is SQS, the Destination is your queue URL. o When Transport is SNS, the Destination is the ARN of your topic. Transport -&gt; (string) [required] The method Amazon Mechanical Turk uses to send the notification. Valid Values: Email | SQS | SNS. Possible values: o Email o SQS o SNS Version -&gt; (string) [required] The version of the Notification API to use. Valid value is 2006-05-05. EventTypes -&gt; (list) [required] The list of events that should cause notifications to be sent. Valid Values: AssignmentAccepted | AssignmentAbandoned | Assign- mentReturned | AssignmentSubmitted | AssignmentRejected | As- signmentApproved | HITCreated | HITExtended | HITDisposed | HITReviewable | HITExpired | Ping. The Ping event is only valid for the SendTestEventNotification operation. (string) Possible values: o AssignmentAccepted o AssignmentAbandoned o AssignmentReturned o AssignmentSubmitted o AssignmentRejected o AssignmentApproved o HITCreated o HITExpired o HITReviewable o HITExtended o HITDisposed o Ping Shorthand Syntax: Destination=string,Transport=string,Version=string,EventTypes=string,string JSON Syntax: { "Destination": "string", "Transport": "Email"|"SQS"|"SNS", "Version": "string", "EventTypes": ["AssignmentAccepted"|"AssignmentAbandoned"|"AssignmentReturned"|"AssignmentSubmitted"|"AssignmentRejected"|"AssignmentApproved"|"HITCreated"|"HITExpired"|"HITReviewable"|"HITExtended"|"HITDisposed"|"Ping", ...] }
+    /// </summary>
+    [CliOption("--notification")]
+    public string? Notification { get; private init; }
+
+    /// <summary>
+    /// The event to simulate to test the notification specification. This event is included in the test message even if the notification spec- ification does not include the event type. The notification specifi- cation does not filter out the test event. Possible values: o AssignmentAccepted o AssignmentAbandoned o AssignmentReturned o AssignmentSubmitted o AssignmentRejected o AssignmentApproved o HITCreated o HITExpired o HITReviewable o HITExtended o HITDisposed o Ping
+    /// </summary>
     [CliOption("--test-event-type")]
-    public string? TestEventType { get; set; }
+    public AwsMturkSendTestEventNotificationTestEventType? TestEventType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

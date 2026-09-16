@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +20,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kinesis", "update-shard-count")]
-public record AwsKinesisUpdateShardCountOptions : AwsOptions
+public record AwsKinesisUpdateShardCountOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the shard count of the specified stream to the specified number of shards. This API is only supported for the data streams with the provisioned capacity mode. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. Updating the shard count is an asynchronous operation. Upon receiving the request, Kinesis Data Streams returns immediately and sets the sta- tu...
+    /// </summary>
+    /// <param name="TargetShardCount">The new number of shards. This value has the following default lim- its. By default, you cannot do the following: o Set this value to more than double your current shard count for a stream. o Set this value below half your current shard count for a stream. o Set this value to more than 10000 shards in a stream (the default limit for shard count per stream is 10000 per account per region), unless you request a limit increase. o Scale a stream with more than 10000 shards down unless you set this value to less than 10000 shards. Constraints: o min: 1</param>
+    /// <param name="ScalingType">The scaling type. Uniform scaling creates shards of equal size. Possible values: o UNIFORM_SCALING</param>
+    public AwsKinesisUpdateShardCountOptions(
+        int TargetShardCount,
+        string ScalingType
+    )
+    {
+        this.TargetShardCount = TargetShardCount;
+        global::System.ArgumentNullException.ThrowIfNull(ScalingType);
+        this.ScalingType = ScalingType;
+    }
+
+    private AwsKinesisUpdateShardCountOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKinesisUpdateShardCountOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKinesisUpdateShardCountOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The new number of shards. This value has the following default lim- its. By default, you cannot do the following: o Set this value to more than double your current shard count for a stream. o Set this value below half your current shard count for a stream. o Set this value to more than 10000 shards in a stream (the default limit for shard count per stream is 10000 per account per region), unless you request a limit increase. o Scale a stream with more than 10000 shards down unless you set this value to less than 10000 shards. Constraints: o min: 1
+    /// </summary>
+    [CliOption("--target-shard-count")]
+    public int? TargetShardCount { get; private init; }
+
+    /// <summary>
+    /// The scaling type. Uniform scaling creates shards of equal size. Possible values: o UNIFORM_SCALING
+    /// </summary>
+    [CliOption("--scaling-type")]
+    public string? ScalingType { get; private init; }
+
     /// <summary>
     /// The name of the stream. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--stream-name")]
     public string? StreamName { get; set; }
-
-    [CliOption("--target-shard-count")]
-    public int? TargetShardCount { get; set; }
-
-    [CliOption("--scaling-type")]
-    public string? ScalingType { get; set; }
 
     /// <summary>
     /// The ARN of the stream. Constraints: o min: 1 o max: 2048 o pattern: arn:aws.*:kinesis:.*:\d{12}:stream/\S+
@@ -50,5 +93,22 @@ public record AwsKinesisUpdateShardCountOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

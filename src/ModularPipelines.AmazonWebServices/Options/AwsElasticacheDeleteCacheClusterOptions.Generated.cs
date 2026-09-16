@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elasticache", "delete-cache-cluster")]
-public record AwsElasticacheDeleteCacheClusterOptions : AwsOptions
+public record AwsElasticacheDeleteCacheClusterOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes a previously provisioned cluster. DeleteCacheCluster deletes all associated cache nodes, node endpoints and the cluster itself. When you receive a successful response from this operation, Amazon Elasti- Cache immediately begins deleting the cluster; you cannot cancel or re- vert this operation. This operation is not valid for: o Valkey or Redis OSS (cluster mode enabled) clusters o Valkey or Redis OSS (cluster mode disabled) clusters o A cluster that is the last read replica of a replica...
+    /// </summary>
+    /// <param name="CacheClusterId">The cluster identifier for the cluster to be deleted. This parameter is not case sensitive.</param>
+    public AwsElasticacheDeleteCacheClusterOptions(
+        string CacheClusterId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CacheClusterId);
+        this.CacheClusterId = CacheClusterId;
+    }
+
+    private AwsElasticacheDeleteCacheClusterOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElasticacheDeleteCacheClusterOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElasticacheDeleteCacheClusterOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The cluster identifier for the cluster to be deleted. This parameter is not case sensitive.
+    /// </summary>
     [CliOption("--cache-cluster-id")]
-    public string? CacheClusterId { get; set; }
+    public string? CacheClusterId { get; private init; }
 
     /// <summary>
     /// The user-supplied name of a final cluster snapshot. This is the unique name that identifies the snapshot. ElastiCache creates the snapshot, and then deletes the cluster immediately afterward.
@@ -35,5 +72,22 @@ public record AwsElasticacheDeleteCacheClusterOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

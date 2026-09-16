@@ -11,26 +11,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --onclusterappuitype.
+/// Allowed values for --on-cluster-app-ui-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEmrGetOnClusterAppUiPresignedUrlOnClusterAppUiType
 {
-    [EnumValue("SparkHistoryServer")]
-    SparkHistoryServer = 1,
-
-    [EnumValue("YarnTimelineService")]
-    YarnTimelineService = 2,
-
-    [EnumValue("TezUI")]
-    TezUi = 3,
-
     [EnumValue("ApplicationMaster")]
-    ApplicationMaster = 4,
+    ApplicationMaster,
 
     [EnumValue("JobHistoryServer")]
-    JobHistoryServer = 5,
+    JobHistoryServer,
 
     [EnumValue("ResourceManager")]
-    ResourceManager = 6
+    ResourceManager,
+
+    [EnumValue("SparkHistoryServer")]
+    SparkHistoryServer,
+
+    [EnumValue("TezUI")]
+    TezUi,
+
+    [EnumValue("YarnTimelineService")]
+    YarnTimelineService
 }

@@ -11,26 +11,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --expectedstatus.
+/// Allowed values for --expected-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCodeartifactDisposePackageVersionsExpectedStatus
 {
-    [EnumValue("Published")]
-    Published = 1,
-
-    [EnumValue("Unfinished")]
-    Unfinished = 2,
-
-    [EnumValue("Unlisted")]
-    Unlisted = 3,
-
     [EnumValue("Archived")]
-    Archived = 4,
-
-    [EnumValue("Disposed")]
-    Disposed = 5,
+    Archived,
 
     [EnumValue("Deleted")]
-    Deleted = 6
+    Deleted,
+
+    [EnumValue("Disposed")]
+    Disposed,
+
+    [EnumValue("Published")]
+    Published,
+
+    [EnumValue("Unfinished")]
+    Unfinished,
+
+    [EnumValue("Unlisted")]
+    Unlisted
 }

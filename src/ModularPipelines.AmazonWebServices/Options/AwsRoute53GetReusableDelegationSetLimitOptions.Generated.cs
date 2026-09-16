@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53", "get-reusable-delegation-set-limit")]
-public record AwsRoute53GetReusableDelegationSetLimitOptions : AwsOptions
+public record AwsRoute53GetReusableDelegationSetLimitOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--type")]
-    public string? Type { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Gets the maximum number of hosted zones that you can associate with the specified reusable delegation set. For the default limit, see Limits in the Amazon Route 53 Developer Guide . To request a higher limit, open a case . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Type">Specify MAX_ZONES_BY_REUSABLE_DELEGATION_SET to get the maximum num- ber of hosted zones that you can associate with the specified reusable delegation set. Possible values: o MAX_ZONES_BY_REUSABLE_DELEGATION_SET</param>
+    /// <param name="DelegationSetId">The ID of the delegation set that you want to get the limit for. Constraints: o max: 32</param>
+    public AwsRoute53GetReusableDelegationSetLimitOptions(
+        string Type,
+        string DelegationSetId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+        global::System.ArgumentNullException.ThrowIfNull(DelegationSetId);
+        this.DelegationSetId = DelegationSetId;
+    }
+
+    private AwsRoute53GetReusableDelegationSetLimitOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53GetReusableDelegationSetLimitOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53GetReusableDelegationSetLimitOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specify MAX_ZONES_BY_REUSABLE_DELEGATION_SET to get the maximum num- ber of hosted zones that you can associate with the specified reusable delegation set. Possible values: o MAX_ZONES_BY_REUSABLE_DELEGATION_SET
+    /// </summary>
+    [CliOption("--type")]
+    public string? Type { get; private init; }
+
+    /// <summary>
+    /// The ID of the delegation set that you want to get the limit for. Constraints: o max: 32
+    /// </summary>
     [CliOption("--delegation-set-id")]
-    public string? DelegationSetId { get; set; }
+    public string? DelegationSetId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

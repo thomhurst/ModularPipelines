@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lexv2-models", "create-export")]
-public record AwsLexv2ModelsCreateExportOptions : AwsOptions
+public record AwsLexv2ModelsCreateExportOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--resource-specification")]
-    public string? ResourceSpecification { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a zip archive containing the contents of a bot or a bot locale. The archive contains a directory structure that contains JSON files that define the bot. You can create an archive that contains the complete definition of a bot, or you can specify that the archive contain only the definition of a single bot locale. For more information about exporting bots, and about the structure of the export archive, see Importing and exporting bots See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceSpecification">Specifies the type of resource to export, either a bot or a bot lo- cale. You can only specify one type of resource to export. botExportSpecification -&gt; (structure) Parameters for exporting a bot. botId -&gt; (string) [required] The identifier of the bot assigned by Amazon Lex. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$ botVersion -&gt; (string) [required] The version of the bot that was exported. This will be either DRAFT or the version number. Constraints: o min: 1 o max: 5 o pattern: ^(DRAFT|[0-9]+)$ botLocaleExportSpecification -&gt; (structure) Parameters for exporting a bot locale. botId -&gt; (string) [required] The identifier of the bot to create the locale for. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$ botVersion -&gt; (string) [required] The version of the bot to export. Constraints: o min: 1 o max: 5 o pattern: ^(DRAFT|[0-9]+)$ localeId -&gt; (string) [required] The identifier of the language and locale to export. The string must match one of the locales in the bot. customVocabularyExportSpecification -&gt; (structure) The parameters required to export a custom vocabulary. botId -&gt; (string) [required] The identifier of the bot that contains the custom vocabulary to export. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$ botVersion -&gt; (string) [required] The version of the bot that contains the custom vocabulary to export. Constraints: o min: 1 o max: 5 o pattern: ^(DRAFT|[0-9]+)$ localeId -&gt; (string) [required] The locale of the bot that contains the custom vocabulary to export. testSetExportSpecification -&gt; (structure) Specifications for the test set that is exported as a resource. testSetId -&gt; (string) [required] The unique identifier of the test set. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$ Shorthand Syntax: botExportSpecification={botId=string,botVersion=string},botLocaleExportSpecification={botId=string,botVersion=string,localeId=string},customVocabularyExportSpecification={botId=string,botVersion=string,localeId=string},testSetExportSpecification={testSetId=string} JSON Syntax: { "botExportSpecification": { "botId": "string", "botVersion": "string" }, "botLocaleExportSpecification": { "botId": "string", "botVersion": "string", "localeId": "string" }, "customVocabularyExportSpecification": { "botId": "string", "botVersion": "string", "localeId": "string" }, "testSetExportSpecification": { "testSetId": "string" } }</param>
+    /// <param name="FileFormat">The file format of the bot or bot locale definition files. Possible values: o LexJson o TSV o CSV</param>
+    public AwsLexv2ModelsCreateExportOptions(
+        string ResourceSpecification,
+        AwsLexv2ModelsCreateExportFileFormat FileFormat
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceSpecification);
+        this.ResourceSpecification = ResourceSpecification;
+        global::System.ArgumentNullException.ThrowIfNull(FileFormat);
+        this.FileFormat = FileFormat;
+    }
+
+    private AwsLexv2ModelsCreateExportOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLexv2ModelsCreateExportOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLexv2ModelsCreateExportOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the type of resource to export, either a bot or a bot lo- cale. You can only specify one type of resource to export. botExportSpecification -&gt; (structure) Parameters for exporting a bot. botId -&gt; (string) [required] The identifier of the bot assigned by Amazon Lex. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$ botVersion -&gt; (string) [required] The version of the bot that was exported. This will be either DRAFT or the version number. Constraints: o min: 1 o max: 5 o pattern: ^(DRAFT|[0-9]+)$ botLocaleExportSpecification -&gt; (structure) Parameters for exporting a bot locale. botId -&gt; (string) [required] The identifier of the bot to create the locale for. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$ botVersion -&gt; (string) [required] The version of the bot to export. Constraints: o min: 1 o max: 5 o pattern: ^(DRAFT|[0-9]+)$ localeId -&gt; (string) [required] The identifier of the language and locale to export. The string must match one of the locales in the bot. customVocabularyExportSpecification -&gt; (structure) The parameters required to export a custom vocabulary. botId -&gt; (string) [required] The identifier of the bot that contains the custom vocabulary to export. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$ botVersion -&gt; (string) [required] The version of the bot that contains the custom vocabulary to export. Constraints: o min: 1 o max: 5 o pattern: ^(DRAFT|[0-9]+)$ localeId -&gt; (string) [required] The locale of the bot that contains the custom vocabulary to export. testSetExportSpecification -&gt; (structure) Specifications for the test set that is exported as a resource. testSetId -&gt; (string) [required] The unique identifier of the test set. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$ Shorthand Syntax: botExportSpecification={botId=string,botVersion=string},botLocaleExportSpecification={botId=string,botVersion=string,localeId=string},customVocabularyExportSpecification={botId=string,botVersion=string,localeId=string},testSetExportSpecification={testSetId=string} JSON Syntax: { "botExportSpecification": { "botId": "string", "botVersion": "string" }, "botLocaleExportSpecification": { "botId": "string", "botVersion": "string", "localeId": "string" }, "customVocabularyExportSpecification": { "botId": "string", "botVersion": "string", "localeId": "string" }, "testSetExportSpecification": { "testSetId": "string" } }
+    /// </summary>
+    [CliOption("--resource-specification")]
+    public string? ResourceSpecification { get; private init; }
+
+    /// <summary>
+    /// The file format of the bot or bot locale definition files. Possible values: o LexJson o TSV o CSV
+    /// </summary>
     [CliOption("--file-format")]
-    public string? FileFormat { get; set; }
+    public AwsLexv2ModelsCreateExportFileFormat? FileFormat { get; private init; }
 
     /// <summary>
     /// An password to use to encrypt the exported archive. Using a password is optional, but you should encrypt the archive to protect the data in transit between Amazon Lex and your local computer. Constraints: o min: 1 o max: 1024
@@ -40,5 +85,22 @@ public record AwsLexv2ModelsCreateExportOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

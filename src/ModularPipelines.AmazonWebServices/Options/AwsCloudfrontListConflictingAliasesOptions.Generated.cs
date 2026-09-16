@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudfront", "list-conflicting-aliases")]
-public record AwsCloudfrontListConflictingAliasesOptions : AwsOptions
+public record AwsCloudfrontListConflictingAliasesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--distribution-id")]
-    public string? DistributionId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// NOTE: The ListConflictingAliases API operation only supports standard dis- tributions. To list domain conflicts for both standard distributions and distribution tenants, we recommend that you use the ListDomainConflicts API operation instead. Gets a list of aliases that conflict or overlap with the provided alias, and the associated CloudFront standard distribution and Amazon Web Services accounts for each conflicting alias. An alias is commonly known as a custom domain or vanity domain. It can ...
+    /// </summary>
+    /// <param name="DistributionId">The ID of a standard distribution in your account that has an at- tached TLS certificate that includes the provided alias. Constraints: o min: 0 o max: 25</param>
+    /// <param name="Alias">The alias (also called a CNAME) to search for conflicting aliases. Constraints: o min: 0 o max: 253</param>
+    public AwsCloudfrontListConflictingAliasesOptions(
+        string DistributionId,
+        string Alias
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DistributionId);
+        this.DistributionId = DistributionId;
+        global::System.ArgumentNullException.ThrowIfNull(Alias);
+        this.Alias = Alias;
+    }
+
+    private AwsCloudfrontListConflictingAliasesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudfrontListConflictingAliasesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudfrontListConflictingAliasesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of a standard distribution in your account that has an at- tached TLS certificate that includes the provided alias. Constraints: o min: 0 o max: 25
+    /// </summary>
+    [CliOption("--distribution-id")]
+    public string? DistributionId { get; private init; }
+
+    /// <summary>
+    /// The alias (also called a CNAME) to search for conflicting aliases. Constraints: o min: 0 o max: 253
+    /// </summary>
     [CliOption("--alias")]
-    public string? Alias { get; set; }
+    public string? Alias { get; private init; }
 
     /// <summary>
     /// Use this field when paginating results to indicate where to begin in the list of conflicting aliases. The response includes conflicting aliases in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
@@ -44,5 +88,22 @@ public record AwsCloudfrontListConflictingAliasesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

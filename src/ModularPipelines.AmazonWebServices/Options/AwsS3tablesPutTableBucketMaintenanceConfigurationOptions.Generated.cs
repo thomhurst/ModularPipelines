@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3tables", "put-table-bucket-maintenance-configuration")]
-public record AwsS3tablesPutTableBucketMaintenanceConfigurationOptions : AwsOptions
+public record AwsS3tablesPutTableBucketMaintenanceConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new maintenance configuration or replaces an existing mainte- nance configuration for a table bucket. For more information, see Amazon S3 table bucket maintenance in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:PutTableBucketMaintenanceConfiguration per- mission to use this operation. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TableBucketArn">The Amazon Resource Name (ARN) of the table bucket associated with the maintenance configuration. Constraints: o pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})</param>
+    /// <param name="Type">The type of the maintenance configuration. Possible values: o icebergUnreferencedFileRemoval</param>
+    /// <param name="Value">Defines the values of the maintenance configuration for the table bucket. status -&gt; (string) The status of the maintenance configuration. Possible values: o enabled o disabled settings -&gt; (tagged union structure) Contains details about the settings of the maintenance configu- ration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: icebergUnreferencedFileRemoval. icebergUnreferencedFileRemoval -&gt; (structure) The unreferenced file removal settings for the table bucket. unreferencedDays -&gt; (integer) The number of days an object has to be unreferenced be- fore it is marked as non-current. Constraints: o min: 1 o max: 2147483647 nonCurrentDays -&gt; (integer) The number of days an object has to be non-current before it is deleted. Constraints: o min: 1 o max: 2147483647 Shorthand Syntax: status=string,settings={icebergUnreferencedFileRemoval={unreferencedDays=integer,nonCurrentDays=integer}} JSON Syntax: { "status": "enabled"|"disabled", "settings": { "icebergUnreferencedFileRemoval": { "unreferencedDays": integer, "nonCurrentDays": integer } } }</param>
+    public AwsS3tablesPutTableBucketMaintenanceConfigurationOptions(
+        string TableBucketArn,
+        string Type,
+        string Value
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TableBucketArn);
+        this.TableBucketArn = TableBucketArn;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+        global::System.ArgumentNullException.ThrowIfNull(Value);
+        this.Value = Value;
+    }
+
+    private AwsS3tablesPutTableBucketMaintenanceConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3tablesPutTableBucketMaintenanceConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3tablesPutTableBucketMaintenanceConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the table bucket associated with the maintenance configuration. Constraints: o pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})
+    /// </summary>
     [CliOption("--table-bucket-arn")]
-    public string? TableBucketArn { get; set; }
+    public string? TableBucketArn { get; private init; }
 
+    /// <summary>
+    /// The type of the maintenance configuration. Possible values: o icebergUnreferencedFileRemoval
+    /// </summary>
     [CliOption("--type")]
-    public string? Type { get; set; }
+    public string? Type { get; private init; }
 
+    /// <summary>
+    /// Defines the values of the maintenance configuration for the table bucket. status -&gt; (string) The status of the maintenance configuration. Possible values: o enabled o disabled settings -&gt; (tagged union structure) Contains details about the settings of the maintenance configu- ration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: icebergUnreferencedFileRemoval. icebergUnreferencedFileRemoval -&gt; (structure) The unreferenced file removal settings for the table bucket. unreferencedDays -&gt; (integer) The number of days an object has to be unreferenced be- fore it is marked as non-current. Constraints: o min: 1 o max: 2147483647 nonCurrentDays -&gt; (integer) The number of days an object has to be non-current before it is deleted. Constraints: o min: 1 o max: 2147483647 Shorthand Syntax: status=string,settings={icebergUnreferencedFileRemoval={unreferencedDays=integer,nonCurrentDays=integer}} JSON Syntax: { "status": "enabled"|"disabled", "settings": { "icebergUnreferencedFileRemoval": { "unreferencedDays": integer, "nonCurrentDays": integer } } }
+    /// </summary>
     [CliOption("--value")]
-    public string? Value { get; set; }
+    public string? Value { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

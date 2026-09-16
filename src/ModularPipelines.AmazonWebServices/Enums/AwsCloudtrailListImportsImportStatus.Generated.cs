@@ -11,23 +11,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --importstatus.
+/// Allowed values for --import-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCloudtrailListImportsImportStatus
 {
-    [EnumValue("INITIALIZING")]
-    Initializing = 1,
-
-    [EnumValue("IN_PROGRESS")]
-    InProgress = 2,
+    [EnumValue("COMPLETED")]
+    Completed,
 
     [EnumValue("FAILED")]
-    Failed = 3,
+    Failed,
+
+    [EnumValue("INITIALIZING")]
+    Initializing,
+
+    [EnumValue("IN_PROGRESS")]
+    InProgress,
 
     [EnumValue("STOPPED")]
-    Stopped = 4,
-
-    [EnumValue("COMPLETED")]
-    Completed = 5
+    Stopped
 }

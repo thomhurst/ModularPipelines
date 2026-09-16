@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --contourdensity.
+/// Allowed values for --contour-density.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGeoMapsGetStyleDescriptorContourDensity
 {
+    [EnumValue("High")]
+    High,
+
     [EnumValue("Low")]
-    Low = 1,
+    Low,
 
     [EnumValue("Medium")]
-    Medium = 2,
-
-    [EnumValue("High")]
-    High = 3
+    Medium
 }

@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --s3ssealgorithm.
+/// Allowed values for --s3-sse-algorithm.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSimpledbv2StartDomainExportS3SseAlgorithm
 {
     [EnumValue("AES256")]
-    Aes256 = 1,
+    Aes256,
 
     [EnumValue("KMS")]
-    Kms = 2
+    Kms
 }

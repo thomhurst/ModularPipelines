@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,20 +22,63 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("braket", "create-spending-limit")]
-public record AwsBraketCreateSpendingLimitOptions : AwsOptions
+public record AwsBraketCreateSpendingLimitOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a spending limit for a specified quantum device. Spending lim- its help you control costs by setting maximum amounts that can be spent on quantum computing tasks within a specified time period. Simulators do not support spending limits. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DeviceArn">The Amazon Resource Name (ARN) of the quantum device to apply the spending limit to. Constraints: o min: 1 o max: 256</param>
+    /// <param name="SpendingLimit">The maximum amount that can be spent on the specified device, in USD. Constraints: o min: 1 o pattern: \d+(\.\d{1,2})?</param>
+    public AwsBraketCreateSpendingLimitOptions(
+        string DeviceArn,
+        string SpendingLimit
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DeviceArn);
+        this.DeviceArn = DeviceArn;
+        global::System.ArgumentNullException.ThrowIfNull(SpendingLimit);
+        this.SpendingLimit = SpendingLimit;
+    }
+
+    private AwsBraketCreateSpendingLimitOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBraketCreateSpendingLimitOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBraketCreateSpendingLimitOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the quantum device to apply the spending limit to. Constraints: o min: 1 o max: 256
+    /// </summary>
+    [CliOption("--device-arn")]
+    public string? DeviceArn { get; private init; }
+
+    /// <summary>
+    /// The maximum amount that can be spent on the specified device, in USD. Constraints: o min: 1 o pattern: \d+(\.\d{1,2})?
+    /// </summary>
+    [CliOption("--spending-limit")]
+    public string? SpendingLimit { get; private init; }
+
     /// <summary>
     /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Braket ignores the request, but does not return an error. Constraints: o min: 1 o max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--device-arn")]
-    public string? DeviceArn { get; set; }
-
-    [CliOption("--spending-limit")]
-    public string? SpendingLimit { get; set; }
 
     /// <summary>
     /// The time period during which the spending limit is active, including start and end dates. startAt -&gt; (timestamp) [required] The start date and time for the spending limit period, in epoch seconds. endAt -&gt; (timestamp) [required] The end date and time for the spending limit period, in epoch seconds. Shorthand Syntax: startAt=timestamp,endAt=timestamp JSON Syntax: { "startAt": timestamp, "endAt": timestamp }
@@ -53,5 +97,22 @@ public record AwsBraketCreateSpendingLimitOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

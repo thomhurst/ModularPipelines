@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +21,65 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("partnercentral-account", "update-connection-preferences")]
-public record AwsPartnercentralAccountUpdateConnectionPreferencesOptions : AwsOptions
+public record AwsPartnercentralAccountUpdateConnectionPreferencesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the connection preferences for a partner account, modifying ac- cess settings and exclusions. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Catalog">The catalog identifier for the partner account. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]+</param>
+    /// <param name="Revision">The revision number of the connection preferences for optimistic locking.</param>
+    /// <param name="AccessType">The access type setting for connections (e.g., open, restricted, in- vitation-only). Possible values: o ALLOW_ALL o DENY_ALL o ALLOW_BY_DEFAULT_DENY_SOME</param>
+    public AwsPartnercentralAccountUpdateConnectionPreferencesOptions(
+        string Catalog,
+        int Revision,
+        AwsPartnercentralAccountUpdateConnectionPreferencesAccessType AccessType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+        this.Revision = Revision;
+        global::System.ArgumentNullException.ThrowIfNull(AccessType);
+        this.AccessType = AccessType;
+    }
+
+    private AwsPartnercentralAccountUpdateConnectionPreferencesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPartnercentralAccountUpdateConnectionPreferencesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPartnercentralAccountUpdateConnectionPreferencesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The catalog identifier for the partner account. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]+
+    /// </summary>
     [CliOption("--catalog")]
-    public string? Catalog { get; set; }
+    public string? Catalog { get; private init; }
 
+    /// <summary>
+    /// The revision number of the connection preferences for optimistic locking.
+    /// </summary>
     [CliOption("--revision")]
-    public int? Revision { get; set; }
+    public int? Revision { get; private init; }
 
+    /// <summary>
+    /// The access type setting for connections (e.g., open, restricted, in- vitation-only). Possible values: o ALLOW_ALL o DENY_ALL o ALLOW_BY_DEFAULT_DENY_SOME
+    /// </summary>
     [CliOption("--access-type")]
-    public string? AccessType { get; set; }
+    public AwsPartnercentralAccountUpdateConnectionPreferencesAccessType? AccessType { get; private init; }
 
     /// <summary>
     /// The updated list of participant identifiers to exclude from connec- tions. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+ Syntax: "string" "string" ...
@@ -41,5 +92,22 @@ public record AwsPartnercentralAccountUpdateConnectionPreferencesOptions : AwsOp
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

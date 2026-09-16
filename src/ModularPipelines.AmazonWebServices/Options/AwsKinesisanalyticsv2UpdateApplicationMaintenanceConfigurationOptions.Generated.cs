@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kinesisanalyticsv2", "update-application-maintenance-configuration")]
-public record AwsKinesisanalyticsv2UpdateApplicationMaintenanceConfigurationOptions : AwsOptions
+public record AwsKinesisanalyticsv2UpdateApplicationMaintenanceConfigurationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--application-name")]
-    public string? ApplicationName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the maintenance configuration of the Managed Service for Apache Flink application. You can invoke this operation on an application that is in one of the two following states: READY or RUNNING . If you invoke it when the ap- plication is in a state other than these two states, it throws a Re- sourceInUseException . The service makes use of the updated configura- tion the next time it schedules maintenance for the application. If you invoke this operation after the service schedules mainte...
+    /// </summary>
+    /// <param name="ApplicationName">The name of the application for which you want to update the mainte- nance configuration. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="ApplicationMaintenanceConfigurationUpdate">Describes the application maintenance configuration update. ApplicationMaintenanceWindowStartTimeUpdate -&gt; (string) [required] The updated start time for the maintenance window. Constraints: o min: 5 o max: 5 o pattern: ([01][0-9]|2[0-3]):[0-5][0-9] Shorthand Syntax: ApplicationMaintenanceWindowStartTimeUpdate=string JSON Syntax: { "ApplicationMaintenanceWindowStartTimeUpdate": "string" }</param>
+    public AwsKinesisanalyticsv2UpdateApplicationMaintenanceConfigurationOptions(
+        string ApplicationName,
+        string ApplicationMaintenanceConfigurationUpdate
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationName);
+        this.ApplicationName = ApplicationName;
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationMaintenanceConfigurationUpdate);
+        this.ApplicationMaintenanceConfigurationUpdate = ApplicationMaintenanceConfigurationUpdate;
+    }
+
+    private AwsKinesisanalyticsv2UpdateApplicationMaintenanceConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKinesisanalyticsv2UpdateApplicationMaintenanceConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKinesisanalyticsv2UpdateApplicationMaintenanceConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the application for which you want to update the mainte- nance configuration. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
+    [CliOption("--application-name")]
+    public string? ApplicationName { get; private init; }
+
+    /// <summary>
+    /// Describes the application maintenance configuration update. ApplicationMaintenanceWindowStartTimeUpdate -&gt; (string) [required] The updated start time for the maintenance window. Constraints: o min: 5 o max: 5 o pattern: ([01][0-9]|2[0-3]):[0-5][0-9] Shorthand Syntax: ApplicationMaintenanceWindowStartTimeUpdate=string JSON Syntax: { "ApplicationMaintenanceWindowStartTimeUpdate": "string" }
+    /// </summary>
     [CliOption("--application-maintenance-configuration-update")]
-    public string? ApplicationMaintenanceConfigurationUpdate { get; set; }
+    public string? ApplicationMaintenanceConfigurationUpdate { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --modelcardstatus.
+/// Allowed values for --model-card-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSagemakerListModelCardVersionsModelCardStatus
 {
-    [EnumValue("Draft")]
-    Draft = 1,
-
-    [EnumValue("PendingReview")]
-    PendingReview = 2,
-
     [EnumValue("Approved")]
-    Approved = 3,
+    Approved,
 
     [EnumValue("Archived")]
-    Archived = 4
+    Archived,
+
+    [EnumValue("Draft")]
+    Draft,
+
+    [EnumValue("PendingReview")]
+    PendingReview
 }

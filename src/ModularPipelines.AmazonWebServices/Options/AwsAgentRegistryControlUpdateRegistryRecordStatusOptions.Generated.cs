@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +21,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("agent-registry-control", "update-registry-record-status")]
-public record AwsAgentRegistryControlUpdateRegistryRecordStatusOptions : AwsOptions
+public record AwsAgentRegistryControlUpdateRegistryRecordStatusOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the status of a registry record as part of the registry's cura- tion workflow, for example to approve or reject a record that is pend- ing approval, or to deprecate an approved record so that it is no longer discoverable See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RegistryId">The identifier of the registry containing the record (ARN or ID) Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]+)?:agent-reg- istry:[a-z0-9-]+:[0-9]{12}:registry/)?[a-zA-Z0-9]{12,16}</param>
+    /// <param name="RecordId">The identifier of the registry record to update the status of (ARN or ID) Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]+)?:agent-reg- istry:[a-z0-9-]+:[0-9]{12}:reg- istry/[a-zA-Z0-9]{12,16}/record/)?[a-zA-Z0-9]{12}</param>
+    /// <param name="Status">The target status for the registry record Possible values: o DRAFT o PENDING_APPROVAL o APPROVED o REJECTED o DEPRECATED o CREATING o UPDATING o CREATE_FAILED o UPDATE_FAILED</param>
+    /// <param name="StatusReason">The reason for the status change, for example why the record was ap- proved, rejected, or deprecated Constraints: o min: 0 o max: 255</param>
+    public AwsAgentRegistryControlUpdateRegistryRecordStatusOptions(
+        string RegistryId,
+        string RecordId,
+        AwsAgentRegistryControlUpdateRegistryRecordStatusStatus Status,
+        string StatusReason
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RegistryId);
+        this.RegistryId = RegistryId;
+        global::System.ArgumentNullException.ThrowIfNull(RecordId);
+        this.RecordId = RecordId;
+        global::System.ArgumentNullException.ThrowIfNull(Status);
+        this.Status = Status;
+        global::System.ArgumentNullException.ThrowIfNull(StatusReason);
+        this.StatusReason = StatusReason;
+    }
+
+    private AwsAgentRegistryControlUpdateRegistryRecordStatusOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAgentRegistryControlUpdateRegistryRecordStatusOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAgentRegistryControlUpdateRegistryRecordStatusOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the registry containing the record (ARN or ID) Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]+)?:agent-reg- istry:[a-z0-9-]+:[0-9]{12}:registry/)?[a-zA-Z0-9]{12,16}
+    /// </summary>
     [CliOption("--registry-id")]
-    public string? RegistryId { get; set; }
+    public string? RegistryId { get; private init; }
 
+    /// <summary>
+    /// The identifier of the registry record to update the status of (ARN or ID) Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]+)?:agent-reg- istry:[a-z0-9-]+:[0-9]{12}:reg- istry/[a-zA-Z0-9]{12,16}/record/)?[a-zA-Z0-9]{12}
+    /// </summary>
     [CliOption("--record-id")]
-    public string? RecordId { get; set; }
+    public string? RecordId { get; private init; }
 
+    /// <summary>
+    /// The target status for the registry record Possible values: o DRAFT o PENDING_APPROVAL o APPROVED o REJECTED o DEPRECATED o CREATING o UPDATING o CREATE_FAILED o UPDATE_FAILED
+    /// </summary>
     [CliOption("--status")]
-    public string? Status { get; set; }
+    public AwsAgentRegistryControlUpdateRegistryRecordStatusStatus? Status { get; private init; }
 
+    /// <summary>
+    /// The reason for the status change, for example why the record was ap- proved, rejected, or deprecated Constraints: o min: 0 o max: 255
+    /// </summary>
     [CliOption("--status-reason")]
-    public string? StatusReason { get; set; }
+    public string? StatusReason { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

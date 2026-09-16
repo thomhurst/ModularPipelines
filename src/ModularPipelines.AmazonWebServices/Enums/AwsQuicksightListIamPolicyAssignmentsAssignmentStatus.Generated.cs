@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --assignmentstatus.
+/// Allowed values for --assignment-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsQuicksightListIamPolicyAssignmentsAssignmentStatus
 {
-    [EnumValue("ENABLED")]
-    Enabled = 1,
+    [EnumValue("DISABLED")]
+    Disabled,
 
     [EnumValue("DRAFT")]
-    Draft = 2,
+    Draft,
 
-    [EnumValue("DISABLED")]
-    Disabled = 3
+    [EnumValue("ENABLED")]
+    Enabled
 }

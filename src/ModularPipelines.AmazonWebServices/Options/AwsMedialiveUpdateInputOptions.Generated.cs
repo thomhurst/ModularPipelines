@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,49 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("medialive", "update-input")]
-public record AwsMedialiveUpdateInputOptions : AwsOptions
+public record AwsMedialiveUpdateInputOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an input. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InputId"></param>
+    public AwsMedialiveUpdateInputOptions(
+        string InputId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InputId);
+        this.InputId = InputId;
+    }
+
+    private AwsMedialiveUpdateInputOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMedialiveUpdateInputOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMedialiveUpdateInputOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    [CliOption("--input-id")]
+    public string? InputId { get; private init; }
+
     [CliOption("--destinations", GroupValues = true)]
     public IEnumerable<string>? Destinations { get; set; }
 
     [CliOption("--input-devices", GroupValues = true)]
     public IEnumerable<string>? InputDevices { get; set; }
-
-    [CliOption("--input-id")]
-    public string? InputId { get; set; }
 
     [CliOption("--input-security-groups", GroupValues = true)]
     public IEnumerable<string>? InputSecurityGroups { get; set; }
@@ -65,5 +99,22 @@ public record AwsMedialiveUpdateInputOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

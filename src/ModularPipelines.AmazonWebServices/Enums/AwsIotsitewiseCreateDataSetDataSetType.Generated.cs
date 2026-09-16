@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --datasettype.
+/// Allowed values for --dataset-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotsitewiseCreateDataSetDataSetType
 {
-    [EnumValue("SESSION")]
-    Session = 1,
-
     [EnumValue("CURATED")]
-    Curated = 2,
+    Curated,
 
     [EnumValue("EXTERNAL")]
-    External = 3
+    External,
+
+    [EnumValue("SESSION")]
+    Session
 }

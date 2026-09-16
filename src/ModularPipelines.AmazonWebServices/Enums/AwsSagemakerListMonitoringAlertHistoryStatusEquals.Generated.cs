@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --statusequals.
+/// Allowed values for --status-equals.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSagemakerListMonitoringAlertHistoryStatusEquals
 {
     [EnumValue("InAlert")]
-    InAlert = 1,
+    InAlert,
 
     [EnumValue("OK")]
-    Ok = 2
+    Ok
 }

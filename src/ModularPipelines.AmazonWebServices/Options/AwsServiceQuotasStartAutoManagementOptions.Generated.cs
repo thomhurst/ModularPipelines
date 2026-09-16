@@ -11,6 +11,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("service-quotas", "start-auto-management")]
-public record AwsServiceQuotasStartAutoManagementOptions : AwsOptions
+public record AwsServiceQuotasStartAutoManagementOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--opt-in-level")]
-    public string? OptInLevel { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Starts Service Quotas Automatic Management for an Amazon Web Services account, including notification preferences and excluded quotas config- urations. Automatic Management monitors your Service Quotas utilization and notifies you before you run out of your allocated quotas. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="OptInLevel">Sets the opt-in level for Automatic Management. Only Amazon Web Ser- vices account level is supported. Possible values: o ACCOUNT</param>
+    /// <param name="OptInType">Sets the opt-in type for Automatic Management. There are two modes: Notify only and Notify and Auto-Adjust. Currently, only NotifyOnly is available. Possible values: o NotifyOnly o NotifyAndAdjust</param>
+    public AwsServiceQuotasStartAutoManagementOptions(
+        string OptInLevel,
+        AwsServiceQuotasStartAutoManagementOptInType OptInType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OptInLevel);
+        this.OptInLevel = OptInLevel;
+        global::System.ArgumentNullException.ThrowIfNull(OptInType);
+        this.OptInType = OptInType;
+    }
+
+    private AwsServiceQuotasStartAutoManagementOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsServiceQuotasStartAutoManagementOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsServiceQuotasStartAutoManagementOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Sets the opt-in level for Automatic Management. Only Amazon Web Ser- vices account level is supported. Possible values: o ACCOUNT
+    /// </summary>
+    [CliOption("--opt-in-level")]
+    public string? OptInLevel { get; private init; }
+
+    /// <summary>
+    /// Sets the opt-in type for Automatic Management. There are two modes: Notify only and Notify and Auto-Adjust. Currently, only NotifyOnly is available. Possible values: o NotifyOnly o NotifyAndAdjust
+    /// </summary>
     [CliOption("--opt-in-type")]
-    public string? OptInType { get; set; }
+    public AwsServiceQuotasStartAutoManagementOptInType? OptInType { get; private init; }
 
     /// <summary>
     /// The User Notifications Amazon Resource Name (ARN) for Automatic Man- agement notifications. Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[\w]+)*:*:.+:[0-9]{12}:.+
@@ -45,5 +90,22 @@ public record AwsServiceQuotasStartAutoManagementOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

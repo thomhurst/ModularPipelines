@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,11 +21,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sso-admin", "update-trusted-token-issuer")]
-public record AwsSsoAdminUpdateTrustedTokenIssuerOptions : AwsOptions
+public record AwsSsoAdminUpdateTrustedTokenIssuerOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the name of the trusted token issuer, or the path of a source attribute or destination attribute for a trusted token issuer configu- ration. NOTE: Updating this trusted token issuer configuration might cause users to lose access to any applications that are configured to use the trusted token issuer. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TrustedTokenIssuerArn">Specifies the ARN of the trusted token issuer configuration that you want to update. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::\d{12}:trustedTokenIs- suer/(sso)?ins-[a-zA-Z0-9-.]{16}/tti-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    public AwsSsoAdminUpdateTrustedTokenIssuerOptions(
+        string TrustedTokenIssuerArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TrustedTokenIssuerArn);
+        this.TrustedTokenIssuerArn = TrustedTokenIssuerArn;
+    }
+
+    private AwsSsoAdminUpdateTrustedTokenIssuerOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsoAdminUpdateTrustedTokenIssuerOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsoAdminUpdateTrustedTokenIssuerOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the ARN of the trusted token issuer configuration that you want to update. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::\d{12}:trustedTokenIs- suer/(sso)?ins-[a-zA-Z0-9-.]{16}/tti-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// </summary>
     [SecretValue]
     [CliOption("--trusted-token-issuer-arn")]
-    public string? TrustedTokenIssuerArn { get; set; }
+    public string? TrustedTokenIssuerArn { get; private init; }
 
     /// <summary>
     /// Specifies the updated name to be applied to the trusted token issuer configuration. Constraints: o min: 1 o max: 255 o pattern: [\w+=,.@-]+
@@ -44,5 +81,22 @@ public record AwsSsoAdminUpdateTrustedTokenIssuerOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

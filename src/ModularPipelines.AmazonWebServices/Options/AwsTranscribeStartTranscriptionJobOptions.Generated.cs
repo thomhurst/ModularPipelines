@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("transcribe", "start-transcription-job")]
-public record AwsTranscribeStartTranscriptionJobOptions : AwsOptions
+public record AwsTranscribeStartTranscriptionJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Transcribes the audio from a media file and applies any additional Re- quest Parameters you choose to include in your request. To make a StartTranscriptionJob request, you must first upload your me- dia file into an Amazon S3 bucket; you can then specify the Amazon S3 location of the file using the Media parameter. You must include the following parameters in your StartTranscriptionJob request: o region : The Amazon Web Services Region where you are making your re- quest. For a list of Amazon We...
+    /// </summary>
+    /// <param name="TranscriptionJobName">A unique name, chosen by you, for your transcription job. The name that you specify is also used as the default name of your transcrip- tion output file. If you want to specify a different name for your transcription output, use the OutputKey parameter. This name is case sensitive, cannot contain spaces, and must be unique within an Amazon Web Services account. If you try to create a new job with the same name as an existing job, you get a ConflictEx- ception error. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z._-]+</param>
+    /// <param name="Media">Describes the Amazon S3 location of the media file you want to use in your request. MediaFileUri -&gt; (string) The Amazon S3 location of the media file you want to transcribe. For example: o s3://DOC-EXAMPLE-BUCKET/my-media-file.flac o s3://DOC-EXAMPLE-BUCKET/media-files/my-media-file.flac Note that the Amazon S3 bucket that contains your input media must be located in the same Amazon Web Services Region where you're making your transcription request. Constraints: o min: 1 o max: 2000 o pattern: (s3://|http(s*)://).+ RedactedMediaFileUri -&gt; (string) The Amazon S3 location of the media file you want to redact. For example: o s3://DOC-EXAMPLE-BUCKET/my-media-file.flac o s3://DOC-EXAMPLE-BUCKET/media-files/my-media-file.flac Note that the Amazon S3 bucket that contains your input media must be located in the same Amazon Web Services Region where you're making your transcription request. WARNING: RedactedMediaFileUri produces a redacted audio file in addi- tion to a redacted transcript. It is only supported for Call Analytics (StartCallAnalyticsJob ) transcription requests. Constraints: o min: 1 o max: 2000 o pattern: (s3://|http(s*)://).+ Shorthand Syntax: MediaFileUri=string,RedactedMediaFileUri=string JSON Syntax: { "MediaFileUri": "string", "RedactedMediaFileUri": "string" }</param>
+    public AwsTranscribeStartTranscriptionJobOptions(
+        string TranscriptionJobName,
+        string Media
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TranscriptionJobName);
+        this.TranscriptionJobName = TranscriptionJobName;
+        global::System.ArgumentNullException.ThrowIfNull(Media);
+        this.Media = Media;
+    }
+
+    private AwsTranscribeStartTranscriptionJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTranscribeStartTranscriptionJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTranscribeStartTranscriptionJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique name, chosen by you, for your transcription job. The name that you specify is also used as the default name of your transcrip- tion output file. If you want to specify a different name for your transcription output, use the OutputKey parameter. This name is case sensitive, cannot contain spaces, and must be unique within an Amazon Web Services account. If you try to create a new job with the same name as an existing job, you get a ConflictEx- ception error. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z._-]+
+    /// </summary>
     [CliOption("--transcription-job-name")]
-    public string? TranscriptionJobName { get; set; }
+    public string? TranscriptionJobName { get; private init; }
+
+    /// <summary>
+    /// Describes the Amazon S3 location of the media file you want to use in your request. MediaFileUri -&gt; (string) The Amazon S3 location of the media file you want to transcribe. For example: o s3://DOC-EXAMPLE-BUCKET/my-media-file.flac o s3://DOC-EXAMPLE-BUCKET/media-files/my-media-file.flac Note that the Amazon S3 bucket that contains your input media must be located in the same Amazon Web Services Region where you're making your transcription request. Constraints: o min: 1 o max: 2000 o pattern: (s3://|http(s*)://).+ RedactedMediaFileUri -&gt; (string) The Amazon S3 location of the media file you want to redact. For example: o s3://DOC-EXAMPLE-BUCKET/my-media-file.flac o s3://DOC-EXAMPLE-BUCKET/media-files/my-media-file.flac Note that the Amazon S3 bucket that contains your input media must be located in the same Amazon Web Services Region where you're making your transcription request. WARNING: RedactedMediaFileUri produces a redacted audio file in addi- tion to a redacted transcript. It is only supported for Call Analytics (StartCallAnalyticsJob ) transcription requests. Constraints: o min: 1 o max: 2000 o pattern: (s3://|http(s*)://).+ Shorthand Syntax: MediaFileUri=string,RedactedMediaFileUri=string JSON Syntax: { "MediaFileUri": "string", "RedactedMediaFileUri": "string" }
+    /// </summary>
+    [CliOption("--media")]
+    public string? Media { get; private init; }
 
     /// <summary>
     /// The language code that represents the language spoken in the input media file. If you're unsure of the language spoken in your media file, consider using IdentifyLanguage or IdentifyMultipleLanguages to enable auto- matic language identification. Note that you must include one of LanguageCode , IdentifyLanguage , or IdentifyMultipleLanguages in your request. If you include more than one of these parameters, your transcription job fails. For a list of supported languages and their associated language codes, refer to the Supported languages table. NOTE: To transcribe speech in Modern Standard Arabic (ar-SA ) in Ama- zon Web Services GovCloud (US) (US-West, us-gov-west-1), Amazon Web Services GovCloud (US) (US-East, us-gov-east-1), Canada (Calgary, ca-west-1) and Africa (Cape Town, af-south-1), your media file must be encoded at a sample rate of 16,000 Hz or higher. Possible values: o af-ZA o ar-AE o ar-SA o am-ET o cy-GB o da-DK o de-CH o de-DE o en-AB o en-AU o en-GB o en-IE o en-IN o en-US o en-WL o es-ES o es-MX o es-US o fa-AF o fa-IR o fr-CA o fr-FR o ga-IE o gd-GB o he-IL o hi-IN o ht-HT o id-ID o it-IT o ja-JP o jv-ID o km-KH o ko-KR o my-MM o ms-MY o nl-NL o pt-BR o pt-PT o ru-RU o ta-IN o te-IN o tr-TR o zh-CN o zh-TW o th-TH o en-ZA o en-NZ o vi-VN o sv-SE o ab-GE o ast-ES o az-AZ o ba-RU o be-BY o bg-BG o bn-IN o bs-BA o ca-ES o ckb-IQ o ckb-IR o cs-CZ o cy-WL o el-GR o et-EE o et-ET o eu-ES o fi-FI o gl-ES o gu-IN o ha-NG o hr-HR o hu-HU o hy-AM o is-IS o ka-GE o kab-DZ o kk-KZ o kn-IN o ky-KG o lg-IN o lt-LT o lv-LV o mhr-RU o mi-NZ o mk-MK o ml-IN o mn-MN o mr-IN o mt-MT o no-NO o ne-NP o or-IN o pa-IN o pl-PL o ps-AF o ro-RO o rw-RW o si-LK o sk-SK o sl-SI o so-SO o sq-AL o sr-RS o su-ID o sw-BI o sw-KE o sw-RW o sw-TZ o sw-UG o tl-PH o tt-RU o ug-CN o uk-UA o uz-UZ o wo-SN o zh-HK o zu-ZA
@@ -43,9 +90,6 @@ public record AwsTranscribeStartTranscriptionJobOptions : AwsOptions
     /// </summary>
     [CliOption("--media-format")]
     public AwsTranscribeStartTranscriptionJobMediaFormat? MediaFormat { get; set; }
-
-    [CliOption("--media")]
-    public string? Media { get; set; }
 
     /// <summary>
     /// The name of the Amazon S3 bucket where you want your transcription output stored. Do not include the S3:// prefix of the specified bucket. If you want your output to go to a sub-folder of this bucket, spec- ify it using the OutputKey parameter; OutputBucketName only accepts the name of a bucket. For example, if you want your output stored in S3://DOC-EXAM- PLE-BUCKET , set OutputBucketName to DOC-EXAMPLE-BUCKET . However, if you want your output stored in S3://DOC-EXAM- PLE-BUCKET/test-files/ , set OutputBucketName to DOC-EXAMPLE-BUCKET and OutputKey to test-files/ . Note that Amazon Transcribe must have permission to use the speci- fied location. You can change Amazon S3 permissions using the Amazon Web Services Management Console . See also Permissions Required for IAM User Roles . If you do not specify OutputBucketName , your transcript is placed in a service-managed Amazon S3 bucket and you are provided with a URI to access your transcript. Constraints: o max: 64 o pattern: [a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9]
@@ -90,15 +134,21 @@ public record AwsTranscribeStartTranscriptionJobOptions : AwsOptions
     public string? JobExecutionSettings { get; set; }
 
     /// <summary>
-    /// Makes it possible to redact or flag specified personally identifi- able information (PII) in your transcript. If you use ContentRedac- tion , you must also include the sub-parameters: RedactionOutput and RedactionType . You can optionally include PiiEntityTypes to choose which types of PII you want to redact. If you do not include PiiEn- tityTypes in your request, all PII is redacted. RedactionType -&gt; (string) [required] Specify the category of information you want to redact; PII (personally identifiable information) is the only valid value. You can use PiiEntityTypes to choose which types of PII you want to redact. If you do not include PiiEntityTypes in your request, all PII is redacted. Possible values: o PII RedactionOutput -&gt; (string) [required] Specify if you want only a redacted transcript, or if you want a redacted and an unredacted transcript. When you choose redacted Amazon Transcribe creates only a redacted transcript. When you choose redacted_and_unredacted Amazon Transcribe cre- ates a redacted and an unredacted transcript (as two separate files). Possible values: o redacted o redacted_and_unredacted PiiEntityTypes -&gt; (list) Specify which types of personally identifiable information (PII) you want to redact in your transcript. You can include as many types as you'd like, or you can select ALL . If you do not in- clude PiiEntityTypes in your request, all PII is redacted. Constraints: o min: 0 o max: 11 (string) Possible values: o BANK_ACCOUNT_NUMBER o BANK_ROUTING o CREDIT_DEBIT_NUMBER o CREDIT_DEBIT_CVV o CREDIT_DEBIT_EXPIRY o PIN o EMAIL o ADDRESS o NAME o PHONE o SSN o ALL Shorthand Syntax: RedactionType=string,RedactionOutput=string,PiiEntityTypes=string,string JSON Syntax: { "RedactionType": "PII", "RedactionOutput": "redacted"|"redacted_and_unredacted", "PiiEntityTypes": ["BANK_ACCOUNT_NUMBER"|"BANK_ROUTING"|"CREDIT_DEBIT_NUMBER"|"CREDIT_DEBIT_CVV"|"CREDIT_DEBIT_EXPIRY"|"PIN"|"EMAIL"|"ADDRESS"|"NAME"|"PHONE"|"SSN"|"ALL", ...] }
+    /// Makes it possible to redact or flag specified personally identifi- able information (PII) in your transcript. If you use ContentRedac- tion , you must also include the sub-parameters: RedactionOutput and RedactionType . You can optionally include PiiEntityTypes to choose which types of PII you want to redact. If you do not include PiiEn- tityTypes in your request, all PII is redacted. RedactionType -&gt; (string) [required] Specify the category of information you want to redact; PII (personally identifiable information) is the only valid value. You can use PiiEntityTypes to choose which types of PII you want to redact. If you do not include PiiEntityTypes in your request, all PII is redacted. Possible values: o PII RedactionOutput -&gt; (string) [required] Specify if you want only a redacted transcript, or if you want a redacted and an unredacted transcript. When you choose redacted Amazon Transcribe creates only a redacted transcript. When you choose redacted_and_unredacted Amazon Transcribe cre- ates a redacted and an unredacted transcript (as two separate files). Possible values: o redacted o redacted_and_unredacted PiiEntityTypes -&gt; (list) Specify which types of personally identifiable information (PII) you want to redact in your transcript. You can include as many types as you'd like, or you can select ALL . If you do not in- clude PiiEntityTypes in your request, all PII is redacted. Constraints: o min: 0 o max: 29 (string) Possible values: o BANK_ACCOUNT_NUMBER o BANK_ROUTING o CREDIT_DEBIT_NUMBER o CREDIT_DEBIT_CVV o CREDIT_DEBIT_EXPIRY o PIN o EMAIL o ADDRESS o NAME o PHONE o SSN o DATE_TIME o PASSPORT_NUMBER o DRIVER_ID o URL o AGE o USERNAME o PASSWORD o AWS_ACCESS_KEY o AWS_SECRET_KEY o IP_ADDRESS o MAC_ADDRESS o LICENSE_PLATE o VEHICLE_IDENTIFICATION_NUMBER o US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER o CA_HEALTH_NUMBER o CA_SOCIAL_INSURANCE_NUMBER o INTERNATIONAL_BANK_ACCOUNT_NUMBER o SWIFT_CODE o ALL Shorthand Syntax: RedactionType=string,RedactionOutput=string,PiiEntityTypes=string,string JSON Syntax: { "RedactionType": "PII", "RedactionOutput": "redacted"|"redacted_and_unredacted", "PiiEntityTypes": ["BANK_ACCOUNT_NUMBER"|"BANK_ROUTING"|"CREDIT_DEBIT_NUMBER"|"CREDIT_DEBIT_CVV"|"CREDIT_DEBIT_EXPIRY"|"PIN"|"EMAIL"|"ADDRESS"|"NAME"|"PHONE"|"SSN"|"DATE_TIME"|"PASSPORT_NUMBER"|"DRIVER_ID"|"URL"|"AGE"|"USERNAME"|"PASSWORD"|"AWS_ACCESS_KEY"|"AWS_SECRET_KEY"|"IP_ADDRESS"|"MAC_ADDRESS"|"LICENSE_PLATE"|"VEHICLE_IDENTIFICATION_NUMBER"|"US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER"|"CA_HEALTH_NUMBER"|"CA_SOCIAL_INSURANCE_NUMBER"|"INTERNATIONAL_BANK_ACCOUNT_NUMBER"|"SWIFT_CODE"|"ALL", ...] }
     /// </summary>
     [CliOption("--content-redaction")]
     public string? ContentRedaction { get; set; }
 
-    [CliFlag("--identify-language")]
+    /// <summary>
+    /// Enables automatic language identification in your transcription job request. Use this parameter if your media file contains only one language. If your media contains multiple languages, use Identify- MultipleLanguages instead. If you include IdentifyLanguage , you can optionally include a list of language codes, using LanguageOptions , that you think may be present in your media file. Including LanguageOptions restricts IdentifyLanguage to only the language options that you specify, which can improve transcription accuracy. If you want to apply a custom language model, a custom vocabulary, or a custom vocabulary filter to your automatic language identifica- tion request, include LanguageIdSettings with the relevant sub-para- meters (VocabularyName , LanguageModelName , and VocabularyFilter- Name ). If you include LanguageIdSettings , also include LanguageOp- tions . Note that you must include one of LanguageCode , IdentifyLanguage , or IdentifyMultipleLanguages in your request. If you include more than one of these parameters, your transcription job fails.
+    /// </summary>
+    [CliFlag("--identify-language", NegatedName = "--no-identify-language")]
     public bool? IdentifyLanguage { get; set; }
 
-    [CliFlag("--identify-multiple-languages")]
+    /// <summary>
+    /// Enables automatic multi-language identification in your transcrip- tion job request. Use this parameter if your media file contains more than one language. If your media contains only one language, use IdentifyLanguage instead. If you include IdentifyMultipleLanguages , you can optionally in- clude a list of language codes, using LanguageOptions , that you think may be present in your media file. Including LanguageOptions restricts IdentifyLanguage to only the language options that you specify, which can improve transcription accuracy. If you want to apply a custom vocabulary or a custom vocabulary fil- ter to your automatic language identification request, include Lan- guageIdSettings with the relevant sub-parameters (VocabularyName and VocabularyFilterName ). If you include LanguageIdSettings , also in- clude LanguageOptions . Note that you must include one of LanguageCode , IdentifyLanguage , or IdentifyMultipleLanguages in your request. If you include more than one of these parameters, your transcription job fails.
+    /// </summary>
+    [CliFlag("--identify-multiple-languages", NegatedName = "--no-identify-multiple-languages")]
     public bool? IdentifyMultipleLanguages { get; set; }
 
     /// <summary>
@@ -136,5 +186,22 @@ public record AwsTranscribeStartTranscriptionJobOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

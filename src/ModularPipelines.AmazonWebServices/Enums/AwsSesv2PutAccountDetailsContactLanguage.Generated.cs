@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --contactlanguage.
+/// Allowed values for --contact-language.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSesv2PutAccountDetailsContactLanguage
 {
     [EnumValue("EN")]
-    En = 1,
+    En,
 
     [EnumValue("JA")]
-    Ja = 2
+    Ja
 }

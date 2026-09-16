@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --associationbehavior.
+/// Allowed values for --association-behavior.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotfleetwiseCreateVehicleAssociationBehavior
 {
     [EnumValue("CreateIotThing")]
-    CreateIotThing = 1,
+    CreateIotThing,
 
     [EnumValue("ValidateIotThingExists")]
-    ValidateIotThingExists = 2
+    ValidateIotThingExists
 }

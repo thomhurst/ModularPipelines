@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,33 +21,128 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("payment-cryptography-data", "generate-mac-emv-pin-change")]
-public record AwsPaymentCryptographyDataGenerateMacEmvPinChangeOptions : AwsOptions
+public record AwsPaymentCryptographyDataGenerateMacEmvPinChangeOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Generates an issuer script mac for EMV payment cards that use offline PINs as the cardholder verification method (CVM). This operation generates an authenticated issuer script response by ap- pending the incoming message data (APDU command) with the target en- crypted PIN block in ISO2 format. The command structure and method to send the issuer script update to the card is not defined by this opera- tion and is typically determined by the applicable payment card scheme. The primary inputs to thi...
+    /// </summary>
+    /// <param name="NewPinPekIdentifier">The keyARN of the PEK protecting the incoming new encrypted PIN block. Constraints: o min: 7 o max: 322 o pattern: arn:aws:payment-cryptogra- phy:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+</param>
+    /// <param name="NewEncryptedPinBlock">The incoming new encrypted PIN block data for offline pin change on an EMV card. Constraints: o min: 16 o max: 16 o pattern: [0-9a-fA-F]+</param>
+    /// <param name="PinBlockFormat">The PIN encoding format of the incoming new encrypted PIN block as specified in ISO 9564. Possible values: o ISO_FORMAT_0 o ISO_FORMAT_1 o ISO_FORMAT_3</param>
+    /// <param name="SecureMessagingIntegrityKeyIdentifier">The keyARN of the issuer master key (IMK-SMI) used to authenticate the issuer script response. Constraints: o min: 7 o max: 322 o pattern: arn:aws:payment-cryptogra- phy:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+</param>
+    /// <param name="SecureMessagingConfidentialityKeyIdentifier">The keyARN of the issuer master key (IMK-SMC) used to protect the PIN block data in the issuer script response. Constraints: o min: 7 o max: 322 o pattern: arn:aws:payment-cryptogra- phy:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+</param>
+    /// <param name="MessageData">The message data is the APDU command from the card reader or termi- nal. The target encrypted PIN block, after translation to ISO2 for- mat, is appended to this message data to generate an issuer script response. Constraints: o min: 16 o max: 1024 o pattern: (?:[0-9a-fA-F][0-9a-fA-F])+</param>
+    /// <param name="DerivationMethodAttributes">The attributes and data values to derive payment card specific con- fidentiality and integrity keys. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: EmvCommon, Amex, Visa, Emv2000, Master- card. EmvCommon -&gt; (structure) Parameters to derive the confidentiality and integrity keys for a payment card using Emv common derivation method. MajorKeyDerivationMode -&gt; (string) [required] The method to use when deriving the master key for the pay- ment card. Possible values: o EMV_OPTION_A o EMV_OPTION_B PrimaryAccountNumber -&gt; (string) [required] The Primary Account Number (PAN) of the cardholder. Constraints: o min: 12 o max: 19 o pattern: [0-9]+ PanSequenceNumber -&gt; (string) [required] A number that identifies and differentiates payment cards with the same Primary Account Number (PAN). Typically 00 is used, if no value is provided by the terminal. Constraints: o min: 2 o max: 2 o pattern: [0-9]+ ApplicationCryptogram -&gt; (string) [required] The application cryptogram for the current transaction that is provided by the terminal during transaction processing. Constraints: o min: 16 o max: 16 o pattern: [0-9a-fA-F]+ Mode -&gt; (string) [required] The block cipher method to use for encryption. Possible values: o ECB o CBC PinBlockPaddingType -&gt; (string) [required] The padding to be added to the PIN block prior to encryption. Padding type should be ISO_IEC_7816_4 , if PinBlockLengthPo- sition is set to FRONT_OF_PIN_BLOCK . No padding is required, if PinBlockLengthPosition is set to NONE . Possible values: o NO_PADDING o ISO_IEC_7816_4 PinBlockLengthPosition -&gt; (string) [required] Specifies if PIN block length should be added to front of the pin block. If value is set to FRONT_OF_PIN_BLOCK , then PIN block padding type should be ISO_IEC_7816_4 . Possible values: o NONE o FRONT_OF_PIN_BLOCK Amex -&gt; (structure) Parameters to derive the confidentiality and integrity keys for a payment card using Amex derivation method. MajorKeyDerivationMode -&gt; (string) [required] The method to use when deriving the master key for a payment card using Amex derivation. Possible values: o EMV_OPTION_A o EMV_OPTION_B PrimaryAccountNumber -&gt; (string) [required] The Primary Account Number (PAN) of the cardholder. Constraints: o min: 12 o max: 19 o pattern: [0-9]+ PanSequenceNumber -&gt; (string) [required] A number that identifies and differentiates payment cards with the same Primary Account Number (PAN). Typically 00 is used, if no value is provided by the terminal. Constraints: o min: 2 o max: 2 o pattern: [0-9]+ ApplicationTransactionCounter -&gt; (string) [required] The transaction counter of the current transaction that is provided by the terminal during transaction processing. Constraints: o min: 4 o max: 4 o pattern: [0-9a-fA-F]+ AuthorizationRequestKeyIdentifier -&gt; (string) [required] The keyArn of the issuer master key for cryptogram (IMK-AC) for the payment card. Constraints: o min: 7 o max: 322 o pattern: arn:aws:payment-cryptogra- phy:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+ CurrentPinAttributes -&gt; (structure) The encrypted pinblock of the old pin stored on the chip card. CurrentPinPekIdentifier -&gt; (string) [required] The keyArn of the current PIN PEK. Constraints: o min: 7 o max: 322 o pattern: arn:aws:payment-cryptogra- phy:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+ CurrentEncryptedPinBlock -&gt; (string) [required] The encrypted pinblock of the current pin stored on the chip card. Constraints: o min: 16 o max: 16 o pattern: [0-9a-fA-F]+ Visa -&gt; (structure) Parameters to derive the confidentiality and integrity keys for a a payment card using Visa derivation method. MajorKeyDerivationMode -&gt; (string) [required] The method to use when deriving the master key for the pay- ment card. Possible values: o EMV_OPTION_A o EMV_OPTION_B PrimaryAccountNumber -&gt; (string) [required] The Primary Account Number (PAN) of the cardholder. Constraints: o min: 12 o max: 19 o pattern: [0-9]+ PanSequenceNumber -&gt; (string) [required] A number that identifies and differentiates payment cards with the same Primary Account Number (PAN). Typically 00 is used, if no value is provided by the terminal. Constraints: o min: 2 o max: 2 o pattern: [0-9]+ ApplicationTransactionCounter -&gt; (string) [required] The transaction counter of the current transaction that is provided by the terminal during transaction processing. Constraints: o min: 4 o max: 4 o pattern: [0-9a-fA-F]+ AuthorizationRequestKeyIdentifier -&gt; (string) [required] The keyArn of the issuer master key for cryptogram (IMK-AC) for the payment card. Constraints: o min: 7 o max: 322 o pattern: arn:aws:payment-cryptogra- phy:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+ CurrentPinAttributes -&gt; (structure) The encrypted pinblock of the old pin stored on the chip card. CurrentPinPekIdentifier -&gt; (string) [required] The keyArn of the current PIN PEK. Constraints: o min: 7 o max: 322 o pattern: arn:aws:payment-cryptogra- phy:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+ CurrentEncryptedPinBlock -&gt; (string) [required] The encrypted pinblock of the current pin stored on the chip card. Constraints: o min: 16 o max: 16 o pattern: [0-9a-fA-F]+ Emv2000 -&gt; (structure) Parameters to derive the confidentiality and integrity keys for a payment card using Emv2000 derivation method. MajorKeyDerivationMode -&gt; (string) [required] The method to use when deriving the master key for the pay- ment card. Possible values: o EMV_OPTION_A o EMV_OPTION_B PrimaryAccountNumber -&gt; (string) [required] The Primary Account Number (PAN) of the cardholder. Constraints: o min: 12 o max: 19 o pattern: [0-9]+ PanSequenceNumber -&gt; (string) [required] A number that identifies and differentiates payment cards with the same Primary Account Number (PAN). Typically 00 is used, if no value is provided by the terminal. Constraints: o min: 2 o max: 2 o pattern: [0-9]+ ApplicationTransactionCounter -&gt; (string) [required] The transaction counter of the current transaction that is provided by the terminal during transaction processing. Constraints: o min: 4 o max: 4 o pattern: [0-9a-fA-F]+ Mastercard -&gt; (structure) Parameters to derive the confidentiality and integrity keys for a payment card using Mastercard derivation method. MajorKeyDerivationMode -&gt; (string) [required] The method to use when deriving the master key for the pay- ment card. Possible values: o EMV_OPTION_A o EMV_OPTION_B PrimaryAccountNumber -&gt; (string) [required] The Primary Account Number (PAN) of the cardholder. Constraints: o min: 12 o max: 19 o pattern: [0-9]+ PanSequenceNumber -&gt; (string) [required] A number that identifies and differentiates payment cards with the same Primary Account Number (PAN). Typically 00 is used, if no value is provided by the terminal. Constraints: o min: 2 o max: 2 o pattern: [0-9]+ ApplicationCryptogram -&gt; (string) [required] The application cryptogram for the current transaction that is provided by the terminal during transaction processing. Constraints: o min: 16 o max: 16 o pattern: [0-9a-fA-F]+ Shorthand Syntax: EmvCommon={MajorKeyDerivationMode=string,PrimaryAccountNumber=string,PanSequenceNumber=string,ApplicationCryptogram=string,Mode=string,PinBlockPaddingType=string,PinBlockLengthPosition=string},Amex={MajorKeyDerivationMode=string,PrimaryAccountNumber=string,PanSequenceNumber=string,ApplicationTransactionCounter=string,AuthorizationRequestKeyIdentifier=string,CurrentPinAttributes={CurrentPinPekIdentifier=string,CurrentEncryptedPinBlock=string}},Visa={MajorKeyDerivationMode=string,PrimaryAccountNumber=string,PanSequenceNumber=string,ApplicationTransactionCounter=string,AuthorizationRequestKeyIdentifier=string,CurrentPinAttributes={CurrentPinPekIdentifier=string,CurrentEncryptedPinBlock=string}},Emv2000={MajorKeyDerivationMode=string,PrimaryAccountNumber=string,PanSequenceNumber=string,ApplicationTransactionCounter=string},Mastercard={MajorKeyDerivationMode=string,PrimaryAccountNumber=string,PanSequenceNumber=string,ApplicationCryptogram=string} JSON Syntax: { "EmvCommon": { "MajorKeyDerivationMode": "EMV_OPTION_A"|"EMV_OPTION_B", "PrimaryAccountNumber": "string", "PanSequenceNumber": "string", "ApplicationCryptogram": "string", "Mode": "ECB"|"CBC", "PinBlockPaddingType": "NO_PADDING"|"ISO_IEC_7816_4", "PinBlockLengthPosition": "NONE"|"FRONT_OF_PIN_BLOCK" }, "Amex": { "MajorKeyDerivationMode": "EMV_OPTION_A"|"EMV_OPTION_B", "PrimaryAccountNumber": "string", "PanSequenceNumber": "string", "ApplicationTransactionCounter": "string", "AuthorizationRequestKeyIdentifier": "string", "CurrentPinAttributes": { "CurrentPinPekIdentifier": "string", "CurrentEncryptedPinBlock": "string" } }, "Visa": { "MajorKeyDerivationMode": "EMV_OPTION_A"|"EMV_OPTION_B", "PrimaryAccountNumber": "string", "PanSequenceNumber": "string", "ApplicationTransactionCounter": "string", "AuthorizationRequestKeyIdentifier": "string", "CurrentPinAttributes": { "CurrentPinPekIdentifier": "string", "CurrentEncryptedPinBlock": "string" } }, "Emv2000": { "MajorKeyDerivationMode": "EMV_OPTION_A"|"EMV_OPTION_B", "PrimaryAccountNumber": "string", "PanSequenceNumber": "string", "ApplicationTransactionCounter": "string" }, "Mastercard": { "MajorKeyDerivationMode": "EMV_OPTION_A"|"EMV_OPTION_B", "PrimaryAccountNumber": "string", "PanSequenceNumber": "string", "ApplicationCryptogram": "string" } }</param>
+    public AwsPaymentCryptographyDataGenerateMacEmvPinChangeOptions(
+        string NewPinPekIdentifier,
+        string NewEncryptedPinBlock,
+        AwsPaymentCryptographyDataGenerateMacEmvPinChangePinBlockFormat PinBlockFormat,
+        string SecureMessagingIntegrityKeyIdentifier,
+        string SecureMessagingConfidentialityKeyIdentifier,
+        string MessageData,
+        string DerivationMethodAttributes
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NewPinPekIdentifier);
+        this.NewPinPekIdentifier = NewPinPekIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(NewEncryptedPinBlock);
+        this.NewEncryptedPinBlock = NewEncryptedPinBlock;
+        global::System.ArgumentNullException.ThrowIfNull(PinBlockFormat);
+        this.PinBlockFormat = PinBlockFormat;
+        global::System.ArgumentNullException.ThrowIfNull(SecureMessagingIntegrityKeyIdentifier);
+        this.SecureMessagingIntegrityKeyIdentifier = SecureMessagingIntegrityKeyIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(SecureMessagingConfidentialityKeyIdentifier);
+        this.SecureMessagingConfidentialityKeyIdentifier = SecureMessagingConfidentialityKeyIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(MessageData);
+        this.MessageData = MessageData;
+        global::System.ArgumentNullException.ThrowIfNull(DerivationMethodAttributes);
+        this.DerivationMethodAttributes = DerivationMethodAttributes;
+    }
+
+    private AwsPaymentCryptographyDataGenerateMacEmvPinChangeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPaymentCryptographyDataGenerateMacEmvPinChangeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPaymentCryptographyDataGenerateMacEmvPinChangeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The keyARN of the PEK protecting the incoming new encrypted PIN block. Constraints: o min: 7 o max: 322 o pattern: arn:aws:payment-cryptogra- phy:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+
+    /// </summary>
     [CliOption("--new-pin-pek-identifier")]
-    public string? NewPinPekIdentifier { get; set; }
+    public string? NewPinPekIdentifier { get; private init; }
 
+    /// <summary>
+    /// The incoming new encrypted PIN block data for offline pin change on an EMV card. Constraints: o min: 16 o max: 16 o pattern: [0-9a-fA-F]+
+    /// </summary>
     [CliOption("--new-encrypted-pin-block")]
-    public string? NewEncryptedPinBlock { get; set; }
+    public string? NewEncryptedPinBlock { get; private init; }
 
+    /// <summary>
+    /// The PIN encoding format of the incoming new encrypted PIN block as specified in ISO 9564. Possible values: o ISO_FORMAT_0 o ISO_FORMAT_1 o ISO_FORMAT_3
+    /// </summary>
     [CliOption("--pin-block-format")]
-    public string? PinBlockFormat { get; set; }
+    public AwsPaymentCryptographyDataGenerateMacEmvPinChangePinBlockFormat? PinBlockFormat { get; private init; }
 
+    /// <summary>
+    /// The keyARN of the issuer master key (IMK-SMI) used to authenticate the issuer script response. Constraints: o min: 7 o max: 322 o pattern: arn:aws:payment-cryptogra- phy:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+
+    /// </summary>
     [CliOption("--secure-messaging-integrity-key-identifier")]
-    public string? SecureMessagingIntegrityKeyIdentifier { get; set; }
+    public string? SecureMessagingIntegrityKeyIdentifier { get; private init; }
 
+    /// <summary>
+    /// The keyARN of the issuer master key (IMK-SMC) used to protect the PIN block data in the issuer script response. Constraints: o min: 7 o max: 322 o pattern: arn:aws:payment-cryptogra- phy:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+
+    /// </summary>
     [CliOption("--secure-messaging-confidentiality-key-identifier")]
-    public string? SecureMessagingConfidentialityKeyIdentifier { get; set; }
+    public string? SecureMessagingConfidentialityKeyIdentifier { get; private init; }
 
+    /// <summary>
+    /// The message data is the APDU command from the card reader or termi- nal. The target encrypted PIN block, after translation to ISO2 for- mat, is appended to this message data to generate an issuer script response. Constraints: o min: 16 o max: 1024 o pattern: (?:[0-9a-fA-F][0-9a-fA-F])+
+    /// </summary>
     [CliOption("--message-data")]
-    public string? MessageData { get; set; }
+    public string? MessageData { get; private init; }
 
+    /// <summary>
+    /// The attributes and data values to derive payment card specific con- fidentiality and integrity keys. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: EmvCommon, Amex, Visa, Emv2000, Master- card. EmvCommon -&gt; (structure) Parameters to derive the confidentiality and integrity keys for a payment card using Emv common derivation method. MajorKeyDerivationMode -&gt; (string) [required] The method to use when deriving the master key for the pay- ment card. Possible values: o EMV_OPTION_A o EMV_OPTION_B PrimaryAccountNumber -&gt; (string) [required] The Primary Account Number (PAN) of the cardholder. Constraints: o min: 12 o max: 19 o pattern: [0-9]+ PanSequenceNumber -&gt; (string) [required] A number that identifies and differentiates payment cards with the same Primary Account Number (PAN). Typically 00 is used, if no value is provided by the terminal. Constraints: o min: 2 o max: 2 o pattern: [0-9]+ ApplicationCryptogram -&gt; (string) [required] The application cryptogram for the current transaction that is provided by the terminal during transaction processing. Constraints: o min: 16 o max: 16 o pattern: [0-9a-fA-F]+ Mode -&gt; (string) [required] The block cipher method to use for encryption. Possible values: o ECB o CBC PinBlockPaddingType -&gt; (string) [required] The padding to be added to the PIN block prior to encryption. Padding type should be ISO_IEC_7816_4 , if PinBlockLengthPo- sition is set to FRONT_OF_PIN_BLOCK . No padding is required, if PinBlockLengthPosition is set to NONE . Possible values: o NO_PADDING o ISO_IEC_7816_4 PinBlockLengthPosition -&gt; (string) [required] Specifies if PIN block length should be added to front of the pin block. If value is set to FRONT_OF_PIN_BLOCK , then PIN block padding type should be ISO_IEC_7816_4 . Possible values: o NONE o FRONT_OF_PIN_BLOCK Amex -&gt; (structure) Parameters to derive the confidentiality and integrity keys for a payment card using Amex derivation method. MajorKeyDerivationMode -&gt; (string) [required] The method to use when deriving the master key for a payment card using Amex derivation. Possible values: o EMV_OPTION_A o EMV_OPTION_B PrimaryAccountNumber -&gt; (string) [required] The Primary Account Number (PAN) of the cardholder. Constraints: o min: 12 o max: 19 o pattern: [0-9]+ PanSequenceNumber -&gt; (string) [required] A number that identifies and differentiates payment cards with the same Primary Account Number (PAN). Typically 00 is used, if no value is provided by the terminal. Constraints: o min: 2 o max: 2 o pattern: [0-9]+ ApplicationTransactionCounter -&gt; (string) [required] The transaction counter of the current transaction that is provided by the terminal during transaction processing. Constraints: o min: 4 o max: 4 o pattern: [0-9a-fA-F]+ AuthorizationRequestKeyIdentifier -&gt; (string) [required] The keyArn of the issuer master key for cryptogram (IMK-AC) for the payment card. Constraints: o min: 7 o max: 322 o pattern: arn:aws:payment-cryptogra- phy:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+ CurrentPinAttributes -&gt; (structure) The encrypted pinblock of the old pin stored on the chip card. CurrentPinPekIdentifier -&gt; (string) [required] The keyArn of the current PIN PEK. Constraints: o min: 7 o max: 322 o pattern: arn:aws:payment-cryptogra- phy:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+ CurrentEncryptedPinBlock -&gt; (string) [required] The encrypted pinblock of the current pin stored on the chip card. Constraints: o min: 16 o max: 16 o pattern: [0-9a-fA-F]+ Visa -&gt; (structure) Parameters to derive the confidentiality and integrity keys for a a payment card using Visa derivation method. MajorKeyDerivationMode -&gt; (string) [required] The method to use when deriving the master key for the pay- ment card. Possible values: o EMV_OPTION_A o EMV_OPTION_B PrimaryAccountNumber -&gt; (string) [required] The Primary Account Number (PAN) of the cardholder. Constraints: o min: 12 o max: 19 o pattern: [0-9]+ PanSequenceNumber -&gt; (string) [required] A number that identifies and differentiates payment cards with the same Primary Account Number (PAN). Typically 00 is used, if no value is provided by the terminal. Constraints: o min: 2 o max: 2 o pattern: [0-9]+ ApplicationTransactionCounter -&gt; (string) [required] The transaction counter of the current transaction that is provided by the terminal during transaction processing. Constraints: o min: 4 o max: 4 o pattern: [0-9a-fA-F]+ AuthorizationRequestKeyIdentifier -&gt; (string) [required] The keyArn of the issuer master key for cryptogram (IMK-AC) for the payment card. Constraints: o min: 7 o max: 322 o pattern: arn:aws:payment-cryptogra- phy:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+ CurrentPinAttributes -&gt; (structure) The encrypted pinblock of the old pin stored on the chip card. CurrentPinPekIdentifier -&gt; (string) [required] The keyArn of the current PIN PEK. Constraints: o min: 7 o max: 322 o pattern: arn:aws:payment-cryptogra- phy:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+ CurrentEncryptedPinBlock -&gt; (string) [required] The encrypted pinblock of the current pin stored on the chip card. Constraints: o min: 16 o max: 16 o pattern: [0-9a-fA-F]+ Emv2000 -&gt; (structure) Parameters to derive the confidentiality and integrity keys for a payment card using Emv2000 derivation method. MajorKeyDerivationMode -&gt; (string) [required] The method to use when deriving the master key for the pay- ment card. Possible values: o EMV_OPTION_A o EMV_OPTION_B PrimaryAccountNumber -&gt; (string) [required] The Primary Account Number (PAN) of the cardholder. Constraints: o min: 12 o max: 19 o pattern: [0-9]+ PanSequenceNumber -&gt; (string) [required] A number that identifies and differentiates payment cards with the same Primary Account Number (PAN). Typically 00 is used, if no value is provided by the terminal. Constraints: o min: 2 o max: 2 o pattern: [0-9]+ ApplicationTransactionCounter -&gt; (string) [required] The transaction counter of the current transaction that is provided by the terminal during transaction processing. Constraints: o min: 4 o max: 4 o pattern: [0-9a-fA-F]+ Mastercard -&gt; (structure) Parameters to derive the confidentiality and integrity keys for a payment card using Mastercard derivation method. MajorKeyDerivationMode -&gt; (string) [required] The method to use when deriving the master key for the pay- ment card. Possible values: o EMV_OPTION_A o EMV_OPTION_B PrimaryAccountNumber -&gt; (string) [required] The Primary Account Number (PAN) of the cardholder. Constraints: o min: 12 o max: 19 o pattern: [0-9]+ PanSequenceNumber -&gt; (string) [required] A number that identifies and differentiates payment cards with the same Primary Account Number (PAN). Typically 00 is used, if no value is provided by the terminal. Constraints: o min: 2 o max: 2 o pattern: [0-9]+ ApplicationCryptogram -&gt; (string) [required] The application cryptogram for the current transaction that is provided by the terminal during transaction processing. Constraints: o min: 16 o max: 16 o pattern: [0-9a-fA-F]+ Shorthand Syntax: EmvCommon={MajorKeyDerivationMode=string,PrimaryAccountNumber=string,PanSequenceNumber=string,ApplicationCryptogram=string,Mode=string,PinBlockPaddingType=string,PinBlockLengthPosition=string},Amex={MajorKeyDerivationMode=string,PrimaryAccountNumber=string,PanSequenceNumber=string,ApplicationTransactionCounter=string,AuthorizationRequestKeyIdentifier=string,CurrentPinAttributes={CurrentPinPekIdentifier=string,CurrentEncryptedPinBlock=string}},Visa={MajorKeyDerivationMode=string,PrimaryAccountNumber=string,PanSequenceNumber=string,ApplicationTransactionCounter=string,AuthorizationRequestKeyIdentifier=string,CurrentPinAttributes={CurrentPinPekIdentifier=string,CurrentEncryptedPinBlock=string}},Emv2000={MajorKeyDerivationMode=string,PrimaryAccountNumber=string,PanSequenceNumber=string,ApplicationTransactionCounter=string},Mastercard={MajorKeyDerivationMode=string,PrimaryAccountNumber=string,PanSequenceNumber=string,ApplicationCryptogram=string} JSON Syntax: { "EmvCommon": { "MajorKeyDerivationMode": "EMV_OPTION_A"|"EMV_OPTION_B", "PrimaryAccountNumber": "string", "PanSequenceNumber": "string", "ApplicationCryptogram": "string", "Mode": "ECB"|"CBC", "PinBlockPaddingType": "NO_PADDING"|"ISO_IEC_7816_4", "PinBlockLengthPosition": "NONE"|"FRONT_OF_PIN_BLOCK" }, "Amex": { "MajorKeyDerivationMode": "EMV_OPTION_A"|"EMV_OPTION_B", "PrimaryAccountNumber": "string", "PanSequenceNumber": "string", "ApplicationTransactionCounter": "string", "AuthorizationRequestKeyIdentifier": "string", "CurrentPinAttributes": { "CurrentPinPekIdentifier": "string", "CurrentEncryptedPinBlock": "string" } }, "Visa": { "MajorKeyDerivationMode": "EMV_OPTION_A"|"EMV_OPTION_B", "PrimaryAccountNumber": "string", "PanSequenceNumber": "string", "ApplicationTransactionCounter": "string", "AuthorizationRequestKeyIdentifier": "string", "CurrentPinAttributes": { "CurrentPinPekIdentifier": "string", "CurrentEncryptedPinBlock": "string" } }, "Emv2000": { "MajorKeyDerivationMode": "EMV_OPTION_A"|"EMV_OPTION_B", "PrimaryAccountNumber": "string", "PanSequenceNumber": "string", "ApplicationTransactionCounter": "string" }, "Mastercard": { "MajorKeyDerivationMode": "EMV_OPTION_A"|"EMV_OPTION_B", "PrimaryAccountNumber": "string", "PanSequenceNumber": "string", "ApplicationCryptogram": "string" } }
+    /// </summary>
     [CliOption("--derivation-method-attributes")]
-    public string? DerivationMethodAttributes { get; set; }
+    public string? DerivationMethodAttributes { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,65 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appconfig", "stop-experiment-run")]
-public record AwsAppConfigStopExperimentRunOptions : AwsOptions
+public record AwsAppConfigStopExperimentRunOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Stops a running experiment. Stopping an experiment run ends audience exposure and returns users to the currently deployed feature flag con- figuration. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationIdentifier">The application ID or name. Constraints: o min: 1 o max: 2048</param>
+    /// <param name="ExperimentDefinitionIdentifier">The experiment definition ID or name. Constraints: o min: 1 o max: 2048</param>
+    /// <param name="Run">The run number to stop. Constraints: o min: 1</param>
+    public AwsAppConfigStopExperimentRunOptions(
+        string ApplicationIdentifier,
+        string ExperimentDefinitionIdentifier,
+        int Run
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationIdentifier);
+        this.ApplicationIdentifier = ApplicationIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(ExperimentDefinitionIdentifier);
+        this.ExperimentDefinitionIdentifier = ExperimentDefinitionIdentifier;
+        this.Run = Run;
+    }
+
+    private AwsAppConfigStopExperimentRunOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppConfigStopExperimentRunOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppConfigStopExperimentRunOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The application ID or name. Constraints: o min: 1 o max: 2048
+    /// </summary>
     [CliOption("--application-identifier")]
-    public string? ApplicationIdentifier { get; set; }
+    public string? ApplicationIdentifier { get; private init; }
 
+    /// <summary>
+    /// The experiment definition ID or name. Constraints: o min: 1 o max: 2048
+    /// </summary>
     [CliOption("--experiment-definition-identifier")]
-    public string? ExperimentDefinitionIdentifier { get; set; }
+    public string? ExperimentDefinitionIdentifier { get; private init; }
 
+    /// <summary>
+    /// The run number to stop. Constraints: o min: 1
+    /// </summary>
     [CliOption("--run")]
-    public int? Run { get; set; }
+    public int? Run { get; private init; }
 
     /// <summary>
     /// The result of the experiment run, including an executive summary and reasons for or against launching. ExecutiveSummary -&gt; (string) A summary of the experiment outcome and key findings. Constraints: o min: 0 o max: 1024 ReasonsToLaunch -&gt; (string) Evidence in favor of launching the winning treatment. Constraints: o min: 0 o max: 1024 ReasonsNotToLaunch -&gt; (string) Evidence against launching the treatment. Constraints: o min: 0 o max: 1024 Shorthand Syntax: ExecutiveSummary=string,ReasonsToLaunch=string,ReasonsNotToLaunch=string JSON Syntax: { "ExecutiveSummary": "string", "ReasonsToLaunch": "string", "ReasonsNotToLaunch": "string" }
@@ -47,5 +97,22 @@ public record AwsAppConfigStopExperimentRunOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

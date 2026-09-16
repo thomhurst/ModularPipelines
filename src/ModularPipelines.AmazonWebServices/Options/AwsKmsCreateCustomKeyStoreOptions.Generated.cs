@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kms", "create-custom-key-store")]
-public record AwsKmsCreateCustomKeyStoreOptions : AwsOptions
+public record AwsKmsCreateCustomKeyStoreOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a custom key store backed by a key store that you own and man- age. When you use a KMS key in a custom key store for a cryptographic operation, the cryptographic operation is actually performed in your key store using your keys. KMS supports CloudHSM key stores backed by an CloudHSM cluster and external key stores backed by an external key store proxy and external key manager outside of Amazon Web Services. This operation is part of the custom key stores feature in KMS, which combines th...
+    /// </summary>
+    /// <param name="CustomKeyStoreName">Specifies a friendly name for the custom key store. The name must be unique in your Amazon Web Services account and Region. This parame- ter is required for all custom key stores. WARNING: Do not include confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output. Constraints: o min: 1 o max: 256</param>
+    public AwsKmsCreateCustomKeyStoreOptions(
+        string CustomKeyStoreName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CustomKeyStoreName);
+        this.CustomKeyStoreName = CustomKeyStoreName;
+    }
+
+    private AwsKmsCreateCustomKeyStoreOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKmsCreateCustomKeyStoreOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKmsCreateCustomKeyStoreOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies a friendly name for the custom key store. The name must be unique in your Amazon Web Services account and Region. This parame- ter is required for all custom key stores. WARNING: Do not include confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output. Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--custom-key-store-name")]
-    public string? CustomKeyStoreName { get; set; }
+    public string? CustomKeyStoreName { get; private init; }
 
     /// <summary>
     /// Identifies the CloudHSM cluster for an CloudHSM key store. This pa- rameter is required for custom key stores with CustomKeyStoreType of AWS_CLOUDHSM . Enter the cluster ID of any active CloudHSM cluster that is not al- ready associated with a custom key store. To find the cluster ID, use the DescribeClusters operation. Constraints: o min: 19 o max: 24 o pattern: cluster-[2-7a-zA-Z]{11,16}
@@ -93,5 +130,22 @@ public record AwsKmsCreateCustomKeyStoreOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

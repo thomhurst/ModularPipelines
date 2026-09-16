@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsNotificationsListMemberAccountsStatus
 {
     [EnumValue("ACTIVE")]
-    Active = 1,
-
-    [EnumValue("PENDING")]
-    Pending = 2,
-
-    [EnumValue("INACTIVE")]
-    Inactive = 3,
+    Active,
 
     [EnumValue("CREATING")]
-    Creating = 4,
+    Creating,
 
     [EnumValue("DELETING")]
-    Deleting = 5
+    Deleting,
+
+    [EnumValue("INACTIVE")]
+    Inactive,
+
+    [EnumValue("PENDING")]
+    Pending
 }

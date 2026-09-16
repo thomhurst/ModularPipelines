@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --scalebarunit.
+/// Allowed values for --scale-bar-unit.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGeoMapsGetStaticMapScaleBarUnit
 {
     [EnumValue("Kilometers")]
-    Kilometers = 1,
+    Kilometers,
 
     [EnumValue("KilometersMiles")]
-    KilometersMiles = 2,
+    KilometersMiles,
 
     [EnumValue("Miles")]
-    Miles = 3,
+    Miles,
 
     [EnumValue("MilesKilometers")]
-    MilesKilometers = 4
+    MilesKilometers
 }

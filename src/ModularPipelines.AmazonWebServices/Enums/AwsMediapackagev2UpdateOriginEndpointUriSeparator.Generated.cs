@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --uriseparator.
+/// Allowed values for --uri-separator.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsMediapackagev2UpdateOriginEndpointUriSeparator
 {
-    [EnumValue("UNDERSCORE")]
-    Underscore = 1,
-
     [EnumValue("HYPHEN")]
-    Hyphen = 2
+    Hyphen,
+
+    [EnumValue("UNDERSCORE")]
+    Underscore
 }

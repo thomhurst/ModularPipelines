@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("neptunedata", "get-loader-job-status")]
-public record AwsNeptunedataGetLoaderJobStatusOptions : AwsOptions
+public record AwsNeptunedataGetLoaderJobStatusOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--load-id")]
-    public string? LoadId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--details")]
+    /// <summary>
+    /// Gets status information about a specified load job. Neptune keeps track of the most recent 1,024 bulk load jobs, and stores the last 10,000 er- ror details per job. See Neptune Loader Get-Status API for more information. When invoking this operation in a Neptune cluster that has IAM authen- tication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetLoaderJobStatus IAM ac- tion in that cluster.. See also: AWS API Documentation get-loader-jo...
+    /// </summary>
+    /// <param name="LoadId">The load ID of the load job to get the status of.</param>
+    public AwsNeptunedataGetLoaderJobStatusOptions(
+        string LoadId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LoadId);
+        this.LoadId = LoadId;
+    }
+
+    private AwsNeptunedataGetLoaderJobStatusOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNeptunedataGetLoaderJobStatusOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNeptunedataGetLoaderJobStatusOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The load ID of the load job to get the status of.
+    /// </summary>
+    [CliOption("--load-id")]
+    public string? LoadId { get; private init; }
+
+    /// <summary>
+    /// Flag indicating whether or not to include details beyond the overall status (TRUE or FALSE ; the default is FALSE ).
+    /// </summary>
+    [CliFlag("--details", NegatedName = "--no-details")]
     public bool? Details { get; set; }
 
-    [CliFlag("--errors")]
+    /// <summary>
+    /// Flag indicating whether or not to include a list of errors encoun- tered (TRUE or FALSE ; the default is FALSE ). The list of errors is paged. The page and errorsPerPage parameters allow you to page through all the errors.
+    /// </summary>
+    [CliFlag("--errors", NegatedName = "--no-errors")]
     public bool? Errors { get; set; }
 
     /// <summary>
@@ -47,5 +90,22 @@ public record AwsNeptunedataGetLoaderJobStatusOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

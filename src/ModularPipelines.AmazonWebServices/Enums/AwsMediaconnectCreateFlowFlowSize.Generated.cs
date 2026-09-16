@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --flowsize.
+/// Allowed values for --flow-size.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsMediaconnectCreateFlowFlowSize
 {
-    [EnumValue("MEDIUM")]
-    Medium = 1,
-
     [EnumValue("LARGE")]
-    Large = 2,
+    Large,
 
     [EnumValue("LARGE_4X")]
-    Large_4X = 3
+    Large4X,
+
+    [EnumValue("MEDIUM")]
+    Medium
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +21,95 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ecs", "update-container-instances-state")]
-public record AwsEcsUpdateContainerInstancesStateOptions : AwsOptions
+public record AwsEcsUpdateContainerInstancesStateOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies the status of an Amazon ECS container instance. Once a container instance has reached an ACTIVE state, you can change the status of a container instance to DRAINING to manually remove an instance from a cluster, for example to perform system updates, update the Docker daemon, or scale down the cluster size. WARNING: A container instance can't be changed to DRAINING until it has reached an ACTIVE status. If the instance is in any other status, an error will be received. When you set a co...
+    /// </summary>
+    /// <param name="ContainerInstances">A list of up to 10 container instance IDs or full ARN entries. (string) Syntax: "string" "string" ...</param>
+    /// <param name="Status">The container instance state to update the container instance with. The only valid values for this action are ACTIVE and DRAINING . A container instance can only be updated to DRAINING status once it has reached an ACTIVE state. If a container instance is in REGISTER- ING , DEREGISTERING , or REGISTRATION_FAILED state you can describe the container instance but can't update the container instance state. Possible values: o ACTIVE o DRAINING o REGISTERING o DEREGISTERING o REGISTRATION_FAILED</param>
+    public AwsEcsUpdateContainerInstancesStateOptions(
+        IEnumerable<string> ContainerInstances,
+        AwsEcsUpdateContainerInstancesStateStatus Status
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ContainerInstances);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ContainerInstances));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ContainerInstances));
+            }
+
+            ContainerInstances = materialized;
+        }
+        this.ContainerInstances = ContainerInstances;
+        global::System.ArgumentNullException.ThrowIfNull(Status);
+        this.Status = Status;
+    }
+
+    private AwsEcsUpdateContainerInstancesStateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEcsUpdateContainerInstancesStateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEcsUpdateContainerInstancesStateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A list of up to 10 container instance IDs or full ARN entries. (string) Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--container-instances", GroupValues = true)]
+    public IEnumerable<string>? ContainerInstances { get; private init; }
+
+    /// <summary>
+    /// The container instance state to update the container instance with. The only valid values for this action are ACTIVE and DRAINING . A container instance can only be updated to DRAINING status once it has reached an ACTIVE state. If a container instance is in REGISTER- ING , DEREGISTERING , or REGISTRATION_FAILED state you can describe the container instance but can't update the container instance state. Possible values: o ACTIVE o DRAINING o REGISTERING o DEREGISTERING o REGISTRATION_FAILED
+    /// </summary>
+    [CliOption("--status")]
+    public AwsEcsUpdateContainerInstancesStateStatus? Status { get; private init; }
+
     /// <summary>
     /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the container instance to update. If you do not specify a cluster, the default cluster is assumed.
     /// </summary>
     [CliOption("--cluster")]
     public string? Cluster { get; set; }
 
-    [CliOption("--container-instances", GroupValues = true)]
-    public IEnumerable<string>? ContainerInstances { get; set; }
-
-    [CliOption("--status")]
-    public string? Status { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

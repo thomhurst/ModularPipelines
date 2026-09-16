@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --usecase.
+/// Allowed values for --use-case.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEsUpdateElasticsearchDomainConfigUseCase
 {
-    [EnumValue("SEARCH")]
-    Search = 1,
-
-    [EnumValue("VECTOR")]
-    Vector = 2,
+    [EnumValue("MIXED")]
+    Mixed,
 
     [EnumValue("OBSERVABILITY")]
-    Observability = 3,
+    Observability,
 
-    [EnumValue("MIXED")]
-    Mixed = 4
+    [EnumValue("SEARCH")]
+    Search,
+
+    [EnumValue("VECTOR")]
+    Vector
 }

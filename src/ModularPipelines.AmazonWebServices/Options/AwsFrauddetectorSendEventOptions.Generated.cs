@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,108 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("frauddetector", "send-event")]
-public record AwsFrauddetectorSendEventOptions : AwsOptions
+public record AwsFrauddetectorSendEventOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Stores events in Amazon Fraud Detector without generating fraud predic- tions for those events. For example, you can use SendEvent to upload a historical dataset, which you can then later use to train a model. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EventId">The event ID to upload. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$</param>
+    /// <param name="EventTypeName">The event type name of the event. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$</param>
+    /// <param name="EventTimestamp">The timestamp that defines when the event under evaluation occurred. The timestamp must be specified using ISO 8601 standard in UTC. Constraints: o min: 10 o max: 30</param>
+    /// <param name="EventVariables">Names of the event type's variables you defined in Amazon Fraud De- tector to represent data elements and their corresponding values for the event you are sending for evaluation. Constraints: o min: 1 key -&gt; (string) Constraints: o min: 1 o max: 64 value -&gt; (string) Constraints: o min: 1 o max: 8192 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="Entities">An array of entities. (structure) The entity details. entityType -&gt; (string) [required] The entity type. entityId -&gt; (string) [required] The entity ID. If you do not know the entityId , you can pass unknown , which is areserved string literal. Constraints: o min: 1 o max: 256 o pattern: ^[0-9A-Za-z_.@+-]+$ Shorthand Syntax: entityType=string,entityId=string ... JSON Syntax: [ { "entityType": "string", "entityId": "string" } ... ]</param>
+    public AwsFrauddetectorSendEventOptions(
+        string EventId,
+        string EventTypeName,
+        string EventTimestamp,
+        IReadOnlyList<KeyValue> EventVariables,
+        IEnumerable<string> Entities
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EventId);
+        this.EventId = EventId;
+        global::System.ArgumentNullException.ThrowIfNull(EventTypeName);
+        this.EventTypeName = EventTypeName;
+        global::System.ArgumentNullException.ThrowIfNull(EventTimestamp);
+        this.EventTimestamp = EventTimestamp;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(EventVariables);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(EventVariables));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(EventVariables));
+            }
+
+            EventVariables = materialized;
+        }
+        this.EventVariables = EventVariables;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Entities);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Entities));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Entities));
+            }
+
+            Entities = materialized;
+        }
+        this.Entities = Entities;
+    }
+
+    private AwsFrauddetectorSendEventOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFrauddetectorSendEventOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFrauddetectorSendEventOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The event ID to upload. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$
+    /// </summary>
     [CliOption("--event-id")]
-    public string? EventId { get; set; }
+    public string? EventId { get; private init; }
 
+    /// <summary>
+    /// The event type name of the event. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$
+    /// </summary>
     [CliOption("--event-type-name")]
-    public string? EventTypeName { get; set; }
+    public string? EventTypeName { get; private init; }
 
+    /// <summary>
+    /// The timestamp that defines when the event under evaluation occurred. The timestamp must be specified using ISO 8601 standard in UTC. Constraints: o min: 10 o max: 30
+    /// </summary>
     [CliOption("--event-timestamp")]
-    public string? EventTimestamp { get; set; }
+    public string? EventTimestamp { get; private init; }
 
+    /// <summary>
+    /// Names of the event type's variables you defined in Amazon Fraud De- tector to represent data elements and their corresponding values for the event you are sending for evaluation. Constraints: o min: 1 key -&gt; (string) Constraints: o min: 1 o max: 64 value -&gt; (string) Constraints: o min: 1 o max: 8192 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// </summary>
     [CliOption("--event-variables", CollectionSeparator = ",")]
-    public IReadOnlyList<KeyValue>? EventVariables { get; set; }
+    public IReadOnlyList<KeyValue>? EventVariables { get; private init; }
+
+    /// <summary>
+    /// An array of entities. (structure) The entity details. entityType -&gt; (string) [required] The entity type. entityId -&gt; (string) [required] The entity ID. If you do not know the entityId , you can pass unknown , which is areserved string literal. Constraints: o min: 1 o max: 256 o pattern: ^[0-9A-Za-z_.@+-]+$ Shorthand Syntax: entityType=string,entityId=string ... JSON Syntax: [ { "entityType": "string", "entityId": "string" } ... ]
+    /// </summary>
+    [CliOption("--entities", GroupValues = true)]
+    public IEnumerable<string>? Entities { get; private init; }
 
     /// <summary>
     /// The label to associate with the event. Required if specifying label- Timestamp . Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$
@@ -46,13 +136,27 @@ public record AwsFrauddetectorSendEventOptions : AwsOptions
     [CliOption("--label-timestamp")]
     public string? LabelTimestamp { get; set; }
 
-    [CliOption("--entities", GroupValues = true)]
-    public IEnumerable<string>? Entities { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

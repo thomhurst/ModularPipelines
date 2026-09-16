@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "get-human-readable-summary")]
-public record AwsIamGetHumanReadableSummaryOptions : AwsOptions
+public record AwsIamGetHumanReadableSummaryOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves a human readable summary for a given entity. At this time, the only supported entity type is delegation-request This method uses a Large Language Model (LLM) to generate the summary. If a delegation request has no owner or owner account, GetHumanRead- ableSummary for that delegation request can be called by any account. If the owner account is assigned but there is no owner id, only identi- ties within that owner account can call GetHumanReadableSummary for the delegation request to re...
+    /// </summary>
+    /// <param name="EntityArn">Arn of the entity to be summarized. At this time, the only supported entity type is delegation-request Constraints: o min: 20 o max: 2048</param>
+    public AwsIamGetHumanReadableSummaryOptions(
+        string EntityArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EntityArn);
+        this.EntityArn = EntityArn;
+    }
+
+    private AwsIamGetHumanReadableSummaryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIamGetHumanReadableSummaryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIamGetHumanReadableSummaryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Arn of the entity to be summarized. At this time, the only supported entity type is delegation-request Constraints: o min: 20 o max: 2048
+    /// </summary>
     [CliOption("--entity-arn")]
-    public string? EntityArn { get; set; }
+    public string? EntityArn { get; private init; }
 
     /// <summary>
     /// A string representing the locale to use for the summary generation. The supported locale strings are based on the Supported languages of the Amazon Web Services Management Console . Constraints: o min: 2 o max: 12
@@ -35,5 +72,22 @@ public record AwsIamGetHumanReadableSummaryOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

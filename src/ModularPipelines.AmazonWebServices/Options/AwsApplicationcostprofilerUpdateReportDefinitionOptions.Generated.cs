@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,27 +21,108 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("applicationcostprofiler", "update-report-definition")]
-public record AwsApplicationcostprofilerUpdateReportDefinitionOptions : AwsOptions
+public record AwsApplicationcostprofilerUpdateReportDefinitionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates existing report in AWS Application Cost Profiler. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ReportId">Required. ID of the report to update. Constraints: o min: 1 o max: 255 o pattern: ^[0-9A-Za-z\.\-_]+$</param>
+    /// <param name="ReportDescription">Required. Description of the report. Constraints: o min: 1 o max: 1024 o pattern: .*\S.*</param>
+    /// <param name="ReportFrequency">Required. The cadence to generate the report. Possible values: o MONTHLY o DAILY o ALL</param>
+    /// <param name="Format">Required. The format to use for the generated report. Possible values: o CSV o PARQUET</param>
+    /// <param name="DestinationS3Location">Required. Amazon Simple Storage Service (Amazon S3) location where Application Cost Profiler uploads the report. bucket -&gt; (string) [required] Name of the S3 bucket. Constraints: o min: 3 o max: 63 o pattern: (?=^.{3,63}$)(?!^(\d+\.)+\d+$)(^(([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])\.)*([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])$) prefix -&gt; (string) [required] Prefix for the location to write to. Constraints: o min: 1 o max: 512 o pattern: .*\S.* Shorthand Syntax: bucket=string,prefix=string JSON Syntax: { "bucket": "string", "prefix": "string" }</param>
+    public AwsApplicationcostprofilerUpdateReportDefinitionOptions(
+        string ReportId,
+        string ReportDescription,
+        AwsApplicationcostprofilerUpdateReportDefinitionReportFrequency ReportFrequency,
+        AwsApplicationcostprofilerUpdateReportDefinitionFormat Format,
+        string DestinationS3Location
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReportId);
+        this.ReportId = ReportId;
+        global::System.ArgumentNullException.ThrowIfNull(ReportDescription);
+        this.ReportDescription = ReportDescription;
+        global::System.ArgumentNullException.ThrowIfNull(ReportFrequency);
+        this.ReportFrequency = ReportFrequency;
+        global::System.ArgumentNullException.ThrowIfNull(Format);
+        this.Format = Format;
+        global::System.ArgumentNullException.ThrowIfNull(DestinationS3Location);
+        this.DestinationS3Location = DestinationS3Location;
+    }
+
+    private AwsApplicationcostprofilerUpdateReportDefinitionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApplicationcostprofilerUpdateReportDefinitionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApplicationcostprofilerUpdateReportDefinitionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Required. ID of the report to update. Constraints: o min: 1 o max: 255 o pattern: ^[0-9A-Za-z\.\-_]+$
+    /// </summary>
     [CliOption("--report-id")]
-    public string? ReportId { get; set; }
+    public string? ReportId { get; private init; }
 
+    /// <summary>
+    /// Required. Description of the report. Constraints: o min: 1 o max: 1024 o pattern: .*\S.*
+    /// </summary>
     [CliOption("--report-description")]
-    public string? ReportDescription { get; set; }
+    public string? ReportDescription { get; private init; }
 
+    /// <summary>
+    /// Required. The cadence to generate the report. Possible values: o MONTHLY o DAILY o ALL
+    /// </summary>
     [CliOption("--report-frequency")]
-    public string? ReportFrequency { get; set; }
+    public AwsApplicationcostprofilerUpdateReportDefinitionReportFrequency? ReportFrequency { get; private init; }
 
+    /// <summary>
+    /// Required. The format to use for the generated report. Possible values: o CSV o PARQUET
+    /// </summary>
     [CliOption("--format")]
-    public string? Format { get; set; }
+    public AwsApplicationcostprofilerUpdateReportDefinitionFormat? Format { get; private init; }
 
+    /// <summary>
+    /// Required. Amazon Simple Storage Service (Amazon S3) location where Application Cost Profiler uploads the report. bucket -&gt; (string) [required] Name of the S3 bucket. Constraints: o min: 3 o max: 63 o pattern: (?=^.{3,63}$)(?!^(\d+\.)+\d+$)(^(([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])\.)*([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])$) prefix -&gt; (string) [required] Prefix for the location to write to. Constraints: o min: 1 o max: 512 o pattern: .*\S.* Shorthand Syntax: bucket=string,prefix=string JSON Syntax: { "bucket": "string", "prefix": "string" }
+    /// </summary>
     [CliOption("--destination-s3-location")]
-    public string? DestinationS3Location { get; set; }
+    public string? DestinationS3Location { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --resourceowner.
+/// Allowed values for --resource-owner.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsAcmPcaListCertificateAuthoritiesResourceOwner
 {
-    [EnumValue("SELF")]
-    Self = 1,
-
     [EnumValue("OTHER_ACCOUNTS")]
-    OtherAccounts = 2
+    OtherAccounts,
+
+    [EnumValue("SELF")]
+    Self
 }

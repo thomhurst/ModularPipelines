@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsArcZonalShiftListZonalShiftsStatus
 {
     [EnumValue("ACTIVE")]
-    Active = 1,
-
-    [EnumValue("EXPIRED")]
-    Expired = 2,
+    Active,
 
     [EnumValue("CANCELED")]
-    Canceled = 3
+    Canceled,
+
+    [EnumValue("EXPIRED")]
+    Expired
 }

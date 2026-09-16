@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mediaconnect", "update-bridge")]
-public record AwsMediaconnectUpdateBridgeOptions : AwsOptions
+public record AwsMediaconnectUpdateBridgeOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the bridge. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BridgeArn">TheAmazon Resource Name (ARN) of the bridge that you want to update. Constraints: o pattern: arn:.+:mediaconnect.+:bridge:.+</param>
+    public AwsMediaconnectUpdateBridgeOptions(
+        string BridgeArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BridgeArn);
+        this.BridgeArn = BridgeArn;
+    }
+
+    private AwsMediaconnectUpdateBridgeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMediaconnectUpdateBridgeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMediaconnectUpdateBridgeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// TheAmazon Resource Name (ARN) of the bridge that you want to update. Constraints: o pattern: arn:.+:mediaconnect.+:bridge:.+
+    /// </summary>
     [CliOption("--bridge-arn")]
-    public string? BridgeArn { get; set; }
+    public string? BridgeArn { get; private init; }
 
     /// <summary>
     /// A cloud-to-ground bridge. The content comes from an existing Media- Connect flow and is delivered to your premises. MaxBitrate -&gt; (integer) The maximum expected bitrate (in bps). Shorthand Syntax: MaxBitrate=integer JSON Syntax: { "MaxBitrate": integer }
@@ -47,5 +84,22 @@ public record AwsMediaconnectUpdateBridgeOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

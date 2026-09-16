@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,20 +22,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ds", "create-trust")]
-public record AwsDsCreateTrustOptions : AwsOptions
+public record AwsDsCreateTrustOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Directory Service for Microsoft Active Directory allows you to config- ure trust relationships. For example, you can establish a trust between your Managed Microsoft AD directory, and your existing self-managed Mi- crosoft Active Directory. This would allow you to provide users and groups access to resources in either domain, with a single set of cre- dentials. This action initiates the creation of the Amazon Web Services side of a trust relationship between an Managed Microsoft AD directory and...
+    /// </summary>
+    /// <param name="DirectoryId">The Directory ID of the Managed Microsoft AD directory for which to establish the trust relationship. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="RemoteDomainName">The Fully Qualified Domain Name (FQDN) of the external domain for which to create the trust relationship. Constraints: o max: 1024 o pattern: ^([a-zA-Z0-9]+[\\.-])+([a-zA-Z0-9])+[.]?$</param>
+    /// <param name="TrustPassword">The trust password. The trust password must be the same password that was used when creating the trust relationship on the external domain. Constraints: o min: 1 o max: 128 o pattern: ^(\p{LD}|\p{Punct}| )+$</param>
+    /// <param name="TrustDirection">The direction of the trust relationship. Possible values: o One-Way: Outgoing o One-Way: Incoming o Two-Way</param>
+    public AwsDsCreateTrustOptions(
+        string DirectoryId,
+        string RemoteDomainName,
+        string TrustPassword,
+        string TrustDirection
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DirectoryId);
+        this.DirectoryId = DirectoryId;
+        global::System.ArgumentNullException.ThrowIfNull(RemoteDomainName);
+        this.RemoteDomainName = RemoteDomainName;
+        global::System.ArgumentNullException.ThrowIfNull(TrustPassword);
+        this.TrustPassword = TrustPassword;
+        global::System.ArgumentNullException.ThrowIfNull(TrustDirection);
+        this.TrustDirection = TrustDirection;
+    }
+
+    private AwsDsCreateTrustOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDsCreateTrustOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDsCreateTrustOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Directory ID of the Managed Microsoft AD directory for which to establish the trust relationship. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// </summary>
     [CliOption("--directory-id")]
-    public string? DirectoryId { get; set; }
+    public string? DirectoryId { get; private init; }
 
+    /// <summary>
+    /// The Fully Qualified Domain Name (FQDN) of the external domain for which to create the trust relationship. Constraints: o max: 1024 o pattern: ^([a-zA-Z0-9]+[\\.-])+([a-zA-Z0-9])+[.]?$
+    /// </summary>
     [CliOption("--remote-domain-name")]
-    public string? RemoteDomainName { get; set; }
+    public string? RemoteDomainName { get; private init; }
 
+    /// <summary>
+    /// The trust password. The trust password must be the same password that was used when creating the trust relationship on the external domain. Constraints: o min: 1 o max: 128 o pattern: ^(\p{LD}|\p{Punct}| )+$
+    /// </summary>
     [SecretValue]
     [CliOption("--trust-password")]
-    public string? TrustPassword { get; set; }
+    public string? TrustPassword { get; private init; }
 
+    /// <summary>
+    /// The direction of the trust relationship. Possible values: o One-Way: Outgoing o One-Way: Incoming o Two-Way
+    /// </summary>
     [CliOption("--trust-direction")]
-    public string? TrustDirection { get; set; }
+    public string? TrustDirection { get; private init; }
 
     /// <summary>
     /// The trust relationship type. Forest is the default. Possible values: o Forest o External
@@ -65,5 +123,22 @@ public record AwsDsCreateTrustOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,8 +22,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chime-sdk-meetings", "create-meeting")]
-public record AwsChimeSdkMeetingsCreateMeetingOptions : AwsOptions
+public record AwsChimeSdkMeetingsCreateMeetingOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new Amazon Chime SDK meeting in the specified media Region with no initial attendees. For more information about specifying media Regions, see Available Regions and Using meeting Regions , both in the Amazon Chime SDK Developer Guide . For more information about the Ama- zon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime SDK Developer Guide . NOTE: If you use this API in conjuction with the and APIs, and you don't specify the MeetingFeatures.Content.MaxResolution or Meet...
+    /// </summary>
+    /// <param name="MediaRegion">The Region in which to create the meeting. Available values: af-south-1 , ap-northeast-1 , ap-northeast-2 , ap-south-1 , ap-southeast-1 , ap-southeast-2 , ca-central-1 , eu-central-1 , eu-north-1 , eu-south-1 , eu-west-1 , eu-west-2 , eu-west-3 , sa-east-1 , us-east-1 , us-east-2 , us-west-1 , us-west-2 . Available values in Amazon Web Services GovCloud (US) Regions: us-gov-east-1 , us-gov-west-1 . Constraints: o min: 2 o max: 64</param>
+    /// <param name="ExternalMeetingId">The external meeting ID. Pattern: [-_&amp;@+=,(){}\[\]\/.:|'"#a-zA-Z0-9-\s]* Values that begin with aws: are reserved. You can't configure a value that uses this prefix. Case insensitive. Constraints: o min: 2 o max: 64</param>
+    public AwsChimeSdkMeetingsCreateMeetingOptions(
+        string MediaRegion,
+        string ExternalMeetingId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MediaRegion);
+        this.MediaRegion = MediaRegion;
+        global::System.ArgumentNullException.ThrowIfNull(ExternalMeetingId);
+        this.ExternalMeetingId = ExternalMeetingId;
+    }
+
+    private AwsChimeSdkMeetingsCreateMeetingOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChimeSdkMeetingsCreateMeetingOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChimeSdkMeetingsCreateMeetingOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Region in which to create the meeting. Available values: af-south-1 , ap-northeast-1 , ap-northeast-2 , ap-south-1 , ap-southeast-1 , ap-southeast-2 , ca-central-1 , eu-central-1 , eu-north-1 , eu-south-1 , eu-west-1 , eu-west-2 , eu-west-3 , sa-east-1 , us-east-1 , us-east-2 , us-west-1 , us-west-2 . Available values in Amazon Web Services GovCloud (US) Regions: us-gov-east-1 , us-gov-west-1 . Constraints: o min: 2 o max: 64
+    /// </summary>
+    [CliOption("--media-region")]
+    public string? MediaRegion { get; private init; }
+
+    /// <summary>
+    /// The external meeting ID. Pattern: [-_&amp;@+=,(){}\[\]\/.:|'"#a-zA-Z0-9-\s]* Values that begin with aws: are reserved. You can't configure a value that uses this prefix. Case insensitive. Constraints: o min: 2 o max: 64
+    /// </summary>
+    [CliOption("--external-meeting-id")]
+    public string? ExternalMeetingId { get; private init; }
+
     /// <summary>
     /// The unique identifier for the client request. Use a different token for different meetings. Constraints: o min: 2 o max: 64 o pattern: [-_a-zA-Z0-9]*
     /// </summary>
@@ -30,17 +80,11 @@ public record AwsChimeSdkMeetingsCreateMeetingOptions : AwsOptions
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CliOption("--media-region")]
-    public string? MediaRegion { get; set; }
-
     /// <summary>
     /// Reserved. Constraints: o min: 2 o max: 64
     /// </summary>
     [CliOption("--meeting-host-id")]
     public string? MeetingHostId { get; set; }
-
-    [CliOption("--external-meeting-id")]
-    public string? ExternalMeetingId { get; set; }
 
     /// <summary>
     /// The configuration for resource targets to receive notifications when meeting and attendee events occur. LambdaFunctionArn -&gt; (string) The ARN of the Amazon Web Services Lambda function in the noti- fications configuration. Constraints: o min: 1 o max: 1024 o pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$ SnsTopicArn -&gt; (string) The ARN of the SNS topic. Constraints: o min: 1 o max: 1024 o pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$ SqsQueueArn -&gt; (string) The ARN of the SQS queue. Constraints: o min: 1 o max: 1024 o pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$ Shorthand Syntax: LambdaFunctionArn=string,SnsTopicArn=string,SqsQueueArn=string JSON Syntax: { "LambdaFunctionArn": "string", "SnsTopicArn": "string", "SqsQueueArn": "string" }
@@ -83,5 +127,22 @@ public record AwsChimeSdkMeetingsCreateMeetingOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

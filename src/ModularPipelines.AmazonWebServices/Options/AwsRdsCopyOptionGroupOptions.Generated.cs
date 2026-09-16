@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rds", "copy-option-group")]
-public record AwsRdsCopyOptionGroupOptions : AwsOptions
+public record AwsRdsCopyOptionGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Copies the specified option group. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SourceOptionGroupIdentifier">The identifier for the source option group. Constraints: o Must specify a valid option group.</param>
+    /// <param name="TargetOptionGroupIdentifier">The identifier for the copied option group. Constraints: o Can't be null, empty, or blank o Must contain from 1 to 255 letters, numbers, or hyphens o First character must be a letter o Can't end with a hyphen or contain two consecutive hyphens Example: my-option-group</param>
+    /// <param name="TargetOptionGroupDescription">The description for the copied option group.</param>
+    public AwsRdsCopyOptionGroupOptions(
+        string SourceOptionGroupIdentifier,
+        string TargetOptionGroupIdentifier,
+        string TargetOptionGroupDescription
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceOptionGroupIdentifier);
+        this.SourceOptionGroupIdentifier = SourceOptionGroupIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(TargetOptionGroupIdentifier);
+        this.TargetOptionGroupIdentifier = TargetOptionGroupIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(TargetOptionGroupDescription);
+        this.TargetOptionGroupDescription = TargetOptionGroupDescription;
+    }
+
+    private AwsRdsCopyOptionGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRdsCopyOptionGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRdsCopyOptionGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier for the source option group. Constraints: o Must specify a valid option group.
+    /// </summary>
     [CliOption("--source-option-group-identifier")]
-    public string? SourceOptionGroupIdentifier { get; set; }
+    public string? SourceOptionGroupIdentifier { get; private init; }
 
+    /// <summary>
+    /// The identifier for the copied option group. Constraints: o Can't be null, empty, or blank o Must contain from 1 to 255 letters, numbers, or hyphens o First character must be a letter o Can't end with a hyphen or contain two consecutive hyphens Example: my-option-group
+    /// </summary>
     [CliOption("--target-option-group-identifier")]
-    public string? TargetOptionGroupIdentifier { get; set; }
+    public string? TargetOptionGroupIdentifier { get; private init; }
 
+    /// <summary>
+    /// The description for the copied option group.
+    /// </summary>
     [CliOption("--target-option-group-description")]
-    public string? TargetOptionGroupDescription { get; set; }
+    public string? TargetOptionGroupDescription { get; private init; }
 
     /// <summary>
     /// A list of tags. For more information, see Tagging Amazon RDS resources in the Amazon RDS User Guide or Tagging Amazon Aurora and Amazon RDS resources in the Amazon Aurora User Guide . (structure) Metadata assigned to an Amazon RDS resource consisting of a key-value pair. For more information, see Tagging Amazon RDS resources in the Amazon RDS User Guide or Tagging Amazon Aurora and Amazon RDS resources in the Amazon Aurora User Guide . Key -&gt; (string) A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$"). Value -&gt; (string) A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$"). Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -41,5 +92,22 @@ public record AwsRdsCopyOptionGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

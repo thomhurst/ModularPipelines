@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,79 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("textract", "analyze-id")]
-public record AwsTextractAnalyzeIdOptions : AwsOptions
+public record AwsTextractAnalyzeIdOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Analyzes identity documents for relevant information. This information is extracted and returned as IdentityDocumentFields , which records both the normalized field and value of the extracted text. Unlike other Amazon Textract operations, AnalyzeID doesn't return any Geometry data. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DocumentPages">The document being passed to AnalyzeID. Constraints: o min: 1 o max: 2 (structure) The input document, either as bytes or as an S3 object. You pass image bytes to an Amazon Textract API operation by us- ing the Bytes property. For example, you would use the Bytes property to pass a document loaded from a local file system. Im- age bytes passed by using the Bytes property must be base64 en- coded. Your code might not need to encode document file bytes if you're using an AWS SDK to call Amazon Textract API operations. You pass images stored in an S3 bucket to an Amazon Textract API operation by using the S3Object property. Documents stored in an S3 bucket don't need to be base64 encoded. The AWS Region for the S3 bucket that contains the S3 object must match the AWS Region that you use for Amazon Textract oper- ations. If you use the AWS CLI to call Amazon Textract operations, pass- ing image bytes using the Bytes property isn't supported. You must first upload the document to an Amazon S3 bucket, and then call the operation using the S3Object property. For Amazon Textract to process an S3 object, the user must have permission to access the S3 object. Bytes -&gt; (blob) A blob of base64-encoded document bytes. The maximum size of a document that's provided in a blob of bytes is 5 MB. The document bytes must be in PNG or JPEG format. If you're using an AWS SDK to call Amazon Textract, you might not need to base64-encode image bytes passed using the Bytes field. Constraints: o min: 1 o max: 10485760 S3Object -&gt; (structure) Identifies an S3 object as the document source. The maximum size of a document that's stored in an S3 bucket is 5 MB. Bucket -&gt; (string) The name of the S3 bucket. Note that the # character is not valid in the file name. Constraints: o min: 3 o max: 255 o pattern: [0-9A-Za-z\.\-_]* Name -&gt; (string) The file name of the input document. Image files may be in PDF, TIFF, JPEG, or PNG format. Constraints: o min: 1 o max: 1024 o pattern: .*\S.* Version -&gt; (string) If the bucket has versioning enabled, you can specify the object version. Constraints: o min: 1 o max: 1024 o pattern: .*\S.* Shorthand Syntax: Bytes=blob,S3Object={Bucket=string,Name=string,Version=string} ... JSON Syntax: [ { "Bytes": blob, "S3Object": { "Bucket": "string", "Name": "string", "Version": "string" } } ... ]</param>
+    public AwsTextractAnalyzeIdOptions(
+        IEnumerable<string> DocumentPages
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(DocumentPages);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(DocumentPages));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(DocumentPages));
+            }
+
+            DocumentPages = materialized;
+        }
+        this.DocumentPages = DocumentPages;
+    }
+
+    private AwsTextractAnalyzeIdOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTextractAnalyzeIdOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTextractAnalyzeIdOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The document being passed to AnalyzeID. Constraints: o min: 1 o max: 2 (structure) The input document, either as bytes or as an S3 object. You pass image bytes to an Amazon Textract API operation by us- ing the Bytes property. For example, you would use the Bytes property to pass a document loaded from a local file system. Im- age bytes passed by using the Bytes property must be base64 en- coded. Your code might not need to encode document file bytes if you're using an AWS SDK to call Amazon Textract API operations. You pass images stored in an S3 bucket to an Amazon Textract API operation by using the S3Object property. Documents stored in an S3 bucket don't need to be base64 encoded. The AWS Region for the S3 bucket that contains the S3 object must match the AWS Region that you use for Amazon Textract oper- ations. If you use the AWS CLI to call Amazon Textract operations, pass- ing image bytes using the Bytes property isn't supported. You must first upload the document to an Amazon S3 bucket, and then call the operation using the S3Object property. For Amazon Textract to process an S3 object, the user must have permission to access the S3 object. Bytes -&gt; (blob) A blob of base64-encoded document bytes. The maximum size of a document that's provided in a blob of bytes is 5 MB. The document bytes must be in PNG or JPEG format. If you're using an AWS SDK to call Amazon Textract, you might not need to base64-encode image bytes passed using the Bytes field. Constraints: o min: 1 o max: 10485760 S3Object -&gt; (structure) Identifies an S3 object as the document source. The maximum size of a document that's stored in an S3 bucket is 5 MB. Bucket -&gt; (string) The name of the S3 bucket. Note that the # character is not valid in the file name. Constraints: o min: 3 o max: 255 o pattern: [0-9A-Za-z\.\-_]* Name -&gt; (string) The file name of the input document. Image files may be in PDF, TIFF, JPEG, or PNG format. Constraints: o min: 1 o max: 1024 o pattern: .*\S.* Version -&gt; (string) If the bucket has versioning enabled, you can specify the object version. Constraints: o min: 1 o max: 1024 o pattern: .*\S.* Shorthand Syntax: Bytes=blob,S3Object={Bucket=string,Name=string,Version=string} ... JSON Syntax: [ { "Bytes": blob, "S3Object": { "Bucket": "string", "Name": "string", "Version": "string" } } ... ]
+    /// </summary>
     [CliOption("--document-pages", GroupValues = true)]
-    public IEnumerable<string>? DocumentPages { get; set; }
+    public IEnumerable<string>? DocumentPages { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

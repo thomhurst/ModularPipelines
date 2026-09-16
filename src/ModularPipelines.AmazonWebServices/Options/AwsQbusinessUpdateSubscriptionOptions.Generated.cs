@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("qbusiness", "update-subscription")]
-public record AwsQbusinessUpdateSubscriptionOptions : AwsOptions
+public record AwsQbusinessUpdateSubscriptionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the pricing tier for an Amazon Q Business subscription. Up- grades are instant. Downgrades apply at the start of the next month. Subscription tier determines feature access for the user. For more in- formation on subscriptions and pricing tiers, see Amazon Q Business pricing . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationId">The identifier of the Amazon Q Business application where the sub- scription update should take effect. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
+    /// <param name="SubscriptionId">The identifier of the Amazon Q Business subscription to be updated. Constraints: o min: 0 o max: 1224</param>
+    /// <param name="Type">The type of the Amazon Q Business subscription to be updated. Possible values: o Q_LITE o Q_BUSINESS</param>
+    public AwsQbusinessUpdateSubscriptionOptions(
+        string ApplicationId,
+        string SubscriptionId,
+        AwsQbusinessUpdateSubscriptionType Type
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationId);
+        this.ApplicationId = ApplicationId;
+        global::System.ArgumentNullException.ThrowIfNull(SubscriptionId);
+        this.SubscriptionId = SubscriptionId;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+    }
+
+    private AwsQbusinessUpdateSubscriptionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQbusinessUpdateSubscriptionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQbusinessUpdateSubscriptionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Amazon Q Business application where the sub- scription update should take effect. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
+    /// </summary>
     [CliOption("--application-id")]
-    public string? ApplicationId { get; set; }
+    public string? ApplicationId { get; private init; }
 
+    /// <summary>
+    /// The identifier of the Amazon Q Business subscription to be updated. Constraints: o min: 0 o max: 1224
+    /// </summary>
     [CliOption("--subscription-id")]
-    public string? SubscriptionId { get; set; }
+    public string? SubscriptionId { get; private init; }
 
+    /// <summary>
+    /// The type of the Amazon Q Business subscription to be updated. Possible values: o Q_LITE o Q_BUSINESS
+    /// </summary>
     [CliOption("--type")]
-    public string? Type { get; set; }
+    public AwsQbusinessUpdateSubscriptionType? Type { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

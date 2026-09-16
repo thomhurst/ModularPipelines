@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apigateway", "create-deployment")]
-public record AwsApigatewayCreateDeploymentOptions : AwsOptions
+public record AwsApigatewayCreateDeploymentOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a Deployment resource, which makes a specified RestApi callable over the internet. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RestApiId">The string identifier of the associated RestApi.</param>
+    public AwsApigatewayCreateDeploymentOptions(
+        string RestApiId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RestApiId);
+        this.RestApiId = RestApiId;
+    }
+
+    private AwsApigatewayCreateDeploymentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApigatewayCreateDeploymentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApigatewayCreateDeploymentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The string identifier of the associated RestApi.
+    /// </summary>
     [CliOption("--rest-api-id")]
-    public string? RestApiId { get; set; }
+    public string? RestApiId { get; private init; }
 
     /// <summary>
     /// The name of the Stage resource for the Deployment resource to cre- ate.
@@ -43,7 +80,10 @@ public record AwsApigatewayCreateDeploymentOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliFlag("--cache-cluster-enabled")]
+    /// <summary>
+    /// Enables a cache cluster for the Stage resource specified in the in- put.
+    /// </summary>
+    [CliFlag("--cache-cluster-enabled", NegatedName = "--no-cache-cluster-enabled")]
     public bool? CacheClusterEnabled { get; set; }
 
     /// <summary>
@@ -64,7 +104,10 @@ public record AwsApigatewayCreateDeploymentOptions : AwsOptions
     [CliOption("--canary-settings")]
     public string? CanarySettings { get; set; }
 
-    [CliFlag("--tracing-enabled")]
+    /// <summary>
+    /// Specifies whether active tracing with X-ray is enabled for the Stage.
+    /// </summary>
+    [CliFlag("--tracing-enabled", NegatedName = "--no-tracing-enabled")]
     public bool? TracingEnabled { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -72,5 +115,22 @@ public record AwsApigatewayCreateDeploymentOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "update-ca-certificate")]
-public record AwsIotUpdateCaCertificateOptions : AwsOptions
+public record AwsIotUpdateCaCertificateOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a registered CA certificate. Requires permission to access the UpdateCACertificate action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CertificateId">The CA certificate identifier. Constraints: o min: 64 o max: 64 o pattern: (0x)?[a-fA-F0-9]+</param>
+    public AwsIotUpdateCaCertificateOptions(
+        string CertificateId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CertificateId);
+        this.CertificateId = CertificateId;
+    }
+
+    private AwsIotUpdateCaCertificateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotUpdateCaCertificateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotUpdateCaCertificateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The CA certificate identifier. Constraints: o min: 64 o max: 64 o pattern: (0x)?[a-fA-F0-9]+
+    /// </summary>
     [CliOption("--certificate-id")]
-    public string? CertificateId { get; set; }
+    public string? CertificateId { get; private init; }
 
     /// <summary>
     /// The updated status of the CA certificate. Note: The status value REGISTER_INACTIVE is deprecated and should not be used. Possible values: o ACTIVE o INACTIVE
@@ -43,7 +80,10 @@ public record AwsIotUpdateCaCertificateOptions : AwsOptions
     [CliOption("--registration-config")]
     public string? RegistrationConfig { get; set; }
 
-    [CliFlag("--remove-auto-registration")]
+    /// <summary>
+    /// If true, removes auto registration.
+    /// </summary>
+    [CliFlag("--remove-auto-registration", NegatedName = "--no-remove-auto-registration")]
     public bool? RemoveAutoRegistration { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -51,5 +91,22 @@ public record AwsIotUpdateCaCertificateOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

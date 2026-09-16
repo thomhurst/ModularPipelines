@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,22 +21,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pricing", "list-price-lists")]
-public record AwsPricingListPriceListsOptions : AwsOptions
+public record AwsPricingListPriceListsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--service-code")]
-    public string? ServiceCode { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// o This feature is in preview release and is subject to change. Your use of Amazon Web Services Price List API is subject to the Beta Service Participation terms of the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Section 1.10). * This returns a list of Price List references that the requester if au- thorized to view, given a ServiceCode , CurrencyCode , and an Effec- tiveDate . Use without a RegionCode filter to list Price List refer- ences from all available Am...
+    /// </summary>
+    /// <param name="ServiceCode">The service code or the Savings Plans service code for the attrib- utes that you want to retrieve. For example, to get the list of ap- plicable Amazon EC2 price lists, use AmazonEC2 . For a full list of service codes containing On-Demand and Reserved Instance (RI) pric- ing, use the DescribeServices API. To retrieve the Reserved Instance and Compute Savings Plans price lists, use ComputeSavingsPlans . To retrieve Machine Learning Savings Plans price lists, use Machine- LearningSavingsPlans . Constraints: o min: 1 o max: 32</param>
+    /// <param name="EffectiveDate">The date that the Price List file prices are effective from.</param>
+    /// <param name="CurrencyCode">The three alphabetical character ISO-4217 currency code that the Price List files are denominated in. Constraints: o pattern: [A-Z]{3}</param>
+    public AwsPricingListPriceListsOptions(
+        string ServiceCode,
+        string EffectiveDate,
+        string CurrencyCode
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceCode);
+        this.ServiceCode = ServiceCode;
+        global::System.ArgumentNullException.ThrowIfNull(EffectiveDate);
+        this.EffectiveDate = EffectiveDate;
+        global::System.ArgumentNullException.ThrowIfNull(CurrencyCode);
+        this.CurrencyCode = CurrencyCode;
+    }
+
+    private AwsPricingListPriceListsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPricingListPriceListsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPricingListPriceListsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The service code or the Savings Plans service code for the attrib- utes that you want to retrieve. For example, to get the list of ap- plicable Amazon EC2 price lists, use AmazonEC2 . For a full list of service codes containing On-Demand and Reserved Instance (RI) pric- ing, use the DescribeServices API. To retrieve the Reserved Instance and Compute Savings Plans price lists, use ComputeSavingsPlans . To retrieve Machine Learning Savings Plans price lists, use Machine- LearningSavingsPlans . Constraints: o min: 1 o max: 32
+    /// </summary>
+    [CliOption("--service-code")]
+    public string? ServiceCode { get; private init; }
+
+    /// <summary>
+    /// The date that the Price List file prices are effective from.
+    /// </summary>
     [CliOption("--effective-date")]
-    public string? EffectiveDate { get; set; }
+    public string? EffectiveDate { get; private init; }
+
+    /// <summary>
+    /// The three alphabetical character ISO-4217 currency code that the Price List files are denominated in. Constraints: o pattern: [A-Z]{3}
+    /// </summary>
+    [CliOption("--currency-code")]
+    public string? CurrencyCode { get; private init; }
 
     /// <summary>
     /// This is used to filter the Price List by Amazon Web Services Region. For example, to get the price list only for the US East (N. Vir- ginia) Region, use us-east-1 . If nothing is specified, you retrieve price lists for all applicable Regions. The available RegionCode list can be retrieved from GetAttributeValues API. Constraints: o min: 1 o max: 255
     /// </summary>
     [CliOption("--region-code")]
     public string? RegionCode { get; set; }
-
-    [CliOption("--currency-code")]
-    public string? CurrencyCode { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -61,5 +112,22 @@ public record AwsPricingListPriceListsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

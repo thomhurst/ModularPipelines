@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --servicetype.
+/// Allowed values for --service-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotwirelessGetServiceEndpointServiceType
 {
     [EnumValue("CUPS")]
-    Cups = 1,
+    Cups,
 
     [EnumValue("LNS")]
-    Lns = 2
+    Lns
 }

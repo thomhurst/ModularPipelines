@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --nationalsecurity.
+/// Allowed values for --national-security.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsPartnercentralSellingUpdateOpportunityNationalSecurity
 {
-    [EnumValue("Yes")]
-    Yes = 1,
-
     [EnumValue("No")]
-    No = 2
+    No,
+
+    [EnumValue("Yes")]
+    Yes
 }

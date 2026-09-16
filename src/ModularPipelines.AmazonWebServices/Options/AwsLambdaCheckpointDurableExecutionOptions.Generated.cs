@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,17 +21,60 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lambda", "checkpoint-durable-execution")]
-public record AwsLambdaCheckpointDurableExecutionOptions : AwsOptions
+public record AwsLambdaCheckpointDurableExecutionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--durable-execution-arn")]
-    public string? DurableExecutionArn { get; set; }
-
-    [SecretValue]
-    [CliOption("--checkpoint-token")]
-    public string? CheckpointToken { get; set; }
+    private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// An array of state updates to apply during this checkpoint. Each up- date represents a change to the execution state, such as completing a step, starting a callback, or scheduling a timer. Updates are ap- plied atomically as part of the checkpoint operation. (structure) An update to be applied to an operation during checkpointing. Id -&gt; (string) [required] The unique identifier for this operation. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-_]+ ParentId -&gt; (string) The unique identifier of the parent operation, if this opera- tion is running within a child context. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-_]+ Name -&gt; (string) The customer-provided name for this operation. Constraints: o min: 1 o max: 256 o pattern: [\x20-\x7E]+ Type -&gt; (string) [required] The type of operation to update. Possible values: o EXECUTION o CONTEXT o STEP o WAIT o CALLBACK o CHAINED_INVOKE SubType -&gt; (string) The subtype of the operation, providing additional catego- rization. Constraints: o min: 1 o max: 32 o pattern: [a-zA-Z0-9-_]+ Action -&gt; (string) [required] The action to take on the operation. Possible values: o START o SUCCEED o FAIL o RETRY o CANCEL Payload -&gt; (string) The payload for successful operations. The maximum payload size is 6 MB for synchronous EXECUTION operations (RequestRe- sponse invocationType), 1 MB for asynchronous EXECUTION (Event invocationType) and CHAINED_INVOKE operations, and 256 KB for CONTEXT , STEP , WAIT , and CALLBACK operations. Constraints: o min: 0 o max: 6291456 Error -&gt; (structure) The error information for failed operations. ErrorMessage -&gt; (string) A human-readable error message. ErrorType -&gt; (string) The error type. ErrorData -&gt; (string) Machine-readable error data. StackTrace -&gt; (list) Stack trace information for the error. (string) ContextOptions -&gt; (structure) Options for context operations. ReplayChildren -&gt; (boolean) Whether the state data of children of the completed con- text should be included in the invoke payload and Get- DurableExecutionState response. StepOptions -&gt; (structure) Options for step operations. NextAttemptDelaySeconds -&gt; (integer) The delay in seconds before the next retry attempt. Constraints: o min: 1 o max: 31622400 WaitOptions -&gt; (structure) Options for wait operations. WaitSeconds -&gt; (integer) The duration to wait, in seconds. Constraints: o min: 1 o max: 31622400 CallbackOptions -&gt; (structure) Configuration options for callback operations in durable exe- cutions, including timeout settings and retry behavior. TimeoutSeconds -&gt; (integer) The timeout for the callback operation in seconds. If not specified or set to 0, the callback has no timeout. Constraints: o min: 0 o max: 99999999 HeartbeatTimeoutSeconds -&gt; (integer) The heartbeat timeout for the callback operation, in sec- onds. If not specified or set to 0, heartbeat timeout is disabled. Constraints: o min: 0 o max: 99999999 ChainedInvokeOptions -&gt; (structure) Configuration options for chained function invocations in durable executions, including retry settings and timeout con- figuration. FunctionName -&gt; (string) [required] The name or ARN of the Lambda function to invoke. Constraints: o min: 1 o max: 256 o pattern: (arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:|(((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?))(func- tion:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST(\.PUB- LISHED)?|[a-zA-Z0-9-_]+))? TenantId -&gt; (string) The tenant identifier for the chained invocation. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\._:\/=+\-@ ]+ Shorthand Syntax: Id=string,ParentId=string,Name=string,Type=string,SubType=string,Action=string,Payload=string,Error={ErrorMessage=string,ErrorType=string,ErrorData=string,StackTrace=[string,string]},ContextOptions={ReplayChildren=boolean},StepOptions={NextAttemptDelaySeconds=integer},WaitOptions={WaitSeconds=integer},CallbackOptions={TimeoutSeconds=integer,HeartbeatTimeoutSeconds=integer},ChainedInvokeOptions={FunctionName=string,TenantId=string} ... JSON Syntax: [ { "Id": "string", "ParentId": "string", "Name": "string", "Type": "EXECUTION"|"CONTEXT"|"STEP"|"WAIT"|"CALLBACK"|"CHAINED_INVOKE", "SubType": "string", "Action": "START"|"SUCCEED"|"FAIL"|"RETRY"|"CANCEL", "Payload": "string", "Error": { "ErrorMessage": "string", "ErrorType": "string", "ErrorData": "string", "StackTrace": ["string", ...] }, "ContextOptions": { "ReplayChildren": true|false }, "StepOptions": { "NextAttemptDelaySeconds": integer }, "WaitOptions": { "WaitSeconds": integer }, "CallbackOptions": { "TimeoutSeconds": integer, "HeartbeatTimeoutSeconds": integer }, "ChainedInvokeOptions": { "FunctionName": "string", "TenantId": "string" } } ... ]
+    /// Saves the progress of a durable function execution during runtime. This API is used by the Lambda durable functions SDK to checkpoint completed steps and schedule asynchronous operations. You typically don't need to call this API directly as the SDK handles checkpointing automatically. Each checkpoint operation consumes the current checkpoint token and re- turns a new one for the next checkpoint. This ensures that checkpoints are applied in the correct order and prevents duplicate or out-of-orde...
+    /// </summary>
+    /// <param name="DurableExecutionArn">The Amazon Resource Name (ARN) of the durable execution. Constraints: o min: 1 o max: 1024 o pattern: arn:([a-zA-Z0-9-]+):lambda:([a-zA-Z0-9-]+):(\d{12}):func- tion:([a-zA-Z0-9_-]+):(\$LATEST(?:\.PUB- LISHED)?|[0-9]+)/durable-execu- tion/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)</param>
+    /// <param name="CheckpointToken">A unique token that identifies the current checkpoint state. This token is provided by the Lambda runtime and must be used to ensure checkpoints are applied in the correct order. Each checkpoint opera- tion consumes this token and returns a new one. Constraints: o min: 1 o max: 2048 o pattern: [A-Za-z0-9+/]+={0,2}</param>
+    public AwsLambdaCheckpointDurableExecutionOptions(
+        string DurableExecutionArn,
+        string CheckpointToken
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DurableExecutionArn);
+        this.DurableExecutionArn = DurableExecutionArn;
+        global::System.ArgumentNullException.ThrowIfNull(CheckpointToken);
+        this.CheckpointToken = CheckpointToken;
+    }
+
+    private AwsLambdaCheckpointDurableExecutionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLambdaCheckpointDurableExecutionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLambdaCheckpointDurableExecutionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the durable execution. Constraints: o min: 1 o max: 1024 o pattern: arn:([a-zA-Z0-9-]+):lambda:([a-zA-Z0-9-]+):(\d{12}):func- tion:([a-zA-Z0-9_-]+):(\$LATEST(?:\.PUB- LISHED)?|[0-9]+)/durable-execu- tion/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)
+    /// </summary>
+    [CliOption("--durable-execution-arn")]
+    public string? DurableExecutionArn { get; private init; }
+
+    /// <summary>
+    /// A unique token that identifies the current checkpoint state. This token is provided by the Lambda runtime and must be used to ensure checkpoints are applied in the correct order. Each checkpoint opera- tion consumes this token and returns a new one. Constraints: o min: 1 o max: 2048 o pattern: [A-Za-z0-9+/]+={0,2}
+    /// </summary>
+    [SecretValue]
+    [CliOption("--checkpoint-token")]
+    public string? CheckpointToken { get; private init; }
+
+    /// <summary>
+    /// An array of state updates to apply during this checkpoint. Each up- date represents a change to the execution state, such as completing a step, starting a callback, or scheduling a timer. Updates are ap- plied atomically as part of the checkpoint operation. (structure) An update to be applied to an operation during checkpointing. Id -&gt; (string) [required] The unique identifier for this operation. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-_]+ ParentId -&gt; (string) The unique identifier of the parent operation, if this opera- tion is running within a child context. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-_]+ Name -&gt; (string) The customer-provided name for this operation. Constraints: o min: 1 o max: 256 o pattern: [\x20-\x7E]+ Type -&gt; (string) [required] The type of operation to update. Possible values: o EXECUTION o CONTEXT o STEP o WAIT o CALLBACK o CHAINED_INVOKE SubType -&gt; (string) The subtype of the operation, providing additional catego- rization. Constraints: o min: 1 o max: 32 o pattern: [a-zA-Z0-9-_]+ Action -&gt; (string) [required] The action to take on the operation. Possible values: o START o SUCCEED o FAIL o RETRY o CANCEL Payload -&gt; (string) The payload for successful operations. The maximum payload size is 6 MB for synchronous EXECUTION operations (RequestRe- sponse invocationType), 1 MB for asynchronous EXECUTION (Event invocationType) and CHAINED_INVOKE operations, and 256 KB for CONTEXT , STEP , WAIT , and CALLBACK operations. Constraints: o min: 0 o max: 6291456 Error -&gt; (structure) The error information for failed operations. ErrorMessage -&gt; (string) A human-readable error message. ErrorType -&gt; (string) The error type. ErrorData -&gt; (string) Machine-readable error data. StackTrace -&gt; (list) Stack trace information for the error. (string) ContextOptions -&gt; (structure) Options for context operations. ReplayChildren -&gt; (boolean) Whether the state data of children of the completed con- text should be included in the invoke payload and Get- DurableExecutionState response. StepOptions -&gt; (structure) Options for step operations. NextAttemptDelaySeconds -&gt; (integer) The delay in seconds before the next retry attempt. Constraints: o min: 1 o max: 31622400 WaitOptions -&gt; (structure) Options for wait operations. WaitSeconds -&gt; (integer) The duration to wait, in seconds. Constraints: o min: 1 o max: 31622400 CallbackOptions -&gt; (structure) Configuration options for callback operations in durable exe- cutions, including timeout settings and retry behavior. TimeoutSeconds -&gt; (integer) The timeout for the callback operation in seconds. If not specified or set to 0, the callback has no timeout. Constraints: o min: 0 o max: 99999999 HeartbeatTimeoutSeconds -&gt; (integer) The heartbeat timeout for the callback operation, in sec- onds. If not specified or set to 0, heartbeat timeout is disabled. Constraints: o min: 0 o max: 99999999 ChainedInvokeOptions -&gt; (structure) Configuration options for chained function invocations in durable executions, including retry settings and timeout con- figuration. FunctionName -&gt; (string) [required] The name or ARN of the Lambda function to invoke. Constraints: o min: 1 o max: 256 o pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(func- tion:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST(\.PUB- LISHED)?|[a-zA-Z0-9-_]+))? TenantId -&gt; (string) The tenant identifier for the chained invocation. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\._:\/=+\-@ ]+ Shorthand Syntax: Id=string,ParentId=string,Name=string,Type=string,SubType=string,Action=string,Payload=string,Error={ErrorMessage=string,ErrorType=string,ErrorData=string,StackTrace=[string,string]},ContextOptions={ReplayChildren=boolean},StepOptions={NextAttemptDelaySeconds=integer},WaitOptions={WaitSeconds=integer},CallbackOptions={TimeoutSeconds=integer,HeartbeatTimeoutSeconds=integer},ChainedInvokeOptions={FunctionName=string,TenantId=string} ... JSON Syntax: [ { "Id": "string", "ParentId": "string", "Name": "string", "Type": "EXECUTION"|"CONTEXT"|"STEP"|"WAIT"|"CALLBACK"|"CHAINED_INVOKE", "SubType": "string", "Action": "START"|"SUCCEED"|"FAIL"|"RETRY"|"CANCEL", "Payload": "string", "Error": { "ErrorMessage": "string", "ErrorType": "string", "ErrorData": "string", "StackTrace": ["string", ...] }, "ContextOptions": { "ReplayChildren": true|false }, "StepOptions": { "NextAttemptDelaySeconds": integer }, "WaitOptions": { "WaitSeconds": integer }, "CallbackOptions": { "TimeoutSeconds": integer, "HeartbeatTimeoutSeconds": integer }, "ChainedInvokeOptions": { "FunctionName": "string", "TenantId": "string" } } ... ]
     /// </summary>
     [CliOption("--updates", GroupValues = true)]
     public IEnumerable<string>? Updates { get; set; }
@@ -47,5 +91,22 @@ public record AwsLambdaCheckpointDurableExecutionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

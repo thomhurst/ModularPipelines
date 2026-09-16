@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rds", "modify-custom-db-engine-version")]
-public record AwsRdsModifyCustomDbEngineVersionOptions : AwsOptions
+public record AwsRdsModifyCustomDbEngineVersionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--engine")]
-    public string? Engine { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Modifies the status of a custom engine version (CEV). You can find CEVs to modify by calling DescribeDBEngineVersions . NOTE: The MediaImport service that imports files from Amazon S3 to create CEVs isn't integrated with Amazon Web Services CloudTrail. If you turn on data logging for Amazon RDS in CloudTrail, calls to the Mod- ifyCustomDbEngineVersion event aren't logged. However, you might see calls from the API gateway that accesses your Amazon S3 bucket. These calls originate from the MediaIm...
+    /// </summary>
+    /// <param name="Engine">The database engine. RDS Custom for Oracle supports the following values: o custom-oracle-ee o custom-oracle-ee-cdb o custom-oracle-se2 o custom-oracle-se2-cdb RDS Custom for SQL Server supports the following values: o custom-sqlserver-ee o custom-sqlserver-se o custom-sqlserver-web o custom-sqlserver-dev RDS for SQL Server supports the following values: o sqlserver-ee (Bring Your Own Media) o sqlserver-se (Bring Your Own Media) o sqlserver-dev-ee Constraints: o min: 1 o max: 35 o pattern: [A-Za-z0-9-]{1,35}</param>
+    /// <param name="EngineVersion">The custom engine version (CEV) that you want to modify. This option is required for RDS Custom for Oracle, but optional for Amazon RDS. The combination of Engine and EngineVersion is unique per customer per Amazon Web Services Region. Constraints: o min: 1 o max: 60 o pattern: [a-z0-9_.-]{1,60}</param>
+    public AwsRdsModifyCustomDbEngineVersionOptions(
+        string Engine,
+        string EngineVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Engine);
+        this.Engine = Engine;
+        global::System.ArgumentNullException.ThrowIfNull(EngineVersion);
+        this.EngineVersion = EngineVersion;
+    }
+
+    private AwsRdsModifyCustomDbEngineVersionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRdsModifyCustomDbEngineVersionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRdsModifyCustomDbEngineVersionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The database engine. RDS Custom for Oracle supports the following values: o custom-oracle-ee o custom-oracle-ee-cdb o custom-oracle-se2 o custom-oracle-se2-cdb RDS Custom for SQL Server supports the following values: o custom-sqlserver-ee o custom-sqlserver-se o custom-sqlserver-web o custom-sqlserver-dev RDS for SQL Server supports the following values: o sqlserver-ee (Bring Your Own Media) o sqlserver-se (Bring Your Own Media) o sqlserver-dev-ee Constraints: o min: 1 o max: 35 o pattern: [A-Za-z0-9-]{1,35}
+    /// </summary>
+    [CliOption("--engine")]
+    public string? Engine { get; private init; }
+
+    /// <summary>
+    /// The custom engine version (CEV) that you want to modify. This option is required for RDS Custom for Oracle, but optional for Amazon RDS. The combination of Engine and EngineVersion is unique per customer per Amazon Web Services Region. Constraints: o min: 1 o max: 60 o pattern: [a-z0-9_.-]{1,60}
+    /// </summary>
     [CliOption("--engine-version")]
-    public string? EngineVersion { get; set; }
+    public string? EngineVersion { get; private init; }
 
     /// <summary>
     /// An optional description of your CEV. Constraints: o min: 1 o max: 1000 o pattern: .*
@@ -45,5 +89,22 @@ public record AwsRdsModifyCustomDbEngineVersionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsGeoMapsGetStyleDescriptorTerrain
 {
     [EnumValue("Hillshade")]
-    Hillshade = 1,
+    Hillshade,
 
     [EnumValue("Terrain3D")]
-    Terrain3D = 2
+    Terrain3D
 }

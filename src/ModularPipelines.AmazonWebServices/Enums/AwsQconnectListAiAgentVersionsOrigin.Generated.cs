@@ -16,9 +16,9 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsQconnectListAiAgentVersionsOrigin
 {
-    [EnumValue("SYSTEM")]
-    System = 1,
-
     [EnumValue("CUSTOMER")]
-    Customer = 2
+    Customer,
+
+    [EnumValue("SYSTEM")]
+    System
 }

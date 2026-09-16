@@ -11,6 +11,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +22,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "update-ops-item")]
-public record AwsSsmUpdateOpsItemOptions : AwsOptions
+public record AwsSsmUpdateOpsItemOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Edit or change an OpsItem. You must have permission in Identity and Ac- cess Management (IAM) to update an OpsItem. For more information, see Set up OpsCenter in the Amazon Web Services Systems Manager User Guide . Operations engineers and IT professionals use Amazon Web Services Sys- tems Manager OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their Amazon Web Ser- vices resources. For more information, see Amazon Web Services Systems Man...
+    /// </summary>
+    /// <param name="OpsItemId">The ID of the OpsItem. Constraints: o pattern: ^(oi)-[0-9a-f]{12}$</param>
+    public AwsSsmUpdateOpsItemOptions(
+        string OpsItemId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OpsItemId);
+        this.OpsItemId = OpsItemId;
+    }
+
+    private AwsSsmUpdateOpsItemOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmUpdateOpsItemOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmUpdateOpsItemOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the OpsItem. Constraints: o pattern: ^(oi)-[0-9a-f]{12}$
+    /// </summary>
+    [CliOption("--ops-item-id")]
+    public string? OpsItemId { get; private init; }
+
     /// <summary>
     /// User-defined text that contains information about the OpsItem, in Markdown format. Constraints: o min: 1 o max: 2048 o pattern: [\s\S]*\S[\s\S]*
     /// </summary>
@@ -62,10 +103,7 @@ public record AwsSsmUpdateOpsItemOptions : AwsOptions
     /// The OpsItem status. For more information, see Editing OpsItem de- tails in the Amazon Web Services Systems Manager User Guide . Possible values: o Open o InProgress o Resolved o Pending o TimedOut o Cancelling o Cancelled o Failed o CompletedWithSuccess o CompletedWithFailure o Scheduled o RunbookInProgress o PendingChangeCalendarOverride o ChangeCalendarOverrideApproved o ChangeCalendarOverrideRejected o PendingApproval o Approved o Revoked o Rejected o Closed
     /// </summary>
     [CliOption("--status")]
-    public string? Status { get; set; }
-
-    [CliOption("--ops-item-id")]
-    public string? OpsItemId { get; set; }
+    public AwsSsmUpdateOpsItemStatus? Status { get; set; }
 
     /// <summary>
     /// A short heading that describes the nature of the OpsItem and the im- pacted resource. Constraints: o min: 1 o max: 1024 o pattern: ^(?!\s*$).+
@@ -120,5 +158,22 @@ public record AwsSsmUpdateOpsItemOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

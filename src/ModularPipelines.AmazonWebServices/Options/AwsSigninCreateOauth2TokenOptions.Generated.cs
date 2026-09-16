@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,69 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("signin", "create-oauth2-token")]
-public record AwsSigninCreateOauth2TokenOptions : AwsOptions
+public record AwsSigninCreateOauth2TokenOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// CreateOAuth2Token API Path: /v1/token Request Method: POST Content-Type: application/json or application/x-www-form-urlencoded This API implements OAuth 2.0 flows for AWS Sign-In CLI clients, sup- porting both: o Authorization code redemption (grant_type=authorization_code) - NOT idempotent o Token refresh (grant_type=refresh_token) - Idempotent within token validity window The operation behavior is determined by the grant_type parameter in the request body: Authorization Code Flow (NOT Idempote...
+    /// </summary>
+    /// <param name="TokenInput">Flattened token operation inputs The specific operation is deter- mined by grant_type in the request body clientId -&gt; (string) [required] The client identifier (ARN) used during Sign-In onboarding Re- quired for both authorization code and refresh token flows Constraints: o pattern: arn:aws:signin:::devtools/(cross-device|same-device) grantType -&gt; (string) [required] OAuth 2.0 grant type - determines which flow is used Must be "authorization_code" or "refresh_token" Constraints: o pattern: (authorization_code|refresh_token) code -&gt; (string) The authorization code received from /v1/authorize Required only when grant_type=authorization_code Constraints: o min: 1 o max: 512 redirectUri -&gt; (string) The redirect URI that must match the original authorization re- quest Required only when grant_type=authorization_code Constraints: o min: 1 o max: 2048 codeVerifier -&gt; (string) PKCE code verifier to prove possession of the original code challenge Required only when grant_type=authorization_code Constraints: o min: 43 o max: 128 o pattern: [A-Za-z0-9\-._~]+ refreshToken -&gt; (string) The refresh token returned from auth_code redemption Required only when grant_type=refresh_token Constraints: o min: 1 o max: 2048 Shorthand Syntax: clientId=string,grantType=string,code=string,redirectUri=string,codeVerifier=string,refreshToken=string JSON Syntax: { "clientId": "string", "grantType": "string", "code": "string", "redirectUri": "string", "codeVerifier": "string", "refreshToken": "string" }</param>
+    public AwsSigninCreateOauth2TokenOptions(
+        string TokenInput
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TokenInput);
+        this.TokenInput = TokenInput;
+    }
+
+    private AwsSigninCreateOauth2TokenOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSigninCreateOauth2TokenOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSigninCreateOauth2TokenOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Flattened token operation inputs The specific operation is deter- mined by grant_type in the request body clientId -&gt; (string) [required] The client identifier (ARN) used during Sign-In onboarding Re- quired for both authorization code and refresh token flows Constraints: o pattern: arn:aws:signin:::devtools/(cross-device|same-device) grantType -&gt; (string) [required] OAuth 2.0 grant type - determines which flow is used Must be "authorization_code" or "refresh_token" Constraints: o pattern: (authorization_code|refresh_token) code -&gt; (string) The authorization code received from /v1/authorize Required only when grant_type=authorization_code Constraints: o min: 1 o max: 512 redirectUri -&gt; (string) The redirect URI that must match the original authorization re- quest Required only when grant_type=authorization_code Constraints: o min: 1 o max: 2048 codeVerifier -&gt; (string) PKCE code verifier to prove possession of the original code challenge Required only when grant_type=authorization_code Constraints: o min: 43 o max: 128 o pattern: [A-Za-z0-9\-._~]+ refreshToken -&gt; (string) The refresh token returned from auth_code redemption Required only when grant_type=refresh_token Constraints: o min: 1 o max: 2048 Shorthand Syntax: clientId=string,grantType=string,code=string,redirectUri=string,codeVerifier=string,refreshToken=string JSON Syntax: { "clientId": "string", "grantType": "string", "code": "string", "redirectUri": "string", "codeVerifier": "string", "refreshToken": "string" }
+    /// </summary>
     [SecretValue]
     [CliOption("--token-input")]
-    public string? TokenInput { get; set; }
+    public string? TokenInput { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

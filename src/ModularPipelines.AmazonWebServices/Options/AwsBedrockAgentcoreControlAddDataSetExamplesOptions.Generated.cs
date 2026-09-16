@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore-control", "add-dataset-examples")]
-public record AwsBedrockAgentcoreControlAddDataSetExamplesOptions : AwsOptions
+public record AwsBedrockAgentcoreControlAddDataSetExamplesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Adds examples to the dataset's DRAFT. All examples are validated against the dataset's schema type before any writes occur. If any exam- ple fails validation, the entire batch is rejected (all-or-nothing se- mantics). See also: AWS API Documentation add-dataset-examples uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type...
+    /// </summary>
+    /// <param name="DataSetId">The unique identifier of the dataset to add examples to. Constraints: o pattern: [a-zA-Z0-9_-]{1,110}</param>
+    /// <param name="Source">Source of examples to add. Provide either inline examples or an S3 URI pointing to a JSONL file. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: inlineExamples, s3Source. inlineExamples -&gt; (structure) Inline examples provided directly in the request body. examples -&gt; (list) [required] Examples to add. Each example is assigned an auto-generated UUID. Constraints: o min: 1 o max: 1000 (document) s3Source -&gt; (structure) Amazon S3 URI pointing to a JSONL file in the customer's bucket. s3Uri -&gt; (string) [required] Amazon S3 URI of the JSONL file (for example, s3://my-bucket/path/to/examples.jsonl ). Constraints: o pattern: s3://[a-z0-9][a-z0-9.\-]{1,61}[a-z0-9]/.{1,1024} Shorthand Syntax: inlineExamples={},s3Source={s3Uri=string} JSON Syntax: { "inlineExamples": { "examples": [ {...} ... ] }, "s3Source": { "s3Uri": "string" } }</param>
+    public AwsBedrockAgentcoreControlAddDataSetExamplesOptions(
+        string DataSetId,
+        string Source
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataSetId);
+        this.DataSetId = DataSetId;
+        global::System.ArgumentNullException.ThrowIfNull(Source);
+        this.Source = Source;
+    }
+
+    private AwsBedrockAgentcoreControlAddDataSetExamplesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreControlAddDataSetExamplesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreControlAddDataSetExamplesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the dataset to add examples to. Constraints: o pattern: [a-zA-Z0-9_-]{1,110}
+    /// </summary>
     [CliOption("--dataset-id")]
-    public string? DataSetId { get; set; }
+    public string? DataSetId { get; private init; }
+
+    /// <summary>
+    /// Source of examples to add. Provide either inline examples or an S3 URI pointing to a JSONL file. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: inlineExamples, s3Source. inlineExamples -&gt; (structure) Inline examples provided directly in the request body. examples -&gt; (list) [required] Examples to add. Each example is assigned an auto-generated UUID. Constraints: o min: 1 o max: 1000 (document) s3Source -&gt; (structure) Amazon S3 URI pointing to a JSONL file in the customer's bucket. s3Uri -&gt; (string) [required] Amazon S3 URI of the JSONL file (for example, s3://my-bucket/path/to/examples.jsonl ). Constraints: o pattern: s3://[a-z0-9][a-z0-9.\-]{1,61}[a-z0-9]/.{1,1024} Shorthand Syntax: inlineExamples={},s3Source={s3Uri=string} JSON Syntax: { "inlineExamples": { "examples": [ {...} ... ] }, "s3Source": { "s3Uri": "string" } }
+    /// </summary>
+    [CliOption("--source")]
+    public string? Source { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previ- ous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency . Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
@@ -32,13 +79,27 @@ public record AwsBedrockAgentcoreControlAddDataSetExamplesOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--source")]
-    public string? Source { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

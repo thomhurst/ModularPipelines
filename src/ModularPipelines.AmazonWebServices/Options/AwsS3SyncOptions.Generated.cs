@@ -20,11 +20,30 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3", "sync")]
-public record AwsS3SyncOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Source,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Destination
-) : AwsOptions
+public record AwsS3SyncOptions : AwsOptions
 {
+    /// <summary>
+    /// Syncs directories and S3 prefixes. Recursively copies new and updated files from the source directory to the destination. Only creates fold- ers in the destination if they contain one or more files.
+    /// </summary>
+    /// <param name="Source">Source local path or S3 URI.</param>
+    /// <param name="Destination">Destination local path or S3 URI.</param>
+    public AwsS3SyncOptions(
+        string Source,
+        string Destination
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Source);
+        this.Source = Source;
+        global::System.ArgumentNullException.ThrowIfNull(Destination);
+        this.Destination = Destination;
+    }
+
+    public void Deconstruct(out string Source, out string Destination)
+    {
+        Source = this.Source;
+        Destination = this.Destination;
+    }
+
     [CliFlag("--dryrun")]
     public bool? Dryrun { get; set; }
 
@@ -40,7 +59,7 @@ public record AwsS3SyncOptions(
     [CliOption("--acl")]
     public string? Acl { get; set; }
 
-    [CliFlag("--follow-symlinks")]
+    [CliFlag("--follow-symlinks", NegatedName = "--no-follow-symlinks")]
     public bool? FollowSymlinks { get; set; }
 
     [CliFlag("--no-guess-mime-type")]
@@ -70,8 +89,8 @@ public record AwsS3SyncOptions(
     /// <summary>
     /// Grant specific permissions to individual users or groups. You can supply a list of grants of the form --grants Permission=Grantee_Type=Grantee_ID [Permission=Grantee_Type=Grantee_ID ...] To specify the same permission type for multiple grantees, specify the permission as such as --grants Permission=Grantee_Type=Grantee_ID,Grantee_Type=Grantee_ID,... Each value contains the following elements: o Permission - Specifies the granted permissions, and can be set to read, readacl, writeacl, or full. o Grantee_Type - Specifies how the grantee is to be identified, and can be set to uri or id. o Grantee_ID - Specifies the grantee based on Grantee_Type. The Grantee_ID value can be one of: o uri - The group's URI. For more information, see Who Is a Grantee? o id - The account's canonical ID For more information on Amazon S3 access control, see Access Control
     /// </summary>
-    [CliOption("--grants")]
-    public string? Grants { get; set; }
+    [CliOption("--grants", GroupValues = true)]
+    public IEnumerable<string>? Grants { get; set; }
 
     [CliOption("--website-redirect")]
     public string? WebsiteRedirect { get; set; }
@@ -150,5 +169,17 @@ public record AwsS3SyncOptions(
 
     [CliFlag("--delete")]
     public bool? Delete { get; set; }
+
+    /// <summary>
+    /// Source local path or S3 URI.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Source { get; private init; }
+
+    /// <summary>
+    /// Destination local path or S3 URI.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Destination { get; private init; }
 
 }

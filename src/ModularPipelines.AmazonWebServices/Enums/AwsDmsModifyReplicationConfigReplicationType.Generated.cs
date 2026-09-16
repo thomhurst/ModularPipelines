@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --replicationtype.
+/// Allowed values for --replication-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDmsModifyReplicationConfigReplicationType
 {
-    [EnumValue("full-load")]
-    FullLoad = 1,
-
     [EnumValue("cdc")]
-    Cdc = 2,
+    Cdc,
+
+    [EnumValue("full-load")]
+    FullLoad,
 
     [EnumValue("full-load-and-cdc")]
-    FullLoadAndCdc = 3
+    FullLoadAndCdc
 }

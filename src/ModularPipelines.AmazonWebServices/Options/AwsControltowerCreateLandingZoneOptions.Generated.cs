@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("controltower", "create-landing-zone")]
-public record AwsControltowerCreateLandingZoneOptions : AwsOptions
+public record AwsControltowerCreateLandingZoneOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new landing zone. This API call starts an asynchronous opera- tion that creates and configures a landing zone, based on the parame- ters specified in the manifest JSON file. See also: AWS API Documentation create-landing-zone uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON....
+    /// </summary>
+    /// <param name="LandingZoneVersion">The landing zone version, for example, 3.0. Constraints: o min: 3 o max: 10 o pattern: \d+.\d+</param>
+    public AwsControltowerCreateLandingZoneOptions(
+        string LandingZoneVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LandingZoneVersion);
+        this.LandingZoneVersion = LandingZoneVersion;
+    }
+
+    private AwsControltowerCreateLandingZoneOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsControltowerCreateLandingZoneOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsControltowerCreateLandingZoneOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The landing zone version, for example, 3.0. Constraints: o min: 3 o max: 10 o pattern: \d+.\d+
+    /// </summary>
+    [CliOption("--landing-zone-version")]
+    public string? LandingZoneVersion { get; private init; }
+
     /// <summary>
     /// Specifies the types of remediation actions to apply when creating the landing zone, such as automatic drift correction or compliance enforcement. Constraints: o min: 1 o max: 1 (string) Possible values: o INHERITANCE_DRIFT Syntax: "string" "string" ...
     /// </summary>
@@ -40,13 +80,27 @@ public record AwsControltowerCreateLandingZoneOptions : AwsOptions
     [CliOption("--manifest")]
     public string? Manifest { get; set; }
 
-    [CliOption("--landing-zone-version")]
-    public string? LandingZoneVersion { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

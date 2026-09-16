@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("managedblockchain-query", "list-filtered-transaction-events")]
-public record AwsManagedblockchainQueryListFilteredTransactionEventsOptions : AwsOptions
+public record AwsManagedblockchainQueryListFilteredTransactionEventsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--network")]
-    public string? Network { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Lists all the transaction events for an address on the blockchain. NOTE: This operation is only supported on the Bitcoin networks. See also: AWS API Documentation list-filtered-transaction-events is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from t...
+    /// </summary>
+    /// <param name="Network">The blockchain network where the transaction occurred. Valid Values: BITCOIN_MAINNET | BITCOIN_TESTNET</param>
+    /// <param name="AddressIdentifierFilter">This is the unique public address on the blockchain for which the transaction events are being requested. transactionEventToAddress -&gt; (list) [required] The container for the recipient address of the transaction. Constraints: o min: 1 o max: 1 (string) Constraints: o pattern: [-A-Za-z0-9]{13,74} Shorthand Syntax: transactionEventToAddress=string,string JSON Syntax: { "transactionEventToAddress": ["string", ...] }</param>
+    public AwsManagedblockchainQueryListFilteredTransactionEventsOptions(
+        string Network,
+        string AddressIdentifierFilter
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Network);
+        this.Network = Network;
+        global::System.ArgumentNullException.ThrowIfNull(AddressIdentifierFilter);
+        this.AddressIdentifierFilter = AddressIdentifierFilter;
+    }
+
+    private AwsManagedblockchainQueryListFilteredTransactionEventsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsManagedblockchainQueryListFilteredTransactionEventsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsManagedblockchainQueryListFilteredTransactionEventsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The blockchain network where the transaction occurred. Valid Values: BITCOIN_MAINNET | BITCOIN_TESTNET
+    /// </summary>
+    [CliOption("--network")]
+    public string? Network { get; private init; }
+
+    /// <summary>
+    /// This is the unique public address on the blockchain for which the transaction events are being requested. transactionEventToAddress -&gt; (list) [required] The container for the recipient address of the transaction. Constraints: o min: 1 o max: 1 (string) Constraints: o pattern: [-A-Za-z0-9]{13,74} Shorthand Syntax: transactionEventToAddress=string,string JSON Syntax: { "transactionEventToAddress": ["string", ...] }
+    /// </summary>
     [CliOption("--address-identifier-filter")]
-    public string? AddressIdentifierFilter { get; set; }
+    public string? AddressIdentifierFilter { get; private init; }
 
     /// <summary>
     /// This container specifies the time frame for the transaction events returned in the response. from -&gt; (structure) The container for time. time -&gt; (timestamp) The container of the Timestamp of the blockchain instant. NOTE: This timestamp will only be recorded up to the second. to -&gt; (structure) The container for time. time -&gt; (timestamp) The container of the Timestamp of the blockchain instant. NOTE: This timestamp will only be recorded up to the second. Shorthand Syntax: from={time=timestamp},to={time=timestamp} JSON Syntax: { "from": { "time": timestamp }, "to": { "time": timestamp } }
@@ -76,5 +120,22 @@ public record AwsManagedblockchainQueryListFilteredTransactionEventsOptions : Aw
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

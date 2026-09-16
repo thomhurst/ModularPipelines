@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +21,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53resolver", "update-resolver-dnssec-config")]
-public record AwsRoute53resolverUpdateResolverDnssecConfigOptions : AwsOptions
+public record AwsRoute53resolverUpdateResolverDnssecConfigOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--resource-id")]
-    public string? ResourceId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates an existing DNSSEC validation configuration. If there is no ex- isting DNSSEC validation configuration, one is created. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceId">The ID of the virtual private cloud (VPC) that you're updating the DNSSEC validation status for. Constraints: o min: 1 o max: 64</param>
+    /// <param name="Validation">The new value that you are specifying for DNSSEC validation for the VPC. The value can be ENABLE or DISABLE . Be aware that it can take time for a validation status change to be completed. Possible values: o ENABLE o DISABLE o USE_LOCAL_RESOURCE_SETTING</param>
+    public AwsRoute53resolverUpdateResolverDnssecConfigOptions(
+        string ResourceId,
+        AwsRoute53resolverUpdateResolverDnssecConfigValidation Validation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceId);
+        this.ResourceId = ResourceId;
+        global::System.ArgumentNullException.ThrowIfNull(Validation);
+        this.Validation = Validation;
+    }
+
+    private AwsRoute53resolverUpdateResolverDnssecConfigOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53resolverUpdateResolverDnssecConfigOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53resolverUpdateResolverDnssecConfigOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the virtual private cloud (VPC) that you're updating the DNSSEC validation status for. Constraints: o min: 1 o max: 64
+    /// </summary>
+    [CliOption("--resource-id")]
+    public string? ResourceId { get; private init; }
+
+    /// <summary>
+    /// The new value that you are specifying for DNSSEC validation for the VPC. The value can be ENABLE or DISABLE . Be aware that it can take time for a validation status change to be completed. Possible values: o ENABLE o DISABLE o USE_LOCAL_RESOURCE_SETTING
+    /// </summary>
     [CliOption("--validation")]
-    public string? Validation { get; set; }
+    public AwsRoute53resolverUpdateResolverDnssecConfigValidation? Validation { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

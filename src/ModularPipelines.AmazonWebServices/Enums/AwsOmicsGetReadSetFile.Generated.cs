@@ -16,12 +16,12 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsOmicsGetReadSetFile
 {
+    [EnumValue("INDEX")]
+    Index,
+
     [EnumValue("SOURCE1")]
-    Source1 = 1,
+    Source1,
 
     [EnumValue("SOURCE2")]
-    Source2 = 2,
-
-    [EnumValue("INDEX")]
-    Index = 3
+    Source2
 }

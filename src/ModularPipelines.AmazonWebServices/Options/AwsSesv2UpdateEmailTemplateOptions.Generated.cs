@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sesv2", "update-email-template")]
-public record AwsSesv2UpdateEmailTemplateOptions : AwsOptions
+public record AwsSesv2UpdateEmailTemplateOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--template-name")]
-    public string? TemplateName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates an email template. Email templates enable you to send personal- ized email to one or more destinations in a single API operation. For more information, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TemplateName">The name of the template. Constraints: o min: 1</param>
+    /// <param name="TemplateContent">The content of the email template, composed of a subject line, an HTML part, and a text-only part. Subject -&gt; (string) The subject line of the email. Text -&gt; (string) The email body that will be visible to recipients whose email clients do not display HTML. Html -&gt; (string) The HTML body of the email. Shorthand Syntax: Subject=string,Text=string,Html=string JSON Syntax: { "Subject": "string", "Text": "string", "Html": "string" }</param>
+    public AwsSesv2UpdateEmailTemplateOptions(
+        string TemplateName,
+        string TemplateContent
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TemplateName);
+        this.TemplateName = TemplateName;
+        global::System.ArgumentNullException.ThrowIfNull(TemplateContent);
+        this.TemplateContent = TemplateContent;
+    }
+
+    private AwsSesv2UpdateEmailTemplateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSesv2UpdateEmailTemplateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSesv2UpdateEmailTemplateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the template. Constraints: o min: 1
+    /// </summary>
+    [CliOption("--template-name")]
+    public string? TemplateName { get; private init; }
+
+    /// <summary>
+    /// The content of the email template, composed of a subject line, an HTML part, and a text-only part. Subject -&gt; (string) The subject line of the email. Text -&gt; (string) The email body that will be visible to recipients whose email clients do not display HTML. Html -&gt; (string) The HTML body of the email. Shorthand Syntax: Subject=string,Text=string,Html=string JSON Syntax: { "Subject": "string", "Text": "string", "Html": "string" }
+    /// </summary>
     [CliOption("--template-content")]
-    public string? TemplateContent { get; set; }
+    public string? TemplateContent { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

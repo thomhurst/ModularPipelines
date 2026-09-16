@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,8 +22,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vpc-lattice", "create-service-network-vpc-association")]
-public record AwsVpcLatticeCreateServiceNetworkVpcAssociationOptions : AwsOptions
+public record AwsVpcLatticeCreateServiceNetworkVpcAssociationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Associates a VPC with a service network. When you associate a VPC with the service network, it enables all the resources within that VPC to be clients and communicate with other services in the service network. For more information, see Manage VPC associations in the Amazon VPC Lattice User Guide . You can't use this operation if there is a disassociation in progress. If the association fails, retry by deleting the association and recre- ating it. As a result of this operation, the association g...
+    /// </summary>
+    /// <param name="ServiceNetworkIdentifier">The ID or ARN of the service network. You must use an ARN if the re- sources are in different accounts. Constraints: o min: 3 o max: 2048</param>
+    /// <param name="VpcIdentifier">The ID of the VPC. Constraints: o min: 5 o max: 50 o pattern: vpc-(([0-9a-z]{8})|([0-9a-z]{17}))</param>
+    public AwsVpcLatticeCreateServiceNetworkVpcAssociationOptions(
+        string ServiceNetworkIdentifier,
+        string VpcIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceNetworkIdentifier);
+        this.ServiceNetworkIdentifier = ServiceNetworkIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(VpcIdentifier);
+        this.VpcIdentifier = VpcIdentifier;
+    }
+
+    private AwsVpcLatticeCreateServiceNetworkVpcAssociationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsVpcLatticeCreateServiceNetworkVpcAssociationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsVpcLatticeCreateServiceNetworkVpcAssociationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID or ARN of the service network. You must use an ARN if the re- sources are in different accounts. Constraints: o min: 3 o max: 2048
+    /// </summary>
+    [CliOption("--service-network-identifier")]
+    public string? ServiceNetworkIdentifier { get; private init; }
+
+    /// <summary>
+    /// The ID of the VPC. Constraints: o min: 5 o max: 50 o pattern: vpc-(([0-9a-z]{8})|([0-9a-z]{17}))
+    /// </summary>
+    [CliOption("--vpc-identifier")]
+    public string? VpcIdentifier { get; private init; }
+
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails. Constraints: o min: 1 o max: 64 o pattern: .*[!-~]+.*
     /// </summary>
@@ -30,13 +80,10 @@ public record AwsVpcLatticeCreateServiceNetworkVpcAssociationOptions : AwsOption
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--service-network-identifier")]
-    public string? ServiceNetworkIdentifier { get; set; }
-
-    [CliOption("--vpc-identifier")]
-    public string? VpcIdentifier { get; set; }
-
-    [CliFlag("--private-dns-enabled")]
+    /// <summary>
+    /// Indicates if private DNS is enabled for the VPC association.
+    /// </summary>
+    [CliFlag("--private-dns-enabled", NegatedName = "--no-private-dns-enabled")]
     public bool? PrivateDnsEnabled { get; set; }
 
     /// <summary>
@@ -62,5 +109,22 @@ public record AwsVpcLatticeCreateServiceNetworkVpcAssociationOptions : AwsOption
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

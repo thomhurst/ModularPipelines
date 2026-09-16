@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --typeequals.
+/// Allowed values for --type-equals.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsBedrockListInferenceProfilesTypeEquals
 {
-    [EnumValue("SYSTEM_DEFINED")]
-    SystemDefined = 1,
-
     [EnumValue("APPLICATION")]
-    Application = 2
+    Application,
+
+    [EnumValue("SYSTEM_DEFINED")]
+    SystemDefined
 }

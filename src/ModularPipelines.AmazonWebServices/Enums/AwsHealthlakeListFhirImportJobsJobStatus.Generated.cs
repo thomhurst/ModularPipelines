@@ -11,38 +11,38 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --jobstatus.
+/// Allowed values for --job-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsHealthlakeListFhirImportJobsJobStatus
 {
-    [EnumValue("SUBMITTED")]
-    Submitted = 1,
-
-    [EnumValue("QUEUED")]
-    Queued = 2,
-
-    [EnumValue("IN_PROGRESS")]
-    InProgress = 3,
-
-    [EnumValue("COMPLETED_WITH_ERRORS")]
-    CompletedWithErrors = 4,
-
-    [EnumValue("COMPLETED")]
-    Completed = 5,
-
-    [EnumValue("FAILED")]
-    Failed = 6,
-
-    [EnumValue("CANCEL_SUBMITTED")]
-    CancelSubmitted = 7,
-
-    [EnumValue("CANCEL_IN_PROGRESS")]
-    CancelInProgress = 8,
-
     [EnumValue("CANCEL_COMPLETED")]
-    CancelCompleted = 9,
+    CancelCompleted,
 
     [EnumValue("CANCEL_FAILED")]
-    CancelFailed = 10
+    CancelFailed,
+
+    [EnumValue("CANCEL_IN_PROGRESS")]
+    CancelInProgress,
+
+    [EnumValue("CANCEL_SUBMITTED")]
+    CancelSubmitted,
+
+    [EnumValue("COMPLETED")]
+    Completed,
+
+    [EnumValue("COMPLETED_WITH_ERRORS")]
+    CompletedWithErrors,
+
+    [EnumValue("FAILED")]
+    Failed,
+
+    [EnumValue("IN_PROGRESS")]
+    InProgress,
+
+    [EnumValue("QUEUED")]
+    Queued,
+
+    [EnumValue("SUBMITTED")]
+    Submitted
 }

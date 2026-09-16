@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datasync", "create-location-object-storage")]
-public record AwsDatasyncCreateLocationObjectStorageOptions : AwsOptions
+public record AwsDatasyncCreateLocationObjectStorageOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a transfer location for an object storage system. DataSync can use this location as a source or destination for transferring data. You can make transfers with or without a DataSync agent . Before you begin, make sure that you understand the prerequisites for DataSync to work with object storage systems. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ServerHostname">Specifies the domain name or IP address (IPv4 or IPv6) of the object storage server that your DataSync agent connects to. Constraints: o max: 255 o pattern: ^(([a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9\-:]*[A-Za-z0-9])$</param>
+    /// <param name="BucketName">Specifies the name of the object storage bucket involved in the transfer. Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9_\-\+\.\(\)\$\p{Zs}]+$</param>
+    public AwsDatasyncCreateLocationObjectStorageOptions(
+        string ServerHostname,
+        string BucketName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServerHostname);
+        this.ServerHostname = ServerHostname;
+        global::System.ArgumentNullException.ThrowIfNull(BucketName);
+        this.BucketName = BucketName;
+    }
+
+    private AwsDatasyncCreateLocationObjectStorageOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatasyncCreateLocationObjectStorageOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatasyncCreateLocationObjectStorageOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the domain name or IP address (IPv4 or IPv6) of the object storage server that your DataSync agent connects to. Constraints: o max: 255 o pattern: ^(([a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9\-:]*[A-Za-z0-9])$
+    /// </summary>
     [CliOption("--server-hostname")]
-    public string? ServerHostname { get; set; }
+    public string? ServerHostname { get; private init; }
+
+    /// <summary>
+    /// Specifies the name of the object storage bucket involved in the transfer. Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9_\-\+\.\(\)\$\p{Zs}]+$
+    /// </summary>
+    [CliOption("--bucket-name")]
+    public string? BucketName { get; private init; }
 
     /// <summary>
     /// Specifies the port that your object storage server accepts inbound network traffic on (for example, port 443). Constraints: o min: 1 o max: 65536
@@ -43,9 +90,6 @@ public record AwsDatasyncCreateLocationObjectStorageOptions : AwsOptions
     /// </summary>
     [CliOption("--subdirectory")]
     public string? Subdirectory { get; set; }
-
-    [CliOption("--bucket-name")]
-    public string? BucketName { get; set; }
 
     /// <summary>
     /// Specifies the access key (for example, a user name) if credentials are required to authenticate with the object storage server. Constraints: o min: 0 o max: 200 o pattern: ^.*$
@@ -98,5 +142,22 @@ public record AwsDatasyncCreateLocationObjectStorageOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ecs", "delete-account-setting")]
-public record AwsEcsDeleteAccountSettingOptions : AwsOptions
+public record AwsEcsDeleteAccountSettingOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Disables an account setting for a specified user, role, or the root user for an account. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The resource name to disable the account setting for. If serviceLon- gArnFormat is specified, the ARN for your Amazon ECS services is af- fected. If taskLongArnFormat is specified, the ARN and resource ID for your Amazon ECS tasks is affected. If containerInstanceLongAr- nFormat is specified, the ARN and resource ID for your Amazon ECS container instances is affected. If awsvpcTrunking is specified, the ENI limit for your Amazon ECS container instances is affected. Possible values: o serviceLongArnFormat o taskLongArnFormat o containerInstanceLongArnFormat o awsvpcTrunking o containerInsights o fargateFIPSMode o tagResourceAuthorization o fargateTaskRetirementWaitPeriod o guardDutyActivate o defaultLogDriverMode o fargateEventWindows</param>
+    public AwsEcsDeleteAccountSettingOptions(
+        AwsEcsDeleteAccountSettingName Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsEcsDeleteAccountSettingOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEcsDeleteAccountSettingOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEcsDeleteAccountSettingOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The resource name to disable the account setting for. If serviceLon- gArnFormat is specified, the ARN for your Amazon ECS services is af- fected. If taskLongArnFormat is specified, the ARN and resource ID for your Amazon ECS tasks is affected. If containerInstanceLongAr- nFormat is specified, the ARN and resource ID for your Amazon ECS container instances is affected. If awsvpcTrunking is specified, the ENI limit for your Amazon ECS container instances is affected. Possible values: o serviceLongArnFormat o taskLongArnFormat o containerInstanceLongArnFormat o awsvpcTrunking o containerInsights o fargateFIPSMode o tagResourceAuthorization o fargateTaskRetirementWaitPeriod o guardDutyActivate o defaultLogDriverMode o fargateEventWindows
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public AwsEcsDeleteAccountSettingName? Name { get; private init; }
 
     /// <summary>
     /// The Amazon Resource Name (ARN) of the principal. It can be a user, role, or the root user. If you specify the root user, it disables the account setting for all users, roles, and the root user of the account unless a user or role explicitly overrides these settings. If this field is omitted, the setting is changed only for the au- thenticated user. In order to use this parameter, you must be the root user, or the principal.
@@ -35,5 +73,22 @@ public record AwsEcsDeleteAccountSettingOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --checksumtype.
+/// Allowed values for --checksum-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsS3apiCreateMultipartUploadChecksumType
 {
     [EnumValue("COMPOSITE")]
-    Composite = 1,
+    Composite,
 
     [EnumValue("FULL_OBJECT")]
-    FullObject = 2
+    FullObject
 }

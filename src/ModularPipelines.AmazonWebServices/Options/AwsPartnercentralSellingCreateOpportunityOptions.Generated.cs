@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("partnercentral-selling", "create-opportunity")]
-public record AwsPartnercentralSellingCreateOpportunityOptions : AwsOptions
+public record AwsPartnercentralSellingCreateOpportunityOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an Opportunity record in Partner Central. Use this operation to create a potential business opportunity for submission to Amazon Web Services. Creating an opportunity sets Lifecycle.ReviewStatus to Pend- ing Submission . To submit an opportunity, follow these steps: o To create the opportunity, use CreateOpportunity . o To associate a solution with the opportunity, use AssociateOpportu- nity . o To start the engagement with AWS, use StartEngagementFromOpportunity . After submission, you ...
+    /// </summary>
+    /// <param name="Catalog">Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox . The catalog determines which environment the opportunity is created in. Use AWS to create opportunities in the Amazon Web Services catalog, and Sandbox for testing in secure, isolated environments. Constraints: o pattern: [a-zA-Z]+</param>
+    public AwsPartnercentralSellingCreateOpportunityOptions(
+        string Catalog
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+    }
+
+    private AwsPartnercentralSellingCreateOpportunityOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPartnercentralSellingCreateOpportunityOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPartnercentralSellingCreateOpportunityOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox . The catalog determines which environment the opportunity is created in. Use AWS to create opportunities in the Amazon Web Services catalog, and Sandbox for testing in secure, isolated environments. Constraints: o pattern: [a-zA-Z]+
+    /// </summary>
     [CliOption("--catalog")]
-    public string? Catalog { get; set; }
+    public string? Catalog { get; private init; }
 
     /// <summary>
     /// Identifies the type of support the partner needs from Amazon Web Services. Valid values: o CosellArchitectural Validation: Confirmation from Amazon Web Ser- vices that the partner's proposed solution architecture is aligned with Amazon Web Services best practices and poses minimal archi- tectural risks. o CosellBusiness Presentation: Request Amazon Web Services seller's participation in a joint customer presentation. o CosellCompetitive Information: Access to Amazon Web Services com- petitive resources and support for the partner's proposed solu- tion. o CosellPricing Assistance: Connect with an Amazon Web Services seller for support situations where a partner may be receiving an upfront discount on a service (for example: EDP deals). o CosellTechnical Consultation: Connect with an Amazon Web Services Solutions Architect to address the partner's questions about the proposed solution. o CosellTotal Cost of Ownership Evaluation: Assistance with quoting different cost savings of proposed solutions on Amazon Web Ser- vices versus on-premises or a traditional hosting environment. o CosellDeal Support: Request Amazon Web Services seller's support to progress the opportunity (for example: joint customer call, strategic positioning). o CosellSupport for Public Tender/RFx: Opportunity related to the public sector where the partner needs Amazon Web Services RFx sup- port. (string) Possible values: o Co-Sell - Architectural Validation o Co-Sell - Business Presentation o Co-Sell - Competitive Information o Co-Sell - Pricing Assistance o Co-Sell - Technical Consultation o Co-Sell - Total Cost of Ownership Evaluation o Co-Sell - Deal Support o Co-Sell - Support for Public Tender / RFx Syntax: "string" "string" ...
@@ -60,7 +97,7 @@ public record AwsPartnercentralSellingCreateOpportunityOptions : AwsOptions
     /// Specifies the opportunity type as a renewal, new, or expansion. Opportunity types: o New opportunity: Represents a new business opportunity with a po- tential customer that's not previously engaged with your solutions or services. o Renewal opportunity: Represents an opportunity to renew an exist- ing contract or subscription with a current customer, ensuring continuity of service. o Expansion opportunity: Represents an opportunity to expand the scope of an existing contract or subscription, either by adding new services or increasing the volume of existing services for a current customer. Possible values: o Net New Business o Flat Renewal o Expansion
     /// </summary>
     [CliOption("--opportunity-type")]
-    public AwsPartnercentralSellingCreateOpportunityOpportunityType? OpportunityType { get; set; }
+    public string? OpportunityType { get; set; }
 
     /// <summary>
     /// This object contains marketing details and is optional for an oppor- tunity. CampaignName -&gt; (string) Specifies the Opportunity marketing campaign code. The Amazon Web Services campaign code is a reference to specific marketing initiatives, promotions, or activities. This field captures the identifier used to track and categorize the Opportunity within marketing campaigns. If you don't have a campaign code, contact your Amazon Web Services point of contact to obtain one. Source -&gt; (string) Indicates if the Opportunity was sourced from an Amazon Web Ser- vices marketing activity. Use the value Marketing Activity . Use None if it's not associated with an Amazon Web Services market- ing activity. This field helps Amazon Web Services track the re- turn on marketing investments and enables better distribution of marketing budgets among partners. Possible values: o Marketing Activity o None UseCases -&gt; (list) Specifies the marketing activity use case or purpose that led to the Opportunity 's creation or contact. This field captures the context or marketing activity's execution's intention and the direct correlation to the generated opportunity or contact. Must be empty when Marketing.AWSFundingUsed = No . Valid values: AI/ML | Analytics | Application Integration | Blockchain | Business Applications | Cloud Financial Management | Compute | Containers | Customer Engagement | Databases | De- veloper Tools | End User Computing | Front End Web &amp; Mobile | Game Tech | IoT | Management &amp; Governance | Media Services | Mi- gration &amp; Transfer | Networking &amp; Content Delivery | Quantum Technologies | Robotics | Satellite | Security | Serverless | Storage | VR &amp; AR (string) Channels -&gt; (list) Specifies the Opportunity 's channel that the marketing activity is associated with or was contacted through. This field provides information about the specific marketing channel that con- tributed to the generation of the lead or contact. (string) Possible values: o AWS Marketing Central o Content Syndication o Display o Email o Live Event o Out Of Home (OOH) o Print o Search o Social o Telemarketing o TV o Video o Virtual Event AwsFundingUsed -&gt; (string) Indicates if the Opportunity is a marketing development fund (MDF) funded activity. Possible values: o Yes o No Shorthand Syntax: CampaignName=string,Source=string,UseCases=string,string,Channels=string,string,AwsFundingUsed=string JSON Syntax: { "CampaignName": "string", "Source": "Marketing Activity"|"None", "UseCases": ["string", ...], "Channels": ["AWS Marketing Central"|"Content Syndication"|"Display"|"Email"|"Live Event"|"Out Of Home (OOH)"|"Print"|"Search"|"Social"|"Telemarketing"|"TV"|"Video"|"Virtual Event", ...], "AwsFundingUsed": "Yes"|"No" }
@@ -91,7 +128,7 @@ public record AwsPartnercentralSellingCreateOpportunityOptions : AwsOptions
     /// Specifies the origin of the opportunity, indicating if it was sourced from Amazon Web Services or the partner. For all opportuni- ties created with Catalog: AWS , this field must only be Partner Re- ferral . However, when using Catalog: Sandbox , you can set this field to AWS Referral to simulate Amazon Web Services referral cre- ation. This allows Amazon Web Services-originated flows testing in the sandbox catalog. Possible values: o AWS Referral o Partner Referral
     /// </summary>
     [CliOption("--origin")]
-    public AwsPartnercentralSellingCreateOpportunityOrigin? Origin { get; set; }
+    public string? Origin { get; set; }
 
     /// <summary>
     /// Represents the internal team handling the opportunity. Specify col- laborating members of this opportunity who are within the partner's organization. Constraints: o min: 0 o max: 10 (structure) An object that contains a Customer Partner 's contact details. Email -&gt; (string) The contact's email address associated with the Opportunity . Constraints: o pattern: (?=.{0,80}$)[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])? FirstName -&gt; (string) The contact's first name associated with the Opportunity . Constraints: o pattern: (?s).{0,80} LastName -&gt; (string) The contact's last name associated with the Opportunity . Constraints: o pattern: (?s).{0,80} BusinessTitle -&gt; (string) The partner contact's title (job title or role) associated with the Opportunity . BusinessTitle supports either Partner- AccountManager or OpportunityOwner . Constraints: o pattern: (?s).{0,80} Phone -&gt; (string) The contact's phone number associated with the Opportunity . Constraints: o pattern: \+[1-9]\d{1,14} Shorthand Syntax: Email=string,FirstName=string,LastName=string,BusinessTitle=string,Phone=string ... JSON Syntax: [ { "Email": "string", "FirstName": "string", "LastName": "string", "BusinessTitle": "string", "Phone": "string" } ... ]
@@ -110,5 +147,22 @@ public record AwsPartnercentralSellingCreateOpportunityOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

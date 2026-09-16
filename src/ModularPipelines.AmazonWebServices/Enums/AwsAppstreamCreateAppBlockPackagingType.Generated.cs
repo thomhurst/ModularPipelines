@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --packagingtype.
+/// Allowed values for --packaging-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsAppstreamCreateAppBlockPackagingType
 {
-    [EnumValue("CUSTOM")]
-    Custom = 1,
-
     [EnumValue("APPSTREAM2")]
-    Appstream2 = 2
+    Appstream2,
+
+    [EnumValue("CUSTOM")]
+    Custom
 }

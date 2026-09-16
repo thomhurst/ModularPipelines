@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "create-capacity-reservation-cancellation-quote")]
-public record AwsEc2CreateCapacityReservationCancellationQuoteOptions : AwsOptions
+public record AwsEc2CreateCapacityReservationCancellationQuoteOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Generates a cancellation quote for a future-dated Capacity Reservation that is within its commitment duration. The quote includes the cancel- lation terms and a quote ID that you can pass to the CancelCapaci- tyReservation action. Cancellation quotes are valid for 24 hours. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CapacityReservationId">The ID of the Capacity Reservation.</param>
+    public AwsEc2CreateCapacityReservationCancellationQuoteOptions(
+        string CapacityReservationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CapacityReservationId);
+        this.CapacityReservationId = CapacityReservationId;
+    }
+
+    private AwsEc2CreateCapacityReservationCancellationQuoteOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2CreateCapacityReservationCancellationQuoteOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2CreateCapacityReservationCancellationQuoteOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Capacity Reservation.
+    /// </summary>
     [CliOption("--capacity-reservation-id")]
-    public string? CapacityReservationId { get; set; }
+    public string? CapacityReservationId { get; private init; }
 
     /// <summary>
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see Ensure Idempo- tency .
@@ -38,7 +75,10 @@ public record AwsEc2CreateCapacityReservationCancellationQuoteOptions : AwsOptio
     [CliOption("--tag-specifications", GroupValues = true)]
     public IEnumerable<string>? TagSpecifications { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -46,5 +86,22 @@ public record AwsEc2CreateCapacityReservationCancellationQuoteOptions : AwsOptio
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

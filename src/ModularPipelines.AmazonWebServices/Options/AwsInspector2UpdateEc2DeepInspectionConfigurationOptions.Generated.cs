@@ -21,7 +21,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("inspector2", "update-ec2-deep-inspection-configuration")]
 public record AwsInspector2UpdateEc2DeepInspectionConfigurationOptions : AwsOptions
 {
-    [CliFlag("--activate-deep-inspection")]
+    /// <summary>
+    /// Specify TRUE to activate Amazon Inspector deep inspection in your account, or FALSE to deactivate. Member accounts in an organization cannot deactivate deep inspection, instead the delegated administra- tor for the organization can deactivate a member account using BatchUpdateMemberEc2DeepInspectionStatus .
+    /// </summary>
+    [CliFlag("--activate-deep-inspection", NegatedName = "--no-activate-deep-inspection")]
     public bool? ActivateDeepInspection { get; set; }
 
     /// <summary>

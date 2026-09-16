@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agent", "list-ingestion-jobs")]
-public record AwsBedrockAgentListIngestionJobsOptions : AwsOptions
+public record AwsBedrockAgentListIngestionJobsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--knowledge-base-id")]
-    public string? KnowledgeBaseId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Lists the data ingestion jobs for a data source. The list also includes information about each job. See also: AWS API Documentation list-ingestion-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: i...
+    /// </summary>
+    /// <param name="KnowledgeBaseId">The unique identifier of the knowledge base for the list of data in- gestion jobs. Constraints: o pattern: [0-9a-zA-Z]{10}</param>
+    /// <param name="DataSourceId">The unique identifier of the data source for the list of data inges- tion jobs. Constraints: o pattern: [0-9a-zA-Z]{10}</param>
+    public AwsBedrockAgentListIngestionJobsOptions(
+        string KnowledgeBaseId,
+        string DataSourceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KnowledgeBaseId);
+        this.KnowledgeBaseId = KnowledgeBaseId;
+        global::System.ArgumentNullException.ThrowIfNull(DataSourceId);
+        this.DataSourceId = DataSourceId;
+    }
+
+    private AwsBedrockAgentListIngestionJobsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentListIngestionJobsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentListIngestionJobsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the knowledge base for the list of data in- gestion jobs. Constraints: o pattern: [0-9a-zA-Z]{10}
+    /// </summary>
+    [CliOption("--knowledge-base-id")]
+    public string? KnowledgeBaseId { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the data source for the list of data inges- tion jobs. Constraints: o pattern: [0-9a-zA-Z]{10}
+    /// </summary>
     [CliOption("--data-source-id")]
-    public string? DataSourceId { get; set; }
+    public string? DataSourceId { get; private init; }
 
     /// <summary>
     /// Contains information about the filters for filtering the data. Constraints: o min: 1 o max: 1 (structure) The definition of a filter to filter the data. attribute -&gt; (string) [required] The name of field or attribute to apply the filter. Possible values: o STATUS operator -&gt; (string) [required] The operation to apply to the field or attribute. Possible values: o EQ values -&gt; (list) [required] A list of values that belong to the field or attribute. Constraints: o min: 0 o max: 10 (string) Constraints: o min: 0 o max: 100 o pattern: .* Shorthand Syntax: attribute=string,operator=string,values=string,string ... JSON Syntax: [ { "attribute": "STATUS", "operator": "EQ", "values": ["string", ...] } ... ]
@@ -64,5 +108,22 @@ public record AwsBedrockAgentListIngestionJobsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

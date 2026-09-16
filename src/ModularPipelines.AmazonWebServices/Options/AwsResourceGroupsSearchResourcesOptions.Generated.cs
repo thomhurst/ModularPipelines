@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resource-groups", "search-resources")]
-public record AwsResourceGroupsSearchResourcesOptions : AwsOptions
+public record AwsResourceGroupsSearchResourcesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a list of Amazon Web Services resource identifiers that matches the specified query. The query uses the same format as a resource query in a CreateGroup or UpdateGroupQuery operation. Minimum permissions To run this command, you must have the following permissions: o resource-groups:SearchResources o cloudformation:DescribeStacks o cloudformation:ListStackResources o tag:GetResources See also: AWS API Documentation search-resources is a paginated operation. Multiple API calls may be issu...
+    /// </summary>
+    /// <param name="ResourceQuery">The search query, using the same formats that are supported for re- source group definition. For more information, see CreateGroup . Type -&gt; (string) [required] The type of the query to perform. This can have one of two val- ues: o * CLOUDFORMATION_STACK_1_0: * Specifies that you want the group to contain the members of an CloudFormation stack. The Query contains a StackIdentifier element with an Amazon resource name (ARN) for a CloudFormation stack. System Message: WARNING/2 (&lt;string&gt;:, line 106) Inline emphasis start-string without end-string. o * TAG_FILTERS_1_0: * Specifies that you want the group to in- clude resource that have tags that match the query. System Message: WARNING/2 (&lt;string&gt;:, line 108) Inline emphasis start-string without end-string. Possible values: o TAG_FILTERS_1_0 o CLOUDFORMATION_STACK_1_0 Constraints: o min: 1 o max: 128 o pattern: ^\w+$ Query -&gt; (string) [required] The query that defines a group or a search. The contents depends on the value of the Type element. o ResourceTypeFilters Applies to all ResourceQuery objects of either Type . This element contains one of the following two items: o The value AWS::AllSupported . This causes the ResourceQuery to match resources of any resource type that also match the query. o A list (a JSON array) of resource type identifiers that limit the query to only resources of the specified types. For the complete list of resource types that you can use in the array value for ResourceTypeFilters , see Resources you can use with Resource Groups and Tag Editor in the Resource Groups User Guide . Example: "ResourceTypeFilters": ["AWS::AllSupported"] or "Re- sourceTypeFilters": ["AWS::EC2::Instance", "AWS::S3::Bucket"] o TagFilters applicable only if Type = TAG_FILTERS_1_0 . The Query contains a JSON string that represents a collection of simple tag filters. The JSON string uses a syntax similar to the `` GetResources `` operation, but uses only the `` ResourceTypeFilters `` and `` TagFilters `` fields. If you specify more than one tag key, only resources that match all tag keys, and at least one value of each specified tag key, are returned in your query. If you specify more than one value for a tag key, a resource matches the filter if it has a tag key value that matches any of the specified values. For exam- ple, consider the following sample query for resources that have two tags, Stage and Version , with two values each: [{"Stage":["Test","Deploy"]},{"Version":["1","2"]}] The re- sults of this resource query could include the following. o An Amazon EC2 instance that has the following two tags: {"Stage":"Deploy"} , and {"Version":"2"} o An S3 bucket that has the following two tags: {"Stage":"Test"} , and {"Version":"1"} The resource query results would not include the following items in the results, however. o An Amazon EC2 instance that has only the following tag: {"Stage":"Deploy"} . The instance does not have all of the tag keys specified in the filter, so it is excluded from the results. o An RDS database that has the following two tags: {"Stage":"Archived"} and {"Version":"4"} The database has all of the tag keys, but none of those keys has an associ- ated value that matches at least one of the specified val- ues in the filter. Example: "TagFilters": [ { "Key": "Stage", "Values": [ "Gamma", "Beta" ] } o StackIdentifier applicable only if Type = CLOUDFORMA- TION_STACK_1_0 . The value of this parameter is the Amazon Re- source Name (ARN) of the CloudFormation stack whose resources you want included in the group. Constraints: o max: 4096 o pattern: [\s\S]* Shorthand Syntax: Type=string,Query=string JSON Syntax: { "Type": "TAG_FILTERS_1_0"|"CLOUDFORMATION_STACK_1_0", "Query": "string" }</param>
+    public AwsResourceGroupsSearchResourcesOptions(
+        string ResourceQuery
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceQuery);
+        this.ResourceQuery = ResourceQuery;
+    }
+
+    private AwsResourceGroupsSearchResourcesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsResourceGroupsSearchResourcesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsResourceGroupsSearchResourcesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The search query, using the same formats that are supported for re- source group definition. For more information, see CreateGroup . Type -&gt; (string) [required] The type of the query to perform. This can have one of two val- ues: o * CLOUDFORMATION_STACK_1_0: * Specifies that you want the group to contain the members of an CloudFormation stack. The Query contains a StackIdentifier element with an Amazon resource name (ARN) for a CloudFormation stack. System Message: WARNING/2 (&lt;string&gt;:, line 106) Inline emphasis start-string without end-string. o * TAG_FILTERS_1_0: * Specifies that you want the group to in- clude resource that have tags that match the query. System Message: WARNING/2 (&lt;string&gt;:, line 108) Inline emphasis start-string without end-string. Possible values: o TAG_FILTERS_1_0 o CLOUDFORMATION_STACK_1_0 Constraints: o min: 1 o max: 128 o pattern: ^\w+$ Query -&gt; (string) [required] The query that defines a group or a search. The contents depends on the value of the Type element. o ResourceTypeFilters Applies to all ResourceQuery objects of either Type . This element contains one of the following two items: o The value AWS::AllSupported . This causes the ResourceQuery to match resources of any resource type that also match the query. o A list (a JSON array) of resource type identifiers that limit the query to only resources of the specified types. For the complete list of resource types that you can use in the array value for ResourceTypeFilters , see Resources you can use with Resource Groups and Tag Editor in the Resource Groups User Guide . Example: "ResourceTypeFilters": ["AWS::AllSupported"] or "Re- sourceTypeFilters": ["AWS::EC2::Instance", "AWS::S3::Bucket"] o TagFilters applicable only if Type = TAG_FILTERS_1_0 . The Query contains a JSON string that represents a collection of simple tag filters. The JSON string uses a syntax similar to the `` GetResources `` operation, but uses only the `` ResourceTypeFilters `` and `` TagFilters `` fields. If you specify more than one tag key, only resources that match all tag keys, and at least one value of each specified tag key, are returned in your query. If you specify more than one value for a tag key, a resource matches the filter if it has a tag key value that matches any of the specified values. For exam- ple, consider the following sample query for resources that have two tags, Stage and Version , with two values each: [{"Stage":["Test","Deploy"]},{"Version":["1","2"]}] The re- sults of this resource query could include the following. o An Amazon EC2 instance that has the following two tags: {"Stage":"Deploy"} , and {"Version":"2"} o An S3 bucket that has the following two tags: {"Stage":"Test"} , and {"Version":"1"} The resource query results would not include the following items in the results, however. o An Amazon EC2 instance that has only the following tag: {"Stage":"Deploy"} . The instance does not have all of the tag keys specified in the filter, so it is excluded from the results. o An RDS database that has the following two tags: {"Stage":"Archived"} and {"Version":"4"} The database has all of the tag keys, but none of those keys has an associ- ated value that matches at least one of the specified val- ues in the filter. Example: "TagFilters": [ { "Key": "Stage", "Values": [ "Gamma", "Beta" ] } o StackIdentifier applicable only if Type = CLOUDFORMA- TION_STACK_1_0 . The value of this parameter is the Amazon Re- source Name (ARN) of the CloudFormation stack whose resources you want included in the group. Constraints: o max: 4096 o pattern: [\s\S]* Shorthand Syntax: Type=string,Query=string JSON Syntax: { "Type": "TAG_FILTERS_1_0"|"CLOUDFORMATION_STACK_1_0", "Query": "string" }
+    /// </summary>
     [CliOption("--resource-query")]
-    public string? ResourceQuery { get; set; }
+    public string? ResourceQuery { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -49,5 +86,22 @@ public record AwsResourceGroupsSearchResourcesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +20,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyspaces", "restore-table")]
-public record AwsKeyspacesRestoreTableOptions : AwsOptions
+public record AwsKeyspacesRestoreTableOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Restores the table to the specified point in time within the earli- est_restorable_timestamp and the current time. For more information about restore points, see Time window for PITR continuous backups in the Amazon Keyspaces Developer Guide . Any number of users can execute up to 4 concurrent restores (any type of restore) in a given account. When you restore using point in time recovery, Amazon Keyspaces re- stores your source table's schema and data to the state based on the selected timestam...
+    /// </summary>
+    /// <param name="SourceKeyspaceName">The keyspace name of the source table. Constraints: o min: 1 o max: 48 o pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}</param>
+    /// <param name="SourceTableName">The name of the source table. Constraints: o min: 1 o max: 48 o pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}</param>
+    /// <param name="TargetKeyspaceName">The name of the target keyspace. Constraints: o min: 1 o max: 48 o pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}</param>
+    /// <param name="TargetTableName">The name of the target table. Constraints: o min: 1 o max: 48 o pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}</param>
+    public AwsKeyspacesRestoreTableOptions(
+        string SourceKeyspaceName,
+        string SourceTableName,
+        string TargetKeyspaceName,
+        string TargetTableName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceKeyspaceName);
+        this.SourceKeyspaceName = SourceKeyspaceName;
+        global::System.ArgumentNullException.ThrowIfNull(SourceTableName);
+        this.SourceTableName = SourceTableName;
+        global::System.ArgumentNullException.ThrowIfNull(TargetKeyspaceName);
+        this.TargetKeyspaceName = TargetKeyspaceName;
+        global::System.ArgumentNullException.ThrowIfNull(TargetTableName);
+        this.TargetTableName = TargetTableName;
+    }
+
+    private AwsKeyspacesRestoreTableOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKeyspacesRestoreTableOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKeyspacesRestoreTableOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The keyspace name of the source table. Constraints: o min: 1 o max: 48 o pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}
+    /// </summary>
     [CliOption("--source-keyspace-name")]
-    public string? SourceKeyspaceName { get; set; }
+    public string? SourceKeyspaceName { get; private init; }
 
+    /// <summary>
+    /// The name of the source table. Constraints: o min: 1 o max: 48 o pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}
+    /// </summary>
     [CliOption("--source-table-name")]
-    public string? SourceTableName { get; set; }
+    public string? SourceTableName { get; private init; }
 
+    /// <summary>
+    /// The name of the target keyspace. Constraints: o min: 1 o max: 48 o pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}
+    /// </summary>
     [CliOption("--target-keyspace-name")]
-    public string? TargetKeyspaceName { get; set; }
+    public string? TargetKeyspaceName { get; private init; }
 
+    /// <summary>
+    /// The name of the target table. Constraints: o min: 1 o max: 48 o pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}
+    /// </summary>
     [CliOption("--target-table-name")]
-    public string? TargetTableName { get; set; }
+    public string? TargetTableName { get; private init; }
 
     /// <summary>
     /// The restore timestamp in ISO 8601 format.
@@ -80,5 +138,22 @@ public record AwsKeyspacesRestoreTableOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

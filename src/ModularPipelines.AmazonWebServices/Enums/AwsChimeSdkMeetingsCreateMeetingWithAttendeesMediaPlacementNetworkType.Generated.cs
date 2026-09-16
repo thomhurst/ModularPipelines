@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --mediaplacementnetworktype.
+/// Allowed values for --media-placement-network-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsChimeSdkMeetingsCreateMeetingWithAttendeesMediaPlacementNetworkType
 {
-    [EnumValue("Ipv4Only")]
-    Ipv4Only = 1,
-
     [EnumValue("DualStack")]
-    DualStack = 2
+    DualStack,
+
+    [EnumValue("Ipv4Only")]
+    Ipv4Only
 }

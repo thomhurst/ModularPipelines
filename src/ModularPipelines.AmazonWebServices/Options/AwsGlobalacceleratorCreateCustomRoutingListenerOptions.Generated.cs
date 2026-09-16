@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("globalaccelerator", "create-custom-routing-listener")]
-public record AwsGlobalacceleratorCreateCustomRoutingListenerOptions : AwsOptions
+public record AwsGlobalacceleratorCreateCustomRoutingListenerOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--accelerator-arn")]
-    public string? AcceleratorArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Create a listener to process inbound connections from clients to a cus- tom routing accelerator. Connections arrive to assigned static IP ad- dresses on the port range that you specify. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AcceleratorArn">The Amazon Resource Name (ARN) of the accelerator for a custom rout- ing listener. Constraints: o max: 255</param>
+    /// <param name="PortRanges">The port range to support for connections from clients to your ac- celerator. Separately, you set port ranges for endpoints. For more information, see About endpoints for custom routing accelerators . Constraints: o min: 1 o max: 10 (structure) A complex type for a range of ports for a listener. FromPort -&gt; (integer) The first port in the range of ports, inclusive. Constraints: o min: 1 o max: 65535 ToPort -&gt; (integer) The last port in the range of ports, inclusive. Constraints: o min: 1 o max: 65535 Shorthand Syntax: FromPort=integer,ToPort=integer ... JSON Syntax: [ { "FromPort": integer, "ToPort": integer } ... ]</param>
+    public AwsGlobalacceleratorCreateCustomRoutingListenerOptions(
+        string AcceleratorArn,
+        IEnumerable<string> PortRanges
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AcceleratorArn);
+        this.AcceleratorArn = AcceleratorArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(PortRanges);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(PortRanges));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(PortRanges));
+            }
+
+            PortRanges = materialized;
+        }
+        this.PortRanges = PortRanges;
+    }
+
+    private AwsGlobalacceleratorCreateCustomRoutingListenerOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlobalacceleratorCreateCustomRoutingListenerOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlobalacceleratorCreateCustomRoutingListenerOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the accelerator for a custom rout- ing listener. Constraints: o max: 255
+    /// </summary>
+    [CliOption("--accelerator-arn")]
+    public string? AcceleratorArn { get; private init; }
+
+    /// <summary>
+    /// The port range to support for connections from clients to your ac- celerator. Separately, you set port ranges for endpoints. For more information, see About endpoints for custom routing accelerators . Constraints: o min: 1 o max: 10 (structure) A complex type for a range of ports for a listener. FromPort -&gt; (integer) The first port in the range of ports, inclusive. Constraints: o min: 1 o max: 65535 ToPort -&gt; (integer) The last port in the range of ports, inclusive. Constraints: o min: 1 o max: 65535 Shorthand Syntax: FromPort=integer,ToPort=integer ... JSON Syntax: [ { "FromPort": integer, "ToPort": integer } ... ]
+    /// </summary>
     [CliOption("--port-ranges", GroupValues = true)]
-    public IEnumerable<string>? PortRanges { get; set; }
+    public IEnumerable<string>? PortRanges { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotencythat is, the uniquenessof the request. Constraints: o max: 255
@@ -40,5 +95,22 @@ public record AwsGlobalacceleratorCreateCustomRoutingListenerOptions : AwsOption
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

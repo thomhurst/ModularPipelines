@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,19 +22,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "create-ipam-pool")]
-public record AwsEc2CreateIpamPoolOptions : AwsOptions
+public record AwsEc2CreateIpamPoolOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--dry-run")]
-    public bool? DryRun { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Create an IP address pool for Amazon VPC IP Address Manager (IPAM). In IPAM, a pool is a collection of contiguous IP addresses CIDRs. Pools enable you to organize your IP addresses according to your routing and security needs. For example, if you have separate routing and security needs for development and production applications, you can create a pool for each. For more information, see Create a top-level pool in the Amazon VPC IPAM User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="IpamScopeId">The ID of the scope in which you would like to create the IPAM pool.</param>
+    /// <param name="AddressFamily">The IP protocol assigned to this IPAM pool. You must choose either IPv4 or IPv6 protocol for a pool. Possible values: o ipv4 o ipv6</param>
+    public AwsEc2CreateIpamPoolOptions(
+        string IpamScopeId,
+        AwsEc2CreateIpamPoolAddressFamily AddressFamily
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IpamScopeId);
+        this.IpamScopeId = IpamScopeId;
+        global::System.ArgumentNullException.ThrowIfNull(AddressFamily);
+        this.AddressFamily = AddressFamily;
+    }
+
+    private AwsEc2CreateIpamPoolOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2CreateIpamPoolOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2CreateIpamPoolOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the scope in which you would like to create the IPAM pool.
+    /// </summary>
     [CliOption("--ipam-scope-id")]
-    public string? IpamScopeId { get; set; }
+    public string? IpamScopeId { get; private init; }
+
+    /// <summary>
+    /// The IP protocol assigned to this IPAM pool. You must choose either IPv4 or IPv6 protocol for a pool. Possible values: o ipv4 o ipv6
+    /// </summary>
+    [CliOption("--address-family")]
+    public AwsEc2CreateIpamPoolAddressFamily? AddressFamily { get; private init; }
+
+    /// <summary>
+    /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
+    public bool? DryRun { get; set; }
 
     /// <summary>
     /// The locale for the pool should be one of the following: o An Amazon Web Services Region where you want this IPAM pool to be available for allocations. o The network border group for an Amazon Web Services Local Zone where you want this IPAM pool to be available for allocations (- supported Local Zones ). This option is only available for IPAM IPv4 pools in the public scope. Possible values: Any Amazon Web Services Region or supported Amazon Web Services Local Zone. Default is none and means any locale.
     /// </summary>
     [CliOption("--locale")]
-    public AwsEc2CreateIpamPoolLocale? Locale { get; set; }
+    public string? Locale { get; set; }
 
     /// <summary>
     /// The ID of the source IPAM pool. Use this option to create a pool within an existing pool. Note that the CIDR you provision for the pool within the source pool must be available in the source pool's CIDR range.
@@ -47,13 +97,16 @@ public record AwsEc2CreateIpamPoolOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--address-family")]
-    public string? AddressFamily { get; set; }
-
-    [CliFlag("--auto-import")]
+    /// <summary>
+    /// If selected, IPAM will continuously look for resources within the CIDR range of this pool and automatically import them as allocations into your IPAM. The CIDRs that will be allocated for these resources must not already be allocated to other resources in order for the import to succeed. IPAM will import a CIDR regardless of its compli- ance with the pool's allocation rules, so a resource might be im- ported and subsequently marked as noncompliant. If IPAM discovers multiple CIDRs that overlap, IPAM will import the largest CIDR only. If IPAM discovers multiple CIDRs with matching CIDRs, IPAM will ran- domly import one of them only. A locale must be set on the pool for this feature to work.
+    /// </summary>
+    [CliFlag("--auto-import", NegatedName = "--no-auto-import")]
     public bool? AutoImport { get; set; }
 
-    [CliFlag("--publicly-advertisable")]
+    /// <summary>
+    /// Determines if the pool is publicly advertisable. The request can only contain PubliclyAdvertisable if AddressFamily is ipv6 and Pub- licIpSource is byoip .
+    /// </summary>
+    [CliFlag("--publicly-advertisable", NegatedName = "--no-publicly-advertisable")]
     public bool? PubliclyAdvertisable { get; set; }
 
     /// <summary>
@@ -116,5 +169,22 @@ public record AwsEc2CreateIpamPoolOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

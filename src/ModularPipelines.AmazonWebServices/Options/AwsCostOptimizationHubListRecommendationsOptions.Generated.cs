@@ -34,7 +34,10 @@ public record AwsCostOptimizationHubListRecommendationsOptions : AwsOptions
     [CliOption("--order-by")]
     public string? OrderBy { get; set; }
 
-    [CliFlag("--include-all-recommendations")]
+    /// <summary>
+    /// List of all recommendations for a resource, or a single recommenda- tion if de-duped by resourceId .
+    /// </summary>
+    [CliFlag("--include-all-recommendations", NegatedName = "--no-include-all-recommendations")]
     public bool? IncludeAllRecommendations { get; set; }
 
     [CliOption("--cli-input-json")]

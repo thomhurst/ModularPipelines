@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --keycheckvaluealgorithm.
+/// Allowed values for --key-check-value-algorithm.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsPaymentCryptographyDataTranslateKeyMaterialKeyCheckValueAlgorithm
 {
-    [EnumValue("CMAC")]
-    Cmac = 1,
-
     [EnumValue("ANSI_X9_24")]
-    AnsiX9_24 = 2,
+    AnsiX924,
+
+    [EnumValue("CMAC")]
+    Cmac,
 
     [EnumValue("HMAC")]
-    Hmac = 3,
+    Hmac,
 
     [EnumValue("SHA_1")]
-    Sha_1 = 4
+    Sha1
 }

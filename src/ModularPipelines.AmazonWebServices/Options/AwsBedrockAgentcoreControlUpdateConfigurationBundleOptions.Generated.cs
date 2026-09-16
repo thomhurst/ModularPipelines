@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,17 +22,74 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore-control", "update-configuration-bundle")]
-public record AwsBedrockAgentcoreControlUpdateConfigurationBundleOptions : AwsOptions
+public record AwsBedrockAgentcoreControlUpdateConfigurationBundleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a configuration bundle by creating a new version with the spec- ified changes. Each update creates a new version in the version his- tory. See also: AWS API Documentation update-configuration-bundle uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be pro- vided as JSON. Shorthand syntax does not su...
+    /// </summary>
+    /// <param name="BundleId">The unique identifier of the configuration bundle to update. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}</param>
+    /// <param name="ParentVersionIds">A list of parent version identifiers for lineage tracking. Regular commits have a single parent. Merge commits have two parents: the target branch parent and the source branch parent. If the branch al- ready exists, the first parent must be the latest version on that branch. (string) Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} Syntax: "string" "string" ...</param>
+    public AwsBedrockAgentcoreControlUpdateConfigurationBundleOptions(
+        string BundleId,
+        IEnumerable<string> ParentVersionIds
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BundleId);
+        this.BundleId = BundleId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ParentVersionIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ParentVersionIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ParentVersionIds));
+            }
+
+            ParentVersionIds = materialized;
+        }
+        this.ParentVersionIds = ParentVersionIds;
+    }
+
+    private AwsBedrockAgentcoreControlUpdateConfigurationBundleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreControlUpdateConfigurationBundleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreControlUpdateConfigurationBundleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the configuration bundle to update. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}
+    /// </summary>
+    [CliOption("--bundle-id")]
+    public string? BundleId { get; private init; }
+
+    /// <summary>
+    /// A list of parent version identifiers for lineage tracking. Regular commits have a single parent. Merge commits have two parents: the target branch parent and the source branch parent. If the branch al- ready exists, the first parent must be the latest version on that branch. (string) Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--parent-version-ids", GroupValues = true)]
+    public IEnumerable<string>? ParentVersionIds { get; private init; }
+
     /// <summary>
     /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previ- ous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency . Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--bundle-id")]
-    public string? BundleId { get; set; }
 
     /// <summary>
     /// The updated name for the configuration bundle. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9_]{0,99}
@@ -50,12 +108,6 @@ public record AwsBedrockAgentcoreControlUpdateConfigurationBundleOptions : AwsOp
     /// </summary>
     [CliOption("--components", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Components { get; set; }
-
-    /// <summary>
-    /// A list of parent version identifiers for lineage tracking. Regular commits have a single parent. Merge commits have two parents: the target branch parent and the source branch parent. If the branch al- ready exists, the first parent must be the latest version on that branch. (string) Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} Syntax: "string" "string" ...
-    /// </summary>
-    [CliOption("--parent-version-ids", GroupValues = true)]
-    public IEnumerable<string>? ParentVersionIds { get; set; }
 
     /// <summary>
     /// The branch name for this version. If not specified, inherits the parent's branch or defaults to mainline . Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z][a-zA-Z0-9_/-]{0,127}
@@ -86,5 +138,22 @@ public record AwsBedrockAgentcoreControlUpdateConfigurationBundleOptions : AwsOp
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -26,7 +27,7 @@ public record AwsDevopsAgentListServicesOptions : AwsOptions
     /// Optional filter to list only services of a specific type. Possible values: o github o slack o azure o azuredevops o dynatrace o servicenow o pagerduty o gitlab o eventChannel o mcpservernewrelic o mcpservergrafana o mcpserverdatadog o mcpserver o mcpserversplunk o azureidentity o mcpserversigv4 o remoteagent o remoteagentsigv4
     /// </summary>
     [CliOption("--filter-service-type")]
-    public string? FilterServiceType { get; set; }
+    public AwsDevopsAgentListServicesFilterServiceType? FilterServiceType { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

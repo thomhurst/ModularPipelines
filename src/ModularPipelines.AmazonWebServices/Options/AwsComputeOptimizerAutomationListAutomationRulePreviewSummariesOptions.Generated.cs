@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +22,73 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute-optimizer-automation", "list-automation-rule-preview-summaries")]
-public record AwsComputeOptimizerAutomationListAutomationRulePreviewSummariesOptions : AwsOptions
+public record AwsComputeOptimizerAutomationListAutomationRulePreviewSummariesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a summary of the recommended actions that match your rule pre- view configuration and criteria. See also: AWS API Documentation list-automation-rule-preview-summaries is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the f...
+    /// </summary>
+    /// <param name="RuleType">The type of rule. Possible values: o OrganizationRule o AccountRule</param>
+    /// <param name="RecommendedActionTypes">The types of recommended actions to include in the preview. (string) Recommended action type enumeration Possible values: o SnapshotAndDeleteUnattachedEbsVolume o UpgradeEbsVolumeType Syntax: "string" "string" ...</param>
+    public AwsComputeOptimizerAutomationListAutomationRulePreviewSummariesOptions(
+        AwsComputeOptimizerAutomationListAutomationRulePreviewSummariesRuleType RuleType,
+        IEnumerable<string> RecommendedActionTypes
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RuleType);
+        this.RuleType = RuleType;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(RecommendedActionTypes);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(RecommendedActionTypes));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(RecommendedActionTypes));
+            }
+
+            RecommendedActionTypes = materialized;
+        }
+        this.RecommendedActionTypes = RecommendedActionTypes;
+    }
+
+    private AwsComputeOptimizerAutomationListAutomationRulePreviewSummariesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsComputeOptimizerAutomationListAutomationRulePreviewSummariesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsComputeOptimizerAutomationListAutomationRulePreviewSummariesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The type of rule. Possible values: o OrganizationRule o AccountRule
+    /// </summary>
     [CliOption("--rule-type")]
-    public string? RuleType { get; set; }
+    public AwsComputeOptimizerAutomationListAutomationRulePreviewSummariesRuleType? RuleType { get; private init; }
+
+    /// <summary>
+    /// The types of recommended actions to include in the preview. (string) Recommended action type enumeration Possible values: o SnapshotAndDeleteUnattachedEbsVolume o UpgradeEbsVolumeType Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--recommended-action-types", GroupValues = true)]
+    public IEnumerable<string>? RecommendedActionTypes { get; private init; }
 
     /// <summary>
     /// The organizational scope for the rule preview. accountIds -&gt; (list) List of Amazon Web Services account IDs to include in the orga- nization scope. Constraints: o min: 1 o max: 50 (string) Constraints: o pattern: [0-9]{12} Shorthand Syntax: accountIds=string,string JSON Syntax: { "accountIds": ["string", ...] }
     /// </summary>
     [CliOption("--organization-scope")]
     public string? OrganizationScope { get; set; }
-
-    [CliOption("--recommended-action-types", GroupValues = true)]
-    public IEnumerable<string>? RecommendedActionTypes { get; set; }
 
     /// <summary>
     /// A set of conditions that specify which recommended action qualify for implementation. When a rule is active and a recommended action matches these criteria, Compute Optimizer implements the action at the scheduled run time. You can specify up to 20 conditions per fil- ter criteria and 20 values per condition. region -&gt; (list) Filter criteria for Amazon Web Services regions where resources must be located. (structure) Criteria condition for filtering based on string values, in- cluding comparison operators and target values. comparison -&gt; (string) The comparison operator used to evaluate the attribute against the specified values. Possible values: o StringEquals o StringNotEquals o StringEqualsIgnoreCase o StringNotEqualsIgnoreCase o StringLike o StringNotLike o NumericEquals o NumericNotEquals o NumericLessThan o NumericLessThanEquals o NumericGreaterThan o NumericGreaterThanEquals o StringEqualsIfExists o StringNotEqualsIfExists o StringEqualsIgnoreCaseIfExists o StringNotEqualsIgnoreCaseIfExists o StringLikeIfExists o StringNotLikeIfExists o NumericEqualsIfExists o NumericNotEqualsIfExists o NumericLessThanIfExists o NumericLessThanEqualsIfExists o NumericGreaterThanIfExists o NumericGreaterThanEqualsIfExists values -&gt; (list) List of string values to compare against when applying the criteria condition. (string) Constraints: o min: 1 o max: 512 o pattern: [\w\s\.\-\:\/\=\+\@\*\?]+ resourceArn -&gt; (list) Filter criteria for specific resource ARNs to include or ex- clude. (structure) Criteria condition for filtering based on string values, in- cluding comparison operators and target values. comparison -&gt; (string) The comparison operator used to evaluate the attribute against the specified values. Possible values: o StringEquals o StringNotEquals o StringEqualsIgnoreCase o StringNotEqualsIgnoreCase o StringLike o StringNotLike o NumericEquals o NumericNotEquals o NumericLessThan o NumericLessThanEquals o NumericGreaterThan o NumericGreaterThanEquals o StringEqualsIfExists o StringNotEqualsIfExists o StringEqualsIgnoreCaseIfExists o StringNotEqualsIgnoreCaseIfExists o StringLikeIfExists o StringNotLikeIfExists o NumericEqualsIfExists o NumericNotEqualsIfExists o NumericLessThanIfExists o NumericLessThanEqualsIfExists o NumericGreaterThanIfExists o NumericGreaterThanEqualsIfExists values -&gt; (list) List of string values to compare against when applying the criteria condition. (string) Constraints: o min: 1 o max: 512 o pattern: [\w\s\.\-\:\/\=\+\@\*\?]+ ebsVolumeType -&gt; (list) Filter criteria for EBS volume types, such as gp2, gp3, io1, io2, st1, or sc1. (structure) Criteria condition for filtering based on string values, in- cluding comparison operators and target values. comparison -&gt; (string) The comparison operator used to evaluate the attribute against the specified values. Possible values: o StringEquals o StringNotEquals o StringEqualsIgnoreCase o StringNotEqualsIgnoreCase o StringLike o StringNotLike o NumericEquals o NumericNotEquals o NumericLessThan o NumericLessThanEquals o NumericGreaterThan o NumericGreaterThanEquals o StringEqualsIfExists o StringNotEqualsIfExists o StringEqualsIgnoreCaseIfExists o StringNotEqualsIgnoreCaseIfExists o StringLikeIfExists o StringNotLikeIfExists o NumericEqualsIfExists o NumericNotEqualsIfExists o NumericLessThanIfExists o NumericLessThanEqualsIfExists o NumericGreaterThanIfExists o NumericGreaterThanEqualsIfExists values -&gt; (list) List of string values to compare against when applying the criteria condition. (string) Constraints: o min: 1 o max: 512 o pattern: [\w\s\.\-\:\/\=\+\@\*\?]+ ebsVolumeSizeInGib -&gt; (list) Filter criteria for EBS volume sizes in gibibytes (GiB). (structure) Defines a condition for filtering based on integer values with comparison operators. comparison -&gt; (string) The comparison operator used to evaluate the attribute against the specified values. Possible values: o StringEquals o StringNotEquals o StringEqualsIgnoreCase o StringNotEqualsIgnoreCase o StringLike o StringNotLike o NumericEquals o NumericNotEquals o NumericLessThan o NumericLessThanEquals o NumericGreaterThan o NumericGreaterThanEquals o StringEqualsIfExists o StringNotEqualsIfExists o StringEqualsIgnoreCaseIfExists o StringNotEqualsIgnoreCaseIfExists o StringLikeIfExists o StringNotLikeIfExists o NumericEqualsIfExists o NumericNotEqualsIfExists o NumericLessThanIfExists o NumericLessThanEqualsIfExists o NumericGreaterThanIfExists o NumericGreaterThanEqualsIfExists values -&gt; (list) The list of integer values to compare against using the specified comparison operator. (integer) estimatedMonthlySavings -&gt; (list) Filter criteria for estimated monthly cost savings from the rec- ommended action. (structure) Defines a condition for filtering based on double/float- ing-point numeric values with comparison operators. comparison -&gt; (string) The comparison operator used to evaluate the attribute against the specified values. Possible values: o StringEquals o StringNotEquals o StringEqualsIgnoreCase o StringNotEqualsIgnoreCase o StringLike o StringNotLike o NumericEquals o NumericNotEquals o NumericLessThan o NumericLessThanEquals o NumericGreaterThan o NumericGreaterThanEquals o StringEqualsIfExists o StringNotEqualsIfExists o StringEqualsIgnoreCaseIfExists o StringNotEqualsIgnoreCaseIfExists o StringLikeIfExists o StringNotLikeIfExists o NumericEqualsIfExists o NumericNotEqualsIfExists o NumericLessThanIfExists o NumericLessThanEqualsIfExists o NumericGreaterThanIfExists o NumericGreaterThanEqualsIfExists values -&gt; (list) The list of double values to compare against using the specified comparison operator. (double) resourceTag -&gt; (list) Filter criteria for resource tags, allowing filtering by tag key and value combinations. (structure) Criteria condition for filtering resources based on their tags, including comparison operators and values. comparison -&gt; (string) The comparison operator used to evaluate the attribute against the specified values. Possible values: o StringEquals o StringNotEquals o StringEqualsIgnoreCase o StringNotEqualsIgnoreCase o StringLike o StringNotLike o NumericEquals o NumericNotEquals o NumericLessThan o NumericLessThanEquals o NumericGreaterThan o NumericGreaterThanEquals o StringEqualsIfExists o StringNotEqualsIfExists o StringEqualsIgnoreCaseIfExists o StringNotEqualsIgnoreCaseIfExists o StringLikeIfExists o StringNotLikeIfExists o NumericEqualsIfExists o NumericNotEqualsIfExists o NumericLessThanIfExists o NumericLessThanEqualsIfExists o NumericGreaterThanIfExists o NumericGreaterThanEqualsIfExists key -&gt; (string) The tag key to use for comparison when filtering re- sources. Constraints: o min: 1 o max: 512 o pattern: [\w\s\.\-\:\/\=\+\@\*\?]+ values -&gt; (list) List of tag values to compare against when filtering re- sources. (string) Constraints: o min: 1 o max: 512 o pattern: [\w\s\.\-\:\/\=\+\@\*\?]+ lookBackPeriodInDays -&gt; (list) Filter criteria for the lookback period in days used to analyze resource utilization. (structure) Defines a condition for filtering based on integer values with comparison operators. comparison -&gt; (string) The comparison operator used to evaluate the attribute against the specified values. Possible values: o StringEquals o StringNotEquals o StringEqualsIgnoreCase o StringNotEqualsIgnoreCase o StringLike o StringNotLike o NumericEquals o NumericNotEquals o NumericLessThan o NumericLessThanEquals o NumericGreaterThan o NumericGreaterThanEquals o StringEqualsIfExists o StringNotEqualsIfExists o StringEqualsIgnoreCaseIfExists o StringNotEqualsIgnoreCaseIfExists o StringLikeIfExists o StringNotLikeIfExists o NumericEqualsIfExists o NumericNotEqualsIfExists o NumericLessThanIfExists o NumericLessThanEqualsIfExists o NumericGreaterThanIfExists o NumericGreaterThanEqualsIfExists values -&gt; (list) The list of integer values to compare against using the specified comparison operator. (integer) restartNeeded -&gt; (list) Filter criteria indicating whether the recommended action re- quires a resource restart. (structure) Criteria condition for filtering based on string values, in- cluding comparison operators and target values. comparison -&gt; (string) The comparison operator used to evaluate the attribute against the specified values. Possible values: o StringEquals o StringNotEquals o StringEqualsIgnoreCase o StringNotEqualsIgnoreCase o StringLike o StringNotLike o NumericEquals o NumericNotEquals o NumericLessThan o NumericLessThanEquals o NumericGreaterThan o NumericGreaterThanEquals o StringEqualsIfExists o StringNotEqualsIfExists o StringEqualsIgnoreCaseIfExists o StringNotEqualsIgnoreCaseIfExists o StringLikeIfExists o StringNotLikeIfExists o NumericEqualsIfExists o NumericNotEqualsIfExists o NumericLessThanIfExists o NumericLessThanEqualsIfExists o NumericGreaterThanIfExists o NumericGreaterThanEqualsIfExists values -&gt; (list) List of string values to compare against when applying the criteria condition. (string) Constraints: o min: 1 o max: 512 o pattern: [\w\s\.\-\:\/\=\+\@\*\?]+ JSON Syntax: { "region": [ { "comparison": "StringEquals"|"StringNotEquals"|"StringEqualsIgnoreCase"|"StringNotEqualsIgnoreCase"|"StringLike"|"StringNotLike"|"NumericEquals"|"NumericNotEquals"|"NumericLessThan"|"NumericLessThanEquals"|"NumericGreaterThan"|"NumericGreaterThanEquals"|"StringEqualsIfExists"|"StringNotEqualsIfExists"|"StringEqualsIgnoreCaseIfExists"|"StringNotEqualsIgnoreCaseIfExists"|"StringLikeIfExists"|"StringNotLikeIfExists"|"NumericEqualsIfExists"|"NumericNotEqualsIfExists"|"NumericLessThanIfExists"|"NumericLessThanEqualsIfExists"|"NumericGreaterThanIfExists"|"NumericGreaterThanEqualsIfExists", "values": ["string", ...] } ... ], "resourceArn": [ { "comparison": "StringEquals"|"StringNotEquals"|"StringEqualsIgnoreCase"|"StringNotEqualsIgnoreCase"|"StringLike"|"StringNotLike"|"NumericEquals"|"NumericNotEquals"|"NumericLessThan"|"NumericLessThanEquals"|"NumericGreaterThan"|"NumericGreaterThanEquals"|"StringEqualsIfExists"|"StringNotEqualsIfExists"|"StringEqualsIgnoreCaseIfExists"|"StringNotEqualsIgnoreCaseIfExists"|"StringLikeIfExists"|"StringNotLikeIfExists"|"NumericEqualsIfExists"|"NumericNotEqualsIfExists"|"NumericLessThanIfExists"|"NumericLessThanEqualsIfExists"|"NumericGreaterThanIfExists"|"NumericGreaterThanEqualsIfExists", "values": ["string", ...] } ... ], "ebsVolumeType": [ { "comparison": "StringEquals"|"StringNotEquals"|"StringEqualsIgnoreCase"|"StringNotEqualsIgnoreCase"|"StringLike"|"StringNotLike"|"NumericEquals"|"NumericNotEquals"|"NumericLessThan"|"NumericLessThanEquals"|"NumericGreaterThan"|"NumericGreaterThanEquals"|"StringEqualsIfExists"|"StringNotEqualsIfExists"|"StringEqualsIgnoreCaseIfExists"|"StringNotEqualsIgnoreCaseIfExists"|"StringLikeIfExists"|"StringNotLikeIfExists"|"NumericEqualsIfExists"|"NumericNotEqualsIfExists"|"NumericLessThanIfExists"|"NumericLessThanEqualsIfExists"|"NumericGreaterThanIfExists"|"NumericGreaterThanEqualsIfExists", "values": ["string", ...] } ... ], "ebsVolumeSizeInGib": [ { "comparison": "StringEquals"|"StringNotEquals"|"StringEqualsIgnoreCase"|"StringNotEqualsIgnoreCase"|"StringLike"|"StringNotLike"|"NumericEquals"|"NumericNotEquals"|"NumericLessThan"|"NumericLessThanEquals"|"NumericGreaterThan"|"NumericGreaterThanEquals"|"StringEqualsIfExists"|"StringNotEqualsIfExists"|"StringEqualsIgnoreCaseIfExists"|"StringNotEqualsIgnoreCaseIfExists"|"StringLikeIfExists"|"StringNotLikeIfExists"|"NumericEqualsIfExists"|"NumericNotEqualsIfExists"|"NumericLessThanIfExists"|"NumericLessThanEqualsIfExists"|"NumericGreaterThanIfExists"|"NumericGreaterThanEqualsIfExists", "values": [integer, ...] } ... ], "estimatedMonthlySavings": [ { "comparison": "StringEquals"|"StringNotEquals"|"StringEqualsIgnoreCase"|"StringNotEqualsIgnoreCase"|"StringLike"|"StringNotLike"|"NumericEquals"|"NumericNotEquals"|"NumericLessThan"|"NumericLessThanEquals"|"NumericGreaterThan"|"NumericGreaterThanEquals"|"StringEqualsIfExists"|"StringNotEqualsIfExists"|"StringEqualsIgnoreCaseIfExists"|"StringNotEqualsIgnoreCaseIfExists"|"StringLikeIfExists"|"StringNotLikeIfExists"|"NumericEqualsIfExists"|"NumericNotEqualsIfExists"|"NumericLessThanIfExists"|"NumericLessThanEqualsIfExists"|"NumericGreaterThanIfExists"|"NumericGreaterThanEqualsIfExists", "values": [double, ...] } ... ], "resourceTag": [ { "comparison": "StringEquals"|"StringNotEquals"|"StringEqualsIgnoreCase"|"StringNotEqualsIgnoreCase"|"StringLike"|"StringNotLike"|"NumericEquals"|"NumericNotEquals"|"NumericLessThan"|"NumericLessThanEquals"|"NumericGreaterThan"|"NumericGreaterThanEquals"|"StringEqualsIfExists"|"StringNotEqualsIfExists"|"StringEqualsIgnoreCaseIfExists"|"StringNotEqualsIgnoreCaseIfExists"|"StringLikeIfExists"|"StringNotLikeIfExists"|"NumericEqualsIfExists"|"NumericNotEqualsIfExists"|"NumericLessThanIfExists"|"NumericLessThanEqualsIfExists"|"NumericGreaterThanIfExists"|"NumericGreaterThanEqualsIfExists", "key": "string", "values": ["string", ...] } ... ], "lookBackPeriodInDays": [ { "comparison": "StringEquals"|"StringNotEquals"|"StringEqualsIgnoreCase"|"StringNotEqualsIgnoreCase"|"StringLike"|"StringNotLike"|"NumericEquals"|"NumericNotEquals"|"NumericLessThan"|"NumericLessThanEquals"|"NumericGreaterThan"|"NumericGreaterThanEquals"|"StringEqualsIfExists"|"StringNotEqualsIfExists"|"StringEqualsIgnoreCaseIfExists"|"StringNotEqualsIgnoreCaseIfExists"|"StringLikeIfExists"|"StringNotLikeIfExists"|"NumericEqualsIfExists"|"NumericNotEqualsIfExists"|"NumericLessThanIfExists"|"NumericLessThanEqualsIfExists"|"NumericGreaterThanIfExists"|"NumericGreaterThanEqualsIfExists", "values": [integer, ...] } ... ], "restartNeeded": [ { "comparison": "StringEquals"|"StringNotEquals"|"StringEqualsIgnoreCase"|"StringNotEqualsIgnoreCase"|"StringLike"|"StringNotLike"|"NumericEquals"|"NumericNotEquals"|"NumericLessThan"|"NumericLessThanEquals"|"NumericGreaterThan"|"NumericGreaterThanEquals"|"StringEqualsIfExists"|"StringNotEqualsIfExists"|"StringEqualsIgnoreCaseIfExists"|"StringNotEqualsIgnoreCaseIfExists"|"StringLikeIfExists"|"StringNotLikeIfExists"|"NumericEqualsIfExists"|"NumericNotEqualsIfExists"|"NumericLessThanIfExists"|"NumericLessThanEqualsIfExists"|"NumericGreaterThanIfExists"|"NumericGreaterThanEqualsIfExists", "values": ["string", ...] } ... ] }
@@ -64,5 +120,22 @@ public record AwsComputeOptimizerAutomationListAutomationRulePreviewSummariesOpt
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

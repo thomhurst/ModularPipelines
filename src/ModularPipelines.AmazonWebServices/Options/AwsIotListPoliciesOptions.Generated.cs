@@ -28,7 +28,10 @@ public record AwsIotListPoliciesOptions : AwsOptions
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CliFlag("--ascending-order")]
+    /// <summary>
+    /// Specifies the order for results. If true, the results are returned in ascending creation order.
+    /// </summary>
+    [CliFlag("--ascending-order", NegatedName = "--no-ascending-order")]
     public bool? AscendingOrder { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,8 +22,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("macie2", "update-findings-filter")]
-public record AwsMacie2UpdateFindingsFilterOptions : AwsOptions
+public record AwsMacie2UpdateFindingsFilterOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the criteria and other settings for a findings filter. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Id">The unique identifier for the Amazon Macie resource that the request applies to.</param>
+    public AwsMacie2UpdateFindingsFilterOptions(
+        string Id
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+    }
+
+    private AwsMacie2UpdateFindingsFilterOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMacie2UpdateFindingsFilterOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMacie2UpdateFindingsFilterOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for the Amazon Macie resource that the request applies to.
+    /// </summary>
+    [CliOption("--id")]
+    public string? Id { get; private init; }
+
     /// <summary>
     /// The action to perform on findings that match the filter criteria (findingCriteria). Valid values are: ARCHIVE, suppress (automati- cally archive) the findings; and, NOOP, don't perform any action on the findings. Possible values: o ARCHIVE o NOOP
     /// </summary>
@@ -45,11 +85,8 @@ public record AwsMacie2UpdateFindingsFilterOptions : AwsOptions
     /// <summary>
     /// The criteria to use to filter findings. criterion -&gt; (map) A condition that specifies the property, operator, and one or more values to use to filter the results. key -&gt; (string) value -&gt; (structure) Specifies the operator to use in a property-based condition that filters the results of a query for findings. For de- tailed information and examples of each operator, see Fundamentals of filtering findings in the Amazon Macie User Guide . eq -&gt; (list) The value for the property matches (equals) the specified value. If you specify multiple values, Macie uses OR logic to join the values. (string) eqExactMatch -&gt; (list) The value for the property exclusively matches (equals an exact match for) all the specified values. If you specify multiple values, Amazon Macie uses AND logic to join the values. You can use this operator with the following properties: customDataIdentifiers.detections.arn, customDataIdenti- fiers.detections.name, resourcesAf- fected.s3Bucket.tags.key, resourcesAf- fected.s3Bucket.tags.value, resourcesAffected.s3Ob- ject.tags.key, resourcesAffected.s3Object.tags.value, sensitiveData.category, and sensitiveData.detec- tions.type. (string) gt -&gt; (long) The value for the property is greater than the specified value. gte -&gt; (long) The value for the property is greater than or equal to the specified value. lt -&gt; (long) The value for the property is less than the specified value. lte -&gt; (long) The value for the property is less than or equal to the specified value. neq -&gt; (list) The value for the property doesn't match (doesn't equal) the specified value. If you specify multiple values, Ma- cie uses OR logic to join the values. (string) JSON Syntax: { "criterion": {"string": { "eq": ["string", ...], "eqExactMatch": ["string", ...], "gt": long, "gte": long, "lt": long, "lte": long, "neq": ["string", ...] } ...} }
     /// </summary>
-    [CliOption("--finding-criteria", GroupValues = true)]
-    public IEnumerable<string>? FindingCriteria { get; set; }
-
-    [CliOption("--id")]
-    public string? Id { get; set; }
+    [CliOption("--finding-criteria")]
+    public string? FindingCriteria { get; set; }
 
     /// <summary>
     /// A custom name for the filter. The name must contain at least 3 char- acters and can contain as many as 64 characters. We strongly recommend that you avoid including any sensitive data in the name of a filter. Other users of your account might be able to see this name, depending on the actions that they're allowed to per- form in Amazon Macie.
@@ -68,5 +105,22 @@ public record AwsMacie2UpdateFindingsFilterOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

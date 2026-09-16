@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsOpensearchListDomainMaintenancesAction
 {
     [EnumValue("REBOOT_NODE")]
-    RebootNode = 1,
-
-    [EnumValue("RESTART_SEARCH_PROCESS")]
-    RestartSearchProcess = 2,
+    RebootNode,
 
     [EnumValue("RESTART_DASHBOARD")]
-    RestartDashboard = 3
+    RestartDashboard,
+
+    [EnumValue("RESTART_SEARCH_PROCESS")]
+    RestartSearchProcess
 }

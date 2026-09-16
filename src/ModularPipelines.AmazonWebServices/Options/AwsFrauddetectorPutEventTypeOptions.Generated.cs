@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("frauddetector", "put-event-type")]
-public record AwsFrauddetectorPutEventTypeOptions : AwsOptions
+public record AwsFrauddetectorPutEventTypeOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates or updates an event type. An event is a business activity that is evaluated for fraud risk. With Amazon Fraud Detector, you generate fraud predictions for events. An event type defines the structure for an event sent to Amazon Fraud Detector. This includes the variables sent as part of the event, the entity performing the event (such as a customer), and the labels that classify the event. Example event types include online payment transactions, account registrations, and authen- tication...
+    /// </summary>
+    /// <param name="Name">The name. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$</param>
+    /// <param name="EventVariables">The event type variables. Constraints: o min: 1 (string) Syntax: "string" "string" ...</param>
+    /// <param name="EntityTypes">The entity type for the event type. Example entity types: customer, merchant, account. Constraints: o min: 1 (string) Syntax: "string" "string" ...</param>
+    public AwsFrauddetectorPutEventTypeOptions(
+        string Name,
+        IEnumerable<string> EventVariables,
+        IEnumerable<string> EntityTypes
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(EventVariables);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(EventVariables));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(EventVariables));
+            }
+
+            EventVariables = materialized;
+        }
+        this.EventVariables = EventVariables;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(EntityTypes);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(EntityTypes));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(EntityTypes));
+            }
+
+            EntityTypes = materialized;
+        }
+        this.EntityTypes = EntityTypes;
+    }
+
+    private AwsFrauddetectorPutEventTypeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFrauddetectorPutEventTypeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFrauddetectorPutEventTypeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The event type variables. Constraints: o min: 1 (string) Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--event-variables", GroupValues = true)]
+    public IEnumerable<string>? EventVariables { get; private init; }
+
+    /// <summary>
+    /// The entity type for the event type. Example entity types: customer, merchant, account. Constraints: o min: 1 (string) Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--entity-types", GroupValues = true)]
+    public IEnumerable<string>? EntityTypes { get; private init; }
 
     /// <summary>
     /// The description of the event type. Constraints: o min: 1 o max: 128
@@ -31,17 +110,11 @@ public record AwsFrauddetectorPutEventTypeOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--event-variables", GroupValues = true)]
-    public IEnumerable<string>? EventVariables { get; set; }
-
     /// <summary>
     /// The event type labels. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--labels", GroupValues = true)]
     public IEnumerable<string>? Labels { get; set; }
-
-    [CliOption("--entity-types", GroupValues = true)]
-    public IEnumerable<string>? EntityTypes { get; set; }
 
     /// <summary>
     /// Specifies if ingestion is enabled or disabled. Possible values: o ENABLED o DISABLED
@@ -66,5 +139,22 @@ public record AwsFrauddetectorPutEventTypeOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

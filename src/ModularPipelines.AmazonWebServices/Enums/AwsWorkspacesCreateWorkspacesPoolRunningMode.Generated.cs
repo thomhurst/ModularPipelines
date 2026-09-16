@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --runningmode.
+/// Allowed values for --running-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsWorkspacesCreateWorkspacesPoolRunningMode
 {
-    [EnumValue("AUTO_STOP")]
-    AutoStop = 1,
-
     [EnumValue("ALWAYS_ON")]
-    AlwaysOn = 2
+    AlwaysOn,
+
+    [EnumValue("AUTO_STOP")]
+    AutoStop
 }

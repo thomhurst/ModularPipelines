@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,23 +21,73 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("fis", "create-target-account-configuration")]
-public record AwsFisCreateTargetAccountConfigurationOptions : AwsOptions
+public record AwsFisCreateTargetAccountConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a target account configuration for the experiment template. A target account configuration is required when accountTargeting of ex- perimentOptions is set to multi-account . For more information, see experiment options in the Fault Injection Service User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ExperimentTemplateId">The experiment template ID. Constraints: o max: 64 o pattern: [\S]+</param>
+    /// <param name="AccountId">The Amazon Web Services account ID of the target account. Constraints: o min: 12 o max: 48 o pattern: [\S]+</param>
+    /// <param name="RoleArn">The Amazon Resource Name (ARN) of an IAM role for the target ac- count. Constraints: o min: 20 o max: 2048 o pattern: [\S]+</param>
+    public AwsFisCreateTargetAccountConfigurationOptions(
+        string ExperimentTemplateId,
+        string AccountId,
+        string RoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ExperimentTemplateId);
+        this.ExperimentTemplateId = ExperimentTemplateId;
+        global::System.ArgumentNullException.ThrowIfNull(AccountId);
+        this.AccountId = AccountId;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+    }
+
+    private AwsFisCreateTargetAccountConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFisCreateTargetAccountConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFisCreateTargetAccountConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The experiment template ID. Constraints: o max: 64 o pattern: [\S]+
+    /// </summary>
+    [CliOption("--experiment-template-id")]
+    public string? ExperimentTemplateId { get; private init; }
+
+    /// <summary>
+    /// The Amazon Web Services account ID of the target account. Constraints: o min: 12 o max: 48 o pattern: [\S]+
+    /// </summary>
+    [CliOption("--account-id")]
+    public string? AccountId { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of an IAM role for the target ac- count. Constraints: o min: 20 o max: 2048 o pattern: [\S]+
+    /// </summary>
+    [CliOption("--role-arn")]
+    public string? RoleArn { get; private init; }
+
     /// <summary>
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 1024 o pattern: [\S]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--experiment-template-id")]
-    public string? ExperimentTemplateId { get; set; }
-
-    [CliOption("--account-id")]
-    public string? AccountId { get; set; }
-
-    [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
 
     /// <summary>
     /// The description of the target account. Constraints: o max: 512 o pattern: [\s\S]*
@@ -49,5 +100,22 @@ public record AwsFisCreateTargetAccountConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

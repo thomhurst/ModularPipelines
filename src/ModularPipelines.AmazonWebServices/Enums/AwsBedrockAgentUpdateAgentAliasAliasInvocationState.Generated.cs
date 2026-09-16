@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --aliasinvocationstate.
+/// Allowed values for --alias-invocation-state.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsBedrockAgentUpdateAgentAliasAliasInvocationState
 {
     [EnumValue("ACCEPT_INVOCATIONS")]
-    AcceptInvocations = 1,
+    AcceptInvocations,
 
     [EnumValue("REJECT_INVOCATIONS")]
-    RejectInvocations = 2
+    RejectInvocations
 }

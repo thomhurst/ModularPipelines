@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,22 +22,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm-contacts", "create-contact")]
-public record AwsSsmContactsCreateContactOptions : AwsOptions
+public record AwsSsmContactsCreateContactOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Contacts are either the contacts that Incident Manager engages during an incident or the escalation plans that Incident Manager uses to en- gage contacts in phases during an incident. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Alias">The short name to quickly identify a contact or escalation plan. The contact alias must be unique and identifiable. Constraints: o min: 1 o max: 255 o pattern: ^[a-z0-9_\-]*$</param>
+    /// <param name="Type">The type of contact to create. o PERSONAL : A single, individual contact. o ESCALATION : An escalation plan. o ONCALL_SCHEDULE : An on-call schedule. Possible values: o PERSONAL o ESCALATION o ONCALL_SCHEDULE</param>
+    /// <param name="Plan">A list of stages. A contact has an engagement plan with stages that contact specified contact channels. An escalation plan uses stages that contact specified contacts. Stages -&gt; (list) A list of stages that the escalation plan or engagement plan uses to engage contacts and contact methods. (structure) A set amount of time that an escalation plan or engagement plan engages the specified contacts or contact methods. DurationInMinutes -&gt; (integer) [required] The time to wait until beginning the next stage. The du- ration can only be set to 0 if a target is specified. Constraints: o min: 0 o max: 30 Targets -&gt; (list) [required] The contacts or contact methods that the escalation plan or engagement plan is engaging. (structure) The contact or contact channel that's being engaged. ChannelTargetInfo -&gt; (structure) Information about the contact channel that Inci- dent Manager engages. ContactChannelId -&gt; (string) [required] The Amazon Resource Name (ARN) of the contact channel. Constraints: o min: 1 o max: 2048 o pattern: arn:(aws|aws-cn|aws-us-gov):ssm-con- tacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)* RetryIntervalInMinutes -&gt; (integer) The number of minutes to wait before retrying to send engagement if the engagement initially failed. Constraints: o min: 0 o max: 60 ContactTargetInfo -&gt; (structure) Information about the contact that Incident Man- ager engages. ContactId -&gt; (string) The Amazon Resource Name (ARN) of the contact. Constraints: o min: 1 o max: 2048 o pattern: arn:(aws|aws-cn|aws-us-gov):ssm-con- tacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)* IsEssential -&gt; (boolean) [required] A Boolean value determining if the contact's acknowledgement stops the progress of stages in the plan. RotationIds -&gt; (list) The Amazon Resource Names (ARNs) of the on-call rotations asso- ciated with the plan. Constraints: o min: 0 o max: 25 (string) Constraints: o min: 1 o max: 2048 o pattern: arn:(aws|aws-cn|aws-us-gov):ssm-con- tacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)* JSON Syntax: { "Stages": [ { "DurationInMinutes": integer, "Targets": [ { "ChannelTargetInfo": { "ContactChannelId": "string", "RetryIntervalInMinutes": integer }, "ContactTargetInfo": { "ContactId": "string", "IsEssential": true|false } } ... ] } ... ], "RotationIds": ["string", ...] }</param>
+    public AwsSsmContactsCreateContactOptions(
+        string Alias,
+        AwsSsmContactsCreateContactType Type,
+        string Plan
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Alias);
+        this.Alias = Alias;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+        global::System.ArgumentNullException.ThrowIfNull(Plan);
+        this.Plan = Plan;
+    }
+
+    private AwsSsmContactsCreateContactOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmContactsCreateContactOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmContactsCreateContactOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The short name to quickly identify a contact or escalation plan. The contact alias must be unique and identifiable. Constraints: o min: 1 o max: 255 o pattern: ^[a-z0-9_\-]*$
+    /// </summary>
     [CliOption("--alias")]
-    public string? Alias { get; set; }
+    public string? Alias { get; private init; }
+
+    /// <summary>
+    /// The type of contact to create. o PERSONAL : A single, individual contact. o ESCALATION : An escalation plan. o ONCALL_SCHEDULE : An on-call schedule. Possible values: o PERSONAL o ESCALATION o ONCALL_SCHEDULE
+    /// </summary>
+    [CliOption("--type")]
+    public AwsSsmContactsCreateContactType? Type { get; private init; }
+
+    /// <summary>
+    /// A list of stages. A contact has an engagement plan with stages that contact specified contact channels. An escalation plan uses stages that contact specified contacts. Stages -&gt; (list) A list of stages that the escalation plan or engagement plan uses to engage contacts and contact methods. (structure) A set amount of time that an escalation plan or engagement plan engages the specified contacts or contact methods. DurationInMinutes -&gt; (integer) [required] The time to wait until beginning the next stage. The du- ration can only be set to 0 if a target is specified. Constraints: o min: 0 o max: 30 Targets -&gt; (list) [required] The contacts or contact methods that the escalation plan or engagement plan is engaging. (structure) The contact or contact channel that's being engaged. ChannelTargetInfo -&gt; (structure) Information about the contact channel that Inci- dent Manager engages. ContactChannelId -&gt; (string) [required] The Amazon Resource Name (ARN) of the contact channel. Constraints: o min: 1 o max: 2048 o pattern: arn:(aws|aws-cn|aws-us-gov):ssm-con- tacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)* RetryIntervalInMinutes -&gt; (integer) The number of minutes to wait before retrying to send engagement if the engagement initially failed. Constraints: o min: 0 o max: 60 ContactTargetInfo -&gt; (structure) Information about the contact that Incident Man- ager engages. ContactId -&gt; (string) The Amazon Resource Name (ARN) of the contact. Constraints: o min: 1 o max: 2048 o pattern: arn:(aws|aws-cn|aws-us-gov):ssm-con- tacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)* IsEssential -&gt; (boolean) [required] A Boolean value determining if the contact's acknowledgement stops the progress of stages in the plan. RotationIds -&gt; (list) The Amazon Resource Names (ARNs) of the on-call rotations asso- ciated with the plan. Constraints: o min: 0 o max: 25 (string) Constraints: o min: 1 o max: 2048 o pattern: arn:(aws|aws-cn|aws-us-gov):ssm-con- tacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)* JSON Syntax: { "Stages": [ { "DurationInMinutes": integer, "Targets": [ { "ChannelTargetInfo": { "ContactChannelId": "string", "RetryIntervalInMinutes": integer }, "ContactTargetInfo": { "ContactId": "string", "IsEssential": true|false } } ... ] } ... ], "RotationIds": ["string", ...] }
+    /// </summary>
+    [CliOption("--plan")]
+    public string? Plan { get; private init; }
 
     /// <summary>
     /// The full name of the contact or escalation plan. Constraints: o min: 0 o max: 255 o pattern: ^[\p{L}\p{Z}\p{N}_.\-]*$
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; set; }
-
-    [CliOption("--type")]
-    public string? Type { get; set; }
-
-    [CliOption("--plan")]
-    public string? Plan { get; set; }
 
     /// <summary>
     /// Adds a tag to the target. You can only tag resources created in the first Region of your replication set. Constraints: o min: 0 o max: 50 (structure) A container of a key-value name pair. Key -&gt; (string) Name of the object key. Constraints: o min: 1 o max: 128 o pattern: ^[\\\/a-zA-Z0-9_+=\-]*$ Value -&gt; (string) Value of the tag. Constraints: o min: 1 o max: 256 o pattern: ^[\p{L}\p{Z}\p{N}_.:\/=+\-@]*$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -55,5 +107,22 @@ public record AwsSsmContactsCreateContactOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

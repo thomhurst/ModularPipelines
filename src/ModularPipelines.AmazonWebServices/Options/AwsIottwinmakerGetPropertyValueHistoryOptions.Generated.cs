@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iottwinmaker", "get-property-value-history")]
-public record AwsIottwinmakerGetPropertyValueHistoryOptions : AwsOptions
+public record AwsIottwinmakerGetPropertyValueHistoryOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves information about the history of a time series property value for a component, component type, entity, or workspace. You must specify a value for workspaceId . For entity-specific queries, specify values for componentName and entityId . For cross-entity quries, specify a value for componentTypeId . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="WorkspaceId">The ID of the workspace. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+</param>
+    /// <param name="SelectedProperties">A list of properties whose value histories the request retrieves. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 256 o pattern: .* Syntax: "string" "string" ...</param>
+    public AwsIottwinmakerGetPropertyValueHistoryOptions(
+        string WorkspaceId,
+        IEnumerable<string> SelectedProperties
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceId);
+        this.WorkspaceId = WorkspaceId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SelectedProperties);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SelectedProperties));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SelectedProperties));
+            }
+
+            SelectedProperties = materialized;
+        }
+        this.SelectedProperties = SelectedProperties;
+    }
+
+    private AwsIottwinmakerGetPropertyValueHistoryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIottwinmakerGetPropertyValueHistoryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIottwinmakerGetPropertyValueHistoryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the workspace. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+
+    /// </summary>
     [CliOption("--workspace-id")]
-    public string? WorkspaceId { get; set; }
+    public string? WorkspaceId { get; private init; }
+
+    /// <summary>
+    /// A list of properties whose value histories the request retrieves. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 256 o pattern: .* Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--selected-properties", GroupValues = true)]
+    public IEnumerable<string>? SelectedProperties { get; private init; }
 
     /// <summary>
     /// The ID of the entity. Constraints: o min: 1 o max: 128 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|^[a-zA-Z0-9][a-zA-Z_\-0-9.:]*[a-zA-Z0-9]+
@@ -49,9 +107,6 @@ public record AwsIottwinmakerGetPropertyValueHistoryOptions : AwsOptions
     /// </summary>
     [CliOption("--component-type-id")]
     public string? ComponentTypeId { get; set; }
-
-    [CliOption("--selected-properties", GroupValues = true)]
-    public IEnumerable<string>? SelectedProperties { get; set; }
 
     /// <summary>
     /// A list of objects that filter the property value history request. Constraints: o min: 1 o max: 10 (structure) An object that filters items returned by a property request. propertyName -&gt; (string) The property name associated with this property filter. Constraints: o min: 1 o max: 256 o pattern: .* operator -&gt; (string) The operator associated with this property filter. Constraints: o min: 1 o max: 256 o pattern: .* value -&gt; (structure) The value associated with this property filter. booleanValue -&gt; (boolean) A Boolean value. doubleValue -&gt; (double) A double value. integerValue -&gt; (integer) An integer value. longValue -&gt; (long) A long value. stringValue -&gt; (string) A string value. Constraints: o min: 1 o max: 256 o pattern: .* listValue -&gt; (list) A list of multiple values. Constraints: o min: 0 o max: 50 (structure) An object that specifies a value for a property. booleanValue -&gt; (boolean) A Boolean value. doubleValue -&gt; (double) A double value. integerValue -&gt; (integer) An integer value. longValue -&gt; (long) A long value. stringValue -&gt; (string) A string value. Constraints: o min: 1 o max: 256 o pattern: .* listValue -&gt; (list) A list of multiple values. Constraints: o min: 0 o max: 50 ( ... recursive ... ) mapValue -&gt; (map) An object that maps strings to multiple DataValue objects. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: .* ( ... recursive ... ) relationshipValue -&gt; (structure) A value that relates a component to another compo- nent. targetEntityId -&gt; (string) The ID of the target entity associated with this relationship value. Constraints: o min: 1 o max: 128 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|^[a-zA-Z0-9][a-zA-Z_\-0-9.:]*[a-zA-Z0-9]+ targetComponentName -&gt; (string) The name of the target component associated with the relationship value. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z_\-0-9]+ expression -&gt; (string) An expression that produces the value. Constraints: o min: 1 o max: 316 o pattern: (^\$\{Parame- ters\.[a-zA-z]+([a-zA-z_0-9]*)}$) mapValue -&gt; (map) An object that maps strings to multiple DataValue ob- jects. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: .* value -&gt; (structure) An object that specifies a value for a property. booleanValue -&gt; (boolean) A Boolean value. doubleValue -&gt; (double) A double value. integerValue -&gt; (integer) An integer value. longValue -&gt; (long) A long value. stringValue -&gt; (string) A string value. Constraints: o min: 1 o max: 256 o pattern: .* listValue -&gt; (list) A list of multiple values. Constraints: o min: 0 o max: 50 ( ... recursive ... ) mapValue -&gt; (map) An object that maps strings to multiple DataValue objects. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: .* ( ... recursive ... ) relationshipValue -&gt; (structure) A value that relates a component to another compo- nent. targetEntityId -&gt; (string) The ID of the target entity associated with this relationship value. Constraints: o min: 1 o max: 128 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|^[a-zA-Z0-9][a-zA-Z_\-0-9.:]*[a-zA-Z0-9]+ targetComponentName -&gt; (string) The name of the target component associated with the relationship value. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z_\-0-9]+ expression -&gt; (string) An expression that produces the value. Constraints: o min: 1 o max: 316 o pattern: (^\$\{Parame- ters\.[a-zA-z]+([a-zA-z_0-9]*)}$) relationshipValue -&gt; (structure) A value that relates a component to another component. targetEntityId -&gt; (string) The ID of the target entity associated with this rela- tionship value. Constraints: o min: 1 o max: 128 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|^[a-zA-Z0-9][a-zA-Z_\-0-9.:]*[a-zA-Z0-9]+ targetComponentName -&gt; (string) The name of the target component associated with the relationship value. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z_\-0-9]+ expression -&gt; (string) An expression that produces the value. Constraints: o min: 1 o max: 316 o pattern: (^\$\{Parameters\.[a-zA-z]+([a-zA-z_0-9]*)}$) JSON Syntax: [ { "propertyName": "string", "operator": "string", "value": { "booleanValue": true|false, "doubleValue": double, "integerValue": integer, "longValue": long, "stringValue": "string", "listValue": [ { "booleanValue": true|false, "doubleValue": double, "integerValue": integer, "longValue": long, "stringValue": "string", "listValue": [ { ... recursive ... } ... ], "mapValue": {"string": { ... recursive ... } ...}, "relationshipValue": { "targetEntityId": "string", "targetComponentName": "string" }, "expression": "string" } ... ], "mapValue": {"string": { "booleanValue": true|false, "doubleValue": double, "integerValue": integer, "longValue": long, "stringValue": "string", "listValue": [ { ... recursive ... } ... ], "mapValue": {"string": { ... recursive ... } ...}, "relationshipValue": { "targetEntityId": "string", "targetComponentName": "string" }, "expression": "string" } ...}, "relationshipValue": { "targetEntityId": "string", "targetComponentName": "string" }, "expression": "string" } } ... ]
@@ -113,5 +168,22 @@ public record AwsIottwinmakerGetPropertyValueHistoryOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

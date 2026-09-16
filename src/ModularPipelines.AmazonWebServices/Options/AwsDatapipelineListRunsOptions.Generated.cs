@@ -21,8 +21,25 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("datapipeline", "list-runs")]
 public record AwsDatapipelineListRunsOptions : AwsOptions
 {
+    /// <summary>
+    /// Lists the times the specified pipeline has run. You can optionally fil- ter the complete list of results to include only the runs you are in- terested in.
+    /// </summary>
+    /// <param name="PipelineId"></param>
+    public AwsDatapipelineListRunsOptions(
+        string PipelineId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PipelineId);
+        this.PipelineId = PipelineId;
+    }
+
+    public void Deconstruct(out string PipelineId)
+    {
+        PipelineId = this.PipelineId;
+    }
+
     [CliOption("--pipeline-id")]
-    public string? PipelineId { get; set; }
+    public string PipelineId { get; private init; }
 
     [CliOption("--status")]
     public string? Status { get; set; }

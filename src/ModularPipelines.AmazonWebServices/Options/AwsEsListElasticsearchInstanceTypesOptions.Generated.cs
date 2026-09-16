@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("es", "list-elasticsearch-instance-types")]
-public record AwsEsListElasticsearchInstanceTypesOptions : AwsOptions
+public record AwsEsListElasticsearchInstanceTypesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// List all Elasticsearch instance types that are supported for given ElasticsearchVersion See also: AWS API Documentation list-elasticsearch-instance-types is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressi...
+    /// </summary>
+    /// <param name="ElasticsearchVersion">Version of Elasticsearch for which list of supported elasticsearch instance types are needed. Constraints: o pattern: ^[0-9]{1}\.[0-9]{1,2}$|^OpenSearch_[0-9]{1,2}\.[0-9]{1,2}$|^OS_[0-9]{1,2}\.[0-9]{1,2}$</param>
+    public AwsEsListElasticsearchInstanceTypesOptions(
+        string ElasticsearchVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ElasticsearchVersion);
+        this.ElasticsearchVersion = ElasticsearchVersion;
+    }
+
+    private AwsEsListElasticsearchInstanceTypesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEsListElasticsearchInstanceTypesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEsListElasticsearchInstanceTypesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Version of Elasticsearch for which list of supported elasticsearch instance types are needed. Constraints: o pattern: ^[0-9]{1}\.[0-9]{1,2}$|^OpenSearch_[0-9]{1,2}\.[0-9]{1,2}$|^OS_[0-9]{1,2}\.[0-9]{1,2}$
+    /// </summary>
     [CliOption("--elasticsearch-version")]
-    public string? ElasticsearchVersion { get; set; }
+    public string? ElasticsearchVersion { get; private init; }
 
     /// <summary>
     /// DomainName represents the name of the Domain that we are trying to modify. This should be present only if we are querying for list of available Elasticsearch instance types when modifying existing do- main. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+
@@ -55,5 +92,22 @@ public record AwsEsListElasticsearchInstanceTypesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

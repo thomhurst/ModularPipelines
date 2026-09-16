@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,19 +22,73 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("imagebuilder", "create-distribution-configuration")]
-public record AwsImagebuilderCreateDistributionConfigurationOptions : AwsOptions
+public record AwsImagebuilderCreateDistributionConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new distribution configuration. Distribution configurations define and configure the outputs of your pipeline. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the distribution configuration. Constraints: o pattern: ^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$</param>
+    /// <param name="Distributions">The distributions of the distribution configuration. (structure) Defines the settings for a specific Region. region -&gt; (string) [required] The target Region. Constraints: o min: 1 o max: 1024 amiDistributionConfiguration -&gt; (structure) The specific AMI settings; for example, launch permissions or AMI tags. name -&gt; (string) The name of the output AMI. Constraints: o min: 1 o max: 127 o pattern: ^[-_A-Za-z0-9{][-_A-Za-z0-9\s:{}\.]+[-_A-Za-z0-9}]$ description -&gt; (string) The description of the AMI distribution configuration. Minimum and maximum length are in characters. Constraints: o min: 1 o max: 1024 targetAccountIds -&gt; (list) The ID of an account to which you want to distribute an image. Constraints: o min: 1 o max: 1536 (string) Constraints: o pattern: ^[0-9]{12}$ amiTags -&gt; (map) The tags to apply to AMIs distributed to this Region. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z0-9\s_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 kmsKeyId -&gt; (string) The Amazon Resource Name (ARN) that uniquely identifies the KMS key used to encrypt the distributed image. This can be either the Key ARN or the Alias ARN. For more in- formation, see Key identifiers (KeyId) in the Key Manage- ment Service Developer Guide . Constraints: o min: 1 o max: 1024 launchPermission -&gt; (structure) Launch permissions can be used to configure which Amazon Web Services accounts can use the AMI to launch in- stances. userIds -&gt; (list) The Amazon Web Services account ID. Constraints: o min: 1 o max: 1536 (string) Constraints: o pattern: ^[0-9]{12}$ userGroups -&gt; (list) The name of the group. (string) Constraints: o min: 1 o max: 1024 organizationArns -&gt; (list) The ARN for an Amazon Web Services Organization that you want to share your AMI with. For more information, see What is Organizations? . Constraints: o min: 1 o max: 25 (string) Constraints: o pattern: ^arn:aws[^:]*:organiza- tions::[0-9]{12}:organization/o-[a-z0-9]{10,32}$ organizationalUnitArns -&gt; (list) The ARN for an Organizations organizational unit (OU) that you want to share your AMI with. For more infor- mation about key concepts for Organizations, see Organizations terminology and concepts . Constraints: o min: 1 o max: 25 (string) Constraints: o pattern: ^arn:aws[^:]*:organiza- tions::[0-9]{12}:ou/o-[a-z0-9]{10,32}/ou-[0-9a-z]{4,32}-[0-9a-z]{8,32} containerDistributionConfiguration -&gt; (structure) Container distribution settings for encryption, licensing, and sharing in a specific Region. description -&gt; (string) The description of the container distribution configura- tion. Constraints: o min: 1 o max: 1024 containerTags -&gt; (list) Tags that are attached to the container distribution con- figuration. (string) Constraints: o min: 1 o max: 1024 targetRepository -&gt; (structure) [required] The destination repository for the container distribution configuration. service -&gt; (string) [required] Specifies the service in which this image was regis- tered. Possible values: o ECR repositoryName -&gt; (string) [required] The name of the container repository where the output container image is stored. This name is prefixed by the repository location. For example, &lt;repository lo- cation url&gt;/repository_name . Constraints: o min: 1 o max: 1024 licenseConfigurationArns -&gt; (list) The License Manager Configuration to associate with the AMI in the specified Region. Constraints: o min: 1 o max: 50 (string) Constraints: o pattern: ^arn:aws[^:]*:license-man- ager:[^:]+:[0-9]{12}:license-configura- tion:lic-[a-z0-9-_]{32}$ launchTemplateConfigurations -&gt; (list) A group of launchTemplateConfiguration settings that apply to image distribution for specified accounts. Constraints: o min: 1 o max: 100 (structure) Identifies an Amazon EC2 launch template to use for a specific account. launchTemplateId -&gt; (string) [required] Identifies the Amazon EC2 launch template to use. Constraints: o pattern: ^lt-[a-z0-9-_]{17}$ accountId -&gt; (string) The account ID that this configuration applies to. Constraints: o pattern: ^[0-9]{12}$ setDefaultVersion -&gt; (boolean) Set the specified Amazon EC2 launch template as the default launch template for the specified account. s3ExportConfiguration -&gt; (structure) Configure export settings to deliver disk images created from your image build, using a file format that is compatible with your VMs in that Region. roleName -&gt; (string) [required] The name of the role that grants VM Import/Export permis- sion to export images to your S3 bucket. Constraints: o min: 1 o max: 1024 diskImageFormat -&gt; (string) [required] Export the updated image to one of the following sup- ported disk image formats: o Virtual Hard Disk (VHD) Compatible with Citrix Xen and Microsoft Hyper-V virtualization products. o Stream-optimized ESX Virtual Machine Disk (VMDK) Com- patible with VMware ESX and VMware vSphere versions 4, 5, and 6. o Raw Raw format. Possible values: o VMDK o RAW o VHD s3Bucket -&gt; (string) [required] The S3 bucket in which to store the output disk images for your VM. Constraints: o min: 1 o max: 1024 s3Prefix -&gt; (string) The Amazon S3 path for the bucket where the output disk images for your VM are stored. Constraints: o min: 1 o max: 1024 fastLaunchConfigurations -&gt; (list) The Windows faster-launching configurations to use for AMI distribution. Constraints: o min: 1 o max: 1000 (structure) Define and configure faster launching for output Windows AMIs. enabled -&gt; (boolean) [required] A Boolean that represents the current state of faster launching for the Windows AMI. Set to true to start using Windows faster launching, or false to stop using it. snapshotConfiguration -&gt; (structure) Configuration settings for managing the number of snapshots that are created from pre-provisioned in- stances for the Windows AMI when faster launching is enabled. targetResourceCount -&gt; (integer) The number of pre-provisioned snapshots to keep on hand for a fast-launch enabled Windows AMI. Constraints: o min: 1 o max: 10000 maxParallelLaunches -&gt; (integer) The maximum number of parallel instances that are launched for creating resources. Constraints: o min: 1 launchTemplate -&gt; (structure) The launch template that the fast-launch enabled Win- dows AMI uses when it launches Windows instances to create pre-provisioned snapshots. launchTemplateId -&gt; (string) The ID of the launch template to use for faster launching for a Windows AMI. Constraints: o pattern: ^lt-[a-z0-9-_]{17}$ launchTemplateName -&gt; (string) The name of the launch template to use for faster launching for a Windows AMI. Constraints: o min: 1 o max: 1024 launchTemplateVersion -&gt; (string) The version of the launch template to use for faster launching for a Windows AMI. Constraints: o min: 1 o max: 1024 accountId -&gt; (string) The owner account ID for the fast-launch enabled Win- dows AMI. Constraints: o pattern: ^[0-9]{12}$ ssmParameterConfigurations -&gt; (list) Contains settings to update Amazon Web Services Systems Man- ager (SSM) Parameter Store Parameters with output AMI IDs from the build by target Region. (structure) Configuration for a single Parameter in the Amazon Web Services Systems Manager (SSM) Parameter Store in a given Region. amiAccountId -&gt; (string) Specify the account that will own the Parameter in a given Region. During distribution, this account must be specified in distribution settings as a target ac- count for the Region. Constraints: o pattern: ^[0-9]{12}$ parameterName -&gt; (string) [required] This is the name of the Parameter in the target Region or account. The image distribution creates the Parame- ter if it doesn't already exist. Otherwise, it updates the parameter. Constraints: o min: 1 o max: 1011 o pattern: ^[a-zA-Z0-9_.\-\/]+$ dataType -&gt; (string) The type of value the parameter contains. We recommend the aws:ec2:image data type. Possible values: o text o aws:ec2:image JSON Syntax: [ { "region": "string", "amiDistributionConfiguration": { "name": "string", "description": "string", "targetAccountIds": ["string", ...], "amiTags": {"string": "string" ...}, "kmsKeyId": "string", "launchPermission": { "userIds": ["string", ...], "userGroups": ["string", ...], "organizationArns": ["string", ...], "organizationalUnitArns": ["string", ...] } }, "containerDistributionConfiguration": { "description": "string", "containerTags": ["string", ...], "targetRepository": { "service": "ECR", "repositoryName": "string" } }, "licenseConfigurationArns": ["string", ...], "launchTemplateConfigurations": [ { "launchTemplateId": "string", "accountId": "string", "setDefaultVersion": true|false } ... ], "s3ExportConfiguration": { "roleName": "string", "diskImageFormat": "VMDK"|"RAW"|"VHD", "s3Bucket": "string", "s3Prefix": "string" }, "fastLaunchConfigurations": [ { "enabled": true|false, "snapshotConfiguration": { "targetResourceCount": integer }, "maxParallelLaunches": integer, "launchTemplate": { "launchTemplateId": "string", "launchTemplateName": "string", "launchTemplateVersion": "string" }, "accountId": "string" } ... ], "ssmParameterConfigurations": [ { "amiAccountId": "string", "parameterName": "string", "dataType": "text"|"aws:ec2:image" } ... ] } ... ]</param>
+    public AwsImagebuilderCreateDistributionConfigurationOptions(
+        string Name,
+        IEnumerable<string> Distributions
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Distributions);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Distributions));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Distributions));
+            }
+
+            Distributions = materialized;
+        }
+        this.Distributions = Distributions;
+    }
+
+    private AwsImagebuilderCreateDistributionConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsImagebuilderCreateDistributionConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsImagebuilderCreateDistributionConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the distribution configuration. Constraints: o pattern: ^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The distributions of the distribution configuration. (structure) Defines the settings for a specific Region. region -&gt; (string) [required] The target Region. Constraints: o min: 1 o max: 1024 amiDistributionConfiguration -&gt; (structure) The specific AMI settings; for example, launch permissions or AMI tags. name -&gt; (string) The name of the output AMI. Constraints: o min: 1 o max: 127 o pattern: ^[-_A-Za-z0-9{][-_A-Za-z0-9\s:{}\.]+[-_A-Za-z0-9}]$ description -&gt; (string) The description of the AMI distribution configuration. Minimum and maximum length are in characters. Constraints: o min: 1 o max: 1024 targetAccountIds -&gt; (list) The ID of an account to which you want to distribute an image. Constraints: o min: 1 o max: 1536 (string) Constraints: o pattern: ^[0-9]{12}$ amiTags -&gt; (map) The tags to apply to AMIs distributed to this Region. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z0-9\s_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 kmsKeyId -&gt; (string) The Amazon Resource Name (ARN) that uniquely identifies the KMS key used to encrypt the distributed image. This can be either the Key ARN or the Alias ARN. For more in- formation, see Key identifiers (KeyId) in the Key Manage- ment Service Developer Guide . Constraints: o min: 1 o max: 1024 launchPermission -&gt; (structure) Launch permissions can be used to configure which Amazon Web Services accounts can use the AMI to launch in- stances. userIds -&gt; (list) The Amazon Web Services account ID. Constraints: o min: 1 o max: 1536 (string) Constraints: o pattern: ^[0-9]{12}$ userGroups -&gt; (list) The name of the group. (string) Constraints: o min: 1 o max: 1024 organizationArns -&gt; (list) The ARN for an Amazon Web Services Organization that you want to share your AMI with. For more information, see What is Organizations? . Constraints: o min: 1 o max: 25 (string) Constraints: o pattern: ^arn:aws[^:]*:organiza- tions::[0-9]{12}:organization/o-[a-z0-9]{10,32}$ organizationalUnitArns -&gt; (list) The ARN for an Organizations organizational unit (OU) that you want to share your AMI with. For more infor- mation about key concepts for Organizations, see Organizations terminology and concepts . Constraints: o min: 1 o max: 25 (string) Constraints: o pattern: ^arn:aws[^:]*:organiza- tions::[0-9]{12}:ou/o-[a-z0-9]{10,32}/ou-[0-9a-z]{4,32}-[0-9a-z]{8,32} containerDistributionConfiguration -&gt; (structure) Container distribution settings for encryption, licensing, and sharing in a specific Region. description -&gt; (string) The description of the container distribution configura- tion. Constraints: o min: 1 o max: 1024 containerTags -&gt; (list) Tags that are attached to the container distribution con- figuration. (string) Constraints: o min: 1 o max: 1024 targetRepository -&gt; (structure) [required] The destination repository for the container distribution configuration. service -&gt; (string) [required] Specifies the service in which this image was regis- tered. Possible values: o ECR repositoryName -&gt; (string) [required] The name of the container repository where the output container image is stored. This name is prefixed by the repository location. For example, &lt;repository lo- cation url&gt;/repository_name . Constraints: o min: 1 o max: 1024 licenseConfigurationArns -&gt; (list) The License Manager Configuration to associate with the AMI in the specified Region. Constraints: o min: 1 o max: 50 (string) Constraints: o pattern: ^arn:aws[^:]*:license-man- ager:[^:]+:[0-9]{12}:license-configura- tion:lic-[a-z0-9-_]{32}$ launchTemplateConfigurations -&gt; (list) A group of launchTemplateConfiguration settings that apply to image distribution for specified accounts. Constraints: o min: 1 o max: 100 (structure) Identifies an Amazon EC2 launch template to use for a specific account. launchTemplateId -&gt; (string) [required] Identifies the Amazon EC2 launch template to use. Constraints: o pattern: ^lt-[a-z0-9-_]{17}$ accountId -&gt; (string) The account ID that this configuration applies to. Constraints: o pattern: ^[0-9]{12}$ setDefaultVersion -&gt; (boolean) Set the specified Amazon EC2 launch template as the default launch template for the specified account. s3ExportConfiguration -&gt; (structure) Configure export settings to deliver disk images created from your image build, using a file format that is compatible with your VMs in that Region. roleName -&gt; (string) [required] The name of the role that grants VM Import/Export permis- sion to export images to your S3 bucket. Constraints: o min: 1 o max: 1024 diskImageFormat -&gt; (string) [required] Export the updated image to one of the following sup- ported disk image formats: o Virtual Hard Disk (VHD) Compatible with Citrix Xen and Microsoft Hyper-V virtualization products. o Stream-optimized ESX Virtual Machine Disk (VMDK) Com- patible with VMware ESX and VMware vSphere versions 4, 5, and 6. o Raw Raw format. Possible values: o VMDK o RAW o VHD s3Bucket -&gt; (string) [required] The S3 bucket in which to store the output disk images for your VM. Constraints: o min: 1 o max: 1024 s3Prefix -&gt; (string) The Amazon S3 path for the bucket where the output disk images for your VM are stored. Constraints: o min: 1 o max: 1024 fastLaunchConfigurations -&gt; (list) The Windows faster-launching configurations to use for AMI distribution. Constraints: o min: 1 o max: 1000 (structure) Define and configure faster launching for output Windows AMIs. enabled -&gt; (boolean) [required] A Boolean that represents the current state of faster launching for the Windows AMI. Set to true to start using Windows faster launching, or false to stop using it. snapshotConfiguration -&gt; (structure) Configuration settings for managing the number of snapshots that are created from pre-provisioned in- stances for the Windows AMI when faster launching is enabled. targetResourceCount -&gt; (integer) The number of pre-provisioned snapshots to keep on hand for a fast-launch enabled Windows AMI. Constraints: o min: 1 o max: 10000 maxParallelLaunches -&gt; (integer) The maximum number of parallel instances that are launched for creating resources. Constraints: o min: 1 launchTemplate -&gt; (structure) The launch template that the fast-launch enabled Win- dows AMI uses when it launches Windows instances to create pre-provisioned snapshots. launchTemplateId -&gt; (string) The ID of the launch template to use for faster launching for a Windows AMI. Constraints: o pattern: ^lt-[a-z0-9-_]{17}$ launchTemplateName -&gt; (string) The name of the launch template to use for faster launching for a Windows AMI. Constraints: o min: 1 o max: 1024 launchTemplateVersion -&gt; (string) The version of the launch template to use for faster launching for a Windows AMI. Constraints: o min: 1 o max: 1024 accountId -&gt; (string) The owner account ID for the fast-launch enabled Win- dows AMI. Constraints: o pattern: ^[0-9]{12}$ ssmParameterConfigurations -&gt; (list) Contains settings to update Amazon Web Services Systems Man- ager (SSM) Parameter Store Parameters with output AMI IDs from the build by target Region. (structure) Configuration for a single Parameter in the Amazon Web Services Systems Manager (SSM) Parameter Store in a given Region. amiAccountId -&gt; (string) Specify the account that will own the Parameter in a given Region. During distribution, this account must be specified in distribution settings as a target ac- count for the Region. Constraints: o pattern: ^[0-9]{12}$ parameterName -&gt; (string) [required] This is the name of the Parameter in the target Region or account. The image distribution creates the Parame- ter if it doesn't already exist. Otherwise, it updates the parameter. Constraints: o min: 1 o max: 1011 o pattern: ^[a-zA-Z0-9_.\-\/]+$ dataType -&gt; (string) The type of value the parameter contains. We recommend the aws:ec2:image data type. Possible values: o text o aws:ec2:image JSON Syntax: [ { "region": "string", "amiDistributionConfiguration": { "name": "string", "description": "string", "targetAccountIds": ["string", ...], "amiTags": {"string": "string" ...}, "kmsKeyId": "string", "launchPermission": { "userIds": ["string", ...], "userGroups": ["string", ...], "organizationArns": ["string", ...], "organizationalUnitArns": ["string", ...] } }, "containerDistributionConfiguration": { "description": "string", "containerTags": ["string", ...], "targetRepository": { "service": "ECR", "repositoryName": "string" } }, "licenseConfigurationArns": ["string", ...], "launchTemplateConfigurations": [ { "launchTemplateId": "string", "accountId": "string", "setDefaultVersion": true|false } ... ], "s3ExportConfiguration": { "roleName": "string", "diskImageFormat": "VMDK"|"RAW"|"VHD", "s3Bucket": "string", "s3Prefix": "string" }, "fastLaunchConfigurations": [ { "enabled": true|false, "snapshotConfiguration": { "targetResourceCount": integer }, "maxParallelLaunches": integer, "launchTemplate": { "launchTemplateId": "string", "launchTemplateName": "string", "launchTemplateVersion": "string" }, "accountId": "string" } ... ], "ssmParameterConfigurations": [ { "amiAccountId": "string", "parameterName": "string", "dataType": "text"|"aws:ec2:image" } ... ] } ... ]
+    /// </summary>
+    [CliOption("--distributions", GroupValues = true)]
+    public IEnumerable<string>? Distributions { get; private init; }
 
     /// <summary>
     /// The description of the distribution configuration. Constraints: o min: 1 o max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--distributions", GroupValues = true)]
-    public IEnumerable<string>? Distributions { get; set; }
 
     /// <summary>
     /// The tags of the distribution configuration. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z0-9\s_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -42,16 +97,39 @@ public record AwsImagebuilderCreateDistributionConfigurationOptions : AwsOptions
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency in the Amazon EC2 API Reference . Constraints: o min: 1 o max: 64
+    /// A unique, case-sensitive identifier you provide to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request, but does not re- turn an error. For more information, see Ensuring idempotency in the Amazon EC2 API Reference . Constraints: o min: 1 o max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
+
+    /// <summary>
+    /// Validates the required permissions and request parameters without making the request. If validation succeeds, the operation returns a DryRunOperationException error response.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
+    public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

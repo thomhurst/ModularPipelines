@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --balancingstrategy.
+/// Allowed values for --balancing-strategy.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGameliftCreateGameServerGroupBalancingStrategy
 {
+    [EnumValue("ON_DEMAND_ONLY")]
+    OnDemandOnly,
+
     [EnumValue("SPOT_ONLY")]
-    SpotOnly = 1,
+    SpotOnly,
 
     [EnumValue("SPOT_PREFERRED")]
-    SpotPreferred = 2,
-
-    [EnumValue("ON_DEMAND_ONLY")]
-    OnDemandOnly = 3
+    SpotPreferred
 }

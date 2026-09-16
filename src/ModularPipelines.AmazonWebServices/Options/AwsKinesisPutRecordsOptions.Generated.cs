@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kinesis", "put-records")]
-public record AwsKinesisPutRecordsOptions : AwsOptions
+public record AwsKinesisPutRecordsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Writes multiple data records into a Kinesis data stream in a single call (also referred to as a PutRecords request). Use this operation to send data into the stream for data ingestion and processing. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. Each PutRecords request can support up to 500 records. Each record in the request can be as large as 10 MiB, up...
+    /// </summary>
+    /// <param name="Records">The records associated with the request. Constraints: o min: 1 o max: 500 (structure) Represents the output for PutRecords . Data -&gt; (blob) [required] The data blob to put into the record, which is base64-encoded when the blob is serialized. When the data blob (the payload before base64-encoding) is added to the partition key size, the total size must not exceed the maximum record size (10 MiB). Constraints: o min: 0 o max: 10485760 ExplicitHashKey -&gt; (string) The hash value used to determine explicitly the shard that the data record is assigned to by overriding the partition key hash. Constraints: o pattern: ^(0|([1-9]\d{0,38}))$ PartitionKey -&gt; (string) [required] Determines which shard in the stream the data record is as- signed to. Partition keys are Unicode strings with a maximum length limit of 256 characters for each key. Amazon Kinesis Data Streams uses the partition key as input to a hash func- tion that maps the partition key and associated data to a specific shard. Specifically, an MD5 hash function is used to map partition keys to 128-bit integer values and to map asso- ciated data records to shards. As a result of this hashing mechanism, all data records with the same partition key map to the same shard within the stream. Constraints: o min: 1 o max: 256 Shorthand Syntax: Data=blob,ExplicitHashKey=string,PartitionKey=string ... JSON Syntax: [ { "Data": blob, "ExplicitHashKey": "string", "PartitionKey": "string" } ... ]</param>
+    public AwsKinesisPutRecordsOptions(
+        IEnumerable<string> Records
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Records);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Records));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Records));
+            }
+
+            Records = materialized;
+        }
+        this.Records = Records;
+    }
+
+    private AwsKinesisPutRecordsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKinesisPutRecordsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKinesisPutRecordsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The records associated with the request. Constraints: o min: 1 o max: 500 (structure) Represents the output for PutRecords . Data -&gt; (blob) [required] The data blob to put into the record, which is base64-encoded when the blob is serialized. When the data blob (the payload before base64-encoding) is added to the partition key size, the total size must not exceed the maximum record size (10 MiB). Constraints: o min: 0 o max: 10485760 ExplicitHashKey -&gt; (string) The hash value used to determine explicitly the shard that the data record is assigned to by overriding the partition key hash. Constraints: o pattern: ^(0|([1-9]\d{0,38}))$ PartitionKey -&gt; (string) [required] Determines which shard in the stream the data record is as- signed to. Partition keys are Unicode strings with a maximum length limit of 256 characters for each key. Amazon Kinesis Data Streams uses the partition key as input to a hash func- tion that maps the partition key and associated data to a specific shard. Specifically, an MD5 hash function is used to map partition keys to 128-bit integer values and to map asso- ciated data records to shards. As a result of this hashing mechanism, all data records with the same partition key map to the same shard within the stream. Constraints: o min: 1 o max: 256 Shorthand Syntax: Data=blob,ExplicitHashKey=string,PartitionKey=string ... JSON Syntax: [ { "Data": blob, "ExplicitHashKey": "string", "PartitionKey": "string" } ... ]
+    /// </summary>
     [CliOption("--records", GroupValues = true)]
-    public IEnumerable<string>? Records { get; set; }
+    public IEnumerable<string>? Records { get; private init; }
 
     /// <summary>
     /// The stream name associated with the request. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
@@ -42,10 +90,33 @@ public record AwsKinesisPutRecordsOptions : AwsOptions
     [CliOption("--stream-id")]
     public string? StreamId { get; set; }
 
+    /// <summary>
+    /// Checks if your request will succeed. DryRun is an optional parame- ter.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
+    public bool? DryRun { get; set; }
+
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

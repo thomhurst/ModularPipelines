@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sqs", "delete-message")]
-public record AwsSqsDeleteMessageOptions : AwsOptions
+public record AwsSqsDeleteMessageOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--queue-url")]
-    public string? QueueUrl { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deletes the specified message from the specified queue. To select the message to delete, use the ReceiptHandle of the message (not the Mes- sageId which you receive when you send the message). Amazon SQS can delete a message from a queue even if a visibility timeout setting causes the message to be locked by another consumer. Amazon SQS auto- matically deletes messages left in a queue longer than the retention period configured for the queue. NOTE: Each time you receive a message, meaning when a...
+    /// </summary>
+    /// <param name="QueueUrl">The URL of the Amazon SQS queue from which messages are deleted. Queue URLs and names are case-sensitive.</param>
+    /// <param name="ReceiptHandle">The receipt handle associated with the message to delete.</param>
+    public AwsSqsDeleteMessageOptions(
+        string QueueUrl,
+        string ReceiptHandle
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(QueueUrl);
+        this.QueueUrl = QueueUrl;
+        global::System.ArgumentNullException.ThrowIfNull(ReceiptHandle);
+        this.ReceiptHandle = ReceiptHandle;
+    }
+
+    private AwsSqsDeleteMessageOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSqsDeleteMessageOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSqsDeleteMessageOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The URL of the Amazon SQS queue from which messages are deleted. Queue URLs and names are case-sensitive.
+    /// </summary>
+    [CliOption("--queue-url")]
+    public string? QueueUrl { get; private init; }
+
+    /// <summary>
+    /// The receipt handle associated with the message to delete.
+    /// </summary>
     [CliOption("--receipt-handle")]
-    public string? ReceiptHandle { get; set; }
+    public string? ReceiptHandle { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

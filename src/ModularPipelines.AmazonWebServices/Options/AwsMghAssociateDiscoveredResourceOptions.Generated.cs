@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,71 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mgh", "associate-discovered-resource")]
-public record AwsMghAssociateDiscoveredResourceOptions : AwsOptions
+public record AwsMghAssociateDiscoveredResourceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Associates a discovered resource ID from Application Discovery Service with a migration task. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ProgressUpdateStream">The name of the ProgressUpdateStream. Constraints: o min: 1 o max: 50 o pattern: [^/:|\000-\037]+</param>
+    /// <param name="MigrationTaskName">The identifier given to the MigrationTask. Do not store personal data in this field. Constraints: o min: 1 o max: 256 o pattern: [^:|]+</param>
+    /// <param name="DiscoveredResource">Object representing a Resource. ConfigurationId -&gt; (string) [required] The configurationId in Application Discovery Service that uniquely identifies the on-premise resource. Constraints: o min: 1 o max: 1600 o pattern: ^.{1,1600}$ Description -&gt; (string) A description that can be free-form text to record additional detail about the discovered resource for clarity or later refer- ence. Constraints: o min: 0 o max: 500 o pattern: ^.{0,500}$ Shorthand Syntax: ConfigurationId=string,Description=string JSON Syntax: { "ConfigurationId": "string", "Description": "string" }</param>
+    public AwsMghAssociateDiscoveredResourceOptions(
+        string ProgressUpdateStream,
+        string MigrationTaskName,
+        string DiscoveredResource
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProgressUpdateStream);
+        this.ProgressUpdateStream = ProgressUpdateStream;
+        global::System.ArgumentNullException.ThrowIfNull(MigrationTaskName);
+        this.MigrationTaskName = MigrationTaskName;
+        global::System.ArgumentNullException.ThrowIfNull(DiscoveredResource);
+        this.DiscoveredResource = DiscoveredResource;
+    }
+
+    private AwsMghAssociateDiscoveredResourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMghAssociateDiscoveredResourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMghAssociateDiscoveredResourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the ProgressUpdateStream. Constraints: o min: 1 o max: 50 o pattern: [^/:|\000-\037]+
+    /// </summary>
     [CliOption("--progress-update-stream")]
-    public string? ProgressUpdateStream { get; set; }
+    public string? ProgressUpdateStream { get; private init; }
 
+    /// <summary>
+    /// The identifier given to the MigrationTask. Do not store personal data in this field. Constraints: o min: 1 o max: 256 o pattern: [^:|]+
+    /// </summary>
     [CliOption("--migration-task-name")]
-    public string? MigrationTaskName { get; set; }
+    public string? MigrationTaskName { get; private init; }
 
+    /// <summary>
+    /// Object representing a Resource. ConfigurationId -&gt; (string) [required] The configurationId in Application Discovery Service that uniquely identifies the on-premise resource. Constraints: o min: 1 o max: 1600 o pattern: ^.{1,1600}$ Description -&gt; (string) A description that can be free-form text to record additional detail about the discovered resource for clarity or later refer- ence. Constraints: o min: 0 o max: 500 o pattern: ^.{0,500}$ Shorthand Syntax: ConfigurationId=string,Description=string JSON Syntax: { "ConfigurationId": "string", "Description": "string" }
+    /// </summary>
     [CliOption("--discovered-resource")]
-    public string? DiscoveredResource { get; set; }
+    public string? DiscoveredResource { get; private init; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Optional boolean flag to indicate whether any effect should take place. Used to test if the caller has permission to make the call.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -38,5 +92,22 @@ public record AwsMghAssociateDiscoveredResourceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

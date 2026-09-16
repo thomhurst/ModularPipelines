@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudformation", "wait", "stack-refactor-create-complete")]
-public record AwsCloudformationWaitStackRefactorCreateCompleteOptions : AwsOptions
+public record AwsCloudformationWaitStackRefactorCreateCompleteOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Wait until the stack refactor status is CREATE_COMPLETE. It will poll every 5 seconds until a successful state has been reached. This will exit with a return code of 255 after 120 failed checks. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="StackRefactorId">The ID associated with the stack refactor created from the CreateS- tackRefactor action.</param>
+    public AwsCloudformationWaitStackRefactorCreateCompleteOptions(
+        string StackRefactorId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StackRefactorId);
+        this.StackRefactorId = StackRefactorId;
+    }
+
+    private AwsCloudformationWaitStackRefactorCreateCompleteOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudformationWaitStackRefactorCreateCompleteOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudformationWaitStackRefactorCreateCompleteOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID associated with the stack refactor created from the CreateS- tackRefactor action.
+    /// </summary>
     [CliOption("--stack-refactor-id")]
-    public string? StackRefactorId { get; set; }
+    public string? StackRefactorId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

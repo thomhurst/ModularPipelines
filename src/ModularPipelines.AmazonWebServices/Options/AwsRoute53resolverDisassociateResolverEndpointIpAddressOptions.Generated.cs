@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53resolver", "disassociate-resolver-endpoint-ip-address")]
-public record AwsRoute53resolverDisassociateResolverEndpointIpAddressOptions : AwsOptions
+public record AwsRoute53resolverDisassociateResolverEndpointIpAddressOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--resolver-endpoint-id")]
-    public string? ResolverEndpointId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Removes IP addresses from an inbound or an outbound Resolver endpoint. If you want to remove more than one IP address, submit one Disassoci- ateResolverEndpointIpAddress request for each IP address. To add an IP address to an endpoint, see AssociateResolverEndpointIpAddress . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResolverEndpointId">The ID of the Resolver endpoint that you want to disassociate an IP address from. Constraints: o min: 1 o max: 64</param>
+    /// <param name="IpAddress">The IPv4 address that you want to remove from a Resolver endpoint. IpId -&gt; (string) Only when removing an IP address from a Resolver endpoint : The ID of the IP address that you want to remove. To get this ID, use GetResolverEndpoint . Constraints: o min: 1 o max: 64 SubnetId -&gt; (string) The ID of the subnet that includes the IP address that you want to update. To get this ID, use GetResolverEndpoint . Constraints: o min: 1 o max: 32 Ip -&gt; (string) The new IPv4 address. Constraints: o min: 7 o max: 36 Ipv6 -&gt; (string) The new IPv6 address. Constraints: o min: 7 o max: 39 Shorthand Syntax: IpId=string,SubnetId=string,Ip=string,Ipv6=string JSON Syntax: { "IpId": "string", "SubnetId": "string", "Ip": "string", "Ipv6": "string" }</param>
+    public AwsRoute53resolverDisassociateResolverEndpointIpAddressOptions(
+        string ResolverEndpointId,
+        string IpAddress
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResolverEndpointId);
+        this.ResolverEndpointId = ResolverEndpointId;
+        global::System.ArgumentNullException.ThrowIfNull(IpAddress);
+        this.IpAddress = IpAddress;
+    }
+
+    private AwsRoute53resolverDisassociateResolverEndpointIpAddressOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53resolverDisassociateResolverEndpointIpAddressOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53resolverDisassociateResolverEndpointIpAddressOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Resolver endpoint that you want to disassociate an IP address from. Constraints: o min: 1 o max: 64
+    /// </summary>
+    [CliOption("--resolver-endpoint-id")]
+    public string? ResolverEndpointId { get; private init; }
+
+    /// <summary>
+    /// The IPv4 address that you want to remove from a Resolver endpoint. IpId -&gt; (string) Only when removing an IP address from a Resolver endpoint : The ID of the IP address that you want to remove. To get this ID, use GetResolverEndpoint . Constraints: o min: 1 o max: 64 SubnetId -&gt; (string) The ID of the subnet that includes the IP address that you want to update. To get this ID, use GetResolverEndpoint . Constraints: o min: 1 o max: 32 Ip -&gt; (string) The new IPv4 address. Constraints: o min: 7 o max: 36 Ipv6 -&gt; (string) The new IPv6 address. Constraints: o min: 7 o max: 39 Shorthand Syntax: IpId=string,SubnetId=string,Ip=string,Ipv6=string JSON Syntax: { "IpId": "string", "SubnetId": "string", "Ip": "string", "Ipv6": "string" }
+    /// </summary>
     [CliOption("--ip-address")]
-    public string? IpAddress { get; set; }
+    public string? IpAddress { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

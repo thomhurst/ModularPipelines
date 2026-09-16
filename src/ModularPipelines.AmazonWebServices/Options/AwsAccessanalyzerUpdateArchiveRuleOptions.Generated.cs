@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,16 +22,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("accessanalyzer", "update-archive-rule")]
-public record AwsAccessanalyzerUpdateArchiveRuleOptions : AwsOptions
+public record AwsAccessanalyzerUpdateArchiveRuleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the criteria and values for the specified archive rule. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AnalyzerName">The name of the analyzer to update the archive rules for. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z_][A-Za-z0-9_.-]*</param>
+    /// <param name="RuleName">The name of the rule to update. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][A-Za-z0-9_.-]*</param>
+    /// <param name="Filter">A filter to match for the rules to update. Only rules that match the filter are updated. key -&gt; (string) value -&gt; (structure) The criteria to use in the filter that defines the archive rule. For more information on available filter keys, see IAM Access Analyzer filter keys . eq -&gt; (list) An "equals" operator to match for the filter used to create the rule. Constraints: o min: 1 o max: 20 (string) neq -&gt; (list) A "not equals" operator to match for the filter used to cre- ate the rule. Constraints: o min: 1 o max: 20 (string) contains -&gt; (list) A "contains" operator to match for the filter used to create the rule. Constraints: o min: 1 o max: 20 (string) exists -&gt; (boolean) An "exists" operator to match for the filter used to create the rule. Shorthand Syntax: KeyName1={eq=[string,string],neq=[string,string],contains=[string,string],exists=boolean},KeyName2={eq=[string,string],neq=[string,string],contains=[string,string],exists=boolean} JSON Syntax: {"string": { "eq": ["string", ...], "neq": ["string", ...], "contains": ["string", ...], "exists": true|false } ...}</param>
+    public AwsAccessanalyzerUpdateArchiveRuleOptions(
+        string AnalyzerName,
+        string RuleName,
+        IReadOnlyList<KeyValue> Filter
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AnalyzerName);
+        this.AnalyzerName = AnalyzerName;
+        global::System.ArgumentNullException.ThrowIfNull(RuleName);
+        this.RuleName = RuleName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Filter);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(Filter));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Filter));
+            }
+
+            Filter = materialized;
+        }
+        this.Filter = Filter;
+    }
+
+    private AwsAccessanalyzerUpdateArchiveRuleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAccessanalyzerUpdateArchiveRuleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAccessanalyzerUpdateArchiveRuleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the analyzer to update the archive rules for. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z_][A-Za-z0-9_.-]*
+    /// </summary>
     [CliOption("--analyzer-name")]
-    public string? AnalyzerName { get; set; }
+    public string? AnalyzerName { get; private init; }
 
+    /// <summary>
+    /// The name of the rule to update. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][A-Za-z0-9_.-]*
+    /// </summary>
     [CliOption("--rule-name")]
-    public string? RuleName { get; set; }
+    public string? RuleName { get; private init; }
 
+    /// <summary>
+    /// A filter to match for the rules to update. Only rules that match the filter are updated. key -&gt; (string) value -&gt; (structure) The criteria to use in the filter that defines the archive rule. For more information on available filter keys, see IAM Access Analyzer filter keys . eq -&gt; (list) An "equals" operator to match for the filter used to create the rule. Constraints: o min: 1 o max: 20 (string) neq -&gt; (list) A "not equals" operator to match for the filter used to cre- ate the rule. Constraints: o min: 1 o max: 20 (string) contains -&gt; (list) A "contains" operator to match for the filter used to create the rule. Constraints: o min: 1 o max: 20 (string) exists -&gt; (boolean) An "exists" operator to match for the filter used to create the rule. Shorthand Syntax: KeyName1={eq=[string,string],neq=[string,string],contains=[string,string],exists=boolean},KeyName2={eq=[string,string],neq=[string,string],contains=[string,string],exists=boolean} JSON Syntax: {"string": { "eq": ["string", ...], "neq": ["string", ...], "contains": ["string", ...], "exists": true|false } ...}
+    /// </summary>
     [CliOption("--filter", CollectionSeparator = ",")]
-    public IReadOnlyList<KeyValue>? Filter { get; set; }
+    public IReadOnlyList<KeyValue>? Filter { get; private init; }
 
     /// <summary>
     /// A client token.
@@ -44,5 +106,22 @@ public record AwsAccessanalyzerUpdateArchiveRuleOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

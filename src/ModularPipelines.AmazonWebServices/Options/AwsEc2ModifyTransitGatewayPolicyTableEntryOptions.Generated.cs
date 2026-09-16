@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "modify-transit-gateway-policy-table-entry")]
-public record AwsEc2ModifyTransitGatewayPolicyTableEntryOptions : AwsOptions
+public record AwsEc2ModifyTransitGatewayPolicyTableEntryOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--transit-gateway-policy-table-id")]
-    public string? TransitGatewayPolicyTableId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Modifies the specified transit gateway policy table entry. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TransitGatewayPolicyTableId">The ID of the transit gateway policy table.</param>
+    /// <param name="PolicyRuleNumber">The rule number of the policy table entry to modify.</param>
+    public AwsEc2ModifyTransitGatewayPolicyTableEntryOptions(
+        string TransitGatewayPolicyTableId,
+        string PolicyRuleNumber
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TransitGatewayPolicyTableId);
+        this.TransitGatewayPolicyTableId = TransitGatewayPolicyTableId;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyRuleNumber);
+        this.PolicyRuleNumber = PolicyRuleNumber;
+    }
+
+    private AwsEc2ModifyTransitGatewayPolicyTableEntryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2ModifyTransitGatewayPolicyTableEntryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2ModifyTransitGatewayPolicyTableEntryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the transit gateway policy table.
+    /// </summary>
+    [CliOption("--transit-gateway-policy-table-id")]
+    public string? TransitGatewayPolicyTableId { get; private init; }
+
+    /// <summary>
+    /// The rule number of the policy table entry to modify.
+    /// </summary>
     [CliOption("--policy-rule-number")]
-    public string? PolicyRuleNumber { get; set; }
+    public string? PolicyRuleNumber { get; private init; }
 
     /// <summary>
     /// The updated matching criteria for the policy table entry. Unspeci- fied fields retain their current values. SourceCidrBlock -&gt; (string) The source CIDR block for the policy rule. SourcePortRange -&gt; (string) The source port or port range for the policy rule. You can spec- ify a port range only when Protocol is 6 (TCP) or 17 (UDP); for all other protocols, this value must be * . DestinationCidrBlock -&gt; (string) The destination CIDR block for the policy rule. DestinationPortRange -&gt; (string) The destination port or port range for the policy rule. You can specify a port range only when Protocol is 6 (TCP) or 17 (UDP); for all other protocols, this value must be * . Protocol -&gt; (string) The protocol for the policy rule. Valid values are 1 (ICMP), 6 (TCP), 17 (UDP), 47 (GRE), or * for all protocols. MetaData -&gt; (structure) The metadata key-value pair for the policy rule. MetaDataKey -&gt; (string) The key of the metadata pair for the policy rule. MetaDataValue -&gt; (string) The value of the metadata pair for the policy rule. Shorthand Syntax: SourceCidrBlock=string,SourcePortRange=string,DestinationCidrBlock=string,DestinationPortRange=string,Protocol=string,MetaData={MetaDataKey=string,MetaDataValue=string} JSON Syntax: { "SourceCidrBlock": "string", "SourcePortRange": "string", "DestinationCidrBlock": "string", "DestinationPortRange": "string", "Protocol": "string", "MetaData": { "MetaDataKey": "string", "MetaDataValue": "string" } }
@@ -39,7 +83,10 @@ public record AwsEc2ModifyTransitGatewayPolicyTableEntryOptions : AwsOptions
     [CliOption("--target-route-table-id")]
     public string? TargetRouteTableId { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -47,5 +94,22 @@ public record AwsEc2ModifyTransitGatewayPolicyTableEntryOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

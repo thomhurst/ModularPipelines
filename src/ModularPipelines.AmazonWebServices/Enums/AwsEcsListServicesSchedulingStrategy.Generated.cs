@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --schedulingstrategy.
+/// Allowed values for --scheduling-strategy.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEcsListServicesSchedulingStrategy
 {
-    [EnumValue("REPLICA")]
-    Replica = 1,
-
     [EnumValue("DAEMON")]
-    Daemon = 2
+    Daemon,
+
+    [EnumValue("REPLICA")]
+    Replica
 }

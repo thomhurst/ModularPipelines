@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("databrew", "update-dataset")]
-public record AwsDatabrewUpdateDataSetOptions : AwsOptions
+public record AwsDatabrewUpdateDataSetOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies the definition of an existing DataBrew dataset. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the dataset to be updated. Constraints: o min: 1 o max: 255</param>
+    /// <param name="Input">Represents information on how DataBrew can find data, in either the Glue Data Catalog or Amazon S3. S3InputDefinition -&gt; (structure) The Amazon S3 location where the data is stored. Bucket -&gt; (string) [required] The Amazon S3 bucket name. Constraints: o min: 3 o max: 63 Key -&gt; (string) The unique name of the object in the bucket. Constraints: o min: 1 o max: 1280 BucketOwner -&gt; (string) The Amazon Web Services account ID of the bucket owner. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$ DataCatalogInputDefinition -&gt; (structure) The Glue Data Catalog parameters for the data. CatalogId -&gt; (string) The unique identifier of the Amazon Web Services account that holds the Data Catalog that stores the data. Constraints: o min: 1 o max: 255 DatabaseName -&gt; (string) [required] The name of a database in the Data Catalog. Constraints: o min: 1 o max: 255 TableName -&gt; (string) [required] The name of a database table in the Data Catalog. This table corresponds to a DataBrew dataset. Constraints: o min: 1 o max: 255 TempDirectory -&gt; (structure) Represents an Amazon location where DataBrew can store inter- mediate results. Bucket -&gt; (string) [required] The Amazon S3 bucket name. Constraints: o min: 3 o max: 63 Key -&gt; (string) The unique name of the object in the bucket. Constraints: o min: 1 o max: 1280 BucketOwner -&gt; (string) The Amazon Web Services account ID of the bucket owner. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$ DatabaseInputDefinition -&gt; (structure) Connection information for dataset input files stored in a data- base. GlueConnectionName -&gt; (string) [required] The Glue Connection that stores the connection information for the target database. Constraints: o min: 1 o max: 255 DatabaseTableName -&gt; (string) The table within the target database. Constraints: o min: 1 o max: 255 TempDirectory -&gt; (structure) Represents an Amazon S3 location (bucket name, bucket owner, and object key) where DataBrew can read input data, or write output from a job. Bucket -&gt; (string) [required] The Amazon S3 bucket name. Constraints: o min: 3 o max: 63 Key -&gt; (string) The unique name of the object in the bucket. Constraints: o min: 1 o max: 1280 BucketOwner -&gt; (string) The Amazon Web Services account ID of the bucket owner. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$ QueryString -&gt; (string) Custom SQL to run against the provided Glue connection. This SQL will be used as the input for DataBrew projects and jobs. Constraints: o min: 1 o max: 10000 Metadata -&gt; (structure) Contains additional resource information needed for specific datasets. SourceArn -&gt; (string) The Amazon Resource Name (ARN) associated with the dataset. Currently, DataBrew only supports ARNs from Amazon AppFlow. Constraints: o min: 20 o max: 2048 Shorthand Syntax: S3InputDefinition={Bucket=string,Key=string,BucketOwner=string},DataCatalogInputDefinition={CatalogId=string,DatabaseName=string,TableName=string,TempDirectory={Bucket=string,Key=string,BucketOwner=string}},DatabaseInputDefinition={GlueConnectionName=string,DatabaseTableName=string,TempDirectory={Bucket=string,Key=string,BucketOwner=string},QueryString=string},Metadata={SourceArn=string} JSON Syntax: { "S3InputDefinition": { "Bucket": "string", "Key": "string", "BucketOwner": "string" }, "DataCatalogInputDefinition": { "CatalogId": "string", "DatabaseName": "string", "TableName": "string", "TempDirectory": { "Bucket": "string", "Key": "string", "BucketOwner": "string" } }, "DatabaseInputDefinition": { "GlueConnectionName": "string", "DatabaseTableName": "string", "TempDirectory": { "Bucket": "string", "Key": "string", "BucketOwner": "string" }, "QueryString": "string" }, "Metadata": { "SourceArn": "string" } }</param>
+    public AwsDatabrewUpdateDataSetOptions(
+        string Name,
+        string Input
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Input);
+        this.Input = Input;
+    }
+
+    private AwsDatabrewUpdateDataSetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatabrewUpdateDataSetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatabrewUpdateDataSetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the dataset to be updated. Constraints: o min: 1 o max: 255
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// Represents information on how DataBrew can find data, in either the Glue Data Catalog or Amazon S3. S3InputDefinition -&gt; (structure) The Amazon S3 location where the data is stored. Bucket -&gt; (string) [required] The Amazon S3 bucket name. Constraints: o min: 3 o max: 63 Key -&gt; (string) The unique name of the object in the bucket. Constraints: o min: 1 o max: 1280 BucketOwner -&gt; (string) The Amazon Web Services account ID of the bucket owner. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$ DataCatalogInputDefinition -&gt; (structure) The Glue Data Catalog parameters for the data. CatalogId -&gt; (string) The unique identifier of the Amazon Web Services account that holds the Data Catalog that stores the data. Constraints: o min: 1 o max: 255 DatabaseName -&gt; (string) [required] The name of a database in the Data Catalog. Constraints: o min: 1 o max: 255 TableName -&gt; (string) [required] The name of a database table in the Data Catalog. This table corresponds to a DataBrew dataset. Constraints: o min: 1 o max: 255 TempDirectory -&gt; (structure) Represents an Amazon location where DataBrew can store inter- mediate results. Bucket -&gt; (string) [required] The Amazon S3 bucket name. Constraints: o min: 3 o max: 63 Key -&gt; (string) The unique name of the object in the bucket. Constraints: o min: 1 o max: 1280 BucketOwner -&gt; (string) The Amazon Web Services account ID of the bucket owner. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$ DatabaseInputDefinition -&gt; (structure) Connection information for dataset input files stored in a data- base. GlueConnectionName -&gt; (string) [required] The Glue Connection that stores the connection information for the target database. Constraints: o min: 1 o max: 255 DatabaseTableName -&gt; (string) The table within the target database. Constraints: o min: 1 o max: 255 TempDirectory -&gt; (structure) Represents an Amazon S3 location (bucket name, bucket owner, and object key) where DataBrew can read input data, or write output from a job. Bucket -&gt; (string) [required] The Amazon S3 bucket name. Constraints: o min: 3 o max: 63 Key -&gt; (string) The unique name of the object in the bucket. Constraints: o min: 1 o max: 1280 BucketOwner -&gt; (string) The Amazon Web Services account ID of the bucket owner. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$ QueryString -&gt; (string) Custom SQL to run against the provided Glue connection. This SQL will be used as the input for DataBrew projects and jobs. Constraints: o min: 1 o max: 10000 Metadata -&gt; (structure) Contains additional resource information needed for specific datasets. SourceArn -&gt; (string) The Amazon Resource Name (ARN) associated with the dataset. Currently, DataBrew only supports ARNs from Amazon AppFlow. Constraints: o min: 20 o max: 2048 Shorthand Syntax: S3InputDefinition={Bucket=string,Key=string,BucketOwner=string},DataCatalogInputDefinition={CatalogId=string,DatabaseName=string,TableName=string,TempDirectory={Bucket=string,Key=string,BucketOwner=string}},DatabaseInputDefinition={GlueConnectionName=string,DatabaseTableName=string,TempDirectory={Bucket=string,Key=string,BucketOwner=string},QueryString=string},Metadata={SourceArn=string} JSON Syntax: { "S3InputDefinition": { "Bucket": "string", "Key": "string", "BucketOwner": "string" }, "DataCatalogInputDefinition": { "CatalogId": "string", "DatabaseName": "string", "TableName": "string", "TempDirectory": { "Bucket": "string", "Key": "string", "BucketOwner": "string" } }, "DatabaseInputDefinition": { "GlueConnectionName": "string", "DatabaseTableName": "string", "TempDirectory": { "Bucket": "string", "Key": "string", "BucketOwner": "string" }, "QueryString": "string" }, "Metadata": { "SourceArn": "string" } }
+    /// </summary>
+    [CliOption("--input")]
+    public string? Input { get; private init; }
 
     /// <summary>
     /// The file format of a dataset that is created from an Amazon S3 file or folder. Possible values: o CSV o JSON o PARQUET o EXCEL o ORC
@@ -37,9 +84,6 @@ public record AwsDatabrewUpdateDataSetOptions : AwsOptions
     [CliOption("--format-options")]
     public string? FormatOptions { get; set; }
 
-    [CliOption("--input")]
-    public string? Input { get; set; }
-
     /// <summary>
     /// A set of options that defines how DataBrew interprets an Amazon S3 path of the dataset. LastModifiedDateCondition -&gt; (structure) If provided, this structure defines a date range for matching Amazon S3 objects based on their LastModifiedDate attribute in Amazon S3. Expression -&gt; (string) [required] The expression which includes condition names followed by substitution variables, possibly grouped and combined with other conditions. For example, "(starts_with :prefix1 or starts_with :prefix2) and (ends_with :suffix1 or ends_with :suffix2)". Substitution variables should start with ':' sym- bol. Constraints: o min: 4 o max: 1024 o pattern: ^[&lt;&gt;0-9A-Za-z_.,:)(!= ]+$ ValuesMap -&gt; (map) [required] The map of substitution variable names to their values used in this filter expression. key -&gt; (string) Constraints: o min: 2 o max: 128 o pattern: ^:[A-Za-z0-9_]+$ value -&gt; (string) Constraints: o max: 1024 FilesLimit -&gt; (structure) If provided, this structure imposes a limit on a number of files that should be selected. MaxFiles -&gt; (integer) [required] The number of Amazon S3 files to select. Constraints: o min: 1 OrderedBy -&gt; (string) A criteria to use for Amazon S3 files sorting before their selection. By default uses LAST_MODIFIED_DATE as a sorting criteria. Currently it's the only allowed value. Possible values: o LAST_MODIFIED_DATE Order -&gt; (string) A criteria to use for Amazon S3 files sorting before their selection. By default uses DESCENDING order, i.e. most recent files are selected first. Another possible value is ASCEND- ING. Possible values: o DESCENDING o ASCENDING Parameters -&gt; (map) A structure that maps names of parameters used in the Amazon S3 path of a dataset to their definitions. Constraints: o min: 1 o max: 10 key -&gt; (string) Constraints: o min: 1 o max: 255 value -&gt; (structure) Represents a dataset parameter that defines type and condi- tions for a parameter in the Amazon S3 path of the dataset. Name -&gt; (string) [required] The name of the parameter that is used in the dataset's Amazon S3 path. Constraints: o min: 1 o max: 255 Type -&gt; (string) [required] The type of the dataset parameter, can be one of a 'String', 'Number' or 'Datetime'. Possible values: o Datetime o Number o String DatetimeOptions -&gt; (structure) Additional parameter options such as a format and a time- zone. Required for datetime parameters. Format -&gt; (string) [required] Required option, that defines the datetime format used for a date parameter in the Amazon S3 path. Should use only supported datetime specifiers and separation characters, all literal a-z or A-Z characters should be escaped with single quotes. E.g. "MM.dd.yyyy-'at'-HH:mm". Constraints: o min: 2 o max: 100 TimezoneOffset -&gt; (string) Optional value for a timezone offset of the datetime parameter value in the Amazon S3 path. Shouldn't be used if Format for this parameter includes timezone fields. If no offset specified, UTC is assumed. Constraints: o min: 1 o max: 6 o pattern: ^(Z|[-+](\d|\d{2}|\d{2}:?\d{2}))$ LocaleCode -&gt; (string) Optional value for a non-US locale code, needed for correct interpretation of some date formats. Constraints: o min: 2 o max: 100 o pattern: ^[A-Za-z0-9_\.#@\-]+$ CreateColumn -&gt; (boolean) Optional boolean value that defines whether the captured value of this parameter should be used to create a new column in a dataset. Filter -&gt; (structure) The optional filter expression structure to apply addi- tional matching criteria to the parameter. Expression -&gt; (string) [required] The expression which includes condition names followed by substitution variables, possibly grouped and com- bined with other conditions. For example, "(starts_with :prefix1 or starts_with :prefix2) and (ends_with :suffix1 or ends_with :suffix2)". Substitu- tion variables should start with ':' symbol. Constraints: o min: 4 o max: 1024 o pattern: ^[&lt;&gt;0-9A-Za-z_.,:)(!= ]+$ ValuesMap -&gt; (map) [required] The map of substitution variable names to their values used in this filter expression. key -&gt; (string) Constraints: o min: 2 o max: 128 o pattern: ^:[A-Za-z0-9_]+$ value -&gt; (string) Constraints: o max: 1024 JSON Syntax: { "LastModifiedDateCondition": { "Expression": "string", "ValuesMap": {"string": "string" ...} }, "FilesLimit": { "MaxFiles": integer, "OrderedBy": "LAST_MODIFIED_DATE", "Order": "DESCENDING"|"ASCENDING" }, "Parameters": {"string": { "Name": "string", "Type": "Datetime"|"Number"|"String", "DatetimeOptions": { "Format": "string", "TimezoneOffset": "string", "LocaleCode": "string" }, "CreateColumn": true|false, "Filter": { "Expression": "string", "ValuesMap": {"string": "string" ...} } } ...} }
     /// </summary>
@@ -51,5 +95,22 @@ public record AwsDatabrewUpdateDataSetOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

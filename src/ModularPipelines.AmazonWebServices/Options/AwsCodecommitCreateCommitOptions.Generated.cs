@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codecommit", "create-commit")]
-public record AwsCodecommitCreateCommitOptions : AwsOptions
+public record AwsCodecommitCreateCommitOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--repository-name")]
-    public string? RepositoryName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a commit for a repository on the tip of a specified branch. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RepositoryName">The name of the repository where you create the commit. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+</param>
+    /// <param name="BranchName">The name of the branch where you create the commit. Constraints: o min: 1 o max: 256</param>
+    public AwsCodecommitCreateCommitOptions(
+        string RepositoryName,
+        string BranchName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RepositoryName);
+        this.RepositoryName = RepositoryName;
+        global::System.ArgumentNullException.ThrowIfNull(BranchName);
+        this.BranchName = BranchName;
+    }
+
+    private AwsCodecommitCreateCommitOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodecommitCreateCommitOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodecommitCreateCommitOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the repository where you create the commit. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+
+    /// </summary>
+    [CliOption("--repository-name")]
+    public string? RepositoryName { get; private init; }
+
+    /// <summary>
+    /// The name of the branch where you create the commit. Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--branch-name")]
-    public string? BranchName { get; set; }
+    public string? BranchName { get; private init; }
 
     /// <summary>
     /// The ID of the commit that is the parent of the commit you create. Not required if this is an empty repository.
@@ -51,7 +95,10 @@ public record AwsCodecommitCreateCommitOptions : AwsOptions
     [CliOption("--commit-message")]
     public string? CommitMessage { get; set; }
 
-    [CliFlag("--keep-empty-folders")]
+    /// <summary>
+    /// If the commit contains deletions, whether to keep a folder or folder structure if the changes leave the folders empty. If true, a ..git- keep file is created for empty folders. The default is false.
+    /// </summary>
+    [CliFlag("--keep-empty-folders", NegatedName = "--no-keep-empty-folders")]
     public bool? KeepEmptyFolders { get; set; }
 
     /// <summary>
@@ -77,5 +124,22 @@ public record AwsCodecommitCreateCommitOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

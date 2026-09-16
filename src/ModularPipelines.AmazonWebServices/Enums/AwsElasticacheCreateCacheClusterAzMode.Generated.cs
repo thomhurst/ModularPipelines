@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --azmode.
+/// Allowed values for --az-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsElasticacheCreateCacheClusterAzMode
 {
-    [EnumValue("single-az")]
-    SingleAz = 1,
-
     [EnumValue("cross-az")]
-    CrossAz = 2
+    CrossAz,
+
+    [EnumValue("single-az")]
+    SingleAz
 }

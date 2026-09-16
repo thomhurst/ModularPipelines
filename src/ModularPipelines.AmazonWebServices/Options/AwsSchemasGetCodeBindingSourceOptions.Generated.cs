@@ -21,19 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("schemas", "get-code-binding-source")]
 public record AwsSchemasGetCodeBindingSourceOptions : AwsOptions
 {
+    /// <summary>
+    /// Get the code binding source URI. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Language">The language of the code binding.</param>
+    /// <param name="RegistryName">The name of the registry.</param>
+    /// <param name="SchemaName">The name of the schema.</param>
+    /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
+    public AwsSchemasGetCodeBindingSourceOptions(
+        string Language,
+        string RegistryName,
+        string SchemaName,
+        string Outfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Language);
+        this.Language = Language;
+        global::System.ArgumentNullException.ThrowIfNull(RegistryName);
+        this.RegistryName = RegistryName;
+        global::System.ArgumentNullException.ThrowIfNull(SchemaName);
+        this.SchemaName = SchemaName;
+        global::System.ArgumentNullException.ThrowIfNull(Outfile);
+        this.Outfile = Outfile;
+    }
+
+    public void Deconstruct(out string Language, out string RegistryName, out string SchemaName, out string Outfile)
+    {
+        Language = this.Language;
+        RegistryName = this.RegistryName;
+        SchemaName = this.SchemaName;
+        Outfile = this.Outfile;
+    }
+
+    /// <summary>
+    /// The language of the code binding.
+    /// </summary>
     [CliOption("--language")]
-    public string? Language { get; set; }
+    public string Language { get; private init; }
 
+    /// <summary>
+    /// The name of the registry.
+    /// </summary>
     [CliOption("--registry-name")]
-    public string? RegistryName { get; set; }
+    public string RegistryName { get; private init; }
 
+    /// <summary>
+    /// The name of the schema.
+    /// </summary>
     [CliOption("--schema-name")]
-    public string? SchemaName { get; set; }
+    public string SchemaName { get; private init; }
 
     /// <summary>
     /// Specifying this limits the results to only this schema version. outfile (string) [required] Filename where the content will be saved
     /// </summary>
     [CliOption("--schema-version")]
     public string? SchemaVersion { get; set; }
+
+    /// <summary>
+    /// The &lt;outfile&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Outfile { get; private init; }
 
 }

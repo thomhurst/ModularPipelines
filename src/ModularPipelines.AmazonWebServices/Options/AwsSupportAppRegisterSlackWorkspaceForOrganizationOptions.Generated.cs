@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("support-app", "register-slack-workspace-for-organization")]
-public record AwsSupportAppRegisterSlackWorkspaceForOrganizationOptions : AwsOptions
+public record AwsSupportAppRegisterSlackWorkspaceForOrganizationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Registers a Slack workspace for your Amazon Web Services account. To call this API, your account must be part of an organization in Organi- zations. If you're the management account and you want to register Slack work- spaces for your organization, you must complete the following tasks: o Sign in to the Amazon Web Services Support Center and authorize the Slack workspaces where you want your organization to have access to. See Authorize a Slack workspace in the Amazon Web Services Support User G...
+    /// </summary>
+    /// <param name="TeamId">The team ID in Slack. This ID uniquely identifies a Slack workspace, such as T012ABCDEFG . Specify the Slack workspace that you want to use for your organization. Constraints: o min: 1 o max: 256 o pattern: ^\S+$</param>
+    public AwsSupportAppRegisterSlackWorkspaceForOrganizationOptions(
+        string TeamId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TeamId);
+        this.TeamId = TeamId;
+    }
+
+    private AwsSupportAppRegisterSlackWorkspaceForOrganizationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSupportAppRegisterSlackWorkspaceForOrganizationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSupportAppRegisterSlackWorkspaceForOrganizationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The team ID in Slack. This ID uniquely identifies a Slack workspace, such as T012ABCDEFG . Specify the Slack workspace that you want to use for your organization. Constraints: o min: 1 o max: 256 o pattern: ^\S+$
+    /// </summary>
     [CliOption("--team-id")]
-    public string? TeamId { get; set; }
+    public string? TeamId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "describe-backup-access-point")]
-public record AwsBackupDescribeBackupAccessPointOptions : AwsOptions
+public record AwsBackupDescribeBackupAccessPointOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns metadata about a backup access point, including its status and the details of the underlying Amazon S3 access point. After a backup access point reaches the AVAILABLE status, use this op- eration to retrieve the Amazon S3 access point ARN and alias that you need to read the backup data. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AccessPointArn">The Amazon Resource Name (ARN) of the backup access point to de- scribe. Constraints: o pattern: (arn:aws[a-z-]*:backup:[a-z-\d]+:\d{12}:access- point/)[\da-z]{1}[\da-z-]{1,48}[\da-z]{1}(?&lt;!-s3alias)(?&lt;!-ext-s3alias)</param>
+    public AwsBackupDescribeBackupAccessPointOptions(
+        string AccessPointArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccessPointArn);
+        this.AccessPointArn = AccessPointArn;
+    }
+
+    private AwsBackupDescribeBackupAccessPointOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBackupDescribeBackupAccessPointOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBackupDescribeBackupAccessPointOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the backup access point to de- scribe. Constraints: o pattern: (arn:aws[a-z-]*:backup:[a-z-\d]+:\d{12}:access- point/)[\da-z]{1}[\da-z-]{1,48}[\da-z]{1}(?&lt;!-s3alias)(?&lt;!-ext-s3alias)
+    /// </summary>
     [CliOption("--access-point-arn")]
-    public string? AccessPointArn { get; set; }
+    public string? AccessPointArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

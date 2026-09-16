@@ -11,23 +11,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --complianceseverity.
+/// Allowed values for --compliance-severity.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSsmUpdateAssociationComplianceSeverity
 {
     [EnumValue("CRITICAL")]
-    Critical = 1,
+    Critical,
 
     [EnumValue("HIGH")]
-    High = 2,
-
-    [EnumValue("MEDIUM")]
-    Medium = 3,
+    High,
 
     [EnumValue("LOW")]
-    Low = 4,
+    Low,
+
+    [EnumValue("MEDIUM")]
+    Medium,
 
     [EnumValue("UNSPECIFIED")]
-    Unspecified = 5
+    Unspecified
 }

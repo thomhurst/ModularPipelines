@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sqs", "change-message-visibility-batch")]
-public record AwsSqsChangeMessageVisibilityBatchOptions : AwsOptions
+public record AwsSqsChangeMessageVisibilityBatchOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--queue-url")]
-    public string? QueueUrl { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Changes the visibility timeout of multiple messages. This is a batch version of `` ChangeMessageVisibility .`` The result of the action on each message is reported individually in the response. You can send up to 10 `` ChangeMessageVisibility `` requests with each ChangeMes- sageVisibilityBatch action. WARNING: Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200 . See...
+    /// </summary>
+    /// <param name="QueueUrl">The URL of the Amazon SQS queue whose messages' visibility is changed. Queue URLs and names are case-sensitive.</param>
+    /// <param name="Entries">Lists the receipt handles of the messages for which the visibility timeout must be changed. (structure) Encloses a receipt handle and an entry ID for each message in `` ChangeMessageVisibilityBatch .`` Id -&gt; (string) [required] An identifier for this particular receipt handle used to com- municate the result. NOTE: The Id s of a batch request need to be unique within a request. This identifier can have up to 80 characters. The follow- ing characters are accepted: alphanumeric characters, hy- phens(-), and underscores (_). ReceiptHandle -&gt; (string) [required] A receipt handle. VisibilityTimeout -&gt; (integer) The new value (in seconds) for the message's visibility time- out. Shorthand Syntax: Id=string,ReceiptHandle=string,VisibilityTimeout=integer ... JSON Syntax: [ { "Id": "string", "ReceiptHandle": "string", "VisibilityTimeout": integer } ... ]</param>
+    public AwsSqsChangeMessageVisibilityBatchOptions(
+        string QueueUrl,
+        IEnumerable<string> Entries
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(QueueUrl);
+        this.QueueUrl = QueueUrl;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Entries);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Entries));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Entries));
+            }
+
+            Entries = materialized;
+        }
+        this.Entries = Entries;
+    }
+
+    private AwsSqsChangeMessageVisibilityBatchOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSqsChangeMessageVisibilityBatchOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSqsChangeMessageVisibilityBatchOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The URL of the Amazon SQS queue whose messages' visibility is changed. Queue URLs and names are case-sensitive.
+    /// </summary>
+    [CliOption("--queue-url")]
+    public string? QueueUrl { get; private init; }
+
+    /// <summary>
+    /// Lists the receipt handles of the messages for which the visibility timeout must be changed. (structure) Encloses a receipt handle and an entry ID for each message in `` ChangeMessageVisibilityBatch .`` Id -&gt; (string) [required] An identifier for this particular receipt handle used to com- municate the result. NOTE: The Id s of a batch request need to be unique within a request. This identifier can have up to 80 characters. The follow- ing characters are accepted: alphanumeric characters, hy- phens(-), and underscores (_). ReceiptHandle -&gt; (string) [required] A receipt handle. VisibilityTimeout -&gt; (integer) The new value (in seconds) for the message's visibility time- out. Shorthand Syntax: Id=string,ReceiptHandle=string,VisibilityTimeout=integer ... JSON Syntax: [ { "Id": "string", "ReceiptHandle": "string", "VisibilityTimeout": integer } ... ]
+    /// </summary>
     [CliOption("--entries", GroupValues = true)]
-    public IEnumerable<string>? Entries { get; set; }
+    public IEnumerable<string>? Entries { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

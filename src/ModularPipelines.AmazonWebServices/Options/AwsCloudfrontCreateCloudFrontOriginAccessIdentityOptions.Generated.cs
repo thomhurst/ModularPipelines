@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudfront", "create-cloud-front-origin-access-identity")]
-public record AwsCloudfrontCreateCloudFrontOriginAccessIdentityOptions : AwsOptions
+public record AwsCloudfrontCreateCloudFrontOriginAccessIdentityOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new origin access identity. If you're using Amazon S3 for your origin, you can use an origin access identity to require users to access your content using a CloudFront URL instead of the Amazon S3 URL. For more information about how to use origin access identities, see Serving Private Content through CloudFront in the Amazon CloudFront Developer Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CloudFrontOriginAccessIdentityConfig">The current configuration information for the identity. CallerReference -&gt; (string) [required] A unique value (for example, a date-time stamp) that ensures that the request can't be replayed. If the value of CallerReference is new (regardless of the con- tent of the CloudFrontOriginAccessIdentityConfig object), a new origin access identity is created. If the CallerReference is a value already sent in a previous identity request, and the content of the CloudFrontOriginAcces- sIdentityConfig is identical to the original request (ignoring white space), the response includes the same information re- turned to the original request. If the CallerReference is a value you already sent in a previous request to create an identity, but the content of the CloudFron- tOriginAccessIdentityConfig is different from the original re- quest, CloudFront returns a CloudFrontOriginAccessIdentityAl- readyExists error. Comment -&gt; (string) [required] A comment to describe the origin access identity. The comment cannot be longer than 128 characters. Shorthand Syntax: CallerReference=string,Comment=string JSON Syntax: { "CallerReference": "string", "Comment": "string" }</param>
+    public AwsCloudfrontCreateCloudFrontOriginAccessIdentityOptions(
+        string CloudFrontOriginAccessIdentityConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CloudFrontOriginAccessIdentityConfig);
+        this.CloudFrontOriginAccessIdentityConfig = CloudFrontOriginAccessIdentityConfig;
+    }
+
+    private AwsCloudfrontCreateCloudFrontOriginAccessIdentityOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudfrontCreateCloudFrontOriginAccessIdentityOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudfrontCreateCloudFrontOriginAccessIdentityOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The current configuration information for the identity. CallerReference -&gt; (string) [required] A unique value (for example, a date-time stamp) that ensures that the request can't be replayed. If the value of CallerReference is new (regardless of the con- tent of the CloudFrontOriginAccessIdentityConfig object), a new origin access identity is created. If the CallerReference is a value already sent in a previous identity request, and the content of the CloudFrontOriginAcces- sIdentityConfig is identical to the original request (ignoring white space), the response includes the same information re- turned to the original request. If the CallerReference is a value you already sent in a previous request to create an identity, but the content of the CloudFron- tOriginAccessIdentityConfig is different from the original re- quest, CloudFront returns a CloudFrontOriginAccessIdentityAl- readyExists error. Comment -&gt; (string) [required] A comment to describe the origin access identity. The comment cannot be longer than 128 characters. Shorthand Syntax: CallerReference=string,Comment=string JSON Syntax: { "CallerReference": "string", "Comment": "string" }
+    /// </summary>
     [CliOption("--cloud-front-origin-access-identity-config")]
-    public string? CloudFrontOriginAccessIdentityConfig { get; set; }
+    public string? CloudFrontOriginAccessIdentityConfig { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

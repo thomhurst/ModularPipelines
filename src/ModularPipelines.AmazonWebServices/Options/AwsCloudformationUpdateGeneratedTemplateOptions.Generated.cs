@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudformation", "update-generated-template")]
-public record AwsCloudformationUpdateGeneratedTemplateOptions : AwsOptions
+public record AwsCloudformationUpdateGeneratedTemplateOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a generated template. This can be used to change the name, add and remove resources, refresh resources, and change the DeletionPolicy and UpdateReplacePolicy settings. You can check the status of the up- date to the generated template using the DescribeGeneratedTemplate API action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="GeneratedTemplateName">The name or Amazon Resource Name (ARN) of a generated template. Constraints: o min: 1 o max: 128</param>
+    public AwsCloudformationUpdateGeneratedTemplateOptions(
+        string GeneratedTemplateName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GeneratedTemplateName);
+        this.GeneratedTemplateName = GeneratedTemplateName;
+    }
+
+    private AwsCloudformationUpdateGeneratedTemplateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudformationUpdateGeneratedTemplateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudformationUpdateGeneratedTemplateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name or Amazon Resource Name (ARN) of a generated template. Constraints: o min: 1 o max: 128
+    /// </summary>
     [CliOption("--generated-template-name")]
-    public string? GeneratedTemplateName { get; set; }
+    public string? GeneratedTemplateName { get; private init; }
 
     /// <summary>
     /// An optional new name to assign to the generated template. Constraints: o min: 1 o max: 128
@@ -42,7 +79,10 @@ public record AwsCloudformationUpdateGeneratedTemplateOptions : AwsOptions
     [CliOption("--remove-resources", GroupValues = true)]
     public IEnumerable<string>? RemoveResources { get; set; }
 
-    [CliFlag("--refresh-all-resources")]
+    /// <summary>
+    /// If true , update the resource properties in the generated template with their current live state. This feature is useful when the re- source properties in your generated a template does not reflect the live state of the resource properties. This happens when a user up- date the resource properties after generating a template.
+    /// </summary>
+    [CliFlag("--refresh-all-resources", NegatedName = "--no-refresh-all-resources")]
     public bool? RefreshAllResources { get; set; }
 
     /// <summary>
@@ -56,5 +96,22 @@ public record AwsCloudformationUpdateGeneratedTemplateOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

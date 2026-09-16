@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,55 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognito-identity", "list-identities")]
-public record AwsCognitoIdentityListIdentitiesOptions : AwsOptions
+public record AwsCognitoIdentityListIdentitiesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--identity-pool-id")]
-    public string? IdentityPoolId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Lists the identities in an identity pool. You must use Amazon Web Services developer credentials to call this op- eration. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="IdentityPoolId">An identity pool ID in the format REGION:GUID. Constraints: o min: 1 o max: 55 o pattern: [\w-]+:[0-9a-f-]+</param>
+    /// <param name="MaxResults">The maximum number of identities to return. Constraints: o min: 1 o max: 60</param>
+    public AwsCognitoIdentityListIdentitiesOptions(
+        string IdentityPoolId,
+        int MaxResults
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IdentityPoolId);
+        this.IdentityPoolId = IdentityPoolId;
+        this.MaxResults = MaxResults;
+    }
+
+    private AwsCognitoIdentityListIdentitiesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCognitoIdentityListIdentitiesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCognitoIdentityListIdentitiesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// An identity pool ID in the format REGION:GUID. Constraints: o min: 1 o max: 55 o pattern: [\w-]+:[0-9a-f-]+
+    /// </summary>
+    [CliOption("--identity-pool-id")]
+    public string? IdentityPoolId { get; private init; }
+
+    /// <summary>
+    /// The maximum number of identities to return. Constraints: o min: 1 o max: 60
+    /// </summary>
     [CliOption("--max-results")]
-    public int? MaxResults { get; set; }
+    public int? MaxResults { get; private init; }
 
     /// <summary>
     /// A pagination token. Constraints: o min: 1 o max: 65535 o pattern: [\S]+
@@ -35,7 +78,10 @@ public record AwsCognitoIdentityListIdentitiesOptions : AwsOptions
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CliFlag("--hide-disabled")]
+    /// <summary>
+    /// An optional boolean parameter that allows you to hide disabled iden- tities. If omitted, the ListIdentities API will include disabled identities in the response.
+    /// </summary>
+    [CliFlag("--hide-disabled", NegatedName = "--no-hide-disabled")]
     public bool? HideDisabled { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -43,5 +89,22 @@ public record AwsCognitoIdentityListIdentitiesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

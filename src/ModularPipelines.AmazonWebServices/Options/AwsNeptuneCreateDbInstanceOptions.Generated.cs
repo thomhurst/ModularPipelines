@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,28 +21,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("neptune", "create-db-instance")]
-public record AwsNeptuneCreateDbInstanceOptions : AwsOptions
+public record AwsNeptuneCreateDbInstanceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new DB instance. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DbInstanceIdentifier">The DB instance identifier. This parameter is stored as a lowercase string. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens. o First character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. Example: mydbinstance</param>
+    /// <param name="DbInstanceClass">The compute and memory capacity of the DB instance, for example, db.m4.large . Not all DB instance classes are available in all Ama- zon Regions.</param>
+    /// <param name="Engine">The name of the database engine to be used for this instance. Valid Values: neptune</param>
+    /// <param name="DbClusterIdentifier">The identifier of the DB cluster that the instance will belong to. For information on creating a DB cluster, see CreateDBCluster . Type: String</param>
+    public AwsNeptuneCreateDbInstanceOptions(
+        string DbInstanceIdentifier,
+        string DbInstanceClass,
+        string Engine,
+        string DbClusterIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DbInstanceIdentifier);
+        this.DbInstanceIdentifier = DbInstanceIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(DbInstanceClass);
+        this.DbInstanceClass = DbInstanceClass;
+        global::System.ArgumentNullException.ThrowIfNull(Engine);
+        this.Engine = Engine;
+        global::System.ArgumentNullException.ThrowIfNull(DbClusterIdentifier);
+        this.DbClusterIdentifier = DbClusterIdentifier;
+    }
+
+    private AwsNeptuneCreateDbInstanceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNeptuneCreateDbInstanceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNeptuneCreateDbInstanceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The DB instance identifier. This parameter is stored as a lowercase string. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens. o First character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. Example: mydbinstance
+    /// </summary>
+    [CliOption("--db-instance-identifier")]
+    public string? DbInstanceIdentifier { get; private init; }
+
+    /// <summary>
+    /// The compute and memory capacity of the DB instance, for example, db.m4.large . Not all DB instance classes are available in all Ama- zon Regions.
+    /// </summary>
+    [CliOption("--db-instance-class")]
+    public string? DbInstanceClass { get; private init; }
+
+    /// <summary>
+    /// The name of the database engine to be used for this instance. Valid Values: neptune
+    /// </summary>
+    [CliOption("--engine")]
+    public string? Engine { get; private init; }
+
+    /// <summary>
+    /// The identifier of the DB cluster that the instance will belong to. For information on creating a DB cluster, see CreateDBCluster . Type: String
+    /// </summary>
+    [CliOption("--db-cluster-identifier")]
+    public string? DbClusterIdentifier { get; private init; }
+
     /// <summary>
     /// Not supported.
     /// </summary>
     [CliOption("--db-name")]
     public string? DbName { get; set; }
 
-    [CliOption("--db-instance-identifier")]
-    public string? DbInstanceIdentifier { get; set; }
-
     /// <summary>
     /// Not supported by Neptune.
     /// </summary>
     [CliOption("--allocated-storage")]
     public int? AllocatedStorage { get; set; }
-
-    [CliOption("--db-instance-class")]
-    public string? DbInstanceClass { get; set; }
-
-    [CliOption("--engine")]
-    public string? Engine { get; set; }
 
     /// <summary>
     /// Not supported by Neptune.
@@ -110,7 +171,10 @@ public record AwsNeptuneCreateDbInstanceOptions : AwsOptions
     [CliOption("--port")]
     public int? Port { get; set; }
 
-    [CliFlag("--multi-az")]
+    /// <summary>
+    /// Specifies if the DB instance is a Multi-AZ deployment. You can't set the AvailabilityZone parameter if the MultiAZ parameter is set to true.
+    /// </summary>
+    [CliFlag("--multi-az", NegatedName = "--no-multi-az")]
     public bool? MultiAz { get; set; }
 
     /// <summary>
@@ -119,7 +183,10 @@ public record AwsNeptuneCreateDbInstanceOptions : AwsOptions
     [CliOption("--engine-version")]
     public string? EngineVersion { get; set; }
 
-    [CliFlag("--auto-minor-version-upgrade")]
+    /// <summary>
+    /// Indicates that minor engine upgrades are applied automatically to the DB instance during the maintenance window. Default: true
+    /// </summary>
+    [CliFlag("--auto-minor-version-upgrade", NegatedName = "--no-auto-minor-version-upgrade")]
     public bool? AutoMinorVersionUpgrade { get; set; }
 
     /// <summary>
@@ -146,7 +213,10 @@ public record AwsNeptuneCreateDbInstanceOptions : AwsOptions
     [CliOption("--character-set-name")]
     public string? CharacterSetName { get; set; }
 
-    [CliFlag("--publicly-accessible")]
+    /// <summary>
+    /// Indicates whether the DB instance is publicly accessible. When the DB instance is publicly accessible and you connect from outside of the DB instance's virtual private cloud (VPC), its Domain Name System (DNS) endpoint resolves to the public IP address. When you connect from within the same VPC as the DB instance, the end- point resolves to the private IP address. Access to the DB instance is ultimately controlled by the security group it uses. That public access isn't permitted if the security group assigned to the DB cluster doesn't permit it. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address.
+    /// </summary>
+    [CliFlag("--publicly-accessible", NegatedName = "--no-publicly-accessible")]
     public bool? PubliclyAccessible { get; set; }
 
     /// <summary>
@@ -154,9 +224,6 @@ public record AwsNeptuneCreateDbInstanceOptions : AwsOptions
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
-
-    [CliOption("--db-cluster-identifier")]
-    public string? DbClusterIdentifier { get; set; }
 
     /// <summary>
     /// Not applicable. In Neptune the storage type is managed at the DB Cluster level.
@@ -178,7 +245,10 @@ public record AwsNeptuneCreateDbInstanceOptions : AwsOptions
     [CliOption("--tde-credential-password")]
     public string? TdeCredentialPassword { get; set; }
 
-    [CliFlag("--storage-encrypted")]
+    /// <summary>
+    /// Specifies whether the DB instance is encrypted. Not applicable. The encryption for DB instances is managed by the DB cluster. For more information, see CreateDBCluster . Default: false
+    /// </summary>
+    [CliFlag("--storage-encrypted", NegatedName = "--no-storage-encrypted")]
     public bool? StorageEncrypted { get; set; }
 
     /// <summary>
@@ -193,7 +263,10 @@ public record AwsNeptuneCreateDbInstanceOptions : AwsOptions
     [CliOption("--domain")]
     public string? Domain { get; set; }
 
-    [CliFlag("--copy-tags-to-snapshot")]
+    /// <summary>
+    /// True to copy all tags from the DB instance to snapshots of the DB instance, and otherwise false. The default is false.
+    /// </summary>
+    [CliFlag("--copy-tags-to-snapshot", NegatedName = "--no-copy-tags-to-snapshot")]
     public bool? CopyTagsToSnapshot { get; set; }
 
     /// <summary>
@@ -226,10 +299,16 @@ public record AwsNeptuneCreateDbInstanceOptions : AwsOptions
     [CliOption("--timezone")]
     public string? Timezone { get; set; }
 
-    [CliFlag("--enable-iam-database-authentication")]
+    /// <summary>
+    /// tication (boolean) Not supported by Neptune (ignored).
+    /// </summary>
+    [CliFlag("--enable-iam-database-authentication", NegatedName = "--no-enable-iam-database-authentication")]
     public bool? EnableIamDatabaseAuthentication { get; set; }
 
-    [CliFlag("--enable-performance-insights")]
+    /// <summary>
+    /// (Not supported by Neptune)
+    /// </summary>
+    [CliFlag("--enable-performance-insights", NegatedName = "--no-enable-performance-insights")]
     public bool? EnablePerformanceInsights { get; set; }
 
     /// <summary>
@@ -244,7 +323,10 @@ public record AwsNeptuneCreateDbInstanceOptions : AwsOptions
     [CliOption("--enable-cloudwatch-logs-exports", GroupValues = true)]
     public IEnumerable<string>? EnableCloudwatchLogsExports { get; set; }
 
-    [CliFlag("--deletion-protection")]
+    /// <summary>
+    /// A value that indicates whether the DB instance has deletion protec- tion enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled. See Deleting a DB Instance . DB instances in a DB cluster can be deleted even when deletion pro- tection is enabled in their parent DB cluster.
+    /// </summary>
+    [CliFlag("--deletion-protection", NegatedName = "--no-deletion-protection")]
     public bool? DeletionProtection { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -252,5 +334,22 @@ public record AwsNeptuneCreateDbInstanceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }

@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("groundstation", "create-dataflow-endpoint-group-v2")]
-public record AwsGroundstationCreateDataflowEndpointGroupV2Options : AwsOptions
+public record AwsGroundstationCreateDataflowEndpointGroupV2Options : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a DataflowEndpoint group containing the specified list of Ground Station Agent based endpoints. The name field in each endpoint is used in your mission profile DataflowEndpointConfig to specify which endpoints to use during a con- tact. When a contact uses multiple DataflowEndpointConfig objects, each Con- fig must match a DataflowEndpoint in the same group. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Endpoints">Dataflow endpoint group's endpoint definitions Constraints: o min: 1 o max: 12 (tagged union structure) Endpoint definition used for creating a dataflow endpoint NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: uplinkAwsGroundStationAgentEnd- point, downlinkAwsGroundStationAgentEndpoint. uplinkAwsGroundStationAgentEndpoint -&gt; (structure) Definition for an uplink agent endpoint name -&gt; (string) [required] Uplink dataflow endpoint name Constraints: o min: 1 o max: 256 o pattern: [ a-zA-Z0-9_:-]{1,256} dataflowDetails -&gt; (tagged union structure) [required] Dataflow details for the uplink endpoint NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: agentConnectionDe- tails. agentConnectionDetails -&gt; (structure) Uplink connection details for customer to Agent and Agent to Ground Station ingressAddressAndPort -&gt; (structure) [required] Egress address of AgentEndpoint with an optional mtu. socketAddress -&gt; (structure) [required] A socket address. name -&gt; (string) [required] Name of a socket address. port -&gt; (integer) [required] Port of a socket address. mtu -&gt; (integer) Maximum transmission unit (MTU) size in bytes of a dataflow endpoint. agentIpAndPortAddress -&gt; (structure) [required] Ingress address of AgentEndpoint with a port range and an optional mtu. socketAddress -&gt; (structure) [required] A ranged socket address. name -&gt; (string) [required] IPv4 socket address. Constraints: o min: 7 o max: 16 o pattern: \d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3} portRange -&gt; (structure) [required] Port range of a socket address. minimum -&gt; (integer) [required] A minimum value. maximum -&gt; (integer) [required] A maximum value. mtu -&gt; (integer) Maximum transmission unit (MTU) size in bytes of a dataflow endpoint. Constraints: o min: 1400 o max: 1500 downlinkAwsGroundStationAgentEndpoint -&gt; (structure) Definition for a downlink agent endpoint name -&gt; (string) [required] Downlink dataflow endpoint name Constraints: o min: 1 o max: 256 o pattern: [ a-zA-Z0-9_:-]{1,256} dataflowDetails -&gt; (tagged union structure) [required] Dataflow details for the downlink endpoint NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: agentConnectionDe- tails. agentConnectionDetails -&gt; (structure) Downlink connection details for customer to Agent and Agent to Ground Station agentIpAndPortAddress -&gt; (structure) [required] Ingress address of AgentEndpoint with a port range and an optional mtu. socketAddress -&gt; (structure) [required] A ranged socket address. name -&gt; (string) [required] IPv4 socket address. Constraints: o min: 7 o max: 16 o pattern: \d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3} portRange -&gt; (structure) [required] Port range of a socket address. minimum -&gt; (integer) [required] A minimum value. maximum -&gt; (integer) [required] A maximum value. mtu -&gt; (integer) Maximum transmission unit (MTU) size in bytes of a dataflow endpoint. Constraints: o min: 1400 o max: 1500 egressAddressAndPort -&gt; (structure) [required] Egress address of AgentEndpoint with an optional mtu. socketAddress -&gt; (structure) [required] A socket address. name -&gt; (string) [required] Name of a socket address. port -&gt; (integer) [required] Port of a socket address. mtu -&gt; (integer) Maximum transmission unit (MTU) size in bytes of a dataflow endpoint. JSON Syntax: [ { "uplinkAwsGroundStationAgentEndpoint": { "name": "string", "dataflowDetails": { "agentConnectionDetails": { "ingressAddressAndPort": { "socketAddress": { "name": "string", "port": integer }, "mtu": integer }, "agentIpAndPortAddress": { "socketAddress": { "name": "string", "portRange": { "minimum": integer, "maximum": integer } }, "mtu": integer } } } }, "downlinkAwsGroundStationAgentEndpoint": { "name": "string", "dataflowDetails": { "agentConnectionDetails": { "agentIpAndPortAddress": { "socketAddress": { "name": "string", "portRange": { "minimum": integer, "maximum": integer } }, "mtu": integer }, "egressAddressAndPort": { "socketAddress": { "name": "string", "port": integer }, "mtu": integer } } } } } ... ]</param>
+    public AwsGroundstationCreateDataflowEndpointGroupV2Options(
+        IEnumerable<string> Endpoints
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Endpoints);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Endpoints));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Endpoints));
+            }
+
+            Endpoints = materialized;
+        }
+        this.Endpoints = Endpoints;
+    }
+
+    private AwsGroundstationCreateDataflowEndpointGroupV2Options()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGroundstationCreateDataflowEndpointGroupV2Options FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGroundstationCreateDataflowEndpointGroupV2Options ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Dataflow endpoint group's endpoint definitions Constraints: o min: 1 o max: 12 (tagged union structure) Endpoint definition used for creating a dataflow endpoint NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: uplinkAwsGroundStationAgentEnd- point, downlinkAwsGroundStationAgentEndpoint. uplinkAwsGroundStationAgentEndpoint -&gt; (structure) Definition for an uplink agent endpoint name -&gt; (string) [required] Uplink dataflow endpoint name Constraints: o min: 1 o max: 256 o pattern: [ a-zA-Z0-9_:-]{1,256} dataflowDetails -&gt; (tagged union structure) [required] Dataflow details for the uplink endpoint NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: agentConnectionDe- tails. agentConnectionDetails -&gt; (structure) Uplink connection details for customer to Agent and Agent to Ground Station ingressAddressAndPort -&gt; (structure) [required] Egress address of AgentEndpoint with an optional mtu. socketAddress -&gt; (structure) [required] A socket address. name -&gt; (string) [required] Name of a socket address. port -&gt; (integer) [required] Port of a socket address. mtu -&gt; (integer) Maximum transmission unit (MTU) size in bytes of a dataflow endpoint. agentIpAndPortAddress -&gt; (structure) [required] Ingress address of AgentEndpoint with a port range and an optional mtu. socketAddress -&gt; (structure) [required] A ranged socket address. name -&gt; (string) [required] IPv4 socket address. Constraints: o min: 7 o max: 16 o pattern: \d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3} portRange -&gt; (structure) [required] Port range of a socket address. minimum -&gt; (integer) [required] A minimum value. maximum -&gt; (integer) [required] A maximum value. mtu -&gt; (integer) Maximum transmission unit (MTU) size in bytes of a dataflow endpoint. Constraints: o min: 1400 o max: 1500 downlinkAwsGroundStationAgentEndpoint -&gt; (structure) Definition for a downlink agent endpoint name -&gt; (string) [required] Downlink dataflow endpoint name Constraints: o min: 1 o max: 256 o pattern: [ a-zA-Z0-9_:-]{1,256} dataflowDetails -&gt; (tagged union structure) [required] Dataflow details for the downlink endpoint NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: agentConnectionDe- tails. agentConnectionDetails -&gt; (structure) Downlink connection details for customer to Agent and Agent to Ground Station agentIpAndPortAddress -&gt; (structure) [required] Ingress address of AgentEndpoint with a port range and an optional mtu. socketAddress -&gt; (structure) [required] A ranged socket address. name -&gt; (string) [required] IPv4 socket address. Constraints: o min: 7 o max: 16 o pattern: \d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3} portRange -&gt; (structure) [required] Port range of a socket address. minimum -&gt; (integer) [required] A minimum value. maximum -&gt; (integer) [required] A maximum value. mtu -&gt; (integer) Maximum transmission unit (MTU) size in bytes of a dataflow endpoint. Constraints: o min: 1400 o max: 1500 egressAddressAndPort -&gt; (structure) [required] Egress address of AgentEndpoint with an optional mtu. socketAddress -&gt; (structure) [required] A socket address. name -&gt; (string) [required] Name of a socket address. port -&gt; (integer) [required] Port of a socket address. mtu -&gt; (integer) Maximum transmission unit (MTU) size in bytes of a dataflow endpoint. JSON Syntax: [ { "uplinkAwsGroundStationAgentEndpoint": { "name": "string", "dataflowDetails": { "agentConnectionDetails": { "ingressAddressAndPort": { "socketAddress": { "name": "string", "port": integer }, "mtu": integer }, "agentIpAndPortAddress": { "socketAddress": { "name": "string", "portRange": { "minimum": integer, "maximum": integer } }, "mtu": integer } } } }, "downlinkAwsGroundStationAgentEndpoint": { "name": "string", "dataflowDetails": { "agentConnectionDetails": { "agentIpAndPortAddress": { "socketAddress": { "name": "string", "portRange": { "minimum": integer, "maximum": integer } }, "mtu": integer }, "egressAddressAndPort": { "socketAddress": { "name": "string", "port": integer }, "mtu": integer } } } } } ... ]
+    /// </summary>
     [CliOption("--endpoints", GroupValues = true)]
-    public IEnumerable<string>? Endpoints { get; set; }
+    public IEnumerable<string>? Endpoints { get; private init; }
 
     /// <summary>
     /// Amount of time, in seconds, before a contact starts that the Ground Station Dataflow Endpoint Group will be in a PREPASS state. A Ground Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group enters and exits the PREPASS state. Constraints: o min: 30 o max: 480
@@ -48,5 +96,22 @@ public record AwsGroundstationCreateDataflowEndpointGroupV2Options : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+        yield break;
+    }
 
 }
