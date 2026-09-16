@@ -1,3 +1,4 @@
+using System.Text;
 using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
@@ -1354,21 +1355,32 @@ public static class UsageSynopsisParser
     {
         // A colon can encode nested option cardinality that cannot be inferred from usage alone.
         // Defer only complete, option-only groups with one exact documented constraint counterpart.
-        foreach (var token in Tokenize(synopsis).Where(token => IsDocumentedOptionGroup(token, groups)))
+        var result = new StringBuilder();
+        var offset = 0;
+        foreach (var token in Tokenize(synopsis))
         {
-            synopsis = synopsis.Replace(token, " ", StringComparison.Ordinal);
+            var start = synopsis.IndexOf(token, offset, StringComparison.Ordinal);
+            result.Append(synopsis, offset, start - offset);
+            result.Append(IsDocumentedOptionGroup(token, groups) ? " " : token);
+            offset = start + token.Length;
         }
-        return synopsis;
+        return result.Append(synopsis, offset, synopsis.Length - offset).ToString();
     }
 
     private static bool IsDocumentedOptionGroup(string token, IReadOnlyList<CliArgumentGroup> groups)
     {
-        if (!IsWrapped(token) || !token.Contains(':') || !ContainsOnlyInlineOptions(TokenizeOptionGroup(TrimWrapper(token))))
+        if (!IsWrapped(token) || !token.Contains(':'))
         {
             return false;
         }
 
-        var switches = EnumerateInlineOptionSwitches(TokenizeOptionGroup(TrimWrapper(token))).ToHashSet(StringComparer.Ordinal);
+        var tokens = TokenizeOptionGroup(TrimWrapper(token));
+        if (!ContainsOnlyInlineOptions(tokens))
+        {
+            return false;
+        }
+
+        var switches = EnumerateInlineOptionSwitches(tokens).ToHashSet(StringComparer.Ordinal);
         return EnumerateArgumentGroups(groups).Count(group => MatchesDocumentedOptionGroup(group, switches)) == 1;
     }
 

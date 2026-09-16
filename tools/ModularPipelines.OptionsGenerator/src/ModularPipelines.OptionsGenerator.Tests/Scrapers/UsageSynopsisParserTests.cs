@@ -188,6 +188,25 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Deferral_Preserves_Identical_Text_Inside_Unmatched_Groups(bool nestedFirst)
+    {
+        const string group = "((--a=A|--b=B):--c=C)";
+        var nested = $"(RESOURCE | {group})";
+        var synopsis = nestedFirst ? $"tool run {nested}\n {group}\n" : $"tool run {group}\n {nested}\n";
+        var normalized = UsageSynopsisParser.DeferDocumentedOptionGroups(synopsis,
+        [
+            new CliArgumentGroup
+            {
+                Kind = CliArgumentGroupKind.AtLeastOne,
+                Arguments = [new() { SwitchName = "--a" }, new() { SwitchName = "--b" }, new() { SwitchName = "--c" }],
+            },
+        ]);
+        await Assert.That(normalized).IsEqualTo(nestedFirst ? $"tool run {nested}\n  \n" : $"tool run  \n {nested}\n");
+    }
+
+    [Test]
     public async Task Duplicate_Documented_Option_Sets_Are_Not_Deferred()
     {
         const string synopsis = "tool run ((--a=A --x=X) : --b=B)";
