@@ -135,6 +135,52 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
+    public async Task Documented_Option_Groups_Preserve_Operands_And_Line_Boundaries()
+    {
+        const string synopsis = "    tool run RESOURCE ((--a=A | --b=B) : --c=C) --required=VALUE\n\n";
+        var normalized = UsageSynopsisParser.DeferDocumentedOptionGroups(synopsis,
+        [
+            new CliArgumentGroup
+            {
+                Kind = CliArgumentGroupKind.AtLeastOne,
+                Arguments = [new() { SwitchName = "--c" }],
+                Groups = [new() { Arguments = [new() { SwitchName = "--a" }, new() { SwitchName = "--b" }] }],
+            },
+        ]);
+        var usage = UsageSynopsisParser.Parse("Usage:\n" + normalized, ["tool", "run"]);
+        await Assert.That(normalized).EndsWith("\n\n");
+        await Assert.That(usage.PositionalArguments.Single().PropertyName).IsEqualTo("Resource");
+        await Assert.That(usage.RequiredOptionSwitches).IsEquivalentTo(["--required"]);
+        await Assert.That(usage.UnparsedOperandTokens).IsEmpty();
+    }
+
+    [Test]
+    [Arguments(CliArgumentGroupKind.None, false, false)]
+    [Arguments(CliArgumentGroupKind.AtLeastOne, true, false)]
+    [Arguments(CliArgumentGroupKind.AtLeastOne, false, true)]
+    public async Task Undocumented_Or_Mixed_Option_Groups_Are_Not_Deferred(
+        CliArgumentGroupKind kind, bool missingOption, bool positional)
+    {
+        const string synopsis = "tool run ((--a=A --x=X) : --b=B)";
+        var normalized = UsageSynopsisParser.DeferDocumentedOptionGroups(synopsis,
+        [
+            new CliArgumentGroup
+            {
+                Kind = kind,
+                Arguments =
+                [
+                    new() { SwitchName = "--a", IsPositional = positional },
+                    new() { SwitchName = missingOption ? "--other" : "--x" },
+                    new() { SwitchName = "--b" },
+                ],
+            },
+        ]);
+        await Assert.That(normalized).IsEqualTo(synopsis);
+        await Assert.That(() => UsageSynopsisParser.Parse("Usage: " + normalized, ["tool", "run"]))
+            .Throws<InvalidOperationException>();
+    }
+
+    [Test]
     [Arguments("[USER@]INSTANCE", "UserInstance", true, false)]
     [Arguments("[[USER@]INSTANCE:]SRC", "UserInstanceSrc", true, false)]
     [Arguments("[[[USER@]INSTANCE:]SRC ...]", "UserInstanceSrc", false, true)]

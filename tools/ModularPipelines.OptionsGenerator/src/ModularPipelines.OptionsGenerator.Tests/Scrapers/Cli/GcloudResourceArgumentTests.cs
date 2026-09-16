@@ -34,6 +34,7 @@ public class GcloudResourceArgumentTests
     [Arguments("gcloud-container-fleet-policycontroller-update.txt")]
     [Arguments("gcloud-container-hub-policycontroller-enable.txt")]
     [Arguments("gcloud-container-hub-policycontroller-update.txt")]
+    [Arguments("gcloud-dataplex-metadata-jobs-create.txt")]
     [Arguments("gcloud-dataproc-batches-submit-spark.txt")]
     [Arguments("gcloud-dataproc-jobs-submit-flink.txt")]
     [Arguments("gcloud-dataproc-jobs-submit-hadoop.txt")]
@@ -73,6 +74,33 @@ public class GcloudResourceArgumentTests
         await new TestScraper().Parse(["gcloud", .. commandPath.Split(' ')], help);
         var command = (await ScrapeFixture(commandPath, help)).Single();
         await Assert.That(command.FullCommand).IsEqualTo("gcloud " + commandPath);
+    }
+
+    [Test]
+    public async Task Captured_Metadata_Job_Retains_Nested_Export_Import_Constraints()
+    {
+        var help = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory,
+            "Fixtures", "Gcloud", "585.0.0", "gcloud-dataplex-metadata-jobs-create.txt"));
+        var command = (await ScrapeFixture("dataplex metadata-jobs create", help)).Single();
+        var operation = command.RequiredAlternativeGroups.Single(group => group.IsMutuallyExclusive
+            && group.PropertyNames.Contains("ExportOutputPath"));
+        await Assert.That(operation.IsRequired).IsTrue();
+        await Assert.That(operation.Groups).Count().IsEqualTo(2);
+        var export = operation.Groups.Single(group => group.PropertyNames.Contains("ExportOutputPath"));
+        await Assert.That(export.IsChoice).IsFalse();
+        await Assert.That(export.Members.Single(member => member.PropertyName == "ExportOutputPath").IsRequired).IsTrue();
+        var boundary = export.Groups.Single();
+        await Assert.That(boundary.IsRequired).IsTrue();
+        await Assert.That(boundary.IsChoice).IsTrue();
+        await Assert.That(boundary.IsMutuallyExclusive).IsFalse();
+        await Assert.That(boundary.Members.Select(member => member.PropertyName))
+            .IsEquivalentTo(["ExportAspectTypes", "ExportEntryTypes"]);
+        var scope = boundary.Groups.Single();
+        await Assert.That(scope.IsMutuallyExclusive).IsTrue();
+        await Assert.That(scope.PropertyNames).IsEquivalentTo(["ExportEntryGroups", "ExportOrganizationLevel", "ExportProjects"]);
+        await Assert.That(command.Options.Where(option => option.IsRequired).Select(option => option.PropertyName))
+            .IsEquivalentTo(["Type"]);
+        await Assert.That(command.PositionalArguments.Single().PropertyName).IsEqualTo("MetadataJob");
     }
 
     [Test]

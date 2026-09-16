@@ -1350,6 +1350,42 @@ public static class UsageSynopsisParser
         return TryParseNestedOperands(nestedTokens, IsRequiredUsageToken(normalizedToken), positionIndex, phase, out arguments, out requiredOptionSwitches);
     }
 
+    internal static string DeferDocumentedOptionGroups(string synopsis, IReadOnlyList<CliArgumentGroup> groups)
+    {
+        // A colon can encode nested option cardinality that cannot be inferred from usage alone.
+        // Defer only complete, option-only groups with an exact documented constraint counterpart.
+        foreach (var token in Tokenize(synopsis).Where(token => IsDocumentedOptionGroup(token, groups)))
+        {
+            synopsis = synopsis.Replace(token, " ", StringComparison.Ordinal);
+        }
+        return synopsis;
+    }
+
+    private static bool IsDocumentedOptionGroup(string token, IReadOnlyList<CliArgumentGroup> groups)
+    {
+        if (!IsWrapped(token) || !token.Contains(':') || !ContainsOnlyInlineOptions(Tokenize(TrimWrapper(token))))
+        {
+            return false;
+        }
+
+        var switches = EnumerateInlineOptionSwitches(Tokenize(TrimWrapper(token))).ToHashSet(StringComparer.Ordinal);
+        return groups.Any(group => MatchesDocumentedOptionGroup(group, switches));
+    }
+
+    private static IEnumerable<string> EnumerateInlineOptionSwitches(IEnumerable<string> tokens) =>
+        tokens.SelectMany(static token => IsWrapped(token)
+            ? EnumerateInlineOptionSwitches(Tokenize(TrimWrapper(token)))
+            : GetOptionSwitches(token));
+
+    private static bool MatchesDocumentedOptionGroup(CliArgumentGroup group, HashSet<string> switches)
+    {
+        var arguments = group.FlattenArguments().ToArray();
+        return (group.Kind.HasFlag(CliArgumentGroupKind.AtLeastOne)
+                && arguments.All(static argument => !argument.IsPositional)
+                && switches.SetEquals(arguments.Select(static argument => argument.SwitchName)))
+            || group.Groups.Any(nested => MatchesDocumentedOptionGroup(nested, switches));
+    }
+
     private static bool ContainsOnlyInlineOptions(IEnumerable<string> tokens)
     {
         var optionTokens = tokens.Where(static token => token is not (":" or "|")).ToArray();

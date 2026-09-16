@@ -155,8 +155,9 @@ public partial class GcloudCliScraper : CliScraperBase
 
     protected override UsageSynopsisParseResult ParseUsageSynopsis(string[] commandPath, string helpText)
     {
-        var arguments = ExtractSections(helpText, "FLAGS", "REQUIRED FLAGS", "OPTIONAL FLAGS", "POSITIONAL ARGUMENTS")
-            .SelectMany(section => ParseArgumentGroups(section.Content, ParseGcloudArgument).FlattenArguments())
+        var groups = ExtractSections(helpText, "FLAGS", "REQUIRED FLAGS", "OPTIONAL FLAGS", "POSITIONAL ARGUMENTS")
+            .Select(section => ParseArgumentGroups(section.Content, ParseGcloudArgument)).ToArray();
+        var arguments = groups.SelectMany(group => group.FlattenArguments())
             .Where(argument => !string.IsNullOrEmpty(argument.ValueHint))
             .DistinctBy(argument => (argument.SwitchName, argument.ValueHint))
             .OrderByDescending(argument => argument.ValueHint!.Length)
@@ -174,6 +175,7 @@ public partial class GcloudCliScraper : CliScraperBase
                     @"(?<![\w-])" + Regex.Escape(argument.SwitchName) + "=" + valuePattern + @"(?![\w])",
                     argument.SwitchName + "=VALUE ");
             }
+            normalized = UsageSynopsisParser.DeferDocumentedOptionGroups(normalized, groups);
             helpText = helpText.Replace(synopsis, normalized, StringComparison.Ordinal);
         }
         return base.ParseUsageSynopsis(commandPath, helpText);
