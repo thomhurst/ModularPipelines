@@ -37,6 +37,29 @@ function Assert-GeneratedManifestFreshness {
         -CurrentBase HEAD
 }
 
+function Set-TestCentralPackageVersions {
+    param(
+        [string]$AngleSharp = '1.0.0',
+        [string]$TUnit = '1.0.0',
+        [string]$BuildPackage = '1.0.0',
+        [switch]$TransitivePinning
+    )
+
+    $pinningProperty = if ($TransitivePinning) {
+        '<CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>'
+    } else { '' }
+    Set-Content -LiteralPath (Join-Path $tempRoot 'Directory.Packages.props') -Value @"
+<Project>
+  <PropertyGroup><ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>$pinningProperty</PropertyGroup>
+  <ItemGroup>
+    <PackageVersion Include="AngleSharp" Version="$AngleSharp" />
+    <PackageVersion Include="TUnit" Version="$TUnit" />
+    <PackageVersion Include="Build.Package" Version="$BuildPackage" />
+  </ItemGroup>
+</Project>
+"@
+}
+
 $repositoryRoot = Split-Path $PSScriptRoot -Parent
 $tempRoot = Join-Path ([IO.Path]::GetTempPath()) "generated-options-provenance-$([Guid]::NewGuid().ToString('N'))"
 $writeScript = Join-Path $PSScriptRoot 'Write-GeneratedOptionsProvenance.ps1'
@@ -146,6 +169,16 @@ try {
         Set-Content -LiteralPath $fullSourcePath -Value "source: $sourcePath"
     }
 
+    Set-Content -LiteralPath (Join-Path $tempRoot 'Directory.Build.props') `
+        -Value '<Project><ItemGroup><PackageReference Include="Build.Package" /></ItemGroup></Project>'
+    Set-Content -LiteralPath (Join-Path $tempRoot 'tools/Directory.Build.props') -Value '<Project />'
+    $generatorProject = Join-Path $tempRoot `
+        'tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator/ModularPipelines.OptionsGenerator.csproj'
+    New-Item -ItemType Directory -Path (Split-Path $generatorProject -Parent) -Force | Out-Null
+    Set-Content -LiteralPath $generatorProject `
+        -Value '<Project><ItemGroup><PackageReference Include="AngleSharp" /></ItemGroup></Project>'
+    Set-TestCentralPackageVersions
+
     Set-Content `
         -LiteralPath (Join-Path $tempRoot '.github/workflows/generate-cli-options.yml') `
         -Value 'name: Generate CLI Options'
@@ -204,6 +237,16 @@ try {
 
     Assert-GeneratedManifestFreshness -RepositoryRoot $tempRoot
 
+    $originalRevision = (git -C $tempRoot rev-parse HEAD).Trim()
+    $originalFingerprint = Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot
+    Set-TestCentralPackageVersions -TUnit '2.0.0'
+    Invoke-Git $tempRoot add Directory.Packages.props
+    Invoke-Git $tempRoot commit -m 'update unrelated test package'
+    Assert-GeneratedManifestFreshness -RepositoryRoot $tempRoot
+    if ((Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot) -ne $originalFingerprint) {
+        throw 'An unrelated test package changed the generator fingerprint.'
+    }
+
     Set-Content -LiteralPath (Join-Path $tempRoot 'README.md') -Value 'unrelated change'
     Invoke-Git $tempRoot add README.md
     Invoke-Git $tempRoot commit -m unrelated
@@ -214,11 +257,16 @@ try {
         -NamespacePrefix Fake `
         -CurrentBase HEAD
 
-    Set-Content `
-        -LiteralPath (Join-Path $tempRoot 'Directory.Packages.props') `
-        -Value '<Project><ItemGroup><PackageVersion Include="AngleSharp" Version="2.0.0" /></ItemGroup></Project>'
+    Set-TestCentralPackageVersions -AngleSharp '2.0.0' -TUnit '2.0.0'
+    if ((Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot) -ne $originalFingerprint) {
+        throw 'Uncommitted package versions affected the committed fingerprint.'
+    }
     Invoke-Git $tempRoot add Directory.Packages.props
     Invoke-Git $tempRoot commit -m 'update central package version'
+    if ((Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot -Revision $originalRevision) -ne
+        $originalFingerprint) {
+        throw 'Historical fingerprint used current package versions.'
+    }
 
     $centralPackageError = $null
     try {
@@ -241,6 +289,22 @@ try {
         -ChangeManifest $changeManifest
     Invoke-Git $tempRoot add .
     Invoke-Git $tempRoot commit -m 'refresh after central package update'
+
+    $beforeBuildPackage = Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot
+    Set-TestCentralPackageVersions -AngleSharp '2.0.0' -TUnit '2.0.0' -BuildPackage '2.0.0'
+    Invoke-Git $tempRoot add Directory.Packages.props
+    Invoke-Git $tempRoot commit -m 'update shared build package'
+    if ((Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot) -eq $beforeBuildPackage) {
+        throw 'A shared build package change did not invalidate the generator fingerprint.'
+    }
+    & $writeScript `
+        -RepositoryRoot $tempRoot `
+        -Tool fake `
+        -PackageDirectory src/ModularPipelines.Fake `
+        -NamespacePrefix Fake `
+        -ChangeManifest $changeManifest
+    Invoke-Git $tempRoot add .
+    Invoke-Git $tempRoot commit -m 'refresh after shared build package update'
 
     Set-Content `
         -LiteralPath (Join-Path $tempRoot 'scripts/Write-GeneratedOptionsProvenance.ps1') `
@@ -391,6 +455,57 @@ try {
     $manifestPaths = @(Get-Content -LiteralPath $changeManifest)
     if ($manifestPaths -notcontains 'src/ModularPipelines.Fake/Generated/Fake.Generation.json') {
         throw 'Generation provenance was not added to the change manifest.'
+    }
+
+    $beforeSettings = Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot
+    $centralPath = Join-Path $tempRoot 'Directory.Packages.props'
+    (Get-Content -LiteralPath $centralPath -Raw).Replace(
+        '<ManagePackageVersionsCentrally>true', '<ManagePackageVersionsCentrally>false') |
+        Set-Content -LiteralPath $centralPath
+    Invoke-Git $tempRoot add Directory.Packages.props
+    Invoke-Git $tempRoot commit -m 'change central package management settings'
+    if ((Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot) -eq $beforeSettings) {
+        throw 'Central package management settings were omitted from the fingerprint.'
+    }
+
+    foreach ($pinningLocation in @('central', 'shared')) {
+        $sharedPinning = if ($pinningLocation -eq 'shared') {
+            '<PropertyGroup><CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled></PropertyGroup>'
+        } else { '' }
+        Set-Content -LiteralPath (Join-Path $tempRoot 'tools/Directory.Build.props') `
+            -Value "<Project>$sharedPinning</Project>"
+        Set-TestCentralPackageVersions -TransitivePinning:($pinningLocation -eq 'central')
+        Invoke-Git $tempRoot add .
+        Invoke-Git $tempRoot commit -m "enable $pinningLocation transitive pinning"
+        $beforePinningUpdate = Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot
+        Set-TestCentralPackageVersions -TUnit '2.0.0' -TransitivePinning:($pinningLocation -eq 'central')
+        Invoke-Git $tempRoot add Directory.Packages.props
+        Invoke-Git $tempRoot commit -m 'update potentially pinned dependency'
+        if ((Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot) -eq $beforePinningUpdate) {
+            throw "$pinningLocation transitive pinning ignored a central version update."
+        }
+    }
+
+    Set-Content -LiteralPath (Join-Path $tempRoot 'tools/Directory.Build.props') -Value '<Project />'
+    Set-TestCentralPackageVersions
+    Invoke-Git $tempRoot add .
+    Invoke-Git $tempRoot commit -m 'restore package filtering'
+    $beforeReferenceRevision = (git -C $tempRoot rev-parse HEAD).Trim()
+    $beforeReferenceFingerprint = Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot
+    Set-Content -LiteralPath $generatorProject `
+        -Value '<Project><ItemGroup><PackageReference Include="$(GeneratorPackage)" /></ItemGroup></Project>'
+    Invoke-Git $tempRoot add .
+    Invoke-Git $tempRoot commit -m 'use computed generator package name'
+    if ((Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot -Revision $beforeReferenceRevision) -ne
+        $beforeReferenceFingerprint) {
+        throw 'Historical fingerprint used current package references.'
+    }
+    $beforeComputedUpdate = Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot
+    Set-TestCentralPackageVersions -TUnit '2.0.0'
+    Invoke-Git $tempRoot add Directory.Packages.props
+    Invoke-Git $tempRoot commit -m 'update potentially computed dependency'
+    if ((Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot) -eq $beforeComputedUpdate) {
+        throw 'A computed package name allowed unsafe central version filtering.'
     }
 
     Write-Host 'Generated options provenance tests passed.'
