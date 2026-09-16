@@ -867,6 +867,26 @@ public class GeneratorUtilsTests
     }
 
     [Test]
+    [Arguments("MaxResults", "The maximum number of results to return with a token value.")]
+    [Arguments("PageSize", "Maximum number of items. Pass the token value to continue.")]
+    [Arguments("Retries", "The number of retries before requesting another password value.")]
+    [Arguments("Limit", "Specifies the total count of results returned with a credential value.")]
+    [Arguments("Minimum", "The minimum number of characters in the password value.")]
+    public async Task IsSecretOption_Does_Not_Mask_Count_Descriptions(string propertyName, string description)
+    {
+        await Assert.That(GeneratorUtils.IsSecretOption(propertyName, false, description)).IsFalse();
+    }
+
+    [Test]
+    [Arguments("Code", "The one-time password value.")]
+    [Arguments("Custom", "The authentication token value. The maximum number of uses is one.")]
+    [Arguments("Token", "The maximum number of uses of this token value is one.")]
+    public async Task IsSecretOption_Preserves_Secret_Values_With_Numeric_Context(string propertyName, string description)
+    {
+        await Assert.That(GeneratorUtils.IsSecretOption(propertyName, false, description)).IsTrue();
+    }
+
+    [Test]
     public async Task IsSecretOption_Returns_False_When_Description_Identifies_A_Path()
     {
         var result = GeneratorUtils.IsSecretOption(

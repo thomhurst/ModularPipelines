@@ -994,7 +994,15 @@ public static partial class GeneratorUtils
 
     private static bool DescriptionIdentifiesSecretValue(string? description) =>
         !string.IsNullOrWhiteSpace(description)
+        // A count stays non-secret when later sentences discuss token/password values.
+        // Secret-bearing property names have already taken precedence above.
+        && !CountDescriptionPattern().IsMatch(description)
         && SecretMaterialDescriptionPattern().IsMatch(description);
+
+    [GeneratedRegex(
+        @"\A\s*(?:(?:sets?|specifies?|controls?)\s+)?(?:the\s+)?(?:(?:maximum|minimum|total)\s+)?(?:number|count)\s+of\b",
+        RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    private static partial Regex CountDescriptionPattern();
 
     [GeneratedRegex(
         @"\b(?:" + SecretDescriptionKeywordPattern + @")\s+(?:" + SecretMaterialTermPattern + @")\b"
