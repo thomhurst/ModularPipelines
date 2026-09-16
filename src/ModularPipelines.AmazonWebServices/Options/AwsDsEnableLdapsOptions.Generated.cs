@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +31,7 @@ public record AwsDsEnableLdapsOptions : AwsOptions, IValidatableObject
     /// <param name="Type">The type of LDAP security to enable. Currently only the value Client is supported. Possible values: o Client</param>
     public AwsDsEnableLdapsOptions(
         string DirectoryId,
-        AwsDsEnableLdapsType Type
+        string Type
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(DirectoryId);
@@ -70,7 +69,7 @@ public record AwsDsEnableLdapsOptions : AwsOptions, IValidatableObject
     /// The type of LDAP security to enable. Currently only the value Client is supported. Possible values: o Client
     /// </summary>
     [CliOption("--type")]
-    public AwsDsEnableLdapsType? Type { get; private init; }
+    public string? Type { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

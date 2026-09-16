@@ -40,7 +40,7 @@ public record AwsTranscribeStartMedicalTranscriptionJobOptions : AwsOptions, IVa
         string LanguageCode,
         string Media,
         string OutputBucketName,
-        AwsTranscribeStartMedicalTranscriptionJobSpecialty Specialty,
+        string Specialty,
         AwsTranscribeStartMedicalTranscriptionJobType Type
     )
     {
@@ -105,7 +105,7 @@ public record AwsTranscribeStartMedicalTranscriptionJobOptions : AwsOptions, IVa
     /// Specify the predominant medical specialty represented in your media. For batch transcriptions, PRIMARYCARE is the only valid value. If you require additional specialties, refer to . Possible values: o PRIMARYCARE
     /// </summary>
     [CliOption("--specialty")]
-    public AwsTranscribeStartMedicalTranscriptionJobSpecialty? Specialty { get; private init; }
+    public string? Specialty { get; private init; }
 
     /// <summary>
     /// Specify whether your input media contains only one person (DICTATION ) or contains a conversation between two people (CONVERSATION ). For example, DICTATION could be used for a medical professional wanting to transcribe voice memos; CONVERSATION could be used for transcribing the doctor-patient dialogue during the patient's office visit. Possible values: o CONVERSATION o DICTATION
@@ -153,7 +153,7 @@ public record AwsTranscribeStartMedicalTranscriptionJobOptions : AwsOptions, IVa
     /// Labels all personal health information (PHI) identified in your transcript. For more information, see Identifying personal health information (PHI) in a transcription . Possible values: o PHI
     /// </summary>
     [CliOption("--content-identification-type")]
-    public AwsTranscribeStartMedicalTranscriptionJobContentIdentificationType? ContentIdentificationType { get; set; }
+    public string? ContentIdentificationType { get; set; }
 
     /// <summary>
     /// Adds one or more custom tags, each in the form of a key:value pair, to a new medical transcription job at the time you start this new job. To learn more about using tags with Amazon Transcribe, refer to Tagging resources . Constraints: o min: 1 o max: 200 (structure) Adds metadata, in the form of a key:value pair, to the specified resource. For example, you could add the tag Department:Sales to a re- source to indicate that it pertains to your organization's sales department. You can also use tags for tag-based access control. To learn more about tagging, see Tagging resources . Key -&gt; (string) [required] The first part of a key:value pair that forms a tag associ- ated with a given resource. For example, in the tag Depart- ment:Sales , the key is 'Department'. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The second part of a key:value pair that forms a tag associ- ated with a given resource. For example, in the tag Depart- ment:Sales , the value is 'Sales'. Note that you can set the value of a tag to an empty string, but you can't set the value of a tag to null. Omitting the tag value is the same as using an empty string. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]

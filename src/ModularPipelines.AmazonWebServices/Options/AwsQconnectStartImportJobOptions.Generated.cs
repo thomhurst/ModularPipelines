@@ -13,7 +13,6 @@ using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -35,7 +34,7 @@ public record AwsQconnectStartImportJobOptions : AwsOptions, IValidatableObject
     /// <param name="UploadId">A pointer to the uploaded asset. This value is returned by StartContentUpload . Constraints: o min: 1 o max: 1200</param>
     public AwsQconnectStartImportJobOptions(
         string KnowledgeBaseId,
-        AwsQconnectStartImportJobImportJobType ImportJobType,
+        string ImportJobType,
         string UploadId
     )
     {
@@ -76,7 +75,7 @@ public record AwsQconnectStartImportJobOptions : AwsOptions, IValidatableObject
     /// The type of the import job. o For importing quick response resource, set the value to QUICK_RE- SPONSES . Possible values: o QUICK_RESPONSES
     /// </summary>
     [CliOption("--import-job-type")]
-    public AwsQconnectStartImportJobImportJobType? ImportJobType { get; private init; }
+    public string? ImportJobType { get; private init; }
 
     /// <summary>
     /// A pointer to the uploaded asset. This value is returned by StartContentUpload . Constraints: o min: 1 o max: 1200

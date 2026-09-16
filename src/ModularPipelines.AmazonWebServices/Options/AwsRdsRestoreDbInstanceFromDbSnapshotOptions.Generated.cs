@@ -268,7 +268,7 @@ public record AwsRdsRestoreDbInstanceFromDbSnapshotOptions : AwsOptions, IValida
     /// The network type of the DB instance. Valid Values: o IPV4 o DUAL The network type is determined by the DBSubnetGroup specified for the DB instance. A DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL ). For more information, see Working with a DB instance in a VPC in the Amazon RDS User Guide.
     /// </summary>
     [CliOption("--network-type")]
-    public AwsRdsRestoreDbInstanceFromDbSnapshotNetworkType? NetworkType { get; set; }
+    public string? NetworkType { get; set; }
 
     /// <summary>
     /// Specifies where automated backups and manual snapshots are stored for the restored DB instance. Possible values are local (Dedicated Local Zone), outposts (Amazon Web Services Outposts), and region (Amazon Web Services Region). The default is region . For more information, see Working with Amazon RDS on Amazon Web Ser- vices Outposts in the Amazon RDS User Guide .

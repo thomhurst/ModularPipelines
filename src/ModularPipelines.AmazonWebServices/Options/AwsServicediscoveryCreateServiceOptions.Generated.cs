@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -108,7 +107,7 @@ public record AwsServicediscoveryCreateServiceOptions : AwsOptions, IValidatable
     /// If present, specifies that the service instances are only discover- able using the DiscoverInstances API operation. No DNS records is registered for the service instances. The only valid value is HTTP . Possible values: o HTTP
     /// </summary>
     [CliOption("--type")]
-    public AwsServicediscoveryCreateServiceType? Type { get; set; }
+    public string? Type { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

@@ -13,7 +13,6 @@ using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -35,7 +34,7 @@ public record AwsGuarddutyCreatePublishingDestinationOptions : AwsOptions, IVali
     /// <param name="DestinationProperties">The properties of the publishing destination, including the ARNs for the destination and the KMS key used for encryption. DestinationArn -&gt; (string) The ARN of the resource to publish to. To specify an S3 bucket folder use the following format: arn:aws:s3:::DOC-EXAMPLE-BUCKET/myFolder/ KmsKeyArn -&gt; (string) The ARN of the KMS key to use for encryption. Shorthand Syntax: DestinationArn=string,KmsKeyArn=string JSON Syntax: { "DestinationArn": "string", "KmsKeyArn": "string" }</param>
     public AwsGuarddutyCreatePublishingDestinationOptions(
         string DetectorId,
-        AwsGuarddutyCreatePublishingDestinationDestinationType DestinationType,
+        string DestinationType,
         string DestinationProperties
     )
     {
@@ -76,7 +75,7 @@ public record AwsGuarddutyCreatePublishingDestinationOptions : AwsOptions, IVali
     /// The type of resource for the publishing destination. Currently only Amazon S3 buckets are supported. Possible values: o S3 Constraints: o min: 1 o max: 300
     /// </summary>
     [CliOption("--destination-type")]
-    public AwsGuarddutyCreatePublishingDestinationDestinationType? DestinationType { get; private init; }
+    public string? DestinationType { get; private init; }
 
     /// <summary>
     /// The properties of the publishing destination, including the ARNs for the destination and the KMS key used for encryption. DestinationArn -&gt; (string) The ARN of the resource to publish to. To specify an S3 bucket folder use the following format: arn:aws:s3:::DOC-EXAMPLE-BUCKET/myFolder/ KmsKeyArn -&gt; (string) The ARN of the KMS key to use for encryption. Shorthand Syntax: DestinationArn=string,KmsKeyArn=string JSON Syntax: { "DestinationArn": "string", "KmsKeyArn": "string" }

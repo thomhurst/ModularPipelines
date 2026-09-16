@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -84,7 +83,7 @@ public record AwsLambdaPublishVersionOptions : AwsOptions, IValidatableObject
     /// Specifies where to publish the function version or configuration. Possible values: o LATEST_PUBLISHED
     /// </summary>
     [CliOption("--publish-to")]
-    public AwsLambdaPublishVersionPublishTo? PublishTo { get; set; }
+    public string? PublishTo { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

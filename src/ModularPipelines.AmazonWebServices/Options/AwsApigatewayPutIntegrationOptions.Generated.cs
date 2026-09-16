@@ -141,7 +141,7 @@ public record AwsApigatewayPutIntegrationOptions : AwsOptions, IValidatableObjec
     /// Specifies the pass-through behavior for incoming requests based on the Content-Type header in the request, and the available mapping templates specified as the requestTemplates property on the Integra- tion resource. There are three valid values: WHEN_NO_MATCH , WHEN_NO_TEMPLATES , and NEVER .
     /// </summary>
     [CliOption("--passthrough-behavior")]
-    public AwsApigatewayPutIntegrationPassthroughBehavior? PassthroughBehavior { get; set; }
+    public string? PassthroughBehavior { get; set; }
 
     /// <summary>
     /// Specifies a group of related cached parameters. By default, API Gateway uses the resource ID as the cacheNamespace . You can specify the same cacheNamespace across resources to return the same cached data for requests to different resources.

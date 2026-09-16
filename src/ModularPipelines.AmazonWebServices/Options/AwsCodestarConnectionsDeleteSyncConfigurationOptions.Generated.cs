@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -31,7 +30,7 @@ public record AwsCodestarConnectionsDeleteSyncConfigurationOptions : AwsOptions,
     /// <param name="SyncType">The type of sync configuration to be deleted. Possible values: o CFN_STACK_SYNC</param>
     /// <param name="ResourceName">The name of the Amazon Web Services resource associated with the sync configuration to be deleted. Constraints: o min: 1 o max: 100 o pattern: ^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$</param>
     public AwsCodestarConnectionsDeleteSyncConfigurationOptions(
-        AwsCodestarConnectionsDeleteSyncConfigurationSyncType SyncType,
+        string SyncType,
         string ResourceName
     )
     {
@@ -64,7 +63,7 @@ public record AwsCodestarConnectionsDeleteSyncConfigurationOptions : AwsOptions,
     /// The type of sync configuration to be deleted. Possible values: o CFN_STACK_SYNC
     /// </summary>
     [CliOption("--sync-type")]
-    public AwsCodestarConnectionsDeleteSyncConfigurationSyncType? SyncType { get; private init; }
+    public string? SyncType { get; private init; }
 
     /// <summary>
     /// The name of the Amazon Web Services resource associated with the sync configuration to be deleted. Constraints: o min: 1 o max: 100 o pattern: ^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$

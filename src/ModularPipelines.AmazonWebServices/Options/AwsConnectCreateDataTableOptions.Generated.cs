@@ -39,7 +39,7 @@ public record AwsConnectCreateDataTableOptions : AwsOptions, IValidatableObject
         string Name,
         string TimeZone,
         AwsConnectCreateDataTableValueLockLevel ValueLockLevel,
-        AwsConnectCreateDataTableStatus Status
+        string Status
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(InstanceId);
@@ -101,7 +101,7 @@ public record AwsConnectCreateDataTableOptions : AwsOptions, IValidatableObject
     /// The status of the data table. One of PUBLISHED or SAVED. Required parameter that determines the initial state of the table. Possible values: o PUBLISHED
     /// </summary>
     [CliOption("--status")]
-    public AwsConnectCreateDataTableStatus? Status { get; private init; }
+    public string? Status { get; private init; }
 
     /// <summary>
     /// An optional description for the data table. Must conform to Connect human readable string specification and have 0-250 characters. Whitespace must be trimmed first. Constraints: o min: 0 o max: 250 o pattern: ^[\\P{C}\r\n\t]+$

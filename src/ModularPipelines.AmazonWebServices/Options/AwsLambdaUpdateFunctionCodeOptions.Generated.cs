@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -114,7 +113,7 @@ public record AwsLambdaUpdateFunctionCodeOptions : AwsOptions, IValidatableObjec
     /// Specifies where to publish the function version or configuration. Possible values: o LATEST_PUBLISHED
     /// </summary>
     [CliOption("--publish-to")]
-    public AwsLambdaUpdateFunctionCodePublishTo? PublishTo { get; set; }
+    public string? PublishTo { get; set; }
 
     /// <summary>
     /// Set to true to validate the request parameters and access permis- sions without modifying the function code.

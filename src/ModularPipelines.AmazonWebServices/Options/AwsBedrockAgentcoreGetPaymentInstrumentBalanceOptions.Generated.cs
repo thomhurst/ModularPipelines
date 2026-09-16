@@ -39,7 +39,7 @@ public record AwsBedrockAgentcoreGetPaymentInstrumentBalanceOptions : AwsOptions
         string PaymentConnectorId,
         string PaymentInstrumentId,
         AwsBedrockAgentcoreGetPaymentInstrumentBalanceChain Chain,
-        AwsBedrockAgentcoreGetPaymentInstrumentBalanceToken Token
+        string Token
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(PaymentManagerArn);
@@ -102,7 +102,7 @@ public record AwsBedrockAgentcoreGetPaymentInstrumentBalanceOptions : AwsOptions
     /// </summary>
     [SecretValue]
     [CliOption("--token")]
-    public AwsBedrockAgentcoreGetPaymentInstrumentBalanceToken? Token { get; private init; }
+    public string? Token { get; private init; }
 
     /// <summary>
     /// The user ID associated with this payment instrument. Constraints: o min: 0 o max: 120

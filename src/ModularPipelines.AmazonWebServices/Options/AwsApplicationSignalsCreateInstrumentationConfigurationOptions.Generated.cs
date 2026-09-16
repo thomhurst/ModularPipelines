@@ -38,7 +38,7 @@ public record AwsApplicationSignalsCreateInstrumentationConfigurationOptions : A
         AwsApplicationSignalsCreateInstrumentationConfigurationInstrumentationType InstrumentationType,
         string Service,
         string Environment,
-        AwsApplicationSignalsCreateInstrumentationConfigurationSignalType SignalType,
+        string SignalType,
         string Location,
         string CaptureConfiguration
     )
@@ -98,7 +98,7 @@ public record AwsApplicationSignalsCreateInstrumentationConfigurationOptions : A
     /// The telemetry signal type to emit for this instrumentation. The sup- ported value is SNAPSHOT . Possible values: o SNAPSHOT
     /// </summary>
     [CliOption("--signal-type")]
-    public AwsApplicationSignalsCreateInstrumentationConfigurationSignalType? SignalType { get; private init; }
+    public string? SignalType { get; private init; }
 
     /// <summary>
     /// The location where instrumentation should be applied. Specify a CodeLocation for code-level instrumentation. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: CodeLocation. CodeLocation -&gt; (structure) A code location for code-level instrumentation, including lan- guage, code unit, class, method, file path, and optional line number. Language -&gt; (string) [required] The programming language for this instrumentation point, such as Java, Python, or JavaScript. Possible values: o Java o Python o Javascript CodeUnit -&gt; (string) The package, module, or namespace that contains the target code, for example com.amazon.payment or payment_service . Constraints: o min: 1 o max: 128 ClassName -&gt; (string) The class or type name that contains the method. This is re- quired for Java and optional for Python module-level func- tions. Constraints: o min: 1 o max: 128 MethodName -&gt; (string) The method or function name to instrument, such as validate- CreditCard or __init__ . Constraints: o min: 1 o max: 80 FilePath -&gt; (string) [required] The source file path relative to the project or source root, such as src/payment/PaymentProcessor.java or src/payment/Pay- mentProcessor.py . Constraints: o min: 1 o max: 1024 LineNumber -&gt; (integer) The line number to instrument. Provide this to disambiguate overloaded methods and to target a specific line when needed. Constraints: o min: 1 Shorthand Syntax: CodeLocation={Language=string,CodeUnit=string,ClassName=string,MethodName=string,FilePath=string,LineNumber=integer} JSON Syntax: { "CodeLocation": { "Language": "Java"|"Python"|"Javascript", "CodeUnit": "string", "ClassName": "string", "MethodName": "string", "FilePath": "string", "LineNumber": integer } }

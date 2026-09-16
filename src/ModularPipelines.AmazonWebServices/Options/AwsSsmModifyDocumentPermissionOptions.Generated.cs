@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +31,7 @@ public record AwsSsmModifyDocumentPermissionOptions : AwsOptions, IValidatableOb
     /// <param name="PermissionType">The permission type for the document. The permission type can be Share . Possible values: o Share</param>
     public AwsSsmModifyDocumentPermissionOptions(
         string Name,
-        AwsSsmModifyDocumentPermissionPermissionType PermissionType
+        string PermissionType
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(Name);
@@ -70,7 +69,7 @@ public record AwsSsmModifyDocumentPermissionOptions : AwsOptions, IValidatableOb
     /// The permission type for the document. The permission type can be Share . Possible values: o Share
     /// </summary>
     [CliOption("--permission-type")]
-    public AwsSsmModifyDocumentPermissionPermissionType? PermissionType { get; private init; }
+    public string? PermissionType { get; private init; }
 
     /// <summary>
     /// The Amazon Web Services users that should have access to the docu- ment. The account IDs can either be a group of account IDs or All . You must specify a value for this parameter or the AccountIdsToRe- move parameter. Constraints: o max: 20 (string) Constraints: o pattern: (?i)all|[0-9]{12} Syntax: "string" "string" ...

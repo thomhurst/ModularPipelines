@@ -32,7 +32,7 @@ public record AwsApigatewayv2ExportApiOptions : AwsOptions
     public AwsApigatewayv2ExportApiOptions(
         string ApiId,
         AwsApigatewayv2ExportApiOutputType OutputType,
-        AwsApigatewayv2ExportApiSpecification Specification,
+        string Specification,
         string Outfile
     )
     {
@@ -46,7 +46,7 @@ public record AwsApigatewayv2ExportApiOptions : AwsOptions
         this.Outfile = Outfile;
     }
 
-    public void Deconstruct(out string ApiId, out AwsApigatewayv2ExportApiOutputType OutputType, out AwsApigatewayv2ExportApiSpecification Specification, out string Outfile)
+    public void Deconstruct(out string ApiId, out AwsApigatewayv2ExportApiOutputType OutputType, out string Specification, out string Outfile)
     {
         ApiId = this.ApiId;
         OutputType = this.OutputType;
@@ -70,7 +70,7 @@ public record AwsApigatewayv2ExportApiOptions : AwsOptions
     /// The version of the API specification to use. OAS30, for OpenAPI 3.0, is the only supported value. Possible values: o OAS30
     /// </summary>
     [CliOption("--specification")]
-    public AwsApigatewayv2ExportApiSpecification Specification { get; private init; }
+    public string Specification { get; private init; }
 
     /// <summary>
     /// The version of the API Gateway export algorithm. API Gateway uses the latest version by default. Currently, the only supported version is 1.0.

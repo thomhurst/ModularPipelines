@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -30,7 +29,7 @@ public record AwsPaymentCryptographyDisassociateMpaTeamOptions : AwsOptions, IVa
     /// </summary>
     /// <param name="Action">The protected operation to disassociate from the MPA team. Cur- rently, the only supported value is IMPORT_ROOT_PUBLIC_KEY_CERTIFI- CATE . Possible values: o IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE</param>
     public AwsPaymentCryptographyDisassociateMpaTeamOptions(
-        AwsPaymentCryptographyDisassociateMpaTeamAction Action
+        string Action
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(Action);
@@ -60,7 +59,7 @@ public record AwsPaymentCryptographyDisassociateMpaTeamOptions : AwsOptions, IVa
     /// The protected operation to disassociate from the MPA team. Cur- rently, the only supported value is IMPORT_ROOT_PUBLIC_KEY_CERTIFI- CATE . Possible values: o IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE
     /// </summary>
     [CliOption("--action")]
-    public AwsPaymentCryptographyDisassociateMpaTeamAction? Action { get; private init; }
+    public string? Action { get; private init; }
 
     /// <summary>
     /// The comment from the requester explaining the reason for the disas- sociation. WARNING: Don't include personal, confidential or sensitive information in this field. This field may be displayed in plaintext in Cloud- Trail logs and other output. Constraints: o min: 0 o max: 200

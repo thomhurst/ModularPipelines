@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -30,7 +29,7 @@ public record AwsLightsailSendContactMethodVerificationOptions : AwsOptions, IVa
     /// </summary>
     /// <param name="Protocol">The protocol to verify, such as Email or SMS (text messaging). Possible values: o Email</param>
     public AwsLightsailSendContactMethodVerificationOptions(
-        AwsLightsailSendContactMethodVerificationProtocol Protocol
+        string Protocol
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(Protocol);
@@ -60,7 +59,7 @@ public record AwsLightsailSendContactMethodVerificationOptions : AwsOptions, IVa
     /// The protocol to verify, such as Email or SMS (text messaging). Possible values: o Email
     /// </summary>
     [CliOption("--protocol")]
-    public AwsLightsailSendContactMethodVerificationProtocol? Protocol { get; private init; }
+    public string? Protocol { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

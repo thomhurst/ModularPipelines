@@ -38,7 +38,7 @@ public record AwsWafv2GetRevenueStatisticsTimeSeriesOptions : AwsOptions, IValid
         string TimeWindow,
         AwsWafv2GetRevenueStatisticsTimeSeriesScope Scope,
         AwsWafv2GetRevenueStatisticsTimeSeriesInterval Interval,
-        AwsWafv2GetRevenueStatisticsTimeSeriesCurrency Currency
+        string Currency
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(StatisticType);
@@ -100,7 +100,7 @@ public record AwsWafv2GetRevenueStatisticsTimeSeriesOptions : AwsOptions, IValid
     /// The currency for the amounts in the response. Possible values: o USDC
     /// </summary>
     [CliOption("--currency")]
-    public AwsWafv2GetRevenueStatisticsTimeSeriesCurrency? Currency { get; private init; }
+    public string? Currency { get; private init; }
 
     /// <summary>
     /// The dimension to group results by. Possible values: o NAME o CATEGORY o INTENT o ORGANIZATION o WEBACL

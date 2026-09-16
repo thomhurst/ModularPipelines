@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -34,7 +33,7 @@ public record AwsCleanroomsUpdateProtectedQueryOptions : AwsOptions, IValidatabl
     public AwsCleanroomsUpdateProtectedQueryOptions(
         string MembershipIdentifier,
         string ProtectedQueryIdentifier,
-        AwsCleanroomsUpdateProtectedQueryTargetStatus TargetStatus
+        string TargetStatus
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(MembershipIdentifier);
@@ -80,7 +79,7 @@ public record AwsCleanroomsUpdateProtectedQueryOptions : AwsOptions, IValidatabl
     /// The target status of a query. Used to update the execution status of a currently running query. Possible values: o CANCELLED
     /// </summary>
     [CliOption("--target-status")]
-    public AwsCleanroomsUpdateProtectedQueryTargetStatus? TargetStatus { get; private init; }
+    public string? TargetStatus { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

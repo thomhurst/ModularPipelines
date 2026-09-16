@@ -12,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -31,7 +30,7 @@ public record AwsOpensearchserverlessListLifecyclePoliciesOptions : AwsOptions, 
     /// </summary>
     /// <param name="Type">The type of lifecycle policy. Possible values: o retention</param>
     public AwsOpensearchserverlessListLifecyclePoliciesOptions(
-        AwsOpensearchserverlessListLifecyclePoliciesType Type
+        string Type
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(Type);
@@ -61,7 +60,7 @@ public record AwsOpensearchserverlessListLifecyclePoliciesOptions : AwsOptions, 
     /// The type of lifecycle policy. Possible values: o retention
     /// </summary>
     [CliOption("--type")]
-    public AwsOpensearchserverlessListLifecyclePoliciesType? Type { get; private init; }
+    public string? Type { get; private init; }
 
     /// <summary>
     /// Resource filters that policies can apply to. Currently, the only supported resource type is index . Constraints: o min: 1 o max: 1000 (string) Syntax: "string" "string" ...

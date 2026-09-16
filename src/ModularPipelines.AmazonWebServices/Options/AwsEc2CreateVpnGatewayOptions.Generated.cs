@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -30,7 +29,7 @@ public record AwsEc2CreateVpnGatewayOptions : AwsOptions, IValidatableObject
     /// </summary>
     /// <param name="Type">The type of VPN connection this virtual private gateway supports. Possible values: o ipsec.1</param>
     public AwsEc2CreateVpnGatewayOptions(
-        AwsEc2CreateVpnGatewayType Type
+        string Type
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(Type);
@@ -60,7 +59,7 @@ public record AwsEc2CreateVpnGatewayOptions : AwsOptions, IValidatableObject
     /// The type of VPN connection this virtual private gateway supports. Possible values: o ipsec.1
     /// </summary>
     [CliOption("--type")]
-    public AwsEc2CreateVpnGatewayType? Type { get; private init; }
+    public string? Type { get; private init; }
 
     /// <summary>
     /// The Availability Zone for the virtual private gateway.

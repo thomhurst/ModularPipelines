@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +31,7 @@ public record AwsSesv2UpdateReputationEntityPolicyOptions : AwsOptions, IValidat
     /// <param name="ReputationEntityReference">The unique identifier for the reputation entity. For resource-type entities, this is the Amazon Resource Name (ARN) of the resource. Constraints: o min: 1</param>
     /// <param name="ReputationEntityPolicy">The Amazon Resource Name (ARN) of the reputation management policy to apply to this entity. This is an Amazon Web Services Amazon SES-managed policy. Constraints: o min: 1</param>
     public AwsSesv2UpdateReputationEntityPolicyOptions(
-        AwsSesv2UpdateReputationEntityPolicyReputationEntityType ReputationEntityType,
+        string ReputationEntityType,
         string ReputationEntityReference,
         string ReputationEntityPolicy
     )
@@ -68,7 +67,7 @@ public record AwsSesv2UpdateReputationEntityPolicyOptions : AwsOptions, IValidat
     /// The type of reputation entity. Currently, only RESOURCE type enti- ties are supported. Possible values: o RESOURCE
     /// </summary>
     [CliOption("--reputation-entity-type")]
-    public AwsSesv2UpdateReputationEntityPolicyReputationEntityType? ReputationEntityType { get; private init; }
+    public string? ReputationEntityType { get; private init; }
 
     /// <summary>
     /// The unique identifier for the reputation entity. For resource-type entities, this is the Amazon Resource Name (ARN) of the resource. Constraints: o min: 1

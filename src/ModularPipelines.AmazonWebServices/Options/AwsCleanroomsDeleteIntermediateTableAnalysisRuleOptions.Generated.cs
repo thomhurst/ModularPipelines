@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -34,7 +33,7 @@ public record AwsCleanroomsDeleteIntermediateTableAnalysisRuleOptions : AwsOptio
     public AwsCleanroomsDeleteIntermediateTableAnalysisRuleOptions(
         string MembershipIdentifier,
         string IntermediateTableIdentifier,
-        AwsCleanroomsDeleteIntermediateTableAnalysisRuleAnalysisRuleType AnalysisRuleType
+        string AnalysisRuleType
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(MembershipIdentifier);
@@ -80,7 +79,7 @@ public record AwsCleanroomsDeleteIntermediateTableAnalysisRuleOptions : AwsOptio
     /// The type of analysis rule to delete. Currently, only CUSTOM is sup- ported. Possible values: o CUSTOM
     /// </summary>
     [CliOption("--analysis-rule-type")]
-    public AwsCleanroomsDeleteIntermediateTableAnalysisRuleAnalysisRuleType? AnalysisRuleType { get; private init; }
+    public string? AnalysisRuleType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -36,7 +35,7 @@ public record AwsSecurityagentCreateMembershipOptions : AwsOptions, IValidatable
         string ApplicationId,
         string AgentSpaceId,
         string MembershipId,
-        AwsSecurityagentCreateMembershipMemberType MemberType
+        string MemberType
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(ApplicationId);
@@ -90,7 +89,7 @@ public record AwsSecurityagentCreateMembershipOptions : AwsOptions, IValidatable
     /// The type of member. Currently, only USER is supported. Possible values: o USER
     /// </summary>
     [CliOption("--member-type")]
-    public AwsSecurityagentCreateMembershipMemberType? MemberType { get; private init; }
+    public string? MemberType { get; private init; }
 
     /// <summary>
     /// The configuration for the membership, such as the user role. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: user. user -&gt; (structure) The user configuration for the membership. role -&gt; (string) The role assigned to the user. Currently, only MEMBER is sup- ported. Possible values: o MEMBER Shorthand Syntax: user={role=string} JSON Syntax: { "user": { "role": "MEMBER" } }

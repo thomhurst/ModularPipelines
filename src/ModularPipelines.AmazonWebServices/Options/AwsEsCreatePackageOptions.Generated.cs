@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -33,7 +32,7 @@ public record AwsEsCreatePackageOptions : AwsOptions, IValidatableObject
     /// <param name="PackageSource">The customer S3 location PackageSource for importing the package. S3BucketName -&gt; (string) Name of the bucket containing the package. Constraints: o min: 3 o max: 63 S3Key -&gt; (string) Key (file name) of the package. Shorthand Syntax: S3BucketName=string,S3Key=string JSON Syntax: { "S3BucketName": "string", "S3Key": "string" }</param>
     public AwsEsCreatePackageOptions(
         string PackageName,
-        AwsEsCreatePackagePackageType PackageType,
+        string PackageType,
         string PackageSource
     )
     {
@@ -74,7 +73,7 @@ public record AwsEsCreatePackageOptions : AwsOptions, IValidatableObject
     /// Type of package. Currently supports only TXT-DICTIONARY. Possible values: o TXT-DICTIONARY
     /// </summary>
     [CliOption("--package-type")]
-    public AwsEsCreatePackagePackageType? PackageType { get; private init; }
+    public string? PackageType { get; private init; }
 
     /// <summary>
     /// The customer S3 location PackageSource for importing the package. S3BucketName -&gt; (string) Name of the bucket containing the package. Constraints: o min: 3 o max: 63 S3Key -&gt; (string) Key (file name) of the package. Shorthand Syntax: S3BucketName=string,S3Key=string JSON Syntax: { "S3BucketName": "string", "S3Key": "string" }

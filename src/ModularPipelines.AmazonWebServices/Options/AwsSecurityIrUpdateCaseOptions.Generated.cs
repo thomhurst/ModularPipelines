@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -90,7 +89,7 @@ public record AwsSecurityIrUpdateCaseOptions : AwsOptions, IValidatableObject
     /// Optional element for UpdateCase to provide content for the engage- ment type field. Available engagement types include Security Inci- dent | Investigation . Possible values: o Security Incident o Investigation
     /// </summary>
     [CliOption("--engagement-type")]
-    public AwsSecurityIrUpdateCaseEngagementType? EngagementType { get; set; }
+    public string? EngagementType { get; set; }
 
     /// <summary>
     /// Optional element for UpdateCase to provide content to add additional watchers to a case. Constraints: o min: 0 o max: 30 (structure) email -&gt; (string) [required] Constraints: o min: 6 o max: 254 o pattern: [a-zA-Z0-9.!#$%&amp;'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)* name -&gt; (string) Constraints: o min: 1 o max: 50 jobTitle -&gt; (string) Constraints: o min: 1 o max: 50 Shorthand Syntax: email=string,name=string,jobTitle=string ... JSON Syntax: [ { "email": "string", "name": "string", "jobTitle": "string" } ... ]

@@ -33,7 +33,7 @@ public record AwsNeptuneGraphExecuteQueryOptions : AwsOptions
     public AwsNeptuneGraphExecuteQueryOptions(
         string GraphIdentifier,
         string QueryString,
-        AwsNeptuneGraphExecuteQueryLanguage Language,
+        string Language,
         string Outfile
     )
     {
@@ -47,7 +47,7 @@ public record AwsNeptuneGraphExecuteQueryOptions : AwsOptions
         this.Outfile = Outfile;
     }
 
-    public void Deconstruct(out string GraphIdentifier, out string QueryString, out AwsNeptuneGraphExecuteQueryLanguage Language, out string Outfile)
+    public void Deconstruct(out string GraphIdentifier, out string QueryString, out string Language, out string Outfile)
     {
         GraphIdentifier = this.GraphIdentifier;
         QueryString = this.QueryString;
@@ -71,7 +71,7 @@ public record AwsNeptuneGraphExecuteQueryOptions : AwsOptions
     /// The query language the query is written in. Currently only open- Cypher is supported. Possible values: o OPEN_CYPHER
     /// </summary>
     [CliOption("--language")]
-    public AwsNeptuneGraphExecuteQueryLanguage Language { get; private init; }
+    public string Language { get; private init; }
 
     /// <summary>
     /// The data parameters the query can use in JSON format. For example: {"name": "john", "age": 20}. (optional) key -&gt; (string) value -&gt; (document) JSON Syntax: {"string": {...} ...}

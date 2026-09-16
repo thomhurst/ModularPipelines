@@ -12,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -33,7 +32,7 @@ public record AwsChimeSdkMediaPipelinesStartVoiceToneAnalysisTaskOptions : AwsOp
     /// <param name="LanguageCode">The language code. Possible values: o en-US</param>
     public AwsChimeSdkMediaPipelinesStartVoiceToneAnalysisTaskOptions(
         string Identifier,
-        AwsChimeSdkMediaPipelinesStartVoiceToneAnalysisTaskLanguageCode LanguageCode
+        string LanguageCode
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(Identifier);
@@ -71,7 +70,7 @@ public record AwsChimeSdkMediaPipelinesStartVoiceToneAnalysisTaskOptions : AwsOp
     /// The language code. Possible values: o en-US
     /// </summary>
     [CliOption("--language-code")]
-    public AwsChimeSdkMediaPipelinesStartVoiceToneAnalysisTaskLanguageCode? LanguageCode { get; private init; }
+    public string? LanguageCode { get; private init; }
 
     /// <summary>
     /// The task configuration for the Kinesis video stream source of the media insights pipeline. StreamArn -&gt; (string) [required] The ARN of the stream. Constraints: o min: 1 o max: 1024 o pattern: arn:[a-z\d-]+:kine- sisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+ ChannelId -&gt; (integer) [required] The channel ID. Constraints: o min: 0 o max: 1 FragmentNumber -&gt; (string) The unique identifier of the fragment to begin processing. Constraints: o min: 1 o max: 128 o pattern: ^[0-9]+$ Shorthand Syntax: StreamArn=string,ChannelId=integer,FragmentNumber=string JSON Syntax: { "StreamArn": "string", "ChannelId": integer, "FragmentNumber": "string" }

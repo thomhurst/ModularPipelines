@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +31,7 @@ public record AwsCodeguruprofilerPutPermissionOptions : AwsOptions, IValidatable
     /// <param name="Principals">A list ARNs for the roles and users you want to grant access to the profiling group. Wildcards are not are supported in the ARNs. Constraints: o min: 1 o max: 50 (string) Syntax: "string" "string" ...</param>
     /// <param name="ProfilingGroupName">The name of the profiling group to grant access to. Constraints: o min: 1 o max: 255 o pattern: ^[\w-]+$</param>
     public AwsCodeguruprofilerPutPermissionOptions(
-        AwsCodeguruprofilerPutPermissionActionGroup ActionGroup,
+        string ActionGroup,
         IEnumerable<string> Principals,
         string ProfilingGroupName
     )
@@ -79,7 +78,7 @@ public record AwsCodeguruprofilerPutPermissionOptions : AwsOptions, IValidatable
     /// Specifies an action group that contains permissions to add to a pro- filing group resource. One action group is supported, agentPermis- sions , which grants permission to perform actions required by the profiling agent, ConfigureAgent and PostAgentProfile permissions. Possible values: o agentPermissions
     /// </summary>
     [CliOption("--action-group")]
-    public AwsCodeguruprofilerPutPermissionActionGroup? ActionGroup { get; private init; }
+    public string? ActionGroup { get; private init; }
 
     /// <summary>
     /// A list ARNs for the roles and users you want to grant access to the profiling group. Wildcards are not are supported in the ARNs. Constraints: o min: 1 o max: 50 (string) Syntax: "string" "string" ...

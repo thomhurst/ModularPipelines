@@ -104,13 +104,13 @@ public record AwsNeptuneGraphStartImportTaskOptions : AwsOptions, IValidatableOb
     /// The parquet type of the import task. Possible values: o COLUMNAR
     /// </summary>
     [CliOption("--parquet-type")]
-    public AwsNeptuneGraphStartImportTaskParquetType? ParquetType { get; set; }
+    public string? ParquetType { get; set; }
 
     /// <summary>
     /// The method to handle blank nodes in the dataset. Currently, only convertToIri is supported, meaning blank nodes are converted to unique IRIs at load time. Must be provided when format is ntriples . For more information, see Handling RDF values . Possible values: o convertToIri
     /// </summary>
     [CliOption("--blank-node-handling")]
-    public AwsNeptuneGraphStartImportTaskBlankNodeHandling? BlankNodeHandling { get; set; }
+    public string? BlankNodeHandling { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

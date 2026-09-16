@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -34,7 +33,7 @@ public record AwsQuicksightCreateNamespaceOptions : AwsOptions, IValidatableObje
     public AwsQuicksightCreateNamespaceOptions(
         string AwsAccountId,
         string Namespace,
-        AwsQuicksightCreateNamespaceIdentityStore IdentityStore
+        string IdentityStore
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
@@ -80,7 +79,7 @@ public record AwsQuicksightCreateNamespaceOptions : AwsOptions, IValidatableObje
     /// Specifies the type of your user identity directory. Currently, this supports users with an identity type of QUICKSIGHT . Possible values: o QUICKSIGHT
     /// </summary>
     [CliOption("--identity-store")]
-    public AwsQuicksightCreateNamespaceIdentityStore? IdentityStore { get; private init; }
+    public string? IdentityStore { get; private init; }
 
     /// <summary>
     /// The tags that you want to associate with the namespace that you're creating. Constraints: o min: 1 o max: 200 (structure) The key or keys of the key-value pairs for the resource tag or tags assigned to the resource. Key -&gt; (string) [required] Tag key. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] Tag value. Constraints: o min: 1 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]

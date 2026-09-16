@@ -90,7 +90,7 @@ public record AwsEc2CreateSnapshotsOptions : AwsOptions, IValidatableObject
     /// Copies the tags from the specified volume to corresponding snapshot. Possible values: o volume
     /// </summary>
     [CliOption("--copy-tags-from-source")]
-    public AwsEc2CreateSnapshotsCopyTagsFromSource? CopyTagsFromSource { get; set; }
+    public string? CopyTagsFromSource { get; set; }
 
     /// <summary>
     /// NOTE: Only supported for instances in Local Zones. If the source in- stance is not in a Local Zone, omit this parameter. o To create local snapshots in the same Local Zone as the source in- stance, specify local . o To create regional snapshots in the parent Region of the Local Zone, specify regional or omit this parameter. Default value: regional Possible values: o regional o local

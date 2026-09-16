@@ -12,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -33,7 +32,7 @@ public record AwsIotsitewiseListAssetRelationshipsOptions : AwsOptions, IValidat
     /// <param name="TraversalType">The type of traversal to use to identify asset relationships. Choose the following option: o PATH_TO_ROOT Identify the asset's parent assets up to the root asset. The asset that you specify in assetId is the first result in the list of assetRelationshipSummaries , and the root asset is the last result. Possible values: o PATH_TO_ROOT</param>
     public AwsIotsitewiseListAssetRelationshipsOptions(
         string AssetId,
-        AwsIotsitewiseListAssetRelationshipsTraversalType TraversalType
+        string TraversalType
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(AssetId);
@@ -71,7 +70,7 @@ public record AwsIotsitewiseListAssetRelationshipsOptions : AwsOptions, IValidat
     /// The type of traversal to use to identify asset relationships. Choose the following option: o PATH_TO_ROOT Identify the asset's parent assets up to the root asset. The asset that you specify in assetId is the first result in the list of assetRelationshipSummaries , and the root asset is the last result. Possible values: o PATH_TO_ROOT
     /// </summary>
     [CliOption("--traversal-type")]
-    public AwsIotsitewiseListAssetRelationshipsTraversalType? TraversalType { get; private init; }
+    public string? TraversalType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -84,7 +83,7 @@ public record AwsComputeOptimizerExportRdsDatabaseRecommendationsOptions : AwsOp
     /// The format of the export file. The CSV file is the only export file format currently supported. Possible values: o Csv
     /// </summary>
     [CliOption("--file-format")]
-    public AwsComputeOptimizerExportRdsDatabaseRecommendationsFileFormat? FileFormat { get; set; }
+    public string? FileFormat { get; set; }
 
     /// <summary>
     /// If your account is the management account or the delegated adminis- trator of an organization, this parameter indicates whether to in- clude recommendations for resources in all member accounts of the organization. The member accounts must also be opted in to Compute Optimizer, and trusted access for Compute Optimizer must be enabled in the organi- zation account. For more information, see Compute Optimizer and Ama- zon Web Services Organizations trusted access in the Compute Opti- mizer User Guide . If this parameter is omitted, recommendations for member accounts of the organization aren't included in the export file. If this parameter or the account ID parameter is omitted, recommen- dations for member accounts aren't included in the export.

@@ -12,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +31,7 @@ public record AwsAmplifyuibuilderRefreshTokenOptions : AwsOptions, IValidatableO
     /// <param name="Provider">The third-party provider for the token. The only valid value is figma . Possible values: o figma</param>
     /// <param name="RefreshTokenBody">Information about the refresh token request. token -&gt; (string) [required] The token to use to refresh a previously issued access token that might have expired. clientId -&gt; (string) The ID of the client to request the token from. Shorthand Syntax: token=string,clientId=string JSON Syntax: { "token": "string", "clientId": "string" }</param>
     public AwsAmplifyuibuilderRefreshTokenOptions(
-        AwsAmplifyuibuilderRefreshTokenProvider Provider,
+        string Provider,
         string RefreshTokenBody
     )
     {
@@ -65,7 +64,7 @@ public record AwsAmplifyuibuilderRefreshTokenOptions : AwsOptions, IValidatableO
     /// The third-party provider for the token. The only valid value is figma . Possible values: o figma
     /// </summary>
     [CliOption("--provider")]
-    public AwsAmplifyuibuilderRefreshTokenProvider? Provider { get; private init; }
+    public string? Provider { get; private init; }
 
     /// <summary>
     /// Information about the refresh token request. token -&gt; (string) [required] The token to use to refresh a previously issued access token that might have expired. clientId -&gt; (string) The ID of the client to request the token from. Shorthand Syntax: token=string,clientId=string JSON Syntax: { "token": "string", "clientId": "string" }

@@ -12,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -33,7 +32,7 @@ public record AwsSsmDescribeDocumentPermissionOptions : AwsOptions, IValidatable
     /// <param name="PermissionType">The permission type for the document. The permission type can be Share . Possible values: o Share</param>
     public AwsSsmDescribeDocumentPermissionOptions(
         string Name,
-        AwsSsmDescribeDocumentPermissionPermissionType PermissionType
+        string PermissionType
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(Name);
@@ -71,7 +70,7 @@ public record AwsSsmDescribeDocumentPermissionOptions : AwsOptions, IValidatable
     /// The permission type for the document. The permission type can be Share . Possible values: o Share
     /// </summary>
     [CliOption("--permission-type")]
-    public AwsSsmDescribeDocumentPermissionPermissionType? PermissionType { get; private init; }
+    public string? PermissionType { get; private init; }
 
     /// <summary>
     /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results. Constraints: o min: 1 o max: 200

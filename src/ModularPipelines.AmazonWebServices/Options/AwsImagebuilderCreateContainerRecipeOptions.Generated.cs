@@ -36,7 +36,7 @@ public record AwsImagebuilderCreateContainerRecipeOptions : AwsOptions, IValidat
     /// <param name="ParentImage">The base image for the container recipe. Constraints: o min: 1 o max: 1024</param>
     /// <param name="TargetRepository">The destination repository for the container image. service -&gt; (string) [required] Specifies the service in which this image was registered. Possible values: o ECR repositoryName -&gt; (string) [required] The name of the container repository where the output container image is stored. This name is prefixed by the repository loca- tion. For example, &lt;repository location url&gt;/repository_name . Constraints: o min: 1 o max: 1024 Shorthand Syntax: service=string,repositoryName=string JSON Syntax: { "service": "ECR", "repositoryName": "string" }</param>
     public AwsImagebuilderCreateContainerRecipeOptions(
-        AwsImagebuilderCreateContainerRecipeContainerType ContainerType,
+        string ContainerType,
         string Name,
         string SemanticVersion,
         string ParentImage,
@@ -78,7 +78,7 @@ public record AwsImagebuilderCreateContainerRecipeOptions : AwsOptions, IValidat
     /// The type of container to create. Possible values: o DOCKER
     /// </summary>
     [CliOption("--container-type")]
-    public AwsImagebuilderCreateContainerRecipeContainerType? ContainerType { get; private init; }
+    public string? ContainerType { get; private init; }
 
     /// <summary>
     /// The name of the container recipe. Constraints: o pattern: ^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$

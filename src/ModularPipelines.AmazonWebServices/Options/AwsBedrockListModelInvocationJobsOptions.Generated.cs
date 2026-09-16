@@ -51,7 +51,7 @@ public record AwsBedrockListModelInvocationJobsOptions : AwsOptions
     /// An attribute by which to sort the results. Possible values: o CreationTime
     /// </summary>
     [CliOption("--sort-by")]
-    public AwsBedrockListModelInvocationJobsSortBy? SortBy { get; set; }
+    public string? SortBy { get; set; }
 
     /// <summary>
     /// Specifies whether to sort the results by ascending or descending or- der. Possible values: o Ascending o Descending

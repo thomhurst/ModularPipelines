@@ -12,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -35,7 +34,7 @@ public record AwsPinpointSmsVoiceV2ListAvailablePhoneNumbersOptions : AwsOptions
     public AwsPinpointSmsVoiceV2ListAvailablePhoneNumbersOptions(
         string IsoCountryCode,
         IEnumerable<string> NumberCapabilities,
-        AwsPinpointSmsVoiceV2ListAvailablePhoneNumbersNumberType NumberType
+        string NumberType
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(IsoCountryCode);
@@ -92,7 +91,7 @@ public record AwsPinpointSmsVoiceV2ListAvailablePhoneNumbersOptions : AwsOptions
     /// The type of phone number to search for. Possible values: o TEN_DLC
     /// </summary>
     [CliOption("--number-type")]
-    public AwsPinpointSmsVoiceV2ListAvailablePhoneNumbersNumberType? NumberType { get; private init; }
+    public string? NumberType { get; private init; }
 
     /// <summary>
     /// The registration associated with the request. A registration is re- quired for regulated number types. You can specify either: o The unique identifier of the registration. o The Amazon Resource Name (ARN) of the registration. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+

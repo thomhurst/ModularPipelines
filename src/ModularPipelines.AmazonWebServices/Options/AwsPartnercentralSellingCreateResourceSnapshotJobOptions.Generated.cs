@@ -12,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -37,7 +36,7 @@ public record AwsPartnercentralSellingCreateResourceSnapshotJobOptions : AwsOpti
     public AwsPartnercentralSellingCreateResourceSnapshotJobOptions(
         string Catalog,
         string EngagementIdentifier,
-        AwsPartnercentralSellingCreateResourceSnapshotJobResourceType ResourceType,
+        string ResourceType,
         string ResourceIdentifier,
         string ResourceSnapshotTemplateIdentifier
     )
@@ -89,7 +88,7 @@ public record AwsPartnercentralSellingCreateResourceSnapshotJobOptions : AwsOpti
     /// The type of resource for which the snapshot job is being created. Must be one of the supported resource types i.e. Opportunity Possible values: o Opportunity
     /// </summary>
     [CliOption("--resource-type")]
-    public AwsPartnercentralSellingCreateResourceSnapshotJobResourceType? ResourceType { get; private init; }
+    public string? ResourceType { get; private init; }
 
     /// <summary>
     /// Specifies the identifier of the specific resource to be snapshotted. The format depends on the ResourceType . Constraints: o pattern: O[0-9]{1,19}

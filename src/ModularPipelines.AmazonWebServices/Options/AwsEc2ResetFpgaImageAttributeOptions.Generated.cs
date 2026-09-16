@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -72,7 +71,7 @@ public record AwsEc2ResetFpgaImageAttributeOptions : AwsOptions, IValidatableObj
     /// The attribute. Possible values: o loadPermission
     /// </summary>
     [CliOption("--attribute")]
-    public AwsEc2ResetFpgaImageAttributeAttribute? Attribute { get; set; }
+    public string? Attribute { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

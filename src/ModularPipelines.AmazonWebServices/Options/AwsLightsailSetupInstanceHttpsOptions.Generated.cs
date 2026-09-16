@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -36,7 +35,7 @@ public record AwsLightsailSetupInstanceHttpsOptions : AwsOptions, IValidatableOb
         string InstanceName,
         string EmailAddress,
         IEnumerable<string> DomainNames,
-        AwsLightsailSetupInstanceHttpsCertificateProvider CertificateProvider
+        string CertificateProvider
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(InstanceName);
@@ -101,7 +100,7 @@ public record AwsLightsailSetupInstanceHttpsOptions : AwsOptions, IValidatableOb
     /// The certificate authority that issues the SSL/TLS certificate. Possible values: o LetsEncrypt
     /// </summary>
     [CliOption("--certificate-provider")]
-    public AwsLightsailSetupInstanceHttpsCertificateProvider? CertificateProvider { get; private init; }
+    public string? CertificateProvider { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

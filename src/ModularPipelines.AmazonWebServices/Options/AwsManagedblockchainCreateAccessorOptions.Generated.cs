@@ -32,7 +32,7 @@ public record AwsManagedblockchainCreateAccessorOptions : AwsOptions, IValidatab
     /// </summary>
     /// <param name="AccessorType">The type of accessor. NOTE: Currently, accessor type is restricted to BILLING_TOKEN . Possible values: o BILLING_TOKEN</param>
     public AwsManagedblockchainCreateAccessorOptions(
-        AwsManagedblockchainCreateAccessorAccessorType AccessorType
+        string AccessorType
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(AccessorType);
@@ -62,7 +62,7 @@ public record AwsManagedblockchainCreateAccessorOptions : AwsOptions, IValidatab
     /// The type of accessor. NOTE: Currently, accessor type is restricted to BILLING_TOKEN . Possible values: o BILLING_TOKEN
     /// </summary>
     [CliOption("--accessor-type")]
-    public AwsManagedblockchainCreateAccessorAccessorType? AccessorType { get; private init; }
+    public string? AccessorType { get; private init; }
 
     /// <summary>
     /// This is a unique, case-sensitive identifier that you provide to en- sure the idempotency of the operation. An idempotent operation com- pletes no more than once. This identifier is required only if you make a service request directly using an HTTP client. It is gener- ated automatically if you use an Amazon Web Services SDK or the Ama- zon Web Services CLI. Constraints: o min: 1 o max: 64

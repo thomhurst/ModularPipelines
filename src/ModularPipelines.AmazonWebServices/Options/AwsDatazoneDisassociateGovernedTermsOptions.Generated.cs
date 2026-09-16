@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -35,7 +34,7 @@ public record AwsDatazoneDisassociateGovernedTermsOptions : AwsOptions, IValidat
     public AwsDatazoneDisassociateGovernedTermsOptions(
         string DomainIdentifier,
         string EntityIdentifier,
-        AwsDatazoneDisassociateGovernedTermsEntityType EntityType,
+        string EntityType,
         IEnumerable<string> GovernedGlossaryTerms
     )
     {
@@ -95,7 +94,7 @@ public record AwsDatazoneDisassociateGovernedTermsOptions : AwsOptions, IValidat
     /// The type of the asset from which you want to disassociate restricted terms. Possible values: o ASSET
     /// </summary>
     [CliOption("--entity-type")]
-    public AwsDatazoneDisassociateGovernedTermsEntityType? EntityType { get; private init; }
+    public string? EntityType { get; private init; }
 
     /// <summary>
     /// The restricted glossary terms that you want to disassociate from an asset. Constraints: o min: 1 o max: 5 (string) Constraints: o pattern: [a-zA-Z0-9_-]{1,36} Syntax: "string" "string" ...

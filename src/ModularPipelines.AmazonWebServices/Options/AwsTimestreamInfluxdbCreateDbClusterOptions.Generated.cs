@@ -181,7 +181,7 @@ public record AwsTimestreamInfluxdbCreateDbClusterOptions : AwsOptions, IValidat
     /// Specifies the type of cluster to create. Possible values: o MULTI_NODE_READ_REPLICAS
     /// </summary>
     [CliOption("--deployment-type")]
-    public AwsTimestreamInfluxdbCreateDbClusterDeploymentType? DeploymentType { get; set; }
+    public string? DeploymentType { get; set; }
 
     /// <summary>
     /// Specifies the behavior of failure recovery when the primary node of the cluster fails. Possible values: o AUTOMATIC o NO_FAILOVER

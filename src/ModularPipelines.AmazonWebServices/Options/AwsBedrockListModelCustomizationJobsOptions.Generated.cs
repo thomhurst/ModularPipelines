@@ -51,7 +51,7 @@ public record AwsBedrockListModelCustomizationJobsOptions : AwsOptions
     /// The field to sort by in the returned list of jobs. Possible values: o CreationTime
     /// </summary>
     [CliOption("--sort-by")]
-    public AwsBedrockListModelCustomizationJobsSortBy? SortBy { get; set; }
+    public string? SortBy { get; set; }
 
     /// <summary>
     /// The sort order of the results. Possible values: o Ascending o Descending

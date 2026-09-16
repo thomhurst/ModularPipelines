@@ -12,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -91,7 +90,7 @@ public record AwsM2ListBatchJobExecutionsOptions : AwsOptions, IValidatableObjec
     /// The status of the batch job executions. Possible values: o Submitting o Holding o Dispatching o Running o Cancelling o Cancelled o Succeeded o Failed o Purged o Succeeded With Warning
     /// </summary>
     [CliOption("--status")]
-    public AwsM2ListBatchJobExecutionsStatus? Status { get; set; }
+    public string? Status { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

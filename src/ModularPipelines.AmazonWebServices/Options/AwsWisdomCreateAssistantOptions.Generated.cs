@@ -13,7 +13,6 @@ using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -34,7 +33,7 @@ public record AwsWisdomCreateAssistantOptions : AwsOptions, IValidatableObject
     /// <param name="Type">The type of assistant. Possible values: o AGENT</param>
     public AwsWisdomCreateAssistantOptions(
         string Name,
-        AwsWisdomCreateAssistantType Type
+        string Type
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(Name);
@@ -72,7 +71,7 @@ public record AwsWisdomCreateAssistantOptions : AwsOptions, IValidatableObject
     /// The type of assistant. Possible values: o AGENT
     /// </summary>
     [CliOption("--type")]
-    public AwsWisdomCreateAssistantType? Type { get; private init; }
+    public string? Type { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o min: 1 o max: 4096

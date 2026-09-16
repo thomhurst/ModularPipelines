@@ -37,7 +37,7 @@ public record AwsApplicationSignalsDeleteInstrumentationConfigurationOptions : A
         AwsApplicationSignalsDeleteInstrumentationConfigurationInstrumentationType InstrumentationType,
         string Service,
         string Environment,
-        AwsApplicationSignalsDeleteInstrumentationConfigurationSignalType SignalType,
+        string SignalType,
         string LocationIdentifier
     )
     {
@@ -94,7 +94,7 @@ public record AwsApplicationSignalsDeleteInstrumentationConfigurationOptions : A
     /// Signal type for the instrumentation configuration. Possible values: o SNAPSHOT
     /// </summary>
     [CliOption("--signal-type")]
-    public AwsApplicationSignalsDeleteInstrumentationConfigurationSignalType? SignalType { get; private init; }
+    public string? SignalType { get; private init; }
 
     /// <summary>
     /// Location identifier - either full code location or a pre-computed hash. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: CodeLocation, LocationHash. CodeLocation -&gt; (structure) The full code location specification (will be hashed internally) Language -&gt; (string) [required] The programming language for this instrumentation point, such as Java, Python, or JavaScript. Possible values: o Java o Python o Javascript CodeUnit -&gt; (string) The package, module, or namespace that contains the target code, for example com.amazon.payment or payment_service . Constraints: o min: 1 o max: 128 ClassName -&gt; (string) The class or type name that contains the method. This is re- quired for Java and optional for Python module-level func- tions. Constraints: o min: 1 o max: 128 MethodName -&gt; (string) The method or function name to instrument, such as validate- CreditCard or __init__ . Constraints: o min: 1 o max: 80 FilePath -&gt; (string) [required] The source file path relative to the project or source root, such as src/payment/PaymentProcessor.java or src/payment/Pay- mentProcessor.py . Constraints: o min: 1 o max: 1024 LineNumber -&gt; (integer) The line number to instrument. Provide this to disambiguate overloaded methods and to target a specific line when needed. Constraints: o min: 1 LocationHash -&gt; (string) The pre-computed location hash (16-character hex string) Constraints: o min: 16 o max: 16 Shorthand Syntax: CodeLocation={Language=string,CodeUnit=string,ClassName=string,MethodName=string,FilePath=string,LineNumber=integer},LocationHash=string JSON Syntax: { "CodeLocation": { "Language": "Java"|"Python"|"Javascript", "CodeUnit": "string", "ClassName": "string", "MethodName": "string", "FilePath": "string", "LineNumber": integer }, "LocationHash": "string" }

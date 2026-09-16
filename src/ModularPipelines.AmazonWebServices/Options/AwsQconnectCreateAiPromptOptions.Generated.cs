@@ -44,7 +44,7 @@ public record AwsQconnectCreateAiPromptOptions : AwsOptions, IValidatableObject
         AwsQconnectCreateAiPromptType Type,
         string TemplateConfiguration,
         AwsQconnectCreateAiPromptVisibilityStatus VisibilityStatus,
-        AwsQconnectCreateAiPromptTemplateType TemplateType,
+        string TemplateType,
         string ModelId,
         AwsQconnectCreateAiPromptApiFormat ApiFormat
     )
@@ -120,7 +120,7 @@ public record AwsQconnectCreateAiPromptOptions : AwsOptions, IValidatableObject
     /// The type of the prompt template for this AI Prompt. Possible values: o TEXT
     /// </summary>
     [CliOption("--template-type")]
-    public AwsQconnectCreateAiPromptTemplateType? TemplateType { get; private init; }
+    public string? TemplateType { get; private init; }
 
     /// <summary>
     /// The identifier of the model used for this AI Prompt. NOTE: For information about which models are supported in each Amazon Web Services Region, see Supported models for system/custom prompts . Constraints: o min: 1 o max: 2048

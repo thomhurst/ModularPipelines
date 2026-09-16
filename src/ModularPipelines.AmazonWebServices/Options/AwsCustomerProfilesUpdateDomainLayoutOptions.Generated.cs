@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -94,7 +93,7 @@ public record AwsCustomerProfilesUpdateDomainLayoutOptions : AwsOptions, IValida
     /// The type of layout that can be used to view data under a Customer Profiles domain. Possible values: o PROFILE_EXPLORER
     /// </summary>
     [CliOption("--layout-type")]
-    public AwsCustomerProfilesUpdateDomainLayoutLayoutType? LayoutType { get; set; }
+    public string? LayoutType { get; set; }
 
     /// <summary>
     /// A customizable layout that can be used to view data under a Customer Profiles domain. Constraints: o min: 1 o max: 2000000

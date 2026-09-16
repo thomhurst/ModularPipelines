@@ -13,7 +13,6 @@ using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -36,7 +35,7 @@ public record AwsWisdomCreateAssistantAssociationOptions : AwsOptions, IValidata
     public AwsWisdomCreateAssistantAssociationOptions(
         string AssistantId,
         string Association,
-        AwsWisdomCreateAssistantAssociationAssociationType AssociationType
+        string AssociationType
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(AssistantId);
@@ -82,7 +81,7 @@ public record AwsWisdomCreateAssistantAssociationOptions : AwsOptions, IValidata
     /// The type of association. Possible values: o KNOWLEDGE_BASE
     /// </summary>
     [CliOption("--association-type")]
-    public AwsWisdomCreateAssistantAssociationAssociationType? AssociationType { get; private init; }
+    public string? AssociationType { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o min: 1 o max: 4096

@@ -290,7 +290,7 @@ public record AwsRdsCreateDbInstanceReadReplicaOptions : AwsOptions, IValidatabl
     /// The network type of the DB instance. Valid Values: o IPV4 o DUAL The network type is determined by the DBSubnetGroup specified for read replica. A DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL ). For more information, see Working with a DB instance in a VPC in the Amazon RDS User Guide.
     /// </summary>
     [CliOption("--network-type")]
-    public AwsRdsCreateDbInstanceReadReplicaNetworkType? NetworkType { get; set; }
+    public string? NetworkType { get; set; }
 
     /// <summary>
     /// The upper limit in gibibytes (GiB) to which Amazon RDS can automati- cally scale the storage of the DB instance. For more information about this setting, including limitations that apply to it, see Managing capacity automatically with Amazon RDS storage autoscaling in the Amazon RDS User Guide .
@@ -302,7 +302,7 @@ public record AwsRdsCreateDbInstanceReadReplicaOptions : AwsOptions, IValidatabl
     /// The location where RDS stores automated backups and manual snap- shots. Valid Values: o local for Dedicated Local Zones o region for Amazon Web Services Region
     /// </summary>
     [CliOption("--backup-target")]
-    public AwsRdsCreateDbInstanceReadReplicaBackupTarget? BackupTarget { get; set; }
+    public string? BackupTarget { get; set; }
 
     /// <summary>
     /// The instance profile associated with the underlying Amazon EC2 in- stance of an RDS Custom DB instance. The instance profile must meet the following requirements: o The profile must exist in your account. o The profile must have an IAM role that Amazon EC2 has permissions to assume. o The instance profile name and the associated IAM role name must start with the prefix AWSRDSCustom . For the list of permissions required for the IAM role, see Configure IAM and your VPC in the Amazon RDS User Guide . This setting is required for RDS Custom DB instances.

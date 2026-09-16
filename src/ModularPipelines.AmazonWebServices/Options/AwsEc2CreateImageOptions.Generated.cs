@@ -88,7 +88,7 @@ public record AwsEc2CreateImageOptions : AwsOptions, IValidatableObject
     /// The boot mode of the new image, which overrides the default boot mode. By default, if you do not specify this parameter, the new im- age inherits the boot-mode from the source instance. A value of uefi indicates that the image only supports UEFI boot mode. You can specify this parameter only if the current-in- stance-boot-mode of the source instance is uefi . To find the boot-mode or current-instance-boot-mode of an instance, see DescribeInstances . NOTE: The operating system contained in the AMI must be configured to support the specified boot mode. For more information, see Instance launch behavior with Amazon EC2 boot modes in the Amazon EC2 User Guide . Possible values: o uefi
     /// </summary>
     [CliOption("--boot-mode-override")]
-    public AwsEc2CreateImageBootModeOverride? BootModeOverride { get; set; }
+    public string? BootModeOverride { get; set; }
 
     /// <summary>
     /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .

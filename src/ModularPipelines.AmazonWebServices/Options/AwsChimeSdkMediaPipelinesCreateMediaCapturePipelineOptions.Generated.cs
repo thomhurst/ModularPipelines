@@ -12,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -34,9 +33,9 @@ public record AwsChimeSdkMediaPipelinesCreateMediaCapturePipelineOptions : AwsOp
     /// <param name="SinkType">Destination type to which the media artifacts are saved. You must use an S3 bucket. Possible values: o S3Bucket</param>
     /// <param name="SinkArn">The ARN of the sink type. Constraints: o min: 1 o max: 1024 o pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$</param>
     public AwsChimeSdkMediaPipelinesCreateMediaCapturePipelineOptions(
-        AwsChimeSdkMediaPipelinesCreateMediaCapturePipelineSourceType SourceType,
+        string SourceType,
         string SourceArn,
-        AwsChimeSdkMediaPipelinesCreateMediaCapturePipelineSinkType SinkType,
+        string SinkType,
         string SinkArn
     )
     {
@@ -73,7 +72,7 @@ public record AwsChimeSdkMediaPipelinesCreateMediaCapturePipelineOptions : AwsOp
     /// Source type from which the media artifacts are captured. A Chime SDK Meeting is the only supported source. Possible values: o ChimeSdkMeeting
     /// </summary>
     [CliOption("--source-type")]
-    public AwsChimeSdkMediaPipelinesCreateMediaCapturePipelineSourceType? SourceType { get; private init; }
+    public string? SourceType { get; private init; }
 
     /// <summary>
     /// ARN of the source from which the media artifacts are captured. Constraints: o min: 1 o max: 1024 o pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$
@@ -85,7 +84,7 @@ public record AwsChimeSdkMediaPipelinesCreateMediaCapturePipelineOptions : AwsOp
     /// Destination type to which the media artifacts are saved. You must use an S3 bucket. Possible values: o S3Bucket
     /// </summary>
     [CliOption("--sink-type")]
-    public AwsChimeSdkMediaPipelinesCreateMediaCapturePipelineSinkType? SinkType { get; private init; }
+    public string? SinkType { get; private init; }
 
     /// <summary>
     /// The ARN of the sink type. Constraints: o min: 1 o max: 1024 o pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$

@@ -34,7 +34,7 @@ public record AwsEc2CreateCapacityManagerDataExportOptions : AwsOptions, IValida
     /// <param name="OutputFormat">The file format for the exported data. Parquet format is recommended for large datasets and better compression. Possible values: o csv o parquet</param>
     public AwsEc2CreateCapacityManagerDataExportOptions(
         string S3BucketName,
-        AwsEc2CreateCapacityManagerDataExportSchedule Schedule,
+        string Schedule,
         AwsEc2CreateCapacityManagerDataExportOutputFormat OutputFormat
     )
     {
@@ -75,7 +75,7 @@ public record AwsEc2CreateCapacityManagerDataExportOptions : AwsOptions, IValida
     /// The frequency at which data exports are generated. Possible values: o hourly
     /// </summary>
     [CliOption("--schedule")]
-    public AwsEc2CreateCapacityManagerDataExportSchedule? Schedule { get; private init; }
+    public string? Schedule { get; private init; }
 
     /// <summary>
     /// The file format for the exported data. Parquet format is recommended for large datasets and better compression. Possible values: o csv o parquet

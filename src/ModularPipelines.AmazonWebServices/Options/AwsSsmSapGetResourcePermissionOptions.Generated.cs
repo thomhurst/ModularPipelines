@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -66,7 +65,7 @@ public record AwsSsmSapGetResourcePermissionOptions : AwsOptions, IValidatableOb
     /// Possible values: o RESTORE
     /// </summary>
     [CliOption("--action-type")]
-    public AwsSsmSapGetResourcePermissionActionType? ActionType { get; set; }
+    public string? ActionType { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +31,7 @@ public record AwsSsmSapPutResourcePermissionOptions : AwsOptions, IValidatableOb
     /// <param name="SourceResourceArn">Constraints: o pattern: arn:(.+:){2,4}.+$|^arn:(.+:){1,3}.+\/.+</param>
     /// <param name="ResourceArn">Constraints: o pattern: arn:(.+:){2,4}.+$|^arn:(.+:){1,3}.+\/.+</param>
     public AwsSsmSapPutResourcePermissionOptions(
-        AwsSsmSapPutResourcePermissionActionType ActionType,
+        string ActionType,
         string SourceResourceArn,
         string ResourceArn
     )
@@ -68,7 +67,7 @@ public record AwsSsmSapPutResourcePermissionOptions : AwsOptions, IValidatableOb
     /// Possible values: o RESTORE
     /// </summary>
     [CliOption("--action-type")]
-    public AwsSsmSapPutResourcePermissionActionType? ActionType { get; private init; }
+    public string? ActionType { get; private init; }
 
     /// <summary>
     /// Constraints: o pattern: arn:(.+:){2,4}.+$|^arn:(.+:){1,3}.+\/.+

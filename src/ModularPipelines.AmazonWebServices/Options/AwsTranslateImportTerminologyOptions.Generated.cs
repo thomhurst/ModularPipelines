@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -33,7 +32,7 @@ public record AwsTranslateImportTerminologyOptions : AwsOptions, IValidatableObj
     /// <param name="DataFile">The path to the file of the code you are uploading. Example: fileb://data.csv</param>
     public AwsTranslateImportTerminologyOptions(
         string Name,
-        AwsTranslateImportTerminologyMergeStrategy MergeStrategy,
+        string MergeStrategy,
         string DataFile
     )
     {
@@ -74,7 +73,7 @@ public record AwsTranslateImportTerminologyOptions : AwsOptions, IValidatableObj
     /// The merge strategy of the custom terminology being imported. Cur- rently, only the OVERWRITE merge strategy is supported. In this case, the imported terminology will overwrite an existing terminol- ogy of the same name. Possible values: o OVERWRITE
     /// </summary>
     [CliOption("--merge-strategy")]
-    public AwsTranslateImportTerminologyMergeStrategy? MergeStrategy { get; private init; }
+    public string? MergeStrategy { get; private init; }
 
     /// <summary>
     /// The path to the file of the code you are uploading. Example: fileb://data.csv

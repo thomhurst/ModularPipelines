@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -198,7 +197,7 @@ public record AwsRdsRestoreDbClusterToPointInTimeOptions : AwsOptions, IValidata
     /// The network type of the DB cluster. Valid Values: o IPV4 o DUAL The network type is determined by the DBSubnetGroup specified for the DB cluster. A DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL ). For more information, see Working with a DB instance in a VPC in the Amazon Aurora User Guide. Valid for: Aurora DB clusters only
     /// </summary>
     [CliOption("--network-type")]
-    public AwsRdsRestoreDbClusterToPointInTimeNetworkType? NetworkType { get; set; }
+    public string? NetworkType { get; set; }
 
     /// <summary>
     /// The resource ID of the source DB cluster from which to restore.

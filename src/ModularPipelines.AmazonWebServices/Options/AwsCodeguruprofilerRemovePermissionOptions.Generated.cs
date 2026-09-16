@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +31,7 @@ public record AwsCodeguruprofilerRemovePermissionOptions : AwsOptions, IValidata
     /// <param name="ProfilingGroupName">The name of the profiling group. Constraints: o min: 1 o max: 255 o pattern: ^[\w-]+$</param>
     /// <param name="RevisionId">A universally unique identifier (UUID) for the revision of the re- source-based policy from which you want to remove permissions. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
     public AwsCodeguruprofilerRemovePermissionOptions(
-        AwsCodeguruprofilerRemovePermissionActionGroup ActionGroup,
+        string ActionGroup,
         string ProfilingGroupName,
         string RevisionId
     )
@@ -68,7 +67,7 @@ public record AwsCodeguruprofilerRemovePermissionOptions : AwsOptions, IValidata
     /// Specifies an action group that contains the permissions to remove from a profiling group's resource-based policy. One action group is supported, agentPermissions , which grants ConfigureAgent and PostA- gentProfile permissions. Possible values: o agentPermissions
     /// </summary>
     [CliOption("--action-group")]
-    public AwsCodeguruprofilerRemovePermissionActionGroup? ActionGroup { get; private init; }
+    public string? ActionGroup { get; private init; }
 
     /// <summary>
     /// The name of the profiling group. Constraints: o min: 1 o max: 255 o pattern: ^[\w-]+$

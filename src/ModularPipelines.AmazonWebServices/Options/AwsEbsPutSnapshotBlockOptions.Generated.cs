@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -40,7 +39,7 @@ public record AwsEbsPutSnapshotBlockOptions : AwsOptions, IValidatableObject
         string BlockData,
         int DataLength,
         string Checksum,
-        AwsEbsPutSnapshotBlockChecksumAlgorithm ChecksumAlgorithm
+        string ChecksumAlgorithm
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(SnapshotId);
@@ -108,7 +107,7 @@ public record AwsEbsPutSnapshotBlockOptions : AwsOptions, IValidatableObject
     /// The algorithm used to generate the checksum. Currently, the only supported algorithm is SHA256 . Possible values: o SHA256 Constraints: o max: 32 o pattern: ^[A-Za-z0-9]+$
     /// </summary>
     [CliOption("--checksum-algorithm")]
-    public AwsEbsPutSnapshotBlockChecksumAlgorithm? ChecksumAlgorithm { get; private init; }
+    public string? ChecksumAlgorithm { get; private init; }
 
     /// <summary>
     /// The progress of the write process, as a percentage. Constraints: o min: 0 o max: 100

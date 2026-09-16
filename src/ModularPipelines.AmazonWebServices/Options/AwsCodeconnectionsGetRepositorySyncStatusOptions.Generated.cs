@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -34,7 +33,7 @@ public record AwsCodeconnectionsGetRepositorySyncStatusOptions : AwsOptions, IVa
     public AwsCodeconnectionsGetRepositorySyncStatusOptions(
         string Branch,
         string RepositoryLinkId,
-        AwsCodeconnectionsGetRepositorySyncStatusSyncType SyncType
+        string SyncType
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(Branch);
@@ -80,7 +79,7 @@ public record AwsCodeconnectionsGetRepositorySyncStatusOptions : AwsOptions, IVa
     /// The sync type of the requested sync status. Possible values: o CFN_STACK_SYNC
     /// </summary>
     [CliOption("--sync-type")]
-    public AwsCodeconnectionsGetRepositorySyncStatusSyncType? SyncType { get; private init; }
+    public string? SyncType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

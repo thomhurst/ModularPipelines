@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -35,7 +34,7 @@ public record AwsDatazoneAssociateGovernedTermsOptions : AwsOptions, IValidatabl
     public AwsDatazoneAssociateGovernedTermsOptions(
         string DomainIdentifier,
         string EntityIdentifier,
-        AwsDatazoneAssociateGovernedTermsEntityType EntityType,
+        string EntityType,
         IEnumerable<string> GovernedGlossaryTerms
     )
     {
@@ -95,7 +94,7 @@ public record AwsDatazoneAssociateGovernedTermsOptions : AwsOptions, IValidatabl
     /// The type of the asset with which you want to associate a governed term. Possible values: o ASSET
     /// </summary>
     [CliOption("--entity-type")]
-    public AwsDatazoneAssociateGovernedTermsEntityType? EntityType { get; private init; }
+    public string? EntityType { get; private init; }
 
     /// <summary>
     /// The glossary terms in a restricted glossary. Constraints: o min: 1 o max: 5 (string) Constraints: o pattern: [a-zA-Z0-9_-]{1,36} Syntax: "string" "string" ...

@@ -89,7 +89,7 @@ public record AwsOmicsCreateWorkflowVersionOptions : AwsOptions, IValidatableObj
     /// The computational accelerator for this workflow version. Possible values: o GPU Constraints: o min: 1 o max: 64
     /// </summary>
     [CliOption("--accelerators")]
-    public AwsOmicsCreateWorkflowVersionAccelerators? Accelerators { get; set; }
+    public string? Accelerators { get; set; }
 
     /// <summary>
     /// A description for this workflow version. Constraints: o min: 1 o max: 256 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+

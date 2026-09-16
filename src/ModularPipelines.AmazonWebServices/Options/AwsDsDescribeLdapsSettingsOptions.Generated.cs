@@ -12,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -67,7 +66,7 @@ public record AwsDsDescribeLdapsSettingsOptions : AwsOptions, IValidatableObject
     /// The type of LDAP security to enable. Currently only the value Client is supported. Possible values: o Client
     /// </summary>
     [CliOption("--type")]
-    public AwsDsDescribeLdapsSettingsType? Type { get; set; }
+    public string? Type { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

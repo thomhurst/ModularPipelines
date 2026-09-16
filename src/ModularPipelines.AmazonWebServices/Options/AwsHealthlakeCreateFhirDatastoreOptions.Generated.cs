@@ -12,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -31,7 +30,7 @@ public record AwsHealthlakeCreateFhirDatastoreOptions : AwsOptions, IValidatable
     /// </summary>
     /// <param name="DatastoreTypeVersion">The FHIR release version supported by the data store. Current sup- port is for version R4 . Possible values: o R4</param>
     public AwsHealthlakeCreateFhirDatastoreOptions(
-        AwsHealthlakeCreateFhirDatastoreDatastoreTypeVersion DatastoreTypeVersion
+        string DatastoreTypeVersion
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(DatastoreTypeVersion);
@@ -61,7 +60,7 @@ public record AwsHealthlakeCreateFhirDatastoreOptions : AwsOptions, IValidatable
     /// The FHIR release version supported by the data store. Current sup- port is for version R4 . Possible values: o R4
     /// </summary>
     [CliOption("--datastore-type-version")]
-    public AwsHealthlakeCreateFhirDatastoreDatastoreTypeVersion? DatastoreTypeVersion { get; private init; }
+    public string? DatastoreTypeVersion { get; private init; }
 
     /// <summary>
     /// The data store name (user-generated). Constraints: o min: 1 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)

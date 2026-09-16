@@ -13,7 +13,6 @@ using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -36,7 +35,7 @@ public record AwsIotManagedIntegrationsCreateDestinationOptions : AwsOptions, IV
     /// <param name="RoleArn">The Amazon Resource Name (ARN) of the delivery destination role.</param>
     public AwsIotManagedIntegrationsCreateDestinationOptions(
         string DeliveryDestinationArn,
-        AwsIotManagedIntegrationsCreateDestinationDeliveryDestinationType DeliveryDestinationType,
+        string DeliveryDestinationType,
         string Name,
         string RoleArn
     )
@@ -80,7 +79,7 @@ public record AwsIotManagedIntegrationsCreateDestinationOptions : AwsOptions, IV
     /// The destination type for the customer-managed destination. Possible values: o KINESIS
     /// </summary>
     [CliOption("--delivery-destination-type")]
-    public AwsIotManagedIntegrationsCreateDestinationDeliveryDestinationType? DeliveryDestinationType { get; private init; }
+    public string? DeliveryDestinationType { get; private init; }
 
     /// <summary>
     /// The name of the customer-managed destination. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{N} ._-]+

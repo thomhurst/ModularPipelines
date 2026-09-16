@@ -39,7 +39,7 @@ public record AwsQuicksightCreateDlpSettingOptions : AwsOptions, IValidatableObj
         string AwsAccountId,
         string DlpSettingId,
         string Name,
-        AwsQuicksightCreateDlpSettingProviderType ProviderType,
+        string ProviderType,
         string ProviderConfig,
         AwsQuicksightCreateDlpSettingProviderOutageAction ProviderOutageAction,
         bool Enabled
@@ -101,7 +101,7 @@ public record AwsQuicksightCreateDlpSettingOptions : AwsOptions, IValidatableObj
     /// The type of external DLP provider to use for sensitivity label clas- sification. Currently, the only supported value is MICROSOFT_PURVIEW . Possible values: o MICROSOFT_PURVIEW
     /// </summary>
     [CliOption("--provider-type")]
-    public AwsQuicksightCreateDlpSettingProviderType? ProviderType { get; private init; }
+    public string? ProviderType { get; private init; }
 
     /// <summary>
     /// The provider-specific configuration for the DLP integration. This is a union type structure. For this structure to be valid, only one of the attributes can be defined. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: MicrosoftPurview. MicrosoftPurview -&gt; (structure) The configuration for a Microsoft Purview DLP integration. Credentials -&gt; (structure) [required] The credentials used to authenticate with Microsoft Purview. SecretArn -&gt; (string) [required] The ARN of the Amazon Web Services Secrets Manager secret that contains the Microsoft Purview OAuth credentials. The secret includes the Azure tenant ID, client ID, and client secret or certificate. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(-[\w]+)*:secretsman- ager:[a-z0-9\-]+:\d{12}:secret:.+ LabelActionMappings -&gt; (list) [required] The mappings from Microsoft Purview sensitivity labels to en- forcement actions. Constraints: o min: 0 o max: 100 (structure) Maps a sensitivity label from Microsoft Purview to an en- forcement action. LabelId -&gt; (string) [required] The identifier of the sensitivity label from the DLP provider. Constraints: o min: 1 o max: 512 LabelName -&gt; (string) [required] The display name of the sensitivity label from the DLP provider. Constraints: o min: 1 o max: 512 Action -&gt; (string) [required] The enforcement action to apply when content with this sensitivity label is detected. Valid values are ALLOW , BLOCK , and WARN . Possible values: o ALLOW o WARN o BLOCK UnmappedAction -&gt; (string) [required] The default action to apply to content that has no sensitiv- ity label or whose label is not mapped. Valid values are AL- LOW , BLOCK , and WARN . Possible values: o ALLOW o WARN o BLOCK JSON Syntax: { "MicrosoftPurview": { "Credentials": { "SecretArn": "string" }, "LabelActionMappings": [ { "LabelId": "string", "LabelName": "string", "Action": "ALLOW"|"WARN"|"BLOCK" } ... ], "UnmappedAction": "ALLOW"|"WARN"|"BLOCK" } }

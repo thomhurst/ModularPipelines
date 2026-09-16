@@ -12,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -37,7 +36,7 @@ public record AwsAppfabricCreateIngestionOptions : AwsOptions, IValidatableObjec
         string AppBundleIdentifier,
         string App,
         string TenantId,
-        AwsAppfabricCreateIngestionIngestionType IngestionType
+        string IngestionType
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(AppBundleIdentifier);
@@ -91,7 +90,7 @@ public record AwsAppfabricCreateIngestionOptions : AwsOptions, IValidatableObjec
     /// The ingestion type. Possible values: o auditLog
     /// </summary>
     [CliOption("--ingestion-type")]
-    public AwsAppfabricCreateIngestionIngestionType? IngestionType { get; private init; }
+    public string? IngestionType { get; private init; }
 
     /// <summary>
     /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken , but with dif- ferent parameters, the retry fails with an IdempotentParameterMis- match error. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}

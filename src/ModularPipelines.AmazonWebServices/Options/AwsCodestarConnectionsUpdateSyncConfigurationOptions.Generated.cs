@@ -32,7 +32,7 @@ public record AwsCodestarConnectionsUpdateSyncConfigurationOptions : AwsOptions,
     /// <param name="SyncType">The sync type for the sync configuration to be updated. Possible values: o CFN_STACK_SYNC</param>
     public AwsCodestarConnectionsUpdateSyncConfigurationOptions(
         string ResourceName,
-        AwsCodestarConnectionsUpdateSyncConfigurationSyncType SyncType
+        string SyncType
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(ResourceName);
@@ -70,7 +70,7 @@ public record AwsCodestarConnectionsUpdateSyncConfigurationOptions : AwsOptions,
     /// The sync type for the sync configuration to be updated. Possible values: o CFN_STACK_SYNC
     /// </summary>
     [CliOption("--sync-type")]
-    public AwsCodestarConnectionsUpdateSyncConfigurationSyncType? SyncType { get; private init; }
+    public string? SyncType { get; private init; }
 
     /// <summary>
     /// The branch for the sync configuration to be updated. Constraints: o min: 1 o max: 255 o pattern: ^.*$

@@ -12,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -37,7 +36,7 @@ public record AwsBedrockAgentRuntimeGetAgentMemoryOptions : AwsOptions, IValidat
         string AgentAliasId,
         string AgentId,
         string MemoryId,
-        AwsBedrockAgentRuntimeGetAgentMemoryMemoryType MemoryType
+        string MemoryType
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(AgentAliasId);
@@ -91,7 +90,7 @@ public record AwsBedrockAgentRuntimeGetAgentMemoryOptions : AwsOptions, IValidat
     /// The type of memory. Possible values: o SESSION_SUMMARY
     /// </summary>
     [CliOption("--memory-type")]
-    public AwsBedrockAgentRuntimeGetAgentMemoryMemoryType? MemoryType { get; private init; }
+    public string? MemoryType { get; private init; }
 
     /// <summary>
     /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .

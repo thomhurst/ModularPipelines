@@ -12,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -35,7 +34,7 @@ public record AwsChimeSdkVoiceStartVoiceToneAnalysisTaskOptions : AwsOptions, IV
     public AwsChimeSdkVoiceStartVoiceToneAnalysisTaskOptions(
         string VoiceConnectorId,
         string TransactionId,
-        AwsChimeSdkVoiceStartVoiceToneAnalysisTaskLanguageCode LanguageCode
+        string LanguageCode
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(VoiceConnectorId);
@@ -81,7 +80,7 @@ public record AwsChimeSdkVoiceStartVoiceToneAnalysisTaskOptions : AwsOptions, IV
     /// The language code. Possible values: o en-US
     /// </summary>
     [CliOption("--language-code")]
-    public AwsChimeSdkVoiceStartVoiceToneAnalysisTaskLanguageCode? LanguageCode { get; private init; }
+    public string? LanguageCode { get; private init; }
 
     /// <summary>
     /// The unique identifier for the client request. Use a different token for different voice tone analysis tasks. Constraints: o pattern: ^[-_a-zA-Z0-9]*${2,64}$

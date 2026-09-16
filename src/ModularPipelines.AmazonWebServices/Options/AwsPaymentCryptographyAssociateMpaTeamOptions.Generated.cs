@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -31,7 +30,7 @@ public record AwsPaymentCryptographyAssociateMpaTeamOptions : AwsOptions, IValid
     /// <param name="Action">The protected operation to associate with the MPA team. Currently, the only supported value is IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE . Possible values: o IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE</param>
     /// <param name="MpaTeamArn">The ARN of the MPA team to associate with the protected operation. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:mpa:[a-z0-9-]{1,20}:[0-9]{12}:ap- proval-team/[a-zA-Z0-9._-]+</param>
     public AwsPaymentCryptographyAssociateMpaTeamOptions(
-        AwsPaymentCryptographyAssociateMpaTeamAction Action,
+        string Action,
         string MpaTeamArn
     )
     {
@@ -64,7 +63,7 @@ public record AwsPaymentCryptographyAssociateMpaTeamOptions : AwsOptions, IValid
     /// The protected operation to associate with the MPA team. Currently, the only supported value is IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE . Possible values: o IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE
     /// </summary>
     [CliOption("--action")]
-    public AwsPaymentCryptographyAssociateMpaTeamAction? Action { get; private init; }
+    public string? Action { get; private init; }
 
     /// <summary>
     /// The ARN of the MPA team to associate with the protected operation. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:mpa:[a-z0-9-]{1,20}:[0-9]{12}:ap- proval-team/[a-zA-Z0-9._-]+

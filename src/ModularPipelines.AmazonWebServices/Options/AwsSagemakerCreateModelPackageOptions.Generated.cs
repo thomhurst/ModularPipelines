@@ -173,7 +173,7 @@ public record AwsSagemakerCreateModelPackageOptions : AwsOptions
     /// The storage type of the model package. Possible values: o Restricted
     /// </summary>
     [CliOption("--managed-storage-type")]
-    public AwsSagemakerCreateModelPackageManagedStorageType? ManagedStorageType { get; set; }
+    public string? ManagedStorageType { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

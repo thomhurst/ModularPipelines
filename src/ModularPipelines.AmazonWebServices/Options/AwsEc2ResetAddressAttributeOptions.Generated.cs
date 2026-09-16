@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +31,7 @@ public record AwsEc2ResetAddressAttributeOptions : AwsOptions, IValidatableObjec
     /// <param name="Attribute">The attribute of the IP address. Possible values: o domain-name</param>
     public AwsEc2ResetAddressAttributeOptions(
         string AllocationId,
-        AwsEc2ResetAddressAttributeAttribute Attribute
+        string Attribute
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(AllocationId);
@@ -70,7 +69,7 @@ public record AwsEc2ResetAddressAttributeOptions : AwsOptions, IValidatableObjec
     /// The attribute of the IP address. Possible values: o domain-name
     /// </summary>
     [CliOption("--attribute")]
-    public AwsEc2ResetAddressAttributeAttribute? Attribute { get; private init; }
+    public string? Attribute { get; private init; }
 
     /// <summary>
     /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .

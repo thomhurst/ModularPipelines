@@ -12,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -31,7 +30,7 @@ public record AwsEcsListAttributesOptions : AwsOptions, IValidatableObject
     /// </summary>
     /// <param name="TargetType">The type of the target to list attributes with. Possible values: o container-instance</param>
     public AwsEcsListAttributesOptions(
-        AwsEcsListAttributesTargetType TargetType
+        string TargetType
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(TargetType);
@@ -61,7 +60,7 @@ public record AwsEcsListAttributesOptions : AwsOptions, IValidatableObject
     /// The type of the target to list attributes with. Possible values: o container-instance
     /// </summary>
     [CliOption("--target-type")]
-    public AwsEcsListAttributesTargetType? TargetType { get; private init; }
+    public string? TargetType { get; private init; }
 
     /// <summary>
     /// The short name or full Amazon Resource Name (ARN) of the cluster to list attributes. If you do not specify a cluster, the default clus- ter is assumed.

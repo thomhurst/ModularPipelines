@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +31,7 @@ public record AwsEc2ModifyVpcEndpointServicePayerResponsibilityOptions : AwsOpti
     /// <param name="PayerResponsibility">The entity that is responsible for the endpoint costs. The default is the endpoint owner. If you set the payer responsibility to the service owner, you cannot set it back to the endpoint owner. Possible values: o ServiceOwner</param>
     public AwsEc2ModifyVpcEndpointServicePayerResponsibilityOptions(
         string ServiceId,
-        AwsEc2ModifyVpcEndpointServicePayerResponsibilityPayerResponsibility PayerResponsibility
+        string PayerResponsibility
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(ServiceId);
@@ -70,7 +69,7 @@ public record AwsEc2ModifyVpcEndpointServicePayerResponsibilityOptions : AwsOpti
     /// The entity that is responsible for the endpoint costs. The default is the endpoint owner. If you set the payer responsibility to the service owner, you cannot set it back to the endpoint owner. Possible values: o ServiceOwner
     /// </summary>
     [CliOption("--payer-responsibility")]
-    public AwsEc2ModifyVpcEndpointServicePayerResponsibilityPayerResponsibility? PayerResponsibility { get; private init; }
+    public string? PayerResponsibility { get; private init; }
 
     /// <summary>
     /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .

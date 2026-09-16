@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -97,7 +96,7 @@ public record AwsQconnectUpdateSessionDataOptions : AwsOptions, IValidatableObje
     /// The namespace into which the session data is stored. Supported name- spaces are: Custom Possible values: o Custom
     /// </summary>
     [CliOption("--namespace")]
-    public AwsQconnectUpdateSessionDataNamespace? Namespace { get; set; }
+    public string? Namespace { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

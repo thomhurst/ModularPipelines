@@ -40,7 +40,7 @@ public record AwsCodestarConnectionsCreateSyncConfigurationOptions : AwsOptions,
         string RepositoryLinkId,
         string ResourceName,
         string RoleArn,
-        AwsCodestarConnectionsCreateSyncConfigurationSyncType SyncType
+        string SyncType
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(Branch);
@@ -110,7 +110,7 @@ public record AwsCodestarConnectionsCreateSyncConfigurationOptions : AwsOptions,
     /// The type of sync configuration. Possible values: o CFN_STACK_SYNC
     /// </summary>
     [CliOption("--sync-type")]
-    public AwsCodestarConnectionsCreateSyncConfigurationSyncType? SyncType { get; private init; }
+    public string? SyncType { get; private init; }
 
     /// <summary>
     /// Whether to enable or disable publishing of deployment status to source providers. Possible values: o ENABLED o DISABLED

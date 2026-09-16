@@ -12,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -31,7 +30,7 @@ public record AwsOrganizationsListInboundResponsibilityTransfersOptions : AwsOpt
     /// </summary>
     /// <param name="Type">The type of responsibility. Currently, only BILLING is supported. Possible values: o BILLING</param>
     public AwsOrganizationsListInboundResponsibilityTransfersOptions(
-        AwsOrganizationsListInboundResponsibilityTransfersType Type
+        string Type
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(Type);
@@ -61,7 +60,7 @@ public record AwsOrganizationsListInboundResponsibilityTransfersOptions : AwsOpt
     /// The type of responsibility. Currently, only BILLING is supported. Possible values: o BILLING
     /// </summary>
     [CliOption("--type")]
-    public AwsOrganizationsListInboundResponsibilityTransfersType? Type { get; private init; }
+    public string? Type { get; private init; }
 
     /// <summary>
     /// ID for the transfer. Constraints: o pattern: ^rt-[0-9a-z]{8,32}$

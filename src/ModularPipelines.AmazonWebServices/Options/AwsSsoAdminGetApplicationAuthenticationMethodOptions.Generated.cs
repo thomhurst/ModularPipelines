@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +31,7 @@ public record AwsSsoAdminGetApplicationAuthenticationMethodOptions : AwsOptions,
     /// <param name="AuthenticationMethodType">Specifies the type of authentication method for which you want de- tails. Possible values: o IAM</param>
     public AwsSsoAdminGetApplicationAuthenticationMethodOptions(
         string ApplicationArn,
-        AwsSsoAdminGetApplicationAuthenticationMethodAuthenticationMethodType AuthenticationMethodType
+        string AuthenticationMethodType
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(ApplicationArn);
@@ -70,7 +69,7 @@ public record AwsSsoAdminGetApplicationAuthenticationMethodOptions : AwsOptions,
     /// Specifies the type of authentication method for which you want de- tails. Possible values: o IAM
     /// </summary>
     [CliOption("--authentication-method-type")]
-    public AwsSsoAdminGetApplicationAuthenticationMethodAuthenticationMethodType? AuthenticationMethodType { get; private init; }
+    public string? AuthenticationMethodType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

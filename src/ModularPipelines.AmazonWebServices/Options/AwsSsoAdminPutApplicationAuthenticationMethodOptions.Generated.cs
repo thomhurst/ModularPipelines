@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -33,7 +32,7 @@ public record AwsSsoAdminPutApplicationAuthenticationMethodOptions : AwsOptions,
     /// <param name="AuthenticationMethod">Specifies a structure that describes the authentication method to add or update. The structure type you provide is determined by the AuthenticationMethodType parameter. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Iam. Iam -&gt; (structure) A structure that describes details for IAM authentication. ActorPolicy -&gt; (document) [required] An IAM policy document in JSON. Shorthand Syntax: Iam={} JSON Syntax: { "Iam": { "ActorPolicy": {...} } }</param>
     public AwsSsoAdminPutApplicationAuthenticationMethodOptions(
         string ApplicationArn,
-        AwsSsoAdminPutApplicationAuthenticationMethodAuthenticationMethodType AuthenticationMethodType,
+        string AuthenticationMethodType,
         string AuthenticationMethod
     )
     {
@@ -74,7 +73,7 @@ public record AwsSsoAdminPutApplicationAuthenticationMethodOptions : AwsOptions,
     /// Specifies the type of the authentication method that you want to add or update. Possible values: o IAM
     /// </summary>
     [CliOption("--authentication-method-type")]
-    public AwsSsoAdminPutApplicationAuthenticationMethodAuthenticationMethodType? AuthenticationMethodType { get; private init; }
+    public string? AuthenticationMethodType { get; private init; }
 
     /// <summary>
     /// Specifies a structure that describes the authentication method to add or update. The structure type you provide is determined by the AuthenticationMethodType parameter. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Iam. Iam -&gt; (structure) A structure that describes details for IAM authentication. ActorPolicy -&gt; (document) [required] An IAM policy document in JSON. Shorthand Syntax: Iam={} JSON Syntax: { "Iam": { "ActorPolicy": {...} } }

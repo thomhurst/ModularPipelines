@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -31,7 +30,7 @@ public record AwsEc2ResetImageAttributeOptions : AwsOptions, IValidatableObject
     /// <param name="Attribute">The attribute to reset (currently you can only reset the launch per- mission attribute). Possible values: o launchPermission</param>
     /// <param name="ImageId">The ID of the AMI.</param>
     public AwsEc2ResetImageAttributeOptions(
-        AwsEc2ResetImageAttributeAttribute Attribute,
+        string Attribute,
         string ImageId
     )
     {
@@ -64,7 +63,7 @@ public record AwsEc2ResetImageAttributeOptions : AwsOptions, IValidatableObject
     /// The attribute to reset (currently you can only reset the launch per- mission attribute). Possible values: o launchPermission
     /// </summary>
     [CliOption("--attribute")]
-    public AwsEc2ResetImageAttributeAttribute? Attribute { get; private init; }
+    public string? Attribute { get; private init; }
 
     /// <summary>
     /// The ID of the AMI.

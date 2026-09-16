@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -34,7 +33,7 @@ public record AwsAmplifybackendImportBackendStorageOptions : AwsOptions, IValida
     public AwsAmplifybackendImportBackendStorageOptions(
         string AppId,
         string BackendEnvironmentName,
-        AwsAmplifybackendImportBackendStorageServiceName ServiceName
+        string ServiceName
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(AppId);
@@ -80,7 +79,7 @@ public record AwsAmplifybackendImportBackendStorageOptions : AwsOptions, IValida
     /// The name of the storage service. Possible values: o S3
     /// </summary>
     [CliOption("--service-name")]
-    public AwsAmplifybackendImportBackendStorageServiceName? ServiceName { get; private init; }
+    public string? ServiceName { get; private init; }
 
     /// <summary>
     /// The name of the S3 bucket.

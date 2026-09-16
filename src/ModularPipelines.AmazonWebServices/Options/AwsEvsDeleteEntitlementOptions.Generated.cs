@@ -12,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -36,7 +35,7 @@ public record AwsEvsDeleteEntitlementOptions : AwsOptions, IValidatableObject
     public AwsEvsDeleteEntitlementOptions(
         string EnvironmentId,
         string ConnectorId,
-        AwsEvsDeleteEntitlementEntitlementType EntitlementType,
+        string EntitlementType,
         IEnumerable<string> VmIds
     )
     {
@@ -96,7 +95,7 @@ public record AwsEvsDeleteEntitlementOptions : AwsOptions, IValidatableObject
     /// The type of entitlement to delete. Possible values: o WINDOWS_SERVER
     /// </summary>
     [CliOption("--entitlement-type")]
-    public AwsEvsDeleteEntitlementEntitlementType? EntitlementType { get; private init; }
+    public string? EntitlementType { get; private init; }
 
     /// <summary>
     /// The list of VMware vSphere virtual machine managed object IDs to delete entitlements for. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 4 o max: 1024 o pattern: vm-[0-9]+ Syntax: "string" "string" ...

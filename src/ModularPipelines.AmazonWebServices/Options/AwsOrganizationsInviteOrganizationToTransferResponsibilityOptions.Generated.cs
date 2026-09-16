@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -33,7 +32,7 @@ public record AwsOrganizationsInviteOrganizationToTransferResponsibilityOptions 
     /// <param name="StartTimestamp">Timestamp when the recipient will begin managing the specified re- sponsibilities.</param>
     /// <param name="SourceName">Name you want to assign to the transfer. Constraints: o min: 1 o max: 128 o pattern: ^[ -~]+$</param>
     public AwsOrganizationsInviteOrganizationToTransferResponsibilityOptions(
-        AwsOrganizationsInviteOrganizationToTransferResponsibilityType Type,
+        string Type,
         string Target,
         string StartTimestamp,
         string SourceName
@@ -72,7 +71,7 @@ public record AwsOrganizationsInviteOrganizationToTransferResponsibilityOptions 
     /// The type of responsibility you want to designate to your organiza- tion. Currently, only BILLING is supported. Possible values: o BILLING
     /// </summary>
     [CliOption("--type")]
-    public AwsOrganizationsInviteOrganizationToTransferResponsibilityType? Type { get; private init; }
+    public string? Type { get; private init; }
 
     /// <summary>
     /// A HandshakeParty object. Contains details for the account you want to invite. Currently, only ACCOUNT and EMAIL are supported. Id -&gt; (string) [required] ID for the participant: Acccount ID, organization ID, or email address. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits. Constraints: o min: 1 o max: 64 o pattern: [\s\S]* Type -&gt; (string) [required] The type of ID for the participant. NOTE: ORGANIZATION is valid only in the response context (identify- ing the inviting organization). Valid input values for the Target parameter are ACCOUNT and EMAIL only. Possible values: o ACCOUNT o ORGANIZATION o EMAIL Shorthand Syntax: Id=string,Type=string JSON Syntax: { "Id": "string", "Type": "ACCOUNT"|"ORGANIZATION"|"EMAIL" }

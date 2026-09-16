@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -224,7 +223,7 @@ public record AwsRdsRestoreDbClusterFromSnapshotOptions : AwsOptions, IValidatab
     /// The network type of the DB cluster. Valid Values: o IPV4 o DUAL The network type is determined by the DBSubnetGroup specified for the DB cluster. A DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL ). For more information, see Working with a DB instance in a VPC in the Amazon Aurora User Guide. Valid for: Aurora DB clusters only
     /// </summary>
     [CliOption("--network-type")]
-    public AwsRdsRestoreDbClusterFromSnapshotNetworkType? NetworkType { get; set; }
+    public string? NetworkType { get; set; }
 
     /// <summary>
     /// Contains the scaling configuration of an Aurora Serverless v2 DB cluster. For more information, see Using Amazon Aurora Serverless v2 in the Amazon Aurora User Guide . MinCapacity -&gt; (double) The minimum number of Aurora capacity units (ACUs) for a DB in- stance in an Aurora Serverless v2 cluster. You can specify ACU values in half-step increments, such as 8, 8.5, 9, and so on. For Aurora versions that support the Aurora Serverless v2 auto-pause feature, the smallest value that you can use is 0. For versions that don't support Aurora Serverless v2 auto-pause, the smallest value that you can use is 0.5. MaxCapacity -&gt; (double) The maximum number of Aurora capacity units (ACUs) for a DB in- stance in an Aurora Serverless v2 cluster. You can specify ACU values in half-step increments, such as 32, 32.5, 33, and so on. The largest value that you can use is 256 for recent Aurora ver- sions, or 128 for older versions. You can check the attributes of your engine version or platform version to determine the spe- cific maximum capacity supported. SecondsUntilAutoPause -&gt; (integer) Specifies the number of seconds an Aurora Serverless v2 DB in- stance must be idle before Aurora attempts to automatically pause it. Specify a value between 300 seconds (five minutes) and 86,400 seconds (one day). The default is 300 seconds. Shorthand Syntax: MinCapacity=double,MaxCapacity=double,SecondsUntilAutoPause=integer JSON Syntax: { "MinCapacity": double, "MaxCapacity": double, "SecondsUntilAutoPause": integer }

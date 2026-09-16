@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -34,7 +33,7 @@ public record AwsCodeconnectionsUpdateSyncBlockerOptions : AwsOptions, IValidata
     /// <param name="ResolvedReason">The reason for resolving the sync blocker. Constraints: o min: 1 o max: 250</param>
     public AwsCodeconnectionsUpdateSyncBlockerOptions(
         string Id,
-        AwsCodeconnectionsUpdateSyncBlockerSyncType SyncType,
+        string SyncType,
         string ResourceName,
         string ResolvedReason
     )
@@ -78,7 +77,7 @@ public record AwsCodeconnectionsUpdateSyncBlockerOptions : AwsOptions, IValidata
     /// The sync type of the sync blocker to be updated. Possible values: o CFN_STACK_SYNC
     /// </summary>
     [CliOption("--sync-type")]
-    public AwsCodeconnectionsUpdateSyncBlockerSyncType? SyncType { get; private init; }
+    public string? SyncType { get; private init; }
 
     /// <summary>
     /// The name of the resource for the sync blocker to be updated. Constraints: o min: 1 o max: 100 o pattern: ^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$

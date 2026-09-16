@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -33,7 +32,7 @@ public record AwsRoute53resolverImportFirewallDomainsOptions : AwsOptions, IVali
     /// <param name="DomainFileUrl">The fully qualified URL or URI of the file stored in Amazon Simple Storage Service (Amazon S3) that contains the list of domains to im- port. The file must be in an S3 bucket that's in the same Region as your DNS Firewall. The file must be a text file and must contain a single domain per line. Constraints: o min: 1 o max: 1024</param>
     public AwsRoute53resolverImportFirewallDomainsOptions(
         string FirewallDomainListId,
-        AwsRoute53resolverImportFirewallDomainsOperation Operation,
+        string Operation,
         string DomainFileUrl
     )
     {
@@ -74,7 +73,7 @@ public record AwsRoute53resolverImportFirewallDomainsOptions : AwsOptions, IVali
     /// What you want DNS Firewall to do with the domains that are listed in the file. This must be set to REPLACE , which updates the domain list to exactly match the list in the file. Possible values: o REPLACE
     /// </summary>
     [CliOption("--operation")]
-    public AwsRoute53resolverImportFirewallDomainsOperation? Operation { get; private init; }
+    public string? Operation { get; private init; }
 
     /// <summary>
     /// The fully qualified URL or URI of the file stored in Amazon Simple Storage Service (Amazon S3) that contains the list of domains to im- port. The file must be in an S3 bucket that's in the same Region as your DNS Firewall. The file must be a text file and must contain a single domain per line. Constraints: o min: 1 o max: 1024

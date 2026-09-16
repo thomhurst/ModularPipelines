@@ -35,7 +35,7 @@ public record AwsWorkdocsCreateNotificationSubscriptionOptions : AwsOptions, IVa
     public AwsWorkdocsCreateNotificationSubscriptionOptions(
         string OrganizationId,
         AwsWorkdocsCreateNotificationSubscriptionProtocol Protocol,
-        AwsWorkdocsCreateNotificationSubscriptionSubscriptionType SubscriptionType,
+        string SubscriptionType,
         string NotificationEndpoint
     )
     {
@@ -84,7 +84,7 @@ public record AwsWorkdocsCreateNotificationSubscriptionOptions : AwsOptions, IVa
     /// The notification type. Possible values: o ALL
     /// </summary>
     [CliOption("--subscription-type")]
-    public AwsWorkdocsCreateNotificationSubscriptionSubscriptionType? SubscriptionType { get; private init; }
+    public string? SubscriptionType { get; private init; }
 
     /// <summary>
     /// The endpoint to receive the notifications. If the protocol is HTTPS, the endpoint is a URL that begins with https . Constraints: o min: 1 o max: 256

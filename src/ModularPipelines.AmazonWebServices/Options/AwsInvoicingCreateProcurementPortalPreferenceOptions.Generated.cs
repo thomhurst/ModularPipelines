@@ -39,9 +39,9 @@ public record AwsInvoicingCreateProcurementPortalPreferenceOptions : AwsOptions,
     /// <param name="Contacts">List of contact information for portal administrators and technical contacts responsible for the e-invoice integration. Constraints: o min: 1 o max: 1 (structure) Represents contact information for a person or role associated with the procurement portal preference. Name -&gt; (string) The name of the contact person or role. Constraints: o min: 0 o max: 1024 o pattern: [\s\S]* Email -&gt; (string) The email address of the contact person or role. Constraints: o min: 1 o max: 1024 o pattern: [a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,} Shorthand Syntax: Name=string,Email=string ... JSON Syntax: [ { "Name": "string", "Email": "string" } ... ]</param>
     public AwsInvoicingCreateProcurementPortalPreferenceOptions(
         AwsInvoicingCreateProcurementPortalPreferenceProcurementPortalName ProcurementPortalName,
-        AwsInvoicingCreateProcurementPortalPreferenceBuyerDomain BuyerDomain,
+        string BuyerDomain,
         string BuyerIdentifier,
-        AwsInvoicingCreateProcurementPortalPreferenceSupplierDomain SupplierDomain,
+        string SupplierDomain,
         string SupplierIdentifier,
         bool EinvoiceDeliveryEnabled,
         bool PurchaseOrderRetrievalEnabled,
@@ -104,7 +104,7 @@ public record AwsInvoicingCreateProcurementPortalPreferenceOptions : AwsOptions,
     /// The domain identifier for the buyer in the procurement portal. Possible values: o NetworkID
     /// </summary>
     [CliOption("--buyer-domain")]
-    public AwsInvoicingCreateProcurementPortalPreferenceBuyerDomain? BuyerDomain { get; private init; }
+    public string? BuyerDomain { get; private init; }
 
     /// <summary>
     /// The unique identifier for the buyer in the procurement portal. Constraints: o min: 0 o max: 1024 o pattern: \S+
@@ -116,7 +116,7 @@ public record AwsInvoicingCreateProcurementPortalPreferenceOptions : AwsOptions,
     /// The domain identifier for the supplier in the procurement portal. Possible values: o NetworkID
     /// </summary>
     [CliOption("--supplier-domain")]
-    public AwsInvoicingCreateProcurementPortalPreferenceSupplierDomain? SupplierDomain { get; private init; }
+    public string? SupplierDomain { get; private init; }
 
     /// <summary>
     /// The unique identifier for the supplier in the procurement portal. Constraints: o min: 0 o max: 1024 o pattern: \S+

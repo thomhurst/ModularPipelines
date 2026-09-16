@@ -99,7 +99,7 @@ public record AwsDlmCreateLifecyclePolicyOptions : AwsOptions, IValidatableObjec
     /// [Default policies only] Specify the type of default policy to create. o To create a default policy for EBS snapshots, that creates snap- shots of all volumes in the Region that do not have recent back- ups, specify VOLUME . o To create a default policy for EBS-backed AMIs, that creates EBS-backed AMIs from all instances in the Region that do not have recent backups, specify INSTANCE . Possible values: o VOLUME o INSTANCE
     /// </summary>
     [CliOption("--default-policy")]
-    public AwsDlmCreateLifecyclePolicyDefaultPolicy? DefaultPolicy { get; set; }
+    public string? DefaultPolicy { get; set; }
 
     /// <summary>
     /// [Default policies only] Specifies how often the policy should run and create snapshots or AMIs. The creation frequency can range from 1 to 7 days. If you do not specify a value, the de- fault is 1. Default: 1 Constraints: o min: 1

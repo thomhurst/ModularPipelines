@@ -13,7 +13,6 @@ using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -34,7 +33,7 @@ public record AwsCloudtrailListInsightsDataOptions : AwsOptions, IValidatableObj
     /// <param name="DataType">Specifies the category of events returned. To fetch Insights events, specify InsightsEvents as the value of DataType Possible values: o InsightsEvents</param>
     public AwsCloudtrailListInsightsDataOptions(
         string InsightSource,
-        AwsCloudtrailListInsightsDataDataType DataType
+        string DataType
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(InsightSource);
@@ -72,7 +71,7 @@ public record AwsCloudtrailListInsightsDataOptions : AwsOptions, IValidatableObj
     /// Specifies the category of events returned. To fetch Insights events, specify InsightsEvents as the value of DataType Possible values: o InsightsEvents
     /// </summary>
     [CliOption("--data-type")]
-    public AwsCloudtrailListInsightsDataDataType? DataType { get; private init; }
+    public string? DataType { get; private init; }
 
     /// <summary>
     /// Contains a map of dimensions. Currently the map can contain only one item. Constraints: o min: 1 o max: 1 key -&gt; (string) Possible values: o EventId o EventName o EventSource value -&gt; (string) Constraints: o min: 1 o max: 2000 Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: EventId EventName EventSource JSON Syntax: {"EventId"|"EventName"|"EventSource": "string" ...}

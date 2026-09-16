@@ -13,7 +13,6 @@ using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -37,7 +36,7 @@ public record AwsMigrationHubRefactorSpacesCreateApplicationOptions : AwsOptions
     public AwsMigrationHubRefactorSpacesCreateApplicationOptions(
         string EnvironmentIdentifier,
         string Name,
-        AwsMigrationHubRefactorSpacesCreateApplicationProxyType ProxyType,
+        string ProxyType,
         string VpcId
     )
     {
@@ -86,7 +85,7 @@ public record AwsMigrationHubRefactorSpacesCreateApplicationOptions : AwsOptions
     /// The proxy type of the proxy created within the application. Possible values: o API_GATEWAY
     /// </summary>
     [CliOption("--proxy-type")]
-    public AwsMigrationHubRefactorSpacesCreateApplicationProxyType? ProxyType { get; private init; }
+    public string? ProxyType { get; private init; }
 
     /// <summary>
     /// The ID of the virtual private cloud (VPC). Constraints: o min: 12 o max: 21 o pattern: ^vpc-[-a-f0-9]{8}([-a-f0-9]{9})?$

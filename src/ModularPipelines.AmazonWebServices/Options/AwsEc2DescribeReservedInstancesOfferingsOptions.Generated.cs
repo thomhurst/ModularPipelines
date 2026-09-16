@@ -105,7 +105,7 @@ public record AwsEc2DescribeReservedInstancesOfferingsOptions : AwsOptions
     /// The Reserved Instance offering type. If you are using tools that predate the 2011-11-01 API version, you only have access to the Medium Utilization Reserved Instance offering type. Possible values: o Heavy Utilization o Medium Utilization o Light Utilization o No Upfront o Partial Upfront o All Upfront
     /// </summary>
     [CliOption("--offering-type")]
-    public AwsEc2DescribeReservedInstancesOfferingsOfferingType? OfferingType { get; set; }
+    public string? OfferingType { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

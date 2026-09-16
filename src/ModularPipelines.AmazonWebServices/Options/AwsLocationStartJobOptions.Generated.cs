@@ -13,7 +13,6 @@ using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -35,7 +34,7 @@ public record AwsLocationStartJobOptions : AwsOptions, IValidatableObject
     /// <param name="InputOptions">Configuration for input data location and format. NOTE: Input files have a limitation of 10gb per file, and 1gb per Par- quet row-group within the file. Location -&gt; (string) [required] S3 ARN or URI where input files are stored. NOTE: The Amazon S3 bucket must be created in the same Amazon Web Services region where you plan to run your job. Constraints: o min: 0 o max: 300 o pattern: (arn:aws(-[a-z]+)*:[a-z0-9-]+:[a-z0-9-]*:(\d{12})?:[\w/+=,.-]+|s3://[a-z0-9][a-z0-9._-]{2,254}(/[^/]+)*/?) Format -&gt; (string) [required] Input data format. Currently only Parquet is supported. NOTE: Input files have a limitation of 10gb per file, and 1gb per Parquet row-group within the file. Possible values: o Parquet Shorthand Syntax: Location=string,Format=string JSON Syntax: { "Location": "string", "Format": "Parquet" }</param>
     /// <param name="OutputOptions">Configuration for output data location and format. Format -&gt; (string) [required] Output data format. Currently only "Parquet" is supported. Possible values: o Parquet Location -&gt; (string) [required] S3 ARN or URI where output files will be written. NOTE: The Amazon S3 bucket must exist in the same Amazon Web Ser- vices region where you plan to run your job. Constraints: o min: 0 o max: 300 o pattern: (arn:aws(-[a-z]+)*:[a-z0-9-]+:[a-z0-9-]*:(\d{12})?:[\w/+=,.-]+|s3://[a-z0-9][a-z0-9._-]{2,254}(/[^/]+)*/) Shorthand Syntax: Format=string,Location=string JSON Syntax: { "Format": "Parquet", "Location": "string" }</param>
     public AwsLocationStartJobOptions(
-        AwsLocationStartJobAction Action,
+        string Action,
         string ExecutionRoleArn,
         string InputOptions,
         string OutputOptions
@@ -74,7 +73,7 @@ public record AwsLocationStartJobOptions : AwsOptions, IValidatableObject
     /// The action to perform on the input data. Possible values: o ValidateAddress
     /// </summary>
     [CliOption("--action")]
-    public AwsLocationStartJobAction? Action { get; private init; }
+    public string? Action { get; private init; }
 
     /// <summary>
     /// The Amazon Resource Name (ARN) of the IAM role that Amazon Location Service assumes during job processing. Amazon Location Service uses this role to access the input and output locations specified for the job. NOTE: The IAM role must be created in the same Amazon Web Services ac- count where you plan to run your job. For more information about configuring IAM roles for Amazon Location jobs, see Configure IAM permissions in the Amazon Location Service Developer Guide .

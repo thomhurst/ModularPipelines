@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +31,7 @@ public record AwsCleanroomsStartProtectedJobOptions : AwsOptions, IValidatableOb
     /// <param name="MembershipIdentifier">A unique identifier for the membership to run this job against. Cur- rently accepts a membership ID. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
     /// <param name="JobParameters">The job parameters. analysisTemplateArn -&gt; (string) [required] The ARN of the analysis template. Constraints: o min: 0 o max: 200 o pattern: arn:aws[-a-z]*:clean- rooms:[\w]{2}-[\w]{4,9}-[\d]:[\d]{12}:member- ship/[\d\w-]+/analysistemplate/[\d\w-]+ parameters -&gt; (map) Runtime configuration values passed to the PySpark analysis script. Parameter names and types must match those defined in the analysis template. key -&gt; (string) Constraints: o min: 1 o max: 100 o pattern: [0-9a-zA-Z_]+ value -&gt; (string) Constraints: o min: 0 o max: 1000 Shorthand Syntax: analysisTemplateArn=string,parameters={KeyName1=string,KeyName2=string} JSON Syntax: { "analysisTemplateArn": "string", "parameters": {"string": "string" ...} }</param>
     public AwsCleanroomsStartProtectedJobOptions(
-        AwsCleanroomsStartProtectedJobType Type,
+        string Type,
         string MembershipIdentifier,
         string JobParameters
     )
@@ -68,7 +67,7 @@ public record AwsCleanroomsStartProtectedJobOptions : AwsOptions, IValidatableOb
     /// The type of protected job to start. Possible values: o PYSPARK
     /// </summary>
     [CliOption("--type")]
-    public AwsCleanroomsStartProtectedJobType? Type { get; private init; }
+    public string? Type { get; private init; }
 
     /// <summary>
     /// A unique identifier for the membership to run this job against. Cur- rently accepts a membership ID. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}

@@ -79,7 +79,7 @@ public record AwsQuicksightListUsersIndexCapacityOptions : AwsOptions, IValidata
     /// The field to sort results by. Possible values: o TOTAL_CAPACITY_BYTES
     /// </summary>
     [CliOption("--sort-by")]
-    public AwsQuicksightListUsersIndexCapacitySortBy? SortBy { get; set; }
+    public string? SortBy { get; set; }
 
     /// <summary>
     /// The sort order for results. Defaults to DESC if not specified. Possible values: o ASC o DESC

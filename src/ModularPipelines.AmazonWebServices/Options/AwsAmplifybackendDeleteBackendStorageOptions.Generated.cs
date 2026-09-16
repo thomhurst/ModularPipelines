@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -36,7 +35,7 @@ public record AwsAmplifybackendDeleteBackendStorageOptions : AwsOptions, IValida
         string AppId,
         string BackendEnvironmentName,
         string ResourceName,
-        AwsAmplifybackendDeleteBackendStorageServiceName ServiceName
+        string ServiceName
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(AppId);
@@ -90,7 +89,7 @@ public record AwsAmplifybackendDeleteBackendStorageOptions : AwsOptions, IValida
     /// The name of the storage service. Possible values: o S3
     /// </summary>
     [CliOption("--service-name")]
-    public AwsAmplifybackendDeleteBackendStorageServiceName? ServiceName { get; private init; }
+    public string? ServiceName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

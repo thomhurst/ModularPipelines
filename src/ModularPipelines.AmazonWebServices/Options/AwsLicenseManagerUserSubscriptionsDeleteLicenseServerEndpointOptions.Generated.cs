@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +31,7 @@ public record AwsLicenseManagerUserSubscriptionsDeleteLicenseServerEndpointOptio
     /// <param name="ServerType">The type of License Server that the delete request refers to. Possible values: o RDS_SAL</param>
     public AwsLicenseManagerUserSubscriptionsDeleteLicenseServerEndpointOptions(
         string LicenseServerEndpointArn,
-        AwsLicenseManagerUserSubscriptionsDeleteLicenseServerEndpointServerType ServerType
+        string ServerType
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(LicenseServerEndpointArn);
@@ -70,7 +69,7 @@ public record AwsLicenseManagerUserSubscriptionsDeleteLicenseServerEndpointOptio
     /// The type of License Server that the delete request refers to. Possible values: o RDS_SAL
     /// </summary>
     [CliOption("--server-type")]
-    public AwsLicenseManagerUserSubscriptionsDeleteLicenseServerEndpointServerType? ServerType { get; private init; }
+    public string? ServerType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

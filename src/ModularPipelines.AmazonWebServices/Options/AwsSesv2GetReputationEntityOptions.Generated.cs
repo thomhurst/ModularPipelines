@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +31,7 @@ public record AwsSesv2GetReputationEntityOptions : AwsOptions, IValidatableObjec
     /// <param name="ReputationEntityType">The type of reputation entity. Currently, only RESOURCE type enti- ties are supported. Possible values: o RESOURCE</param>
     public AwsSesv2GetReputationEntityOptions(
         string ReputationEntityReference,
-        AwsSesv2GetReputationEntityReputationEntityType ReputationEntityType
+        string ReputationEntityType
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(ReputationEntityReference);
@@ -70,7 +69,7 @@ public record AwsSesv2GetReputationEntityOptions : AwsOptions, IValidatableObjec
     /// The type of reputation entity. Currently, only RESOURCE type enti- ties are supported. Possible values: o RESOURCE
     /// </summary>
     [CliOption("--reputation-entity-type")]
-    public AwsSesv2GetReputationEntityReputationEntityType? ReputationEntityType { get; private init; }
+    public string? ReputationEntityType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

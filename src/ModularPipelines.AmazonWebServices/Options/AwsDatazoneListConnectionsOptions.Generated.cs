@@ -67,7 +67,7 @@ public record AwsDatazoneListConnectionsOptions : AwsOptions, IValidatableObject
     /// Specifies how you want to sort the listed connections. Possible values: o NAME
     /// </summary>
     [CliOption("--sort-by")]
-    public AwsDatazoneListConnectionsSortBy? SortBy { get; set; }
+    public string? SortBy { get; set; }
 
     /// <summary>
     /// Specifies the sort order for the listed connections. Possible values: o ASCENDING o DESCENDING

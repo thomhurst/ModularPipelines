@@ -12,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -36,7 +35,7 @@ public record AwsLicenseManagerCheckoutBorrowLicenseOptions : AwsOptions, IValid
     public AwsLicenseManagerCheckoutBorrowLicenseOptions(
         string LicenseArn,
         IEnumerable<string> Entitlements,
-        AwsLicenseManagerCheckoutBorrowLicenseDigitalSignatureMethod DigitalSignatureMethod,
+        string DigitalSignatureMethod,
         string ClientToken
     )
     {
@@ -96,7 +95,7 @@ public record AwsLicenseManagerCheckoutBorrowLicenseOptions : AwsOptions, IValid
     /// Digital signature method. The possible value is JSON Web Signature (JWS) algorithm PS384. For more information, see RFC 7518 Digital Signature with RSASSA-PSS . Possible values: o JWT_PS384
     /// </summary>
     [CliOption("--digital-signature-method")]
-    public AwsLicenseManagerCheckoutBorrowLicenseDigitalSignatureMethod? DigitalSignatureMethod { get; private init; }
+    public string? DigitalSignatureMethod { get; private init; }
 
     /// <summary>
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o max: 2048 o pattern: \S+

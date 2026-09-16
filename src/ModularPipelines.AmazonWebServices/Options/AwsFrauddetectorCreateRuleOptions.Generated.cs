@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -37,7 +36,7 @@ public record AwsFrauddetectorCreateRuleOptions : AwsOptions, IValidatableObject
         string RuleId,
         string DetectorId,
         string Expression,
-        AwsFrauddetectorCreateRuleLanguage Language,
+        string Language,
         IEnumerable<string> Outcomes
     )
     {
@@ -105,7 +104,7 @@ public record AwsFrauddetectorCreateRuleOptions : AwsOptions, IValidatableObject
     /// The language of the rule. Possible values: o DETECTORPL
     /// </summary>
     [CliOption("--language")]
-    public AwsFrauddetectorCreateRuleLanguage? Language { get; private init; }
+    public string? Language { get; private init; }
 
     /// <summary>
     /// The outcome or outcomes returned when the rule expression matches. Constraints: o min: 1 (string) Syntax: "string" "string" ...

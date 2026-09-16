@@ -12,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -34,7 +33,7 @@ public record AwsPinpointSmsVoiceV2CreateNotifyConfigurationOptions : AwsOptions
     /// <param name="EnabledChannels">An array of channels to enable for the notify configuration. Sup- ported values include SMS and VOICE . Constraints: o min: 1 o max: 4 (string) Possible values: o SMS o VOICE o MMS o RCS Syntax: "string" "string" ...</param>
     public AwsPinpointSmsVoiceV2CreateNotifyConfigurationOptions(
         string DisplayName,
-        AwsPinpointSmsVoiceV2CreateNotifyConfigurationUseCase UseCase,
+        string UseCase,
         IEnumerable<string> EnabledChannels
     )
     {
@@ -86,7 +85,7 @@ public record AwsPinpointSmsVoiceV2CreateNotifyConfigurationOptions : AwsOptions
     /// The use case for the notify configuration. Possible values: o CODE_VERIFICATION
     /// </summary>
     [CliOption("--use-case")]
-    public AwsPinpointSmsVoiceV2CreateNotifyConfigurationUseCase? UseCase { get; private init; }
+    public string? UseCase { get; private init; }
 
     /// <summary>
     /// An array of channels to enable for the notify configuration. Sup- ported values include SMS and VOICE . Constraints: o min: 1 o max: 4 (string) Possible values: o SMS o VOICE o MMS o RCS Syntax: "string" "string" ...

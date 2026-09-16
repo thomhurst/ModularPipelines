@@ -12,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -84,7 +83,7 @@ public record AwsSecurityhubCreateTicketV2Options : AwsOptions, IValidatableObje
     /// The mode for ticket creation. When set to DRYRUN, the ticket is cre- ated using a Security Hub owned template test finding to verify the integration is working correctly. Possible values: o DRYRUN
     /// </summary>
     [CliOption("--mode")]
-    public AwsSecurityhubCreateTicketV2Mode? Mode { get; set; }
+    public string? Mode { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

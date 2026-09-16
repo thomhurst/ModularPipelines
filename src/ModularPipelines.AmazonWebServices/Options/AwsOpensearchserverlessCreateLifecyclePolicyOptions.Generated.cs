@@ -12,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -33,7 +32,7 @@ public record AwsOpensearchserverlessCreateLifecyclePolicyOptions : AwsOptions, 
     /// <param name="Name">The name of the lifecycle policy. Constraints: o min: 3 o max: 32 o pattern: [a-z][a-z0-9-]+</param>
     /// <param name="Policy">The JSON policy document to use as the content for the lifecycle policy. Constraints: o min: 1 o max: 20480 o pattern: .*[\u0009\u000A\u000D\u0020-\u007E\u00A1-\u00FF]+.*</param>
     public AwsOpensearchserverlessCreateLifecyclePolicyOptions(
-        AwsOpensearchserverlessCreateLifecyclePolicyType Type,
+        string Type,
         string Name,
         string Policy
     )
@@ -69,7 +68,7 @@ public record AwsOpensearchserverlessCreateLifecyclePolicyOptions : AwsOptions, 
     /// The type of lifecycle policy. Possible values: o retention
     /// </summary>
     [CliOption("--type")]
-    public AwsOpensearchserverlessCreateLifecyclePolicyType? Type { get; private init; }
+    public string? Type { get; private init; }
 
     /// <summary>
     /// The name of the lifecycle policy. Constraints: o min: 3 o max: 32 o pattern: [a-z][a-z0-9-]+

@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +31,7 @@ public record AwsEc2ModifyVpcTenancyOptions : AwsOptions, IValidatableObject
     /// <param name="InstanceTenancy">The instance tenancy attribute for the VPC. Possible values: o default</param>
     public AwsEc2ModifyVpcTenancyOptions(
         string VpcId,
-        AwsEc2ModifyVpcTenancyInstanceTenancy InstanceTenancy
+        string InstanceTenancy
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(VpcId);
@@ -70,7 +69,7 @@ public record AwsEc2ModifyVpcTenancyOptions : AwsOptions, IValidatableObject
     /// The instance tenancy attribute for the VPC. Possible values: o default
     /// </summary>
     [CliOption("--instance-tenancy")]
-    public AwsEc2ModifyVpcTenancyInstanceTenancy? InstanceTenancy { get; private init; }
+    public string? InstanceTenancy { get; private init; }
 
     /// <summary>
     /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .

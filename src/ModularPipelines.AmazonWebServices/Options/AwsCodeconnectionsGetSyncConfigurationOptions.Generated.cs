@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -31,7 +30,7 @@ public record AwsCodeconnectionsGetSyncConfigurationOptions : AwsOptions, IValid
     /// <param name="SyncType">The sync type for the sync configuration for which you want to re- trieve information. Possible values: o CFN_STACK_SYNC</param>
     /// <param name="ResourceName">The name of the Amazon Web Services resource for the sync configura- tion for which you want to retrieve information. Constraints: o min: 1 o max: 100 o pattern: ^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$</param>
     public AwsCodeconnectionsGetSyncConfigurationOptions(
-        AwsCodeconnectionsGetSyncConfigurationSyncType SyncType,
+        string SyncType,
         string ResourceName
     )
     {
@@ -64,7 +63,7 @@ public record AwsCodeconnectionsGetSyncConfigurationOptions : AwsOptions, IValid
     /// The sync type for the sync configuration for which you want to re- trieve information. Possible values: o CFN_STACK_SYNC
     /// </summary>
     [CliOption("--sync-type")]
-    public AwsCodeconnectionsGetSyncConfigurationSyncType? SyncType { get; private init; }
+    public string? SyncType { get; private init; }
 
     /// <summary>
     /// The name of the Amazon Web Services resource for the sync configura- tion for which you want to retrieve information. Constraints: o min: 1 o max: 100 o pattern: ^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$

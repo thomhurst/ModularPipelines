@@ -12,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -96,7 +95,7 @@ public record AwsEksUpdateCapabilityOptions : AwsOptions, IValidatableObject
     /// The updated delete propagation policy for the capability. Currently, the only supported value is RETAIN . Possible values: o RETAIN
     /// </summary>
     [CliOption("--delete-propagation-policy")]
-    public AwsEksUpdateCapabilityDeletePropagationPolicy? DeletePropagationPolicy { get; set; }
+    public string? DeletePropagationPolicy { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

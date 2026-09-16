@@ -12,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -31,7 +30,7 @@ public record AwsOrganizationsListOutboundResponsibilityTransfersOptions : AwsOp
     /// </summary>
     /// <param name="Type">The type of responsibility. Currently, only BILLING is supported. Possible values: o BILLING</param>
     public AwsOrganizationsListOutboundResponsibilityTransfersOptions(
-        AwsOrganizationsListOutboundResponsibilityTransfersType Type
+        string Type
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(Type);
@@ -61,7 +60,7 @@ public record AwsOrganizationsListOutboundResponsibilityTransfersOptions : AwsOp
     /// The type of responsibility. Currently, only BILLING is supported. Possible values: o BILLING
     /// </summary>
     [CliOption("--type")]
-    public AwsOrganizationsListOutboundResponsibilityTransfersType? Type { get; private init; }
+    public string? Type { get; private init; }
 
     /// <summary>
     /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indi- cates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the out- put should continue from. Constraints: o max: 100000 o pattern: [\s\S]*

@@ -12,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -33,7 +32,7 @@ public record AwsSsmListDocumentMetadataHistoryOptions : AwsOptions, IValidatabl
     /// <param name="Metadata">The type of data for which details are being requested. Currently, the only supported value is DocumentReviews . Possible values: o DocumentReviews</param>
     public AwsSsmListDocumentMetadataHistoryOptions(
         string Name,
-        AwsSsmListDocumentMetadataHistoryMetadata Metadata
+        string Metadata
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(Name);
@@ -71,7 +70,7 @@ public record AwsSsmListDocumentMetadataHistoryOptions : AwsOptions, IValidatabl
     /// The type of data for which details are being requested. Currently, the only supported value is DocumentReviews . Possible values: o DocumentReviews
     /// </summary>
     [CliOption("--metadata")]
-    public AwsSsmListDocumentMetadataHistoryMetadata? Metadata { get; private init; }
+    public string? Metadata { get; private init; }
 
     /// <summary>
     /// The version of the change template. Constraints: o pattern: ([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)

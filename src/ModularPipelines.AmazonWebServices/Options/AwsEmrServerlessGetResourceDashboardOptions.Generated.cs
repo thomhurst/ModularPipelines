@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -34,7 +33,7 @@ public record AwsEmrServerlessGetResourceDashboardOptions : AwsOptions, IValidat
     public AwsEmrServerlessGetResourceDashboardOptions(
         string ApplicationId,
         string ResourceId,
-        AwsEmrServerlessGetResourceDashboardResourceType ResourceType
+        string ResourceType
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(ApplicationId);
@@ -80,7 +79,7 @@ public record AwsEmrServerlessGetResourceDashboardOptions : AwsOptions, IValidat
     /// The type of resource to access the dashboard for. Currently, only Session is supported. Possible values: o SESSION
     /// </summary>
     [CliOption("--resource-type")]
-    public AwsEmrServerlessGetResourceDashboardResourceType? ResourceType { get; private init; }
+    public string? ResourceType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

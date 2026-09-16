@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -35,7 +34,7 @@ public record AwsCleanroomsStartAnalysisLogExportOptions : AwsOptions, IValidata
     public AwsCleanroomsStartAnalysisLogExportOptions(
         string MembershipIdentifier,
         string AnalysisId,
-        AwsCleanroomsStartAnalysisLogExportAnalysisType AnalysisType,
+        string AnalysisType,
         string ResultConfiguration
     )
     {
@@ -84,7 +83,7 @@ public record AwsCleanroomsStartAnalysisLogExportOptions : AwsOptions, IValidata
     /// The type of analysis that the logs are exported for. Currently, only PROTECTED_QUERY is supported. Possible values: o PROTECTED_QUERY
     /// </summary>
     [CliOption("--analysis-type")]
-    public AwsCleanroomsStartAnalysisLogExportAnalysisType? AnalysisType { get; private init; }
+    public string? AnalysisType { get; private init; }
 
     /// <summary>
     /// The details needed to write the exported analysis logs. You don't need to create an IAM role for log export. Clean Rooms writes the exported logs using your own identity, so Clean Rooms writes the exported logs only where your existing permissions allow. outputConfiguration -&gt; (structure) [required] The configuration for analysis log export results. s3 -&gt; (structure) [required] Required configuration for an analysis log export with an s3 output type. bucket -&gt; (string) [required] The S3 bucket that the exported analysis logs are written to. The bucket must be in the same Amazon Web Services Region as the collaboration. Constraints: o min: 3 o max: 63 o pattern: .*(?!^(\d+\.)+\d+$)(^(([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])\.)*([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])$).* keyPrefix -&gt; (string) The S3 key prefix under which the exported analysis logs are written. Only one export can be in progress at a time for a given query and destination. To export the same query twice at once, use a different key prefix for the second export. Constraints: o min: 0 o max: 512 o pattern: [\w!.=*/-]* Shorthand Syntax: outputConfiguration={s3={bucket=string,keyPrefix=string}} JSON Syntax: { "outputConfiguration": { "s3": { "bucket": "string", "keyPrefix": "string" } } }

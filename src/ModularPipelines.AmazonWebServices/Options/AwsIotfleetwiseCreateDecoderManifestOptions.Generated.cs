@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -94,7 +93,7 @@ public record AwsIotfleetwiseCreateDecoderManifestOptions : AwsOptions, IValidat
     /// Use default decoders for all unmapped signals in the model. You don't need to provide any detailed decoding information. WARNING: Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide . Possible values: o CUSTOM_DECODING
     /// </summary>
     [CliOption("--default-for-unmapped-signals")]
-    public AwsIotfleetwiseCreateDecoderManifestDefaultForUnmappedSignals? DefaultForUnmappedSignals { get; set; }
+    public string? DefaultForUnmappedSignals { get; set; }
 
     /// <summary>
     /// Metadata that can be used to manage the decoder manifest. Constraints: o min: 0 o max: 50 (structure) A set of key/value pairs that are used to manage the resource. Key -&gt; (string) [required] The tag's key. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The tag's value. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]

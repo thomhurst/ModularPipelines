@@ -34,7 +34,7 @@ public record AwsDatazoneListRulesOptions : AwsOptions, IValidatableObject
     /// <param name="TargetIdentifier">The target ID of the rule.</param>
     public AwsDatazoneListRulesOptions(
         string DomainIdentifier,
-        AwsDatazoneListRulesTargetType TargetType,
+        string TargetType,
         string TargetIdentifier
     )
     {
@@ -75,7 +75,7 @@ public record AwsDatazoneListRulesOptions : AwsOptions, IValidatableObject
     /// The target type of the rule. Possible values: o DOMAIN_UNIT
     /// </summary>
     [CliOption("--target-type")]
-    public AwsDatazoneListRulesTargetType? TargetType { get; private init; }
+    public string? TargetType { get; private init; }
 
     /// <summary>
     /// The target ID of the rule.

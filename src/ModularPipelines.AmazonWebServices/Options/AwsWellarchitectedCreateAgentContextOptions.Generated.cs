@@ -12,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -36,7 +35,7 @@ public record AwsWellarchitectedCreateAgentContextOptions : AwsOptions, IValidat
     public AwsWellarchitectedCreateAgentContextOptions(
         string ProfileArn,
         string Title,
-        AwsWellarchitectedCreateAgentContextContextType ContextType,
+        string ContextType,
         string Content
     )
     {
@@ -85,7 +84,7 @@ public record AwsWellarchitectedCreateAgentContextOptions : AwsOptions, IValidat
     /// The type of the context. Possible values: o APPLICATION
     /// </summary>
     [CliOption("--context-type")]
-    public AwsWellarchitectedCreateAgentContextContextType? ContextType { get; private init; }
+    public string? ContextType { get; private init; }
 
     /// <summary>
     /// The typed content of the context. The structure contains applica- tion-specific fields such as account IDs, Regions, services, and re- source types. accountIds -&gt; (list) The Amazon Web Services account IDs associated with this appli- cation context. Constraints: o min: 0 o max: 1000 (string) Constraints: o min: 12 o max: 12 o pattern: \d{12} regions -&gt; (list) The Amazon Web Services Regions where this application operates. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 64 o pattern: [a-z]{2}(-gov)?-[a-z]+-\d+ awsServices -&gt; (list) The Amazon Web Services services used by this application. Constraints: o min: 0 o max: 300 (string) Constraints: o min: 1 o max: 256 o pattern: [\P{C}]+ resourceTypes -&gt; (list) The Amazon Web Services resource types relevant to this applica- tion. Constraints: o min: 0 o max: 1500 (string) Constraints: o min: 1 o max: 256 o pattern: [\P{C}]+ resourceTags -&gt; (list) Resource tags used to scope this application context. Constraints: o min: 0 o max: 20 (structure) A key-value pair representing a resource tag used to scope context content. key -&gt; (string) [required] The tag key. Constraints: o min: 1 o max: 128 o pattern: (?:(?!\$\{[a-zA-Z]+:)[\P{C}])+ value -&gt; (string) [required] The tag value. Constraints: o min: 0 o max: 256 o pattern: (?:(?!\$\{[a-zA-Z]+:)[\P{C}])* applicationOverview -&gt; (string) A free-form overview of the application. Constraints: o min: 0 o max: 10000 o pattern: (?:(?!\$\{[a-zA-Z]+:)[\P{C}\r\n])* industry -&gt; (string) The industry vertical for this application. Constraints: o min: 0 o max: 1000 o pattern: (?:(?!\$\{[a-zA-Z]+:)[\P{C}\r\n])* applicationType -&gt; (string) The type of the application. Possible values: o SAS o DESKTOP_APPLICATION o OTHER criticality -&gt; (string) The business criticality of the application. Possible values: o MISSION_CRITICAL o BUSINESS_CRITICAL o NON_CRITICAL o TEST_DEVELOPMENT architectureOverview -&gt; (string) A free-form description of the application architecture. Constraints: o min: 0 o max: 10000 o pattern: (?:(?!\$\{[a-zA-Z]+:)[\P{C}\r\n])* additionalContext -&gt; (string) Additional context not captured by other fields. Constraints: o min: 0 o max: 10000 o pattern: (?:(?!\$\{[a-zA-Z]+:)[\P{C}\r\n])* Shorthand Syntax: accountIds=string,string,regions=string,string,awsServices=string,string,resourceTypes=string,string,resourceTags=[{key=string,value=string},{key=string,value=string}],applicationOverview=string,industry=string,applicationType=string,criticality=string,architectureOverview=string,additionalContext=string JSON Syntax: { "accountIds": ["string", ...], "regions": ["string", ...], "awsServices": ["string", ...], "resourceTypes": ["string", ...], "resourceTags": [ { "key": "string", "value": "string" } ... ], "applicationOverview": "string", "industry": "string", "applicationType": "SAS"|"DESKTOP_APPLICATION"|"OTHER", "criticality": "MISSION_CRITICAL"|"BUSINESS_CRITICAL"|"NON_CRITICAL"|"TEST_DEVELOPMENT", "architectureOverview": "string", "additionalContext": "string" }

@@ -362,7 +362,7 @@ public record AwsRdsRestoreDbInstanceFromS3Options : AwsOptions, IValidatableObj
     /// The network type of the DB instance. Valid Values: o IPV4 o DUAL The network type is determined by the DBSubnetGroup specified for the DB instance. A DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL ). For more information, see Working with a DB instance in a VPC in the Amazon RDS User Guide.
     /// </summary>
     [CliOption("--network-type")]
-    public AwsRdsRestoreDbInstanceFromS3NetworkType? NetworkType { get; set; }
+    public string? NetworkType { get; set; }
 
     /// <summary>
     /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager. For more information, see Password management with Amazon Web Ser- vices Secrets Manager in the Amazon RDS User Guide. Constraints: o Can't manage the master user password with Amazon Web Services Se- crets Manager if MasterUserPassword is specified.

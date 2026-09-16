@@ -39,7 +39,7 @@ public record AwsImagebuilderImportComponentOptions : AwsOptions, IValidatableOb
         string Name,
         string SemanticVersion,
         AwsImagebuilderImportComponentType Type,
-        AwsImagebuilderImportComponentFormat Format,
+        string Format,
         AwsImagebuilderImportComponentPlatform Platform
     )
     {
@@ -96,7 +96,7 @@ public record AwsImagebuilderImportComponentOptions : AwsOptions, IValidatableOb
     /// The format of the resource that you want to import as a component. Possible values: o SHELL
     /// </summary>
     [CliOption("--format")]
-    public AwsImagebuilderImportComponentFormat? Format { get; private init; }
+    public string? Format { get; private init; }
 
     /// <summary>
     /// The platform of the component. Possible values: o Windows o Linux o macOS

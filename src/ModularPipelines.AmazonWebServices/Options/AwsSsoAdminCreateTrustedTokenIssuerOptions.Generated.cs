@@ -12,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -36,7 +35,7 @@ public record AwsSsoAdminCreateTrustedTokenIssuerOptions : AwsOptions, IValidata
     public AwsSsoAdminCreateTrustedTokenIssuerOptions(
         string InstanceArn,
         string Name,
-        AwsSsoAdminCreateTrustedTokenIssuerTrustedTokenIssuerType TrustedTokenIssuerType,
+        string TrustedTokenIssuerType,
         string TrustedTokenIssuerConfiguration
     )
     {
@@ -86,7 +85,7 @@ public record AwsSsoAdminCreateTrustedTokenIssuerOptions : AwsOptions, IValidata
     /// </summary>
     [SecretValue]
     [CliOption("--trusted-token-issuer-type")]
-    public AwsSsoAdminCreateTrustedTokenIssuerTrustedTokenIssuerType? TrustedTokenIssuerType { get; private init; }
+    public string? TrustedTokenIssuerType { get; private init; }
 
     [SecretValue]
     [CliOption("--trusted-token-issuer-configuration")]

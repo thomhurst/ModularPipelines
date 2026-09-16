@@ -51,7 +51,7 @@ public record AwsAcmListCertificatesOptions : AwsOptions
     /// Specifies the field to sort results by. If you specify SortBy , you must also specify SortOrder . Possible values: o CREATED_AT
     /// </summary>
     [CliOption("--sort-by")]
-    public AwsAcmListCertificatesSortBy? SortBy { get; set; }
+    public string? SortBy { get; set; }
 
     /// <summary>
     /// Specifies the order of sorted results. If you specify SortOrder , you must also specify SortBy . Possible values: o ASCENDING o DESCENDING

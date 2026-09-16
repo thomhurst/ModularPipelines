@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -33,7 +32,7 @@ public record AwsBedrockDataAutomationGetDataAutomationLibraryEntityOptions : Aw
     /// <param name="EntityId">Unique identifier for the entity Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9-_]+</param>
     public AwsBedrockDataAutomationGetDataAutomationLibraryEntityOptions(
         string LibraryArn,
-        AwsBedrockDataAutomationGetDataAutomationLibraryEntityEntityType EntityType,
+        string EntityType,
         string EntityId
     )
     {
@@ -74,7 +73,7 @@ public record AwsBedrockDataAutomationGetDataAutomationLibraryEntityOptions : Aw
     /// The entity type for which the entity is requested Possible values: o VOCABULARY
     /// </summary>
     [CliOption("--entity-type")]
-    public AwsBedrockDataAutomationGetDataAutomationLibraryEntityEntityType? EntityType { get; private init; }
+    public string? EntityType { get; private init; }
 
     /// <summary>
     /// Unique identifier for the entity Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9-_]+

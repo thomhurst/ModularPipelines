@@ -38,7 +38,7 @@ public record AwsBackupStartScanJobOptions : AwsOptions, IValidatableObject
     public AwsBackupStartScanJobOptions(
         string BackupVaultName,
         string IamRoleArn,
-        AwsBackupStartScanJobMalwareScanner MalwareScanner,
+        string MalwareScanner,
         string RecoveryPointArn,
         AwsBackupStartScanJobScanMode ScanMode,
         string ScannerRoleArn
@@ -93,7 +93,7 @@ public record AwsBackupStartScanJobOptions : AwsOptions, IValidatableObject
     /// Specifies the malware scanner used during the scan job. Currently only supports GUARDDUTY . Possible values: o GUARDDUTY
     /// </summary>
     [CliOption("--malware-scanner")]
-    public AwsBackupStartScanJobMalwareScanner? MalwareScanner { get; private init; }
+    public string? MalwareScanner { get; private init; }
 
     /// <summary>
     /// An Amazon Resource Name (ARN) that uniquely identifies a recovery point. This is your target recovery point for a full scan. If you are running an incremental scan, this will be your a recovery point which has been created after your base recovery point selection.

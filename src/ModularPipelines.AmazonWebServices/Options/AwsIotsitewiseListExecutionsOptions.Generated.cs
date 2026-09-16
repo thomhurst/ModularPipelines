@@ -77,7 +77,7 @@ public record AwsIotsitewiseListExecutionsOptions : AwsOptions, IValidatableObje
     /// The type of the resolved resource. Possible values: o ASSET
     /// </summary>
     [CliOption("--resolve-to-resource-type")]
-    public AwsIotsitewiseListExecutionsResolveToResourceType? ResolveToResourceType { get; set; }
+    public string? ResolveToResourceType { get; set; }
 
     /// <summary>
     /// The ID of the resolved resource. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$

@@ -12,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -89,7 +88,7 @@ public record AwsIotManagedIntegrationsCreateConnectorDestinationOptions : AwsOp
     /// The authentication type used for the connector destination, which determines how credentials and access are managed. Possible values: o OAUTH
     /// </summary>
     [CliOption("--auth-type")]
-    public AwsIotManagedIntegrationsCreateConnectorDestinationAuthType? AuthType { get; set; }
+    public string? AuthType { get; set; }
 
     /// <summary>
     /// The AWS Secrets Manager configuration used to securely store and manage sensitive information for the connector destination. arn -&gt; (string) [required] The Amazon Resource Name (ARN) of the AWS Secrets Manager se- cret. Constraints: o min: 20 o max: 2048 o pattern: arn:aws:secretsmanager:[0-9a-zA-Z-]{1,32}:\d{12}:se- cret:[A-Za-z0-9/_+=.@-]{8,520} versionId -&gt; (string) [required] The version ID of the AWS Secrets Manager secret. Constraints: o min: 32 o max: 64 o pattern: [a-zA-Z0-9-_]+ Shorthand Syntax: arn=string,versionId=string JSON Syntax: { "arn": "string", "versionId": "string" }

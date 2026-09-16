@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -31,7 +30,7 @@ public record AwsDiscoveryStartBatchDeleteConfigurationTaskOptions : AwsOptions,
     /// <param name="ConfigurationType">The type of configuration item to delete. Supported types are: SERVER. Possible values: o SERVER</param>
     /// <param name="ConfigurationIds">The list of configuration IDs that will be deleted by the task. (string) Constraints: o max: 200 o pattern: \S* Syntax: "string" "string" ...</param>
     public AwsDiscoveryStartBatchDeleteConfigurationTaskOptions(
-        AwsDiscoveryStartBatchDeleteConfigurationTaskConfigurationType ConfigurationType,
+        string ConfigurationType,
         IEnumerable<string> ConfigurationIds
     )
     {
@@ -75,7 +74,7 @@ public record AwsDiscoveryStartBatchDeleteConfigurationTaskOptions : AwsOptions,
     /// The type of configuration item to delete. Supported types are: SERVER. Possible values: o SERVER
     /// </summary>
     [CliOption("--configuration-type")]
-    public AwsDiscoveryStartBatchDeleteConfigurationTaskConfigurationType? ConfigurationType { get; private init; }
+    public string? ConfigurationType { get; private init; }
 
     /// <summary>
     /// The list of configuration IDs that will be deleted by the task. (string) Constraints: o max: 200 o pattern: \S* Syntax: "string" "string" ...

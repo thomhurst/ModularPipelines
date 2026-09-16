@@ -37,7 +37,7 @@ public record AwsFinspaceCreateKxVolumeOptions : AwsOptions, IValidatableObject
     /// <param name="AvailabilityZoneIds">The identifier of the availability zones. (string) Constraints: o min: 8 o max: 12 o pattern: ^[a-zA-Z0-9-]+$ Syntax: "string" "string" ...</param>
     public AwsFinspaceCreateKxVolumeOptions(
         string EnvironmentId,
-        AwsFinspaceCreateKxVolumeVolumeType VolumeType,
+        string VolumeType,
         string VolumeName,
         AwsFinspaceCreateKxVolumeAzMode AzMode,
         IEnumerable<string> AvailabilityZoneIds
@@ -95,7 +95,7 @@ public record AwsFinspaceCreateKxVolumeOptions : AwsOptions, IValidatableObject
     /// The type of file system volume. Currently, FinSpace only supports NAS_1 volume type. When you select NAS_1 volume type, you must also provide nas1Configuration . Possible values: o NAS_1
     /// </summary>
     [CliOption("--volume-type")]
-    public AwsFinspaceCreateKxVolumeVolumeType? VolumeType { get; private init; }
+    public string? VolumeType { get; private init; }
 
     /// <summary>
     /// A unique identifier for the volume. Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$

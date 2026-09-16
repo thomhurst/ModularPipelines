@@ -32,7 +32,7 @@ public record AwsAcmCreateAcmeEndpointOptions : AwsOptions, IValidatableObject
     /// <param name="AuthorizationBehavior">The authorization behavior for the ACME endpoint. Possible values: o PRE_APPROVED</param>
     /// <param name="CertificateAuthority">The type of certificate authority to use for issuing certificates through this ACME endpoint. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: PublicCertificateAuthority. PublicCertificateAuthority -&gt; (structure) Configuration for using a public certificate authority. AllowedKeyAlgorithms -&gt; (list) The key algorithms allowed for certificates issued by this certificate authority. (string) Possible values: o RSA_2048 o EC_prime256v1 o EC_secp384r1 Shorthand Syntax: PublicCertificateAuthority={AllowedKeyAlgorithms=[string,string]} JSON Syntax: { "PublicCertificateAuthority": { "AllowedKeyAlgorithms": ["RSA_2048"|"EC_prime256v1"|"EC_secp384r1", ...] } }</param>
     public AwsAcmCreateAcmeEndpointOptions(
-        AwsAcmCreateAcmeEndpointAuthorizationBehavior AuthorizationBehavior,
+        string AuthorizationBehavior,
         string CertificateAuthority
     )
     {
@@ -65,7 +65,7 @@ public record AwsAcmCreateAcmeEndpointOptions : AwsOptions, IValidatableObject
     /// The authorization behavior for the ACME endpoint. Possible values: o PRE_APPROVED
     /// </summary>
     [CliOption("--authorization-behavior")]
-    public AwsAcmCreateAcmeEndpointAuthorizationBehavior? AuthorizationBehavior { get; private init; }
+    public string? AuthorizationBehavior { get; private init; }
 
     /// <summary>
     /// The type of certificate authority to use for issuing certificates through this ACME endpoint. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: PublicCertificateAuthority. PublicCertificateAuthority -&gt; (structure) Configuration for using a public certificate authority. AllowedKeyAlgorithms -&gt; (list) The key algorithms allowed for certificates issued by this certificate authority. (string) Possible values: o RSA_2048 o EC_prime256v1 o EC_secp384r1 Shorthand Syntax: PublicCertificateAuthority={AllowedKeyAlgorithms=[string,string]} JSON Syntax: { "PublicCertificateAuthority": { "AllowedKeyAlgorithms": ["RSA_2048"|"EC_prime256v1"|"EC_secp384r1", ...] } }

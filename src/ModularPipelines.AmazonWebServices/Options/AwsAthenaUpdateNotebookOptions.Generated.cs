@@ -12,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -35,7 +34,7 @@ public record AwsAthenaUpdateNotebookOptions : AwsOptions, IValidatableObject
     public AwsAthenaUpdateNotebookOptions(
         string NotebookId,
         string Payload,
-        AwsAthenaUpdateNotebookType Type
+        string Type
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(NotebookId);
@@ -81,7 +80,7 @@ public record AwsAthenaUpdateNotebookOptions : AwsOptions, IValidatableObject
     /// The notebook content type. Currently, the only valid type is IPYNB . Possible values: o IPYNB
     /// </summary>
     [CliOption("--type")]
-    public AwsAthenaUpdateNotebookType? Type { get; private init; }
+    public string? Type { get; private init; }
 
     /// <summary>
     /// The active notebook session ID. Required if the notebook has an ac- tive session. Constraints: o min: 1 o max: 256

@@ -283,7 +283,7 @@ public record AwsS3apiWriteGetObjectResponseOptions : AwsOptions, IValidatableOb
     /// If present, indicates that the requester was successfully charged for the request. For more information, see Using Requester Pays buckets for storage transfers and usage in the Amazon Simple Storage Service user guide . NOTE: This functionality is not supported for directory buckets. Possible values: o requester
     /// </summary>
     [CliOption("--request-charged")]
-    public AwsS3apiWriteGetObjectResponseRequestCharged? RequestCharged { get; set; }
+    public string? RequestCharged { get; set; }
 
     /// <summary>
     /// Provides information about object restoration operation and expira- tion time of the restored object copy.

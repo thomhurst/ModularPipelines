@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -36,7 +35,7 @@ public record AwsGlueGetSchemaVersionsDiffOptions : AwsOptions, IValidatableObje
         string SchemaId,
         string FirstSchemaVersionNumber,
         string SecondSchemaVersionNumber,
-        AwsGlueGetSchemaVersionsDiffSchemaDiffType SchemaDiffType
+        string SchemaDiffType
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(SchemaId);
@@ -90,7 +89,7 @@ public record AwsGlueGetSchemaVersionsDiffOptions : AwsOptions, IValidatableObje
     /// Refers to SYNTAX_DIFF , which is the currently supported diff type. Possible values: o SYNTAX_DIFF
     /// </summary>
     [CliOption("--schema-diff-type")]
-    public AwsGlueGetSchemaVersionsDiffSchemaDiffType? SchemaDiffType { get; private init; }
+    public string? SchemaDiffType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

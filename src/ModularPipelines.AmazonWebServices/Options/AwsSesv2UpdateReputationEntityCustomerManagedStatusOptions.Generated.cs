@@ -32,7 +32,7 @@ public record AwsSesv2UpdateReputationEntityCustomerManagedStatusOptions : AwsOp
     /// <param name="ReputationEntityReference">The unique identifier for the reputation entity. For resource-type entities, this is the Amazon Resource Name (ARN) of the resource. Constraints: o min: 1</param>
     /// <param name="SendingStatus">The new customer-managed sending status for the reputation entity. This can be one of the following: o ENABLED Allow sending for this entity. o DISABLED Prevent sending for this entity. o REINSTATED Allow sending even if there are active reputation findings. Possible values: o ENABLED o REINSTATED o DISABLED</param>
     public AwsSesv2UpdateReputationEntityCustomerManagedStatusOptions(
-        AwsSesv2UpdateReputationEntityCustomerManagedStatusReputationEntityType ReputationEntityType,
+        string ReputationEntityType,
         string ReputationEntityReference,
         AwsSesv2UpdateReputationEntityCustomerManagedStatusSendingStatus SendingStatus
     )
@@ -68,7 +68,7 @@ public record AwsSesv2UpdateReputationEntityCustomerManagedStatusOptions : AwsOp
     /// The type of reputation entity. Currently, only RESOURCE type enti- ties are supported. Possible values: o RESOURCE
     /// </summary>
     [CliOption("--reputation-entity-type")]
-    public AwsSesv2UpdateReputationEntityCustomerManagedStatusReputationEntityType? ReputationEntityType { get; private init; }
+    public string? ReputationEntityType { get; private init; }
 
     /// <summary>
     /// The unique identifier for the reputation entity. For resource-type entities, this is the Amazon Resource Name (ARN) of the resource. Constraints: o min: 1

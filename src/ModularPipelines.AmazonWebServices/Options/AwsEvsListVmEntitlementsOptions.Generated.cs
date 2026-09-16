@@ -12,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -35,7 +34,7 @@ public record AwsEvsListVmEntitlementsOptions : AwsOptions, IValidatableObject
     public AwsEvsListVmEntitlementsOptions(
         string EnvironmentId,
         string ConnectorId,
-        AwsEvsListVmEntitlementsEntitlementType EntitlementType
+        string EntitlementType
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(EnvironmentId);
@@ -81,7 +80,7 @@ public record AwsEvsListVmEntitlementsOptions : AwsOptions, IValidatableObject
     /// The type of entitlement to list. Possible values: o WINDOWS_SERVER
     /// </summary>
     [CliOption("--entitlement-type")]
-    public AwsEvsListVmEntitlementsEntitlementType? EntitlementType { get; private init; }
+    public string? EntitlementType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -81,13 +80,13 @@ public record AwsEbsCompleteSnapshotOptions : AwsOptions, IValidatableObject
     /// The algorithm used to generate the checksum. Currently, the only supported algorithm is SHA256 . Possible values: o SHA256 Constraints: o max: 32 o pattern: ^[A-Za-z0-9]+$
     /// </summary>
     [CliOption("--checksum-algorithm")]
-    public AwsEbsCompleteSnapshotChecksumAlgorithm? ChecksumAlgorithm { get; set; }
+    public string? ChecksumAlgorithm { get; set; }
 
     /// <summary>
     /// The aggregation method used to generate the checksum. Currently, the only supported aggregation method is LINEAR . Possible values: o LINEAR Constraints: o max: 32 o pattern: ^[A-Za-z0-9]+$
     /// </summary>
     [CliOption("--checksum-aggregation-method")]
-    public AwsEbsCompleteSnapshotChecksumAggregationMethod? ChecksumAggregationMethod { get; set; }
+    public string? ChecksumAggregationMethod { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

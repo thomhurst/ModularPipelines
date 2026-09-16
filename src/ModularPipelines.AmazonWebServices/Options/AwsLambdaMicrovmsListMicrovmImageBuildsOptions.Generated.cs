@@ -12,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -77,13 +76,13 @@ public record AwsLambdaMicrovmsListMicrovmImageBuildsOptions : AwsOptions, IVali
     /// Filters builds by target CPU architecture. Possible values: o ARM_64
     /// </summary>
     [CliOption("--architecture")]
-    public AwsLambdaMicrovmsListMicrovmImageBuildsArchitecture? Architecture { get; set; }
+    public string? Architecture { get; set; }
 
     /// <summary>
     /// Filters builds by target chipset. Possible values: o GRAVITON
     /// </summary>
     [CliOption("--chipset")]
-    public AwsLambdaMicrovmsListMicrovmImageBuildsChipset? Chipset { get; set; }
+    public string? Chipset { get; set; }
 
     /// <summary>
     /// Filters builds by target chipset generation. Constraints: o min: 1 o max: 2048 o pattern: [^\s]+

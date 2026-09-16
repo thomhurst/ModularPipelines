@@ -35,7 +35,7 @@ public record AwsEc2CreateVerifiedAccessEndpointOptions : AwsOptions, IValidatab
     public AwsEc2CreateVerifiedAccessEndpointOptions(
         string VerifiedAccessGroupId,
         AwsEc2CreateVerifiedAccessEndpointEndpointType EndpointType,
-        AwsEc2CreateVerifiedAccessEndpointAttachmentType AttachmentType
+        string AttachmentType
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(VerifiedAccessGroupId);
@@ -81,7 +81,7 @@ public record AwsEc2CreateVerifiedAccessEndpointOptions : AwsOptions, IValidatab
     /// The type of attachment. Possible values: o vpc
     /// </summary>
     [CliOption("--attachment-type")]
-    public AwsEc2CreateVerifiedAccessEndpointAttachmentType? AttachmentType { get; private init; }
+    public string? AttachmentType { get; private init; }
 
     /// <summary>
     /// The ARN of the public TLS/SSL certificate in Amazon Web Services Certificate Manager to associate with the endpoint. The CN in the certificate must match the DNS name your end users will use to reach your application.

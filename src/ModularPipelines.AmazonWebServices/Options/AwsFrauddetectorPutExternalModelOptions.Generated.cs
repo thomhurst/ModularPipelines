@@ -36,7 +36,7 @@ public record AwsFrauddetectorPutExternalModelOptions : AwsOptions, IValidatable
     /// <param name="ModelEndpointStatus">The model endpoints status in Amazon Fraud Detector. Possible values: o ASSOCIATED o DISSOCIATED</param>
     public AwsFrauddetectorPutExternalModelOptions(
         string ModelEndpoint,
-        AwsFrauddetectorPutExternalModelModelSource ModelSource,
+        string ModelSource,
         string InvokeModelEndpointRoleArn,
         string InputConfiguration,
         string OutputConfiguration,
@@ -86,7 +86,7 @@ public record AwsFrauddetectorPutExternalModelOptions : AwsOptions, IValidatable
     /// The source of the model. Possible values: o SAGEMAKER
     /// </summary>
     [CliOption("--model-source")]
-    public AwsFrauddetectorPutExternalModelModelSource? ModelSource { get; private init; }
+    public string? ModelSource { get; private init; }
 
     /// <summary>
     /// The IAM role used to invoke the model endpoint.

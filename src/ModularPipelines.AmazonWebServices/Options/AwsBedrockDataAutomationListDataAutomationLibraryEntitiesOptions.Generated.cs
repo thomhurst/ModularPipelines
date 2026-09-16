@@ -12,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -33,7 +32,7 @@ public record AwsBedrockDataAutomationListDataAutomationLibraryEntitiesOptions :
     /// <param name="EntityType">The entity type for which the entity list is requested Possible values: o VOCABULARY</param>
     public AwsBedrockDataAutomationListDataAutomationLibraryEntitiesOptions(
         string LibraryArn,
-        AwsBedrockDataAutomationListDataAutomationLibraryEntitiesEntityType EntityType
+        string EntityType
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(LibraryArn);
@@ -71,7 +70,7 @@ public record AwsBedrockDataAutomationListDataAutomationLibraryEntitiesOptions :
     /// The entity type for which the entity list is requested Possible values: o VOCABULARY
     /// </summary>
     [CliOption("--entity-type")]
-    public AwsBedrockDataAutomationListDataAutomationLibraryEntitiesEntityType? EntityType { get; private init; }
+    public string? EntityType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

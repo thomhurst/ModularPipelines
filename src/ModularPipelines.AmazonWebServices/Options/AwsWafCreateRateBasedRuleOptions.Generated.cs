@@ -12,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -37,7 +36,7 @@ public record AwsWafCreateRateBasedRuleOptions : AwsOptions, IValidatableObject
     public AwsWafCreateRateBasedRuleOptions(
         string Name,
         string MetricName,
-        AwsWafCreateRateBasedRuleRateKey RateKey,
+        string RateKey,
         int RateLimit,
         string ChangeToken
     )
@@ -88,7 +87,7 @@ public record AwsWafCreateRateBasedRuleOptions : AwsOptions, IValidatableObject
     /// The field that AWS WAF uses to determine if requests are likely ar- riving from a single source and thus subject to rate monitoring. The only valid value for RateKey is IP . IP indicates that requests that arrive from the same IP address are subject to the RateLimit that is specified in the RateBasedRule . Possible values: o IP
     /// </summary>
     [CliOption("--rate-key")]
-    public AwsWafCreateRateBasedRuleRateKey? RateKey { get; private init; }
+    public string? RateKey { get; private init; }
 
     /// <summary>
     /// The maximum number of requests, which have an identical value in the field that is specified by RateKey , allowed in a five-minute pe- riod. If the number of requests exceeds the RateLimit and the other predicates specified in the rule are also met, AWS WAF triggers the action that is specified for this rule. Constraints: o min: 100 o max: 2000000000

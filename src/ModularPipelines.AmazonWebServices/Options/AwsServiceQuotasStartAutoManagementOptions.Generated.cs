@@ -32,7 +32,7 @@ public record AwsServiceQuotasStartAutoManagementOptions : AwsOptions, IValidata
     /// <param name="OptInLevel">Sets the opt-in level for Automatic Management. Only Amazon Web Ser- vices account level is supported. Possible values: o ACCOUNT</param>
     /// <param name="OptInType">Sets the opt-in type for Automatic Management. There are two modes: Notify only and Notify and Auto-Adjust. Currently, only NotifyOnly is available. Possible values: o NotifyOnly o NotifyAndAdjust</param>
     public AwsServiceQuotasStartAutoManagementOptions(
-        AwsServiceQuotasStartAutoManagementOptInLevel OptInLevel,
+        string OptInLevel,
         AwsServiceQuotasStartAutoManagementOptInType OptInType
     )
     {
@@ -65,7 +65,7 @@ public record AwsServiceQuotasStartAutoManagementOptions : AwsOptions, IValidata
     /// Sets the opt-in level for Automatic Management. Only Amazon Web Ser- vices account level is supported. Possible values: o ACCOUNT
     /// </summary>
     [CliOption("--opt-in-level")]
-    public AwsServiceQuotasStartAutoManagementOptInLevel? OptInLevel { get; private init; }
+    public string? OptInLevel { get; private init; }
 
     /// <summary>
     /// Sets the opt-in type for Automatic Management. There are two modes: Notify only and Notify and Auto-Adjust. Currently, only NotifyOnly is available. Possible values: o NotifyOnly o NotifyAndAdjust

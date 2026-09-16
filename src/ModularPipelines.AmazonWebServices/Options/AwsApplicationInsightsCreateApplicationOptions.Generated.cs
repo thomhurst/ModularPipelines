@@ -10,7 +10,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -74,7 +73,7 @@ public record AwsApplicationInsightsCreateApplicationOptions : AwsOptions
     /// Application Insights can create applications based on a resource group or on an account. To create an account-based application using all of the resources in the account, set this parameter to AC- COUNT_BASED . Possible values: o ACCOUNT_BASED
     /// </summary>
     [CliOption("--grouping-type")]
-    public AwsApplicationInsightsCreateApplicationGroupingType? GroupingType { get; set; }
+    public string? GroupingType { get; set; }
 
     /// <summary>
     /// If set to true, the managed policies for SSM and CW will be attached to the instance roles if they are missing.

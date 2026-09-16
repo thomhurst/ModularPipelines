@@ -12,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -35,7 +34,7 @@ public record AwsDatazoneAddEntityOwnerOptions : AwsOptions, IValidatableObject
     /// <param name="Owner">The owner that you want to add to the entity. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: user, group. user -&gt; (structure) Specifies that the domain unit owner is a user. userIdentifier -&gt; (string) [required] The ID of the owner user. Constraints: o pattern: .*(^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$|^[a-zA-Z_0-9+=,.@-]+$|^arn:aws:iam::\d{12}:.+$).* group -&gt; (structure) Specifies that the domain unit owner is a group. groupIdentifier -&gt; (string) [required] The ID of the domain unit owners group. Constraints: o pattern: .*(^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$|[\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+).* Shorthand Syntax: user={userIdentifier=string},group={groupIdentifier=string} JSON Syntax: { "user": { "userIdentifier": "string" }, "group": { "groupIdentifier": "string" } }</param>
     public AwsDatazoneAddEntityOwnerOptions(
         string DomainIdentifier,
-        AwsDatazoneAddEntityOwnerEntityType EntityType,
+        string EntityType,
         string EntityIdentifier,
         string Owner
     )
@@ -79,7 +78,7 @@ public record AwsDatazoneAddEntityOwnerOptions : AwsOptions, IValidatableObject
     /// The type of an entity. Possible values: o DOMAIN_UNIT
     /// </summary>
     [CliOption("--entity-type")]
-    public AwsDatazoneAddEntityOwnerEntityType? EntityType { get; private init; }
+    public string? EntityType { get; private init; }
 
     /// <summary>
     /// The ID of the entity to which you want to add an owner.

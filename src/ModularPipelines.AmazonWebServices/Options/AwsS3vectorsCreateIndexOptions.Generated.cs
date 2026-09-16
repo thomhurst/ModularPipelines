@@ -35,7 +35,7 @@ public record AwsS3vectorsCreateIndexOptions : AwsOptions, IValidatableObject
     /// <param name="DistanceMetric">The distance metric to be used for similarity search. Possible values: o euclidean o cosine</param>
     public AwsS3vectorsCreateIndexOptions(
         string IndexName,
-        AwsS3vectorsCreateIndexDataType DataType,
+        string DataType,
         int Dimension,
         AwsS3vectorsCreateIndexDistanceMetric DistanceMetric
     )
@@ -78,7 +78,7 @@ public record AwsS3vectorsCreateIndexOptions : AwsOptions, IValidatableObject
     /// The data type of the vectors to be inserted into the vector index. Possible values: o float32
     /// </summary>
     [CliOption("--data-type")]
-    public AwsS3vectorsCreateIndexDataType? DataType { get; private init; }
+    public string? DataType { get; private init; }
 
     /// <summary>
     /// The dimensions of the vectors to be inserted into the vector index. Constraints: o min: 1 o max: 4096

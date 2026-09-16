@@ -37,7 +37,7 @@ public record AwsSsoAdminDeleteAccountAssignmentOptions : AwsOptions, IValidatab
     public AwsSsoAdminDeleteAccountAssignmentOptions(
         string InstanceArn,
         string TargetId,
-        AwsSsoAdminDeleteAccountAssignmentTargetType TargetType,
+        string TargetType,
         string PermissionSetArn,
         AwsSsoAdminDeleteAccountAssignmentPrincipalType PrincipalType,
         string PrincipalId
@@ -92,7 +92,7 @@ public record AwsSsoAdminDeleteAccountAssignmentOptions : AwsOptions, IValidatab
     /// The entity type for which the assignment will be deleted. Possible values: o AWS_ACCOUNT
     /// </summary>
     [CliOption("--target-type")]
-    public AwsSsoAdminDeleteAccountAssignmentTargetType? TargetType { get; private init; }
+    public string? TargetType { get; private init; }
 
     /// <summary>
     /// The ARN of the permission set that will be used to remove access. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::permission- Set/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}

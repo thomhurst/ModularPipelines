@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -30,7 +29,7 @@ public record AwsPaymentCryptographyGetMpaTeamAssociationOptions : AwsOptions, I
     /// </summary>
     /// <param name="Action">The protected operation whose MPA team association you want to re- trieve. Currently, the only supported value is IMPORT_ROOT_PUB- LIC_KEY_CERTIFICATE . Possible values: o IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE</param>
     public AwsPaymentCryptographyGetMpaTeamAssociationOptions(
-        AwsPaymentCryptographyGetMpaTeamAssociationAction Action
+        string Action
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(Action);
@@ -60,7 +59,7 @@ public record AwsPaymentCryptographyGetMpaTeamAssociationOptions : AwsOptions, I
     /// The protected operation whose MPA team association you want to re- trieve. Currently, the only supported value is IMPORT_ROOT_PUB- LIC_KEY_CERTIFICATE . Possible values: o IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE
     /// </summary>
     [CliOption("--action")]
-    public AwsPaymentCryptographyGetMpaTeamAssociationAction? Action { get; private init; }
+    public string? Action { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

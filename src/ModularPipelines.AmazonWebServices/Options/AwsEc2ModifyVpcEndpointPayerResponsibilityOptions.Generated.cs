@@ -34,7 +34,7 @@ public record AwsEc2ModifyVpcEndpointPayerResponsibilityOptions : AwsOptions, IV
     public AwsEc2ModifyVpcEndpointPayerResponsibilityOptions(
         string VpcEndpointId,
         AwsEc2ModifyVpcEndpointPayerResponsibilityPayerResponsibility PayerResponsibility,
-        AwsEc2ModifyVpcEndpointPayerResponsibilityScope Scope
+        string Scope
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(VpcEndpointId);
@@ -80,7 +80,7 @@ public record AwsEc2ModifyVpcEndpointPayerResponsibilityOptions : AwsOptions, IV
     /// The scope of usage/charges for which the billing account is being modified. Possible values: o vpc-endpoint-charges
     /// </summary>
     [CliOption("--scope")]
-    public AwsEc2ModifyVpcEndpointPayerResponsibilityScope? Scope { get; private init; }
+    public string? Scope { get; private init; }
 
     /// <summary>
     /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .

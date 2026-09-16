@@ -13,7 +13,6 @@ using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -34,7 +33,7 @@ public record AwsWisdomStartImportJobOptions : AwsOptions, IValidatableObject
     /// <param name="KnowledgeBaseId">The identifier of the knowledge base. This should not be a QUICK_RE- SPONSES type knowledge base if you're storing Wisdom Content re- source to it. Can be either the ID or the ARN. URLs cannot contain the ARN. o For importing Wisdom quick responses, this should be a QUICK_RE- SPONSES type knowledge base. Constraints: o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})?$</param>
     /// <param name="UploadId">A pointer to the uploaded asset. This value is returned by StartContentUpload . Constraints: o min: 1 o max: 1200</param>
     public AwsWisdomStartImportJobOptions(
-        AwsWisdomStartImportJobImportJobType ImportJobType,
+        string ImportJobType,
         string KnowledgeBaseId,
         string UploadId
     )
@@ -70,7 +69,7 @@ public record AwsWisdomStartImportJobOptions : AwsOptions, IValidatableObject
     /// The type of the import job. o For importing quick response resource, set the value to QUICK_RE- SPONSES . Possible values: o QUICK_RESPONSES
     /// </summary>
     [CliOption("--import-job-type")]
-    public AwsWisdomStartImportJobImportJobType? ImportJobType { get; private init; }
+    public string? ImportJobType { get; private init; }
 
     /// <summary>
     /// The identifier of the knowledge base. This should not be a QUICK_RE- SPONSES type knowledge base if you're storing Wisdom Content re- source to it. Can be either the ID or the ARN. URLs cannot contain the ARN. o For importing Wisdom quick responses, this should be a QUICK_RE- SPONSES type knowledge base. Constraints: o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})?$

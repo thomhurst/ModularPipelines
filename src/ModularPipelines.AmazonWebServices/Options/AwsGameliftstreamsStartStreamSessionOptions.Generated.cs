@@ -13,7 +13,6 @@ using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -36,7 +35,7 @@ public record AwsGameliftstreamsStartStreamSessionOptions : AwsOptions, IValidat
     /// <param name="ApplicationIdentifier">An Amazon Resource Name (ARN) or ID that uniquely identifies the ap- plication resource. Example ARN: arn:aws:gamelift- streams:us-west-2:111122223333:application/a-9ZY8X7Wv6 . Example ID: a-9ZY8X7Wv6 . Constraints: o min: 1 o max: 128 o pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)</param>
     public AwsGameliftstreamsStartStreamSessionOptions(
         string Identifier,
-        AwsGameliftstreamsStartStreamSessionProtocol Protocol,
+        string Protocol,
         string SignalRequest,
         string ApplicationIdentifier
     )
@@ -80,7 +79,7 @@ public record AwsGameliftstreamsStartStreamSessionOptions : AwsOptions, IValidat
     /// The data transport protocol to use for the stream session. Possible values: o WebRTC
     /// </summary>
     [CliOption("--protocol")]
-    public AwsGameliftstreamsStartStreamSessionProtocol? Protocol { get; private init; }
+    public string? Protocol { get; private init; }
 
     /// <summary>
     /// A WebRTC ICE offer string to use when initializing a WebRTC connec- tion. Typically, the offer is a very long JSON string. Provide the string as a text value in quotes. Amazon GameLift Streams also supports setting the field to "NO_CLIENT_CONNECTION". This will create a session without needing any browser request or Web SDK integration. The session starts up as usual and waits for a reconnection from a browser, which is accom- plished using CreateStreamSessionConnection . Constraints: o min: 1

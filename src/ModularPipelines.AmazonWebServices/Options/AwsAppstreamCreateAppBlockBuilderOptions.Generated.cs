@@ -12,7 +12,6 @@ using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -35,7 +34,7 @@ public record AwsAppstreamCreateAppBlockBuilderOptions : AwsOptions, IValidatabl
     /// <param name="VpcConfig">The VPC configuration for the app block builder. App block builders require that you specify at least two subnets in different availability zones. SubnetIds -&gt; (list) The identifiers of the subnets to which a network interface is attached from the fleet instance or image builder instance. Fleet instances use one or more subnets. Image builder instances use one subnet. (string) Constraints: o min: 1 SecurityGroupIds -&gt; (list) The identifiers of the security groups for the fleet or image builder. Constraints: o max: 5 (string) Constraints: o min: 1 Shorthand Syntax: SubnetIds=string,string,SecurityGroupIds=string,string JSON Syntax: { "SubnetIds": ["string", ...], "SecurityGroupIds": ["string", ...] }</param>
     public AwsAppstreamCreateAppBlockBuilderOptions(
         string Name,
-        AwsAppstreamCreateAppBlockBuilderPlatform Platform,
+        string Platform,
         string InstanceType,
         string VpcConfig
     )
@@ -79,7 +78,7 @@ public record AwsAppstreamCreateAppBlockBuilderOptions : AwsOptions, IValidatabl
     /// The platform of the app block builder. WINDOWS_SERVER_2019 is the only valid value. Possible values: o WINDOWS_SERVER_2019
     /// </summary>
     [CliOption("--platform")]
-    public AwsAppstreamCreateAppBlockBuilderPlatform? Platform { get; private init; }
+    public string? Platform { get; private init; }
 
     /// <summary>
     /// The instance type to use when launching the app block builder. The following instance types are available: o stream.standard.small o stream.standard.medium o stream.standard.large o stream.standard.xlarge o stream.standard.2xlarge Constraints: o min: 1

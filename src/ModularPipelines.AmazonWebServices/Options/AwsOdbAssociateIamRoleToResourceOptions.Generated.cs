@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -33,7 +32,7 @@ public record AwsOdbAssociateIamRoleToResourceOptions : AwsOptions, IValidatable
     /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the target resource to associate with the Amazon Web Services Identity and Access Management (IAM) service role. Constraints: o min: 20 o max: 2048 o pattern: arn:(?:aws|aws-cn|aws-us-gov|aws-iso-[a-z]?|aws-iso):odb:[a-z0-9-]+:\d{12}:(?:cloud-vm-clus- ter|cloud-autonomous-vm-cluster|exadb-vm-cluster)/[a-z0-9-_]+</param>
     public AwsOdbAssociateIamRoleToResourceOptions(
         string IamRoleArn,
-        AwsOdbAssociateIamRoleToResourceAwsIntegration AwsIntegration,
+        string AwsIntegration,
         string ResourceArn
     )
     {
@@ -74,7 +73,7 @@ public record AwsOdbAssociateIamRoleToResourceOptions : AwsOptions, IValidatable
     /// The Amazon Web Services integration configuration settings for the Amazon Web Services Identity and Access Management (IAM) service role association. Possible values: o KmsTde
     /// </summary>
     [CliOption("--aws-integration")]
-    public AwsOdbAssociateIamRoleToResourceAwsIntegration? AwsIntegration { get; private init; }
+    public string? AwsIntegration { get; private init; }
 
     /// <summary>
     /// The Amazon Resource Name (ARN) of the target resource to associate with the Amazon Web Services Identity and Access Management (IAM) service role. Constraints: o min: 20 o max: 2048 o pattern: arn:(?:aws|aws-cn|aws-us-gov|aws-iso-[a-z]?|aws-iso):odb:[a-z0-9-]+:\d{12}:(?:cloud-vm-clus- ter|cloud-autonomous-vm-cluster|exadb-vm-cluster)/[a-z0-9-_]+

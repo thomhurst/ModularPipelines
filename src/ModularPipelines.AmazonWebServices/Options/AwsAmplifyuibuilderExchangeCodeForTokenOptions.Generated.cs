@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -31,7 +30,7 @@ public record AwsAmplifyuibuilderExchangeCodeForTokenOptions : AwsOptions, IVali
     /// <param name="Provider">The third-party provider for the token. The only valid value is figma . Possible values: o figma</param>
     /// <param name="Request">Describes the configuration of the request. code -&gt; (string) [required] The access code to send in the request. redirectUri -&gt; (string) [required] The location of the application that will receive the access code. clientId -&gt; (string) The ID of the client to request the token from. Shorthand Syntax: code=string,redirectUri=string,clientId=string JSON Syntax: { "code": "string", "redirectUri": "string", "clientId": "string" }</param>
     public AwsAmplifyuibuilderExchangeCodeForTokenOptions(
-        AwsAmplifyuibuilderExchangeCodeForTokenProvider Provider,
+        string Provider,
         string Request
     )
     {
@@ -64,7 +63,7 @@ public record AwsAmplifyuibuilderExchangeCodeForTokenOptions : AwsOptions, IVali
     /// The third-party provider for the token. The only valid value is figma . Possible values: o figma
     /// </summary>
     [CliOption("--provider")]
-    public AwsAmplifyuibuilderExchangeCodeForTokenProvider? Provider { get; private init; }
+    public string? Provider { get; private init; }
 
     /// <summary>
     /// Describes the configuration of the request. code -&gt; (string) [required] The access code to send in the request. redirectUri -&gt; (string) [required] The location of the application that will receive the access code. clientId -&gt; (string) The ID of the client to request the token from. Shorthand Syntax: code=string,redirectUri=string,clientId=string JSON Syntax: { "code": "string", "redirectUri": "string", "clientId": "string" }

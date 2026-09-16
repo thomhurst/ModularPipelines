@@ -12,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -37,7 +36,7 @@ public record AwsComprehendmedicalStartIcd10CmInferenceJobOptions : AwsOptions, 
         string InputDataConfig,
         string OutputDataConfig,
         string DataAccessRoleArn,
-        AwsComprehendmedicalStartIcd10CmInferenceJobLanguageCode LanguageCode
+        string LanguageCode
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(InputDataConfig);
@@ -91,7 +90,7 @@ public record AwsComprehendmedicalStartIcd10CmInferenceJobOptions : AwsOptions, 
     /// The language of the input documents. All documents must be in the same language. Possible values: o en
     /// </summary>
     [CliOption("--language-code")]
-    public AwsComprehendmedicalStartIcd10CmInferenceJobLanguageCode? LanguageCode { get; private init; }
+    public string? LanguageCode { get; private init; }
 
     /// <summary>
     /// The identifier of the job. Constraints: o min: 1 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$

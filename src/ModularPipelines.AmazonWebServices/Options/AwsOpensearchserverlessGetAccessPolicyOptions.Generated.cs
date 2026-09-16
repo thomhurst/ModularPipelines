@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -31,7 +30,7 @@ public record AwsOpensearchserverlessGetAccessPolicyOptions : AwsOptions, IValid
     /// <param name="Type">Tye type of policy. Currently, the only supported value is data . Possible values: o data</param>
     /// <param name="Name">The name of the access policy. Constraints: o min: 3 o max: 32 o pattern: [a-z][a-z0-9-]+</param>
     public AwsOpensearchserverlessGetAccessPolicyOptions(
-        AwsOpensearchserverlessGetAccessPolicyType Type,
+        string Type,
         string Name
     )
     {
@@ -64,7 +63,7 @@ public record AwsOpensearchserverlessGetAccessPolicyOptions : AwsOptions, IValid
     /// Tye type of policy. Currently, the only supported value is data . Possible values: o data
     /// </summary>
     [CliOption("--type")]
-    public AwsOpensearchserverlessGetAccessPolicyType? Type { get; private init; }
+    public string? Type { get; private init; }
 
     /// <summary>
     /// The name of the access policy. Constraints: o min: 3 o max: 32 o pattern: [a-z][a-z0-9-]+

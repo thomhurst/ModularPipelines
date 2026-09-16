@@ -76,7 +76,7 @@ public record AwsIotwirelessGetResourceEventConfigurationOptions : AwsOptions, I
     /// Partner type of the resource if the identifier type is PartnerAc- countId . Possible values: o Sidewalk
     /// </summary>
     [CliOption("--partner-type")]
-    public AwsIotwirelessGetResourceEventConfigurationPartnerType? PartnerType { get; set; }
+    public string? PartnerType { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

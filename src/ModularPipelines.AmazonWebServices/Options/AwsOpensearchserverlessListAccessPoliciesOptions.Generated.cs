@@ -12,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -31,7 +30,7 @@ public record AwsOpensearchserverlessListAccessPoliciesOptions : AwsOptions, IVa
     /// </summary>
     /// <param name="Type">The type of access policy. Possible values: o data</param>
     public AwsOpensearchserverlessListAccessPoliciesOptions(
-        AwsOpensearchserverlessListAccessPoliciesType Type
+        string Type
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(Type);
@@ -61,7 +60,7 @@ public record AwsOpensearchserverlessListAccessPoliciesOptions : AwsOptions, IVa
     /// The type of access policy. Possible values: o data
     /// </summary>
     [CliOption("--type")]
-    public AwsOpensearchserverlessListAccessPoliciesType? Type { get; private init; }
+    public string? Type { get; private init; }
 
     /// <summary>
     /// Resource filters (can be collections or indexes) that policies can apply to. Constraints: o min: 1 o max: 1000 (string) Syntax: "string" "string" ...

@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -30,7 +29,7 @@ public record AwsEc2EnableImageBlockPublicAccessOptions : AwsOptions, IValidatab
     /// </summary>
     /// <param name="ImageBlockPublicAccessState">Specify block-new-sharing to enable block public access for AMIs at the account level in the specified Region. This will block any at- tempt to publicly share your AMIs in the specified Region. Possible values: o block-new-sharing</param>
     public AwsEc2EnableImageBlockPublicAccessOptions(
-        AwsEc2EnableImageBlockPublicAccessImageBlockPublicAccessState ImageBlockPublicAccessState
+        string ImageBlockPublicAccessState
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(ImageBlockPublicAccessState);
@@ -60,7 +59,7 @@ public record AwsEc2EnableImageBlockPublicAccessOptions : AwsOptions, IValidatab
     /// Specify block-new-sharing to enable block public access for AMIs at the account level in the specified Region. This will block any at- tempt to publicly share your AMIs in the specified Region. Possible values: o block-new-sharing
     /// </summary>
     [CliOption("--image-block-public-access-state")]
-    public AwsEc2EnableImageBlockPublicAccessImageBlockPublicAccessState? ImageBlockPublicAccessState { get; private init; }
+    public string? ImageBlockPublicAccessState { get; private init; }
 
     /// <summary>
     /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .

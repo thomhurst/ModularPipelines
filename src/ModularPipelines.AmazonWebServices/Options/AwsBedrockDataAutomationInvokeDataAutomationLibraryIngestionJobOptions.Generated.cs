@@ -37,7 +37,7 @@ public record AwsBedrockDataAutomationInvokeDataAutomationLibraryIngestionJobOpt
     public AwsBedrockDataAutomationInvokeDataAutomationLibraryIngestionJobOptions(
         string LibraryArn,
         string InputConfiguration,
-        AwsBedrockDataAutomationInvokeDataAutomationLibraryIngestionJobEntityType EntityType,
+        string EntityType,
         AwsBedrockDataAutomationInvokeDataAutomationLibraryIngestionJobOperationType OperationType,
         string OutputConfiguration
     )
@@ -89,7 +89,7 @@ public record AwsBedrockDataAutomationInvokeDataAutomationLibraryIngestionJobOpt
     /// The entity type for which DataAutomationLibraryIngestionJob is being run Possible values: o VOCABULARY
     /// </summary>
     [CliOption("--entity-type")]
-    public AwsBedrockDataAutomationInvokeDataAutomationLibraryIngestionJobEntityType? EntityType { get; private init; }
+    public string? EntityType { get; private init; }
 
     /// <summary>
     /// The operation to be performed by DataAutomationLibraryIngestionJob Possible values: o UPSERT o DELETE

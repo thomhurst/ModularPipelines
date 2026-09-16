@@ -33,10 +33,10 @@ public record AwsWafv2GetRevenueStatisticsOptions : AwsOptions, IValidatableObje
     /// <param name="Scope">Specifies whether this is for a Amazon CloudFront distribution (CLOUDFRONT ) or for a regional application (REGIONAL ). Possible values: o CLOUDFRONT o REGIONAL</param>
     /// <param name="Currency">The currency for the revenue amounts in the response. Possible values: o USDC</param>
     public AwsWafv2GetRevenueStatisticsOptions(
-        AwsWafv2GetRevenueStatisticsStatisticType StatisticType,
+        string StatisticType,
         string TimeWindow,
         AwsWafv2GetRevenueStatisticsScope Scope,
-        AwsWafv2GetRevenueStatisticsCurrency Currency
+        string Currency
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(StatisticType);
@@ -72,7 +72,7 @@ public record AwsWafv2GetRevenueStatisticsOptions : AwsOptions, IValidatableObje
     /// TOP_SOURCES_BY_REVENUE ranks revenue from AI bot traffic, grouped by the dimension you specify in the GroupBy parameter (NAME , CATEGORY , INTENT , ORGANIZATION , or WEBACL ); GroupBy is required for this statistic type. TOP_PATHS_BY_REVENUE ranks revenue by path. Possible values: o TOP_SOURCES_BY_REVENUE o TOP_PATHS_BY_REVENUE
     /// </summary>
     [CliOption("--statistic-type")]
-    public AwsWafv2GetRevenueStatisticsStatisticType? StatisticType { get; private init; }
+    public string? StatisticType { get; private init; }
 
     /// <summary>
     /// The time range for the query. Specify start and end timestamps. StartTime -&gt; (timestamp) [required] The beginning of the time range from which you want GetSample- dRequests to return a sample of the requests that your Amazon Web Services resource received. You must specify the times in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z . For example, "2016-09-27T14:50Z" . You can specify any time range in the previous three hours. EndTime -&gt; (timestamp) [required] The end of the time range from which you want GetSampledRequests to return a sample of the requests that your Amazon Web Services resource received. You must specify the times in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z . For example, "2016-09-27T14:50Z" . You can spec- ify any time range in the previous three hours. Shorthand Syntax: StartTime=timestamp,EndTime=timestamp JSON Syntax: { "StartTime": timestamp, "EndTime": timestamp }
@@ -90,7 +90,7 @@ public record AwsWafv2GetRevenueStatisticsOptions : AwsOptions, IValidatableObje
     /// The currency for the revenue amounts in the response. Possible values: o USDC
     /// </summary>
     [CliOption("--currency")]
-    public AwsWafv2GetRevenueStatisticsCurrency? Currency { get; private init; }
+    public string? Currency { get; private init; }
 
     /// <summary>
     /// The dimension to group results by: NAME , CATEGORY , INTENT , ORGA- NIZATION , or WEBACL . Required when StatisticType is TOP_SOURCES_BY_REVENUE . Not required for TOP_PATHS_BY_REVENUE , where results are grouped by content path. If StatisticType is TOP_SOURCES_BY_REVENUE and GroupBy is omitted, the request is re- jected with a WAFInvalidParameterException . Possible values: o NAME o CATEGORY o INTENT o ORGANIZATION o WEBACL

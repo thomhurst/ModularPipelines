@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +31,7 @@ public record AwsCleanroomsStartProtectedQueryOptions : AwsOptions, IValidatable
     /// <param name="MembershipIdentifier">A unique identifier for the membership to run this query against. Currently accepts a membership ID. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
     /// <param name="SqlParameters">The protected SQL query parameters. queryString -&gt; (string) The query string to be submitted. Constraints: o min: 0 o max: 500000 analysisTemplateArn -&gt; (string) The Amazon Resource Name (ARN) associated with the analysis tem- plate within a collaboration. Constraints: o min: 0 o max: 200 o pattern: arn:aws[-a-z]*:clean- rooms:[\w]{2}-[\w]{4,9}-[\d]:[\d]{12}:member- ship/[\d\w-]+/analysistemplate/[\d\w-]+ parameters -&gt; (map) The protected query SQL parameters. key -&gt; (string) Constraints: o min: 1 o max: 100 o pattern: [0-9a-zA-Z_]+ value -&gt; (string) Constraints: o min: 0 o max: 1000 Shorthand Syntax: queryString=string,analysisTemplateArn=string,parameters={KeyName1=string,KeyName2=string} JSON Syntax: { "queryString": "string", "analysisTemplateArn": "string", "parameters": {"string": "string" ...} }</param>
     public AwsCleanroomsStartProtectedQueryOptions(
-        AwsCleanroomsStartProtectedQueryType Type,
+        string Type,
         string MembershipIdentifier,
         string SqlParameters
     )
@@ -68,7 +67,7 @@ public record AwsCleanroomsStartProtectedQueryOptions : AwsOptions, IValidatable
     /// The type of the protected query to be started. Possible values: o SQL
     /// </summary>
     [CliOption("--type")]
-    public AwsCleanroomsStartProtectedQueryType? Type { get; private init; }
+    public string? Type { get; private init; }
 
     /// <summary>
     /// A unique identifier for the membership to run this query against. Currently accepts a membership ID. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}

@@ -43,7 +43,7 @@ public record AwsWorkspacesImportCustomWorkspaceImageOptions : AwsOptions, IVali
         AwsWorkspacesImportCustomWorkspaceImageProtocol Protocol,
         string ImageSource,
         string InfrastructureConfigurationArn,
-        AwsWorkspacesImportCustomWorkspaceImagePlatform Platform,
+        string Platform,
         AwsWorkspacesImportCustomWorkspaceImageOsVersion OsVersion
     )
     {
@@ -124,7 +124,7 @@ public record AwsWorkspacesImportCustomWorkspaceImageOptions : AwsOptions, IVali
     /// The platform for the WorkSpace image source. Possible values: o WINDOWS
     /// </summary>
     [CliOption("--platform")]
-    public AwsWorkspacesImportCustomWorkspaceImagePlatform? Platform { get; private init; }
+    public string? Platform { get; private init; }
 
     /// <summary>
     /// The OS version for the WorkSpace image source. Possible values: o Windows_10 o Windows_11

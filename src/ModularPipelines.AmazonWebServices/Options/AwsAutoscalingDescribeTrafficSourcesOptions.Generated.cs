@@ -12,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -67,7 +66,7 @@ public record AwsAutoscalingDescribeTrafficSourcesOptions : AwsOptions, IValidat
     /// The traffic source type that you want to describe. The following lists the valid values: o elb if the traffic source is a Classic Load Balancer. o elbv2 if the traffic source is a Application Load Balancer, Gate- way Load Balancer, or Network Load Balancer. o vpc-lattice if the traffic source is VPC Lattice. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--traffic-source-type")]
-    public AwsAutoscalingDescribeTrafficSourcesTrafficSourceType? TrafficSourceType { get; set; }
+    public string? TrafficSourceType { get; set; }
 
     /// <summary>
     /// The token for the next set of items to return. (You received this token from a previous call.) Constraints: o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*

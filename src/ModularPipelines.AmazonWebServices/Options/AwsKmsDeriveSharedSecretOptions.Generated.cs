@@ -12,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -34,7 +33,7 @@ public record AwsKmsDeriveSharedSecretOptions : AwsOptions, IValidatableObject
     /// <param name="PublicKey">Specifies the public key in your peer's NIST-standard elliptic curve (ECC) or SM2 (China Regions only) key pair. The public key must be a DER-encoded X.509 public key, also known as SubjectPublicKeyInfo (SPKI), as defined in RFC 5280 . GetPublicKey returns the public key of an asymmetric KMS key pair in the required DER-encoded format. NOTE: If you use Amazon Web Services CLI version 1 , you must provide the DER-encoded X.509 public key in a file. Otherwise, the Ama- zon Web Services CLI Base64-encodes the public key a second time, resulting in a ValidationException . You can specify the public key as binary data in a file using fileb (fileb://&lt;path-to-file&gt; ) or in-line using a Base64 encoded string. Constraints: o min: 1 o max: 8192</param>
     public AwsKmsDeriveSharedSecretOptions(
         string KeyId,
-        AwsKmsDeriveSharedSecretKeyAgreementAlgorithm KeyAgreementAlgorithm,
+        string KeyAgreementAlgorithm,
         string PublicKey
     )
     {
@@ -75,7 +74,7 @@ public record AwsKmsDeriveSharedSecretOptions : AwsOptions, IValidatableObject
     /// Specifies the key agreement algorithm used to derive the shared se- cret. The only valid value is ECDH . Possible values: o ECDH
     /// </summary>
     [CliOption("--key-agreement-algorithm")]
-    public AwsKmsDeriveSharedSecretKeyAgreementAlgorithm? KeyAgreementAlgorithm { get; private init; }
+    public string? KeyAgreementAlgorithm { get; private init; }
 
     /// <summary>
     /// Specifies the public key in your peer's NIST-standard elliptic curve (ECC) or SM2 (China Regions only) key pair. The public key must be a DER-encoded X.509 public key, also known as SubjectPublicKeyInfo (SPKI), as defined in RFC 5280 . GetPublicKey returns the public key of an asymmetric KMS key pair in the required DER-encoded format. NOTE: If you use Amazon Web Services CLI version 1 , you must provide the DER-encoded X.509 public key in a file. Otherwise, the Ama- zon Web Services CLI Base64-encodes the public key a second time, resulting in a ValidationException . You can specify the public key as binary data in a file using fileb (fileb://&lt;path-to-file&gt; ) or in-line using a Base64 encoded string. Constraints: o min: 1 o max: 8192

@@ -12,7 +12,6 @@ using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -34,7 +33,7 @@ public record AwsApigatewayCreateDomainNameAccessAssociationOptions : AwsOptions
     /// <param name="AccessAssociationSource">The identifier of the domain name access association source. For a VPCE, the value is the VPC endpoint ID.</param>
     public AwsApigatewayCreateDomainNameAccessAssociationOptions(
         string DomainNameArn,
-        AwsApigatewayCreateDomainNameAccessAssociationAccessAssociationSourceType AccessAssociationSourceType,
+        string AccessAssociationSourceType,
         string AccessAssociationSource
     )
     {
@@ -75,7 +74,7 @@ public record AwsApigatewayCreateDomainNameAccessAssociationOptions : AwsOptions
     /// The type of the domain name access association source. Possible values: o VPCE
     /// </summary>
     [CliOption("--access-association-source-type")]
-    public AwsApigatewayCreateDomainNameAccessAssociationAccessAssociationSourceType? AccessAssociationSourceType { get; private init; }
+    public string? AccessAssociationSourceType { get; private init; }
 
     /// <summary>
     /// The identifier of the domain name access association source. For a VPCE, the value is the VPC endpoint ID.

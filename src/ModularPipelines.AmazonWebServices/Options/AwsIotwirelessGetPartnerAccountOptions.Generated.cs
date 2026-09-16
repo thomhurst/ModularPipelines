@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +31,7 @@ public record AwsIotwirelessGetPartnerAccountOptions : AwsOptions, IValidatableO
     /// <param name="PartnerType">The partner type. Possible values: o Sidewalk</param>
     public AwsIotwirelessGetPartnerAccountOptions(
         string PartnerAccountId,
-        AwsIotwirelessGetPartnerAccountPartnerType PartnerType
+        string PartnerType
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(PartnerAccountId);
@@ -70,7 +69,7 @@ public record AwsIotwirelessGetPartnerAccountOptions : AwsOptions, IValidatableO
     /// The partner type. Possible values: o Sidewalk
     /// </summary>
     [CliOption("--partner-type")]
-    public AwsIotwirelessGetPartnerAccountPartnerType? PartnerType { get; private init; }
+    public string? PartnerType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

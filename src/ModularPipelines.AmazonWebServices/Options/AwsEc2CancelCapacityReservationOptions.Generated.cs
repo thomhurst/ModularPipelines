@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -72,7 +71,7 @@ public record AwsEc2CancelCapacityReservationOptions : AwsOptions, IValidatableO
     /// Specifies the cancellation charge type to apply when cancelling a future-dated Capacity Reservation during its commitment duration. Possible values include commitment-wind-down , which continues billing for the remaining commitment duration without delivering ca- pacity. Possible values: o commitment-wind-down
     /// </summary>
     [CliOption("--apply-cancellation-charges")]
-    public AwsEc2CancelCapacityReservationApplyCancellationCharges? ApplyCancellationCharges { get; set; }
+    public string? ApplyCancellationCharges { get; set; }
 
     /// <summary>
     /// The ID of the cancellation quote to use for the cancellation. You can generate a cancellation quote by using the CreateCapacityReser- vationCancellationQuote action. The cancellation quote must be in an active state.

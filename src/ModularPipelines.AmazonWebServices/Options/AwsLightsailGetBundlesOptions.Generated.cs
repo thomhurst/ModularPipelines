@@ -11,7 +11,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -33,7 +32,7 @@ public record AwsLightsailGetBundlesOptions : AwsOptions
     /// Returns a list of bundles that are specific to Lightsail for Re- search. WARNING: You must use this parameter to view Lightsail for Research bun- dles. Possible values: o LfR
     /// </summary>
     [CliOption("--app-category")]
-    public AwsLightsailGetBundlesAppCategory? AppCategory { get; set; }
+    public string? AppCategory { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

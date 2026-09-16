@@ -84,7 +84,7 @@ public record AwsVpcLatticeCreateResourceConfigurationOptions : AwsOptions, IVal
     /// (SINGLE, GROUP) The protocol accepted by the resource configuration. Possible values: o TCP
     /// </summary>
     [CliOption("--protocol")]
-    public AwsVpcLatticeCreateResourceConfigurationProtocol? Protocol { get; set; }
+    public string? Protocol { get; set; }
 
     /// <summary>
     /// (SINGLE, GROUP, ARN) The ID or ARN of the resource gateway used to connect to the resource configuration. For a child resource configu- ration, this value is inherited from the parent resource configura- tion. Constraints: o min: 17 o max: 2048 o pattern: ((rgw-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:resourcegateway/rgw-[0-9a-z]{17}))

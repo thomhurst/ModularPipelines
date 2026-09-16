@@ -39,7 +39,7 @@ public record AwsConfigserviceListConformancePackComplianceScoresOptions : AwsOp
     /// Sorts your conformance pack compliance scores in either ascending or descending order, depending on SortOrder . By default, conformance pack compliance scores are sorted in alpha- betical order by name of the conformance pack. Enter SCORE , to sort conformance pack compliance scores by the numerical value of the compliance score. Possible values: o SCORE
     /// </summary>
     [CliOption("--sort-by")]
-    public AwsConfigserviceListConformancePackComplianceScoresSortBy? SortBy { get; set; }
+    public string? SortBy { get; set; }
 
     /// <summary>
     /// The maximum number of conformance pack compliance scores returned on each page. Constraints: o min: 0 o max: 20

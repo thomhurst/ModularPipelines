@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -30,7 +29,7 @@ public record AwsEc2CreateCustomerGatewayOptions : AwsOptions, IValidatableObjec
     /// </summary>
     /// <param name="Type">The type of VPN connection that this customer gateway supports (ipsec.1 ). Possible values: o ipsec.1</param>
     public AwsEc2CreateCustomerGatewayOptions(
-        AwsEc2CreateCustomerGatewayType Type
+        string Type
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(Type);
@@ -60,7 +59,7 @@ public record AwsEc2CreateCustomerGatewayOptions : AwsOptions, IValidatableObjec
     /// The type of VPN connection that this customer gateway supports (ipsec.1 ). Possible values: o ipsec.1
     /// </summary>
     [CliOption("--type")]
-    public AwsEc2CreateCustomerGatewayType? Type { get; private init; }
+    public string? Type { get; private init; }
 
     /// <summary>
     /// For customer gateway devices that support BGP, specify the device's ASN. You must specify either BgpAsn or BgpAsnExtended when creating the customer gateway. If the ASN is larger than 2,147,483,647 , you must use BgpAsnExtended . Default: 65000 Valid values: 1 to 2,147,483,647

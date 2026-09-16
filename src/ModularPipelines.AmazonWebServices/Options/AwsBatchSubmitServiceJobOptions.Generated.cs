@@ -13,7 +13,6 @@ using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -38,7 +37,7 @@ public record AwsBatchSubmitServiceJobOptions : AwsOptions, IValidatableObject
         string JobName,
         string JobQueue,
         string ServiceRequestPayload,
-        AwsBatchSubmitServiceJobServiceJobType ServiceJobType
+        string ServiceJobType
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(JobName);
@@ -92,7 +91,7 @@ public record AwsBatchSubmitServiceJobOptions : AwsOptions, IValidatableObject
     /// The type of service job. For SageMaker Training jobs, specify SAGE- MAKER_TRAINING . Possible values: o SAGEMAKER_TRAINING
     /// </summary>
     [CliOption("--service-job-type")]
-    public AwsBatchSubmitServiceJobServiceJobType? ServiceJobType { get; private init; }
+    public string? ServiceJobType { get; private init; }
 
     /// <summary>
     /// The retry strategy to use for failed service jobs that are submitted with this service job request. attempts -&gt; (integer) [required] The number of times to move a service job to RUNNABLE status. You can specify between 1 and 10 attempts. evaluateOnExit -&gt; (list) Array of ServiceJobEvaluateOnExit objects that specify condi- tions under which the service job should be retried or failed. (structure) Specifies conditions for when to exit or retry a service job based on the exit status or status reason. action -&gt; (string) The action to take if the service job exits with the specified condition. Valid values are RETRY and EXIT . Possible values: o RETRY o EXIT onStatusReason -&gt; (string) Contains a glob pattern to match against the StatusReason returned for a job. The pattern can contain up to 512 characters and can contain all printable characters. It can optionally end with an asterisk (*) so that only the start of the string needs to be an exact match. Shorthand Syntax: attempts=integer,evaluateOnExit=[{action=string,onStatusReason=string},{action=string,onStatusReason=string}] JSON Syntax: { "attempts": integer, "evaluateOnExit": [ { "action": "RETRY"|"EXIT", "onStatusReason": "string" } ... ] }

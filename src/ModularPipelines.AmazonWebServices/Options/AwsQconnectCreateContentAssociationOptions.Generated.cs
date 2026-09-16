@@ -13,7 +13,6 @@ using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -37,7 +36,7 @@ public record AwsQconnectCreateContentAssociationOptions : AwsOptions, IValidata
     public AwsQconnectCreateContentAssociationOptions(
         string KnowledgeBaseId,
         string ContentId,
-        AwsQconnectCreateContentAssociationAssociationType AssociationType,
+        string AssociationType,
         string Association
     )
     {
@@ -86,7 +85,7 @@ public record AwsQconnectCreateContentAssociationOptions : AwsOptions, IValidata
     /// The type of association. Possible values: o AMAZON_CONNECT_GUIDE
     /// </summary>
     [CliOption("--association-type")]
-    public AwsQconnectCreateContentAssociationAssociationType? AssociationType { get; private init; }
+    public string? AssociationType { get; private init; }
 
     /// <summary>
     /// The identifier of the associated resource. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: amazonConnectGuideAssociation. amazonConnectGuideAssociation -&gt; (structure) The data of the step-by-step guide association. flowId -&gt; (string) The Amazon Resource Name (ARN) of an Amazon Connect flow. Step-by-step guides are a type of flow. Constraints: o min: 1 o max: 2048 o pattern: arn:[a-z-]+?:[a-z-]+?:[a-z0-9-]*?:([0-9]{12})?:[a-zA-Z0-9-:/]+ Shorthand Syntax: amazonConnectGuideAssociation={flowId=string} JSON Syntax: { "amazonConnectGuideAssociation": { "flowId": "string" } }

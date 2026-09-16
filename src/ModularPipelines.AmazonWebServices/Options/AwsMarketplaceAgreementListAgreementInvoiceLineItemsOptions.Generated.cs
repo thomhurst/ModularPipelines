@@ -33,7 +33,7 @@ public record AwsMarketplaceAgreementListAgreementInvoiceLineItemsOptions : AwsO
     /// <param name="GroupBy">Specifies a grouping strategy for line items. Currently supports IN- VOICE_ID . Possible values: o INVOICE_ID</param>
     public AwsMarketplaceAgreementListAgreementInvoiceLineItemsOptions(
         string AgreementId,
-        AwsMarketplaceAgreementListAgreementInvoiceLineItemsGroupBy GroupBy
+        string GroupBy
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(AgreementId);
@@ -71,7 +71,7 @@ public record AwsMarketplaceAgreementListAgreementInvoiceLineItemsOptions : AwsO
     /// Specifies a grouping strategy for line items. Currently supports IN- VOICE_ID . Possible values: o INVOICE_ID
     /// </summary>
     [CliOption("--group-by")]
-    public AwsMarketplaceAgreementListAgreementInvoiceLineItemsGroupBy? GroupBy { get; private init; }
+    public string? GroupBy { get; private init; }
 
     /// <summary>
     /// An optional filter to retrieve invoice information for a specific invoice. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_/-]+

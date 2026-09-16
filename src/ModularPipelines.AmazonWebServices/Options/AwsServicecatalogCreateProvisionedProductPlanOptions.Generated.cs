@@ -12,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -36,7 +35,7 @@ public record AwsServicecatalogCreateProvisionedProductPlanOptions : AwsOptions,
     /// <param name="ProvisioningArtifactId">The identifier of the provisioning artifact. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*</param>
     public AwsServicecatalogCreateProvisionedProductPlanOptions(
         string PlanName,
-        AwsServicecatalogCreateProvisionedProductPlanPlanType PlanType,
+        string PlanType,
         string ProductId,
         string ProvisionedProductName,
         string ProvisioningArtifactId
@@ -83,7 +82,7 @@ public record AwsServicecatalogCreateProvisionedProductPlanOptions : AwsOptions,
     /// The plan type. Possible values: o CLOUDFORMATION
     /// </summary>
     [CliOption("--plan-type")]
-    public AwsServicecatalogCreateProvisionedProductPlanPlanType? PlanType { get; private init; }
+    public string? PlanType { get; private init; }
 
     /// <summary>
     /// The product identifier. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*

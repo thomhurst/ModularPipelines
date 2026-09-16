@@ -12,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -35,7 +34,7 @@ public record AwsAthenaImportNotebookOptions : AwsOptions, IValidatableObject
     public AwsAthenaImportNotebookOptions(
         string WorkGroup,
         string Name,
-        AwsAthenaImportNotebookType Type
+        string Type
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(WorkGroup);
@@ -81,7 +80,7 @@ public record AwsAthenaImportNotebookOptions : AwsOptions, IValidatableObject
     /// The notebook content type. Currently, the only valid type is IPYNB . Possible values: o IPYNB
     /// </summary>
     [CliOption("--type")]
-    public AwsAthenaImportNotebookType? Type { get; private init; }
+    public string? Type { get; private init; }
 
     /// <summary>
     /// The notebook content to be imported. The payload must be in ipynb format. Constraints: o min: 1 o max: 10485760

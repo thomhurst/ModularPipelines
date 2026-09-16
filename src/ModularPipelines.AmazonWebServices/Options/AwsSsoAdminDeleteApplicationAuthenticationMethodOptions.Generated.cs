@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +31,7 @@ public record AwsSsoAdminDeleteApplicationAuthenticationMethodOptions : AwsOptio
     /// <param name="AuthenticationMethodType">Specifies the authentication method type to delete from the applica- tion. Possible values: o IAM</param>
     public AwsSsoAdminDeleteApplicationAuthenticationMethodOptions(
         string ApplicationArn,
-        AwsSsoAdminDeleteApplicationAuthenticationMethodAuthenticationMethodType AuthenticationMethodType
+        string AuthenticationMethodType
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(ApplicationArn);
@@ -70,7 +69,7 @@ public record AwsSsoAdminDeleteApplicationAuthenticationMethodOptions : AwsOptio
     /// Specifies the authentication method type to delete from the applica- tion. Possible values: o IAM
     /// </summary>
     [CliOption("--authentication-method-type")]
-    public AwsSsoAdminDeleteApplicationAuthenticationMethodAuthenticationMethodType? AuthenticationMethodType { get; private init; }
+    public string? AuthenticationMethodType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

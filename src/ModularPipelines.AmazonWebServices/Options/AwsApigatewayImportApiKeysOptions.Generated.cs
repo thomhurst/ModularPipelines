@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +31,7 @@ public record AwsApigatewayImportApiKeysOptions : AwsOptions, IValidatableObject
     /// <param name="Format">A query parameter to specify the input format to imported API keys. Currently, only the csv format is supported. Possible values: o csv</param>
     public AwsApigatewayImportApiKeysOptions(
         string Body,
-        AwsApigatewayImportApiKeysFormat Format
+        string Format
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(Body);
@@ -70,7 +69,7 @@ public record AwsApigatewayImportApiKeysOptions : AwsOptions, IValidatableObject
     /// A query parameter to specify the input format to imported API keys. Currently, only the csv format is supported. Possible values: o csv
     /// </summary>
     [CliOption("--format")]
-    public AwsApigatewayImportApiKeysFormat? Format { get; private init; }
+    public string? Format { get; private init; }
 
     /// <summary>
     /// A query parameter to indicate whether to rollback ApiKey importation (true ) or not (false ) when error is encountered.

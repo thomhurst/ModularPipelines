@@ -41,7 +41,7 @@ public record AwsSecurityIrCreateCaseOptions : AwsOptions, IValidatableObject
         AwsSecurityIrCreateCaseResolverType ResolverType,
         string Title,
         string Description,
-        AwsSecurityIrCreateCaseEngagementType EngagementType,
+        string EngagementType,
         string ReportedIncidentStartDate,
         IEnumerable<string> ImpactedAccounts,
         IEnumerable<string> Watchers
@@ -126,7 +126,7 @@ public record AwsSecurityIrCreateCaseOptions : AwsOptions, IValidatableObject
     /// Required element used in combination with CreateCase to provide an engagement type for the new cases. Available engagement types in- clude Security Incident | Investigation Possible values: o Security Incident o Investigation
     /// </summary>
     [CliOption("--engagement-type")]
-    public AwsSecurityIrCreateCaseEngagementType? EngagementType { get; private init; }
+    public string? EngagementType { get; private init; }
 
     /// <summary>
     /// Required element used in combination with CreateCase to provide an initial start date for the unauthorized activity.

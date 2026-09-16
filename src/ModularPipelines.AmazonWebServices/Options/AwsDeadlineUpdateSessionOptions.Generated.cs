@@ -12,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -39,7 +38,7 @@ public record AwsDeadlineUpdateSessionOptions : AwsOptions, IValidatableObject
         string QueueId,
         string JobId,
         string SessionId,
-        AwsDeadlineUpdateSessionTargetLifecycleStatus TargetLifecycleStatus
+        string TargetLifecycleStatus
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(FarmId);
@@ -101,7 +100,7 @@ public record AwsDeadlineUpdateSessionOptions : AwsOptions, IValidatableObject
     /// The life cycle status to update in the session. Possible values: o ENDED
     /// </summary>
     [CliOption("--target-lifecycle-status")]
-    public AwsDeadlineUpdateSessionTargetLifecycleStatus? TargetLifecycleStatus { get; private init; }
+    public string? TargetLifecycleStatus { get; private init; }
 
     /// <summary>
     /// The unique token which the server uses to recognize retries of the same request. Constraints: o min: 1 o max: 64

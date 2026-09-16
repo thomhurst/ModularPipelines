@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -31,7 +30,7 @@ public record AwsRoute53GetReusableDelegationSetLimitOptions : AwsOptions, IVali
     /// <param name="Type">Specify MAX_ZONES_BY_REUSABLE_DELEGATION_SET to get the maximum num- ber of hosted zones that you can associate with the specified reusable delegation set. Possible values: o MAX_ZONES_BY_REUSABLE_DELEGATION_SET</param>
     /// <param name="DelegationSetId">The ID of the delegation set that you want to get the limit for. Constraints: o max: 32</param>
     public AwsRoute53GetReusableDelegationSetLimitOptions(
-        AwsRoute53GetReusableDelegationSetLimitType Type,
+        string Type,
         string DelegationSetId
     )
     {
@@ -64,7 +63,7 @@ public record AwsRoute53GetReusableDelegationSetLimitOptions : AwsOptions, IVali
     /// Specify MAX_ZONES_BY_REUSABLE_DELEGATION_SET to get the maximum num- ber of hosted zones that you can associate with the specified reusable delegation set. Possible values: o MAX_ZONES_BY_REUSABLE_DELEGATION_SET
     /// </summary>
     [CliOption("--type")]
-    public AwsRoute53GetReusableDelegationSetLimitType? Type { get; private init; }
+    public string? Type { get; private init; }
 
     /// <summary>
     /// The ID of the delegation set that you want to get the limit for. Constraints: o max: 32

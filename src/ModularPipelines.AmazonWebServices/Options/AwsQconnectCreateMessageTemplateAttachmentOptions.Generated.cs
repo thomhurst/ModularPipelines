@@ -12,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -37,7 +36,7 @@ public record AwsQconnectCreateMessageTemplateAttachmentOptions : AwsOptions, IV
     public AwsQconnectCreateMessageTemplateAttachmentOptions(
         string KnowledgeBaseId,
         string MessageTemplateId,
-        AwsQconnectCreateMessageTemplateAttachmentContentDisposition ContentDisposition,
+        string ContentDisposition,
         string Name,
         string Body
     )
@@ -89,7 +88,7 @@ public record AwsQconnectCreateMessageTemplateAttachmentOptions : AwsOptions, IV
     /// The presentation information for the attachment file. Possible values: o ATTACHMENT
     /// </summary>
     [CliOption("--content-disposition")]
-    public AwsQconnectCreateMessageTemplateAttachmentContentDisposition? ContentDisposition { get; private init; }
+    public string? ContentDisposition { get; private init; }
 
     /// <summary>
     /// The name of the attachment file being uploaded. The name should in- clude the file extension. Constraints: o min: 1 o max: 256 o pattern: [\p{L}\p{M}\p{N}_\s&amp;@()+,;=\-]+\.[A-Za-z0-9]+

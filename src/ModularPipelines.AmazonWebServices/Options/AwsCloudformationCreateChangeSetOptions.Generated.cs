@@ -180,7 +180,7 @@ public record AwsCloudformationCreateChangeSetOptions : AwsOptions, IValidatable
     /// Determines how CloudFormation handles configuration drift during de- ployment. o REVERT_DRIFT Creates a drift-aware change set that brings actual resource states in line with template definitions. Provides a three-way comparison between actual state, previous deployment state, and desired state. For more information, see Using drift-aware change sets in the CloudFormation User Guide . Possible values: o REVERT_DRIFT
     /// </summary>
     [CliOption("--deployment-mode")]
-    public AwsCloudformationCreateChangeSetDeploymentMode? DeploymentMode { get; set; }
+    public string? DeploymentMode { get; set; }
 
     /// <summary>
     /// The deployment configuration for this stack operation, including the deployment mode. Mode -&gt; (string) Specifies the deployment mode for the stack operation. Possible values are: o STANDARD - Use the standard deployment behavior, ensuring re- sources are ready to serve traffic before completing the oper- ation. This is the default. You do not need to specify this value explicitly. o EXPRESS - Complete the stack operation when resource configu- ration is applied, without waiting for resources to become ready to serve traffic. Resources continue becoming ready in the background. Possible values: o STANDARD o EXPRESS DisableRollback -&gt; (boolean) Specifies whether to disable rollback of the stack if the stack operation fails. Default: false Shorthand Syntax: Mode=string,DisableRollback=boolean JSON Syntax: { "Mode": "STANDARD"|"EXPRESS", "DisableRollback": true|false }

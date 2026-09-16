@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -35,7 +34,7 @@ public record AwsFrauddetectorUpdateRuleVersionOptions : AwsOptions, IValidatabl
     public AwsFrauddetectorUpdateRuleVersionOptions(
         string Rule,
         string Expression,
-        AwsFrauddetectorUpdateRuleVersionLanguage Language,
+        string Language,
         IEnumerable<string> Outcomes
     )
     {
@@ -95,7 +94,7 @@ public record AwsFrauddetectorUpdateRuleVersionOptions : AwsOptions, IValidatabl
     /// The language. Possible values: o DETECTORPL
     /// </summary>
     [CliOption("--language")]
-    public AwsFrauddetectorUpdateRuleVersionLanguage? Language { get; private init; }
+    public string? Language { get; private init; }
 
     /// <summary>
     /// The outcomes. Constraints: o min: 1 (string) Syntax: "string" "string" ...

@@ -13,7 +13,6 @@ using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -34,7 +33,7 @@ public record AwsLicenseManagerLinuxSubscriptionsRegisterSubscriptionProviderOpt
     /// <param name="SubscriptionProviderSource">The supported Linux subscription provider to register. Possible values: o RedHat</param>
     public AwsLicenseManagerLinuxSubscriptionsRegisterSubscriptionProviderOptions(
         string SecretArn,
-        AwsLicenseManagerLinuxSubscriptionsRegisterSubscriptionProviderSubscriptionProviderSource SubscriptionProviderSource
+        string SubscriptionProviderSource
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(SecretArn);
@@ -73,7 +72,7 @@ public record AwsLicenseManagerLinuxSubscriptionsRegisterSubscriptionProviderOpt
     /// The supported Linux subscription provider to register. Possible values: o RedHat
     /// </summary>
     [CliOption("--subscription-provider-source")]
-    public AwsLicenseManagerLinuxSubscriptionsRegisterSubscriptionProviderSubscriptionProviderSource? SubscriptionProviderSource { get; private init; }
+    public string? SubscriptionProviderSource { get; private init; }
 
     /// <summary>
     /// The metadata tags to assign to your registered Linux subscription provider resource. Constraints: o min: 0 o max: 50 key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}

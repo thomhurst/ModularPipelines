@@ -57,7 +57,7 @@ public record AwsBedrockListCustomModelsOptions : AwsOptions
     /// The field to sort by in the returned list of models. Possible values: o CreationTime
     /// </summary>
     [CliOption("--sort-by")]
-    public AwsBedrockListCustomModelsSortBy? SortBy { get; set; }
+    public string? SortBy { get; set; }
 
     /// <summary>
     /// The sort order of the results. Possible values: o Ascending o Descending

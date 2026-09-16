@@ -10,7 +10,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -36,7 +35,7 @@ public record AwsS3apiSelectObjectContentOptions : AwsOptions
         string Bucket,
         string Key,
         string Expression,
-        AwsS3apiSelectObjectContentExpressionType ExpressionType,
+        string ExpressionType,
         string InputSerialization,
         string OutputSerialization,
         string Outfile
@@ -58,7 +57,7 @@ public record AwsS3apiSelectObjectContentOptions : AwsOptions
         this.Outfile = Outfile;
     }
 
-    public void Deconstruct(out string Bucket, out string Key, out string Expression, out AwsS3apiSelectObjectContentExpressionType ExpressionType, out string InputSerialization, out string OutputSerialization, out string Outfile)
+    public void Deconstruct(out string Bucket, out string Key, out string Expression, out string ExpressionType, out string InputSerialization, out string OutputSerialization, out string Outfile)
     {
         Bucket = this.Bucket;
         Key = this.Key;
@@ -91,7 +90,7 @@ public record AwsS3apiSelectObjectContentOptions : AwsOptions
     /// The type of the provided expression (for example, SQL). Possible values: o SQL
     /// </summary>
     [CliOption("--expression-type")]
-    public AwsS3apiSelectObjectContentExpressionType ExpressionType { get; private init; }
+    public string ExpressionType { get; private init; }
 
     /// <summary>
     /// Describes the format of the data in the object that is being queried. CSV -&gt; (structure) Describes the serialization of a CSV-encoded object. FileHeaderInfo -&gt; (string) Describes the first line of input. Valid values are: o NONE : First line is not a header. o IGNORE : First line is a header, but you can't use the header values to indicate the column in an expression. You can use column position (such as _1, _2, ) to indicate the column (SELECT s._1 FROM OBJECT s ). o Use : First line is a header, and you can use the header value to identify a column in an expression (SELECT "name" FROM OBJECT ). Possible values: o USE o IGNORE o NONE Comments -&gt; (string) A single character used to indicate that a row should be ig- nored when the character is present at the start of that row. You can specify any character to indicate a comment line. The default character is # . Default: # QuoteEscapeCharacter -&gt; (string) A single character used for escaping the quotation mark char- acter inside an already escaped value. For example, the value """ a , b """ is parsed as " a , b " . RecordDelimiter -&gt; (string) A single character used to separate individual records in the input. Instead of the default value, you can specify an arbi- trary delimiter. FieldDelimiter -&gt; (string) A single character used to separate individual fields in a record. You can specify an arbitrary delimiter. QuoteCharacter -&gt; (string) A single character used for escaping when the field delimiter is part of the value. For example, if the value is a, b , Amazon S3 wraps this field value in quotation marks, as fol- lows: " a , b " . Type: String Default: " Ancestors: CSV AllowQuotedRecordDelimiter -&gt; (boolean) Specifies that CSV field values may contain quoted record de- limiters and such records should be allowed. Default value is FALSE. Setting this value to TRUE may lower performance. CompressionType -&gt; (string) Specifies object's compression format. Valid values: NONE, GZIP, BZIP2. Default Value: NONE. Possible values: o NONE o GZIP o BZIP2 JSON -&gt; (structure) Specifies JSON as object's input serialization format. Type -&gt; (string) The type of JSON. Valid values: Document, Lines. Possible values: o DOCUMENT o LINES Parquet -&gt; (structure) Specifies Parquet as object's input serialization format. Shorthand Syntax: CSV={FileHeaderInfo=string,Comments=string,QuoteEscapeCharacter=string,RecordDelimiter=string,FieldDelimiter=string,QuoteCharacter=string,AllowQuotedRecordDelimiter=boolean},CompressionType=string,JSON={Type=string},Parquet={} JSON Syntax: { "CSV": { "FileHeaderInfo": "USE"|"IGNORE"|"NONE", "Comments": "string", "QuoteEscapeCharacter": "string", "RecordDelimiter": "string", "FieldDelimiter": "string", "QuoteCharacter": "string", "AllowQuotedRecordDelimiter": true|false }, "CompressionType": "NONE"|"GZIP"|"BZIP2", "JSON": { "Type": "DOCUMENT"|"LINES" }, "Parquet": { } }

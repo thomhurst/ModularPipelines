@@ -12,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -34,7 +33,7 @@ public record AwsIotCreateDimensionOptions : AwsOptions, IValidatableObject
     /// <param name="StringValues">Specifies the value or list of values for the dimension. For TOPIC_FILTER dimensions, this is a pattern used to match the MQTT topic (for example, "admin/#"). Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 256 Syntax: "string" "string" ...</param>
     public AwsIotCreateDimensionOptions(
         string Name,
-        AwsIotCreateDimensionType Type,
+        string Type,
         IEnumerable<string> StringValues
     )
     {
@@ -86,7 +85,7 @@ public record AwsIotCreateDimensionOptions : AwsOptions, IValidatableObject
     /// Specifies the type of dimension. Supported types: TOPIC_FILTER. Possible values: o TOPIC_FILTER
     /// </summary>
     [CliOption("--type")]
-    public AwsIotCreateDimensionType? Type { get; private init; }
+    public string? Type { get; private init; }
 
     /// <summary>
     /// Specifies the value or list of values for the dimension. For TOPIC_FILTER dimensions, this is a pattern used to match the MQTT topic (for example, "admin/#"). Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 256 Syntax: "string" "string" ...

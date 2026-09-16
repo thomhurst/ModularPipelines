@@ -12,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -33,7 +32,7 @@ public record AwsEc2CreateSecondaryNetworkOptions : AwsOptions, IValidatableObje
     /// <param name="NetworkType">The type of secondary network. Possible values: o rdma</param>
     public AwsEc2CreateSecondaryNetworkOptions(
         string Ipv4CidrBlock,
-        AwsEc2CreateSecondaryNetworkNetworkType NetworkType
+        string NetworkType
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(Ipv4CidrBlock);
@@ -71,7 +70,7 @@ public record AwsEc2CreateSecondaryNetworkOptions : AwsOptions, IValidatableObje
     /// The type of secondary network. Possible values: o rdma
     /// </summary>
     [CliOption("--network-type")]
-    public AwsEc2CreateSecondaryNetworkNetworkType? NetworkType { get; private init; }
+    public string? NetworkType { get; private init; }
 
     /// <summary>
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see Ensure Idempo- tency .

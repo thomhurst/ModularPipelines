@@ -239,7 +239,7 @@ public record AwsCodebuildStartBuildOptions : AwsOptions, IValidatableObject
     /// </summary>
     [SecretValue]
     [CliOption("--image-pull-credentials-type-override")]
-    public AwsCodebuildStartBuildImagePullCredentialsTypeOverride? ImagePullCredentialsTypeOverride { get; set; }
+    public string? ImagePullCredentialsTypeOverride { get; set; }
 
     /// <summary>
     /// Specifies if session debugging is enabled for this build. For more information, see Viewing a running build in Session Manager .

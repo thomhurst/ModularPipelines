@@ -127,7 +127,7 @@ public record AwsApigatewayv2CreateIntegrationOptions : AwsOptions, IValidatable
     /// Specifies the pass-through behavior for incoming requests based on the Content-Type header in the request, and the available mapping templates specified as the requestTemplates property on the Integra- tion resource. There are three valid values: WHEN_NO_MATCH, WHEN_NO_TEMPLATES, and NEVER. Supported only for WebSocket APIs. WHEN_NO_MATCH passes the request body for unmapped content types through to the integration backend without transformation. NEVER rejects unmapped content types with an HTTP 415 Unsupported Media Type response. WHEN_NO_TEMPLATES allows pass-through when the integration has no content types mapped to templates. However, if there is at least one content type defined, unmapped content types will be rejected with the same HTTP 415 Unsupported Media Type response. Possible values: o WHEN_NO_MATCH o NEVER o WHEN_NO_TEMPLATES
     /// </summary>
     [CliOption("--passthrough-behavior")]
-    public AwsApigatewayv2CreateIntegrationPassthroughBehavior? PassthroughBehavior { get; set; }
+    public string? PassthroughBehavior { get; set; }
 
     /// <summary>
     /// Specifies the format of the payload sent to an integration. Required for HTTP APIs. Supported values for Lambda proxy integrations are 1.0 and 2.0. For all other integrations, 1.0 is the only supported value. To learn more, see Working with AWS Lambda proxy integrations for HTTP APIs .

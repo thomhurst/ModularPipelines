@@ -12,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -33,7 +32,7 @@ public record AwsCodeconnectionsListSyncConfigurationsOptions : AwsOptions, IVal
     /// <param name="SyncType">The sync type for the requested list of sync configurations. Possible values: o CFN_STACK_SYNC</param>
     public AwsCodeconnectionsListSyncConfigurationsOptions(
         string RepositoryLinkId,
-        AwsCodeconnectionsListSyncConfigurationsSyncType SyncType
+        string SyncType
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(RepositoryLinkId);
@@ -71,7 +70,7 @@ public record AwsCodeconnectionsListSyncConfigurationsOptions : AwsOptions, IVal
     /// The sync type for the requested list of sync configurations. Possible values: o CFN_STACK_SYNC
     /// </summary>
     [CliOption("--sync-type")]
-    public AwsCodeconnectionsListSyncConfigurationsSyncType? SyncType { get; private init; }
+    public string? SyncType { get; private init; }
 
     /// <summary>
     /// A non-zero, non-negative integer used to limit the number of re- turned results. Constraints: o min: 0 o max: 100

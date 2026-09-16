@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -36,7 +35,7 @@ public record AwsSagemakerCreateInferenceExperimentOptions : AwsOptions, IValida
     /// <param name="ShadowModeConfig">The configuration of ShadowMode inference experiment type. Use this field to specify a production variant which takes all the inference requests, and a shadow variant to which Amazon SageMaker replicates a percentage of the inference requests. For the shadow variant also specify the percentage of requests that Amazon SageMaker replicates. SourceModelVariantName -&gt; (string) [required] The name of the production variant, which takes all the infer- ence requests. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9]([\-a-zA-Z0-9]*[a-zA-Z0-9])? ShadowModelVariants -&gt; (list) [required] List of shadow variant configurations. Constraints: o min: 1 o max: 1 (structure) The name and sampling percentage of a shadow variant. ShadowModelVariantName -&gt; (string) [required] The name of the shadow variant. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9]([\-a-zA-Z0-9]*[a-zA-Z0-9])? SamplingPercentage -&gt; (integer) [required] The percentage of inference requests that Amazon Sage- Maker replicates from the production variant to the shadow variant. Constraints: o max: 100 Shorthand Syntax: SourceModelVariantName=string,ShadowModelVariants=[{ShadowModelVariantName=string,SamplingPercentage=integer},{ShadowModelVariantName=string,SamplingPercentage=integer}] JSON Syntax: { "SourceModelVariantName": "string", "ShadowModelVariants": [ { "ShadowModelVariantName": "string", "SamplingPercentage": integer } ... ] }</param>
     public AwsSagemakerCreateInferenceExperimentOptions(
         string Name,
-        AwsSagemakerCreateInferenceExperimentType Type,
+        string Type,
         string RoleArn,
         string EndpointName,
         IEnumerable<string> ModelVariants,
@@ -97,7 +96,7 @@ public record AwsSagemakerCreateInferenceExperimentOptions : AwsOptions, IValida
     /// The type of the inference experiment that you want to run. The fol- lowing types of experiments are possible: o ShadowMode : You can use this type to validate a shadow variant. For more information, see Shadow tests . Possible values: o ShadowMode
     /// </summary>
     [CliOption("--type")]
-    public AwsSagemakerCreateInferenceExperimentType? Type { get; private init; }
+    public string? Type { get; private init; }
 
     /// <summary>
     /// The ARN of the IAM role that Amazon SageMaker can assume to access model artifacts and container images, and manage Amazon SageMaker Inference endpoints for model deployment. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+

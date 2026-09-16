@@ -12,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -37,7 +36,7 @@ public record AwsPartnercentralSellingCreateResourceSnapshotOptions : AwsOptions
     public AwsPartnercentralSellingCreateResourceSnapshotOptions(
         string Catalog,
         string EngagementIdentifier,
-        AwsPartnercentralSellingCreateResourceSnapshotResourceType ResourceType,
+        string ResourceType,
         string ResourceIdentifier,
         string ResourceSnapshotTemplateIdentifier
     )
@@ -89,7 +88,7 @@ public record AwsPartnercentralSellingCreateResourceSnapshotOptions : AwsOptions
     /// Specifies the type of resource for which the snapshot is being cre- ated. This field determines the structure and content of the snap- shot. Must be one of the supported resource types, such as: Opportu- nity . Possible values: o Opportunity
     /// </summary>
     [CliOption("--resource-type")]
-    public AwsPartnercentralSellingCreateResourceSnapshotResourceType? ResourceType { get; private init; }
+    public string? ResourceType { get; private init; }
 
     /// <summary>
     /// The unique identifier of the specific resource to be snapshotted. The format and constraints of this identifier depend on the Re- sourceType specified. For example: For Opportunity type, it will be an opportunity ID. Constraints: o pattern: O[0-9]{1,19}

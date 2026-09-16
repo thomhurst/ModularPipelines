@@ -40,7 +40,7 @@ public record AwsEksCreateCapabilityOptions : AwsOptions, IValidatableObject
         string ClusterName,
         AwsEksCreateCapabilityType Type,
         string RoleArn,
-        AwsEksCreateCapabilityDeletePropagationPolicy DeletePropagationPolicy
+        string DeletePropagationPolicy
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(CapabilityName);
@@ -102,7 +102,7 @@ public record AwsEksCreateCapabilityOptions : AwsOptions, IValidatableObject
     /// Specifies how Kubernetes resources managed by the capability should be handled when the capability is deleted. Currently, the only sup- ported value is RETAIN which retains all Kubernetes resources man- aged by the capability when the capability is deleted. Because resources are retained, all Kubernetes resources created by the capability should be deleted from the cluster before deleting the capability itself. After the capability is deleted, these re- sources become difficult to manage because the controller is no longer available. Possible values: o RETAIN
     /// </summary>
     [CliOption("--delete-propagation-policy")]
-    public AwsEksCreateCapabilityDeletePropagationPolicy? DeletePropagationPolicy { get; private init; }
+    public string? DeletePropagationPolicy { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This token is valid for 24 hours after creation. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned.

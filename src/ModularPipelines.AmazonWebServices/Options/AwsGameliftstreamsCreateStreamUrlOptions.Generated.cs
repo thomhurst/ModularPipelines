@@ -13,7 +13,6 @@ using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -38,7 +37,7 @@ public record AwsGameliftstreamsCreateStreamUrlOptions : AwsOptions, IValidatabl
     public AwsGameliftstreamsCreateStreamUrlOptions(
         string Identifier,
         string ApplicationIdentifier,
-        AwsGameliftstreamsCreateStreamUrlProtocol Protocol,
+        string Protocol,
         int UrlExpiresAfterMinutes,
         IEnumerable<string> Locations
     )
@@ -100,7 +99,7 @@ public record AwsGameliftstreamsCreateStreamUrlOptions : AwsOptions, IValidatabl
     /// The data transport protocol for the stream session. Amazon GameLift Streams supports WebRTC . Possible values: o WebRTC
     /// </summary>
     [CliOption("--protocol")]
-    public AwsGameliftstreamsCreateStreamUrlProtocol? Protocol { get; private init; }
+    public string? Protocol { get; private init; }
 
     /// <summary>
     /// The number of minutes after creation that the stream URL remains valid. After this period, the status of the stream URL changes to EXPIRED and it can no longer start stream sessions. The minimum is 1 minute. For the maximum, see Regions, quotas, and limitations in the Amazon GameLift Streams Developer Guide . Constraints: o min: 1

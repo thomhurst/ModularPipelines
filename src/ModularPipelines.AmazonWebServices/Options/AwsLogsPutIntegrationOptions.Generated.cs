@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -34,7 +33,7 @@ public record AwsLogsPutIntegrationOptions : AwsOptions, IValidatableObject
     public AwsLogsPutIntegrationOptions(
         string IntegrationName,
         string ResourceConfig,
-        AwsLogsPutIntegrationIntegrationType IntegrationType
+        string IntegrationType
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(IntegrationName);
@@ -80,7 +79,7 @@ public record AwsLogsPutIntegrationOptions : AwsOptions, IValidatableObject
     /// The type of integration. Currently, the only supported type is OPENSEARCH . Possible values: o OPENSEARCH
     /// </summary>
     [CliOption("--integration-type")]
-    public AwsLogsPutIntegrationIntegrationType? IntegrationType { get; private init; }
+    public string? IntegrationType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

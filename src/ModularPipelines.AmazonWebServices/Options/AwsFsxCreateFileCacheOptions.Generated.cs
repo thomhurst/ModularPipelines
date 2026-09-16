@@ -12,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -34,7 +33,7 @@ public record AwsFsxCreateFileCacheOptions : AwsOptions, IValidatableObject
     /// <param name="StorageCapacity">The storage capacity of the cache in gibibytes (GiB). Valid values are 1200 GiB, 2400 GiB, and increments of 2400 GiB. Constraints: o min: 0 o max: 2147483647</param>
     /// <param name="SubnetIds">A list of subnet IDs that the cache will be accessible from. You can specify only one subnet ID in a call to the CreateFileCache opera- tion. Constraints: o max: 50 (string) The ID for a subnet. A subnet is a range of IP addresses in your virtual private cloud (VPC). For more information, see VPC and subnets in the Amazon VPC User Guide. Constraints: o min: 15 o max: 24 o pattern: ^(subnet-[0-9a-f]{8,})$ Syntax: "string" "string" ...</param>
     public AwsFsxCreateFileCacheOptions(
-        AwsFsxCreateFileCacheFileCacheType FileCacheType,
+        string FileCacheType,
         string FileCacheTypeVersion,
         int StorageCapacity,
         IEnumerable<string> SubnetIds
@@ -83,7 +82,7 @@ public record AwsFsxCreateFileCacheOptions : AwsOptions, IValidatableObject
     /// The type of cache that you're creating, which must be LUSTRE . Possible values: o LUSTRE
     /// </summary>
     [CliOption("--file-cache-type")]
-    public AwsFsxCreateFileCacheFileCacheType? FileCacheType { get; private init; }
+    public string? FileCacheType { get; private init; }
 
     /// <summary>
     /// Sets the Lustre version for the cache that you're creating, which must be 2.12 . Constraints: o min: 1 o max: 20 o pattern: ^[0-9](.[0-9]*)*$

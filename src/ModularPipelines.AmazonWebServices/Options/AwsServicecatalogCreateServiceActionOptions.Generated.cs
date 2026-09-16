@@ -13,7 +13,6 @@ using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -35,7 +34,7 @@ public record AwsServicecatalogCreateServiceActionOptions : AwsOptions, IValidat
     /// <param name="Definition">The self-service action definition. Can be one of the following: Name The name of the Amazon Web Services Systems Manager document (SSM document). For example, AWS-RestartEC2Instance . If you are using a shared SSM document, you must provide the ARN in- stead of the name. Version The Amazon Web Services Systems Manager automation document version. For example, "Version": "1" AssumeRole The Amazon Resource Name (ARN) of the role that performs the self-service actions on your behalf. For example, "AssumeRole": "arn:aws:iam::12345678910:role/ActionRole" . To reuse the provisioned product launch role, set to "AssumeRole": "LAUNCH_ROLE" . Parameters The list of parameters in JSON format. For example: [{\"Name\":\"InstanceId\",\"Type\":\"TARGET\"}] or [{\"Name\":\"InstanceId\",\"Type\":\"TEXT_VALUE\"}] . Constraints: o min: 1 o max: 100 key -&gt; (string) Possible values: o Name o Version o AssumeRole o Parameters value -&gt; (string) Constraints: o min: 1 o max: 1024 Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: Name Version AssumeRole Parameters JSON Syntax: {"Name"|"Version"|"AssumeRole"|"Parameters": "string" ...}</param>
     public AwsServicecatalogCreateServiceActionOptions(
         string Name,
-        AwsServicecatalogCreateServiceActionDefinitionType DefinitionType,
+        string DefinitionType,
         IReadOnlyList<KeyValue> Definition
     )
     {
@@ -87,7 +86,7 @@ public record AwsServicecatalogCreateServiceActionOptions : AwsOptions, IValidat
     /// The service action definition type. For example, SSM_AUTOMATION . Possible values: o SSM_AUTOMATION
     /// </summary>
     [CliOption("--definition-type")]
-    public AwsServicecatalogCreateServiceActionDefinitionType? DefinitionType { get; private init; }
+    public string? DefinitionType { get; private init; }
 
     /// <summary>
     /// The self-service action definition. Can be one of the following: Name The name of the Amazon Web Services Systems Manager document (SSM document). For example, AWS-RestartEC2Instance . If you are using a shared SSM document, you must provide the ARN in- stead of the name. Version The Amazon Web Services Systems Manager automation document version. For example, "Version": "1" AssumeRole The Amazon Resource Name (ARN) of the role that performs the self-service actions on your behalf. For example, "AssumeRole": "arn:aws:iam::12345678910:role/ActionRole" . To reuse the provisioned product launch role, set to "AssumeRole": "LAUNCH_ROLE" . Parameters The list of parameters in JSON format. For example: [{\"Name\":\"InstanceId\",\"Type\":\"TARGET\"}] or [{\"Name\":\"InstanceId\",\"Type\":\"TEXT_VALUE\"}] . Constraints: o min: 1 o max: 100 key -&gt; (string) Possible values: o Name o Version o AssumeRole o Parameters value -&gt; (string) Constraints: o min: 1 o max: 1024 Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: Name Version AssumeRole Parameters JSON Syntax: {"Name"|"Version"|"AssumeRole"|"Parameters": "string" ...}

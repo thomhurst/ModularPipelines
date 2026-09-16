@@ -12,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -95,7 +94,7 @@ public record AwsEc2PurchaseHostReservationOptions : AwsOptions, IValidatableObj
     /// The currency in which the totalUpfrontPrice , LimitPrice , and to- talHourlyPrice amounts are specified. At this time, the only sup- ported currency is USD . Possible values: o USD
     /// </summary>
     [CliOption("--currency-code")]
-    public AwsEc2PurchaseHostReservationCurrencyCode? CurrencyCode { get; set; }
+    public string? CurrencyCode { get; set; }
 
     /// <summary>
     /// The specified limit is checked against the total upfront cost of the reservation (calculated as the offering's upfront cost multiplied by the host count). If the total upfront cost is greater than the spec- ified price limit, the request fails. This is used to ensure that the purchase does not exceed the expected upfront cost of the pur- chase. At this time, the only supported currency is USD . For exam- ple, to indicate a limit price of USD 100, specify 100.00.

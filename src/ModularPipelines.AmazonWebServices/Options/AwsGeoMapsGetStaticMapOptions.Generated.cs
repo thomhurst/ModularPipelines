@@ -164,7 +164,7 @@ public record AwsGeoMapsGetStaticMapOptions : AwsOptions
     /// Style specifies the desired map style. Possible values: o Satellite o Standard
     /// </summary>
     [CliOption("--style")]
-    public AwsGeoMapsGetStaticMapStyle? Style { get; set; }
+    public string? Style { get; set; }
 
     /// <summary>
     /// Specifies the zoom level of the map image. NOTE: Cannot be used with Radius . Constraints: o min: 0 o max: 20 outfile (string) [required] Filename where the content will be saved

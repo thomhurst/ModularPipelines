@@ -12,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -40,7 +39,7 @@ public record AwsQuicksightCreateOAuthClientApplicationOptions : AwsOptions, IVa
         string AwsAccountId,
         string OAuthClientApplicationId,
         string Name,
-        AwsQuicksightCreateOAuthClientApplicationOAuthClientAuthenticationType OAuthClientAuthenticationType,
+        string OAuthClientAuthenticationType,
         string ClientId,
         string ClientSecret,
         string OAuthTokenEndpointUrl
@@ -103,7 +102,7 @@ public record AwsQuicksightCreateOAuthClientApplicationOptions : AwsOptions, IVa
     /// The authentication type to use for the OAuthClientApplication. This determines the OAuth 2.0 grant flow that is used when the data source connects to the identity provider. Valid values are TOKEN . Possible values: o TOKEN
     /// </summary>
     [CliOption("--o-auth-client-authentication-type")]
-    public AwsQuicksightCreateOAuthClientApplicationOAuthClientAuthenticationType? OAuthClientAuthenticationType { get; private init; }
+    public string? OAuthClientAuthenticationType { get; private init; }
 
     /// <summary>
     /// The client ID of the OAuth application that is registered with the identity provider. Constraints: o min: 1 o max: 256 o pattern: [^\p{Cc}]+

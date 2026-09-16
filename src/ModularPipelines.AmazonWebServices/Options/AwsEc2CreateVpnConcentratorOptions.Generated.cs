@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -30,7 +29,7 @@ public record AwsEc2CreateVpnConcentratorOptions : AwsOptions, IValidatableObjec
     /// </summary>
     /// <param name="Type">The type of VPN concentrator to create. Possible values: o ipsec.1</param>
     public AwsEc2CreateVpnConcentratorOptions(
-        AwsEc2CreateVpnConcentratorType Type
+        string Type
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(Type);
@@ -60,7 +59,7 @@ public record AwsEc2CreateVpnConcentratorOptions : AwsOptions, IValidatableObjec
     /// The type of VPN concentrator to create. Possible values: o ipsec.1
     /// </summary>
     [CliOption("--type")]
-    public AwsEc2CreateVpnConcentratorType? Type { get; private init; }
+    public string? Type { get; private init; }
 
     /// <summary>
     /// The ID of the transit gateway to attach the VPN concentrator to.

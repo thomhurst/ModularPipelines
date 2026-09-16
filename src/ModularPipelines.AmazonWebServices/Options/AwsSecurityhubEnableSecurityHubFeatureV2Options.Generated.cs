@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -30,7 +29,7 @@ public record AwsSecurityhubEnableSecurityHubFeatureV2Options : AwsOptions, IVal
     /// </summary>
     /// <param name="FeatureName">The name of the feature to enable. Possible values: o NETWORK_SCANNING</param>
     public AwsSecurityhubEnableSecurityHubFeatureV2Options(
-        AwsSecurityhubEnableSecurityHubFeatureV2FeatureName FeatureName
+        string FeatureName
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(FeatureName);
@@ -60,7 +59,7 @@ public record AwsSecurityhubEnableSecurityHubFeatureV2Options : AwsOptions, IVal
     /// The name of the feature to enable. Possible values: o NETWORK_SCANNING
     /// </summary>
     [CliOption("--feature-name")]
-    public AwsSecurityhubEnableSecurityHubFeatureV2FeatureName? FeatureName { get; private init; }
+    public string? FeatureName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

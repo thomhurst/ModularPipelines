@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +31,7 @@ public record AwsConnectcampaignsv2DeleteCampaignCommunicationLimitsOptions : Aw
     /// <param name="Config">The type of campaign communication limits config. Possible values: o ALL_CHANNEL_SUBTYPES</param>
     public AwsConnectcampaignsv2DeleteCampaignCommunicationLimitsOptions(
         string Id,
-        AwsConnectcampaignsv2DeleteCampaignCommunicationLimitsConfig Config
+        string Config
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(Id);
@@ -70,7 +69,7 @@ public record AwsConnectcampaignsv2DeleteCampaignCommunicationLimitsOptions : Aw
     /// The type of campaign communication limits config. Possible values: o ALL_CHANNEL_SUBTYPES
     /// </summary>
     [CliOption("--config")]
-    public AwsConnectcampaignsv2DeleteCampaignCommunicationLimitsConfig? Config { get; private init; }
+    public string? Config { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

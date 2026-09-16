@@ -88,7 +88,7 @@ public record AwsMediastoreDataPutObjectOptions : AwsOptions, IValidatableObject
     /// Indicates the storage class of a Put request. Defaults to high-per- formance temporal storage class, and objects are persisted into durable storage shortly after being received. Possible values: o TEMPORAL Constraints: o min: 1 o max: 16
     /// </summary>
     [CliOption("--storage-class")]
-    public AwsMediastoreDataPutObjectStorageClass? StorageClass { get; set; }
+    public string? StorageClass { get; set; }
 
     /// <summary>
     /// Indicates the availability of an object while it is still uploading. If the value is set to streaming , the object is available for down- loading after some initial buffering but before the object is up- loaded completely. If the value is set to standard , the object is available for downloading only when it is uploaded completely. The default value for this header is standard . To use this header, you must also set the HTTP Transfer-Encoding header to chunked . Possible values: o STANDARD o STREAMING Constraints: o min: 1 o max: 16

@@ -12,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +31,7 @@ public record AwsOpensearchserverlessDeleteLifecyclePolicyOptions : AwsOptions, 
     /// <param name="Type">The type of lifecycle policy. Possible values: o retention</param>
     /// <param name="Name">The name of the policy to delete. Constraints: o min: 3 o max: 32 o pattern: [a-z][a-z0-9-]+</param>
     public AwsOpensearchserverlessDeleteLifecyclePolicyOptions(
-        AwsOpensearchserverlessDeleteLifecyclePolicyType Type,
+        string Type,
         string Name
     )
     {
@@ -65,7 +64,7 @@ public record AwsOpensearchserverlessDeleteLifecyclePolicyOptions : AwsOptions, 
     /// The type of lifecycle policy. Possible values: o retention
     /// </summary>
     [CliOption("--type")]
-    public AwsOpensearchserverlessDeleteLifecyclePolicyType? Type { get; private init; }
+    public string? Type { get; private init; }
 
     /// <summary>
     /// The name of the policy to delete. Constraints: o min: 3 o max: 32 o pattern: [a-z][a-z0-9-]+

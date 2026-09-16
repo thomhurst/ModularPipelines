@@ -12,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -34,7 +33,7 @@ public record AwsDatazoneListEntityOwnersOptions : AwsOptions, IValidatableObjec
     /// <param name="EntityIdentifier">The ID of the entity that you want to list.</param>
     public AwsDatazoneListEntityOwnersOptions(
         string DomainIdentifier,
-        AwsDatazoneListEntityOwnersEntityType EntityType,
+        string EntityType,
         string EntityIdentifier
     )
     {
@@ -75,7 +74,7 @@ public record AwsDatazoneListEntityOwnersOptions : AwsOptions, IValidatableObjec
     /// The type of the entity that you want to list. Possible values: o DOMAIN_UNIT
     /// </summary>
     [CliOption("--entity-type")]
-    public AwsDatazoneListEntityOwnersEntityType? EntityType { get; private init; }
+    public string? EntityType { get; private init; }
 
     /// <summary>
     /// The ID of the entity that you want to list.
