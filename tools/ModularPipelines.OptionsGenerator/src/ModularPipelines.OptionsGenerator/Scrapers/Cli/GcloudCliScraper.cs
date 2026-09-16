@@ -860,6 +860,7 @@ public partial class GcloudCliScraper : CliScraperBase
     private static bool IsTextualIdentifierOption(string switchName)
         => switchName.Equals("--project", StringComparison.OrdinalIgnoreCase)
             || switchName.Equals("--billing-account", StringComparison.OrdinalIgnoreCase)
+            || switchName.EndsWith("-serial-number", StringComparison.OrdinalIgnoreCase)
             || (switchName.Contains("service-account", StringComparison.OrdinalIgnoreCase)
                 && !switchName.EndsWith("-project-number", StringComparison.OrdinalIgnoreCase));
 
