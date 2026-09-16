@@ -14,7 +14,7 @@ export function buildReview(rawReview, headSha) {
   }
 
   const validText = (value, minimumLength = 1) => typeof value === 'string' && value.trim().length >= minimumLength;
-  const notes = review?.notes ?? [];
+  const notes = review?.notes;
   if (!review || !validText(review.summary, 40) || !Array.isArray(review.findings)
     || !review.findings.every(finding => validText(finding, 20))
     || !Array.isArray(notes) || !notes.every(note => validText(note))) {
