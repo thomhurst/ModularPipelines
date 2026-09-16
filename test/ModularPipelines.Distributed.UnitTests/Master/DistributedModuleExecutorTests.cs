@@ -740,7 +740,7 @@ public class DistributedModuleExecutorTests
     }
 
     [Test]
-    [Timeout(30_000)]
+    [Timeout(40_000)]
     // Exercise the ordering repeatedly under the same parallel CI load as #5101.
     [Repeat(49)]
     public async Task Cache_Lookups_For_Ready_Modules_Run_Concurrently(
@@ -822,7 +822,7 @@ public class DistributedModuleExecutorTests
             // The overlap assertion keeps its five-second deadline. Normal completion also
             // drains the worker and scheduler via CancelAsync, which queues thread-pool work.
             // Give that separate shutdown phase the standard test budget under parallel CI load.
-            await execution.WaitAsync(cancellationToken);
+            await execution.WaitAsync(TestHostSettings.DefaultTestTimeout, cancellationToken);
             Record("execution completed");
 
             scheduler.Verify(instance => instance.MarkModuleCompleted(
