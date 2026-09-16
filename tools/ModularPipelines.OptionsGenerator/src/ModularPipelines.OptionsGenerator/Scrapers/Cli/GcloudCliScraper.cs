@@ -36,6 +36,10 @@ public partial class GcloudCliScraper : CliScraperBase
 
     protected override IReadOnlyList<string> UsageSynopsisHeadings => GcloudUsageSynopsisHeadings;
 
+    // ParseUsageSynopsis distinguishes documented operands from dispatch selectors,
+    // including SDK command groups that currently expose no child commands.
+    protected override bool PreserveCommandGroupPlaceholders => true;
+
     #endregion
 
     public GcloudCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<GcloudCliScraper> logger)
@@ -182,7 +186,12 @@ public partial class GcloudCliScraper : CliScraperBase
             normalized = UsageSynopsisParser.DeferDocumentedOptionGroups(normalized, groups);
             helpText = helpText.Replace(synopsis, normalized, StringComparison.Ordinal);
         }
-        return base.ParseUsageSynopsis(commandPath, helpText);
+        var dispatchPlaceholders = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { "Group", "Command" };
+        dispatchPlaceholders.ExceptWith(groups.SelectMany(group => group.FlattenArguments())
+            .Where(argument => argument.IsPositional)
+            .Select(argument => NormalizePropertyName(argument.SwitchName)!));
+        return UsageSynopsisParser.RemoveCommandGroupPlaceholders(
+            base.ParseUsageSynopsis(commandPath, helpText), dispatchPlaceholders);
     }
 
     protected override UsageSynopsisParseResult NormalizeUsageSynopsis(
