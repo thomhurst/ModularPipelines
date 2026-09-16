@@ -336,7 +336,7 @@ public partial class NestedArgumentGroupParsingTests
 
         await Assert.That(option.AcceptsMultipleValues).IsTrue();
         await Assert.That(option.CollectionSeparator).IsEqualTo(",");
-        await Assert.That(option.CSharpType).IsEqualTo("IEnumerable<GcloudTestType>?");
+        await Assert.That(option.CSharpType).IsEqualTo("IEnumerable<GcloudStorageDiagnoseTestType>?");
         await Assert.That(option.EnumDefinition!.Values.Select(value => value.CliValue))
             .IsEquivalentTo(["DIRECT_CONNECTIVITY", "DOWNLOAD_THROUGHPUT", "LATENCY", "UPLOAD_THROUGHPUT"]);
 
@@ -349,7 +349,7 @@ public partial class NestedArgumentGroupParsingTests
             Commands = [command],
         })).Single().Content;
 
-        await Assert.That(generated).Contains("public IEnumerable<GcloudTestType>? TestType");
+        await Assert.That(generated).Contains("public IEnumerable<GcloudStorageDiagnoseTestType>? TestType");
         await Assert.That(generated).Contains("CliOption(\"--test-type\", Format = OptionFormat.EqualsSeparated, CollectionSeparator = \",\")");
     }
 

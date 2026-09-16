@@ -1713,7 +1713,7 @@ public partial class NestedArgumentGroupParsingTests
             helpText);
         var labels = command!.Options.Single(option => option.SwitchName == "--labels");
 
-        await Assert.That(labels.CSharpType).IsEqualTo("IEnumerable<GcloudLabels>?");
+        await Assert.That(labels.CSharpType).IsEqualTo("IEnumerable<GcloudExampleUpdateLabels>?");
         await Assert.That(labels.AcceptsMultipleValues).IsTrue();
         await Assert.That(labels.EnumDefinition).IsNotNull();
     }
