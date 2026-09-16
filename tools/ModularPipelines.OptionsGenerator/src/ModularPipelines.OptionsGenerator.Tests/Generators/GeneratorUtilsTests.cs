@@ -881,9 +881,23 @@ public class GeneratorUtilsTests
     [Arguments("Code", "The one-time password value.")]
     [Arguments("Custom", "The authentication token value. The maximum number of uses is one.")]
     [Arguments("Token", "The maximum number of uses of this token value is one.")]
+    [Arguments("SecretMessage", "Message containing secret material.")]
+    [Arguments("SecretStorage", "Contains secret material.")]
     public async Task IsSecretOption_Preserves_Secret_Values_With_Numeric_Context(string propertyName, string description)
     {
         await Assert.That(GeneratorUtils.IsSecretOption(propertyName, false, description)).IsTrue();
+    }
+
+    [Test]
+    [Arguments("PasswordLength")]
+    [Arguments("TokenDuration")]
+    [Arguments("RefreshTokenValidity")]
+    [Arguments("CredentialAgeDays")]
+    [Arguments("MinimumSessionTokenSize")]
+    [Arguments("SsoTokenBufferMinutes")]
+    public async Task IsSecretOption_Keeps_Credential_Metadata_Visible_Without_Descriptions(string propertyName)
+    {
+        await Assert.That(GeneratorUtils.IsSecretOption(propertyName, false)).IsFalse();
     }
 
     [Test]

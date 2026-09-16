@@ -936,6 +936,9 @@ public static partial class GeneratorUtils
 
     private static readonly string[] IdentifierPropertySuffixes = ["Id", "Identifier"];
 
+    private static readonly string[] SecretMetadataSuffixes =
+        ["Count", "Length", "Size", "Age", "Duration", "Validity", "Lifetime", "Seconds", "Minutes", "Hours", "Days"];
+
     private const string SecretDescriptionKeywordPattern =
         @"secret|password|passphrase|token|credential|api[\s-]*key|private[\s-]*key|access[\s-]*key|secret[\s-]*key|one[\s-]*time[\s-]*password|otp";
 
@@ -975,6 +978,11 @@ public static partial class GeneratorUtils
                    || propertyName.Equals("DevRootTokenId", StringComparison.OrdinalIgnoreCase);
         }
 
+        if (IsSecretMetadataOption(propertyName, description))
+        {
+            return false;
+        }
+
         var hasSecretKeyword = SecretKeywords.Any(keyword =>
                                    propertyName.Contains(keyword, StringComparison.OrdinalIgnoreCase))
                                || ContainsIdentifierSegment(propertyName, "Otp")
@@ -992,15 +1000,36 @@ public static partial class GeneratorUtils
         IdentifierPropertySuffixes.Any(suffix =>
             propertyName.EndsWith(suffix, StringComparison.OrdinalIgnoreCase));
 
+    internal static bool IsSecretMetadataOption(string propertyName, string? description)
+    {
+        // A credential value keeps its masking even when its description mentions counts.
+        if (SecretKeywords.Any(keyword => propertyName.EndsWith(keyword, StringComparison.OrdinalIgnoreCase))
+            || propertyName.EndsWith("Otp", StringComparison.OrdinalIgnoreCase)
+            || propertyName.EndsWith("Pwd", StringComparison.OrdinalIgnoreCase)
+            || propertyName.EndsWith("Creds", StringComparison.OrdinalIgnoreCase))
+        {
+            return false;
+        }
+
+        return SecretMetadataSuffixes.Any(suffix => EndsWithIdentifierSegment(propertyName, suffix))
+               || (!string.IsNullOrWhiteSpace(description) && CountDescriptionPattern().IsMatch(description));
+    }
+
+    private static bool EndsWithIdentifierSegment(string propertyName, string suffix)
+    {
+        var start = propertyName.Length - suffix.Length;
+        return start >= 0 && propertyName.EndsWith(suffix, StringComparison.OrdinalIgnoreCase)
+                          && (start == 0 || propertyName[start - 1] == '_'
+                              || (char.IsUpper(propertyName[start])
+                                  && (char.IsLower(propertyName[start - 1]) || char.IsDigit(propertyName[start - 1]))));
+    }
+
     private static bool DescriptionIdentifiesSecretValue(string? description) =>
         !string.IsNullOrWhiteSpace(description)
-        // A count stays non-secret when later sentences discuss token/password values.
-        // Secret-bearing property names have already taken precedence above.
-        && !CountDescriptionPattern().IsMatch(description)
         && SecretMaterialDescriptionPattern().IsMatch(description);
 
     [GeneratedRegex(
-        @"\A\s*(?:(?:sets?|specifies?|controls?)\s+)?(?:the\s+)?(?:(?:maximum|minimum|total)\s+)?(?:number|count)\s+of\b",
+        @"\A\s*(?:(?:sets?|specifies?|controls?)\s+)?(?:the\s+)?(?:(?:maximum|minimum)\s+)?(?:total\s+)?(?:number|count)\s+of\b",
         RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex CountDescriptionPattern();
 

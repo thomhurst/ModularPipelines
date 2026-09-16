@@ -227,11 +227,16 @@ public class OptionTypeEnhancer
             isFlag: false,
             option.Description);
         var explicitlySecret = detectionResult?.IsSecret;
-        var inferredSecret = (option.IsSecret
-                              && !GeneratorUtils.IsFilePathOption(
-                                  option.PropertyName,
-                                  option.Description))
-                             || hasSecretKeyword;
+        // Documented enum choices are public metadata, not credential material.
+        var inferredSecret = option.EnumDefinition is null
+                             && ((option.IsSecret
+                                  && !GeneratorUtils.IsFilePathOption(
+                                      option.PropertyName,
+                                      option.Description)
+                                  && !GeneratorUtils.IsSecretMetadataOption(
+                                      option.PropertyName,
+                                      option.Description))
+                                 || hasSecretKeyword);
         var requestsSecret = secretValueKeys.Count > 0
                              || (explicitlySecret ?? inferredSecret);
         var isBoolean = option.IsFlag
