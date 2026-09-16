@@ -486,24 +486,30 @@ try {
         }
     }
 
-    foreach ($removal in @('conditional-item', 'conditional-group', 'unconditional')) {
-        $removeItem = '<PackageReference Remove="Build.Package" />'
-        $itemGroup = switch ($removal) {
-            'conditional-item' { '<ItemGroup><PackageReference Remove="Build.Package" Condition="false" /></ItemGroup>' }
-            'conditional-group' { "<ItemGroup Condition=`"false`">$removeItem</ItemGroup>" }
-            'unconditional' { "<ItemGroup>$removeItem</ItemGroup>" }
-        }
-        Set-Content -LiteralPath (Join-Path $tempRoot 'tools/Directory.Build.props') -Value "<Project>$itemGroup</Project>"
-        Set-TestCentralPackageVersions
+    foreach ($referenceType in @('GlobalPackageReference', 'PackageReference')) {
+        Set-Content -LiteralPath (Join-Path $tempRoot 'Directory.Build.props') `
+            -Value ('<Project><ItemGroup><{0} Include="Build.Package" /></ItemGroup></Project>' -f $referenceType)
         Invoke-Git $tempRoot add .
-        Invoke-Git $tempRoot commit -m "apply $removal package removal"
-        $beforeRemovalUpdate = Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot
-        Set-TestCentralPackageVersions -BuildPackage '2.0.0'
-        Invoke-Git $tempRoot add Directory.Packages.props
-        Invoke-Git $tempRoot commit -m 'update removed package version'
-        $versionChanged = (Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot) -ne $beforeRemovalUpdate
-        if ($versionChanged -ne ($removal -ne 'unconditional')) {
-            throw "Incorrect invalidation after $removal package removal."
+        Invoke-Git $tempRoot commit -m "use $referenceType build dependency"
+        foreach ($removal in @('conditional-item', 'conditional-group', 'unconditional')) {
+            $removeItem = '<{0} Remove="Build.Package" />' -f $referenceType
+            $itemGroup = switch ($removal) {
+                'conditional-item' { '<ItemGroup><{0} Remove="Build.Package" Condition="false" /></ItemGroup>' -f $referenceType }
+                'conditional-group' { "<ItemGroup Condition=`"false`">$removeItem</ItemGroup>" }
+                'unconditional' { "<ItemGroup>$removeItem</ItemGroup>" }
+            }
+            Set-Content -LiteralPath (Join-Path $tempRoot 'tools/Directory.Build.props') -Value "<Project>$itemGroup</Project>"
+            Set-TestCentralPackageVersions
+            Invoke-Git $tempRoot add .
+            Invoke-Git $tempRoot commit -m "apply $removal $referenceType removal"
+            $beforeRemovalUpdate = Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot
+            Set-TestCentralPackageVersions -BuildPackage '2.0.0'
+            Invoke-Git $tempRoot add Directory.Packages.props
+            Invoke-Git $tempRoot commit -m 'update removed package version'
+            $versionChanged = (Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot) -ne $beforeRemovalUpdate
+            if ($versionChanged -ne ($removal -ne 'unconditional')) {
+                throw "Incorrect invalidation after $removal $referenceType removal."
+            }
         }
     }
 
